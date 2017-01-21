@@ -1,0 +1,12 @@
+CREATE PROCEDURE get_user
+(
+IN userId INT,
+OUT firstName VARCHAR(100),
+OUT lastName VARCHAR(100)
+)
+BEGIN
+SELECT first_name, last_name
+INTO firstName, lastName
+FROM users
+WHERE users_id = userId;
+END
