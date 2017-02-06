@@ -9,7 +9,7 @@ namespace App\Models\backend;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use App\classes\CommonFunctions;
 /**
  * Class Employee
  * 
@@ -266,7 +266,7 @@ class Employee extends Authenticatable
             'personal_mobile_no1' => 'required',
             'office_mobile_no' => 'required',
             'email' => 'required|email|unique:employees',
-            'personal_email_id' => 'email',
+            'personal_email_id2' => 'email',
             'office_email_id' => 'email',
             'current_country_id' => 'required',
             'current_state_id' => 'required',
@@ -283,5 +283,88 @@ class Employee extends Authenticatable
             'joining_date' => 'required|date',
         );
         return $rules;
+    }
+    
+    
+    public static function createEmployee($input = array()) {
+//        echo "in model<pre>";print_r($input);
+//        $aa = Employee::create($input);
+//        echo "in model<pre>";print_r($aa);exit;
+        
+        return Employee::create([
+            
+            'username' => $input['username'],
+            'password' => $input['password'],
+            'designation' => $input['designation'],
+            'department_id' => implode(',', array_map(function($el){ return $el['id']; }, $input['department_id'])),
+            'reporting_to_id' => $input['reporting_to_id'],
+            'title_id' => $input['title_id'],
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
+            'date_of_birth' => $input['date_of_birth'],
+            'gender_id' => $input['gender_id'],
+            'marital_status' => $input['marital_status'],
+            'blood_group_id' => $input['blood_group_id'],
+            'physic_status_id' => $input['physic_status_id'],
+            'personal_mobile_no1' => $input['personal_mobile_no1'],
+            'office_mobile_no' => $input['office_mobile_no'],
+            'email' => $input['email'],
+            'office_email_id' => !empty($input['office_email_id']) ? $input['office_email_id'] : "",
+            'current_country_id' => $input['current_country_id'],
+            'current_state_id' => $input['current_state_id'],
+            'current_city_id' => $input['current_city_id'],
+            'current_pin' => $input['current_pin'],
+            'current_address' => $input['current_address'],
+            'permenent_country_id' => $input['permenent_country_id'],
+            'permenent_state_id' => $input['permenent_state_id'],
+            'permenent_city_id' => $input['permenent_city_id'],
+            'permenent_pin' => $input['permenent_pin'],
+            'permenent_address' => $input['permenent_address'],
+            'highest_education_id' => $input['highest_education_id'],
+            'emp_photo_url' => $input['emp_photo_url'],
+            'joining_date' => $input['joining_date'],
+                    
+                    
+            'client_id' => !empty($input['client_id']) ? $input['client_id'] : "0",
+            'client_role_id' => !empty($input['client_role_id']) ? $input['client_role_id'] : "1",
+            'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : "1",
+            'high_security_password_type' => !empty($input['high_security_password_type']) ? $input['high_security_password_type'] : "1",
+            'high_security_password' => !empty($input['high_security_password']) ? $input['high_security_password'] : "8899",
+            'password_changed' => !empty($input['password_changed']) ? $input['password_changed'] : "0",
+            'remember_token' => !empty($input['remember_token']) ? $input['remember_token'] : str_random(10),
+            'usertype' => !empty($input['usertype']) ? $input['usertype'] : "admin",
+            'team_lead_id' => !empty($input['team_lead_id']) ? $input['team_lead_id'] : "1",           
+            'middle_name' => !empty($input['middle_name']) ? $input['middle_name'] : "",
+            'marriage_date' => !empty($input['marriage_date']) ? $input['marriage_date'] : "",
+            'physic_desc' => !empty($input['physic_desc']) ? $input['physic_desc'] : "",
+            'mobile1_calling_code' => !empty($input['mobile1_calling_code']) ? $input['mobile1_calling_code'] : "",
+            'mobile2_calling_code' => !empty($input['mobile2_calling_code']) ? $input['mobile2_calling_code'] : "",
+            'personal_mobile_no2' => !empty($input['personal_mobile_no2']) ? $input['personal_mobile_no2'] : "",
+            'landline_calling_code' => !empty($input['landline_calling_code']) ? $input['landline_calling_code'] : "",
+            'landline_no' => !empty($input['landline_no']) ? $input['landline_no'] : "",
+            'personal_email_id2' => !empty($input['personal_email_id2']) ? $input['personal_email_id2'] : "",
+            'office_mobile_country_id' => !empty($input['office_mobile_country_id']) ? $input['office_mobile_country_id'] : "",            
+            'education_details' => !empty($input['education_details']) ? $input['education_details'] : "",
+            'employee_status' => !empty($input['employee_status']) ? $input['employee_status'] : "",
+            'show_on_homepage' => !empty($input['show_on_homepage']) ? $input['show_on_homepage'] : "1",
+            'employee_submenus' => !empty($input['employee_submenus']) ? $input['employee_submenus'] : '["0101","0102","0103","0104"]',
+            'employee_permissions' => !empty($input['employee_permissions']) ? $input['employee_permissions'] : "1",
+            'employee_email_subscriptions' => !empty($input['employee_email_subscriptions']) ? $input['employee_email_subscriptions'] : "1",
+            'employee_sms_subscrption' => !empty($input['employee_sms_subscrption']) ? $input['employee_sms_subscrption'] : "1",
+            'employee_info_form_url' => !empty($input['employee_info_form_url']) ? $input['employee_info_form_url'] : "1",
+            'employee_info_form_url_status' => !empty($input['employee_info_form_url_status']) ? $input['employee_info_form_url_status'] : "1",
+            'created_date' => date('Y-m-d'),
+            'created_by' => 1,
+            'created_IP' => $_SERVER['REMOTE_ADDR'],
+            'created_browser' => $_SERVER['HTTP_USER_AGENT'],
+            'created_mac_id' => CommonFunctions::getMacAddress(),
+//            'updated_date' => ,
+//            'updated_by' => ,
+//            'updated_IP' => ,
+//            'updated_browser' => ,
+//            'updated_mac_id' => ,
+                    
+        ]);
+        exit;
     }
 }

@@ -1,47 +1,44 @@
 'use strict';
 app.controller('adminController', function ($rootScope, $scope, $location, $http, $state, Data) {
-    $scope.registration = {};    
+    $scope.registration = {};
     $scope.errorMsg = '';
-    
-    $scope.checkUsername = function (usernameData) {  
+
+    $scope.checkUsername = function (usernameData) {
         console.log(usernameData.mobile);
-        Data.post('checkUsername',{
+        Data.post('checkUsername', {
             username: usernameData.mobile,
         }).then(function (response) {
-            if(!response.success){
+            if (!response.success) {
                 $scope.errorMsg = response.message;
-            }
-            else{            
-                 $scope.successMsg = response.message;
+            } else {
+                $scope.successMsg = response.message;
             }
         });
     }
-    $scope.resetErrorMsg = function () { 
+    $scope.resetErrorMsg = function () {
         $scope.errorMsg = '';
     }
     $scope.login = function (loginData) {
         Data.post('authenticate', {
             data: loginData,
         }).then(function (response) {
-            if(response.success){
+            if (response.success) {
                 $state.reload();
                 $state.go('admin.dashboard');
-                return false;                
+                return false;
+            } else {
+                $scope.errorMsg = response.message;
             }
-            else{
-                $scope.errorMsg = response.message;     
-            }  
         });
     };
     $scope.logout = function (logoutData) {
         Data.post('logout', {
             data: logoutData
         }).then(function (response) {
-            if(response.success){
+            if (response.success) {
                 $rootScope.authenticated = false;
                 $state.go('login');
-            }
-            else{           
+            } else {
                 $scope.errorMsg = response.message;
             }
         });
@@ -50,35 +47,32 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
         Data.post('saveRegister', {
             data: registerationData
         }).then(function (response) {
-            if(!response.success){
+            if (!response.success) {
                 $scope.errorMsg = response.message;
-            }
-            else{                
+            } else {
                 $state.go('login');
                 $state.reload();
             }
         });
     };
-    $scope.sendResetLink = function (sendEmailData) {  
-        Data.post('password/email',{
+    $scope.sendResetLink = function (sendEmailData) {
+        Data.post('password/email', {
             data: sendEmailData
         }).then(function (response) {
-            if(!response.success){
+            if (!response.success) {
                 $scope.errorMsg = response.message;
-            }
-            else{            
-                 $scope.successMsg = response.message;
+            } else {
+                $scope.successMsg = response.message;
             }
         });
     }
-    $scope.resetPassword = function (resetData) {  
-        Data.post('password/reset',{
+    $scope.resetPassword = function (resetData) {
+        Data.post('password/reset', {
             data: resetData
         }).then(function (response) {
-            if(!response.success){
+            if (!response.success) {
                 $scope.errorMsg = response.message;
-            }
-            else{
+            } else {
                 $state.go('admin.dashboard');
             }
         });
@@ -86,96 +80,154 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
 });
 app.controller('titleCtrl', function ($scope, Data) {
     Data.get('getTitle').then(function (response) {
-        if(!response.success){
+        if (!response.success) {
             $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.titles = response.records;
+        } else {
+            $scope.titles = response.records;
         }
     });
 });
 app.controller('genderCtrl', function ($scope, Data) {
     Data.get('getGender').then(function (response) {
-        if(!response.success){
+        if (!response.success) {
             $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.genders = response.records;
+        } else {
+            $scope.genders = response.records;
         }
     });
 });
 app.controller('bloodGroupCtrl', function ($scope, Data) {
     Data.get('getBloodGroup').then(function (response) {
-        if(!response.success){
+        if (!response.success) {
             $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.bloodGroups = response.records;
+        } else {
+            $scope.bloodGroups = response.records;
         }
     });
 });
 app.controller('departmentCtrl', function ($scope, Data) {
     Data.get('getDepartments').then(function (response) {
-        if(!response.success){
+        if (!response.success) {
             $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.departments = response.records;
+        } else {
+            $scope.departments = response.records;
         }
     });
 });
 app.controller('educationListCtrl', function ($scope, Data) {
     Data.get('getEducationList').then(function (response) {
-        if(!response.success){
+        if (!response.success) {
             $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.educationList = response.records;
-        }
-    });
-}); 
-app.controller('countryListCtrl', function ($scope, Data) {
-    Data.get('getCountries').then(function (response) {
-        if(!response.success){
-            $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.countryList = response.records;
-        }
-    });
-}); 
-app.controller('stateListCtrl', function ($scope, Data) {
-    Data.get('getStates').then(function (response) {
-        if(!response.success){
-            $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.stateList = response.records;
-        }
-    });
-}); 
-app.controller('cityListCtrl', function ($scope, Data) {
-    Data.get('getCities').then(function (response) {
-        if(!response.success){
-            $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.cityList = response.records;
+        } else {
+            $scope.educationList = response.records;
         }
     });
 });
-app.controller('checkUniqueEmailController', function ($scope, Data) 
+app.controller('currentCountryListCtrl', function ($scope, Data) {
+//    $scope.countryList = "";
+//    $scope.stateList = "";
+//    $scope.cityList = "";
+
+    Data.get('getCountries').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.countryList = response.records;
+        }
+    });
+    $scope.onCountryChange = function () {
+        $scope.stateList = "";
+        Data.post('getStates',{
+            data: {countryId: $scope.userData.current_country_id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.stateList = response.records;
+            }
+        });
+    };
+    $scope.onStateChange = function () {
+        $scope.cityList = "";
+        Data.post('getCities',{
+            data: {stateId: $scope.userData.current_state_id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.cityList = response.records;
+            }
+        });
+    };
+});
+
+app.controller('permanentCountryListCtrl', function ($scope, Data) {
+//    $scope.countryList = undefined;
+//    $scope.stateList = undefined;
+//    $scope.cityList = undefined;
+
+    Data.get('getCountries').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.countryList = response.records;
+        }
+    });
+    $scope.onCountryChange = function () {
+        $scope.stateList = "";
+        Data.post('getStates',{
+            data: {countryId: $scope.userData.permenent_country_id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.stateList = response.records;
+            }
+        });
+    };
+    $scope.onStateChange = function () {
+        $scope.cityList = "";
+        Data.post('getCities',{
+            data: {stateId: $scope.userData.permenent_state_id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.cityList = response.records;
+            }
+        });
+    };
+});
+
+/*app.controller('stateListCtrl', function ($scope, Data) {
+    Data.get('getStates').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.stateList = response.records;
+        }
+    });
+});
+app.controller('cityListCtrl', function ($scope, Data) {
+    Data.get('getCities').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.cityList = response.records;
+        }
+    });
+});*/
+app.controller('checkUniqueEmailController', function ($scope, Data)
 {
     $scope.checkUniqueEmail = function (emailData) {
-        Data.post('checkUniqueEmail',{
+        Data.post('checkUniqueEmail', {
             email: emailData.email
         }).then(function (response) {
-            if(!response.success){
+            if (!response.success) {
                 $scope.errorMsg = response.message;
                 $scope.classActive = "help-block step2 ng-active";
                 return false;
-            }
-            else{
+            } else {
                 $scope.errorMsg = "";
                 $scope.classActive = "step2 ng-inactive";
                 return false;

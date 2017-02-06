@@ -34,24 +34,51 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
         console.log(userData);
         console.log(employeePhoto);
         userData.emp_photo_url = employeePhoto.name;
+        
+        var date = new Date($scope.userData.date_of_birth);
+        $scope.userData.date_of_birth = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+        
+        var date = new Date($scope.userData.joining_date);
+        $scope.userData.joining_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+        
         Data.post('master-hr', {
             data: {userData: userData, employeePhoto: employeePhoto},
-        }).then(function (response) {
+        }).then(function (response,evt) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
+                employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
             }
         });
+        
+        
+        /*employeePhoto.upload = Upload.upload({
+            url: 'master-hr/uploadFile',
+            data: {employeePhoto: employeePhoto},
+        });
+        employeePhoto.upload.then(function (response) {
+            $timeout(function () {
+                employeePhoto.result = response.data;
+            });
+        }, function (response) {
+            if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+        }, function (evt) {
+            // Math.min is to fix IE which reports 200% sometimes
+            employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        }); */
     };
 
     $scope.checkImageExtension = function(employeePhoto){
-        var ext = employeePhoto.name.match(/\.(.+)$/)[1];
-        if(angular.lowercase(ext) ==='jpg' || angular.lowercase(ext) ==='jpeg' || angular.lowercase(ext) ==='png' || angular.lowercase(ext) ==='bmp'){
-            
-        }  
-        else{
-            document.getElementById("emp_photo_url").value = "";
-            $scope.errorMsg = "Invalid file format. Image should be jpg or jpeg or png or bmp format only.";
+        if(typeof employeePhoto !== 'undefined'){
+            var ext = employeePhoto.name.match(/\.(.+)$/)[1];
+            if(angular.lowercase(ext) ==='jpg' || angular.lowercase(ext) ==='jpeg' || angular.lowercase(ext) ==='png' || angular.lowercase(ext) ==='bmp'){
+                $scope.errorMsg = "";
+            }  
+            else{
+                document.getElementById("emp_photo_url").value = "";
+                $scope.errorMsg = "Invalid file format. Image should be jpg or jpeg or png or bmp format only.";
+            }
         }
     };
     
@@ -92,18 +119,24 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
     }*/
 }]);
 
-app.directive('validFile', function () {
-    return {
-        require: 'ngModel',
-        link: function (scope, el, attrs, ngModel) {
-            ngModel.$render = function () {
-                ngModel.$setViewValue(el.val());
-            };
-            el.bind('change', function () {
-                scope.$apply(function () {
-                    ngModel.$render();
-                });
-            });
+/*app.directive('validFile', function() {
+  return {
+    link: function(scope, elem, attr, ctrl) {
+      function bindEvent(element, type, handler) {
+        if (element.addEventListener) {
+          element.addEventListener(type, handler, false);
+        } else {
+          element.attachEvent('on' + type, handler);
         }
-    };
-});
+      }
+      var ext = this.files[0].name.match(/\.(.+)$/)[1];
+      console.log(ext);
+      bindEvent(elem[0], 'change', function() {
+        if(angular.lowercase(ext) ==='jpg' || angular.lowercase(ext) ==='jpeg' || angular.lowercase(ext) ==='png' || angular.lowercase(ext) ==='bmp' ){
+            alert("Valid File Format");
+        }  
+        //alert('File size:' + this.files[0].name.match(/\.(.+)$/)[1]);
+      });
+    }
+  }
+});*/

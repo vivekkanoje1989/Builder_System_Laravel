@@ -1,0 +1,46 @@
+Array
+(
+    [permenent_city_id] => 6022
+    [permenent_state_id] => 75
+    [permenent_country_id] => 2
+    [current_city_id] => 6019
+    [current_state_id] => 74
+    [current_country_id] => 2
+    [highest_education_id] => 15
+    [marital_status] => 1
+    [physic_status_id] => 1
+    [blood_group_id] => 2
+    [employee_status] => 1
+    [office_mobile_no] => +91-9999999999
+    [personal_mobile_no1] => +91-9999999999
+    [title_id] => Mr.
+    [first_name] => gg
+    [last_name] => g
+    [date_of_birth] => 2/10/2017
+    [gender_id] => 1
+    [email] => a@gmail.com
+    [current_address] => aa
+    [current_pin] => 3333
+    [permenent_pin] => 222
+    [permenent_address] => aa
+    [emp_photo_url] => myicon.png
+    [department_id] => Array
+        (
+            [0] => Array
+                (
+                    [id] => 3
+                    [client_id] => 0
+                    [department_name] => Accounts
+                )
+
+        )
+
+    [designation] => design
+    [reporting_to_id] => 5
+    [joining_date] => 2/22/2017
+    [username] => geeta
+    [password] => 123456
+    [password_confirmation] => 123456
+)
+
+["0101","0102","0103","0104"]

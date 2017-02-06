@@ -158,8 +158,11 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-    public function getStates(){
-        $getStates = LstState::all();
+    public function getStates(Request $request){
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $countryId = $request['data']['countryId'];
+        $getStates = LstState::where("country_id",$countryId)->get();
         if(!empty($getStates))
         {
             $result = ['success' => true, 'records' => $getStates];
@@ -172,7 +175,10 @@ class AdminController extends Controller {
         }
     }
     public function getCities(){
-        $getCities = LstCity::all();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $stateId = $request['data']['stateId'];
+        $getCities = LstCity::where("state_id",$stateId)->get();
         if(!empty($getCities))
         {
             $result = ['success' => true, 'records' => $getCities];

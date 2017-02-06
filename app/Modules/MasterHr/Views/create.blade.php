@@ -267,7 +267,7 @@
 
                     <hr class="wide">
                     <div class="row">
-                        <div class="col-sm-6 col-xs-12">
+                        <div class="col-sm-6 col-xs-12" ng-controller="currentCountryListCtrl">
                             <div class="form-title">
                                 Correspondence Address
                             </div>
@@ -290,7 +290,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_country_id.$dirty || userForm.current_country_id.$invalid)}">
                                         <label for="">Select Country <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-controller="countryListCtrl" ng-model="userData.current_country_id" name="current_country_id" class="form-control" required>
+                                            <select ng-change="onCountryChange()" ng-model="userData.current_country_id" name="current_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
                                                 <option ng-repeat="country in countryList" value="{{country.id}}">{{country.name}}</option>
                                             </select>
@@ -305,7 +305,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_state_id.$dirty || userForm.current_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-model="userData.current_state_id" name="current_state_id" class="form-control" required>
+                                            <select ng-model="userData.current_state_id" ng-change="onStateChange()" name="current_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
                                                 <option ng-repeat="state in stateList" value="{{state.id}}">{{state.name}}</option>
                                             </select>
@@ -347,7 +347,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-xs-12">
+                        <div class="col-sm-6 col-xs-12" ng-controller="permanentCountryListCtrl">
                             <div class="form-title">
                                 <span class="checkbox" style="display:inline-block;margin: 0;">
                                     <label>
@@ -376,7 +376,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_country_id.$invalid)}">
                                         <label for="">Select Country <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-controller="countryListCtrl" ng-model="userData.permenent_country_id" name="permenent_country_id" class="form-control" required>
+                                            <select ng-change="onCountryChange()" ng-model="userData.permenent_country_id" name="permenent_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
                                                 <option ng-repeat="country in countryList" value="{{country.id}}">{{country.name}}</option>
                                             </select>
@@ -391,7 +391,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select  ng-model="userData.permenent_state_id" name="permenent_state_id" class="form-control" required>
+                                            <select ng-change="onStateChange()" ng-model="userData.permenent_state_id" name="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
                                                 <option ng-repeat="state in stateList" value="{{state.id}}">{{state.name}}</option>
                                             </select>
@@ -471,27 +471,17 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.emp_photo_url.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.emp_photo_url.$invalid) || errorMsg}">
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-<!--                                    <input type="file" ng-model="userData.emp_photo_url" name="emp_photo_url" valid-file class="form-control" required>
-                                    <i class="fa fa-file-image-o"></i>
+                                    <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
+                                    <img ng-show="!userForm.emp_photo_url.$error" ngf-thumbnail="userData.emp_photo_url" class="thumb">
                                     <div ng-show="step3" ng-messages="userForm.emp_photo_url.$error" class="help-block step3">
                                         <div ng-message="required">This field is required.</div>
-                                    </div>-->
-                                </span>
-                                
-                                <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
-                                <i ng-show="userForm.emp_photo_url.$error.required">*required</i><br>
-                                <i ng-show="userForm.emp_photo_url.$error.maxSize">File too large 
-                                    {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
-                                <img ng-show="userForm.emp_photo_url.$valid" ngf-thumbnail="userData.emp_photo_url" class="thumb">                                
-                                <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
-                                    <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
-                                </span>
-                                <span ng-show="userData.emp_photo_url.result">Upload Successful</span>
+                                        <i ng-show="userForm.emp_photo_url.$error.maxSize">File too large {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                    </div>
+                                </span>                                                                
                                 <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
-                                
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
@@ -664,6 +654,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
+                                <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
+                                    <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
+                                </span>
+                                <span ng-show="userData.emp_photo_url.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5">Prev</button>
                             <button type="submit" class="btn btn-primary btn-submit-last" ng-click="step5=true">Create</button>
                         </div>
