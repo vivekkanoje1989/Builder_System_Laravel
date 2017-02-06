@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use View;
 use App\classes\CommonFunctions;
-use App\Models\backend\EmployeesDevice;
+use App\Models\EmployeesDevice;
 use Illuminate\Hashing\HashServiceProvider;
 class LoginController extends Controller {
     /*
@@ -62,7 +62,7 @@ class LoginController extends Controller {
                 $result = ['success' => false,'message' => 'Mobile does not exist!'];
             }
         }
-        elseif(empty($request['data']['securityPasswordData'])){      
+        elseif(empty($request['data']['securityPasswordData'])){   
             if (\Hash::check($request['data']['passwordData'], $checkEmail[0]->password)) {
                 $result = ['success' => true];                
             }else {

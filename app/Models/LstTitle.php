@@ -5,23 +5,25 @@
  * Date: Wed, 18 Jan 2017 09:04:39 +0000.
  */
 
-namespace App\Models\backend;
+namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstEducation
+ * Class LstTitle
  * 
- * @property int $blood_group_id
- * @property string $blood_group
+ * @property string $value
+ * @property string $title
  *
  * @package App\Models
  */
-class LstEducation extends Eloquent
+class LstTitle extends Eloquent
 {
-	protected $primaryKey = 'education_id';
+	protected $primaryKey = 'value';
+	public $incrementing = false;
 	public $timestamps = false;
+
 	protected $fillable = [
-		'education_title'
+		'title'
 	];
 }

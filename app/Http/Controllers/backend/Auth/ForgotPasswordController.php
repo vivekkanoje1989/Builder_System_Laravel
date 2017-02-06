@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\backend\Auth;
 
-//use App\Models\backend\Admin;
+//use App\Models\Admin;
 //use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;

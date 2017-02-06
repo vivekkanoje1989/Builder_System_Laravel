@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use DB;
 use App\classes\Menuitems;
 use App\Models\backend\Employee;
-use App\Models\backend\LstTitle;
-use App\Models\backend\LstGender;
-use App\Models\backend\LstBloodGroup;
-use App\Models\backend\Department;
-use App\Models\backend\LstEducation;
-use App\Models\backend\LstCountry;
-use App\Models\backend\LstState;
-use App\Models\backend\LstCity;
+use App\Models\LstTitle;
+use App\Models\LstGender;
+use App\Models\LstBloodGroup;
+use App\Models\Department;
+use App\Models\LstEducation;
+use App\Models\LstCountry;
+use App\Models\LstState;
+use App\Models\LstCity;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller {

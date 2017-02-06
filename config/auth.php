@@ -75,7 +75,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\frontend\User::class,
+            'model' => App\Models\User::class,
         ],
         'employees' => [ //admins
             'driver' => 'eloquent',

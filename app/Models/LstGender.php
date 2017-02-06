@@ -5,25 +5,29 @@
  * Date: Wed, 18 Jan 2017 09:04:39 +0000.
  */
 
-namespace App\Models\backend;
+namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstTitle
+ * Class LstGender
  * 
- * @property string $value
- * @property string $title
+ * @property int $gender_id
+ * @property string $gender_title
  *
  * @package App\Models
  */
-class LstTitle extends Eloquent
+class LstGender extends Eloquent
 {
-	protected $primaryKey = 'value';
+	protected $primaryKey = 'gender_id';
 	public $incrementing = false;
 	public $timestamps = false;
 
+	protected $casts = [
+		'gender_id' => 'int'
+	];
+
 	protected $fillable = [
-		'title'
+		'gender_title'
 	];
 }

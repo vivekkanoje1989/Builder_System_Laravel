@@ -78,4 +78,10 @@ class EmployeesDevice extends Eloquent
 		'updated_browser',
 		'updated_mac_id'
 	];
+        
+    public static function getRecords($select,$where){
+        $attributes = empty($select) ? '*' : $select;
+        $getRecords = EmployeesDevice::select($attributes)->where($where)->get();
+        return json_decode($getRecords);
+    }
 }
