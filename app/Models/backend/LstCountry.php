@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * Created by Reliese Model.
+ * Date: Tue, 10 Jan 2017 10:34:58 +0000.
+ */
+
+namespace App\Models\backend;
+
+use Reliese\Database\Eloquent\Model as Eloquent;
+
+/**
+ * Class LstCountry
+ * 
+ * @property int $country_id
+ * @property string $country_name
+ *
+ * @package App\Models
+ */
+class LstCountry extends Eloquent
+{
+	protected $primaryKey = 'id';
+	public $timestamps = false;
+
+	protected $fillable = [
+            'id',
+            'sortname',
+            'name',
+            'phonecode'
+	];
+}

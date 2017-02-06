@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 18 Jan 2017 09:04:39 +0000.
+ * Date: Mon, 06 Feb 2017 09:11:10 +0000.
  */
 
 namespace App\Models;
@@ -13,6 +13,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class EmployeePasswordHistory
  * 
  * @property int $id
+ * @property int $client_id
  * @property int $employee_id
  * @property int $username
  * @property string $password
@@ -31,6 +32,7 @@ class EmployeePasswordHistory extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
+		'client_id' => 'int',
 		'employee_id' => 'int',
 		'username' => 'int',
 		'created_by' => 'int',
@@ -47,6 +49,7 @@ class EmployeePasswordHistory extends Eloquent
 	];
 
 	protected $fillable = [
+		'client_id',
 		'employee_id',
 		'username',
 		'password',

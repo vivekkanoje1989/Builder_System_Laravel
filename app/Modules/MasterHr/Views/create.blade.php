@@ -305,7 +305,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_state_id.$dirty || userForm.current_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-controller="stateListCtrl" ng-model="userData.current_state_id" name="current_state_id" class="form-control" required>
+                                            <select ng-model="userData.current_state_id" name="current_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
                                                 <option ng-repeat="state in stateList" value="{{state.id}}">{{state.name}}</option>
                                             </select>
@@ -322,7 +322,7 @@
                                     <label for="">Select City <span class="sp-err">*</span></label>											
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_city_id.$dirty || userForm.current_city_id.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <select ng-controller="cityListCtrl" ng-model="userData.current_city_id" name="current_city_id" class="form-control" required>
+                                            <select ng-model="userData.current_city_id" name="current_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
                                                 <option ng-repeat="city in cityList" value="{{city.id}}">{{city.name}}</option>
                                             </select>
@@ -391,7 +391,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-controller="stateListCtrl" ng-model="userData.permenent_state_id" name="permenent_state_id" class="form-control" required>
+                                            <select  ng-model="userData.permenent_state_id" name="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
                                                 <option ng-repeat="state in stateList" value="{{state.id}}">{{state.name}}</option>
                                             </select>
@@ -408,7 +408,7 @@
                                     <label for="">Select City <span class="sp-err">*</span></label>											
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_city_id.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <select ng-controller="cityListCtrl" ng-model="userData.permenent_city_id" name="permenent_city_id" class="form-control" required>
+                                            <select ng-model="userData.permenent_city_id" name="permenent_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
                                                 <option ng-repeat="city in cityList" value="{{city.id}}">{{city.name}}</option>
                                             </select>
@@ -481,7 +481,7 @@
                                     </div>-->
                                 </span>
                                 
-                                <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
+                                <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
                                 <i ng-show="userForm.emp_photo_url.$error.required">*required</i><br>
                                 <i ng-show="userForm.emp_photo_url.$error.maxSize">File too large 
                                     {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
@@ -514,24 +514,17 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group multi-sel-div" ng-class="{ 'has-error' : step4 && (!userForm.department_id.$dirty || userForm.department_id.$invalid)}" ng-controller="departmentCtrl">
+                            <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (step4 && (!userForm.department_id.$dirty || userForm.department_id.$invalid)) || emptyDepartmentId}" ng-controller="departmentCtrl">
                                 <label for="">Select Department <span class="sp-err">*</span></label>	
-                                <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ui-select-required ng-disabled="disabled" style="width: 300px;" ng-required>
+                                <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkDepartment()">
                                     <ui-select-match placeholder="Select Departments">{{$item.department_name}}</ui-select-match>
                                     <ui-select-choices repeat="list in departments | filter:$select.search">
                                         {{list.department_name}} 
                                     </ui-select-choices>
                                 </ui-select>
-<!--                                <div ng-show="step4" ng-messages="userForm.department_id.$error" class="help-block step4">
-                                    <div ng-message="required">This field is required.</div>
-                                </div>-->
-                                <div ng-show="step4 && userForm.department_id.$valid" ng-messages="userForm.department_id.$invalid" class="help-block step4">
-                                    <div ng-message="required">This field is required.</div>
+                                <div ng-show="emptyDepartmentId" class="help-block department step4">
+                                    This field is required.
                                 </div>
-<!--                                <div ng-show="step4" ng-messages="userForm.department_id.$untouched" class="help-block step4">
-                                    valid: {{userForm.department_id.$valid}}
-                                    invalid: {{userForm.department_id.$invalid}}
-                                </div>-->
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
@@ -590,7 +583,7 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="button" class="btn btn-primary btn-pre4">Prev</button>
-                            <button type="button" class="btn btn-primary btn-nxt4" ng-class="step4=true">Next</button>
+                            <button type="button" class="btn btn-primary btn-nxt6" ng-click="step4=true">Next</button>
                         </div>
                     </div>
                 </div>
@@ -715,7 +708,7 @@
                 $(".wiredstep3").addClass("complete");
             }
         });
-        $(".btn-nxt4").click(function(e){
+        $(".btn-nxt6").click(function(e){
             if($(".step4").hasClass("ng-active")) {
                 e.preventDefault();
             }else{
@@ -725,6 +718,9 @@
                 $(".wiredstep4").removeClass("active");
                 $(".wiredstep4").addClass("complete");
             }
+            if( $(".select2-input").attr('placeholder') === '' && $(".step4").hasClass("ng-hide")) {
+            }
+            else{ $(".department").removeClass("ng-hide");}
         });
         $(".btn-submit-last").click(function(e){
             if($(".step5").hasClass("ng-active")) {

@@ -1,32 +1,27 @@
 'use strict';
-app.controller('adminController', function ($rootScope, $scope, $location, $http, $state, Data, $window) {
-    
+app.controller('adminController', function ($rootScope, $scope, $location, $http, $state, Data) {
     $scope.registration = {};    
     $scope.errorMsg = '';
-      
-    /*$scope.$watch(Auth.isLoggedIn, function (value, oldValue) 
-    {
-        if(!value && oldValue) {
-          console.log("Disconnect");
-        }
-        if(value) {
-            console.log("Connect");
-            if($rootScope.authenticated === true){
-                $http.get('admin/getMenuItems').then(function (response) {
-                    $scope.siteMenu = response.data;
-                    }, function (error) {
-                        alert('Error');
-                }); 
-            }
-        }
-    }, true);*/
     
+    $scope.checkUsername = function (usernameData) {  
+        console.log(usernameData.mobile);
+        Data.post('checkUsername',{
+            username: usernameData.mobile,
+        }).then(function (response) {
+            if(!response.success){
+                $scope.errorMsg = response.message;
+            }
+            else{            
+                 $scope.successMsg = response.message;
+            }
+        });
+    }
+    $scope.resetErrorMsg = function () { 
+        $scope.errorMsg = '';
+    }
     $scope.login = function (loginData) {
         Data.post('authenticate', {
-            contentType: "application/json",
-            dataType: "json",
             data: loginData,
-            headers : {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function (response) {
             if(response.success){
                 $state.reload();
@@ -169,6 +164,27 @@ app.controller('cityListCtrl', function ($scope, Data) {
         }
     });
 });
+app.controller('checkUniqueEmailController', function ($scope, Data) 
+{
+    $scope.checkUniqueEmail = function (emailData) {
+        Data.post('checkUniqueEmail',{
+            email: emailData.email
+        }).then(function (response) {
+            if(!response.success){
+                $scope.errorMsg = response.message;
+                $scope.classActive = "help-block step2 ng-active";
+                return false;
+            }
+            else{
+                $scope.errorMsg = "";
+                $scope.classActive = "step2 ng-inactive";
+                return false;
+            }
+        });
+    };
+});
+
+
 
 //$(document).ready(function() {
 //    $(document).on("contextmenu",function(e){

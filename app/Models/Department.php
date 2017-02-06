@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 18 Jan 2017 09:04:39 +0000.
+ * Date: Mon, 06 Feb 2017 09:11:10 +0000.
  */
 
 namespace App\Models;
@@ -10,18 +10,24 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class BloodGroup
+ * Class Department
  * 
- * @property int $blood_group_id
- * @property string $blood_group
+ * @property int $id
+ * @property int $client_id
+ * @property string $department_name
  *
  * @package App\Models
  */
 class Department extends Eloquent
 {
-	protected $primaryKey = 'id';
 	public $timestamps = false;
+
+	protected $casts = [
+		'client_id' => 'int'
+	];
+
 	protected $fillable = [
+		'client_id',
 		'department_name'
 	];
 }

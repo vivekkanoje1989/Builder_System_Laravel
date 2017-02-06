@@ -14,28 +14,32 @@
 Route::get('/', function () {
    return View::make('backendapp');
 });
-Route::get('/layout', function () {
+Route::get('admin/error500', function () {
+   return view('layouts.backend.error500');
+});
+Route::post('admin/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
+Route::get('admin/layout', function () {
    return view('layouts.backend.layout');
 });
-Route::get('/dashboard', function () {
+Route::get('admin/dashboard', function () {
     return View::make('layouts.backend.dashboard');
 });
-Route::get('loading', function () {
+Route::get('admin/loading', function () {
     return View::make('layouts.backend.loading');
 });
-Route::get('navbar', function () {
+Route::get('admin/navbar', function () {
     return View::make('layouts.backend.navbar');
 });
-Route::get('sidebar', function () {
+Route::get('admin/sidebar', function () {
     return View::make('layouts.backend.sidebar');
 });
-Route::get('chatbar', function () {
+Route::get('admin/chatbar', function () {
     return View::make('layouts.backend.chatbar');
 });
-Route::get('breadcrumbs', function () {
+Route::get('admin/breadcrumbs', function () {
     return View::make('layouts.backend.breadcrumbs');
 });
-Route::get('header', function () {
+Route::get('admin/header', function () {
     return View::make('layouts.backend.header');
 });
 
@@ -87,10 +91,12 @@ Route::group(['middleware' => ['admin']], function () {
     Route::get('admin/getCountries', 'backend\AdminController@getCountries');
     Route::get('admin/getStates', 'backend\AdminController@getStates');
     Route::get('admin/getCities', 'backend\AdminController@getCities');
+    Route::post('admin/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
+    
     /***********************************************************************/
     
     /***************************** HR **********************************/
-    Route::resource('admin/user', 'backend\hr\HrController');
+//    Route::resource('admin/user', 'backend\hr\HrController');
     
     Route::get('admin/databoxes', function () {
         return View::make('backend.databoxes');

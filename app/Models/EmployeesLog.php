@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 18 Jan 2017 09:04:39 +0000.
+ * Date: Mon, 06 Feb 2017 09:11:10 +0000.
  */
 
 namespace App\Models;
@@ -13,22 +13,27 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class EmployeesLog
  * 
  * @property int $id
+ * @property int $client_id
  * @property int $main_record_id
  * @property int $client_role_id
  * @property int $employee_id
  * @property string $username
  * @property string $password
+ * @property int $high_security_password_type
+ * @property int $high_security_password
  * @property int $password_changed
+ * @property string $remember_token
+ * @property string $usertype
  * @property int $team_lead_id
  * @property string $designation
  * @property string $department_id
  * @property int $reporting_to_id
- * @property int $title_id
+ * @property string $title
  * @property string $first_name
  * @property string $middle_name
  * @property string $last_name
  * @property \Carbon\Carbon $date_of_birth
- * @property int $gender_id
+ * @property string $gender
  * @property int $marital_status
  * @property \Carbon\Carbon $marriage_date
  * @property int $blood_group_id
@@ -84,14 +89,15 @@ class EmployeesLog extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
+		'client_id' => 'int',
 		'main_record_id' => 'int',
 		'client_role_id' => 'int',
 		'employee_id' => 'int',
+		'high_security_password_type' => 'int',
+		'high_security_password' => 'int',
 		'password_changed' => 'int',
 		'team_lead_id' => 'int',
 		'reporting_to_id' => 'int',
-		'title_id' => 'int',
-		'gender_id' => 'int',
 		'marital_status' => 'int',
 		'blood_group_id' => 'int',
 		'physic_status_id' => 'int',
@@ -128,26 +134,33 @@ class EmployeesLog extends Eloquent
 	];
 
 	protected $hidden = [
-		'password'
+		'password',
+		'high_security_password',
+		'remember_token'
 	];
 
 	protected $fillable = [
+		'client_id',
 		'main_record_id',
 		'client_role_id',
 		'employee_id',
 		'username',
 		'password',
+		'high_security_password_type',
+		'high_security_password',
 		'password_changed',
+		'remember_token',
+		'usertype',
 		'team_lead_id',
 		'designation',
 		'department_id',
 		'reporting_to_id',
-		'title_id',
+		'title',
 		'first_name',
 		'middle_name',
 		'last_name',
 		'date_of_birth',
-		'gender_id',
+		'gender',
 		'marital_status',
 		'marriage_date',
 		'blood_group_id',

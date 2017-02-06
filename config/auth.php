@@ -75,11 +75,11 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Model\frontend\User::class,
+            'model' => App\Models\frontend\User::class,
         ],
         'employees' => [ //admins
             'driver' => 'eloquent',
-            'model' => App\Model\backend\Employee::class,
+            'model' => App\Models\backend\Employee::class,
         ],
 
         // 'users' => [

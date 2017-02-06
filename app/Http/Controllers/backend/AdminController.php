@@ -5,14 +5,16 @@ namespace App\Http\Controllers\backend;
 use App\Http\Controllers\Controller;
 use DB;
 use App\classes\Menuitems;
-use App\Models\Title;
-use App\Models\Gender;
-use App\Models\BloodGroup;
-use App\Models\Department;
-use App\Models\EducationList;
-use App\Models\Country;
-use App\Models\State;
-use App\Models\City;
+use App\Models\backend\Employee;
+use App\Models\backend\LstTitle;
+use App\Models\backend\LstGender;
+use App\Models\backend\LstBloodGroup;
+use App\Models\backend\Department;
+use App\Models\backend\LstEducation;
+use App\Models\backend\LstCountry;
+use App\Models\backend\LstState;
+use App\Models\backend\LstCity;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller {
 
@@ -36,10 +38,10 @@ class AdminController extends Controller {
 
     public function dashboard() {
 
-        $rows = DB::select('CALL sp_test(1)');
+//        $rows = DB::select('CALL sp_test(1)');
 //        return json_encode($id);
-//        $id = Auth()->guard('admin')->user()->id;
-        return view('layouts.backend.dashboard')->with('id', $rows[0]->name);
+        $id = Auth()->guard('admin')->user()->id;
+        return view('layouts.backend.dashboard')->with('id', $id);
     }
 
     public function getMenuItems() {
@@ -79,7 +81,7 @@ class AdminController extends Controller {
     }
     
     public function getTitle(){
-        $getTitle = Title::all();
+        $getTitle = LstTitle::all();
         if(!empty($getTitle))
         {
             $result = ['success' => true, 'records' => $getTitle];
@@ -92,7 +94,7 @@ class AdminController extends Controller {
         }
     }
     public function getGender(){
-        $getGender = Gender::all();
+        $getGender = LstGender::all();
         if(!empty($getGender))
         {
             $result = ['success' => true, 'records' => $getGender];
@@ -105,7 +107,7 @@ class AdminController extends Controller {
         }
     }
     public function getBloodGroup(){
-        $getBloodGroup = BloodGroup::all();
+        $getBloodGroup = LstBloodGroup::all();
         if(!empty($getBloodGroup))
         {
             $result = ['success' => true, 'records' => $getBloodGroup];
@@ -131,7 +133,7 @@ class AdminController extends Controller {
         }
     }
     public function getEducationList(){
-        $getEducationList = EducationList::all();
+        $getEducationList = LstEducation::all();
         if(!empty($getEducationList))
         {
             $result = ['success' => true, 'records' => $getEducationList];
@@ -144,7 +146,7 @@ class AdminController extends Controller {
         }
     }
     public function getCountries(){
-        $getCountires = Country::all();
+        $getCountires = LstCountry::all();
         if(!empty($getCountires))
         {
             $result = ['success' => true, 'records' => $getCountires];
@@ -157,7 +159,7 @@ class AdminController extends Controller {
         }
     }
     public function getStates(){
-        $getStates = State::all();
+        $getStates = LstState::all();
         if(!empty($getStates))
         {
             $result = ['success' => true, 'records' => $getStates];
@@ -170,7 +172,7 @@ class AdminController extends Controller {
         }
     }
     public function getCities(){
-        $getCities = City::all();
+        $getCities = LstCity::all();
         if(!empty($getCities))
         {
             $result = ['success' => true, 'records' => $getCities];
@@ -183,4 +185,19 @@ class AdminController extends Controller {
         }
     }
     
+    public function checkUniqueEmail(){    
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $checkEmail = Employee::getRecords(["email"],["email" => $request['data']['emailData']]);
+        if(empty($checkEmail[0]->email))
+        {
+            $result = ['success' => true];
+            return json_encode($result);
+        }
+        else
+        {
+            $result = ['success' => false];
+            return json_encode($result);
+        }
+    }    
 }

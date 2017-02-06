@@ -1,7 +1,8 @@
 'use strict';
 var app = angular.module('app', [
+    'ngFileUpload',
     'ngAnimate',
-    'ngCookies',
+    'ngCookies',    
     'ngResource',
     'ngSanitize',
     'ngTouch',

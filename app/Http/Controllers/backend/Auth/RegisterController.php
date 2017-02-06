@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\backend\Auth;
 
 //use App\Model\backend\Admin;
-use App\Model\backend\Employee;
+use App\Models\backend\Employee;
 use Illuminate\Http\Request;
 
 use Validator;

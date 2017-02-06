@@ -66,8 +66,13 @@ return [
             'engine' => null,
         ],*/
         'mysql' => [
+            'read' => [
+                'host' => 'somnath',
+            ],
+            'write' => [
+                'host' => 'somnath'
+            ],
             'driver' => 'mysql',
-            'host' => 'somnath',
             'port' => 3306,
             'database' => 'new_builder_final',
             'username' => 'bmsbuilder',
@@ -75,7 +80,7 @@ return [
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
-            'strict' => true,
+            'strict' => false,
             'engine' => null,
         ],
 

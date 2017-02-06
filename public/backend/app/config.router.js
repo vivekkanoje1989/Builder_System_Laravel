@@ -17,7 +17,7 @@ angular.module('app')
                     .state('admin', {
                         abstract: true,
                         url: '/admin',
-                        templateUrl: '/layout',
+                        templateUrl: 'admin/layout',
                     })
                     .state('admin.dashboard', {
                         url: '/dashboard',
@@ -50,9 +50,9 @@ angular.module('app')
                         }
                     })
                     .state('admin.user', {
-                        url: '/user',
-                        templateUrl: 'admin/user',
-                        controller: 'userController',
+                        url: '/user/create',
+                        templateUrl: 'admin/master-hr/create',
+                        controller: 'hrController',
                         requiredLogin: true,
                         ncyBreadcrumb: {
                             label: 'Create User',
@@ -65,20 +65,17 @@ angular.module('app')
                                     return $ocLazyLoad.load(['ui.select',{
                                         serie: true,
                                         files: [
-                                            '/backend/userController.js',
+//                                            '/backend/app/ng-file-upload.js',
+//                                            '/backend/hrController.js',
+                                            '/js/intlTelInput.js',
 //                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-//                                            '/backend/app/controllers/select2.js',
                                             '/backend/app/controllers/datepicker.js',
+                                            '/backend/app/controllers/select.js',
                                         ]
                                     }]);
                                 }
                             ]
                         }
-                    })
-                    
-                    .state('admin.myBlog', {
-                        url: '/myBlog',
-                        templateUrl: 'admin/myBlog',requiredLogin: true,
                     })
                     .state('persian', {
                         abstract: true,
@@ -90,39 +87,6 @@ angular.module('app')
                         templateUrl: 'views/dashboard-persian.html',
                         ncyBreadcrumb: {
                             label: 'داشبورد'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/lib/jquery/charts/sparkline/jquery.sparkline.js',
-                                            '/backend/lib/jquery/charts/easypiechart/jquery.easypiechart.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.resize.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.pie.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.tooltip.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.orderBars.js',
-                                            '/backend/app/controllers/dashboard.js',
-                                            '/backend/app/directives/realtimechart.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('arabic', {
-                        abstract: true,
-                        url: '/arabic',
-                        templateUrl: 'views/layout-arabic.html'
-                    })
-                    .state('arabic.dashboard', {
-                        url: '/dashboard',
-                        templateUrl: 'views/dashboard-arabic.html',
-                        ncyBreadcrumb: {
-                            label: 'لوحة القيادة'
                         },
                         resolve: {
                             deps: [
@@ -190,456 +154,6 @@ angular.module('app')
                         ncyBreadcrumb: {
                             label: 'Widgets',
                             description: 'flexible containers'
-                        }
-                    })
-                    .state('admin.elements', {
-                        url: '/elements',
-                        templateUrl: 'views/elements.html',
-                        ncyBreadcrumb: {
-                            label: 'UI Elements',
-                            description: 'Basics'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/app/controllers/pagination.js',
-                                            '/backend/app/controllers/progressbar.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.fontawesome', {
-                        url: '/fontawesome',
-                        templateUrl: 'views/font-awesome.html',
-                        ncyBreadcrumb: {
-                            label: 'FontAwesome',
-                            description: 'Iconic Fonts'
-                        }
-                    })
-                    .state('admin.glyphicons', {
-                        url: '/glyphicons',
-                        templateUrl: 'views/glyph-icons.html',
-                        ncyBreadcrumb: {
-                            label: 'GlyphIcons',
-                            description: 'Sharp and clean symbols'
-                        }
-                    })
-                    .state('admin.typicons', {
-                        url: '/typicons',
-                        templateUrl: 'views/typicons.html',
-                        ncyBreadcrumb: {
-                            label: 'Typicons',
-                            description: 'Vector icons'
-                        }
-                    })
-                    .state('admin.weathericons', {
-                        url: '/weathericons',
-                        templateUrl: 'views/weather-icons.html',
-                        ncyBreadcrumb: {
-                            label: 'Weather Icons',
-                            description: 'Beautiful forcasting icons'
-                        }
-                    })
-                    .state('admin.tabs', {
-                        url: '/tabs',
-                        templateUrl: 'views/tabs.html',
-                        ncyBreadcrumb: {
-                            label: 'Tabs',
-                            description: 'Tabs and Accordions'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/app/controllers/accordion.js',
-                                            '/backend/app/controllers/tab.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.alerts', {
-                        url: '/alerts',
-                        templateUrl: 'views/alerts.html',
-                        ncyBreadcrumb: {
-                            label: 'Alerts',
-                            description: 'Tooltips and Notifications'
-                        },
-                        resolve: {
-                            deps:
-                                    [
-                                        '$ocLazyLoad',
-                                        function ($ocLazyLoad) {
-                                            return $ocLazyLoad.load('toaster').then(
-                                                    function () {
-                                                        return $ocLazyLoad.load({
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/alert.js',
-                                                                '/backend/app/controllers/toaster.js'
-                                                            ]
-                                                        }
-                                                        );
-                                                    }
-                                            );
-                                        }
-                                    ]
-                        }
-                    })
-                    .state('admin.modals', {
-                        url: '/modals',
-                        templateUrl: 'views/modals.html',
-                        ncyBreadcrumb: {
-                            label: 'Modals',
-                            description: 'Modals and Wells'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/app/controllers/modal.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.buttons', {
-                        url: '/buttons',
-                        templateUrl: 'views/buttons.html',
-                        ncyBreadcrumb: {
-                            label: 'Buttons'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/app/controllers/button.js',
-                                            '/backend/app/controllers/dropdown.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.nestablelist', {
-                        url: '/nestablelist',
-                        templateUrl: 'views/nestable-list.html',
-                        ncyBreadcrumb: {
-                            label: 'Nestable Lists',
-                            description: 'Dragable list items'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ng-nestable']).then(
-                                            function () {
-                                                return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/nestable.js'
-                                                            ]
-                                                        });
-                                            }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.treeview', {
-                        url: '/treeview',
-                        templateUrl: 'views/treeview.html',
-                        ncyBreadcrumb: {
-                            label: 'Treeview',
-                            description: "Fuel UX's tree"
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['angularBootstrapNavTree']).then(
-                                            function () {
-                                                return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/treeview.js'
-                                                            ]
-                                                        });
-                                            }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.simpletables', {
-                        url: '/simpletables',
-                        templateUrl: 'views/tables-simple.html',
-                        ncyBreadcrumb: {
-                            label: 'Tables',
-                            description: 'simple and responsive tables'
-                        }
-                    })
-                    .state('admin.datatables', {
-                        url: '/datatables',
-                        templateUrl: 'views/tables-data.html',
-                        ncyBreadcrumb: {
-                            label: 'Datatables',
-                            description: 'jquery plugin for data management'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ngGrid']).then(
-                                            function () {
-                                                return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/nggrid.js',
-                                                                '/backend/lib/jquery/datatable/dataTables.bootstrap.css',
-                                                                '/backend/lib/jquery/datatable/jquery.dataTables.min.js',
-                                                                '/backend/lib/jquery/datatable/ZeroClipboard.js',
-                                                                '/backend/lib/jquery/datatable/dataTables.tableTools.min.js',
-                                                                '/backend/lib/jquery/datatable/dataTables.bootstrap.min.js',
-                                                                '/backend/app/controllers/datatable.js'
-                                                            ]
-                                                        });
-                                            }
-                                    );
-
-                                }
-                            ]
-                        }
-
-                    })
-                    .state('admin.formlayout', {
-                        url: '/formlayout',
-                        templateUrl: 'views/form-layout.html',
-                        ncyBreadcrumb: {
-                            label: 'Form Layouts'
-                        }
-                    })
-                    .state('admin.forminputs', {
-                        url: '/forminputs',
-                        templateUrl: 'views/form-inputs.html',
-                        ncyBreadcrumb: {
-                            label: 'Form Inputs'
-                        }
-                    })
-                    .state('admin.formpickers', {
-                        url: '/formpickers',
-                        templateUrl: 'views/form-pickers.html',
-                        ncyBreadcrumb: {
-                            label: 'Form Pickers',
-                            description: 'Data Pickers '
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ui.select', 'ngTagsInput', 'daterangepicker', 'vr.directives.slider', 'minicolors', 'dropzone']).then(
-                                            function () {
-                                                return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/select2.js',
-                                                                '/backend/app/controllers/tagsinput.js',
-                                                                '/backend/app/controllers/datepicker.js',
-                                                                '/backend/app/controllers/timepicker.js',
-                                                                '/backend/app/controllers/daterangepicker.js',
-                                                                '/backend/lib/jquery/fuelux/spinbox/fuelux.spinbox.js',
-                                                                '/backend/lib/jquery/knob/jquery.knob.js',
-                                                                '/backend/lib/jquery/textarea/jquery.autosize.js',
-                                                                '/backend/app/controllers/slider.js',
-                                                                '/backend/app/controllers/minicolors.js'
-                                                            ]
-                                                        });
-                                            }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.formwizard', {
-                        url: '/formwizard',
-                        templateUrl: 'views/form-wizard.html',
-                        ncyBreadcrumb: {
-                            label: 'Form Wizard'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.formvalidation', {
-                        url: '/formvalidation',
-                        templateUrl: 'views/form-validation.html',
-                        ncyBreadcrumb: {
-                            label: 'Form Validation',
-                            description: 'Bootstrap Validator'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/app/controllers/validation.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.formeditors', {
-                        url: '/formeditors',
-                        templateUrl: 'views/form-editors.html',
-                        ncyBreadcrumb: {
-                            label: 'Form Editors'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['textAngular']).then(
-                                            function () {
-                                                return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/textangular.js'
-                                                            ]
-                                                        });
-                                            }
-                                    );
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.forminputmask', {
-                        url: '/forminputmask',
-                        templateUrl: 'views/form-inputmask.html',
-                        ncyBreadcrumb: {
-                            label: 'Form Input Mask'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/lib/jquery/inputmask/jasny-bootstrap.min.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.flot', {
-                        url: '/flot',
-                        templateUrl: 'views/flot.html',
-                        ncyBreadcrumb: {
-                            label: 'Flot Charts',
-                            description: 'attractive plotting'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/app/directives/realtimechart.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.orderBars.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.tooltip.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.resize.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.selection.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.crosshair.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.stack.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.time.js',
-                                            '/backend/lib/jquery/charts/flot/jquery.flot.pie.js',
-                                            '/backend/app/controllers/flot.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.morris', {
-                        url: '/morris',
-                        templateUrl: 'views/morris.html',
-                        ncyBreadcrumb: {
-                            label: 'Morris Charts',
-                            description: 'simple & flat charts'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/lib/jquery/charts/morris/raphael-2.0.2.min.js',
-                                            '/backend/lib/jquery/charts/morris/morris.js',
-                                            '/backend/app/controllers/morris.js'
-                                        ]
-                                    });
-                                }
-                            ]
-                        }
-                    })
-                    .state('admin.sparkline', {
-                        url: '/sparkline',
-                        templateUrl: 'views/sparkline.html',
-                        ncyBreadcrumb: {
-                            label: 'Sparkline',
-                            description: 'inline charts'
-                        },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load({
-                                        serie: true,
-                                        files: [
-                                            '/backend/lib/jquery/charts/sparkline/jquery.sparkline.js'
-                                        ]
-                                    });
-                                }
-                            ]
                         }
                     })
                     .state('admin.easypiechart', {
@@ -732,15 +246,15 @@ angular.module('app')
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
                                     return $ocLazyLoad.load(['textAngular']).then(
-                                            function () {
-                                                return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/textangular.js'
-                                                            ]
-                                                        });
-                                            }
+                                        function () {
+                                            return $ocLazyLoad.load(
+                                            {
+                                                serie: true,
+                                                files: [
+                                                    '/backend/app/controllers/textangular.js'
+                                                ]
+                                            });
+                                        }
                                     );
                                 }
                             ]
@@ -757,39 +271,18 @@ angular.module('app')
                                 '$ocLazyLoad',
                                 function ($ocLazyLoad) {
                                     return $ocLazyLoad.load(['ui.calendar']).then(
-                                            function () {
-                                                return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/fullcalendar.js'
-                                                            ]
-                                                        });
-                                            }
+                                        function () {
+                                            return $ocLazyLoad.load(
+                                            {
+                                                serie: true,
+                                                files: [
+                                                    '/backend/app/controllers/fullcalendar.js'
+                                                ]
+                                            });
+                                        }
                                     );
                                 }
                             ]
-                        }
-                    })
-                    .state('admin.timeline', {
-                        url: '/timeline',
-                        templateUrl: 'views/timeline.html',
-                        ncyBreadcrumb: {
-                            label: 'Responsive Timeline'
-                        }
-                    })
-                    .state('admin.pricing', {
-                        url: '/pricing',
-                        templateUrl: 'views/pricing.html',
-                        ncyBreadcrumb: {
-                            label: 'Pricing Tables'
-                        }
-                    })
-                    .state('admin.invoice', {
-                        url: '/invoice',
-                        templateUrl: 'views/invoice.html',
-                        ncyBreadcrumb: {
-                            label: 'Invoice Page'
                         }
                     })
                     .state('login', {
@@ -798,6 +291,20 @@ angular.module('app')
                         requiredLogin: false,
                         ncyBreadcrumb: {
                             label: 'Login'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(
+                                    {
+                                        serie: true,
+                                        files: [
+                                            '/backend/assets/css/login.css'
+                                        ]
+                                    });                                        
+                                }
+                            ]
                         }
                     })
                     .state('logout', {
@@ -841,13 +348,6 @@ angular.module('app')
                             label: 'Lock Screen'
                         }
                     })
-                    .state('admin.typography', {
-                        url: '/typography',
-                        templateUrl: 'views/typography.html',
-                        ncyBreadcrumb: {
-                            label: 'Typography'
-                        }
-                    })
                     .state('error404', {
                         url: '/error404',
                         templateUrl: 'views/error-404.html',
@@ -857,37 +357,9 @@ angular.module('app')
                     })
                     .state('error500', {
                         url: '/error500',
-                        templateUrl: 'views/error-500.html',
+                        templateUrl: 'admin/error500',
                         ncyBreadcrumb: {
                             label: 'Error 500 - something went wrong'
-                        }
-                    })
-                    .state('admin.blank', {
-                        url: '/blank',
-                        templateUrl: 'views/blank.html',
-                        ncyBreadcrumb: {
-                            label: 'Blank Page'
-                        }
-                    })
-                    .state('admin.grid', {
-                        url: '/grid',
-                        templateUrl: 'views/grid.html',
-                        ncyBreadcrumb: {
-                            label: 'Bootstrap Grid'
-                        }
-                    })
-                    .state('admin.versions', {
-                        url: '/versions',
-                        templateUrl: 'views/versions.html',
-                        ncyBreadcrumb: {
-                            label: 'BeyondAdmin Versions'
-                        }
-                    })
-                    .state('admin.mvc', {
-                        url: '/mvc',
-                        templateUrl: 'views/mvc.html',
-                        ncyBreadcrumb: {
-                            label: 'BeyondAdmin Asp.Net MVC Version'
                         }
                     });
         }
@@ -896,8 +368,18 @@ angular.module('app')
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
     $rootScope.getMenu = {};   
-    
+
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, next, current) {
+        /*Data.get('checkDevice').then(function (response) {
+            if(!response.success){
+                console.log(response.message);
+                $state.go('error500');
+                event.preventDefault();
+                return false;
+            }
+        }, function (error) {
+            alert('Error - Something went wrong.');
+        });*/
     var nextUrl = $location.path();
 //    console.log("1." + toState.requiredLogin + "===" + $rootScope.authenticated);
 //        if ((toState.requiredLogin && $rootScope.authenticated === false) || (toState.requiredLogin && $rootScope.authenticated === true)) // true && false || true && true
@@ -1000,32 +482,4 @@ angular.module('app')
         
     });
 });
-
-app.directive('action', function () {
-    return {
-        template: '<li ng-repeat="item in getMenu" ui-sref-active="{{ item.uiSrefActive }}"> <a ui-sref="{{ item.uiSref }}"><i class="menu-icon glyphicon glyphicon-home"></i><span class="menu-text"> {{ item.name }} </span></a></li>',
-        restrict: 'E',
-        states: '='
-    }
-});
-
-var compareTo = function() {
-    return {
-      require: "ngModel",
-      scope: {
-        otherModelValue: "=compareTo"
-      },
-      link: function(scope, element, attributes, ngModel) {
-
-        ngModel.$validators.compareTo = function(modelValue) {
-          return modelValue == scope.otherModelValue;
-        };
-
-        scope.$watch("otherModelValue", function() {
-          ngModel.$validate();
-        });
-      }
-    };
-  };
-app.directive("compareTo", compareTo);
 

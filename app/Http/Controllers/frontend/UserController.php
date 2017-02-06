@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\frontend;
 
-use App\Model\frontend\User;
+use App\Models\frontend\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

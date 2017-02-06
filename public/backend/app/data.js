@@ -24,25 +24,32 @@ app.factory("Data", ['$http',
  
         var obj = {};
         obj.get = function (q) {
-            return $http.get(serviceBase + q).then(function (results) {
+            return $http.get(serviceBase + q,{
+                headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (results) {
                 return results.data;
             });
         };
         obj.post = function (q, object) { // q = URL, object = Post values
-            return $http.post(serviceBase + q, object).then(function (results) {
+            return $http.post(serviceBase + q, object,{
+                headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (results) {
                 return results.data;
             });
         };
         obj.put = function (q, object) {
-            return $http.put(serviceBase + q, object).then(function (results) {
+            return $http.put(serviceBase + q, object,{
+                headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (results) {
                 return results.data;
             });
         };
         obj.delete = function (q) {
-            return $http.delete(serviceBase + q).then(function (results) {
+            return $http.delete(serviceBase + q,{
+                headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (results) {
                 return results.data;
             });
         };
         return obj;
 }]);
-

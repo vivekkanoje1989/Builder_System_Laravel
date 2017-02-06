@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 18 Jan 2017 09:04:39 +0000.
+ * Date: Mon, 06 Feb 2017 09:11:10 +0000.
  */
 
 namespace App\Models;
@@ -13,6 +13,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class EmployeeSalaryDetail
  * 
  * @property int $id
+ * @property int $client_id
  * @property string $heading_name
  * @property int $amount
  * @property bool $type_of_payment
@@ -39,6 +40,7 @@ class EmployeeSalaryDetail extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
+		'client_id' => 'int',
 		'amount' => 'int',
 		'type_of_payment' => 'bool',
 		'status' => 'int',
@@ -55,6 +57,7 @@ class EmployeeSalaryDetail extends Eloquent
 	];
 
 	protected $fillable = [
+		'client_id',
 		'heading_name',
 		'amount',
 		'type_of_payment',

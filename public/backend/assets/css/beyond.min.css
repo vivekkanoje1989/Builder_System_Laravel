@@ -1,5 +1,84 @@
-﻿/* vkm custome */
+﻿
 
+
+
+
+/* vkm custome */
+
+
+
+.wizard ul li.complete:before {
+    display: block;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: -1px;
+    height: 2px;
+    max-height: 2px;
+    overflow: hidden;
+    background-color: #a0d468;
+    z-index: 10000;
+}
+
+
+
+.wizard ul li.active .step {
+    border-color: #ac193d;
+    color: #ac193d;
+}
+
+
+
+.enq-tooltip{
+	position: absolute;
+	color: #555;
+	left: -150px;
+	top: 6px;
+	display: inline-block;
+	text-align: left;
+	margin: 0;
+	background: #ccc;
+	padding: 4px 8px;
+	font-size: 13px;
+	border-radius: 3px;
+	display:none;
+}
+.w3-ripple:active{opacity:0.5}.w3-ripple{-webkit-transition:opacity 0s;transition:opacity 0s}
+
+.btn-rotate {-moz-transform: rotate(45deg);
+         -webkit-transform:rotate(45deg); 
+         -ms-transform:rotate(45deg);
+         -o-transform:rotate(45deg);
+         }
+		 
+		 
+.menu-btn{
+	width: 45px !important;
+	height: 45px !important;
+	font-size: 18px !important;
+	-moz-transition: all 0.5s ease;-webkit-transition: all 0.5s ease;-o-transition: all 0.5s ease;transition: all 0.5s ease;
+}
+.enq-div{
+	position: fixed;
+	bottom: 10px;
+	z-index: 999;
+	right: 10px;
+}
+
+.enq-div .enq-btn{
+	background: #a92424;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 450%;
+    display: block;
+    margin-top: 15px;
+	position:relative;
+}
 .dropdown-menu{
 	z-index:9999 !important;
 }
@@ -6456,13 +6535,15 @@ a:active {
 
 .btn-primary,
 .btn-primary:focus {
-    background-color: #427fed !important;
-    border-color: #427fed;
+    background-color: #2dc3e8;
+    border-color: #2dc3e8;
     color: #fff
 }
 
 .btn-primary:hover {
-    color: #fff
+    color: #fff;
+	background-color: #2dc3e8 ;
+    border-color: #2dc3e8;
 }
 
 .btn-primary.dropdown-toggle {
@@ -6484,8 +6565,8 @@ a:active {
 
 .btn-primary:hover,
 .open .btn-primary.dropdown-toggle {
-    background-color: #4285f4 !important;
-    border-color: #427fed
+    background-color: #2dc3e8 !important;
+    border-color: #2dc3e8;
 }
 
 .btn-primary.disabled,
@@ -11218,7 +11299,6 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
 }
 
 .wizard ul li {
-    float: left;
     margin: 0;
     padding: 0 20px 0 30px;
     line-height: 46px;
@@ -11427,7 +11507,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
 }
 
 .step-content .step-pane {
-    display: none
+    /*display: none*/
 }
 
 .step-content .active {
@@ -11827,6 +11907,7 @@ fieldset[disabled] .form-control:hover {
 
 .form-group.has-error input,
 .input-group.has-error input,
+.form-group.has-error select,
 .form-group.has-error .select,
 .input-group.has-error .select,
 .form-group.has-error textarea,

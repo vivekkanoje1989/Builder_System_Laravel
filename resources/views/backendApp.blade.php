@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app" ng-controller="AppCtrl">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app" ng-controller="AppCtrl" data-ng-init="init()">
     <head>
         <meta charset="utf-8" />
         <title page-title></title>
@@ -33,6 +33,7 @@
         <link ng-if="!settings.rtl" href="/backend/assets/css/beyond.min.css" rel="stylesheet" />
         <link ng-if="settings.rtl" href="/backend/assets/css/beyond-rtl.min.css" rel="stylesheet" />
         <link href="/backend/assets/css/demo.min.css" rel="stylesheet" />
+         <link href="/backend/assets/css/intlTelInput.css" rel="stylesheet" />
         <link href="/backend/assets/css/typicons.min.css" rel="stylesheet" />
         <link href="/backend/assets/css/animate.min.css" rel="stylesheet" />
         <link ng-href="{{settings.skin}}" rel="stylesheet" type="text/css" />
@@ -44,7 +45,7 @@
         <script src="/backend/lib/jquery/jquery.min.js"></script>
         <script src="/backend/lib/jquery/bootstrap.js"></script>
         <script src="/backend/lib/angular/angular.js"></script>
-
+        <script src="/backend/app/ng-file-upload.js"></script>
         <script src="/backend/lib/utilities.js"></script>
 
         <script src="/backend/lib/angular/angular-animate/angular-animate.js"></script>
@@ -70,8 +71,11 @@
         <script src="/backend/app/beyond.js"></script>
         <script src="/backend/app/data.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+        <script src="/backend/app/directives.js"></script>        
         <script src="/backend/adminController.js"></script>
-    
+        <script src="/backend/hrController.js"></script>
+        
+        
         <!-- Layout Related Directives -->
         <script src="/backend/app/directives/loading.js"></script>
         <script src="/backend/app/directives/skin.js"></script>

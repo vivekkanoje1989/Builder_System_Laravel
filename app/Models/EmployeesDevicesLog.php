@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 18 Jan 2017 09:04:39 +0000.
+ * Date: Mon, 06 Feb 2017 09:11:10 +0000.
  */
 
 namespace App\Models;
@@ -13,6 +13,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class EmployeesDevicesLog
  * 
  * @property int $id
+ * @property int $client_id
  * @property int $employee_id
  * @property string $device_name
  * @property string $device_mac
@@ -45,6 +46,7 @@ class EmployeesDevicesLog extends Eloquent
 
 	protected $casts = [
 		'id' => 'int',
+		'client_id' => 'int',
 		'employee_id' => 'int',
 		'device_type' => 'int',
 		'device_status' => 'int',
@@ -63,6 +65,7 @@ class EmployeesDevicesLog extends Eloquent
 	];
 
 	protected $fillable = [
+		'client_id',
 		'employee_id',
 		'device_name',
 		'device_mac',

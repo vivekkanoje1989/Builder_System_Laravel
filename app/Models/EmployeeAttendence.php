@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 18 Jan 2017 09:04:39 +0000.
+ * Date: Mon, 06 Feb 2017 09:11:10 +0000.
  */
 
 namespace App\Models;
@@ -13,6 +13,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * Class EmployeeAttendence
  * 
  * @property int $id
+ * @property int $client_id
  * @property int $employee_id
  * @property \Carbon\Carbon $attendence_date
  * @property \Carbon\Carbon $attendence_time
@@ -28,6 +29,7 @@ class EmployeeAttendence extends Eloquent
 	public $timestamps = false;
 
 	protected $casts = [
+		'client_id' => 'int',
 		'employee_id' => 'int',
 		'office_location_id' => 'int',
 		'employee_code' => 'int',
@@ -40,6 +42,7 @@ class EmployeeAttendence extends Eloquent
 	];
 
 	protected $fillable = [
+		'client_id',
 		'employee_id',
 		'attendence_date',
 		'attendence_time',
