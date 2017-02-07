@@ -250,7 +250,7 @@ class Employee extends Authenticatable
     }
     public static function validationRules(){
         $rules = array(
-            'username' => 'required',
+            'username' => 'required|numeric',
             'password' => 'required|max:12',
             'designation' => 'required',
             'department_id' => 'required',
@@ -279,7 +279,7 @@ class Employee extends Authenticatable
             'permenent_pin' => 'required',
             'permenent_address' => 'required',
             'highest_education_id' => 'required',
-            'emp_photo_url' => 'required',
+            'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2000',
             'joining_date' => 'required|date',
         );
         return $rules;
@@ -288,15 +288,12 @@ class Employee extends Authenticatable
     
     public static function createEmployee($input = array()) {
 //        echo "in model<pre>";print_r($input);
-//        $aa = Employee::create($input);
-//        echo "in model<pre>";print_r($aa);exit;
         
-        return Employee::create([
+        Employee::create([
             
             'username' => $input['username'],
             'password' => $input['password'],
-            'designation' => $input['designation'],
-            'department_id' => implode(',', array_map(function($el){ return $el['id']; }, $input['department_id'])),
+            'designation' => $input['designation'],            
             'reporting_to_id' => $input['reporting_to_id'],
             'title_id' => $input['title_id'],
             'first_name' => $input['first_name'],
@@ -324,7 +321,7 @@ class Employee extends Authenticatable
             'emp_photo_url' => $input['emp_photo_url'],
             'joining_date' => $input['joining_date'],
                     
-                    
+            'department_id' => implode(',', array_map(function($el){ return $el['id']; }, $input['department_id'])),
             'client_id' => !empty($input['client_id']) ? $input['client_id'] : "0",
             'client_role_id' => !empty($input['client_role_id']) ? $input['client_role_id'] : "1",
             'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : "1",
@@ -365,6 +362,6 @@ class Employee extends Authenticatable
 //            'updated_mac_id' => ,
                     
         ]);
-        exit;
+        return true;
     }
 }

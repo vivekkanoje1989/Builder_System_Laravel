@@ -351,7 +351,7 @@
                             <div class="form-title">
                                 <span class="checkbox" style="display:inline-block;margin: 0;">
                                     <label>
-                                        <input type="checkbox" ng-model="copyContent" ng-change="checkboxSelected(copyContent)">
+                                        <input type="checkbox" ng-model="copyContent" ng-change="checkboxSelected()">
                                         <span class="text"> Same as Left</span>
                                     </label>
                                 </span>	
@@ -391,7 +391,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-change="onStateChange()" ng-model="userData.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
+                                            <select ng-change="onStateChange()" ng-model="userData.permenent_state_id" name="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
                                                 <option ng-repeat="state in stateList" value="{{state.id}}">{{state.name}}</option>
                                             </select>
@@ -408,9 +408,9 @@
                                     <label for="">Select City <span class="sp-err">*</span></label>											
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_city_id.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <select ng-model="userData.permenent_city_id" name="permenent_city_id" id="permenent_city_id" class="form-control" required>
+                                            <select ng-model="userData.permenent_city_id" name="permenent_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
-                                                <option ng-repeat="city in cityList track by $index" value="{{city.id}}">{{city.name}}</option>
+                                                <option ng-repeat="city in cityList" value="{{city.id}}">{{city.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userForm.permenent_city_id.$error" class="help-block step2">

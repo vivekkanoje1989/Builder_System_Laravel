@@ -79,6 +79,7 @@ app.directive('checkUniqueEmail', function($timeout, $q, Data) {
   } 
 });
 
+
 //app.directive('uiSelectRequired', function() {
 //  return {
 //    require: 'ngModel',
@@ -89,4 +90,7 @@ app.directive('checkUniqueEmail', function($timeout, $q, Data) {
 //    }
 //  };
 //});
+
+
+
 

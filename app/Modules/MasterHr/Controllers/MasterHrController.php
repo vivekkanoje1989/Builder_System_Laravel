@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
-
+use Illuminate\Support\Facades\Input;
+use Illuminate\Http\UploadedFile;
+use File;
 class MasterHrController extends Controller {
 
     /**
@@ -35,10 +37,35 @@ class MasterHrController extends Controller {
     public function store(Request $request) {
         $validationMessages = Employee::validationMessages();
         $validationRules = Employee::validationRules();
-
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+        
+        $input = Input::all();
+        $file = $input['emp_photo_url'];
+        $fileArray = array('emp_photo_url' => $file);
+        
+        $imgRules = array(
+            'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
+        );
+        $validator = Validator::make($fileArray, $imgRules);
+        if ($validator->fails()) {
+            $result = ['success' => false, 'message' => $validator->messages()];
+            echo json_encode($result);
+            exit;
+        }
+        else{
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $input['emp_photo_url']->move(resource_path('hrEmployeePhoto'), $fileName);
+            $result = ['success' => true];
+            echo json_encode($result);
+        }
+        exit;
 
+        //echo "<pre>";print_r($_FILES);
+        /*$ext = pathinfo($_FILES['employeePhoto']['name'], PATHINFO_EXTENSION);
+        $imageName = time().'.'.$ext;
+        move_uploaded_file($_FILES['employeePhoto']['tmp_name'], resource_path() . '/hrEmployeePhoto/' . $_FILES['employeePhoto']['name']);
+        exit;*/
         $validator = Validator::make($request['data']['userData'], $validationRules, $validationMessages);
         if ($validator->fails()) {
             $result = ['success' => false, 'message' => $validator->messages()];
@@ -46,11 +73,8 @@ class MasterHrController extends Controller {
             exit;
         }
         
-        
         $employee = Employee::createEmployee($request['data']['userData']);
-
-        echo "<pre>";
-        print_r($_FILES);
+                
         //insert data into database
         if ($employee->id) {
             $result = ['success' => true, 'message' => 'Admin register successfully'];
