@@ -285,7 +285,7 @@ class Employee extends Authenticatable
     public static function createEmployee($input = array()) {
 //        echo "in model<pre>";print_r($input);
         
-        Employee::create([
+        $recordInsert = Employee::create([
             
             'username' => $input['username'],
             'password' => $input['password'],
@@ -294,7 +294,7 @@ class Employee extends Authenticatable
             'title_id' => $input['title_id'],
             'first_name' => $input['first_name'],
             'last_name' => $input['last_name'],
-            'date_of_birth' => "2017-02-01",
+            'date_of_birth' => date('Y-m-d', strtotime($input['date_of_birth'])),
             'gender_id' => $input['gender_id'],
             'marital_status' => $input['marital_status'],
             'blood_group_id' => $input['blood_group_id'],
@@ -315,8 +315,7 @@ class Employee extends Authenticatable
             'permenent_address' => $input['permenent_address'],
             'highest_education_id' => $input['highest_education_id'],
             'emp_photo_url' => "aa",
-            'joining_date' => $input['joining_date'],
-            'joining_date' => "2017-02-01",
+            'joining_date' => date('Y-m-d', strtotime($input['joining_date'])),
                     
             'department_id' => implode(',', array_map(function($el){ return $el['id']; }, $input['department_id'])),
             'client_id' => !empty($input['client_id']) ? $input['client_id'] : "0",

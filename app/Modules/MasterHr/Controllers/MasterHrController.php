@@ -39,10 +39,7 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRules();
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-//        echo "<pre>";print_r($_FILES);
         $input = Input::all();
-//        $userData = json_decode($input['userData'], true);
-//        echo "input<pre>";print_r($input);
 
         $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
         if ($validator->fails()) {
@@ -50,44 +47,33 @@ class MasterHrController extends Controller {
             echo json_encode($result);
             exit;
         }
-//exit;
-        $employee = Employee::createEmployee($input['userData']);//insert data into database
+                
+        /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
         
-        /*************************** EMPLOYEE PHOTO UPLOAD **********************************
-        $input = Input::all();
-        $file = $input['emp_photo_url'];
-        $fileArray = array('emp_photo_url' => $file);
-
         $imgRules = array(
             'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
         );
-        $validator = Validator::make($fileArray, $imgRules);
+        $validateEmpPhotoUrl = Validator::make($input, $imgRules);
         if ($validator->fails()) {
             $result = ['success' => false, 'message' => $validator->messages()];
             echo json_encode($result);
             exit;
         }
         else{
-            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $fileName = time().'.'.$input['emp_photo_url']->getClientOriginalExtension();
             $input['emp_photo_url']->move(resource_path('hrEmployeePhoto'), $fileName);
         }
         /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
-        
-        if ($employee->id) {
+        $input['userData']['emp_photo_url'] = $fileName;
+        $employee = Employee::createEmployee($input['userData']);//insert data into database
+
+        if ($employee) {
             $result = ['success' => true, 'message' => 'Admin register successfully'];
             echo json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Admin not register. Please try again'];
             echo json_encode($result);
         }
-        exit;
-    }
-
-    public function uploadFile(Request $request) {
-        echo "<pre>";
-        print_r($_FILES);
-        move_uploaded_file($_FILES['file']['tmp_name'], resource_path() . '/hrEmployeePhoto/' . $_FILES['file']['name']);
-
         exit;
     }
 

@@ -519,7 +519,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step4 && (!userForm.designation.$dirty || userForm.designation.$invalid)}">
                                 <label for="">Designation <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.designation" name="designation" class="form-control" oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" required>
+                                    <input type="text" ng-model="userData.designation" name="designation" capitalizeFirst class="form-control" oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" required>
                                     <i class="fa fa-handshake-o"></i>
                                     <div ng-show="step4" ng-messages="userForm.designation.$error" class="help-block step4">
                                         <div ng-message="required">This field is required.</div>
