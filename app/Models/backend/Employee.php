@@ -9,7 +9,7 @@ namespace App\Models\backend;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\classes\CommonFunctions;
+use App\Classes\CommonFunctions;
 /**
  * Class Employee
  * 
@@ -134,8 +134,6 @@ class Employee extends Authenticatable
 	];
 
 	protected $hidden = [
-//		'password',
-//		'high_security_password',
 		'remember_token'
 	];
 
@@ -243,14 +241,13 @@ class Employee extends Authenticatable
             'permenent_pin' => 'Please enter permenent pin code',
             'permenent_address' => 'Please enter permenent address',
             'highest_education_id' => 'Please enter highest education',
-            'emp_photo_url' => 'Please select photo',
             'joining_date' => 'Please enter joining date'
         );
         return $messages;
     }
     public static function validationRules(){
         $rules = array(
-            'username' => 'required|numeric',
+            'username' => 'required',
             'password' => 'required|max:12',
             'designation' => 'required',
             'department_id' => 'required',
@@ -279,7 +276,6 @@ class Employee extends Authenticatable
             'permenent_pin' => 'required',
             'permenent_address' => 'required',
             'highest_education_id' => 'required',
-            'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2000',
             'joining_date' => 'required|date',
         );
         return $rules;
@@ -298,7 +294,7 @@ class Employee extends Authenticatable
             'title_id' => $input['title_id'],
             'first_name' => $input['first_name'],
             'last_name' => $input['last_name'],
-            'date_of_birth' => $input['date_of_birth'],
+            'date_of_birth' => "2017-02-01",
             'gender_id' => $input['gender_id'],
             'marital_status' => $input['marital_status'],
             'blood_group_id' => $input['blood_group_id'],
@@ -318,8 +314,9 @@ class Employee extends Authenticatable
             'permenent_pin' => $input['permenent_pin'],
             'permenent_address' => $input['permenent_address'],
             'highest_education_id' => $input['highest_education_id'],
-            'emp_photo_url' => $input['emp_photo_url'],
-            'joining_date' => $input['joining_date'],
+            'emp_photo_url' => "aa",
+//            'joining_date' => $input['joining_date'],
+            'joining_date' => "2017-02-01",
                     
             'department_id' => implode(',', array_map(function($el){ return $el['id']; }, $input['department_id'])),
             'client_id' => !empty($input['client_id']) ? $input['client_id'] : "0",

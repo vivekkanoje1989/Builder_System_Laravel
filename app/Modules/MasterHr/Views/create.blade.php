@@ -264,7 +264,6 @@
                             </div> 
                         </div>    
                     </div>    
-
                     <hr class="wide">
                     <div class="row">
                         <div class="col-sm-6 col-xs-12" ng-controller="currentCountryListCtrl">
@@ -480,8 +479,7 @@
                                         <div ng-message="required">This field is required.</div>
                                         <i ng-show="userForm.emp_photo_url.$error.maxSize">File too large {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
                                     </div>
-                                </span>                                                               
-                                <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+                                </span>                                                   
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
@@ -657,6 +655,9 @@
                             <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
                                 <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
                             </span>
+<!--                            <ul ng-repeat="error in errorMsg">
+                                <li ng-show="error"> {{ error.messages }}</li>
+                            </ul>-->
                             <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
                             <span ng-show="userData.emp_photo_url.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5">Prev</button>
@@ -770,4 +771,3 @@
     $("#office_mobile_no").intlTelInput();
     $("#personal_mobile_no2").intlTelInput();
 </script>
-

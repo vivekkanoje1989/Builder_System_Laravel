@@ -13,11 +13,10 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
     $scope.userData.physic_status_id = $scope.userData.marital_status = $scope.userData.highest_education_id =
     $scope.userData.current_country_id = $scope.userData.current_state_id = $scope.userData.current_city_id =
     $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = "";
-//$scope.userData.dt = $scope.userData.joining_date = $filter('date')(new Date(), 'yyyy-MM-dd');
+//    $scope.userData.date_of_birth = $scope.userData.joining_date = $filter('date')(new Date(), 'yyyy-MM-dd');
     $scope.userData.employee_status = "1";
     $scope.userData.personal_mobile_no1 = $scope.userData.office_mobile_no = "+91-";
     $scope.departments = [];
-//    $scope.status = true;
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
             $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
@@ -38,58 +37,37 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
                         } else {
                             $scope.cityList = response.records;
                             $timeout(function() {
-                                angular.element(document.getElementById("permenent_state_id")).val($scope.userData.current_state_id);   
-                                angular.element(document.getElementById("permenent_city_id")).val($scope.userData.current_city_id);
+                                $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);   
+                                $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
                             }, 500);
                         }        
                     });
                 }
             });
         } else {
-            $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_pin = "";
-            angular.element(document.getElementById("permenent_state_id")).val("");   
-            angular.element(document.getElementById("permenent_city_id")).val("");
+            $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
         }
     };
 
-
-    $scope.createUser = function (userData, employeePhoto) {
-        console.log(userData);
-        console.log(employeePhoto);
-        var uData = [];
-        uData = userData;
-        var dataMerge = $.extend( employeePhoto, uData );
-        console.log(dataMerge);
-        
+    $scope.createUser = function (enteredData, employeePhoto) {
+        var userData = {};
+        userData = angular.fromJson(angular.toJson(enteredData));
         var date = new Date($scope.userData.date_of_birth);
         $scope.userData.date_of_birth = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
         
         var date = new Date($scope.userData.joining_date);
         $scope.userData.joining_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-       
-        
+       console.log(userData);
         employeePhoto.upload = Upload.upload({
             url: 'admin/master-hr',
             headers: {enctype:'multipart/form-data'},
-            data: {emp_photo_url: employeePhoto},
+            data: {userData:userData, emp_photo_url: employeePhoto},
         });
         employeePhoto.upload.then(function (response) {
             $timeout(function () {
                 employeePhoto.result = response.data;
-                if(!response.success){
-                    console.log(response.data);
+                if(!response.data.success){
                     $scope.errorMsg = response.message;
-                }
-                else{
-                    Data.post('master-hr', {
-                        data: {userData: userData},
-                    }).then(function (response,evt) {
-                        if (!response.success) {
-                            $scope.errorMsg = response.message;
-                        } else {
-                            employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                        }
-                    });
                 }                    
             });
         }, function (response) {
@@ -97,28 +75,8 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
                 $scope.errorMsg = response.status + ': ' + response.data;
             }
         }, function (evt) {
-            
-            // Math.min is to fix IE which reports 200% sometimes
             employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
         }); 
-        
-        
-        //userData.emp_photo_name = employeePhoto.name;
-        
-        
-        
-        /*Data.post('master-hr', {
-            data: {userData: userData, employeePhoto: employeePhoto},
-        }).then(function (response,evt) {
-            if (!response.success) {
-                $scope.errorMsg = response.message;
-            } else {
-                employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            }
-        });*/
-        
-        
-
     };
 
     $scope.checkImageExtension = function(employeePhoto){
@@ -134,7 +92,6 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
         }
     };
     
-    
     $scope.checkDepartment = function () {
         if($scope.userData.department_id.length === 0){
             $scope.emptyDepartmentId = true;
@@ -143,53 +100,5 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
             $scope.emptyDepartmentId = false;
         }
     };
-
     
-    /*$scope.uploadPic = function (file) {
-        console.log(file);
-        var ext = file.name.match(/\.(.+)$/)[1];
-        if(angular.lowercase(ext) ==='jpg' || angular.lowercase(ext) ==='jpeg' || angular.lowercase(ext) ==='png' || angular.lowercase(ext) ==='bmp'){
-            file.upload = Upload.upload({
-                url: 'master-hr/uploadFile',
-                data: {file: file},
-            });
-            file.upload.then(function (response) {
-                $timeout(function () {
-                    file.result = response.data;
-                });
-            }, function (response) {
-                if (response.status > 0)
-                    $scope.errorMsg = response.status + ': ' + response.data;
-            }, function (evt) {
-                // Math.min is to fix IE which reports 200% sometimes
-                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            });
-        }  
-        else{
-            document.getElementById("emp_photo_url").value = "";
-            $scope.errorMsg = "Invalid file format. Image should be jpg or jpeg or png or bmp format only.";
-        }
-    }*/
 }]);
-
-/*app.directive('validFile', function() {
-  return {
-    link: function(scope, elem, attr, ctrl) {
-      function bindEvent(element, type, handler) {
-        if (element.addEventListener) {
-          element.addEventListener(type, handler, false);
-        } else {
-          element.attachEvent('on' + type, handler);
-        }
-      }
-      var ext = this.files[0].name.match(/\.(.+)$/)[1];
-      console.log(ext);
-      bindEvent(elem[0], 'change', function() {
-        if(angular.lowercase(ext) ==='jpg' || angular.lowercase(ext) ==='jpeg' || angular.lowercase(ext) ==='png' || angular.lowercase(ext) ==='bmp' ){
-            alert("Valid File Format");
-        }  
-        //alert('File size:' + this.files[0].name.match(/\.(.+)$/)[1]);
-      });
-    }
-  }
-});*/

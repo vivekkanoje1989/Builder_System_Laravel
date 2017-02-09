@@ -4,8 +4,7 @@ app.controller('DatepickerDemoCtrl', function ($scope,$filter) {
   
   $scope.maxDate = new Date(today.getFullYear(),today.getMonth() , today.getDate());
   $scope.today = function() {
-//    $scope.dt = new Date();
-    $scope.date_of_birth = $filter('date')(new Date(), 'yyyy-MM-dd');
+    $scope.dt = new Date();
   };
   $scope.today();
 

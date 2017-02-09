@@ -39,11 +39,25 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRules();
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+//        echo "<pre>";print_r($_FILES);
+        $input = Input::all();
+//        $userData = json_decode($input['userData'], true);
+//        echo "input<pre>";print_r($input);
+
+        $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
+        if ($validator->fails()) {
+            $result = ['success' => false, 'message' => $validator->messages()];
+            echo json_encode($result);
+            exit;
+        }
+//exit;
+        $employee = Employee::createEmployee($input['userData']);//insert data into database
         
+        /*************************** EMPLOYEE PHOTO UPLOAD **********************************
         $input = Input::all();
         $file = $input['emp_photo_url'];
         $fileArray = array('emp_photo_url' => $file);
-        
+
         $imgRules = array(
             'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
         );
@@ -56,26 +70,9 @@ class MasterHrController extends Controller {
         else{
             $fileName = time().'.'.$file->getClientOriginalExtension();
             $input['emp_photo_url']->move(resource_path('hrEmployeePhoto'), $fileName);
-            $result = ['success' => true];
-            echo json_encode($result);
         }
-        exit;
-
-        //echo "<pre>";print_r($_FILES);
-        /*$ext = pathinfo($_FILES['employeePhoto']['name'], PATHINFO_EXTENSION);
-        $imageName = time().'.'.$ext;
-        move_uploaded_file($_FILES['employeePhoto']['tmp_name'], resource_path() . '/hrEmployeePhoto/' . $_FILES['employeePhoto']['name']);
-        exit;*/
-        $validator = Validator::make($request['data']['userData'], $validationRules, $validationMessages);
-        if ($validator->fails()) {
-            $result = ['success' => false, 'message' => $validator->messages()];
-            echo json_encode($result);
-            exit;
-        }
+        /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
         
-        $employee = Employee::createEmployee($request['data']['userData']);
-                
-        //insert data into database
         if ($employee->id) {
             $result = ['success' => true, 'message' => 'Admin register successfully'];
             echo json_encode($result);
