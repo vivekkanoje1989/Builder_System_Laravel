@@ -283,9 +283,8 @@ class Employee extends Authenticatable
     
     
     public static function createEmployee($input = array()) {
-//        echo "in model<pre>";print_r($input);
         
-        $recordInsert = Employee::create([
+        /*$recordInsert = Employee::create([
             
             'username' => $input['username'],
             'password' => $input['password'],
@@ -314,7 +313,7 @@ class Employee extends Authenticatable
             'permenent_pin' => $input['permenent_pin'],
             'permenent_address' => $input['permenent_address'],
             'highest_education_id' => $input['highest_education_id'],
-            'emp_photo_url' => "aa",
+            'emp_photo_url' => $input['emp_photo_url'],
             'joining_date' => date('Y-m-d', strtotime($input['joining_date'])),
                     
             'department_id' => implode(',', array_map(function($el){ return $el['id']; }, $input['department_id'])),
@@ -351,7 +350,33 @@ class Employee extends Authenticatable
             'created_IP' => $_SERVER['REMOTE_ADDR'],
             'created_browser' => $_SERVER['HTTP_USER_AGENT'],
             'created_mac_id' => CommonFunctions::getMacAddress(),
-        ]);
+        ]);*/
+        $input['department_id'] = implode(',', array_map(function($el){ return $el['id']; }, $input['department_id']));
+        $input['remember_token'] = str_random(10);
+        $input['date_of_birth'] = date('Y-m-d', strtotime($input['date_of_birth']));
+        $input['joining_date'] = date('Y-m-d', strtotime($input['joining_date']));
+        $input['created_date'] = date('Y-m-d');
+        $input['client_id'] = !empty($input['client_id']) ? $input['client_id'] : "0";
+        $input['client_role_id'] = !empty($input['client_role_id']) ? $input['client_role_id'] : "1";
+        $input['employee_id'] = !empty($input['employee_id']) ? $input['employee_id'] : "1";
+        $input['high_security_password_type'] = !empty($input['high_security_password_type']) ? $input['high_security_password_type'] : "1";
+        $input['high_security_password'] = !empty($input['high_security_password']) ? $input['high_security_password'] : "8899";
+        $input['password_changed'] = !empty($input['password_changed']) ? $input['password_changed'] : "0";
+        $input['remember_token'] = !empty($input['remember_token']) ? $input['remember_token'] : str_random(10);
+        $input['usertype'] = !empty($input['usertype']) ? $input['usertype'] : "admin";
+        $input['team_lead_id'] = !empty($input['team_lead_id']) ? $input['team_lead_id'] : "1";                
+        $input['show_on_homepage'] = !empty($input['show_on_homepage']) ? $input['show_on_homepage'] : "1";
+        $input['employee_submenus'] = !empty($input['employee_submenus']) ? $input['employee_submenus'] : '["0101","0102","0103","0104"]';
+        $input['employee_permissions'] = !empty($input['employee_permissions']) ? $input['employee_permissions'] : "1";
+        $input['employee_email_subscriptions'] = !empty($input['employee_email_subscriptions']) ? $input['employee_email_subscriptions'] : "1";
+        $input['employee_sms_subscrption'] = !empty($input['employee_sms_subscrption']) ? $input['employee_sms_subscrption'] : "1";
+        $input['employee_info_form_url'] = !empty($input['employee_info_form_url']) ? $input['employee_info_form_url'] : "1";
+        $input['employee_info_form_url_status'] = !empty($input['employee_info_form_url_status']) ? $input['employee_info_form_url_status'] : "1";
+        $input['created_by'] = 1;
+        $input['created_IP'] = $_SERVER['REMOTE_ADDR'];
+        $input['created_browser'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['created_mac_id'] = CommonFunctions::getMacAddress();
+        Employee::create($input);
         return true;
     }
 }

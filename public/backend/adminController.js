@@ -77,6 +77,15 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
             }
         });
     }
+    
+    $rootScope.alert = function(type,msg){
+        $rootScope.message = [];
+        $rootScope.message.push(msg);
+        $rootScope.alerts = {
+            class: type,
+            messages:$rootScope.message
+        }
+    }
 });
 app.controller('titleCtrl', function ($scope, Data) {
     Data.get('getTitle').then(function (response) {
@@ -124,9 +133,6 @@ app.controller('educationListCtrl', function ($scope, Data) {
     });
 });
 app.controller('currentCountryListCtrl', function ($scope, Data) {
-//    $scope.countryList = "";
-//    $scope.stateList = "";
-//    $scope.cityList = "";
 
     Data.get('getCountries').then(function (response) {
         if (!response.success) {
@@ -162,9 +168,6 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
 });
 
 app.controller('permanentCountryListCtrl', function ($scope, Data) {
-//    $scope.countryList = undefined;
-//    $scope.stateList = undefined;
-//    $scope.cityList = undefined;
 
     Data.get('getCountries').then(function (response) {
         if (!response.success) {
@@ -199,24 +202,6 @@ app.controller('permanentCountryListCtrl', function ($scope, Data) {
     };
 });
 
-/*app.controller('stateListCtrl', function ($scope, Data) {
-    Data.get('getStates').then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $scope.stateList = response.records;
-        }
-    });
-});
-app.controller('cityListCtrl', function ($scope, Data) {
-    Data.get('getCities').then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $scope.cityList = response.records;
-        }
-    });
-});*/
 app.controller('checkUniqueEmailController', function ($scope, Data)
 {
     $scope.checkUniqueEmail = function (emailData) {

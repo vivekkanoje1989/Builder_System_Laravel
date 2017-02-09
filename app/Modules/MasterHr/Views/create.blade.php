@@ -13,6 +13,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>
+            <button type="button" class="btn btn-primary" ng-disabled="disableCreateButton" ng-click="checkFlash()">click</button>
             <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
                 <ul class="steps">
                     <li class="wiredstep1 active"><span class="step">1</span><span class="title">Step 1</span><span class="chevron"></span></li>
@@ -655,13 +656,11 @@
                             <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
                                 <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
                             </span>
-<!--                            <ul ng-repeat="error in errorMsg">
-                                <li ng-show="error"> {{ error.messages }}</li>
-                            </ul>-->
                             <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+                            <!-- message text     -->
                             <span ng-show="userData.emp_photo_url.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5">Prev</button>
-                            <button type="submit" class="btn btn-primary btn-submit-last" ng-click="step5=true">Create</button>
+                            <button type="submit" class="btn btn-primary btn-submit-last" ng-disabled="disableCreateButton" ng-click="step5=true">Create</button>
                         </div>
                     </div>
                 </div>

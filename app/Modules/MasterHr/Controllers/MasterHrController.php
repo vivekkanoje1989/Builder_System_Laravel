@@ -7,8 +7,9 @@ use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Http\UploadedFile;
-use File;
+use DB;
+//use Illuminate\Http\UploadedFile;
+//use File;
 class MasterHrController extends Controller {
 
     /**
@@ -16,8 +17,22 @@ class MasterHrController extends Controller {
      *
      * @return Response
      */
-    public function index() {
+    public function index() {   
+        /* $manageUsers = DB::table('Employees')
+            ->join('departments', 'Employees.id', '=', 'departments.id')
+            ->select('Employees.*', 'departments.department_name')->get();
+        $userDataArray = ["data" => $manageUsers];
+        $fp = fopen(public_path().'/backend/lib/jquery/datatable/data.json', 'w');
+        fwrite($fp, json_encode($userDataArray));
+        fclose($fp);*/
         return view("MasterHr::index");
+    }
+    public function listUsers() {
+       $manageUsers = DB::table('Employees')
+            ->join('departments', 'Employees.id', '=', 'departments.id')
+            ->select('Employees.*', 'departments.department_name')->get();
+        $userDataArray = ["data" => $manageUsers];
+        return json_encode($userDataArray);
     }
 
     /**
@@ -37,8 +52,6 @@ class MasterHrController extends Controller {
     public function store(Request $request) {
         $validationMessages = Employee::validationMessages();
         $validationRules = Employee::validationRules();
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
         $input = Input::all();
 
         $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
@@ -68,10 +81,10 @@ class MasterHrController extends Controller {
         $employee = Employee::createEmployee($input['userData']);//insert data into database
 
         if ($employee) {
-            $result = ['success' => true, 'message' => 'Admin register successfully'];
+            $result = ['success' => true, 'message' => 'Employee registeration successfully'];
             echo json_encode($result);
         } else {
-            $result = ['success' => false, 'message' => 'Admin not register. Please try again'];
+            $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
             echo json_encode($result);
         }
         exit;

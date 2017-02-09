@@ -4,4 +4,5 @@ Route::group(array('module' => 'MasterHr', 'namespace' => 'App\Modules\MasterHr\
 
     Route::resource('admin/master-hr', 'MasterHrController');
     Route::post('master-hr/uploadFile', 'MasterHrController@uploadFile');
+    Route::get('master-hr/listUsers', 'MasterHrController@listUsers');    
 });	

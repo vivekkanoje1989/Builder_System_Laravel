@@ -55,3 +55,8 @@
     </li>
 </ul>
 <!-- /Sidebar Menu -->
+
+
+<div class="alert-delay panel-{{alerts.class}}" ng-show="alerts.messages" style="position: fixed;top:14.5%; z-index: 9999;right: 1%;">
+    <div ng-repeat="alert in alerts.messages track by $index" class="panel-body alert-{{alerts.class}}" >{{alert}}</div>
+</div>

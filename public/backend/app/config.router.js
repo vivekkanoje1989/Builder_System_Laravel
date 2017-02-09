@@ -65,14 +65,47 @@ angular.module('app')
                                     return $ocLazyLoad.load(['ui.select',{
                                         serie: true,
                                         files: [
-//                                            '/backend/app/ng-file-upload.js',
-//                                            '/backend/hrController.js',
                                             '/js/intlTelInput.js',
-//                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                             '/backend/app/controllers/datepicker.js',
                                             '/backend/app/controllers/select.js',
                                         ]
                                     }]);
+                                }
+                            ]
+                        }
+                    })
+                    .state('admin.userIndex', {
+                        url: '/user/index',
+                        templateUrl: 'admin/master-hr/',
+//                        controller: 'hrController',
+                        requiredLogin: true,
+                        ncyBreadcrumb: {
+                            label: 'Create User',
+                            description: ''
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ngGrid']).then(
+                                        function() {
+                                            return $ocLazyLoad.load(
+                                            {
+                                                serie: true,
+                                                files: [
+                                                    '/backend/app/controllers/nggrid.js',
+                                                    '/backend/lib/jquery/datatable/dataTables.bootstrap.css',
+                                                    '/backend/lib/jquery/datatable/jquery.dataTables.min.js',
+                                                    '/backend/lib/jquery/datatable/ZeroClipboard.js',
+                                                    '/backend/lib/jquery/datatable/dataTables.tableTools.min.js',
+                                                    '/backend/lib/jquery/datatable/dataTables.bootstrap.min.js',
+                                                    '/backend/app/controllers/datatable.js',
+                                                    'https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css'
+                                                ]
+                                            });
+                                        }
+                                    );
+
                                 }
                             ]
                         }

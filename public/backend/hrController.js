@@ -5,7 +5,7 @@
  */
 
 'use strict';
-app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout', function ($scope, Data, $filter, Upload, $timeout) {
+app.controller('hrController',['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout) {
     $scope.pageHeading = 'Create User';
 
     $scope.userData = {};
@@ -17,6 +17,7 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
     $scope.userData.employee_status = "1";
     $scope.userData.personal_mobile_no1 = $scope.userData.office_mobile_no = "+91-";
     $scope.departments = [];
+    $scope.disableCreateButton = false;
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
             $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
@@ -48,7 +49,16 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
             $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
         }
     };
-
+    $scope.checkFlash = function () {
+        $scope.disableCreateButton = true;
+//        $rootScope.alert('success',"Employee registeration successfully.");           
+//        $('.alert-delay').delay(3000).fadeOut("slow");         
+//        $timeout(function() {
+//            $state.go('admin.userIndex');
+//        }, 3000); 
+        
+    }
+    
     $scope.createUser = function (enteredData, employeePhoto) {
         var userData = {};
         userData = angular.fromJson(angular.toJson(enteredData));
@@ -57,7 +67,6 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
         
         var date = new Date($scope.userData.joining_date);
         $scope.userData.joining_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-       console.log(userData);
         employeePhoto.upload = Upload.upload({
             url: 'admin/master-hr',
             headers: {enctype:'multipart/form-data'},
@@ -65,17 +74,28 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
         });
         employeePhoto.upload.then(function (response) {
             $timeout(function () {
-                employeePhoto.result = response.data;
-                if(!response.data.success){
+                if(!response.data.success){ 
                     $scope.errorMsg = response.message;
-                }                    
+                }          
+                else
+                {
+                    $scope.disableCreateButton = true;
+                    employeePhoto.result = response.data;
+                    $rootScope.alert('success',"Employee registeration successfully.");         
+                    $('.alert-delay').delay(3000).fadeOut("slow");         
+                    $timeout(function() {
+                        $state.go('admin.userIndex');
+                    }, 3000);
+                }
             });
         }, function (response) {
             if (response.status > 0){
                 $scope.errorMsg = response.status + ': ' + response.data;
             }
-        }, function (evt) {
-            employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        }, function (evt, response) {
+            
+//            employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            
         }); 
     };
 
@@ -101,4 +121,62 @@ app.controller('hrController',['$scope', 'Data', '$filter', 'Upload', '$timeout'
         }
     };
     
+    
+    
+    
+       /* $scope.simpleTableOptions = {
+            "ajax": {
+            "url": "admin/master-hr/listUsers",
+            "data": function ( d ) {
+                d.myKey = "myValue";
+                // d.custom = $('#myInput').val();
+                // etc
+                }
+            }
+        
+        sAjaxSource: '/backend/lib/jquery/datatable/data.json',
+        aoColumns: [
+            { data: 'id' },
+            { data: 'employee_id' },
+            { data: 'first_name' },
+            { data: 'designation' },
+            { data: 'reporting_to_id' },
+            { data: 'team_lead_id' },
+            { data: 'department_name' },
+            { data: 'joining_date' },
+            { data: 'employee_status' },
+            { data: 'updated_date' },
+            { data: 'id' },
+        ],
+        "sDom": "Tflt<'row DTTTFooter'<'col-sm-6'i><'col-sm-6'p>>",
+        "iDisplayLength": 5,
+        "oTableTools": {
+            "aButtons": [
+                "copy", "csv", "xls", "pdf", "print"
+            ],
+            "sSwfPath": "/backend/assets/swf/copy_csv_xls_pdf.swf"
+        },
+        "language": {
+            "search": "",
+            "sLengthMenu": "_MENU_",
+            "oPaginate": {
+                "sPrevious": "Prev",
+                "sNext": "Next"
+            }
+        },
+        "aaSorting": []
+    };*/
+    
 }]);
+/*$('#manageUsers').DataTable( {
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "admin/master-hr/listUsers",
+            "data": function ( d ) {
+                d.myKey = "myValue";
+                // d.custom = $('#myInput').val();
+                // etc
+            }
+        }
+    } );*/
