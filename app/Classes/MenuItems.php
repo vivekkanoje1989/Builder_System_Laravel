@@ -7,7 +7,7 @@
 
 namespace App\Classes;
 
-class menuitems {
+class MenuItems {
 
     public static function getMenuItems() {
         $menulist = array(

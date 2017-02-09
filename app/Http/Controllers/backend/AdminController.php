@@ -4,7 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use DB;
-use App\classes\Menuitems;
+use App\Classes\MenuItems;
 use App\Models\backend\Employee;
 use App\Models\LstTitle;
 use App\Models\LstGender;
@@ -46,7 +46,7 @@ class AdminController extends Controller {
 
     public function getMenuItems() {
         $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus);
-        $getMenu = Menuitems::getMenuItems();
+        $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions =array();
         foreach ($getMenu as $key => $menu) {
             $menu = (array) $menu;

@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-   return View::make('backendapp');
+   return View::make('backendApp');
 });
 Route::get('admin/error500', function () {
    return view('layouts.backend.error500');

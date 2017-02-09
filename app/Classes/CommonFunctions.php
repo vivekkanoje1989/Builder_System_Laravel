@@ -6,20 +6,39 @@ use DB;
 class CommonFunctions {
 
     public static function getMacAddress(){
-        // Turn on output buffering  
-        ob_start();  
-        //Get the ipconfig details using system commond  
-        system('ipconfig /all');  
-        // Capture the output into a variable  
-        $mycomsys=ob_get_contents();  
-        // Clean (erase) the output buffer  
-        ob_clean();  
-        $find_mac = "Physical"; //find the "Physical" & Find the position of Physical text  
-        $pmac = strpos($mycomsys, $find_mac);  
-        // Get Physical Address  
-        $macaddress=substr($mycomsys,($pmac+36),17);  
-        //Display Mac Address  
-        return $macaddress;  
+        exec('netstat -ie', $result);
+        if(is_array($result)) {
+          $iface = array();
+          foreach($result as $key => $line) {
+            if($key > 0) {
+              $tmp = str_replace(" ", "", substr($line, 0, 10));
+              if($tmp <> "") {
+                $macpos = strpos($line, "HWaddr");
+                if($macpos !== false) {
+                  $iface[] = array('iface' => $tmp, 'mac' => strtolower(substr($line, $macpos+7, 17)));
+                }
+              }
+            }
+          }
+          return $iface[0]['mac'];
+        } 
+        else 
+        {
+            // Turn on output buffering  
+            ob_start();  
+            //Get the ipconfig details using system commond  
+            system('ipconfig /all');  
+            // Capture the output into a variable  
+            $mycomsys=ob_get_contents();  
+            // Clean (erase) the output buffer  
+            ob_clean();  
+            $find_mac = "Physical"; //find the "Physical" & Find the position of Physical text  
+            $pmac = strpos($mycomsys, $find_mac);  
+            // Get Physical Address  
+            $macaddress=substr($mycomsys,($pmac+36),17);  
+            //Display Mac Address  
+            return $macaddress; 
+        }
     }
     public static function insertLoginLog($mobile, $password, $empId, $loginStatus, $loginFailureReason){
         $getMacAddress = CommonFunctions::getMacAddress();

@@ -315,7 +315,7 @@ class Employee extends Authenticatable
             'permenent_address' => $input['permenent_address'],
             'highest_education_id' => $input['highest_education_id'],
             'emp_photo_url' => "aa",
-//            'joining_date' => $input['joining_date'],
+            'joining_date' => $input['joining_date'],
             'joining_date' => "2017-02-01",
                     
             'department_id' => implode(',', array_map(function($el){ return $el['id']; }, $input['department_id'])),
@@ -352,12 +352,6 @@ class Employee extends Authenticatable
             'created_IP' => $_SERVER['REMOTE_ADDR'],
             'created_browser' => $_SERVER['HTTP_USER_AGENT'],
             'created_mac_id' => CommonFunctions::getMacAddress(),
-//            'updated_date' => ,
-//            'updated_by' => ,
-//            'updated_IP' => ,
-//            'updated_browser' => ,
-//            'updated_mac_id' => ,
-                    
         ]);
         return true;
     }

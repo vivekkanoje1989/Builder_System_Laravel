@@ -67,10 +67,10 @@ return [
         ],*/
         'mysql' => [
             'read' => [
-                'host' => 'somnath',
+                'host' => '192.168.0.107',
             ],
             'write' => [
-                'host' => 'somnath'
+                'host' => '192.168.0.107'
             ],
             'driver' => 'mysql',
             'port' => 3306,

@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use View;
-use App\classes\CommonFunctions;
+use App\Classes\CommonFunctions;
 use App\Models\EmployeesDevice;
 use Illuminate\Hashing\HashServiceProvider;
 class LoginController extends Controller {
