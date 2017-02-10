@@ -103,7 +103,7 @@ class MenuItems {
                 'submenu_ids' => '0301,0302', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                 1 => array('id' => '0301', 'name' => 'User Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '030101,030102,030103,030104', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                    1 => array('id' => '030101', 'name' => 'List Users', 'icon' => '', 'url' => '#', 'slug' => '/admin/', 'uiSrefActive' => 'active'),
+                    1 => array('id' => '030101', 'name' => 'List Users', 'icon' => '', 'url' => '/admin/user/index', 'slug' => '.userIndex', 'uiSrefActive' => 'active'),
                     2 => array('id' => '030102', 'name' => 'New User', 'icon' => '', 'url' => '/admin/user', 'slug' => '.user', 'uiSrefActive' => 'active'),
                     3 => array('id' => '030103', 'name' => 'Reassign Data', 'icon' => '', 'url' => '#', 'slug' => '/admin/', 'uiSrefActive' => 'active'),
                     4 => array('id' => '030104', 'name' => 'Organization Chart', 'icon' => '', 'url' => '#', 'slug' => '/admin/', 'uiSrefActive' => 'active'),

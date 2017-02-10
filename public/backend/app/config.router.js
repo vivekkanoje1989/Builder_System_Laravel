@@ -77,38 +77,12 @@ angular.module('app')
                     .state('admin.userIndex', {
                         url: '/user/index',
                         templateUrl: 'admin/master-hr/',
-//                        controller: 'hrController',
+                        controller: 'hrController',
                         requiredLogin: true,
                         ncyBreadcrumb: {
-                            label: 'Create User',
+                            label: 'Manage Users',
                             description: ''
                         },
-                        resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['ngGrid']).then(
-                                        function() {
-                                            return $ocLazyLoad.load(
-                                            {
-                                                serie: true,
-                                                files: [
-                                                    '/backend/app/controllers/nggrid.js',
-                                                    '/backend/lib/jquery/datatable/dataTables.bootstrap.css',
-                                                    '/backend/lib/jquery/datatable/jquery.dataTables.min.js',
-                                                    '/backend/lib/jquery/datatable/ZeroClipboard.js',
-                                                    '/backend/lib/jquery/datatable/dataTables.tableTools.min.js',
-                                                    '/backend/lib/jquery/datatable/dataTables.bootstrap.min.js',
-                                                    '/backend/app/controllers/datatable.js',
-                                                    'https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css'
-                                                ]
-                                            });
-                                        }
-                                    );
-
-                                }
-                            ]
-                        }
                     })
                     .state('persian', {
                         abstract: true,

@@ -1,20 +1,21 @@
-<div class="row" ng-controller="DataTableCtrl">
+<div class="row" ng-controller="hrController as vm" ng-init="manageUsers()">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Simple DataTable</span>
+                <span class="widget-caption">Manage Users</span>
+                <input type="text" ng-model="search"  placeholder="Search">
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
                     <a href="" widget-dispose></a>
                 </div>
             </div>
-            <div class="widget-body">
-                <table ui-jq="dataTable" ui-options="simpleTableOptions" class="table table-striped" id="manageUsers">
-                    <thead>
+            <div class="widget-body table-responsive">
+                <table class="table table-hover table-striped table-bordered" at-config="config">
+                    <thead class="bord-bot">
                         <tr>
                             <th style="width:5%">SR No.</th>
-                            <th style="width: 5%">Employee Id</th>
+                            <th style="width: 5%">Id</th>
                             <th style="width: 10%">Employee Name</th>
                             <th style="width: 10%">Designation</th>
                             <th style="width: 10%">Reporting To</th>
@@ -26,9 +27,95 @@
                             <th style="width: 10%">Actions</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        <tr role="row" dir-paginate="listUser in listUsers | filter:search | itemsPerPage:itemsPerPage">
+                            <td>1</td>
+                            <td>{{ listUser.id }}</td>
+                            <td>{{ listUser.first_name }} {{ listUser.last_name }}</td>
+                            <td>{{ listUser.designation }}</td>
+                            <td>{{ listUser.reporting_to_id }}</td>
+                            <td>{{ listUser.team_lead_id }}</td>
+                            <td>{{ listUser.department_name }}</td>
+                            <td>{{ listUser.joining_date | date:'dd-MM-yyyy' }}</td>
+                            <td>{{ listUser.employee_status }}</td>
+                            <td>{{ listUser.updated_date }}</td>
+                            <td class="fa-div">
+                                <div class="fa-hover"  tooltip-html-unsafe="Line 1" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" style="display: block;"><a href=""><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" style="display: block;" data-toggle="modal" data-target="#myModal"><a href="javascript:void(0);"><i class="fa fa-lock"></i></a> </div>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
+                <div class="DTTTFooter">
+                    <div class="col-sm-6">
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{ itemsPerPage }} of {{ listUsersLength }} entries</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                            <dir-pagination-controls class="pagination" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" align="center">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" placeholder="First Name">
+                            <i class="fa fa-user thm-color circular"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" placeholder="Last Name">
+                            <i class="fa fa-user thm-color circular"></i>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" placeholder="User Name">
+                            <i class="fa fa-user thm-color circular"></i>
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" placeholder="New Password">
+                            <i class="fa fa-lock thm-color circular"></i>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <input type="text" class="form-control" placeholder="Confirm Password">
+                            <i class="fa fa-lock thm-color circular"></i>
+                        </span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer" align="center">
+                <button type="button" class="btn btn-sub">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+

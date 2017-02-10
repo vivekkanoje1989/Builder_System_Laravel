@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use Illuminate\Support\Facades\Input;
 use DB;
+
 //use Illuminate\Http\UploadedFile;
 //use File;
 class MasterHrController extends Controller {
@@ -18,21 +19,19 @@ class MasterHrController extends Controller {
      * @return Response
      */
     public function index() {   
-        /* $manageUsers = DB::table('Employees')
-            ->join('departments', 'Employees.id', '=', 'departments.id')
-            ->select('Employees.*', 'departments.department_name')->get();
-        $userDataArray = ["data" => $manageUsers];
-        $fp = fopen(public_path().'/backend/lib/jquery/datatable/data.json', 'w');
-        fwrite($fp, json_encode($userDataArray));
-        fclose($fp);*/
         return view("MasterHr::index");
     }
-    public function listUsers() {
-       $manageUsers = DB::table('Employees')
-            ->join('departments', 'Employees.id', '=', 'departments.id')
-            ->select('Employees.*', 'departments.department_name')->get();
-        $userDataArray = ["data" => $manageUsers];
-        return json_encode($userDataArray);
+    
+    public function manageUsers() {
+        $manageUsers = DB::select('CALL proc_manage_users()');
+        
+        if ($manageUsers) {            
+            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
+            echo json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
+            echo json_encode($result);
+        }
     }
 
     /**

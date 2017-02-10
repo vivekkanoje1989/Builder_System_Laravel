@@ -9,6 +9,7 @@ app.controller('hrController',['$rootScope', '$scope', '$state', 'Data', '$filte
     $scope.pageHeading = 'Create User';
 
     $scope.userData = {};
+    $scope.listUsers = [];
     $scope.userData.gender = $scope.userData.title = $scope.userData.blood_group_id =
     $scope.userData.physic_status_id = $scope.userData.marital_status = $scope.userData.highest_education_id =
     $scope.userData.current_country_id = $scope.userData.current_state_id = $scope.userData.current_city_id =
@@ -49,15 +50,6 @@ app.controller('hrController',['$rootScope', '$scope', '$state', 'Data', '$filte
             $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
         }
     };
-    $scope.checkFlash = function () {
-        $scope.disableCreateButton = true;
-//        $rootScope.alert('success',"Employee registeration successfully.");           
-//        $('.alert-delay').delay(3000).fadeOut("slow");         
-//        $timeout(function() {
-//            $state.go('admin.userIndex');
-//        }, 3000); 
-        
-    }
     
     $scope.createUser = function (enteredData, employeePhoto) {
         var userData = {};
@@ -93,9 +85,7 @@ app.controller('hrController',['$rootScope', '$scope', '$state', 'Data', '$filte
                 $scope.errorMsg = response.status + ': ' + response.data;
             }
         }, function (evt, response) {
-            
 //            employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            
         }); 
     };
 
@@ -121,62 +111,19 @@ app.controller('hrController',['$rootScope', '$scope', '$state', 'Data', '$filte
         }
     };
     
+    $scope.manageUsers = function () {
+        Data.post('master-hr/manageUsers').then(function (response) {
+            console.log(response);
+          if (response.success) {
+            $scope.listUsers = response.records.data;
+            $scope.listUsersLength = response.records.total;
+            $scope.itemsPerPage = 4;
+          } else {
+              $scope.errorMsg = response.message;
+          }
+        });
+    };      
     
-    
-    
-       /* $scope.simpleTableOptions = {
-            "ajax": {
-            "url": "admin/master-hr/listUsers",
-            "data": function ( d ) {
-                d.myKey = "myValue";
-                // d.custom = $('#myInput').val();
-                // etc
-                }
-            }
-        
-        sAjaxSource: '/backend/lib/jquery/datatable/data.json',
-        aoColumns: [
-            { data: 'id' },
-            { data: 'employee_id' },
-            { data: 'first_name' },
-            { data: 'designation' },
-            { data: 'reporting_to_id' },
-            { data: 'team_lead_id' },
-            { data: 'department_name' },
-            { data: 'joining_date' },
-            { data: 'employee_status' },
-            { data: 'updated_date' },
-            { data: 'id' },
-        ],
-        "sDom": "Tflt<'row DTTTFooter'<'col-sm-6'i><'col-sm-6'p>>",
-        "iDisplayLength": 5,
-        "oTableTools": {
-            "aButtons": [
-                "copy", "csv", "xls", "pdf", "print"
-            ],
-            "sSwfPath": "/backend/assets/swf/copy_csv_xls_pdf.swf"
-        },
-        "language": {
-            "search": "",
-            "sLengthMenu": "_MENU_",
-            "oPaginate": {
-                "sPrevious": "Prev",
-                "sNext": "Next"
-            }
-        },
-        "aaSorting": []
-    };*/
-    
+   
+  
 }]);
-/*$('#manageUsers').DataTable( {
-        "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url": "admin/master-hr/listUsers",
-            "data": function ( d ) {
-                d.myKey = "myValue";
-                // d.custom = $('#myInput').val();
-                // etc
-            }
-        }
-    } );*/

@@ -47,7 +47,8 @@
         <script src="/backend/lib/angular/angular.js"></script>
         <script src="/backend/app/ng-file-upload.js"></script>
         <script src="/backend/lib/utilities.js"></script>
-
+        <script src="/backend/app/dirPagination.js"></script>
+        
         <script src="/backend/lib/angular/angular-animate/angular-animate.js"></script>
         <script src="/backend/lib/angular/angular-cookies/angular-cookies.js"></script>
         <script src="/backend/lib/angular/angular-resource/angular-resource.js"></script>

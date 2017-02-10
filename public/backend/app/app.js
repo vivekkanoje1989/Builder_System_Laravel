@@ -13,6 +13,7 @@ var app = angular.module('app', [
     'ui.utils',
     'oc.lazyLoad',
     'ngMessages',
+    'angularUtils.directives.dirPagination',
 ]);
 
 /*app.directive('ngRightClick', function() {

@@ -34,7 +34,15 @@ BEGIN
         (employee_id, username_entered, password_entered, login_date_time, login_status, login_failure_reason, bms_app_type, login_IP, login_browser, login_mac_id);                                                                
 END
 **************************************************************************************************
+Manage_users
 
+CREATE PROCEDURE `proc_manage_users`() 
+
+BEGIN 
+SELECT employees.*, departments.department_name, employees_login_logs.login_date_time FROM employees LEFT JOIN (SELECT employee_id FROM employees_login_logs ORDER BY id DESC limit 1) AS employees_login_logs ON employees.id = employees_login_logs.employee_id LEFT JOIN departments AS departments ON employees.department_id = departments.id; 
+END
+
+**************************************************************************************************
 Get employee
 
 Delimiter//
