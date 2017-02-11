@@ -8,12 +8,9 @@
     }
     input[capitalizeFirst]{ text-transform: capitalize; }
 </style>
-
-<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url)" ng-controller="hrController" ng-init="manageUsers((!empty($empId) ? $empId : ''),'edit')">
-<!--<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url)" ng-controller="hrController">-->
+<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url)" ng-controller="hrController" ng-init="getEmployeeDetails(<?php echo $empId; ?>,'edit')">
     <input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-    <!--<input type="hidden" ng-model="userForm.id" name="id" id="empId" ng-init="userForm.id = '<?php // echo $empId; ?>'" class="form-control">-->
-    <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-value="<?php echo $empId; ?>" class="form-control">
+    <input type="hidden" ng-model="userForm.id" name="id" id="id" ng-init="userForm.id = '<?php echo $empId; ?>'" class="form-control">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>

@@ -8,9 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use Illuminate\Support\Facades\Input;
 use DB;
-
-//use Illuminate\Http\UploadedFile;
-//use File;
+use Illuminate\Hashing\HashServiceProvider;
 class MasterHrController extends Controller {
 
     /**
@@ -23,7 +21,14 @@ class MasterHrController extends Controller {
     }
     
     public function manageUsers() {
-        $manageUsers = DB::select('CALL proc_manage_users()');
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        echo "<pre>";print_r($request);exit;
+        if(!empty($request['empId'])){
+            $manageUsers = DB::select('CALL proc_manage_users(1,'.$request["empId"].')');
+        }else{
+            $manageUsers = DB::select('CALL proc_manage_users(0,0)');
+        }
         
         if ($manageUsers) {            
             $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
@@ -33,6 +38,28 @@ class MasterHrController extends Controller {
             echo json_encode($result);
         }
     }
+    public function changePassword() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        if(!empty($request['empId'])){
+            //send mail
+            //send email
+            $strRandomNo = str_random(6);
+            $changedPassword = \Hash::make($strRandomNo);
+            echo $strRandomNo;
+            DB::table('employees')
+            ->where('id', $request['empId'])
+            ->update(['password' => $changedPassword]);
+            
+            $result = ['success' => true, "successMsg" => "Password has been changed as well as Mail and sms has been sent to selected user."];
+            echo json_encode($result);
+        }else{
+            $result = ['success' => false, 'errorMsg' => 'Something went wrong. Please check internet connection or try again'];
+            echo json_encode($result);
+        }
+    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -40,7 +67,7 @@ class MasterHrController extends Controller {
      * @return Response
      */
     public function create() {
-        return view("MasterHr::create");
+        return view("MasterHr::create")->with("empId", '');
     }
 
     /**
@@ -106,7 +133,7 @@ class MasterHrController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        //
+        return view("MasterHr::create")->with("empId", $id);
     }
 
     /**

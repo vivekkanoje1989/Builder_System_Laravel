@@ -1,9 +1,9 @@
-<div class="row" ng-controller="hrController as vm" ng-init="manageUsers()">
+<div class="row" ng-controller="hrController" ng-init="manageUsers('','index')">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Users</span>
-                <input type="text" ng-model="search"  placeholder="Search">
+                
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -11,6 +11,7 @@
                 </div>
             </div>
             <div class="widget-body table-responsive">
+                <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search"><br>
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -37,12 +38,14 @@
                             <td>{{ listUser.team_lead_id }}</td>
                             <td>{{ listUser.department_name }}</td>
                             <td>{{ listUser.joining_date | date:'dd-MM-yyyy' }}</td>
-                            <td>{{ listUser.employee_status }}</td>
+                            <td ng-if="listUser.employee_status == 1">Active</td>
+                            <td ng-if="listUser.employee_status == 2">Temporary Suspended</td>
+                            <td ng-if="listUser.employee_status == 3">Permanent Suspended</td>
                             <td>{{ listUser.updated_date }}</td>
                             <td class="fa-div">
-                                <div class="fa-hover"  tooltip-html-unsafe="Line 1" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
-                                <div class="fa-hover" style="display: block;"><a href=""><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
-                                <div class="fa-hover" style="display: block;" data-toggle="modal" data-target="#myModal"><a href="javascript:void(0);"><i class="fa fa-lock"></i></a> </div>
+                                <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/admin/user/update/{{ listUser.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="Change Password" style="display: block;" data-toggle="modal" data-target="#myModal"><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id }},'changePassword')"><i class="fa fa-lock"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -60,12 +63,11 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -76,46 +78,30 @@
                 <form>
                     <div class="form-group">
                         <span class="input-icon icon-right">
-                            <input type="text" class="form-control" placeholder="First Name">
+                            <input type="text" class="form-control" ng-model="modal.firstName" name="firstName" placeholder="First Name">
                             <i class="fa fa-user thm-color circular"></i>
                         </span>
                     </div>
                     <div class="form-group">
                         <span class="input-icon icon-right">
-                            <input type="text" class="form-control" placeholder="Last Name">
+                            <input type="text" class="form-control" ng-model="modal.lastName" name="lastName" placeholder="Last Name">
                             <i class="fa fa-user thm-color circular"></i>
                         </span>
                     </div>
-
                     <div class="form-group">
                         <span class="input-icon icon-right">
-                            <input type="text" class="form-control" placeholder="User Name">
+                            <input type="text" class="form-control" ng-model="modal.userName" name="userName" placeholder="User Name">
                             <i class="fa fa-user thm-color circular"></i>
                         </span>
                     </div>
-
-                    <div class="form-group">
-                        <span class="input-icon icon-right">
-                            <input type="text" class="form-control" placeholder="New Password">
-                            <i class="fa fa-lock thm-color circular"></i>
-                        </span>
-                    </div>
-                    <div class="form-group">
-                        <span class="input-icon icon-right">
-                            <input type="text" class="form-control" placeholder="Confirm Password">
-                            <i class="fa fa-lock thm-color circular"></i>
-                        </span>
-                    </div>
-
                 </form>
             </div>
             <div class="modal-footer" align="center">
-                <button type="button" class="btn btn-sub">Submit</button>
+                <button type="button" class="btn btn-sub" ng-click="changePassword(modal.empId)">Submit</button>
             </div>
         </div>
-
     </div>
 </div>
 
-
+</div>
 

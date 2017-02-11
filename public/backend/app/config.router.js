@@ -12,7 +12,7 @@ angular.module('app')
     ['$stateProvider', '$urlRouterProvider',
         function ($stateProvider, $urlRouterProvider) {
             $urlRouterProvider
-                    .otherwise('admin/login');
+                    .otherwise('admin/login'); 
             $stateProvider
                     .state('admin', {
                         abstract: true,
@@ -83,6 +83,33 @@ angular.module('app')
                             label: 'Manage Users',
                             description: ''
                         },
+                    })
+                    .state('admin.userUpdate', {
+                        url: '/user/update/:empId',
+                        templateUrl:  function (stateParams){
+                            return 'admin/master-hr/' + stateParams.empId + '/edit';
+                        },
+                        controller: 'hrController',
+                        requiredLogin: true,
+                        ncyBreadcrumb: {
+                            label: 'Edit User',
+                            description: ''
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select',{
+                                        serie: true,
+                                        files: [
+                                            '/js/intlTelInput.js',
+                                            '/backend/app/controllers/datepicker.js',
+                                            '/backend/app/controllers/select.js',
+                                        ]
+                                    }]);
+                                }
+                            ]
+                        }
                     })
                     .state('persian', {
                         abstract: true,

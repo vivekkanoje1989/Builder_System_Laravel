@@ -59,7 +59,7 @@ CREATE PROCEDURE get_employees
 		'designation',
 		'department_id',
 		'reporting_to_id',
-		'title_id',
+		'title',
 		'first_name',
 		'middle_name',
 		'last_name',
