@@ -23,13 +23,12 @@ class MasterHrController extends Controller {
     public function manageUsers() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        echo "<pre>";print_r($request);exit;
-        if(!empty($request['empId'])){
+        $manageUsers = [];
+        if(!empty($request['empId']) && $request['empId'] !== "0"){ // for edit
             $manageUsers = DB::select('CALL proc_manage_users(1,'.$request["empId"].')');
-        }else{
+        }else if($request['empId'] === ""){ // for index
             $manageUsers = DB::select('CALL proc_manage_users(0,0)');
         }
-        
         if ($manageUsers) {            
             $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
             echo json_encode($result);

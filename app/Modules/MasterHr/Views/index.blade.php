@@ -11,26 +11,83 @@
                 </div>
             </div>
             <div class="widget-body table-responsive">
-                <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search"><br>
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                      <label for="search">Search:</label>
+                      <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                    </div>
+
+                    <div class="col-sm-6 col-xs-12">
+                      <label for="search">Records per page:</label>
+                      <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                    </div>
+                </div><br>
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
                             <th style="width:5%">SR No.</th>
-                            <th style="width: 5%">Id</th>
-                            <th style="width: 10%">Employee Name</th>
-                            <th style="width: 10%">Designation</th>
-                            <th style="width: 10%">Reporting To</th>
-                            <th style="width: 10%">Team Lead</th>
-                            <th style="width: 10%">Department's</th>
-                            <th style="width: 10%">Joining Date</th>
-                            <th style="width: 10%">Status of User</th>
+                            <th style="width: 5%">
+                                <a href="javascript:void(0);" ng-click="orderByField='id'; reverseSort = !reverseSort">Id 
+                                    <span ng-show="orderByField == 'id'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='first_name'; reverseSort = !reverseSort">Employee Name 
+                                    <span ng-show="orderByField == 'first_name'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='designation'; reverseSort = !reverseSort">Designation 
+                                    <span ng-show="orderByField == 'designation'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='reporting_to_id'; reverseSort = !reverseSort">Reporting To 
+                                    <span ng-show="orderByField == 'reporting_to_id'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='team_lead_id'; reverseSort = !reverseSort">Team Lead 
+                                    <span ng-show="orderByField == 'team_lead_id'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='department_name'; reverseSort = !reverseSort">Department's 
+                                    <span ng-show="orderByField == 'department_name'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='joining_date'; reverseSort = !reverseSort">Joining Date 
+                                    <span ng-show="orderByField == 'joining_date'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a></th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='employee_status'; reverseSort = !reverseSort">Status of User 
+                                    <span ng-show="orderByField == 'employee_status'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
                             <th style="width: 10%">Last Login</th>
                             <th style="width: 10%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="listUser in listUsers | filter:search | itemsPerPage:itemsPerPage">
-                            <td>1</td>
+                        <tr role="row" dir-paginate="listUser in listUsers | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>
                             <td>{{ listUser.id }}</td>
                             <td>{{ listUser.first_name }} {{ listUser.last_name }}</td>
                             <td>{{ listUser.designation }}</td>
@@ -41,7 +98,7 @@
                             <td ng-if="listUser.employee_status == 1">Active</td>
                             <td ng-if="listUser.employee_status == 2">Temporary Suspended</td>
                             <td ng-if="listUser.employee_status == 3">Permanent Suspended</td>
-                            <td>{{ listUser.updated_date }}</td>
+                            <td>{{ listUser.login_date_time | date:'dd-MM-yyyy' }}</td>
                             <td class="fa-div">
                                 <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
                                 <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/admin/user/update/{{ listUser.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
@@ -52,11 +109,12 @@
                 </table>
                 <div class="DTTTFooter">
                     <div class="col-sm-6">
-                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{ itemsPerPage }} of {{ listUsersLength }} entries</div>
+                        <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listUsersLength }} entries</div>-->
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                     </div>
                     <div class="col-sm-6">
                         <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                            <dir-pagination-controls class="pagination" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
                         </div>
                     </div>
                 </div>

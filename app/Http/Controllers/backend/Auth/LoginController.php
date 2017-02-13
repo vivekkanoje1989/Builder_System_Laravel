@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use View;
 use App\Classes\CommonFunctions;
 use App\Models\EmployeesDevice;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Hashing\HashServiceProvider;
 class LoginController extends Controller {
     /*
@@ -79,7 +80,7 @@ class LoginController extends Controller {
         return json_encode($result);
     }
     
-    public function getSession(Request $request) {$data = \Location::get("175.100.138.136");            
+    public function getSession(Request $request) {           
         if (Auth::guard('admin')->check()) {
             
             $authUser = Auth()->guard('admin')->user();
@@ -108,8 +109,12 @@ class LoginController extends Controller {
             }
         }
     }
+    
+    public function getToken(){
+        return csrf_token();
+    }
 
-    public function authenticate(Request $request) {
+    public function authenticate(Request $request) {               
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $username = $request['data']['mobile'];

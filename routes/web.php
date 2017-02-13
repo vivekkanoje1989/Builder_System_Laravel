@@ -42,7 +42,7 @@ Route::get('admin/breadcrumbs', function () {
 Route::get('admin/header', function () {
     return View::make('layouts.backend.header');
 });
-
+Route::get('admin/getToken', 'backend\Auth\LoginController@getToken');
 Route::group(['before' => ['guest']], function () {
     
     // ADMIN

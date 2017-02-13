@@ -9,11 +9,9 @@
     input[capitalizeFirst]{ text-transform: capitalize; }
 </style>
 
-<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url)" ng-controller="hrController" ng-init="manageUsers((!empty($empId) ? $empId : ''),'edit')">
-<!--<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url)" ng-controller="hrController">-->
+<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url)" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
     <input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-    <!--<input type="hidden" ng-model="userForm.id" name="id" id="empId" ng-init="userForm.id = '<?php // echo $empId; ?>'" class="form-control">-->
-    <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-value="<?php echo $empId; ?>" class="form-control">
+    <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-value="[[ $empId ]]" class="form-control">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>
@@ -32,10 +30,10 @@
                     <div class="form-title">Personal Information</div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.title.$dirty || userForm.title.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.title.$dirty && userForm.title.$invalid)}">
                                 <label for="">Title <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select ng-controller="titleCtrl" ng-model="userData.title" name="title" class="form-control" ng-change="checkTitle()" required="required">
+                                    <select ng-model="userData.title" ng-controller="titleCtrl" name="title" class="form-control" required="required">
                                         <option value="">Select Title</option>
                                         <option ng-repeat="t in titles track by $index" value="{{t.value}}">{{t.title}}</option>
                                     </select>
@@ -47,7 +45,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.first_name.$dirty || userForm.first_name.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.first_name.$dirty && userForm.first_name.$invalid)}">
                                 <label for="">First Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="text" ng-model="userData.first_name" name="first_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
@@ -68,7 +66,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.last_name.$dirty  || userForm.last_name.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.last_name.$dirty  && userForm.last_name.$invalid)}">
                                 <label for="">Last Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="text" ng-model="userData.last_name" name="last_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
@@ -83,7 +81,7 @@
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
                             <label>Birth Date <span class="sp-err">*</span></label>
-                            <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.date_of_birth.$dirty  || userForm.date_of_birth.$invalid)}">
+                            <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.date_of_birth.$dirty  && userForm.date_of_birth.$invalid)}">
                                 <p class="input-group">
                                 <input type="text" ng-model="userData.date_of_birth" name="date_of_birth" id="date_of_birth" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                 <span class="input-group-btn">
@@ -96,12 +94,12 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.gender.$dirty || userForm.gender.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.gender.$dirty && userForm.gender.$invalid)}">
                                 <label for="">Gender <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select ng-controller="genderCtrl" ng-model="userData.gender" name="gender" class="form-control" required>
+                                    <select ng-model="userData.gender" ng-controller="genderCtrl" name="gender" class="form-control" required>
                                         <option value="">Select Gender</option>
-                                        <option ng-repeat="gender in genders" value="{{gender.gender}}">{{gender.gender_title}}</option>
+                                        <option ng-repeat="genderList in genders track by $index" value="{{genderList.gender_id}}">{{genderList.gender_title}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.gender.$error" class="help-block step1">
@@ -111,7 +109,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.physic_status_id.$dirty || userForm.physic_status_id.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.physic_status_id.$dirty && userForm.physic_status_id.$invalid)}">
                                 <label for="">Physic <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right" required>
                                     <select ng-model="userData.physic_status_id" name="physic_status_id" class="form-control" placeholder="Select Physic" required>
@@ -138,10 +136,10 @@
                     </div>
                     <div class="row"> 
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.blood_group_id.$dirty || userForm.blood_group_id.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.blood_group_id.$dirty && userForm.blood_group_id.$invalid)}">
                                 <label for="">Blood Group <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select ng-controller="bloodGroupCtrl" ng-model="userData.blood_group_id" name="blood_group_id" class="form-control" required>
+                                    <select ng-model="userData.blood_group_id" ng-controller="bloodGroupCtrl" name="blood_group_id" class="form-control" required>
                                         <option value="">Select Blood Group</option>
                                         <option ng-repeat="bloodGroup in bloodGroups track by $index" value="{{bloodGroup.blood_group_id}}">{{bloodGroup.blood_group}}</option>
                                     </select>
@@ -157,7 +155,7 @@
                                 <label for="">Married Status <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.marital_status" name="marital_status" id="marital_status" class="form-control" required>
-                                        <option value="">Select Marital Staus</option>
+                                        <option value="">Select Marital Status</option>
                                         <option value="1">Single</option>
                                         <option value="2">Married</option>
                                     </select>
@@ -169,7 +167,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6" ng-if="userData.marital_status == 2">
-                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.marriage_date.$dirty || userForm.marriage_date.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.marriage_date.$dirty && userForm.marriage_date.$invalid)}">
                                 <label>Marriage Date<span class="sp-err">*</span></label>
                                 <div ng-controller="DatepickerDemoCtrl">
                                     <p class="input-group">
@@ -199,7 +197,7 @@
                         <div class="col-sm-6 col-xs-12">
                             <div class="row">
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.personal_mobile_no1.$dirty || userForm.personal_mobile_no1.$invalid)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.personal_mobile_no1.$dirty && userForm.personal_mobile_no1.$invalid)}">
                                         <label for="">Personal Mobile Number <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">   
                                             <input type="text" ng-model="userData.personal_mobile_no1" name="personal_mobile_no1" id="personal_mobile_no1" placeholder="+91-9999999999" class="form-control" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
@@ -212,7 +210,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.office_mobile_no.$dirty || userForm.office_mobile_no.$invalid)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.office_mobile_no.$dirty && userForm.office_mobile_no.$invalid)}">
                                         <label>Office Mobile Number <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">                                            
                                             <input type="text" ng-model="userData.office_mobile_no" name="office_mobile_no" id="office_mobile_no" class="form-control" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
@@ -255,7 +253,7 @@
                         <div class="col-sm-6 col-xs-12">
                             <div class="row">  
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.email.$dirty || userForm.email.$invalid)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.email.$dirty && userForm.email.$invalid)}">
                                         <label for="">Email <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <input type="email" ng-model="userData.email" name="email" class="form-control" check-unique-email required ng-model-options="{ allowInvalid: true, debounce: 200 }">
@@ -305,7 +303,7 @@
                             </div>
                             <div class="row">  
                                 <div class="col-sm-12 col-xs-12">
-                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_address.$dirty || userForm.current_address.$invalid)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_address.$dirty && userForm.current_address.$invalid)}">
                                         <label for="">Correspondence Address <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <textarea ng-model="userData.current_address" name="current_address" class="form-control" maxlength="255" required></textarea>
@@ -319,7 +317,7 @@
                             </div>
                             <div class="row">  
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_country_id.$dirty || userForm.current_country_id.$invalid)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_country_id.$dirty && userForm.current_country_id.$invalid)}">
                                         <label for="">Select Country <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <select ng-change="onCountryChange()" ng-model="userData.current_country_id" name="current_country_id" class="form-control" required>
@@ -334,7 +332,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_state_id.$dirty || userForm.current_state_id.$invalid)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_state_id.$dirty && userForm.current_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <select ng-model="userData.current_state_id" ng-change="onStateChange()" name="current_state_id" class="form-control" required>
@@ -352,7 +350,7 @@
                             <div class="row">  
                                 <div class="col-sm-6 col-xs-6">
                                     <label for="">Select City <span class="sp-err">*</span></label>											
-                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_city_id.$dirty || userForm.current_city_id.$invalid)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_city_id.$dirty && userForm.current_city_id.$invalid)}">
                                         <span class="input-icon icon-right">
                                             <select ng-model="userData.current_city_id" name="current_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
@@ -367,7 +365,7 @@
                                 </div>                                
                                 <div class="col-sm-6 col-xs-6">
                                     <label for="">Pin code <span class="sp-err">*</span></label>
-                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_pin.$dirty || userForm.current_pin.$invalid)}">
+                                    <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_pin.$dirty && userForm.current_pin.$invalid)}">
                                         <span class="input-icon icon-right">
                                             <input type="text" ng-model="userData.current_pin" name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                             <i class="fa fa-map-pin"></i>
@@ -423,9 +421,9 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-change="onStateChange()" ng-model="userData.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
+                                            <select ng-model="userData.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
-                                                <option ng-repeat="state in stateList" value="{{state.id}}">{{state.name}}</option>
+                                                <option ng-repeat="state in stateList track by $index" value="{{state.id}}">{{state.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userForm.permenent_state_id.$error" class="help-block step2">
@@ -479,7 +477,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step3 && (!userForm.highest_education_id.$dirty || userForm.highest_education_id.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step3 && (!userForm.highest_education_id.$dirty && userForm.highest_education_id.$invalid)}">
                                 <label for="">Highest Education <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <select ng-controller="educationListCtrl" ng-model="userData.highest_education_id" name="highest_education_id" class="form-control" required>
@@ -503,7 +501,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.emp_photo_url.$invalid) || errorMsg}">
+                            <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.emp_photo_url.$invalid) && errorMsg}">
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
@@ -535,7 +533,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (step4 && (!userForm.department_id.$dirty || userForm.department_id.$invalid)) || emptyDepartmentId}" ng-controller="departmentCtrl">
+                            <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (step4 && (!userForm.department_id.$dirty && userForm.department_id.$invalid)) && emptyDepartmentId}" ng-controller="departmentCtrl">
                                 <label for="">Select Department <span class="sp-err">*</span></label>	
                                 <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkDepartment()">
                                     <ui-select-match placeholder="Select Departments">{{$item.department_name}}</ui-select-match>
@@ -549,7 +547,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step4 && (!userForm.designation.$dirty || userForm.designation.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step4 && (!userForm.designation.$dirty && userForm.designation.$invalid)}">
                                 <label for="">Designation <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="text" ng-model="userData.designation" name="designation" capitalizeFirst class="form-control" oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" required>
@@ -561,7 +559,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step4 && (!userForm.reporting_to_id.$dirty || userForm.reporting_to_id.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step4 && (!userForm.reporting_to_id.$dirty && userForm.reporting_to_id.$invalid)}">
                                 <label for="">Reporting To<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.reporting_to_id" name="reporting_to_id"  class="form-control" required>
@@ -585,7 +583,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step4 && (!userForm.joining_date.$dirty || userForm.joining_date.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step4 && (!userForm.joining_date.$dirty && userForm.joining_date.$invalid)}">
                                 <label>Joining Date<span class="sp-err">*</span></label>
                                 <div ng-controller="DatepickerDemoCtrl">
                                     <p class="input-group">
@@ -614,7 +612,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.employee_status.$dirty || userForm.employee_status.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.employee_status.$dirty && userForm.employee_status.$invalid)}">
                                 <label>Status <span class="sp-err">*</span></label>
                                 <div class="control-group">
                                     <div class="radio">
@@ -643,7 +641,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.username.$dirty || userForm.username.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.username.$dirty && userForm.username.$invalid)}">
                                 <label>User Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="text" ng-model="userData.username" name="username" class="form-control" required>
@@ -655,7 +653,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password.$dirty || userForm.password.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password.$dirty && userForm.password.$invalid)}">
                                 <label>Password <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="password" ng-model="userData.password" name="password" class="form-control" minlength="6" maxlength="6" required>
@@ -668,7 +666,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password_confirmation.$dirty || userForm.password_confirmation.$invalid)}">
+                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password_confirmation.$dirty && userForm.password_confirmation.$invalid)}">
                                 <label>Re Enter Password <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="password" ng-model="userData.password_confirmation" name="password_confirmation" minlength="6" maxlength="6" class="form-control" compare-to="userData.password" required>

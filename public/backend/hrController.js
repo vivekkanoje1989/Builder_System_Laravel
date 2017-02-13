@@ -18,6 +18,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
     $scope.userData.personal_mobile_no1 = $scope.userData.office_mobile_no = "+91-";
     $scope.departments = [];
     $scope.disableCreateButton = false;
+    $scope.currentPage =  $scope.itemsPerPage = 4;
+    $scope.noOfRows = 1;
+//    $scope.reverseSort = false;
 //    alert($scope.userData.id);
 //    if($scope.userData.id !== undefined){
 //        $scope.pageHeading = 'Edit User';
@@ -33,7 +36,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
 //        });
 //    }
 
-    $scope.checkTitle = function () {
+    /*$scope.checkTitle = function () {
         if ($scope.userData.title === "Mrs.")
         {
             $scope.userData.marital_status = "2";
@@ -43,7 +46,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             $scope.userData.marital_status = "1";
             $("#marital_status").removeAttr("disabled");
         }
-    }
+    }*/
 
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
@@ -67,7 +70,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                             $timeout(function () {
                                 $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);
                                 $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
-                            }, 500);
+                            }, 800);
                         }
                     });
                 }
@@ -136,7 +139,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         }
     };
 
-    $scope.manageUsers = function (id,action) { //index page
+    $scope.manageUsers = function (id,action) { //edit/index page
         $scope.modal = {};
         Data.post('master-hr/manageUsers',{
             empId: id,
@@ -145,12 +148,14 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                 if(action === 'index'){
                     $scope.listUsers = response.records.data;
                     $scope.listUsersLength = response.records.total;
-                    $scope.itemsPerPage = 4;
                 }
-                else if(action === 'edit'){alert(id);
-                    if(id !== ''){
+                else if(action === 'edit'){
+                    if(id !== '0'){
                         $scope.pageHeading = 'Edit User';
-                        $scope.userData = response.records.data[0];
+                        $timeout(function () {
+                            $scope.userData.personal_mobile_no1 = angular.copy(response.records.data[0].personal_mobile_no1);
+                            $scope.userData = angular.copy(response.records.data[0]);
+                        }, 500);
                     }
                 }
                 else{
@@ -165,6 +170,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         });
     };
 
+    $scope.pageChangeHandler = function(num) {
+        $scope.noOfRows = num;
+        $scope.currentPage = num * $scope.itemsPerPage;
+    };
     /*$scope.getEmployeeDetails = function (id,action) { //edit and change password popup page
         $scope.modal = {};
         Data.post('master-hr/manageUsers', {
