@@ -117,7 +117,7 @@ class MenuItems {
                 'submenu_ids' => '0401,0402,0403,0404', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                 1 => array('id' => '0401', 'name' => 'Enquiry Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '040101,040102,040103,040104,040105,040106,040107,040108,040109', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                    1 => array('id' => '040101', 'name' => 'New Enquiry', 'icon' => '', 'url' => '#', 'slug' => '/admin/', 'uiSrefActive' => 'active'),
+                    1 => array('id' => '040101', 'name' => 'New Enquiry', 'icon' => '', 'url' => '/admin/sales/index', 'slug' => '.salesIndex', 'uiSrefActive' => 'active'),
                     2 => array('id' => '040102', 'name' => 'My Today\'s Followups', 'icon' => '', 'url' => '#', 'slug' => '/admin/', 'uiSrefActive' => 'active'),
                     3 => array('id' => '040103', 'name' => 'My Pending Followups', 'icon' => '', 'url' => '#', 'slug' => '/admin/', 'uiSrefActive' => 'active'),
                     4 => array('id' => '040104', 'name' => 'My Previous Followups', 'icon' => '', 'url' => '#', 'slug' => '/admin/', 'uiSrefActive' => 'active'),

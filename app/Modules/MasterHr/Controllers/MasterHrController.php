@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Modules\MasterHr\Controllers;
+<?php namespace App\Modules\MasterHr\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;

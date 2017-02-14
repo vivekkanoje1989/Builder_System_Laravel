@@ -111,6 +111,20 @@ angular.module('app')
                             ]
                         }
                     })
+                    .state('admin.sales', {
+                        url: '/sales/create',
+                        templateUrl: 'admin/master-sales/create',
+                        ncyBreadcrumb: {
+                            label: 'New Enquiry'
+                        }
+                    })
+                    .state('admin.salesIndex', {
+                        url: '/sales/index',
+                        templateUrl: 'admin/master-sales/',
+                        ncyBreadcrumb: {
+                            label: 'Manage Enquiries'
+                        }
+                    })
                     .state('persian', {
                         abstract: true,
                         url: '/persian',

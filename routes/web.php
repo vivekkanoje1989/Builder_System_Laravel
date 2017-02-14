@@ -43,6 +43,8 @@ Route::get('admin/header', function () {
     return View::make('layouts.backend.header');
 });
 Route::get('admin/getToken', 'backend\Auth\LoginController@getToken');
+
+
 Route::group(['before' => ['guest']], function () {
     
     // ADMIN
@@ -57,6 +59,8 @@ Route::group(['before' => ['guest']], function () {
     // Reset Password
     Route::get('admin/password/reset/{token}/{checkState?}', 'backend\Auth\ResetPasswordController@showResetForm');
     Route::post('admin/password/reset', 'backend\Auth\ResetPasswordController@reset');
+    
+    Route::post('api/authenticate', 'backend\Auth\LoginController@authenticate');
     
     /*********************************************************************************************************/
     
@@ -94,9 +98,6 @@ Route::group(['middleware' => ['admin']], function () {
     Route::post('admin/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
     
     /***********************************************************************/
-    
-    /***************************** HR **********************************/
-//    Route::resource('admin/user', 'backend\hr\HrController');
     
     Route::get('admin/databoxes', function () {
         return View::make('backend.databoxes');

@@ -81,8 +81,7 @@ class LoginController extends Controller {
     }
     
     public function getSession(Request $request) {           
-        if (Auth::guard('admin')->check()) {
-            
+        if (Auth::guard('admin')->check()) {            
             $authUser = Auth()->guard('admin')->user();
             $result = ['success' => true, 'id' => $authUser->id, 'name' => $authUser->name, 'email' => $authUser->email];
             return $result;
@@ -111,16 +110,16 @@ class LoginController extends Controller {
     }
     
     public function getToken(){
-        return csrf_token();
+        return Session::token();
     }
 
-    public function authenticate(Request $request) {               
+    public function authenticate() {               
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $username = $request['data']['mobile'];
         $token = $request['data']['csrfToken'];
         
-        if (Session::token() == $token) {
+//        if (Session::token() == $token) {
             $checkUsername = Employee::getRecords(["id","employee_status"], ["username" => $username]);//(select attributes, where conditions)
             $empId = $checkUsername[0]->id;
             $employee_status = $checkUsername[0]->employee_status;
@@ -157,11 +156,11 @@ class LoginController extends Controller {
                     }
                 }
             }
-        }
-        else{
-            $result = ['success' => false,'message' => 'Token mismatch!'];
-            return json_encode($result);
-        }
+//        }
+//        else{
+//            $result = ['success' => false,'message' => 'Token mismatch!'];
+//            return json_encode($result);
+//        }
     }
 
     public function getLogout() {
