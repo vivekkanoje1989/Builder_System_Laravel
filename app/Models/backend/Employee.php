@@ -220,6 +220,8 @@ class Employee extends Authenticatable
     public static function validationMessages(){
         $messages = array(
             'username.required' => 'Please enter user name',
+            'username.numeric' => 'Please enter user name numeric',
+            'password.numeric' => 'Please enter password numeric',
             'password.required' => 'Please enter password',
             'designation.required' => 'Please enter designation',
             'department_id.required' => 'Please enter department',
@@ -231,8 +233,8 @@ class Employee extends Authenticatable
             'gender.required' => 'Please enter gender',
             'marital_status.required' => 'Please enter marital status',
             'physic_status_id.required' => 'Please enter physic status',
-            'personal_mobile_no1' => ['required' => 'Please enter personal mobile number'],
-            'office_mobile_no' => ['required' => 'Please enter office mobile number'],
+            'personal_mobile_no1.required' => 'Please enter personal mobile number',
+            'office_mobile_no.required' => 'Please enter office mobile number',
             'current_country_id.required' => 'Please enter current country',
             'current_state_id.required' => 'Please enter current state',
             'current_city_id.required' => 'Please enter current city',
@@ -251,7 +253,7 @@ class Employee extends Authenticatable
     public static function validationRules(){
         $rules = array(
             'username' => 'required|numeric',
-            'password' => 'required|max:12',
+            'password' => 'required|max:12|numeric',
             'designation' => 'required',
             'department_id' => 'required',
             'reporting_to_id' => 'required',

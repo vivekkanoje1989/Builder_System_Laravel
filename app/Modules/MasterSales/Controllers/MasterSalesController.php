@@ -4,7 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Input;
 class MasterSalesController extends Controller {
 
 	/**
@@ -80,5 +80,12 @@ class MasterSalesController extends Controller {
 	{
 		//
 	}
-
+        
+        public function getCustomerDetails()
+	{
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            echo "<pre>";print_r($request);exit;
+	}
+        
 }

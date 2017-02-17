@@ -17,7 +17,7 @@
                     <div id="login-form" class="w3-animate-right">
                         <div class="group-div">
                             <label>Mobile No.</label>
-                            <input type="text" name="mobile" ng-model="loginData.mobile" check-login-credentials minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required ng-model-options="{ allowInvalid: true, debounce: 200 }">
+                            <input type="text" name="mobile" ng-model="loginData.mobile" check-login-credentials minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required ng-model-options="{ allowInvalid: true, debounce: 100 }">
                             <div ng-show="next1" ng-messages="loginForm.mobile.$error" class="help-block next1">
                                 <div ng-message="required">Required</div>
                                 <div ng-message="minlength">Invalid mobile no.</div>
@@ -33,7 +33,7 @@
                     <div id="forgot-form" class="w3-animate-right">
                         <div class="group-div">
                             <label>Password</label>
-                            <input type="password" name="password" check-login-credentials minlength="6" maxlength="6" ng-model="loginData.password" required ng-model-options="{ allowInvalid: true, debounce: 200 }"><br>
+                            <input type="password" name="password" check-login-credentials minlength="6" maxlength="6" ng-model="loginData.password" required ng-model-options="{ allowInvalid: true, debounce: 100 }"><br>
                             <div ng-show="next2" ng-messages="loginForm.password.$error" class="help-block next2">
                                 <div ng-message="required">Required</div>
                                 <div ng-message="minlength">Too short (Minimum length is 6 characters)</div>
@@ -42,7 +42,7 @@
                             <div class="mar10">
                                 <a href="javascript:void(0);" ng-model="collapsed" ng-click="collapsed=!collapsed">Forgot Password?</a>
                                 <div ng-show="collapsed">
-                                    <h4>Are you really forgotten your password ?</h4>                                     
+                                    <h5>Are you really forgotten your password ?</h5>                                     
                                     <div>
                                         <button ng-show="collapsed" ng-click="collapsed=!collapsed" class="for-btn">Yes</button>
                                         <button ng-show="collapsed" ng-click="collapsed=!collapsed" class="for-btn">No</button>
@@ -58,7 +58,7 @@
                     <div id="otp-form" class="w3-animate-right">
                         <div class="group-div">
                             <label>High Security Password</label>
-                            <input type="text" name="securityPassword" check-login-credentials minlength="4" maxlength="4" ng-model="loginData.securityPassword" required ng-model-options="{ allowInvalid: true, debounce: 200 }">
+                            <input type="text" name="securityPassword" check-login-credentials minlength="4" maxlength="4" ng-model="loginData.securityPassword" required ng-model-options="{ allowInvalid: true, debounce: 100 }">
                             <div ng-show="next3" ng-messages="loginForm.securityPassword.$error" class="help-block next3">
                                 <div ng-message="required">Required</div>
                                 <div ng-message="minlength">Too short (Minimum length is 4 characters)</div>

@@ -49,21 +49,8 @@ Route::group(['middleware' =>[ 'web']], function () {
    
     // ADMIN
     Route::get('admin/session', 'backend\Auth\LoginController@getSession');
-    
     Route::get('admin/login', 'backend\Auth\LoginController@getLoginForm');
-    Route::post('admin/authenticate', 'backend\Auth\LoginController@authenticate');
-    
-//    Route::get('admin/login', 'backend\Auth\LoginController@showLoginForm');
-//    Route::post('admin/authenticate', 'backend\Auth\LoginController@login');
-//    Route::post('admin/logout','backend\Auth\LoginController@logout');
-//    Route::post('admin/password/email', 'App\Http\Controllers\backend\Auth\ForgotPasswordController@sendResetLinkEmail');
-//    Route::get('admin/password/reset',  'App\Http\Controllers\backend\Auth\ForgotPasswordController@showLinkRequestForm');
-//    Route::post('admin/password/reset', ' App\Http\Controllers\backend\Auth\ResetPasswordController@reset');
-//    Route::get('admin/password/reset/{token}', 'App\Http\Controllers\backend\Auth\ResetPasswordController@showResetForm');
-//    Route::get('admin/register', 'App\Http\Controllers\backend\Auth\RegisterController@showRegistrationForm');
-//    Route::post('admin/register', 'App\Http\Controllers\backend\Auth\RegisterController@register');
-
-    
+    Route::post('admin/authenticate', 'backend\Auth\LoginController@authenticate');   
     
     Route::get('admin/register', 'backend\Auth\RegisterController@getRegisterForm');
     Route::post('admin/saveRegister', 'backend\Auth\RegisterController@saveRegisterForm');
@@ -73,14 +60,6 @@ Route::group(['middleware' =>[ 'web']], function () {
     // Reset Password
     Route::get('admin/password/reset/{token}/{checkState?}', 'backend\Auth\ResetPasswordController@showResetForm');
     Route::post('admin/password/reset', 'backend\Auth\ResetPasswordController@reset');
-    
-    /*********************************************** API **********************************************************/
-    
-    Route::post('api/authenticate', 'backend\Auth\LoginController@authenticate');
-    Route::post('api/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
-    Route::get('api/getGender', 'backend\AdminController@getGender');
-    
-    /*********************************************** API **********************************************************/
     
     // USER 
     Route::get('user/login', 'frontend\Auth\LoginController@getLoginForm');
@@ -93,6 +72,15 @@ Route::group(['middleware' =>[ 'web']], function () {
     // Reset Password
     Route::get('user/password/reset/{token}', 'frontend\Auth\ResetPasswordController@showResetForm');
     Route::post('user/password/reset', 'frontend\Auth\ResetPasswordController@reset');
+    
+    
+    /*********************************************** API **********************************************************/
+    
+    Route::post('api/authenticate', 'backend\Auth\LoginController@authenticate');
+    Route::post('api/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
+    Route::get('api/getGender', 'backend\AdminController@getGender');
+    
+    /*********************************************** API **********************************************************/
 });
 
 Route::group(['middleware' =>[ 'auth:admin']], function () { 

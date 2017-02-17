@@ -1,11 +1,5 @@
-﻿
-
-
-
 
 /* vkm custome */
-
-
 
 .wizard ul li.complete:before {
     display: block;
@@ -11507,7 +11501,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
 }
 
 .step-content .step-pane {
-    /*display: none*/
+    display: none
 }
 
 .step-content .active {

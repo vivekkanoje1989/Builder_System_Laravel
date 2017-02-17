@@ -22,7 +22,6 @@ class MasterHrController extends Controller {
      * @return Response
      */
     public function index() { 
-        
 //        if(Auth::guard('admin')->check()){ 
 //            echo Auth::guard('admin')->user()->first_name;            
 //        }else {echo "not login";}
@@ -50,8 +49,8 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
 
         if(!empty($request['empId'])){
-            //send mail
-            //send email
+            //send mail code
+            //send email code
             $strRandomNo = str_random(6);
             $changedPassword = \Hash::make($strRandomNo);
             echo $strRandomNo;
@@ -90,12 +89,10 @@ class MasterHrController extends Controller {
             $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
             if ($validator->fails()) {
                 $result = ['success' => false, 'message' => $validator->messages()];
-                echo json_encode($result);
+                echo json_encode($result,true);
                 exit;
             }
-//echo "<pre>";print_r($input['userData']);exit;
             /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
-
             $imgRules = array(
                 'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
             );
@@ -111,7 +108,6 @@ class MasterHrController extends Controller {
             }
             /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
             $input['userData']['emp_photo_url'] = $fileName;
-
             $input['userData']['password'] = \Hash::make($input['userData']['password']);
             $input['userData']['department_id'] = implode(',', array_map(function($el){ return $el['id']; }, $input['userData']['department_id']));
             $input['userData']['remember_token'] = str_random(10);

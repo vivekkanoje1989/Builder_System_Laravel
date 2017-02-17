@@ -60,6 +60,26 @@ app.directive('checkLoginCredentials', function($timeout, $q, Data) {
   } 
 });
 
+app.directive('getCustomerDetails', function($timeout, $q, Data) {
+  return {
+    restrict: 'AE',
+    require: 'ngModel',
+    link: function($scope, element, attributes, model) { 
+        model.$asyncValidators.wrongInputs = function() {               
+            var customerData = $scope.customerData.searchWithMobile;console.log("customerData"+customerData);
+            customerData = (typeof $scope.customerData.searchWithMobile === 'undefined') ? $scope.customerData.searchWithEmail : $scope.customerData.searchWithMobile;   
+            return Data.post('master-sales/getCustomerDetails',{
+                data: customerData,
+            }).then(function(response){+
+              $timeout(function(){
+                model.$setValidity('wrongInputs', !!response.success); 
+              }, 1000);
+            });                           
+        };
+    }
+  } 
+});
+
 app.directive('checkUniqueEmail', function($timeout, $q, Data) {
   return {
     restrict: 'AE',

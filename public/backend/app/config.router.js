@@ -117,6 +117,19 @@ angular.module('app')
                         requiredLogin: true,
                         ncyBreadcrumb: {
                             label: 'New Enquiry'
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select',{
+                                        serie: true,
+                                        files: [
+                                            '/backend/salesController.js',
+                                        ]
+                                    }]);
+                                }
+                            ]
                         }
                     })
                     .state('admin.salesIndex', {

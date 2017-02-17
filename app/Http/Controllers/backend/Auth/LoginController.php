@@ -27,13 +27,6 @@ class LoginController extends Controller {
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-//    protected $redirectTo = '/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -41,16 +34,7 @@ class LoginController extends Controller {
     public function __construct() {
         $this->middleware('guest', ['except' => 'logout']);
     }
-    /**
-     * Show the application's login form.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function showLoginForm()
-    {
-        return view('backend.auth.login');
-    }
-
+    
     protected function guard()
     {
         return Auth::guard('admin');
@@ -101,11 +85,10 @@ class LoginController extends Controller {
         if (Auth::guard('admin')->check()) {            
             $authUser = Auth()->guard('admin')->user();
             $result = ['success' => true, 'id' => $authUser->id, 'name' => $authUser->name, 'email' => $authUser->email];
-            return $result;
         } else {
             $result = ['success' => false];
-            return $result;
         }
+        return $result;
     }
 
     public function getLoginForm() {
@@ -134,8 +117,7 @@ class LoginController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $username = $request['username'];
-        $password = $request['password'];
-        
+        $password = $request['password'];        
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         $checkUsername = Employee::getRecords(["id","employee_status"], ["username" => $username]);//(select attributes, where conditions)
         $empId = $checkUsername[0]->id;
@@ -149,14 +131,11 @@ class LoginController extends Controller {
             {
                 CommonFunctions::insertLoginLog($username, "", $empId, 1, 3); //loginStatus = 1(login fail), loginFailureReason = 3(not authorised to access the system)
                 $result = ['success' => false,'message' => 'You are not authorised to access the system on this machine'];
-                return json_encode($result);
             }
         }        
         if ($employee_status == 1 && auth()->guard('admin')->attempt(['username' => $username, 'password' => $password],true)) { //username => mobile
-            
             CommonFunctions::insertLoginLog($username, $password, $empId, 2, 0); //loginStatus = 2(login), loginFailureReason = 0
             $result = ['success' => true, 'message' => 'Successfully logged in'];
-            return json_encode($result);
         } else {
             if ($employee_status === 2) {
                 $loginFailureReason = 2;
@@ -170,24 +149,16 @@ class LoginController extends Controller {
             }
             CommonFunctions::insertLoginLog($username, $password, $empId, 1, $loginFailureReason);//loginStatus = 1(login fail)
             $result = ['success' => false, 'message' => $message];
-            return json_encode($result);
         }        
+        return json_encode($result);
     }
 
     public function getLogout() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $token = $request['data']['csrfToken'];
-        if (Session::token() == $token) {
-            $empId = Auth()->guard('admin')->user()->id;
-            $username = Auth()->guard('admin')->user()->username;
-            CommonFunctions::insertLoginLog($username, "-", $empId, 3, 0);//loginStatus = 3(logout)
-            auth()->guard('admin')->logout();
-            $result = ['success' => true, 'message' => 'Successfully logged out'];
-            echo json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            echo json_encode($result);
-        }
+        $empId = Auth()->guard('admin')->user()->id;
+        $username = Auth()->guard('admin')->user()->username;
+        CommonFunctions::insertLoginLog($username, "-", $empId, 3, 0);//loginStatus = 3(logout)
+        Auth()->guard('admin')->logout();
+        $result = ['success' => true, 'message' => 'Successfully logged out'];
+        echo json_encode($result);
     }
 }

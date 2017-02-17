@@ -199,7 +199,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.personal_mobile_no1.$dirty && userForm.personal_mobile_no1.$invalid)}">
                                         <label for="">Personal Mobile Number <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">   
-                                            <input type="text" ng-model="userData.personal_mobile_no1" name="personal_mobile_no1" id="personal_mobile_no1" placeholder="+91-9999999999" class="form-control" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
+                                            <input type="text" ng-model="userData.personal_mobile_no1" name="personal_mobile_no1" id="personal_mobile_no1" class="form-control" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
                                             <i class="fa fa-phone"></i>
                                             <div ng-show="step2" ng-messages="userForm.personal_mobile_no1.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
@@ -212,7 +212,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.office_mobile_no.$dirty && userForm.office_mobile_no.$invalid)}">
                                         <label>Office Mobile Number <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">                                            
-                                            <input type="text" ng-model="userData.office_mobile_no" name="office_mobile_no" id="office_mobile_no" class="form-control" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
+                                            <input type="text" ng-model="userData.office_mobile_no" name="office_mobile_no" id="office_mobile_no" class="form-control" ng-model-options="{ updateOn: 'blur' }" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
                                             <i class="fa fa-phone"></i>
                                             <div ng-show="step2" ng-messages="userForm.office_mobile_no.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
@@ -227,22 +227,22 @@
                                     <div class="form-group">
                                         <label for="">Family Member Mobile No.</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="userData.personal_mobile_no2" name="personal_mobile_no2" id="personal_mobile_no2" class="form-control" ng-model-options="{ updateOn: 'blur' }" ng-pattern="/^(\+\d{1,4}-)\d{10}$/">
+                                            <input type="text" ng-model="userData.personal_mobile_no2" name="personal_mobile_no2" id="personal_mobile_no2" class="form-control" placeholder="+91-" ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userData.personal_mobile_no2)">
                                             <i class="fa fa-phone"></i>
-                                            <div ng-show="step2" ng-messages="userForm.personal_mobile_no2.$error" class="help-block step2">
-                                                <div ng-message="pattern">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
+                                            <div ng-show="step2 && errMobile" ng-messages="userForm.personal_mobile_no2.$error" class="help-block step2">
+                                                <div>{{ errMobile }}</div>
                                             </div>
                                         </span>                               
                                     </div> 
                                 </div> 
                                 <div class="col-sm-6 col-xs-6">
                                     <div class="form-group">
-                                        <label for="">Family Member Mobile No.</label>
+                                        <label for="">Landline No.</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="userData.landline_no" name="landline_no" id="personal_mobile_no2" class="form-control" ng-model-options="{ updateOn: 'blur' }" ng-pattern="/^(\d{1,4}-)\d{6}$/">
+                                            <input type="text" ng-model="userData.landline_no" name="landline_no" id="landline_no" class="form-control" placeholder="+91-" ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userData.landline_no)">
                                             <i class="fa fa-phone"></i>
-                                            <div ng-show="step2" ng-messages="userForm.landline_no.$error" class="help-block step2">
-                                                <div ng-message="pattern">Landline number should be 12 digits and pattern should be for ex. 1234-999999</div>
+                                            <div ng-show="step2 && errLandline" ng-messages="userForm.landline_no.$error" class="help-block step2">
+                                                <div>{{ errLandline }}</div>
                                             </div>
                                         </span>                               
                                     </div> 
@@ -504,7 +504,7 @@
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
-                                    <img id="empPhotoPreview" alt="{{ altName }}"  class="thumb"/>
+                                    <img alt="{{ altName }}" class="thumb photoPreview"/>
                                     <div ng-show="step3" ng-messages="userForm.emp_photo_url.$error" class="help-block step3">
                                         <div ng-message="required">This field is required.</div>
                                         <i ng-show="userForm.emp_photo_url.$error.maxSize">File too large {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
@@ -667,11 +667,11 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-xs-6">
+                        <div class="col-sm-3 col-xs-6" ng-if="userData.high_security_password_type == 2">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password.$dirty && userForm.high_security_password.$invalid)}">
                                 <label>High security password <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.high_security_password" name="high_security_password" class="form-control" required>
+                                    <input type="text" ng-model="userData.high_security_password" name="high_security_password" class="form-control" ng-required='userData.high_security_password_type == 2'>
                                     <i class="fa fa-lock"></i>
                                     <div ng-show="step5" ng-messages="userForm.high_security_password.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
@@ -725,7 +725,8 @@
                             <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
                                 <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
                             </span>
-                            <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+                            <!--<span class="err" ng-show="errorMsg">{{errorMsg}}</span>-->
+                            <div ng-repeat="(key, val) in errorMsg">{{val}}</div>
                             <!-- message text     -->
                             <span ng-show="userData.emp_photo_url.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5">Prev</button>
@@ -750,7 +751,7 @@
             });
         });
         function imageIsLoaded(e) {
-            $('#empPhotoPreview').attr('src', e.target.result);
+            $('.photoPreview').attr('src', e.target.result);
         };
 
         $(".btn-nxt1").mouseup(function(e){
@@ -835,7 +836,6 @@
             $(".wiredstep4").removeClass("complete");
         });
     });
-    $("#personal_mobile_no1").intlTelInput();
-    $("#office_mobile_no").intlTelInput();
-    $("#personal_mobile_no2").intlTelInput();
+    $("#personal_mobile_no1,#personal_mobile_no2,#office_mobile_no,#landline_no").intlTelInput();
+
 </script>

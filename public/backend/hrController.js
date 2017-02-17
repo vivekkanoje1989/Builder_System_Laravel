@@ -15,11 +15,31 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
     $scope.userData.current_country_id = $scope.userData.current_state_id = $scope.userData.current_city_id =
     $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = "";
     $scope.userData.employee_status = "1";
-    $scope.userData.personal_mobile_no1 = $scope.userData.office_mobile_no = "+91-";
+    $scope.userData.personal_mobile_no1 = $scope.userData.office_mobile_no = $scope.userData.personal_mobile_no2 = $scope.userData.landline_no = "+91-";
     $scope.departments = [];
     $scope.disableCreateButton = false;
     $scope.currentPage =  $scope.itemsPerPage = 4;
     $scope.noOfRows = 1;
+    
+    $scope.validateMobileNumber = function (value) {
+        var regex = /^(\+\d{1,4}-)\d{10}$/;
+        if(!regex.test(value)){
+            $scope.errMobile = "Mobile number should be 10 digits and pattern should be for ex. +91-9999999999";
+        }
+        else{
+            $scope.errMobile = "";
+        }    
+    };
+    $scope.validateLandlineNumber = function (value) {
+        var regex = /^(\+\d{1,4}-\d{1,4}-)\d{6}$/;
+        if(!regex.test(value)){
+            $scope.errLandline = "Landline number should be 12 digits and pattern should be for ex. +91-1234-999999";
+        }
+        else{
+            $scope.errLandline = "";
+        }    
+    };
+    
     /*$scope.checkTitle = function () {
         if ($scope.userData.title === "Mrs.")
         {
@@ -80,9 +100,19 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             data: {userData: userData, emp_photo_url: employeePhoto},
         });
         employeePhoto.upload.then(function (response) {
-            $timeout(function () {
-                if (!response.success) {
-                    $scope.errorMsg = response.message;
+            console.log(response);
+            $timeout(function () {console.log("3"+response.data.success);
+                if (!response.data.success) {
+                    var obj = response.data.message;
+                    var arr = Object.keys(obj).map(function(k) { return obj[k] });
+                    var err = [];
+                    console.log(arr);
+                    var j = 0;
+                    for (var i = 0; i < arr.length; i++) {
+                      err.push(arr[j++].toString());
+                    }
+//                    var jsonToArray = $.map(response.data.success, function(el) { return el; });                    
+                    $scope.errorMsg = err;
                 } else
                 {
                     $scope.disableCreateButton = true;
@@ -91,14 +121,15 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                     $('.alert-delay').delay(3000).fadeOut("slow");
                     $timeout(function () {
                         $state.go('admin.userIndex');
-                    }, 3000);
+                    }, 1000);
                 }
             });
         }, function (response) {
-            if (response.status > 0) {
-                $scope.errorMsg = response.status + ': ' + response.data;
+            if (response.status !== 200) {console.log(response.status);
+                $scope.errorMsg = "Something went wrong.";
             }
         }, function (evt, response) {
+            
 //            employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
         });
     };
