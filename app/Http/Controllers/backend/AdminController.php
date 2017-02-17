@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
-use DB;
 use App\Classes\MenuItems;
 use App\Models\backend\Employee;
 use App\Models\LstTitle;
@@ -15,7 +14,7 @@ use App\Models\LstCountry;
 use App\Models\LstState;
 use App\Models\LstCity;
 use Illuminate\Http\Request;
-
+use Auth;
 class AdminController extends Controller {
 
     /**
@@ -24,7 +23,7 @@ class AdminController extends Controller {
      * @return void
      */
     public function __construct() {
-        
+        $this->middleware('web');
     }
 
     /**
@@ -40,8 +39,12 @@ class AdminController extends Controller {
 
 //        $rows = DB::select('CALL sp_test(1)');
 //        return json_encode($id);
-        $id = Auth()->guard('admin')->user()->id;
-        return view('layouts.backend.dashboard')->with('id', $id);
+//        if(Auth::guard('admin')->check()){ 
+//            echo "login".Auth::guard('admin')->user()->id;            
+//        }else {echo "not login";}
+//        echo "<pre>";print_r(Auth::guard('admin')->user());exit;
+        $fullName = Auth::guard('admin')->user()->first_name." ".Auth::guard('admin')->user()->last_name;  
+        return view('layouts.backend.dashboard')->with('id', $fullName);
     }
 
     public function getMenuItems() {
@@ -206,4 +209,8 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }    
+    protected function guard()
+    {
+        return Auth::guard('admin');
+    }
 }

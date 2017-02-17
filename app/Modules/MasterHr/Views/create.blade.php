@@ -15,7 +15,6 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>
-            <!--<button type="button" class="btn btn-primary" ng-disabled="disableCreateButton" ng-click="checkFlash()">click</button>-->
             <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
                 <ul class="steps">
                     <li class="wiredstep1 active"><span class="step">1</span><span class="title">Step 1</span><span class="chevron"></span></li>
@@ -505,7 +504,7 @@
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
-                                    <img id="empPhotoPreview" src="#" alt="Employee" class="thumb"/>
+                                    <img id="empPhotoPreview" alt="{{ altName }}"  class="thumb"/>
                                     <div ng-show="step3" ng-messages="userForm.emp_photo_url.$error" class="help-block step3">
                                         <div ng-message="required">This field is required.</div>
                                         <i ng-show="userForm.emp_photo_url.$error.maxSize">File too large {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
@@ -641,6 +640,46 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
+                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.employee_id.$dirty && userForm.employee_id.$invalid)}">
+                                <label>Employee Id <span class="sp-err">*</span></label>
+                                <span class="input-icon icon-right">
+                                    <input type="text" ng-model="userData.employee_id" name="employee_id" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
+                                    <i class="fa fa-user"></i>
+                                    <div ng-show="step5" ng-messages="userForm.employee_id.$error" class="help-block step5">
+                                        <div ng-message="required">This field is required.</div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password_type.$dirty && userForm.high_security_password_type.$invalid)}">
+                                <label>High security password type <span class="sp-err">*</span></label>
+                                <span class="input-icon icon-right" >
+                                    <select ng-model="userData.high_security_password_type" name="high_security_password_type" class="form-control" required>
+                                        <option value="">Select Password Type</option>
+                                        <option value="1">OTP</option>
+                                        <option value="2">Fixed</option>
+                                    </select>
+                                    <i class="fa fa-sort-desc"></i>
+                                    <div ng-show="step5" ng-messages="userForm.high_security_password_type.$error" class="help-block step5">
+                                        <div ng-message="required">This field is required.</div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password.$dirty && userForm.high_security_password.$invalid)}">
+                                <label>High security password <span class="sp-err">*</span></label>
+                                <span class="input-icon icon-right">
+                                    <input type="text" ng-model="userData.high_security_password" name="high_security_password" class="form-control" required>
+                                    <i class="fa fa-lock"></i>
+                                    <div ng-show="step5" ng-messages="userForm.high_security_password.$error" class="help-block step5">
+                                        <div ng-message="required">This field is required.</div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.username.$dirty && userForm.username.$invalid)}">
                                 <label>User Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
@@ -651,7 +690,7 @@
                                     </div>
                                 </span>
                             </div>
-                        </div>
+                        </div>                        
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password.$dirty && userForm.password.$invalid)}">
                                 <label>Password <span class="sp-err">*</span></label>

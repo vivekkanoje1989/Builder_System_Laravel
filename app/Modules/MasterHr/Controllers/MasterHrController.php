@@ -4,17 +4,29 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
+use App\Models\EmployeesLog;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Illuminate\Hashing\HashServiceProvider;
+use Auth;
+use App\Classes\CommonFunctions;
 class MasterHrController extends Controller {
-
+   
+    public function __construct()
+    {
+        $this->middleware('web');
+    }
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index() {   
+    public function index() { 
+        
+//        if(Auth::guard('admin')->check()){ 
+//            echo Auth::guard('admin')->user()->first_name;            
+//        }else {echo "not login";}
+//        echo "<pre>";print_r(Auth::guard('admin')->user());exit;
         return view("MasterHr::index");
     }
     
@@ -22,6 +34,7 @@ class MasterHrController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $manageUsers = [];
+        
         if(!empty($request['empId']) && $request['empId'] !== "0"){ // for edit
             $manageUsers = DB::select('CALL proc_manage_users(1,'.$request["empId"].')');
         }else if($request['empId'] === ""){ // for index
@@ -30,10 +43,7 @@ class MasterHrController extends Controller {
         if ($manageUsers) {            
             $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
             echo json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
-            echo json_encode($result);
-        }
+        } 
     }
     public function changePassword() {
         $postdata = file_get_contents("php://input");
@@ -76,39 +86,97 @@ class MasterHrController extends Controller {
         $validationMessages = Employee::validationMessages();
         $validationRules = Employee::validationRules();
         $input = Input::all();
+        if(!empty($input['userData'])){
+            $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
+            if ($validator->fails()) {
+                $result = ['success' => false, 'message' => $validator->messages()];
+                echo json_encode($result);
+                exit;
+            }
+//echo "<pre>";print_r($input['userData']);exit;
+            /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
 
-        $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
-        if ($validator->fails()) {
-            $result = ['success' => false, 'message' => $validator->messages()];
-            echo json_encode($result);
-            exit;
-        }
-                
-        /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
-        
-        $imgRules = array(
-            'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
-        );
-        $validateEmpPhotoUrl = Validator::make($input, $imgRules);
-        if ($validator->fails()) {
-            $result = ['success' => false, 'message' => $validator->messages()];
-            echo json_encode($result);
-            exit;
-        }
-        else{
-            $fileName = time().'.'.$input['emp_photo_url']->getClientOriginalExtension();
-            $input['emp_photo_url']->move(resource_path('hrEmployeePhoto'), $fileName);
-        }
-        /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
-        $input['userData']['emp_photo_url'] = $fileName;
-        $employee = Employee::createEmployee($input['userData']);//insert data into database
+            $imgRules = array(
+                'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
+            );
+            $validateEmpPhotoUrl = Validator::make($input, $imgRules);
+            if ($validator->fails()) {
+                $result = ['success' => false, 'message' => $validator->messages()];
+                echo json_encode($result);
+                exit;
+            }
+            else{
+                $fileName = time().'.'.$input['emp_photo_url']->getClientOriginalExtension();
+                $input['emp_photo_url']->move(base_path()."/common/employee_photo/", $fileName);
+            }
+            /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
+            $input['userData']['emp_photo_url'] = $fileName;
 
-        if ($employee) {
-            $result = ['success' => true, 'message' => 'Employee registeration successfully'];
-            echo json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
-            echo json_encode($result);
+            $input['userData']['password'] = \Hash::make($input['userData']['password']);
+            $input['userData']['department_id'] = implode(',', array_map(function($el){ return $el['id']; }, $input['userData']['department_id']));
+            $input['userData']['remember_token'] = str_random(10);
+            $input['userData']['date_of_birth'] = date('Y-m-d', strtotime($input['userData']['date_of_birth']));
+            $input['userData']['joining_date'] = date('Y-m-d', strtotime($input['userData']['joining_date']));
+            $input['userData']['created_date'] = date('Y-m-d');
+            $input['userData']['client_id'] = !empty($input['client_id']) ? $input['userData']['client_id'] : "0";
+            $input['userData']['client_role_id'] = "1";
+            $input['userData']['high_security_password'] = !empty($input['userData']['high_security_password']) ? $input['userData']['high_security_password'] : "";
+            $input['userData']['password_changed'] = !empty($input['userData']['password_changed']) ? $input['userData']['password_changed'] : "0";
+            $input['userData']['remember_token'] = str_random(10);
+            $input['userData']['usertype'] = "admin";
+            $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1"; 
+            $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
+            $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";        
+            $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : "";
+
+            $personalMobileNo1 = explode("-",$input['userData']['personal_mobile_no1']);
+            $input['userData']['mobile1_calling_code'] = (int)$personalMobileNo1[0];
+            $input['userData']['personal_mobile_no1'] = $personalMobileNo1[1];
+
+            if(!empty($input['userData']['personal_mobile_no2'])){
+                $personalMobileNo2 = explode("-",$input['userData']['personal_mobile_no2']);
+                $input['userData']['mobile2_calling_code'] = (int)$personalMobileNo2[0];
+                $input['userData']['personal_mobile_no2'] = $personalMobileNo2[1];
+            }
+
+            if(!empty($input['userData']['office_mobile_no'])){
+                $officeMobileNo = explode("-",$input['userData']['office_mobile_no']);
+                $input['userData']['office_mobile_calling_code'] = (int)$officeMobileNo[0];
+                $input['userData']['office_mobile_no'] = $officeMobileNo[1];
+            }
+
+            if(!empty($input['userData']['landline_no'])){
+                $landlineNo = explode("-",$input['userData']['landline_no']);
+                $input['userData']['landline_calling_code'] = $landlineNo[0];
+                $input['userData']['landline_no'] = $landlineNo[1];
+            }
+
+            $input['userData']['education_details'] = !empty($input['userData']['education_details']) ? $input['userData']['education_details'] : "";
+            $input['userData']['show_on_homepage'] = !empty($input['userData']['show_on_homepage']) ? $input['userData']['show_on_homepage'] : "1";
+            $input['userData']['employee_submenus'] = !empty($input['userData']['employee_submenus']) ? $input['userData']['employee_submenus'] : '["0101","0102","0103","0104"]';
+            $input['userData']['employee_permissions'] = !empty($input['userData']['employee_permissions']) ? $input['userData']['employee_permissions'] : "1";
+            $input['userData']['employee_email_subscriptions'] = !empty($input['userData']['employee_email_subscriptions']) ? $input['userData']['employee_email_subscriptions'] : "1";
+            $input['userData']['employee_sms_subscrption'] = !empty($input['userData']['employee_sms_subscrption']) ? $input['userData']['employee_sms_subscrption'] : "1";
+            $input['userData']['employee_info_form_url'] = !empty($input['userData']['employee_info_form_url']) ? $input['userData']['employee_info_form_url'] : "1";
+            $input['userData']['employee_info_form_url_status'] = !empty($input['userData']['employee_info_form_url_status']) ? $input['userData']['employee_info_form_url_status'] : "1";
+            $input['userData']['created_by'] = Auth::guard('admin')->user()->id;
+            $input['userData']['created_IP'] = $_SERVER['REMOTE_ADDR'];
+            $input['userData']['created_browser'] = $_SERVER['HTTP_USER_AGENT'];
+            $input['userData']['created_mac_id'] = CommonFunctions::getMacAddress();
+            $employee =  Employee::create($input['userData']); //insert data into employees table            
+            
+            $input['userData']['main_record_id'] = Auth::guard('admin')->user()->id;
+            $input['userData']['record_type'] = 1;
+            $input['userData']['record_restore_status'] = 1;
+            EmployeesLog::create($input['userData']);   //insert data into employees_logs table
+
+            if ($employee) {
+                $result = ['success' => true, 'message' => 'Employee registeration successfully'];
+                echo json_encode($result);
+            } else {
+                $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
+                echo json_encode($result);
+            }
         }
         exit;
     }
@@ -152,5 +220,8 @@ class MasterHrController extends Controller {
     public function destroy($id) {
         //
     }
-
+    protected function guard()
+    {
+        return Auth::guard('admin');
+    }
 }

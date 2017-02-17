@@ -5,7 +5,7 @@
                 <div id="registration-form">
                     <form role="form">
                         <div class="form-title">
-                            Customer Details
+                            Customer Details 
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
@@ -164,7 +164,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Savne & Continue</button>
+                        <button type="submit" class="btn btn-primary">Save & Continue</button>
                     </form>
                 </div>
             </div>
@@ -172,7 +172,6 @@
     </div>                   
     <div class="col-lg-6 col-sm-6 col-xs-12">
         <div class="widget flat radius-bordered">
-
             <div class="widget-body bordered-top bordered-sky">
                 <div id="registration-form">
                     <form role="form">

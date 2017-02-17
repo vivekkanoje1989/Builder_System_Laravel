@@ -19,8 +19,9 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
         $scope.errorMsg = '';
     }
     $scope.login = function (loginData) {
-        Data.post('authenticate', {
-            data: loginData,
+//        var formData = ($element.serialize());
+        Data.post('authenticate', { 
+            username:loginData.mobile,password:loginData.password,
         }).then(function (response) {
             if (response.success) {
                 $state.reload();

@@ -111,9 +111,10 @@ angular.module('app')
                             ]
                         }
                     })
-                    .state('admin.sales', {
+                    .state('admin.salesCreate', {
                         url: '/sales/create',
                         templateUrl: 'admin/master-sales/create',
+                        requiredLogin: true,
                         ncyBreadcrumb: {
                             label: 'New Enquiry'
                         }
@@ -121,6 +122,7 @@ angular.module('app')
                     .state('admin.salesIndex', {
                         url: '/sales/index',
                         templateUrl: 'admin/master-sales/',
+                        requiredLogin: true,
                         ncyBreadcrumb: {
                             label: 'Manage Enquiries'
                         }
@@ -418,70 +420,53 @@ angular.module('app')
     $rootScope.getMenu = {};   
 
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, next, current) {
-        /*Data.get('checkDevice').then(function (response) {
-            if(!response.success){
-                console.log(response.message);
-                $state.go('error500');
-                event.preventDefault();
-                return false;
-            }
-        }, function (error) {
-            alert('Error - Something went wrong.');
-        });*/
     var nextUrl = $location.path();
-//    console.log("1." + toState.requiredLogin + "===" + $rootScope.authenticated);
-//        if ((toState.requiredLogin && $rootScope.authenticated === false) || (toState.requiredLogin && $rootScope.authenticated === true)) // true && false || true && true
-//        {
-            if((toState.requiredLogin && $rootScope.authenticated === false) || (!toState.requiredLogin && $rootScope.authenticated === false)){ // true && false
-                Data.get('session').then(function (results) {
-                    if (results.success === true) {
+    if((toState.requiredLogin && $rootScope.authenticated === false) || (!toState.requiredLogin && $rootScope.authenticated === false)){ // true && false
+        Data.get('session').then(function (results) {
+            if (results.success === true) {
 //                        console.log("in if - if");
-                        $rootScope.authenticated = true;
-                        $rootScope.id = results.id;
-                        $rootScope.name = results.name;
-                        $rootScope.email = results.email;
-                        $window.sessionStorage.setItem("userLoggedIn",true);
-                        $http.get('admin/getMenuItems').then(function (response) {
-                            $rootScope.getMenu = response.data;
-                        }, function (error) {
-                            alert('Error');
-                        });
-                        var modifiedUrl = nextUrl.substr(nextUrl.lastIndexOf('/') + 0);
-                        modifiedUrl = nextUrl.replace(new RegExp(modifiedUrl), '');
-                        if (nextUrl === '/admin/register' || nextUrl === '/admin/login' || nextUrl === '/admin/forgotPassword' || modifiedUrl === '/admin/resetPassword') {
-                            $state.transitionTo("admin.dashboard");
-                            event.preventDefault();
-                            return false;
-                        }
-                    }
-                    else {
-                        var modifiedUrl = nextUrl.substr(nextUrl.lastIndexOf('/') + 0);
-                        modifiedUrl = nextUrl.replace(new RegExp(modifiedUrl), '');
-                        if (nextUrl === '/admin/register' || nextUrl === '/admin/login' || nextUrl === '/admin/forgotPassword' || modifiedUrl === '/admin/resetPassword') {
-//                            console.log("in if - else - if");
-                            event.preventDefault();
-                            return false;
-                        } else {
-//                            console.log("in if - else - else");
-                            $state.go('login');
-                            event.preventDefault();
-                            return false;
-                        }
-                    }
+                $rootScope.authenticated = true;
+                $rootScope.id = results.id;
+                $rootScope.name = results.name;
+                $rootScope.email = results.email;
+                $window.sessionStorage.setItem("userLoggedIn",true);
+                $http.get('admin/getMenuItems').then(function (response) {
+                    $rootScope.getMenu = response.data;
+                }, function (error) {
+                    alert('Error');
                 });
+                var modifiedUrl = nextUrl.substr(nextUrl.lastIndexOf('/') + 0);
+                modifiedUrl = nextUrl.replace(new RegExp(modifiedUrl), '');
+                if (nextUrl === '/admin/register' || nextUrl === '/admin/login' || nextUrl === '/admin/forgotPassword' || modifiedUrl === '/admin/resetPassword') {
+                    $state.transitionTo("admin.dashboard");
+                    event.preventDefault();
+                    return false;
+                }
             }
-//        }
-//        else if ((!toState.requiredLogin && $rootScope.authenticated === false) || (!toState.requiredLogin && $rootScope.authenticated === true))// false && false || false && true
-          
-//            console.log("else");
-            if(!toState.requiredLogin && $rootScope.authenticated === true) //false && true
-            {
+            else {
+                var modifiedUrl = nextUrl.substr(nextUrl.lastIndexOf('/') + 0);
+                modifiedUrl = nextUrl.replace(new RegExp(modifiedUrl), '');
+                if (nextUrl === '/admin/register' || nextUrl === '/admin/login' || nextUrl === '/admin/forgotPassword' || modifiedUrl === '/admin/resetPassword') {
+//                  console.log("in if - else - if");
+                    event.preventDefault();
+                    return false;
+                } else {
+//                  console.log("in if - else - else");
+                    $state.go('login');
+                    event.preventDefault();
+                    return false;
+                }
+            }
+        });
+    }
+    if(!toState.requiredLogin && $rootScope.authenticated === true) //false && true
+    {
 //                console.log("else - if");
-                $state.go('admin.dashboard');
-                $state.reload();
-                event.preventDefault();
-                return false;
-            }
+        $state.go('admin.dashboard');
+        $state.reload();
+        event.preventDefault();
+        return false;
+    }
             
             
 //            var modifiedUrl = nextUrl.substr(nextUrl.lastIndexOf('/') + 0);

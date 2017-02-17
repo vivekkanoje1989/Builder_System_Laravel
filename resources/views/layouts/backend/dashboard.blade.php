@@ -60,7 +60,7 @@
                                 <i class="stat-icon icon-xlg fa fa-phone"></i>
                             </div>
                             <div class="databox-text darkgray">JOHN SMITH</div>
-                            <div class="databox-text darkgray">TOP RESELLER [[ $id ]] [[ asset('js/app.js') ]]</div>
+                            <div class="databox-text darkgray">TOP RESELLER [[ asset('js/app.js') ]]</div>
                         </div>
                     </div>
                 </div>

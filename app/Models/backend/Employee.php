@@ -93,6 +93,8 @@ class Employee extends Authenticatable
     
         use Notifiable;
 	public $timestamps = false;
+                
+        protected $primaryKey = 'id';
 	protected $casts = [
 		'client_id' => 'int',
 		'client_role_id' => 'int',
@@ -248,7 +250,7 @@ class Employee extends Authenticatable
     }
     public static function validationRules(){
         $rules = array(
-            'username' => 'required',
+            'username' => 'required|numeric',
             'password' => 'required|max:12',
             'designation' => 'required',
             'department_id' => 'required',

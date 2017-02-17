@@ -232,7 +232,7 @@
                                 <img src="/backend/assets/img/avatars/adam-jansen.jpg">
                             </div>
                             <section>
-                                <h2><span class="profile"><span>David Stevenson</span></span></h2>
+                                <h2><span class="profile"><span>David Stevman</span></span></h2>
                             </section>
                         </a>
                         <!--Login Area Dropdown-->

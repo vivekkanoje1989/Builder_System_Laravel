@@ -20,22 +20,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
     $scope.disableCreateButton = false;
     $scope.currentPage =  $scope.itemsPerPage = 4;
     $scope.noOfRows = 1;
-//    $scope.reverseSort = false;
-//    alert($scope.userData.id);
-//    if($scope.userData.id !== undefined){
-//        $scope.pageHeading = 'Edit User';
-//        Data.post('master-hr/manageUsers', {
-//            empId: $scope.userData.id,
-//        }).then(function (response) {
-//            console.log(response);
-//            if (response.success) {
-//                $scope.userData = response.records.data[0];
-//            } else {
-//                $scope.errorMsg = response.message;
-//            }  
-//        });
-//    }
-
     /*$scope.checkTitle = function () {
         if ($scope.userData.title === "Mrs.")
         {
@@ -97,7 +81,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         });
         employeePhoto.upload.then(function (response) {
             $timeout(function () {
-                if (!response.data.success) {
+                if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else
                 {
@@ -124,6 +108,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             var ext = employeePhoto.name.match(/\.(.+)$/)[1];
             if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
                 $scope.errorMsg = "";
+                $scope.altName = employeePhoto.name;
             } else {
                 document.getElementById("emp_photo_url").value = "";
                 $scope.errorMsg = "Invalid file format. Image should be jpg or jpeg or png or bmp format only.";
