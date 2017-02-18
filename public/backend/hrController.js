@@ -21,6 +21,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
     $scope.currentPage =  $scope.itemsPerPage = 4;
     $scope.noOfRows = 1;
     
+    /*var srcurl = "https://s3-ap-south-1.amazonaws.com/lms-auto/1/cloud_calling/caller_tune/";
+    $scope.audio = "hold_tune071056.mp3";
+    $("#audiourl").attr("src",srcurl+$scope.audio);*/
     $scope.validateMobileNumber = function (value) {
         var regex = /^(\+\d{1,4}-)\d{10}$/;
         if(!regex.test(value)){
@@ -54,9 +57,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
 
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
+            $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = "";
             $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
             $scope.userData.permenent_country_id = angular.copy($scope.userData.current_country_id);
             $scope.userData.permenent_pin = angular.copy($scope.userData.current_pin);
+
             Data.post('getStates', {
                 data: {countryId: $scope.userData.current_country_id},
             }).then(function (response) {
@@ -64,6 +69,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.stateList = response.records;
+      
                     Data.post('getCities', {
                         data: {stateId: $scope.userData.current_state_id},
                     }).then(function (response) {
@@ -72,9 +78,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                         } else {
                             $scope.cityList = response.records;
                             $timeout(function () {
+                                
                                 $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);
                                 $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
-                            }, 800);
+                            }, 100);
                         }
                     });
                 }

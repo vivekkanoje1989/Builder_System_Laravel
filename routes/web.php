@@ -79,6 +79,7 @@ Route::group(['middleware' =>[ 'web']], function () {
     Route::post('api/authenticate', 'backend\Auth\LoginController@authenticate');
     Route::post('api/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
     Route::get('api/getGender', 'backend\AdminController@getGender');
+    Route::get('api/getMasterData', 'backend\AdminController@getMasterData');
     
     /*********************************************** API **********************************************************/
 });

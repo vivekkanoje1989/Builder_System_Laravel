@@ -405,7 +405,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_country_id.$invalid)}">
                                         <label for="">Select Country <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-change="onCountryChange()" ng-model="userData.permenent_country_id" name="permenent_country_id" class="form-control" required>
+                                            <select ng-change="onPCountryChange()" ng-model="userData.permenent_country_id" name="permenent_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
                                                 <option ng-repeat="country in countryList" value="{{country.id}}">{{country.name}}</option>
                                             </select>
@@ -420,7 +420,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-model="userData.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
+                                            <select ng-change="onPStateChange()" ng-model="userData.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
                                                 <option ng-repeat="state in stateList track by $index" value="{{state.id}}">{{state.name}}</option>
                                             </select>
@@ -722,6 +722,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
+                            <audio controls=""><source type="audio/mpeg"  id="audiourl" src="" class="__web-inspector-hide-shortcut__" /></audio>
                             <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
                                 <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
                             </span>
@@ -741,18 +742,18 @@
 <script>
     $(document).ready(function(){
         
-        $(function () {
-            $(":file").change(function () {
-                if (this.files && this.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = imageIsLoaded;
-                    reader.readAsDataURL(this.files[0]);
-                }
-            });
-        });
-        function imageIsLoaded(e) {
-            $('.photoPreview').attr('src', e.target.result);
-        };
+//        $(function () {
+//            $(":file").change(function () {
+//                if (this.files && this.files[0]) {
+//                    var reader = new FileReader();
+//                    reader.onload = imageIsLoaded;
+//                    reader.readAsDataURL(this.files[0]);
+//                }
+//            });
+//        });
+//        function imageIsLoaded(e) {
+//            $('.photoPreview').attr('src', e.target.result);
+//        };
 
         $(".btn-nxt1").mouseup(function(e){
             if($(".step1").hasClass("ng-active")) {

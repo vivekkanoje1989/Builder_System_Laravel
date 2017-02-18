@@ -8,18 +8,22 @@ app.controller('customerController', function ($rootScope, $scope, $location, $h
     
     $scope.customerData = {};
     
-    $scope.getCustomerDetails = function (customerData) {
-        Data.post('master-sales/getCustomerDetails', {
-            data: customerData
-        }).then(function (response) {
-            if (response.success) {
-                $rootScope.authenticated = false;
-                $state.go('login');
-            } else {
-                $scope.errorMsg = response.message;
-            }
-        });
-    }
+    /*$scope.getCustomerDetails = function (customerData) {
+        var customerData = $scope.customerData.searchWithMobile;
+        customerData = (typeof $scope.customerData.searchWithMobile === 'undefined') ? $scope.customerData.searchWithEmail : $scope.customerData.searchWithMobile;   
+        if(customerData !== undefined){alert("in if"+customerData);
+            Data.post('master-sales/getCustomerDetails', {
+                data: customerData
+            }).then(function (response) {
+                if (response.success) {
+                    $rootScope.authenticated = false;
+                    $state.go('login');
+                } else {
+                    $scope.errorMsg = response.message;
+                }
+            });
+        }
+    }*/
     
 });
 

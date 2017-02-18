@@ -3,7 +3,7 @@
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
-                    <form role="form" name="customerForm" ng-controller="customerController" >
+                    <form novalidate role="form" ng-submit="customerForm.$valid && create(customerData)" name="customerForm" ng-controller="customerController" >
                         <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'" class="form-control">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">
                             <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -15,11 +15,11 @@
                                         <div class="form-group">
                                             <label for="">Mobile Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" get-customer-details ng-model="customerData.searchWithMobile" minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{ allowInvalid: true, debounce: 100 }">
+                                                <input type="text" class="form-control" ng-model="customerData.searchWithMobile" get-customer-details minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100 }">
                                                 <i class="glyphicon glyphicon-phone"></i>
                                                 <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
                                                     <div ng-message="minlength">Invalid mobile no.</div>
-                                                    <div ng-message="wrongInputs">Mobile number does not exist!</div>
+                                                    <div ng-message="customerInputs">Mobile number does not exist!</div>
                                                 </div> 
                                             </span>
                                         </div>
@@ -47,17 +47,33 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="" style="width:100%">First Name</label>
+                                            <label for="">Title</label>
                                             <span class="input-icon icon-right" style="width: 35%;float: left;">
-                                                <select style="width: 95%;">
+                                                <select ng-model="customerData.title_id" name="title_id" style="width: 95%;">
                                                     <option>Mr.</option>
                                                     <option>Mrs.</option>
                                                     <option>Miss.</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                             </span>
-                                            <span class="input-icon icon-right" style="width: 65%;">
-                                                <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="">First Name</label>
+                                            <span class="input-icon icon-right">
+                                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name">
+                                                <i class="fa fa-user"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="">Middle Name</label>
+                                            <span class="input-icon icon-right">
+                                                <input type="text" class="form-control" ng-model="customerData.middle_name" name="middle_name">
                                                 <i class="fa fa-user"></i>
                                             </span>
                                         </div>
@@ -66,7 +82,7 @@
                                         <div class="form-group">
                                             <label for="">Last Name</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name">
                                                 <i class="fa fa-user"></i>
                                             </span>
                                         </div>

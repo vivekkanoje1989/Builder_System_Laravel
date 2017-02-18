@@ -168,8 +168,7 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
     };
 });
 
-app.controller('permanentCountryListCtrl', function ($scope, Data) {
-
+app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
     Data.get('getCountries').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;
@@ -177,7 +176,8 @@ app.controller('permanentCountryListCtrl', function ($scope, Data) {
             $scope.countryList = response.records;
         }
     });
-    $scope.onCountryChange = function () {
+    
+    $scope.onPCountryChange = function () {
         $scope.stateList = "";
         Data.post('getStates',{
             data: {countryId: $scope.userData.permenent_country_id},
@@ -189,7 +189,7 @@ app.controller('permanentCountryListCtrl', function ($scope, Data) {
             }
         });
     };
-    $scope.onStateChange = function () {
+    $scope.onPStateChange = function () {
         $scope.cityList = "";
         Data.post('getCities',{
             data: {stateId: $scope.userData.permenent_state_id},
@@ -201,6 +201,40 @@ app.controller('permanentCountryListCtrl', function ($scope, Data) {
             }
         });
     };
+    
+    $scope.checkboxSelected = function (copy) {
+        if (copy) {  // when checked
+            $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
+            $scope.userData.permenent_country_id = angular.copy($scope.userData.current_country_id);
+            $scope.userData.permenent_pin = angular.copy($scope.userData.current_pin);
+
+            Data.post('getStates', {
+                data: {countryId: $scope.userData.current_country_id},
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.stateList = response.records;      
+                    Data.post('getCities', {
+                        data: {stateId: $scope.userData.current_state_id},
+                    }).then(function (response) {
+                        if (!response.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+                            $scope.cityList = response.records;                            
+                        }
+                        $timeout(function () {
+                            $("#permenent_state_id").val($scope.userData.current_state_id);
+                            $("#permenent_city_id").val($scope.userData.current_city_id);
+                        }, 500);
+                    });
+                }
+            });
+        } else {
+            $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
+        }
+    };
+    
 });
 
 app.controller('checkUniqueEmailController', function ($scope, Data)

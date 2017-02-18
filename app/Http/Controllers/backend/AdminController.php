@@ -148,6 +148,21 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
+    public function getMasterData(){
+        $getCountires = LstCountry::all();
+        $getStates = LstState::all();
+        $getCities = LstCity::all();
+        if(!empty($getCountires))
+        {
+            $result = ['success' => true, 'countries' => $getCountires, 'states' => $getStates, 'cities' => $getCities];
+            return json_encode($result);
+        }
+        else
+        {
+            $result = ['success' => false,'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
     public function getCountries(){
         $getCountires = LstCountry::all();
         if(!empty($getCountires))

@@ -11,7 +11,6 @@
                 <form name="loginForm" novalidate ng-submit="loginForm.$valid && login(loginData)" ng-controller="adminController">
                 <input type="hidden" ng-model="loginData.csrfToken" name="csrftoken" id="csrftoken" ng-init="loginData.csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="login-div">
-                    <img src="https://s-media-cache-ak0.pinimg.com/564x/8e/29/f2/8e29f2925bc2e7d5a05fa21f369ab80f.jpg" class="log-usr-img">
                     <h3>Hi, GUEST</h3>
                     <hr>
                     <div id="login-form" class="w3-animate-right">
