@@ -3,3 +3,18 @@
 
 
 <pre>{"data":{"gender":"1","title":"Mrs.","blood_group_id":"2","physic":"0","marital_status":"1","dt":"2017-01-19","department_id":[{"id":2,"department_name":"Administration"},{"id":4,"department_name":"Construction"}],"password":"g","password_confirmation":"g","username":"g","joining_date":"435","current_pin":"345","current_country_id":"0","current_state_id":"1","current_city_id":"0","permenent_country_id":"1","permenent_pin":"fgh","permenent_city_id":"0","permenent_state_id":"0","current_address":"fgh","office_mobile_no":"53","physic_status_id":"0","physic_desc":"fgh","email":"front@gmail.com","last_name":"g","first_name":"g"}}
+
+
+NOTE: [This is not an issue related to "laravel". You are not able to receive the data which has been sent using "PUT" method because "ngFileUpload" module internally uses "Form" to upload image with or without data and Form supports only two methods "POST" & "GET".
+XHTML 1.x forms only support GET and POST. GET and POST are the only allowed values for the "method" attribute.
+in ajax
+data: {_method: 'PUT'}
+
+for ex:
+employeePhoto.upload = Upload.upload({              
+    url: 'admin/master-hr/' + empId,
+    headers: {enctype: 'multipart/form-data'},
+    data: {_method: 'PUT',userData: userData, emp_photo_url: employeePhoto, empId: empId},
+});
+
+]

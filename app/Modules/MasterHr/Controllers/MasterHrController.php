@@ -5,6 +5,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use App\Models\EmployeesLog;
+use App\Models\Department;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Illuminate\Hashing\HashServiceProvider;
@@ -73,7 +74,7 @@ class MasterHrController extends Controller {
      * @return Response
      */
     public function create() {
-        return view("MasterHr::create")->with("empId", '');
+        return view("MasterHr::create")->with("empId", '0');
     }
 
     /**
@@ -196,6 +197,40 @@ class MasterHrController extends Controller {
     public function edit($id) {
         return view("MasterHr::create")->with("empId", $id);
     }
+    
+    public function editDepartments(){
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();     
+        $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);;
+        $getDepartments = Department::whereNotIn('id', $explodeDepartment)->get();       
+        if(!empty($getDepartments))
+        {
+            $result = ['success' => true, 'records' => $getDepartments];
+            return $result;
+        }
+        else
+        {
+            $result = ['success' => false,'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    
+    public function getDepartmentsToEdit() {
+        $result=array();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $deptId = $request['data']['deptId'];
+        $arr = explode(",", $deptId);
+        $getdepts = Department::whereIn('id', $arr)->get();
+        if (!empty($getdepts)) {
+            $result = ['success'=> true,'records' => $getdepts]; 
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+            return json_encode($result);
+        }
+    }
 
     /**
      * Update the specified resource in storage.
@@ -204,7 +239,85 @@ class MasterHrController extends Controller {
      * @return Response
      */
     public function update($id) {
-        //
+        $validationMessages = Employee::validationMessages();
+        $validationRules = Employee::validationRules();
+        $validationRules['email'] = 'required|email|unique:employees,email,' . $id . '';       
+        $input = Input::all();
+        if(empty($input['userData']['password'])){
+            $input['userData']['password'] = $input['userData']['passwordOld'];
+        }
+        $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
+        if ($validator->fails()) {
+            $result = ['success' => false, 'message' => $validator->messages()];
+            echo json_encode($result);
+            exit;
+        }
+//        echo "<pre>";print_r($input);exit;
+        $input['userData']['department_id'] = implode(',', array_map(function($el) {
+                    return $el['id'];
+                }, $input['userData']['department_id']));
+        $input['userData']['password'] = !empty($input['userData']['password']) ? \Hash::make($input['userData']['password']) :$input['userData']['password'];
+        $input['userData']['date_of_birth'] = date('Y-m-d', strtotime($input['userData']['date_of_birth']));
+        $input['userData']['joining_date'] = date('Y-m-d', strtotime($input['userData']['joining_date']));
+        $input['userData']['updated_date'] = date('Y-m-d');
+        $input['userData']['employee_id'] = !empty($input['userData']['employee_id']) ? $input['userData']['employee_id'] : "1";
+        $input['userData']['high_security_password_type'] = !empty($input['userData']['high_security_password_type']) ? $input['userData']['high_security_password_type'] : "1";
+        $input['userData']['high_security_password'] = !empty($input['userData']['high_security_password']) ? $input['userData']['high_security_password'] : "8899";
+        $input['userData']['password_changed'] = !empty($input['userData']['password_changed']) ? $input['userData']['password_changed'] : "0";
+        $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1";
+        $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
+        $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
+        $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : "";
+
+        $personalMobileNo1 = explode("-", $input['userData']['personal_mobile_no1']);
+        $input['userData']['mobile1_calling_code'] = $personalMobileNo1[0];
+        $input['userData']['personal_mobile_no1'] = $personalMobileNo1[1];
+        if (!empty($input['userData']['personal_mobile_no2'])) {
+            $personalMobileNo2 = explode("-", $input['userData']['personal_mobile_no2']);
+            $input['userData']['mobile2_calling_code'] = $personalMobileNo2[0];
+            $input['userData']['personal_mobile_no2'] = $personalMobileNo2[1];
+        }
+
+        if (!empty($input['userData']['office_mobile_no'])) {
+            $officeMobileNo = explode("-", $input['userData']['office_mobile_no']);
+            $input['userData']['office_mobile_calling_code'] = $officeMobileNo[0];
+            $input['userData']['office_mobile_no'] = $officeMobileNo[1];
+        }
+
+        if (!empty($input['userData']['landline_no'])) {
+            $landlineNo = explode("-", $input['userData']['landline_no']);
+            $input['userData']['landline_calling_code'] = $landlineNo[0];
+            $input['userData']['landline_no'] = $landlineNo[1];
+        }
+        $input['userData']['updated_by'] = 1;
+        $input['userData']['updated_IP'] = $_SERVER['REMOTE_ADDR'];
+        $input['userData']['updated_browser'] = $_SERVER['HTTP_USER_AGENT'];
+        $input['userData']['updated_mac_id'] = CommonFunctions::getMacAddress();
+        unset($input['userData']['password_confirmation']);
+        /*   * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
+        /*$imgRules = array(
+            'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
+        );
+       // echo"<pre>-------"; print_r( $input['emp_photo_url']);exit;
+        $validateEmpPhotoUrl = Validator::make($input['userData'], $imgRules,$imgmsg);
+        if ($validateEmpPhotoUrl->fails()) {
+            $result = ['success' => false, 'message' => $validateEmpPhotoUrl->messages()];
+            echo json_encode($result);
+            exit;
+        } else {
+            $fileName = time() . '.' . $input['userData']['emp_photo_url']->getClientOriginalExtension();
+            $input['userData']['emp_photo_url']->move(resource_path('hrEmployeePhoto'), $fileName);
+        }  
+        /* ******************************* END *************************** */
+        // $input['userData']['emp_photo_url'] = $fileName;
+       
+        $employeeUpdate = Employee::where('id',$id)->update($input['userData']);
+         if ($employeeUpdate) {
+            $result = ['success' => true, 'message' => 'Employee Updated Succesfully'];
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+        }
+        echo json_encode($result);
     }
 
     /**

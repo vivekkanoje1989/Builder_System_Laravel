@@ -115,14 +115,30 @@ app.controller('bloodGroupCtrl', function ($scope, Data) {
         }
     });
 });
-app.controller('departmentCtrl', function ($scope, Data) {
-    Data.get('getDepartments').then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $scope.departments = response.records;
-        }
-    });
+app.controller('departmentCtrl', function ($scope, Data, $timeout) {
+    $scope.departments = [];
+    var empId = $("#empId").val();
+    if (empId === "0") {
+        
+        Data.get('getDepartments').then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.departments = response.records;
+            }
+        });
+    }
+    else{
+        $timeout(function () {
+            Data.post('master-hr/editDepartments', {data: empId}).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.departments = response.records;
+                }
+            });
+        }, 3000);
+    }
 });
 app.controller('educationListCtrl', function ($scope, Data) {
     Data.get('getEducationList').then(function (response) {
@@ -224,8 +240,10 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
                             $scope.cityList = response.records;                            
                         }
                         $timeout(function () {
-                            $("#permenent_state_id").val($scope.userData.current_state_id);
-                            $("#permenent_city_id").val($scope.userData.current_city_id);
+//                            $("#permenent_state_id").val($scope.userData.current_state_id);
+//                            $("#permenent_city_id").val($scope.userData.current_city_id);
+                            $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);
+                            $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
                         }, 500);
                     });
                 }

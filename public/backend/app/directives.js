@@ -29,10 +29,15 @@ var compareTo = function () {
         },
         link: function (scope, element, attributes, ngModel) {
             ngModel.$validators.compareTo = function (modelValue) {
-                return modelValue == scope.otherModelValue;
+                if((typeof modelValue !== 'undefined') && modelValue !== ''){console.log("1"+modelValue);
+                    return modelValue == scope.otherModelValue;
+                }
+                
             };
-            scope.$watch("otherModelValue", function () {
-                ngModel.$validate();
+            scope.$watch("otherModelValue", function (modelValue) {
+                if((typeof modelValue !== 'undefined') && modelValue !== ''){console.log("2"+modelValue);
+                    ngModel.$validate();
+                }
             });
         }
     };

@@ -9,9 +9,9 @@
     input[capitalizeFirst]{ text-transform: capitalize; }
 </style>
 
-<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url)" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
+<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url,[[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
     <input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-    <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-value="[[ $empId ]]" class="form-control">
+    <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-init="userForm.id = '[[ $empId ]]'" value="[[ $empId ]]" class="form-control">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>
@@ -34,7 +34,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.title" ng-controller="titleCtrl" name="title" class="form-control" required="required">
                                         <option value="">Select Title</option>
-                                        <option ng-repeat="t in titles track by $index" value="{{t.value}}">{{t.title}}</option>
+                                        <option ng-repeat="t in titles track by $index" value="{{t.value}}" ng-selected="{{ t.value == userData.title}}">{{t.title}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.title.$error" class="help-block step1">
@@ -98,7 +98,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.gender" ng-controller="genderCtrl" name="gender" class="form-control" required>
                                         <option value="">Select Gender</option>
-                                        <option ng-repeat="genderList in genders track by $index" value="{{genderList.gender_id}}">{{genderList.gender_title}}</option>
+                                        <option ng-repeat="genderList in genders track by $index" value="{{genderList.gender_id}}" ng-selected="{{ genderList.gender_id == userData.gender}}">{{genderList.gender_title}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.gender.$error" class="help-block step1">
@@ -140,7 +140,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.blood_group_id" ng-controller="bloodGroupCtrl" name="blood_group_id" class="form-control" required>
                                         <option value="">Select Blood Group</option>
-                                        <option ng-repeat="bloodGroup in bloodGroups track by $index" value="{{bloodGroup.blood_group_id}}">{{bloodGroup.blood_group}}</option>
+                                        <option ng-repeat="bloodGroup in bloodGroups track by $index" value="{{bloodGroup.blood_group_id}}" ng-selected="{{ bloodGroup.blood_group_id == userData.blood_group_id}}">{{bloodGroup.blood_group}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.blood_group_id.$error" class="help-block step1">
@@ -321,7 +321,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-change="onCountryChange()" ng-model="userData.current_country_id" name="current_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
-                                                <option ng-repeat="country in countryList" value="{{country.id}}">{{country.name}}</option>
+                                                <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == userData.current_country_id}}">{{country.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userForm.current_country_id.$error" class="help-block step2">
@@ -336,7 +336,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="userData.current_state_id" ng-change="onStateChange()" name="current_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
-                                                <option ng-repeat="state in stateList" value="{{state.id}}">{{state.name}}</option>
+                                                <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == userData.current_state_id}}">{{state.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userForm.current_state_id.$error" class="help-block step2">
@@ -353,7 +353,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="userData.current_city_id" name="current_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
-                                                <option ng-repeat="city in cityList" value="{{city.id}}">{{city.name}}</option>
+                                                <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == userData.current_city_id}}">{{city.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userForm.current_city_id.$error" class="help-block step2">
@@ -407,7 +407,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-change="onPCountryChange()" ng-model="userData.permenent_country_id" name="permenent_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
-                                                <option ng-repeat="country in countryList" value="{{country.id}}">{{country.name}}</option>
+                                                <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == userData.permenent_country_id}}">{{country.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>                                            
                                             <div ng-show="step2" ng-messages="userForm.permenent_country_id.$error" class="help-block step2">
@@ -422,7 +422,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-change="onPStateChange()" ng-model="userData.permenent_state_id" name="permenent_state_id" id="permenent_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
-                                                <option ng-repeat="state in stateList track by $index" value="{{state.id}}">{{state.name}}</option>
+                                                <option ng-repeat="state in stateList track by $index" value="{{state.id}}" ng-selected="{{ state.id == userData.permenent_state_id}}">{{state.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userForm.permenent_state_id.$error" class="help-block step2">
@@ -439,7 +439,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="userData.permenent_city_id" name="permenent_city_id" id="permenent_city_id" class="form-control" required>
                                                 <option value="">Select City</option>
-                                                <option ng-repeat="city in cityList track by $index" value="{{city.id}}">{{city.name}}</option>
+                                                <option ng-repeat="city in cityList track by $index" value="{{city.id}}" ng-selected="{{ city.id == userData.permenent_city_id}}">{{city.name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="step2" ng-messages="userForm.permenent_city_id.$error" class="help-block step2">
@@ -481,7 +481,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-controller="educationListCtrl" ng-model="userData.highest_education_id" name="highest_education_id" class="form-control" required>
                                         <option value="">Select Education</option>
-                                        <option ng-repeat="list in educationList track by $index" value="{{list.education_id}}">{{list.education_title}}</option>
+                                        <option ng-repeat="list in educationList track by $index" value="{{list.education_id}}" ng-selected="{{ list.education_id == userData.highest_education_id}}">{{list.education_title}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step3" ng-messages="userForm.highest_education_id.$error" class="help-block step3">
@@ -653,9 +653,9 @@
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password_type.$dirty && userForm.high_security_password_type.$invalid)}">
-                                <label>High security password type <span class="sp-err">*</span></label>
+                                <label>High security password type <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right" >
-                                    <select ng-model="userData.high_security_password_type" name="high_security_password_type" class="form-control" required>
+                                    <select ng-model="userData.high_security_password_type" name="high_security_password_type" class="form-control" ng-required = "[[ $empId ]] == 0">
                                         <option value="">Select Password Type</option>
                                         <option value="1">OTP</option>
                                         <option value="2">Fixed</option>
@@ -669,9 +669,9 @@
                         </div>
                         <div class="col-sm-3 col-xs-6" ng-if="userData.high_security_password_type == 2">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password.$dirty && userForm.high_security_password.$invalid)}">
-                                <label>High security password <span class="sp-err">*</span></label>
+                                <label>High security password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.high_security_password" name="high_security_password" class="form-control" ng-required='userData.high_security_password_type == 2'>
+                                    <input type="text" ng-model="userData.high_security_password" name="high_security_password" class="form-control" ng-required='userData.high_security_password_type == 2 && [[ $empId ]] == 0'>
                                     <i class="fa fa-lock"></i>
                                     <div ng-show="step5" ng-messages="userForm.high_security_password.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
@@ -693,9 +693,10 @@
                         </div>                        
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password.$dirty && userForm.password.$invalid)}">
-                                <label>Password <span class="sp-err">*</span></label>
+                                <label>Password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="password" ng-model="userData.password" name="password" class="form-control" minlength="6" maxlength="6" required>
+                                    <input type="password" ng-model="userData.password" name="password" class="form-control" minlength="6" maxlength="6" ng-required = "[[ $empId ]] == 0">
+                                    <input type="hidden" ng-model="userData.passwordOld" name="passwordOld" class="form-control" ng-if = "[[ $empId ]] != 0">
                                     <i class="fa fa-lock"></i>
                                     <div ng-show="step5" ng-messages="userForm.password.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
@@ -706,9 +707,9 @@
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password_confirmation.$dirty && userForm.password_confirmation.$invalid)}">
-                                <label>Re Enter Password <span class="sp-err">*</span></label>
+                                <label>Re Enter Password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="password" ng-model="userData.password_confirmation" name="password_confirmation" minlength="6" maxlength="6" class="form-control" compare-to="userData.password" required>
+                                    <input type="password" ng-model="userData.password_confirmation" name="password_confirmation" minlength="6" maxlength="6" class="form-control" compare-to="userData.password" ng-if = "[[ $empId ]] == 0" required> 
                                     <i class="fa fa-lock"></i>
                                     <div ng-show="step5" ng-messages="userForm.password_confirmation.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
@@ -722,11 +723,9 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
-                            <audio controls=""><source type="audio/mpeg"  id="audiourl" src="" class="__web-inspector-hide-shortcut__" /></audio>
                             <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
                                 <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
                             </span>
-                            <!--<span class="err" ng-show="errorMsg">{{errorMsg}}</span>-->
                             <div ng-repeat="(key, val) in errorMsg">{{val}}</div>
                             <!-- message text     -->
                             <span ng-show="userData.emp_photo_url.result">Upload Successful</span>
@@ -741,20 +740,6 @@
 </form>
 <script>
     $(document).ready(function(){
-        
-//        $(function () {
-//            $(":file").change(function () {
-//                if (this.files && this.files[0]) {
-//                    var reader = new FileReader();
-//                    reader.onload = imageIsLoaded;
-//                    reader.readAsDataURL(this.files[0]);
-//                }
-//            });
-//        });
-//        function imageIsLoaded(e) {
-//            $('.photoPreview').attr('src', e.target.result);
-//        };
-
         $(".btn-nxt1").mouseup(function(e){
             if($(".step1").hasClass("ng-active")) {
                 e.preventDefault();

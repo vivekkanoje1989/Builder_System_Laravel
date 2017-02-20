@@ -48,8 +48,8 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="">Title</label>
-                                            <span class="input-icon icon-right" style="width: 35%;float: left;">
-                                                <select ng-model="customerData.title_id" name="title_id" style="width: 95%;">
+                                            <span class="input-icon icon-right">
+                                                <select ng-model="customerData.title_id" name="title_id" class="form-control" >
                                                     <option>Mr.</option>
                                                     <option>Mrs.</option>
                                                     <option>Miss.</option>

@@ -16,7 +16,7 @@ class CheckAdmin
     }
     public function handle($request, Closure $next, ...$guards)
     {
-        if(!empty(auth()->guard('admin')->id()))
+        if(!empty(Auth()->guard('admin')->id()))
         {
             $data = DB::table('employees')//admins
                     ->select('employees.usertype','employees.id')

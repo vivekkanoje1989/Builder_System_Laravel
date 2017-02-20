@@ -39,7 +39,6 @@ app.factory("Data", ['$http',
         };
         obj.put = function (q, object) {
             return $http.put(serviceBase + q, object,{
-                headers : {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function (results) {
                 return results.data;
             });
