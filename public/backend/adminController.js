@@ -4,7 +4,6 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
     $scope.errorMsg = '';
 
     $scope.checkUsername = function (usernameData) {
-        console.log(usernameData.mobile);
         Data.post('checkUsername', {
             username: usernameData.mobile,
         }).then(function (response) {
@@ -19,7 +18,6 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
         $scope.errorMsg = '';
     }
     $scope.login = function (loginData) {
-//        var formData = ($element.serialize());
         Data.post('authenticate', { 
             username:loginData.mobile,password:loginData.password,
         }).then(function (response) {
@@ -112,6 +110,15 @@ app.controller('bloodGroupCtrl', function ($scope, Data) {
             $scope.errorMsg = response.message;
         } else {
             $scope.bloodGroups = response.records;
+        }
+    });
+});
+app.controller('professionCtrl', function ($scope, Data) {
+    Data.get('getProfessionList').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.professions = response.records;
         }
     });
 });

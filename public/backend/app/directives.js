@@ -68,9 +68,6 @@ app.directive('checkLoginCredentials', function ($timeout, $q, Data) {
 app.directive('getCustomerDetails', function ($timeout, $q, Data) {
     function link($scope, element, attributes, model) {
         model.$asyncValidators.customerInputs = function () {
-//            var deferred = $q.defer();
-//            deferred.reject();
-//            deferred.resolve();
             var customerMobileNo = '';
             var customerEmailId ='';
             customerMobileNo = $scope.customerData.searchWithMobile;
@@ -112,17 +109,6 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
     }
 });
 
-
-//app.directive('uiSelectRequired', function() {
-//  return {
-//    require: 'ngModel',
-//    link: function(scope, elm, attrs, ctrl, model) {
-//      ctrl.$validators.uiSelectRequired = function(modelValue, viewValue) {
-//        return modelValue && modelValue.length;
-//      };
-//    }
-//  };
-//});
 
 
 

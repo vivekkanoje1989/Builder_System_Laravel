@@ -10,56 +10,55 @@
 | to using a Closure or controller method. Build something great!
 |
 */
-
+$getUrl = config('global.getUrl');
 Route::get('/', function () {
    return View::make('backendApp');
 });
-Route::get('admin/error500', function () {
+Route::get($getUrl.'/error500', function () {
    return view('layouts.backend.error500');
 });
-Route::post('admin/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
-Route::get('admin/layout', function () {
+Route::post($getUrl.'/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
+Route::get($getUrl.'/layout', function () {
    return view('layouts.backend.layout');
 });
-Route::get('admin/dashboard', function () {
+Route::get($getUrl.'/dashboard', function () {
     return View::make('layouts.backend.dashboard');
 });
-Route::get('admin/loading', function () {
+Route::get($getUrl.'/loading', function () {
     return View::make('layouts.backend.loading');
 });
-Route::get('admin/navbar', function () {
+Route::get($getUrl.'/navbar', function () {
     return View::make('layouts.backend.navbar');
 });
-Route::get('admin/sidebar', function () {
+Route::get($getUrl.'/sidebar', function () {
     return View::make('layouts.backend.sidebar');
 });
-Route::get('admin/chatbar', function () {
+Route::get($getUrl.'/chatbar', function () {
     return View::make('layouts.backend.chatbar');
 });
-Route::get('admin/breadcrumbs', function () {
+Route::get($getUrl.'/breadcrumbs', function () {
     return View::make('layouts.backend.breadcrumbs');
 });
-Route::get('admin/header', function () {
+Route::get($getUrl.'/header', function () {
     return View::make('layouts.backend.header');
 });
-Route::get('admin/getToken', 'backend\Auth\LoginController@getToken');
+Route::get($getUrl.'/getToken', 'backend\Auth\LoginController@getToken');
 
-//Route::group(['before' => ['guest']], function () {
 Route::group(['middleware' =>[ 'web']], function () {
-   
+    $getUrl = config('global.getUrl');
     // ADMIN
-    Route::get('admin/session', 'backend\Auth\LoginController@getSession');
-    Route::get('admin/login', 'backend\Auth\LoginController@getLoginForm');
-    Route::post('admin/authenticate', 'backend\Auth\LoginController@authenticate');   
+    Route::get($getUrl.'/session', 'backend\Auth\LoginController@getSession');
+    Route::get($getUrl.'/login', 'backend\Auth\LoginController@getLoginForm');
+    Route::post($getUrl.'/authenticate', 'backend\Auth\LoginController@authenticate');   
     
-    Route::get('admin/register', 'backend\Auth\RegisterController@getRegisterForm');
-    Route::post('admin/saveRegister', 'backend\Auth\RegisterController@saveRegisterForm');
+    Route::get($getUrl.'/register', 'backend\Auth\RegisterController@getRegisterForm');
+    Route::post($getUrl.'/saveRegister', 'backend\Auth\RegisterController@saveRegisterForm');
     // Forget Password 
-    Route::get('admin/password/resetLink/{request}', 'backend\Auth\ForgotPasswordController@showLinkRequestForm', function ($request = 'admin') {return $request;});
-    Route::post('admin/password/email', 'backend\Auth\ForgotPasswordController@sendResetLinkEmail');
+    Route::get($getUrl.'/password/resetLink/{request}', 'backend\Auth\ForgotPasswordController@showLinkRequestForm', function ($request = 'admin') {return $request;});
+    Route::post($getUrl.'/password/email', 'backend\Auth\ForgotPasswordController@sendResetLinkEmail');
     // Reset Password
-    Route::get('admin/password/reset/{token}/{checkState?}', 'backend\Auth\ResetPasswordController@showResetForm');
-    Route::post('admin/password/reset', 'backend\Auth\ResetPasswordController@reset');
+    Route::get($getUrl.'/password/reset/{token}/{checkState?}', 'backend\Auth\ResetPasswordController@showResetForm');
+    Route::post($getUrl.'/password/reset', 'backend\Auth\ResetPasswordController@reset');
     
     // USER 
     Route::get('user/login', 'frontend\Auth\LoginController@getLoginForm');
@@ -78,37 +77,38 @@ Route::group(['middleware' =>[ 'web']], function () {
     
     Route::post('api/authenticate', 'backend\Auth\LoginController@authenticate');
     Route::post('api/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
-    Route::get('api/getGender', 'backend\AdminController@getGender');
-    Route::get('api/getMasterData', 'backend\AdminController@getMasterData');
+    Route::get('api/getMasterData', 'backend\AdminController@getMasterData');       
     
     /*********************************************** API **********************************************************/
 });
 
 Route::group(['middleware' =>[ 'auth:admin']], function () { 
+    $getUrl = config('global.getUrl');
     /*************************** Admin Dashboard ****************************/
-    Route::get('admin/dashboard', 'backend\AdminController@dashboard');
+    Route::get($getUrl.'/dashboard', 'backend\AdminController@dashboard');
     
     /***************************** Admin Logout **********************************/
-    Route::post('admin/logout', 'backend\Auth\LoginController@getLogout');   
+    Route::post($getUrl.'/logout', 'backend\Auth\LoginController@getLogout');   
     
     /***********************************************************************/
-    Route::get('admin/getMenuItems', 'backend\AdminController@getMenuItems');
-    Route::get('admin/getTitle', 'backend\AdminController@getTitle');
-    Route::get('admin/getGender', 'backend\AdminController@getGender');
-    Route::get('admin/getBloodGroup', 'backend\AdminController@getBloodGroup');
-    Route::get('admin/getDepartments', 'backend\AdminController@getDepartments');
-    Route::get('admin/getEducationList', 'backend\AdminController@getEducationList');
-    Route::get('admin/getCountries', 'backend\AdminController@getCountries');
-    Route::post('admin/getStates', 'backend\AdminController@getStates');
-    Route::post('admin/getCities', 'backend\AdminController@getCities');
-    Route::post('admin/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
+    Route::get($getUrl.'/getMenuItems', 'backend\AdminController@getMenuItems');
+    Route::get($getUrl.'/getTitle', 'backend\AdminController@getTitle');
+    Route::get($getUrl.'/getGender', 'backend\AdminController@getGender');
+    Route::get($getUrl.'/getBloodGroup', 'backend\AdminController@getBloodGroup');
+    Route::get($getUrl.'/getDepartments', 'backend\AdminController@getDepartments');
+    Route::get($getUrl.'/getEducationList', 'backend\AdminController@getEducationList');
+    Route::get($getUrl.'/getProfessionList', 'backend\AdminController@getProfessionList');
+    Route::get($getUrl.'/getCountries', 'backend\AdminController@getCountries');
+    Route::post($getUrl.'/getStates', 'backend\AdminController@getStates');
+    Route::post($getUrl.'/getCities', 'backend\AdminController@getCities');
+    Route::post($getUrl.'/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
     
     /***********************************************************************/
     
-    Route::get('admin/databoxes', function () {
+    Route::get($getUrl.'/databoxes', function () {
         return View::make('backend.databoxes');
     });
-    Route::get('admin/widgets', function () {
+    Route::get($getUrl.'/widgets', function () {
         return View::make('backend.widgets');
     });
     

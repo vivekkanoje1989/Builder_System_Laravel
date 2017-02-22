@@ -1,11 +1,18 @@
 <?php
 
 Route::group(array('module' => 'MasterHr', 'namespace' => 'App\Modules\MasterHr\Controllers'), function() {
-
-    Route::resource('admin/master-hr', 'MasterHrController');
+    $getUrl = config('global.getUrl');
+    
+    Route::resource($getUrl.'/master-hr', 'MasterHrController');
     Route::post('master-hr/uploadFile', 'MasterHrController@uploadFile');
-    Route::post('admin/master-hr/manageUsers', 'MasterHrController@manageUsers');    
-    Route::post('admin/master-hr/editDepartments', 'MasterHrController@editDepartments');
-    Route::post('admin/master-hr/getDepartmentsToEdit', 'MasterHrController@getDepartmentsToEdit'); 
-    Route::post('admin/master-hr/changePassword', 'MasterHrController@changePassword');    
+    Route::post($getUrl.'/master-hr/manageUsers', 'MasterHrController@manageUsers');    
+    Route::post($getUrl.'/master-hr/editDepartments', 'MasterHrController@editDepartments');
+    Route::post($getUrl.'/master-hr/getDepartmentsToEdit', 'MasterHrController@getDepartmentsToEdit'); 
+    Route::post($getUrl.'/master-hr/changePassword', 'MasterHrController@changePassword'); 
+    
+    /*********************************************** API **********************************************************/
+    
+    Route::post('api/master-hr/manageUsers', 'MasterHrController@manageUsers');
+    
+    /*********************************************** API **********************************************************/
 });	

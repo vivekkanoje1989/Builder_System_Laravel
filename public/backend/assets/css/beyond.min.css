@@ -1,5 +1,10 @@
 
 /* vkm custome */
+.photoPreview{
+    margin-top: 20px;
+    width: 20%;
+    height: 20%;
+}
 
 .wizard ul li.complete:before {
     display: block;

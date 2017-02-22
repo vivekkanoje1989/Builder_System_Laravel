@@ -18,12 +18,13 @@
 
         <!--Fonts-->
         <style>
-	        @@font-face {
-	            font-family: 'WYekan';
-	            src: url('/assets/fonts/BYekan.woff') format('woff');
-	            font-weight: normal;
-	            font-style: normal;
-	        }
+            @@font-face {
+                font-family: 'WYekan';
+                src: url('/assets/fonts/BYekan.woff') format('woff');
+                font-weight: normal;
+                font-style: normal;
+            }
+            input[capitalizeFirst]{ text-transform: capitalize; }
     	</style>
         <link href="http://fonts.googleapis.com/earlyaccess/droidarabickufi.css" rel="stylesheet" type="text/css" />
         <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300"

@@ -13,6 +13,7 @@ use App\Models\LstEducation;
 use App\Models\LstCountry;
 use App\Models\LstState;
 use App\Models\LstCity;
+use App\Models\LstProfession;
 use Illuminate\Http\Request;
 use Auth;
 class AdminController extends Controller {
@@ -148,18 +149,30 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-    public function getMasterData(){
-        $getCountires = LstCountry::all();
-        $getStates = LstState::all();
-        $getCities = LstCity::all();
-        if(!empty($getCountires))
+    public function getProfessionList(){
+        $getProfessionList = LstProfession::all();
+        if(!empty($getProfessionList))
         {
-            $result = ['success' => true, 'countries' => $getCountires, 'states' => $getStates, 'cities' => $getCities];
+            $result = ['success' => true, 'records' => $getProfessionList];
             return json_encode($result);
         }
         else
         {
             $result = ['success' => false,'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    public function getMasterData(){
+        $getTitle = LstTitle::all();
+        $getGender = LstGender::all();
+        $getBloodGroup = LstBloodGroup::all();
+        $getDepartments = Department::all();
+        $getEducationList = LstEducation::all();
+        if (!empty($getTitle)) {
+            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender,'bloodGroup' => $getBloodGroup,'departments' =>$getDepartments,'educationList' => $getEducationList];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }

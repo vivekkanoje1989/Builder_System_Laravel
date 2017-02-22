@@ -6,7 +6,6 @@
         margin-top: 0px !important; 
         margin-bottom: 0px !important; 
     }
-    input[capitalizeFirst]{ text-transform: capitalize; }
 </style>
 
 <form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url,[[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
@@ -241,7 +240,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="text" ng-model="userData.landline_no" name="landline_no" id="landline_no" class="form-control" placeholder="+91-" ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userData.landline_no)">
                                             <i class="fa fa-phone"></i>
-                                            <div ng-show="step2 && errLandline" ng-messages="userForm.landline_no.$error" class="help-block step2">
+                                            <div ng-show="step2 || errLandline" ng-messages="userForm.landline_no.$error" class="help-block step2 {{applyClass}}">
                                                 <div>{{ errLandline }}</div>
                                             </div>
                                         </span>                               
@@ -255,11 +254,12 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.email.$dirty && userForm.email.$invalid)}">
                                         <label for="">Email <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userData.email" name="email" class="form-control" check-unique-email required ng-model-options="{ allowInvalid: true, debounce: 200 }">
+                                            <input type="email" ng-model="userData.email" name="email" class="form-control" check-unique-email ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userForm.email.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
                                                 <div ng-message="email">Invalid email address.</div>
+                                                <div ng-message="pattern">Invalid email address.</div>
                                                 <div ng-message="uniqueEmail">Email address exist. Please enter another email address!</div>
                                             </div>
                                         </span>
@@ -269,10 +269,11 @@
                                     <div class="form-group">
                                         <label for=""> Office Email</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userData.office_email_id" name="office_email_id" class="form-control">
+                                            <input type="email" ng-model="userData.office_email_id" name="office_email_id" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="form-control">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userForm.office_email_id.$error" class="help-block step2">
                                                 <div ng-message="email">Invalid email address.</div>
+                                                <div ng-message="pattern">Invalid email address.</div>
                                             </div>
                                         </span>
                                     </div>
@@ -285,8 +286,9 @@
                                         <span class="input-icon icon-right">
                                             <input type="email" ng-model="userData.personal_email_id2" name="personal_email_id2" class="form-control">
                                             <i class="fa fa-envelope"></i>
-                                            <div ng-show="step2" ng-messages="userForm.personal_email_id2.$error" class="help-block step2">
+                                            <div ng-show="step2" ng-messages="userForm.personal_email_id2.$error" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="help-block step2">
                                                 <div ng-message="email">Invalid email address.</div>
+                                                <div ng-message="pattern">Invalid email address.</div>
                                             </div>
                                         </span>
                                     </div>
@@ -503,9 +505,10 @@
                             <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.emp_photo_url.$invalid) && errorMsg}">
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
-                                    <img alt="{{ altName }}" class="thumb photoPreview"/>
-                                    <div ng-show="step3" ng-messages="userForm.emp_photo_url.$error" class="help-block step3">
+                                    <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
+                                    <img src="http://localhost/BMS_BUILDER_V2/common/blank-avatar.svg" alt="{{ altName }}" class="thumb photoPreview"/>
+                                    <div ng-show="step3 || invalidImage" ng-messages="userForm.emp_photo_url.$error" class="help-block step3">
+                                        <div ng-show="invalidImage">{{ invalidImage }}</div>
                                         <div ng-message="required">This field is required.</div>
                                         <i ng-show="userForm.emp_photo_url.$error.maxSize">File too large {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
                                     </div>
@@ -709,7 +712,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password_confirmation.$dirty && userForm.password_confirmation.$invalid)}">
                                 <label>Re Enter Password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="password" ng-model="userData.password_confirmation" name="password_confirmation" minlength="6" maxlength="6" class="form-control" compare-to="userData.password" ng-if = "[[ $empId ]] == 0" required> 
+                                    <input type="password" ng-model="userData.password_confirmation" name="password_confirmation" minlength="6" maxlength="6" class="form-control" compare-to="userData.password" required> 
                                     <i class="fa fa-lock"></i>
                                     <div ng-show="step5" ng-messages="userForm.password_confirmation.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
@@ -726,7 +729,7 @@
                             <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
                                 <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
                             </span>
-                            <div ng-repeat="(key, val) in errorMsg">{{val}}</div>
+                            <div ng-repeat="(key, val) in errorMsg track by $index">{{val}}</div>
                             <!-- message text     -->
                             <span ng-show="userData.emp_photo_url.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5">Prev</button>

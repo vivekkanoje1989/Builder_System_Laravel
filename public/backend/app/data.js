@@ -20,7 +20,7 @@ return{
 app.factory("Data", ['$http', 
     function ($http) { // This service connects to our REST API
  
-        var serviceBase = 'admin/';
+        var serviceBase = getUrl+'/';
  
         var obj = {};
         obj.get = function (q) {

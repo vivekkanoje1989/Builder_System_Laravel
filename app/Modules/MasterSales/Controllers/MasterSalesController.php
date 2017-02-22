@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use App\Modules\MasterSales\Models\Customer;
+use Validator;
 class MasterSalesController extends Controller {
 
 	/**
@@ -34,7 +36,22 @@ class MasterSalesController extends Controller {
 	 */
 	public function store()
 	{
-		//
+            $input = Input::all();
+            $validationRules = Customer::validationRules();
+            $validationMessages = Customer::validationMessages();
+            
+            if(!empty($input['customerData'])){
+                $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
+                if ($validator->fails()) {
+                    $result = ['success' => false, 'message' => $validator->messages()];
+                    echo json_encode($result,true);
+                    exit;
+                }
+            }
+            echo "<pre>";print_r($input);exit;
+        
+           
+            
 	}
 
 	/**

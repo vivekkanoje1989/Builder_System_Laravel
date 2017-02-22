@@ -15,6 +15,7 @@ var app = angular.module('app', [
     'ngMessages',
     'angularUtils.directives.dirPagination',
 ]);
+var getUrl = 'office';
 
 /*app.directive('ngRightClick', function() {
     return function(scope, element, attrs) {

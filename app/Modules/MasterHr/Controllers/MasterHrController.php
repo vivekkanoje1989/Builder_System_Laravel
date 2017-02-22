@@ -11,6 +11,7 @@ use DB;
 use Illuminate\Hashing\HashServiceProvider;
 use Auth;
 use App\Classes\CommonFunctions;
+
 class MasterHrController extends Controller {
    
     public function __construct()

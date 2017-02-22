@@ -21,7 +21,7 @@
         </a>
         <ul ng-if='parent.has_submenu' class="{{ parent.submenuClass }}">
             <li ng-repeat="child1 in parent.submenu" ui-sref-active="{{ child1.uiSrefActive }}" class="{{ child1.liclass }}">
-                <a ui-sref="admin{{ child1.slug }}" class="{{ child1.anchorClass }}" ng-if='!child1.has_submenu'>
+                <a ui-sref="[[ config('global.setUrl') ]]{{ child1.slug }}" class="{{ child1.anchorClass }}" ng-if='!child1.has_submenu'>
                     <span class="menu-text"> {{ child1.name }} </span>
                 </a>
                 <a href="#" class="{{ child1.anchorClass }}" ng-if='child1.has_submenu'>
@@ -30,7 +30,7 @@
                 </a>
                 <ul ng-if='child1.has_submenu' class="{{ child1.submenuClass }}">
                     <li ng-repeat="child2 in child1.submenu" ui-sref-active="{{ child2.uiSrefActive }}">
-                        <a ng-if='!child2.has_submenu' ui-sref="admin{{ child2.slug }}" class="{{ child2.anchorClass }}">
+                        <a ng-if='!child2.has_submenu' ui-sref="[[ config('global.setUrl') ]]{{ child2.slug }}" class="{{ child2.anchorClass }}">
                             <span class="menu-text"> {{ child2.name }} </span>
                         </a>
                         <a ng-if='child2.has_submenu' href="#" class="{{ child2.anchorClass }}">
@@ -39,7 +39,7 @@
                         </a>
                         <ul ng-if='child2.has_submenu' class="{{ child2.submenuClass }}">
                             <li ng-repeat="child3 in child2.submenu" ui-sref-active="{{ child3.uiSrefActive }}">
-                                <a ng-if='!child3.has_submenu' ui-sref="admin{{ child3.slug }}" class="{{ child3.anchorClass }}">
+                                <a ng-if='!child3.has_submenu' ui-sref="[[ config('global.setUrl') ]]{{ child3.slug }}" class="{{ child3.anchorClass }}">
                                     <span class="menu-text"> {{ child3.name }} </span>
                                 </a>
                                 <a ng-if='child3.has_submenu' href="#" class="{{ child3.anchorClass }}">
