@@ -228,7 +228,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="text" ng-model="userData.personal_mobile_no2" name="personal_mobile_no2" id="personal_mobile_no2" class="form-control" placeholder="+91-" ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userData.personal_mobile_no2)">
                                             <i class="fa fa-phone"></i>
-                                            <div ng-show="step2 && errMobile" ng-messages="userForm.personal_mobile_no2.$error" class="help-block step2">
+                                            <div ng-show="step2 && errMobile" ng-messages="userForm.personal_mobile_no2.$error" class="help-block step2 {{ applyClassMobile }}">
                                                 <div>{{ errMobile }}</div>
                                             </div>
                                         </span>                               
@@ -506,7 +506,7 @@
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
-                                    <img src="http://localhost/BMS_BUILDER_V2/common/blank-avatar.svg" alt="{{ altName }}" class="thumb photoPreview"/>
+                                    <img src="http://localhost/BMS_BUILDER_V2/common/employee_photo/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
                                     <div ng-show="step3 || invalidImage" ng-messages="userForm.emp_photo_url.$error" class="help-block step3">
                                         <div ng-show="invalidImage">{{ invalidImage }}</div>
                                         <div ng-message="required">This field is required.</div>
@@ -543,7 +543,7 @@
                                         {{list.department_name}} 
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="emptyDepartmentId" class="help-block department step4">
+                                <div ng-show="emptyDepartmentId" class="help-block department step4 {{ applyClassDepartment }}">
                                     This field is required.
                                 </div>
                             </div>
@@ -658,7 +658,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password_type.$dirty && userForm.high_security_password_type.$invalid)}">
                                 <label>High security password type <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right" >
-                                    <select ng-model="userData.high_security_password_type" name="high_security_password_type" class="form-control" ng-required = "[[ $empId ]] == 0">
+                                    <select ng-model="userData.high_security_password_type" name="high_security_password_type" class="form-control">
                                         <option value="">Select Password Type</option>
                                         <option value="1">OTP</option>
                                         <option value="2">Fixed</option>
@@ -674,7 +674,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password.$dirty && userForm.high_security_password.$invalid)}">
                                 <label>High security password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.high_security_password" name="high_security_password" class="form-control" ng-required='userData.high_security_password_type == 2 && [[ $empId ]] == 0'>
+                                    <input type="text" ng-model="userData.high_security_password" name="high_security_password" class="form-control" minlength="4" maxlength="4" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-required='userData.high_security_password_type == 2'>
                                     <i class="fa fa-lock"></i>
                                     <div ng-show="step5" ng-messages="userForm.high_security_password.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
@@ -686,7 +686,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.username.$dirty && userForm.username.$invalid)}">
                                 <label>User Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.username" name="username" class="form-control" required>
+                                    <input type="text" ng-model="userData.username" name="username" class="form-control" maxlength="10" minlenght="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                     <i class="fa fa-user"></i>
                                     <div ng-show="step5" ng-messages="userForm.username.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
@@ -694,7 +694,7 @@
                                 </span>
                             </div>
                         </div>                        
-                        <div class="col-sm-3 col-xs-6">
+                        <div class="col-sm-3 col-xs-6" ng-if="[[ $empId ]] == 0">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password.$dirty && userForm.password.$invalid)}">
                                 <label>Password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
@@ -708,7 +708,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-xs-6">
+                        <div class="col-sm-3 col-xs-6" ng-if="[[ $empId ]] == 0">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password_confirmation.$dirty && userForm.password_confirmation.$invalid)}">
                                 <label>Re Enter Password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
@@ -729,11 +729,11 @@
                             <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
                                 <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
                             </span>
-                            <div ng-repeat="(key, val) in errorMsg track by $index">{{val}}</div>
+                            <!--<div ng-repeat="(key, val) in errorMsg track by $index">{{val}}</div>-->
                             <!-- message text     -->
                             <span ng-show="userData.emp_photo_url.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5">Prev</button>
-                            <button type="submit" class="btn btn-primary btn-submit-last" ng-disabled="disableCreateButton" ng-click="step5=true">Create</button>
+                            <button type="submit" class="btn btn-primary btn-submit-last" ng-disabled="disableCreateButton" ng-click="step5=true">{{buttonLabel}}</button>
                         </div>
                     </div>
                 </div>

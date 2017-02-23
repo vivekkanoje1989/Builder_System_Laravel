@@ -48,6 +48,8 @@ class MasterSalesController extends Controller {
                     exit;
                 }
             }
+            
+            
             echo "<pre>";print_r($input);exit;
         
            

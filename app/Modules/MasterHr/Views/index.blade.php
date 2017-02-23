@@ -101,7 +101,7 @@
                             <td>{{ listUser.login_date_time | date:'dd-MM-yyyy' }}</td>
                             <td class="fa-div">
                                 <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/admin/user/update/{{ listUser.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/[[config('global.getUrl')]]/user/update/{{ listUser.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                                 <div class="fa-hover" tooltip-html-unsafe="Change Password" style="display: block;" data-toggle="modal" data-target="#myModal"><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id }},'changePassword')"><i class="fa fa-lock"></i></a></div>
                             </td>
                         </tr>

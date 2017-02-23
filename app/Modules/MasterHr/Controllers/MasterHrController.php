@@ -46,6 +46,7 @@ class MasterHrController extends Controller {
             echo json_encode($result);
         } 
     }
+    
     public function changePassword() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -109,59 +110,17 @@ class MasterHrController extends Controller {
                 $input['emp_photo_url']->move(base_path()."/common/employee_photo/", $fileName);
             }
             /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
+            
             $input['userData']['emp_photo_url'] = $fileName;
             $input['userData']['password'] = \Hash::make($input['userData']['password']);
-            $input['userData']['department_id'] = implode(',', array_map(function($el){ return $el['id']; }, $input['userData']['department_id']));
             $input['userData']['remember_token'] = str_random(10);
-            $input['userData']['date_of_birth'] = date('Y-m-d', strtotime($input['userData']['date_of_birth']));
-            $input['userData']['joining_date'] = date('Y-m-d', strtotime($input['userData']['joining_date']));
             $input['userData']['created_date'] = date('Y-m-d');
-            $input['userData']['client_id'] = !empty($input['client_id']) ? $input['userData']['client_id'] : "0";
-            $input['userData']['client_role_id'] = "1";
-            $input['userData']['high_security_password'] = !empty($input['userData']['high_security_password']) ? $input['userData']['high_security_password'] : "";
-            $input['userData']['password_changed'] = !empty($input['userData']['password_changed']) ? $input['userData']['password_changed'] : "0";
-            $input['userData']['remember_token'] = str_random(10);
-            $input['userData']['usertype'] = "admin";
-            $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1"; 
-            $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
-            $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";        
-            $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : "";
-
-            $personalMobileNo1 = explode("-",$input['userData']['personal_mobile_no1']);
-            $input['userData']['mobile1_calling_code'] = (int)$personalMobileNo1[0];
-            $input['userData']['personal_mobile_no1'] = $personalMobileNo1[1];
-
-            if(!empty($input['userData']['personal_mobile_no2'])){
-                $personalMobileNo2 = explode("-",$input['userData']['personal_mobile_no2']);
-                $input['userData']['mobile2_calling_code'] = (int)$personalMobileNo2[0];
-                $input['userData']['personal_mobile_no2'] = $personalMobileNo2[1];
-            }
-
-            if(!empty($input['userData']['office_mobile_no'])){
-                $officeMobileNo = explode("-",$input['userData']['office_mobile_no']);
-                $input['userData']['office_mobile_calling_code'] = (int)$officeMobileNo[0];
-                $input['userData']['office_mobile_no'] = $officeMobileNo[1];
-            }
-
-            if(!empty($input['userData']['landline_no'])){
-                $landlineNo = explode("-",$input['userData']['landline_no']);
-                $input['userData']['landline_calling_code'] = $landlineNo[0];
-                $input['userData']['landline_no'] = $landlineNo[1];
-            }
-
-            $input['userData']['education_details'] = !empty($input['userData']['education_details']) ? $input['userData']['education_details'] : "";
-            $input['userData']['show_on_homepage'] = !empty($input['userData']['show_on_homepage']) ? $input['userData']['show_on_homepage'] : "1";
-            $input['userData']['employee_submenus'] = !empty($input['userData']['employee_submenus']) ? $input['userData']['employee_submenus'] : '["0101","0102","0103","0104"]';
-            $input['userData']['employee_permissions'] = !empty($input['userData']['employee_permissions']) ? $input['userData']['employee_permissions'] : "1";
-            $input['userData']['employee_email_subscriptions'] = !empty($input['userData']['employee_email_subscriptions']) ? $input['userData']['employee_email_subscriptions'] : "1";
-            $input['userData']['employee_sms_subscrption'] = !empty($input['userData']['employee_sms_subscrption']) ? $input['userData']['employee_sms_subscrption'] : "1";
-            $input['userData']['employee_info_form_url'] = !empty($input['userData']['employee_info_form_url']) ? $input['userData']['employee_info_form_url'] : "1";
-            $input['userData']['employee_info_form_url_status'] = !empty($input['userData']['employee_info_form_url_status']) ? $input['userData']['employee_info_form_url_status'] : "1";
             $input['userData']['created_by'] = Auth::guard('admin')->user()->id;
             $input['userData']['created_IP'] = $_SERVER['REMOTE_ADDR'];
             $input['userData']['created_browser'] = $_SERVER['HTTP_USER_AGENT'];
             $input['userData']['created_mac_id'] = CommonFunctions::getMacAddress();
-            $employee =  Employee::create($input['userData']); //insert data into employees table            
+            $input = Employee::doAction($input);            
+            $employee = Employee::create($input['userData']); //insert data into employees table
             
             $input['userData']['main_record_id'] = Auth::guard('admin')->user()->id;
             $input['userData']['record_type'] = 1;
@@ -199,33 +158,30 @@ class MasterHrController extends Controller {
         return view("MasterHr::create")->with("empId", $id);
     }
     
-    public function editDepartments(){
+    public function editDepartments() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();     
-        $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);;
-        $getDepartments = Department::whereNotIn('id', $explodeDepartment)->get();       
-        if(!empty($getDepartments))
-        {
+        $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();
+        $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);
+        ;
+        $getDepartments = Department::whereNotIn('id', $explodeDepartment)->get();
+        if (!empty($getDepartments)) {
             $result = ['success' => true, 'records' => $getDepartments];
             return $result;
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    
+
     public function getDepartmentsToEdit() {
-        $result=array();
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $deptId = $request['data']['deptId'];
         $arr = explode(",", $deptId);
         $getdepts = Department::whereIn('id', $arr)->get();
         if (!empty($getdepts)) {
-            $result = ['success'=> true,'records' => $getdepts]; 
+            $result = ['success' => true, 'records' => $getdepts];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];
@@ -240,84 +196,60 @@ class MasterHrController extends Controller {
      * @return Response
      */
     public function update($id) {
+        $originalValues = Employee::where('id', $id)->get();
         $validationMessages = Employee::validationMessages();
         $validationRules = Employee::validationRules();
-        $validationRules['email'] = 'required|email|unique:employees,email,' . $id . '';       
+        $validationRules['email'] = 'required|email|unique:employees,email,' . $id . '';    
+        $validationRules['password'] = '';
         $input = Input::all();
-        if(empty($input['userData']['password'])){
-            $input['userData']['password'] = $input['userData']['passwordOld'];
-        }
         $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
         if ($validator->fails()) {
             $result = ['success' => false, 'message' => $validator->messages()];
             echo json_encode($result);
             exit;
         }
-//        echo "<pre>";print_r($input);exit;
-        $input['userData']['department_id'] = implode(',', array_map(function($el) {
-                    return $el['id'];
-                }, $input['userData']['department_id']));
-        $input['userData']['password'] = !empty($input['userData']['password']) ? \Hash::make($input['userData']['password']) :$input['userData']['password'];
-        $input['userData']['date_of_birth'] = date('Y-m-d', strtotime($input['userData']['date_of_birth']));
-        $input['userData']['joining_date'] = date('Y-m-d', strtotime($input['userData']['joining_date']));
+        $input = Employee::doAction($input);
         $input['userData']['updated_date'] = date('Y-m-d');
-        $input['userData']['employee_id'] = !empty($input['userData']['employee_id']) ? $input['userData']['employee_id'] : "1";
-        $input['userData']['high_security_password_type'] = !empty($input['userData']['high_security_password_type']) ? $input['userData']['high_security_password_type'] : "1";
-        $input['userData']['high_security_password'] = !empty($input['userData']['high_security_password']) ? $input['userData']['high_security_password'] : "8899";
-        $input['userData']['password_changed'] = !empty($input['userData']['password_changed']) ? $input['userData']['password_changed'] : "0";
-        $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1";
-        $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
-        $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
-        $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : "";
-
-        $personalMobileNo1 = explode("-", $input['userData']['personal_mobile_no1']);
-        $input['userData']['mobile1_calling_code'] = $personalMobileNo1[0];
-        $input['userData']['personal_mobile_no1'] = $personalMobileNo1[1];
-        if (!empty($input['userData']['personal_mobile_no2'])) {
-            $personalMobileNo2 = explode("-", $input['userData']['personal_mobile_no2']);
-            $input['userData']['mobile2_calling_code'] = $personalMobileNo2[0];
-            $input['userData']['personal_mobile_no2'] = $personalMobileNo2[1];
-        }
-
-        if (!empty($input['userData']['office_mobile_no'])) {
-            $officeMobileNo = explode("-", $input['userData']['office_mobile_no']);
-            $input['userData']['office_mobile_calling_code'] = $officeMobileNo[0];
-            $input['userData']['office_mobile_no'] = $officeMobileNo[1];
-        }
-
-        if (!empty($input['userData']['landline_no'])) {
-            $landlineNo = explode("-", $input['userData']['landline_no']);
-            $input['userData']['landline_calling_code'] = $landlineNo[0];
-            $input['userData']['landline_no'] = $landlineNo[1];
-        }
-        $input['userData']['updated_by'] = 1;
+        $input['userData']['updated_by'] = Auth::guard('admin')->user()->id;
         $input['userData']['updated_IP'] = $_SERVER['REMOTE_ADDR'];
         $input['userData']['updated_browser'] = $_SERVER['HTTP_USER_AGENT'];
         $input['userData']['updated_mac_id'] = CommonFunctions::getMacAddress();
         unset($input['userData']['password_confirmation']);
-        /*   * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
-        /*$imgRules = array(
-            'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
-        );
-       // echo"<pre>-------"; print_r( $input['emp_photo_url']);exit;
-        $validateEmpPhotoUrl = Validator::make($input['userData'], $imgRules,$imgmsg);
-        if ($validateEmpPhotoUrl->fails()) {
-            $result = ['success' => false, 'message' => $validateEmpPhotoUrl->messages()];
-            echo json_encode($result);
-            exit;
-        } else {
-            $fileName = time() . '.' . $input['userData']['emp_photo_url']->getClientOriginalExtension();
-            $input['userData']['emp_photo_url']->move(resource_path('hrEmployeePhoto'), $fileName);
-        }  
-        /* ******************************* END *************************** */
-        // $input['userData']['emp_photo_url'] = $fileName;
-       
+        unset($input['userData']['passwordOld']);
+        unset($input['userData']['password']);                
+        /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
+        $originalName = $input['emp_photo_url']->getClientOriginalName();
+        if ($originalName !== 'fileNotSelected') {
+            $imgRules = array(
+                'emp_photo_url' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
+            );
+            $validateEmpPhotoUrl = Validator::make($input, $imgRules);
+            if ($validateEmpPhotoUrl->fails()) {
+                $result = ['success' => false, 'message' => $validator->messages()];
+                echo json_encode($result);
+                exit;
+            } else {
+                $fileName = time() . '.' . $input['emp_photo_url']->getClientOriginalExtension();
+                $input['emp_photo_url']->move(base_path() . "/common/employee_photo/", $fileName);
+            }
+            $input['userData']['emp_photo_url'] = $fileName;
+        }        
+        /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
+
         $employeeUpdate = Employee::where('id',$id)->update($input['userData']);
-         if ($employeeUpdate) {
-            $result = ['success' => true, 'message' => 'Employee Updated Succesfully'];
-        } else {
-            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+        $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
+        $pwdData=$originalValues[0]['attributes']['password'];
+        unset($getResult['password']);
+        $implodeArr =  implode(",",array_keys($getResult));
+        if ($employeeUpdate == 1) {
+            $input['userData']['password'] = $pwdData;
+            $input['userData']['main_record_id'] = Auth::guard('admin')->user()->id;
+            $input['userData']['record_type'] = 2;
+            $input['userData']['column_names'] = $implodeArr;
+            $input['userData']['record_restore_status'] = 1;
+            EmployeesLog::create($input['userData']);   
         }
+        $result = ['success' => true, 'message' => 'Employee Updated Succesfully'];
         echo json_encode($result);
     }
 

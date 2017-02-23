@@ -1,6 +1,7 @@
 'use strict';
 app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout) {
     $scope.pageHeading = 'Create User';
+    $scope.buttonLabel = 'Create';
     $scope.userData = {};
     $scope.listUsers = [];
     $scope.userData.gender = $scope.userData.title = $scope.userData.blood_group_id =
@@ -12,14 +13,17 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
     $scope.disableCreateButton = false;
     $scope.currentPage =  $scope.itemsPerPage = 4;
     $scope.noOfRows = 1;
-   
+//    $scope.imgUrl = "blank-avatar.svg";
+    
     $scope.validateMobileNumber = function (value) {
         var regex = /^(\+\d{1,4}-)\d{10}$/;
         if(!regex.test(value)){
             $scope.errMobile = "Mobile number should be 10 digits and pattern should be for ex. +91-9999999999";
+            $scope.applyClassMobile = 'ng-active';
         }
         else{
             $scope.errMobile = "";
+            $scope.applyClassMobile = 'ng-inactive';
         }    
     };
     $scope.validateLandlineNumber = function (value) {
@@ -32,8 +36,28 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             $scope.errLandline = "";
             $scope.applyClass = 'ng-inactive';
         }    
+    };    
+    $scope.checkDepartment = function () {
+       if ($scope.userData.department_id.length === 0) {
+            $scope.emptyDepartmentId = true;
+            $scope.applyClassDepartment = 'ng-active';
+        } else {
+            $scope.emptyDepartmentId = false;
+            $scope.applyClassDepartment = 'ng-inactive';
+        }
+    };    
+    $scope.checkImageExtension = function (employeePhoto) {
+        if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
+            var ext = employeePhoto.name.match(/\.(.+)$/)[1];
+            if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
+                $scope.invalidImage = "";
+                $scope.altName = employeePhoto.name;
+            } else {
+                $(".imageFile").val("");
+                $scope.invalidImage = "Invalid file format. Image should be jpg or jpeg or png or bmp format only.";
+            }
+        }
     };
-    
     /*$scope.checkTitle = function () {
         if ($scope.userData.title === "Mrs.")
         {
@@ -46,8 +70,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         }
     }*/
 
-    $scope.checkboxSelected = function (copy) {
-        if (copy) {  // when checked
+    /*$scope.checkboxSelected = function (copy) {
+        if (copy) {  // when checkbox checked
             $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = "";
             $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
             $scope.userData.permenent_country_id = angular.copy($scope.userData.current_country_id);
@@ -80,107 +104,65 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         } else {
             $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
         }
-    };
+    };*/
 
     $scope.createUser = function (enteredData, employeePhoto, empId) {
-        var userData = {};
+        var userData = {};        
+        userData = angular.fromJson(angular.toJson(enteredData));
+        var date = new Date($scope.userData.date_of_birth);
+        $scope.userData.date_of_birth = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+        var date = new Date($scope.userData.joining_date);
+        $scope.userData.joining_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+        
         if(empId === 0)
-        {
-            userData = angular.fromJson(angular.toJson(enteredData));
-            var date = new Date($scope.userData.date_of_birth);
-            $scope.userData.date_of_birth = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-            var date = new Date($scope.userData.joining_date);
-            $scope.userData.joining_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-
-            employeePhoto.upload = Upload.upload({
-                url: getUrl+'/master-hr',
-                headers: {enctype: 'multipart/form-data'},
-                data: {userData: userData, emp_photo_url: employeePhoto},
-            });
-            employeePhoto.upload.then(function (response) {
-                $timeout(function () {
-                    if (!response.data.success) {
-                        var obj = response.data.message;
-                        var arr = Object.keys(obj).map(function(k) { return obj[k] });
-                        var err = [];
-                        var j = 0;
-                        for (var i = 0; i < arr.length; i++) {
-                          err.push(arr[j++].toString());
-                        }                 
-                        $scope.errorMsg = err;
-                    } else
-                    {
-                        $scope.disableCreateButton = true;
-                        employeePhoto.result = response.data;
-                        $rootScope.alert('success', "Employee registeration successfully.");
-                        $('.alert-delay').delay(3000).fadeOut("slow");
-                        $timeout(function () {
-                            $state.go(getUrl+'.userIndex');
-                        }, 1000);
-                    }
-                });
-            }, function (response) {
-                if (response.status !== 200) {
-                    $scope.errorMsg = "Something went wrong. Check your internet connection";
-                }
-            }, function (evt, response) {
-        //            employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            });
+        {          
+            var url = getUrl+'/master-hr/';
+            var data = {userData: userData, emp_photo_url: employeePhoto, empId: empId};
+            var successMsg = "Employee registeration successfully.";
         }
         else{
-            userData = angular.fromJson(angular.toJson(enteredData));
-            var date = new Date($scope.userData.date_of_birth);
-            $scope.userData.date_of_birth = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-            var date = new Date($scope.userData.joining_date);
-            $scope.userData.joining_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
-        
-            employeePhoto.upload = Upload.upload({              
-                url: getUrl+'/master-hr/' + empId,
-                headers: {enctype: 'multipart/form-data'},
-                data: {_method: 'PUT',userData: userData, emp_photo_url: employeePhoto, empId: empId},
-            });
-            employeePhoto.upload.then(function (response) {                
-                $timeout(function () {
-                    if (!response.data.success) {
-                        var obj = response.data.message;
-                        var arr = Object.keys(obj).map(function(k) { return obj[k] });
-                        var err = [];
-                        var j = 0;
-                        for (var i = 0; i < arr.length; i++) {
-                          err.push(arr[j++].toString());
-                        }                 
-                        $scope.errorMsg = err;
-                    } else
-                    {
-                        $scope.disableCreateButton = true;
-                        employeePhoto.result = response.data;
-                        $rootScope.alert('success', "Employee registeration updated successfully.");
-                        $('.alert-delay').delay(3000).fadeOut("slow");
-                        $timeout(function () {
-                            $state.go(getUrl+'.userIndex');
-                        }, 1000);
-                    }
-                });
-            }, function (response) {
-                if (response.status !== 200) {
-                    $scope.errorMsg = "Something went wrong. Check your internet connection";
-                }
-            }, function (evt, response) {
-            });
-        }
-    };
-
-    $scope.checkImageExtension = function (employeePhoto) {
-        if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
-            var ext = employeePhoto.name.match(/\.(.+)$/)[1];
-            if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
-                $scope.invalidImage = "";
-                $scope.altName = employeePhoto.name;
-            } else {
-                $(".imageFile").val("");
-                $scope.invalidImage = "Invalid file format. Image should be jpg or jpeg or png or bmp format only.";
+            var url = getUrl+'/master-hr/' + empId;            
+            var successMsg = "Employee registeration updated successfully.";  
+            if (typeof employeePhoto === 'string') {
+                employeePhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
+            var data = {_method: 'PUT', userData: userData, emp_photo_url: employeePhoto, empId: empId};
         }
+        
+        employeePhoto.upload = Upload.upload({
+            url: url,
+            headers: {enctype: 'multipart/form-data'},
+            data: data
+        });
+        employeePhoto.upload.then(function (response) {               
+            $timeout(function () {
+                if (!response.data.success) {
+                    var obj = response.data.message;
+                    var arr = Object.keys(obj).map(function(k) { return obj[k] });
+                    var err = [];
+                    var j = 0;
+                    for (var i = 0; i < arr.length; i++) {
+                      err.push(arr[j++].toString());
+                    }                 
+                    $scope.errorMsg = err;
+                } else
+                {
+                    $scope.disableCreateButton = true;
+                    employeePhoto.result = response.data;
+                    $rootScope.alert('success', successMsg);
+                    $('.alert-delay').delay(3000).fadeOut("slow");
+                    $timeout(function () {
+                        $state.go(getUrl+'.userIndex');
+                    }, 1000);
+                }
+            });
+        }, function (response) {
+            if (response.status !== 200) {
+                $scope.errorMsg = "Something went wrong. Check your internet connection";
+            }
+        }, function (evt, response) {
+            //employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        });
     };
     
     $scope.manageUsers = function (id,action) { //edit/index action
@@ -207,10 +189,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                             var personal_mobile_no2_code = '+' + response.records.data[0].mobile2_calling_code + '-';
                             $scope.userData.personal_mobile_no2 = personal_mobile_no2_code + angular.copy(response.records.data[0].personal_mobile_no2);
                         }
-                        if (response.records.data[0].landline_no !== null) {
-                            var landlineNo = response.records.data[0].landline_calling_code + '-';
-                            $scope.userData.landline_no = landlineNo + angular.copy(response.records.data[0].landline_no);
-                        }
+                        if (response.records.data[0].landline_no !== null || response.records.data[0].landline_no !== '') {
+                            var landlineNo = '+'+response.records.data[0].landline_calling_code + '-';
+                            var landLineNumber=""+response.records.data[0].landline_no;
+                            $scope.userData.landline_no = landlineNo +landLineNumber.slice(0,4)+"-"+landLineNumber.slice(4);
+                        }                        
+                        $scope.userData.passwordOld = response.records.data[0].password;
                         var current_country = response.records.data[0].current_country_id;
                         var current_state = response.records.data[0].current_state_id;
 
@@ -236,7 +220,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                                 });
                             }
                         });
-                        $scope.img_url = response.records.data[0].emp_photo_url;
+                        $scope.imgUrl = response.records.data[0].emp_photo_url;
                         var deptId = response.records.data[0].department_id;
                         Data.post('master-hr/getDepartmentsToEdit', {
                             data: {deptId: deptId},
@@ -278,5 +262,4 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             }
         });
     }
-    
 }]);

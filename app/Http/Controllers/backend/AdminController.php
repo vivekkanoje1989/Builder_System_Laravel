@@ -222,21 +222,28 @@ class AdminController extends Controller {
         }
     }
     
-    public function checkUniqueEmail(){    
+    public function checkUniqueEmail() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $checkEmail = Employee::getRecords(["email"],["email" => $request['data']['emailData']]);
-        if(empty($checkEmail[0]->email))
-        {
+        $id = $request['data']['id'];
+        if ($id == 0) {
+            $checkEmail = Employee::getRecords(["email"], ["email" => $request['data']['emailData']]);
+        } else {
+            $checkEmail = Employee::select('email')->where([
+                        ['email', '=', $request['data']['emailData']],
+                        ['id', '<>', $id],
+                    ])->get();
+            $checkEmail = json_decode($checkEmail);
+        }
+        if (empty($checkEmail[0]->email)) {
             $result = ['success' => true];
             return json_encode($result);
-        }
-        else
-        {
+        } else {
             $result = ['success' => false];
             return json_encode($result);
         }
-    }    
+    }
+
     protected function guard()
     {
         return Auth::guard('admin');

@@ -94,19 +94,20 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
     return {
         restrict: 'AE',
         require: 'ngModel',
-        link: function ($scope, element, attributes, model) {
-            model.$asyncValidators.uniqueEmail = function () {
+        link: function($scope, element, attributes, model) {
+            model.$asyncValidators.uniqueEmail = function() {               
                 var email = $scope.userData.email;
-                return Data.post('checkUniqueEmail', {
-                    data: {emailData: email},
-                }).then(function (response) {+
-                    $timeout(function () {
-                        model.$setValidity('uniqueEmail', !!response.success);
-                    }, 1000);
-                });
+                var employeeId = (typeof $scope.userData.id === "undefined" || $scope.userData.id === "0") ? "0" : $scope.userData.id;        
+                return Data.post('checkUniqueEmail',{
+                    data:{emailData: email,id:employeeId},
+                }).then(function(response){
+                  $timeout(function(){
+                    model.$setValidity('uniqueEmail', !!response.success); 
+                  }, 1000);              
+                });                           
             };
         }
-    }
+    } 
 });
 
 

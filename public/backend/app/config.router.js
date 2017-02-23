@@ -13,7 +13,7 @@ angular.module('app')
         function ($stateProvider, $urlRouterProvider) {
             
             $urlRouterProvider
-                    .otherwise(getUrl+'/login'); 
+                .otherwise(getUrl+'/login'); 
             $stateProvider
                 .state(getUrl, {
                     abstract: true,

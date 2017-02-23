@@ -262,26 +262,6 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
     
 });
 
-app.controller('checkUniqueEmailController', function ($scope, Data)
-{
-    $scope.checkUniqueEmail = function (emailData) {
-        Data.post('checkUniqueEmail', {
-            email: emailData.email
-        }).then(function (response) {
-            if (!response.success) {
-                $scope.errorMsg = response.message;
-                $scope.classActive = "help-block step2 ng-active";
-                return false;
-            } else {
-                $scope.errorMsg = "";
-                $scope.classActive = "step2 ng-inactive";
-                return false;
-            }
-        });
-    };
-});
-
-
 
 //$(document).ready(function() {
 //    $(document).on("contextmenu",function(e){

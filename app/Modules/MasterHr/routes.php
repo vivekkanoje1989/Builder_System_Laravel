@@ -4,7 +4,6 @@ Route::group(array('module' => 'MasterHr', 'namespace' => 'App\Modules\MasterHr\
     $getUrl = config('global.getUrl');
     
     Route::resource($getUrl.'/master-hr', 'MasterHrController');
-    Route::post('master-hr/uploadFile', 'MasterHrController@uploadFile');
     Route::post($getUrl.'/master-hr/manageUsers', 'MasterHrController@manageUsers');    
     Route::post($getUrl.'/master-hr/editDepartments', 'MasterHrController@editDepartments');
     Route::post($getUrl.'/master-hr/getDepartmentsToEdit', 'MasterHrController@getDepartmentsToEdit'); 

@@ -15,7 +15,7 @@
                                         <div class="form-group">
                                             <label for="">Mobile Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.searchWithMobile" get-customer-details minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100 }">
+                                                <input type="text" class="form-control" ng-model="customerData.searchWithMobile" get-customer-details minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")" ng-model-options="{allowInvalid: true, debounce: 100 }">
                                                 <i class="glyphicon glyphicon-phone"></i>
                                                 <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
                                                     <div ng-message="minlength">Invalid mobile no.</div>
@@ -54,7 +54,7 @@
                                                     <option ng-repeat="t in titles track by $index" value="{{t.value}}" ng-selected="{{ t.value == customerData.title}}">{{t.title}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="title_id" class='errMsg'>{{title_id}}</div>
+                                                <div ng-if="title_id" class="errMsg">{{title_id}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -62,9 +62,9 @@
                                         <div class="form-group">
                                             <label for="">First Name</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15">
+                                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,"")" maxlength="15">
                                                 <i class="fa fa-user"></i>
-                                                <div ng-if="first_name">{{first_name}}</div>
+                                                <div ng-if="first_name" class="errMsg">{{first_name}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -74,7 +74,7 @@
                                         <div class="form-group">
                                             <label for="">Middle Name</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.middle_name" name="middle_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15">
+                                                <input type="text" class="form-control" ng-model="customerData.middle_name" name="middle_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,"")" maxlength="15">
                                                 <i class="fa fa-user"></i>
                                             </span>
                                         </div>
@@ -83,9 +83,9 @@
                                         <div class="form-group">
                                             <label for="">Last Name</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15">
+                                                <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,"")" maxlength="15">
                                                 <i class="fa fa-user"></i>
-                                                <div ng-if="last_name">{{last_name}}</div>
+                                                <div ng-if="last_name" class="errMsg">{{last_name}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -100,7 +100,7 @@
                                                     <option ng-repeat="genderList in genders track by $index" value="{{genderList.gender_id}}" ng-selected="{{ genderList.gender_id == customerData.gender}}">{{genderList.gender_title}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="gender_id">{{gender_id}}</div>
+                                                <div ng-if="gender_id" class="errMsg">{{gender_id}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                    <div ng-if="birth_date">{{birth_date}}</div>
+                                                    <div ng-if="birth_date"class="errMsg">{{birth_date}}</div>
                                                 </p>
                                             </div>                                           
                                         </div>
@@ -127,7 +127,7 @@
                                                 <input type="file" ngf-select ng-model="customerData.image_file" name="image_file" id="image_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" image-extension-validation required ngf-model-invalid="errorFile" ng-change="checkImageExtension(customerData.image_file)">
                                                 <img src="http://localhost/BMS_BUILDER_V2/common/blank-avatar.svg" alt="{{ altName }}" class="thumb photoPreview"/>
                                                 <i class="fa fa-file-image-o"></i>
-                                                <div ng-if="image_file">{{image_file}}</div>
+                                                <div ng-if="image_file" class="errMsg">{{image_file}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -140,7 +140,7 @@
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                    <div ng-if="marriage_date">{{marriage_date}}</div>
+                                                    <div ng-if="marriage_date" class="errMsg">{{marriage_date}}</div>
                                                 </p>
                                             </div>
                                         </div>
@@ -158,7 +158,7 @@
                                                     <option ng-repeat="t in professions track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.profession}}">{{t.profession}}</option>
                                                 </select>                
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="profession_id">{{profession_id}}</div>
+                                                <div ng-if="profession_id" class="errMsg">{{profession_id}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -168,7 +168,7 @@
                                             <span class="input-icon icon-right">
                                                 <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control date-picker" data-date-format="dd-mm-yyyy">
                                                 <i class="fa fa-pencil-square-o"></i>
-                                                <div ng-if="pan_number">{{pan_number}}</div>
+                                                <div ng-if="pan_number" class="errMsg">{{pan_number}}</div>
                                             </span>                                          
                                         </div>
                                     </div>
@@ -178,9 +178,9 @@
                                         <div class="form-group">
                                             <label for="">Aadhar Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")">
                                                 <i class="fa fa-pencil-square-o"></i>
-                                                <div ng-if="aadhar_number">{{aadhar_number}}</div>
+                                                <div ng-if="aadhar_number" class="errMsg">{{aadhar_number}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -190,7 +190,7 @@
                                             <span class="input-icon icon-right">
                                                 <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control">
                                                 <i class="fa fa-money"></i>
-                                                <div ng-if="monthly_income">{{monthly_income}}</div>
+                                                <div ng-if="monthly_income" class="errMsg">{{monthly_income}}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -201,7 +201,7 @@
                                             <span class="input-icon icon-right">
                                                 <input type="text" ng-model="customerData.source_id" name="source_id" class="form-control">
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="source_id">{{source_id}}</div>
+                                                <div ng-if="source_id" class="errMsg">{{source_id}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -211,7 +211,7 @@
                                             <span class="input-icon icon-right">
                                                 <input type="text" ng-model="customerData.subsource_id" name="subsource_id" class="form-control">
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="subsource_id">{{subsource_id}}</div>
+                                                <div ng-if="subsource_id" class="errMsg">{{subsource_id}}</div>
                                             </span>                                            
                                         </div>
                                     </div>
@@ -223,7 +223,7 @@
                                             <span class="input-icon icon-right">
                                                 <textarea ng-model="customerData.source_description" name="source_description" class="form-control"></textarea>
                                                 <i class="fa fa fa-align-left"></i>
-                                                <div ng-if="source_description">{{source_description}}</div>
+                                                <div ng-if="source_description" class="errMsg">{{source_description}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -238,7 +238,7 @@
                                                     <option value="1">Active</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="sms_privacy_status">{{sms_privacy_status}}</div>
+                                                <div ng-if="sms_privacy_status" class="errMsg">{{sms_privacy_status}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -251,7 +251,7 @@
                                                     <option value="1">Active</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="email_privacy_status">{{email_privacy_status}}</div>
+                                                <div ng-if="email_privacy_status" class="errMsg">{{email_privacy_status}}</div>
                                             </span>
                                         </div>
                                     </div>

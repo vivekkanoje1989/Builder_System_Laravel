@@ -285,4 +285,60 @@ class Employee extends Authenticatable
         );
         return $rules;
     }
+    
+    public static function doAction($input){        
+        $input['userData']['department_id'] = implode(',', array_map(function($el) {
+                    return $el['id'];
+                }, $input['userData']['department_id']));        
+        
+        $input['userData']['date_of_birth'] = date('Y-m-d', strtotime($input['userData']['date_of_birth']));
+        $input['userData']['joining_date'] = date('Y-m-d', strtotime($input['userData']['joining_date']));
+        
+        $input['userData']['client_id'] = !empty($input['client_id']) ? $input['userData']['client_id'] : "0";
+        $input['userData']['client_role_id'] = "1";
+        $input['userData']['employee_id'] = !empty($input['userData']['employee_id']);    
+        $input['userData']['high_security_password_type'] = !empty($input['userData']['high_security_password_type']) ? $input['userData']['high_security_password_type'] : "1";
+        $input['userData']['high_security_password'] = !empty($input['userData']['high_security_password']) ? $input['userData']['high_security_password'] : "";
+        $input['userData']['password_changed'] = !empty($input['userData']['password_changed']) ? $input['userData']['password_changed'] : "0";
+        $input['userData']['usertype'] = "admin";
+        
+        $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1";
+        $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
+        $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
+        $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : "";
+
+        $personalMobileNo1 = explode("-", $input['userData']['personal_mobile_no1']);
+        $input['userData']['mobile1_calling_code'] = (int) $personalMobileNo1[0];
+        $input['userData']['personal_mobile_no1'] = $personalMobileNo1[1];
+        
+        if (!empty($input['userData']['personal_mobile_no2'])) {
+            $personalMobileNo2 = explode("-", $input['userData']['personal_mobile_no2']);
+            $input['userData']['mobile2_calling_code'] = (int) $personalMobileNo2[0];
+            $input['userData']['personal_mobile_no2'] = $personalMobileNo2[1];
+            $input['userData']['mobile2_calling_code'] = !empty($input['userData']['personal_mobile_no2']) ? $input['userData']['mobile2_calling_code'] : NULL;
+        }
+
+        if (!empty($input['userData']['office_mobile_no'])) {
+            $officeMobileNo = explode("-", $input['userData']['office_mobile_no']);
+            $input['userData']['office_mobile_calling_code'] = (int) $officeMobileNo[0];
+            $input['userData']['office_mobile_no'] = $officeMobileNo[1];
+        }
+        
+        if (!empty($input['userData']['landline_no'])) {            
+            $landlineNo = explode("-", $input['userData']['landline_no']);
+            $input['userData']['landline_calling_code'] = (int) $landlineNo[0];
+            $input['userData']['landline_calling_code'] =!empty($landlineNo[1]) ?  $input['userData']['landline_calling_code'] : NULL;
+            $input['userData']['landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] . $landlineNo[2] : '';
+        }
+//echo"<pre>";print_r($input['userData']['landline_no']);exit;
+        $input['userData']['education_details'] = !empty($input['userData']['education_details']) ? $input['userData']['education_details'] : "";
+        $input['userData']['show_on_homepage'] = !empty($input['userData']['show_on_homepage']) ? $input['userData']['show_on_homepage'] : "1";
+        $input['userData']['employee_submenus'] = !empty($input['userData']['employee_submenus']) ? $input['userData']['employee_submenus'] : '["0101","0102","0103","0104"]';
+        $input['userData']['employee_permissions'] = !empty($input['userData']['employee_permissions']) ? $input['userData']['employee_permissions'] : "1";
+        $input['userData']['employee_email_subscriptions'] = !empty($input['userData']['employee_email_subscriptions']) ? $input['userData']['employee_email_subscriptions'] : "1";
+        $input['userData']['employee_sms_subscrption'] = !empty($input['userData']['employee_sms_subscrption']) ? $input['userData']['employee_sms_subscrption'] : "1";
+        $input['userData']['employee_info_form_url'] = !empty($input['userData']['employee_info_form_url']) ? $input['userData']['employee_info_form_url'] : "1";
+        $input['userData']['employee_info_form_url_status'] = !empty($input['userData']['employee_info_form_url_status']) ? $input['userData']['employee_info_form_url_status'] : "1";
+        return $input;
+    }
 }
