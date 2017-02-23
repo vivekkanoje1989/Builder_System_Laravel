@@ -77,7 +77,6 @@
         <script src="/backend/adminController.js"></script>
         <script src="/backend/hrController.js"></script>
         
-        
         <!-- Layout Related Directives -->
         <script src="/backend/app/directives/loading.js"></script>
         <script src="/backend/app/directives/skin.js"></script>

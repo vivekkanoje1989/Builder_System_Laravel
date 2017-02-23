@@ -2,7 +2,7 @@
 namespace App\Classes;
 
 use DB;
-
+use Auth;
 class CommonFunctions {
 
     public static function getMacAddress(){
@@ -51,6 +51,11 @@ class CommonFunctions {
         $otherInfoArray = "Country:$data->countryName,State:$data->regionName,City:$data->cityName,Latitude:$data->latitude,Logitude:$data->longitude";
         $otherInfo = iconv('UTF-8', 'ISO-8859-1//TRANSLIT//IGNORE', $otherInfoArray);
         DB::select('CALL employees_login_logs('.$empId.',"'.$mobile.'","'.$password.'","'.$loginDateTime.'",'.$loginStatus.','.$loginFailureReason.',1,"'.$loginIP.'","'.$loginBrowser.'","'.$loginMacId.'","'.$otherInfo.'")');
+    }
+    public static function insertMainTableRecords(){
+        $getMacAddress = CommonFunctions::getMacAddress();
+        $create = ['created_date' => date('Y-m-d'), 'created_by' => Auth::guard('admin')->user()->id, 'created_IP' => $_SERVER['REMOTE_ADDR'], 'created_browser' => $_SERVER['HTTP_USER_AGENT'], 'created_mac_id' => $getMacAddress];
+        return $create;
     }
     public static function checkPlatform(){
         $userAgent = $_SERVER['HTTP_USER_AGENT'];

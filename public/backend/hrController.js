@@ -70,42 +70,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         }
     }*/
 
-    /*$scope.checkboxSelected = function (copy) {
-        if (copy) {  // when checkbox checked
-            $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = "";
-            $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
-            $scope.userData.permenent_country_id = angular.copy($scope.userData.current_country_id);
-            $scope.userData.permenent_pin = angular.copy($scope.userData.current_pin);
-
-            Data.post('getStates', {
-                data: {countryId: $scope.userData.current_country_id},
-            }).then(function (response) {
-                if (!response.success) {
-                    $scope.errorMsg = response.message;
-                } else {
-                    $scope.stateList = response.records;
-      
-                    Data.post('getCities', {
-                        data: {stateId: $scope.userData.current_state_id},
-                    }).then(function (response) {
-                        if (!response.success) {
-                            $scope.errorMsg = response.message;
-                        } else {
-                            $scope.cityList = response.records;
-                            $timeout(function () {
-                                
-                                $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);
-                                $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
-                            }, 100);
-                        }
-                    });
-                }
-            });
-        } else {
-            $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
-        }
-    };*/
-
     $scope.createUser = function (enteredData, employeePhoto, empId) {
         var userData = {};        
         userData = angular.fromJson(angular.toJson(enteredData));

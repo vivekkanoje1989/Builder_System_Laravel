@@ -5,11 +5,14 @@
  */
 'use strict';
 app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse) {
-    
+    $scope.pageHeading = 'Create Customer';
     $scope.customerData = {};
+    $scope.contactData = {};
     $scope.customerData.sms_privacy_status = 1;
     $scope.customerData.email_privacy_status = 1;
-    
+    $scope.contactData.mobile_number = "+91-";
+    $scope.container = [{containerId: 'container1'}];
+    $('[data-toggle="tooltip"]').tooltip();   
     $scope.checkImageExtension = function (customerPhoto) {
         if (typeof customerPhoto !== 'undefined' || typeof customerPhoto !== 'object') {
             var ext = customerPhoto.name.match(/\.(.+)$/)[1];
@@ -23,14 +26,24 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         }
     };
     
+    $scope.addContainer = function () {
+        var newBlock = $scope.container.length + 1;
+        $scope.container.push({'containerId': 'container' + newBlock});
+    };
+
+    $scope.removeContainer = function () {
+        var lastBlock = $scope.container.length - 1;
+        $scope.container.splice(lastBlock);
+    };
+  
     $scope.createCustomer = function (enteredData, customerPhoto) {
-        console.log(customerPhoto);
+        console.log($scope.container);console.log(enteredData);
         var customerData = {};
-        customerData = angular.fromJson(angular.toJson(enteredData))
+        customerData = angular.fromJson(angular.toJson(enteredData));        
         customerPhoto.upload = Upload.upload({
                 url: getUrl+'/master-sales',
                 headers: {enctype: 'multipart/form-data'},
-                data: {customerData: customerData, emp_photo_url: customerPhoto},
+                data: {customerData: customerData, image_file: customerPhoto, customerContacts: $scope.container},
             });
             customerPhoto.upload.then(function (response) {
                 $timeout(function () {
@@ -41,7 +54,6 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                             var model = $parse(key);// Get the model
                             model.assign($scope, obj[key][0]);// Assigns a value to it
                         }             
-                        $scope.errorMsg = "Please fill up above fields properly";
                     } else
                     {
                         $scope.disableCreateButton = true;

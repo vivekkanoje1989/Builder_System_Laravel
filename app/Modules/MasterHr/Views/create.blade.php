@@ -33,7 +33,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.title" ng-controller="titleCtrl" name="title" class="form-control" required="required">
                                         <option value="">Select Title</option>
-                                        <option ng-repeat="t in titles track by $index" value="{{t.value}}" ng-selected="{{ t.value == userData.title}}">{{t.title}}</option>
+                                        <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == userData.title}}">{{t.title}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.title.$error" class="help-block step1">
@@ -729,8 +729,6 @@
                             <span class="progress" ng-show="userData.emp_photo_url.progress >= 0">
                                 <div style="width:{{userData.emp_photo_url.progress}}%" ng-bind="userData.emp_photo_url.progress + '%'"></div>
                             </span>
-                            <!--<div ng-repeat="(key, val) in errorMsg track by $index">{{val}}</div>-->
-                            <!-- message text     -->
                             <span ng-show="userData.emp_photo_url.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5">Prev</button>
                             <button type="submit" class="btn btn-primary btn-submit-last" ng-disabled="disableCreateButton" ng-click="step5=true">{{buttonLabel}}</button>

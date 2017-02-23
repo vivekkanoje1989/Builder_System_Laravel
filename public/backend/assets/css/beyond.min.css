@@ -1,5 +1,19 @@
 
 /* vkm custome */
+
+.btn-fix{
+    position: fixed !important;
+    top: 80% !important;
+    right: 1.5% !important; 
+
+}
+.cross-btn2{
+    height: 20px !important;
+    width: 20px !important;
+    padding: 4px !important;
+    line-height: 5px !important;
+    padding-top: 2px !important;
+}
 .photoPreview{
     margin-top: 20px;
     width: 20%;

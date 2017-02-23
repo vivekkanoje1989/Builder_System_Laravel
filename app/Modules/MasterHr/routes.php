@@ -12,6 +12,7 @@ Route::group(array('module' => 'MasterHr', 'namespace' => 'App\Modules\MasterHr\
     /*********************************************** API **********************************************************/
     
     Route::post('api/master-hr/manageUsers', 'MasterHrController@manageUsers');
+    Route::post('api/master-hr/', 'MasterHrController@store');
     
     /*********************************************** API **********************************************************/
 });	

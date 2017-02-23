@@ -127,6 +127,7 @@ angular.module('app')
                                     serie: true,
                                     files: [
                                         '/backend/customerController.js',
+                                        '/js/intlTelInput.js',                                       
                                         '/backend/app/controllers/datepicker.js',
                                     ]
                                 });
