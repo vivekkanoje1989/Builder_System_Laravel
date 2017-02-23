@@ -23,7 +23,7 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
         }).then(function (response) {
             if (response.success) {
                 $state.reload();
-                $state.go('admin.dashboard');
+                $state.go(getUrl+'.dashboard');
                 return false;
             } else {
                 $scope.errorMsg = response.message;
@@ -72,7 +72,7 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
-                $state.go('admin.dashboard');
+                $state.go(getUrl+'.dashboard');
             }
         });
     }
@@ -247,10 +247,8 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
                             $scope.cityList = response.records;                            
                         }
                         $timeout(function () {
-//                            $("#permenent_state_id").val($scope.userData.current_state_id);
-//                            $("#permenent_city_id").val($scope.userData.current_city_id);
-                            $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);
-                            $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
+                            $("#permenent_state_id").val($scope.userData.current_state_id);
+                            $("#permenent_city_id").val($scope.userData.current_city_id);
                         }, 500);
                     });
                 }

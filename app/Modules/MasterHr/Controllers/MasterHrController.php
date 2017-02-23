@@ -163,7 +163,6 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
         $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();
         $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);
-        ;
         $getDepartments = Department::whereNotIn('id', $explodeDepartment)->get();
         if (!empty($getDepartments)) {
             $result = ['success' => true, 'records' => $getDepartments];
