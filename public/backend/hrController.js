@@ -101,14 +101,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         employeePhoto.upload.then(function (response) {               
             $timeout(function () {
                 if (!response.data.success) {
-                    var obj = response.data.message;
-                    var arr = Object.keys(obj).map(function(k) { return obj[k] });
-                    var err = [];
-                    var j = 0;
-                    for (var i = 0; i < arr.length; i++) {
-                      err.push(arr[j++].toString());
-                    }                 
-                    $scope.errorMsg = err;
+                    var obj = response.data.message;  
+                    $('.errMsg').text('');
+                    for (var key in obj) {
+                        var model = $parse(key);// Get the model
+                        model.assign($scope, obj[key][0]);// Assigns a value to it
+                    } 
                 } else
                 {
                     $scope.disableCreateButton = true;

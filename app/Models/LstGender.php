@@ -20,6 +20,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class LstGender extends Eloquent
 {
 	protected $primaryKey = 'gender_id';
+	protected $connection = 'masterdb';
 	public $incrementing = false;
 	public $timestamps = false;
 

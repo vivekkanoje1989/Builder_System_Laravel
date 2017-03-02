@@ -5,7 +5,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use App\Models\EmployeesLog;
-use App\Models\Department;
+use App\Models\LstDepartment;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Illuminate\Hashing\HashServiceProvider;
@@ -39,7 +39,25 @@ class MasterHrController extends Controller {
         if(!empty($request['empId']) && $request['empId'] !== "0"){ // for edit
             $manageUsers = DB::select('CALL proc_manage_users(1,'.$request["empId"].')');
         }else if($request['empId'] === ""){ // for index
-            $manageUsers = DB::select('CALL proc_manage_users(0,0)');
+        $manageUsers = DB::select('CALL proc_manage_users(0,0)');
+//            $manageUsers = Employee::leftjoin('new_builder_master.lst_departments as dept', 'employees.department_id', '=', 'dept.id')
+//            ->leftjoin(DB::raw('(SELECT login_date_time,employee_id FROM employees_login_logs ORDER BY id DESC limit 1) AS employees_login_logs'), 'employees.id', '=', 'employees_login_logs.employee_id')
+//            ->select('employees.*', 'dept.department_name', 'employees_login_logs.login_date_time')
+//            ->orderBy('employees.id','asc')
+//            ->get();
+            
+            foreach($manageUsers as $user){
+                
+                $getDeptName = array();
+                $dept = LstDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
+                for($i=0;$i<count($dept);$i++)
+                {
+                    $getDeptName[] = $dept[$i]->department_name;
+                }
+                $implodeDept = implode(",", $getDeptName);
+                $user->department_id = $implodeDept;
+                $user->login_date_time = date('Y-m-d', strtotime($user->login_date_time)); 
+            }
         }
         if ($manageUsers) {            
             $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
@@ -163,7 +181,7 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
         $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();
         $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);
-        $getDepartments = Department::whereNotIn('id', $explodeDepartment)->get();
+        $getDepartments = LstDepartment::whereNotIn('id', $explodeDepartment)->get();
         if (!empty($getDepartments)) {
             $result = ['success' => true, 'records' => $getDepartments];
             return $result;
@@ -178,7 +196,7 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
         $deptId = $request['data']['deptId'];
         $arr = explode(",", $deptId);
-        $getdepts = Department::whereIn('id', $arr)->get();
+        $getdepts = LstDepartment::whereIn('id', $arr)->get();
         if (!empty($getdepts)) {
             $result = ['success' => true, 'records' => $getdepts];
             return json_encode($result);

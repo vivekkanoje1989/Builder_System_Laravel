@@ -103,6 +103,14 @@ Route::group(['middleware' =>[ 'auth:admin']], function () {
     Route::post($getUrl.'/getCities', 'backend\AdminController@getCities');
     Route::post($getUrl.'/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
     
+    /***********************************MANDAR************************************/
+    Route::get($getUrl.'/getClient', 'backend\AdminController@getClient');
+    Route::get($getUrl.'/getEnquirysources', 'backend\AdminController@getEnquirysources');
+    Route::get($getUrl.'/getEnquirysubsources', 'backend\AdminController@getEnquirysubsources');
+    Route::get($getUrl.'/getVehiclebrands', 'backend\AdminController@getVehiclebrands');
+    Route::get($getUrl.'/getVehiclemodels', 'backend\AdminController@getVehiclemodels');
+    Route::get($getUrl.'/getEmployees', 'backend\AdminController@getEmployees');
+    
     /***********************************************************************/
     
     Route::get($getUrl.'/databoxes', function () {

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 06 Feb 2017 09:11:10 +0000.
+ * Date: Mon, 06 Feb 2017 10:46:09 +0000.
  */
 
 namespace App\Models;
@@ -65,11 +65,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class CtSettingsLog extends Eloquent
 {
-	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'id' => 'int',
 		'client_id' => 'int',
 		'ct_billing_settings_id' => 'int',
 		'main_record_id' => 'int',
@@ -104,13 +102,12 @@ class CtSettingsLog extends Eloquent
 	];
 
 	protected $dates = [
-		'nwh_start_time',
-		'nwh_end_time',
+		//'nwh_start_time',
+		//'nwh_end_time',
 		'created_date'
 	];
 
 	protected $fillable = [
-		'id',
 		'client_id',
 		'ct_billing_settings_id',
 		'main_record_id',

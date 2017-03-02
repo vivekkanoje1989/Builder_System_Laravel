@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 06 Feb 2017 09:11:10 +0000.
+ * Date: Fri, 24 Feb 2017 15:00:41 +0530.
  */
 
 namespace App\Models;
@@ -10,7 +10,7 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class Department
+ * Class LstDepartment
  * 
  * @property int $id
  * @property int $client_id
@@ -18,9 +18,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class Department extends Eloquent
+class LstDepartment extends Eloquent
 {
 	public $timestamps = false;
+
+	 protected $connection = 'masterdb';
 
 	protected $casts = [
 		'client_id' => 'int'

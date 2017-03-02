@@ -29,13 +29,13 @@ var compareTo = function () {
         },
         link: function (scope, element, attributes, ngModel) {
             ngModel.$validators.compareTo = function (modelValue) {
-                if((typeof modelValue !== 'undefined') && modelValue !== ''){console.log("1"+modelValue);
+                if((typeof modelValue !== 'undefined') && modelValue !== ''){
                     return modelValue == scope.otherModelValue;
                 }
                 
             };
             scope.$watch("otherModelValue", function (modelValue) {
-                if((typeof modelValue !== 'undefined') && modelValue !== ''){console.log("2"+modelValue);
+                if((typeof modelValue !== 'undefined') && modelValue !== ''){
                     ngModel.$validate();
                 }
             });
@@ -110,7 +110,19 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
     } 
 });
 
-
+app.directive('intlTel', function(){
+  return{
+    replace:true,
+    restrict: 'AE',
+    require: 'ngModel',
+    link: function(scope,element,attrs,ngModel){
+        element.intlTelInput({
+          dropdownContainer: 'body',
+          scrollListener: '.form-control',
+        });
+    }
+  }
+});
 
 
 

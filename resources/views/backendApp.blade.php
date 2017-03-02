@@ -76,6 +76,7 @@
         <script src="/backend/app/directives.js"></script>        
         <script src="/backend/adminController.js"></script>
         <script src="/backend/hrController.js"></script>
+        <script src="/backend/cloudtelephonyController.js"></script>
         
         <!-- Layout Related Directives -->
         <script src="/backend/app/directives/loading.js"></script>

@@ -260,6 +260,63 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
     
 });
 
+/****************************MANDAR*********************************/
+app.controller('employeesCtrl', function ($scope, Data) {
+    $scope.employees1 = [];
+    Data.get('getEmployees').then(function (response) {
+        if(!response.success){
+            $scope.errorMsg = response.message;
+        }
+        else{
+           $scope.employees1 = response.records;
+        }
+    });
+});
+
+app.controller('clientCtrl', function ($scope, Data) {
+    Data.get('getClient').then(function (response) {
+        if(!response.success){
+            $scope.errorMsg = response.message;
+        }
+        else{
+           $scope.clients = response.records;
+        }
+    });
+});
+
+app.controller('sourceCtrl', function ($scope, Data) {
+    Data.get('getEnquirysources').then(function (response) {
+        if(!response.success){
+            $scope.errorMsg = response.message;
+        }
+        else{
+           $scope.enquirysources = response.records;
+        }
+    });
+});
+
+app.controller('vehiclebrandCtrl', function ($scope, Data) {
+    Data.get('getVehiclebrands').then(function (response) {
+        if(!response.success){
+            $scope.errorMsg = response.message;
+        }
+        else{
+           $scope.vehiclebrands = response.records;
+        }
+    });
+});
+
+app.controller('vehiclemodelCtrl', function ($scope, Data) {
+    Data.get('getVehiclemodels').then(function (response) {
+        if(!response.success){
+            $scope.errorMsg = response.message;
+        }
+        else{
+           $scope.vehiclemodels = response.records;
+        }
+    });
+});
+/****************************MANDAR*********************************/
 
 //$(document).ready(function() {
 //    $(document).on("contextmenu",function(e){

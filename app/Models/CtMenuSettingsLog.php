@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 06 Feb 2017 09:11:10 +0000.
+ * Date: Mon, 06 Feb 2017 10:46:09 +0000.
  */
 
 namespace App\Models;
@@ -42,6 +42,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $msc_welcome_tune_type_id
  * @property string $msc_welcome_tune
  * @property int $msc_call_insert_enquiry
+ * @property int $msc_call_insert_enquiry
  * @property \Carbon\Carbon $created_date
  * @property \Carbon\Carbon $created_at
  * @property int $created_by
@@ -56,11 +57,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class CtMenuSettingsLog extends Eloquent
 {
-	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'id' => 'int',
 		'client_id' => 'int',
 		'main_record_id' => 'int',
 		'ct_settings_id' => 'int',
@@ -82,6 +81,7 @@ class CtMenuSettingsLog extends Eloquent
 		'msc_facility_status' => 'bool',
 		'msc_welcome_tune_type_id' => 'int',
 		'msc_call_insert_enquiry' => 'int',
+                'menu_status' => 'bool',
 		'created_by' => 'int',
 		'record_type' => 'int',
 		'record_restore_status' => 'int'
@@ -92,7 +92,6 @@ class CtMenuSettingsLog extends Eloquent
 	];
 
 	protected $fillable = [
-		'id',
 		'client_id',
 		'main_record_id',
 		'ct_settings_id',
@@ -122,6 +121,7 @@ class CtMenuSettingsLog extends Eloquent
 		'msc_welcome_tune_type_id',
 		'msc_welcome_tune',
 		'msc_call_insert_enquiry',
+                'menu_status',
 		'created_date',
 		'created_by',
 		'created_IP',

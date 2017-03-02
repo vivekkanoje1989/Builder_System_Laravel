@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 06 Feb 2017 10:46:09 +0000.
+ * Date: Fri, 17 Feb 2017 12:04:16 +0530.
  */
 
 namespace App\Models;
@@ -10,24 +10,18 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class CtTuneType
+ * Class VehicleBrand
  * 
  * @property int $id
- * @property string $type
+ * @property string $brand_name
  *
  * @package App\Models
  */
-class CtTuneType extends Eloquent
+class VehicleBrand extends Eloquent
 {
-	public $incrementing = false;
 	public $timestamps = false;
 
-	protected $casts = [
-		'id' => 'int'
-	];
-
 	protected $fillable = [
-		'id',
-		'type'
+		'brand_name'
 	];
 }

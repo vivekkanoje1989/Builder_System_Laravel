@@ -65,6 +65,25 @@ return [
             'strict' => true,
             'engine' => null,
         ],*/
+        'masterdb' => [
+            'read' => [
+                'host' => '192.168.0.150',
+            ],
+            'write' => [
+                'host' => '192.168.0.150'
+            ],
+            'driver' => 'mysql',
+            'port' => 3306,
+            'database' => 'new_builder_master',
+            'username' => 'bmsbuilder',
+            'password' => 'bms123',
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => false,
+            'engine' => null,
+        ],
+        
         'mysql' => [
             'read' => [
                 'host' => '192.168.0.150',

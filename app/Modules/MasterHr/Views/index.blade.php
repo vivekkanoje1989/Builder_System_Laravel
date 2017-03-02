@@ -93,7 +93,7 @@
                             <td>{{ listUser.designation }}</td>
                             <td>{{ listUser.reporting_to_id }}</td>
                             <td>{{ listUser.team_lead_id }}</td>
-                            <td>{{ listUser.department_name }}</td>
+                            <td>{{ listUser.department_id }}</td>
                             <td>{{ listUser.joining_date | date:'dd-MM-yyyy' }}</td>
                             <td ng-if="listUser.employee_status == 1">Active</td>
                             <td ng-if="listUser.employee_status == 2">Temporary Suspended</td>

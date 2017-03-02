@@ -115,6 +115,7 @@ angular.module('app')
                 .state(getUrl+'.salesCreate', {
                     url: '/sales/create',
                     templateUrl: getUrl+'/master-sales/create',
+                    controller: 'customerController',
                     requiredLogin: true,
                     ncyBreadcrumb: {
                         label: 'Customer Details'
@@ -123,14 +124,15 @@ angular.module('app')
                         deps: [
                             '$ocLazyLoad',
                             function ($ocLazyLoad) {
-                                return $ocLazyLoad.load({
+                                return $ocLazyLoad.load(['ui.select',{
                                     serie: true,
-                                    files: [
+                                    files: [                                        
+                                        '/js/intlTelInput.js',
                                         '/backend/customerController.js',
-                                        '/js/intlTelInput.js',                                       
                                         '/backend/app/controllers/datepicker.js',
+                                        '/backend/app/controllers/select.js',
                                     ]
-                                });
+                                }]);
                             }
                         ]
                     }
@@ -143,6 +145,112 @@ angular.module('app')
                         label: 'Manage Enquiries'
                     }
                 })
+                
+                /****************************MANDAR*********************************/
+                .state(getUrl+'.cloudtelephony', {
+                        url: '/cloudtelephony/create',
+                        templateUrl: getUrl+'/cloudtelephony/create',
+                        requiredLogin: true,
+                        ncyBreadcrumb: {
+                            label: 'Virtual Number Registration',
+                            description: ''
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select',{
+                                        serie: true,
+                                        files: [
+                                            '/backend/cloudtelephonyController.js',
+                                            '/backend/app/controllers/datepicker.js',
+                                            '/backend/app/controllers/select.js',
+                                        ]
+                                    }]);
+                                }
+                            ]
+                        }
+                    })
+                    
+                    .state(getUrl+'.virtualnumberslist', {
+                        url: '/virtualnumber/index',
+                        templateUrl: getUrl+'/virtualnumber/',
+                        controller: 'cloudtelephonyController',
+                        requiredLogin: true,
+                        ncyBreadcrumb: {
+                            label: 'Manage Virtual Numbers',
+                            description: ''
+                        },
+                    })
+
+                    
+                     .state(getUrl+'.numbersIndex', {
+                        url: '/cloudtelephony/index',
+                        templateUrl: getUrl+'/cloudtelephony/',
+                        controller: 'cloudtelephonyController',
+                        requiredLogin: true,
+                        ncyBreadcrumb: {
+                            label: 'Manage Virtual Numbers',
+                            description: ''
+                        },
+                    })
+         
+                    
+                    .state(getUrl+'.recordUpdate', {
+                        url: '/cloudtelephony/update/:id',
+                        templateUrl:  function (stateParams){
+                            return getUrl+'/cloudtelephony/' + stateParams.id + '/edit';
+                        },
+                        controller: 'cloudtelephonyController',
+                        requiredLogin: true,
+                        ncyBreadcrumb: {
+                            label: 'Edit Number',
+                            description: ''
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load([{
+                                        serie: true,
+                                        files: [
+                                            '/backend/app/controllers/datepicker.js',
+                                        ]
+                                    }]);
+                                }
+                            ]
+                        }
+                    })
+                    
+                    
+                    .state(getUrl+'.vnumberUpdate', {
+                        url: '/virtualnumber/update/:id',
+                        templateUrl:  function (stateParams){
+                            return getUrl+'/virtualnumber/' + stateParams.id + '/edit';
+                        },
+                        controller: 'cloudtelephonyController',
+                        requiredLogin: true,
+                        ncyBreadcrumb: {
+                            label: 'Edit Virtual Number',
+                            description: ''
+                        },
+                        resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['ui.select',{
+                                        serie: true,
+                                        files: [
+                                            '/backend/app/controllers/datepicker.js',
+                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                            '/backend/app/controllers/select.js',
+                                        ]
+                                    }]);
+                                }
+                            ]
+                        }
+                    })
+                /****************************MANDAR*********************************/
                 .state('persian', {
                     abstract: true,
                     url: '/persian',

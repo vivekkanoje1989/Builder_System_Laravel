@@ -7,11 +7,9 @@
 app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse) {
     $scope.pageHeading = 'Create Customer';
     $scope.customerData = {};
-    $scope.contactData = {};
     $scope.customerData.sms_privacy_status = 1;
     $scope.customerData.email_privacy_status = 1;
-    $scope.contactData.mobile_number = "+91-";
-    $scope.container = [{containerId: 'container1'}];
+        
     $('[data-toggle="tooltip"]').tooltip();   
     $scope.checkImageExtension = function (customerPhoto) {
         if (typeof customerPhoto !== 'undefined' || typeof customerPhoto !== 'object') {
@@ -25,17 +23,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             }
         }
     };
-    
-    $scope.addContainer = function () {
-        var newBlock = $scope.container.length + 1;
-        $scope.container.push({'containerId': 'container' + newBlock});
-    };
-
-    $scope.removeContainer = function () {
-        var lastBlock = $scope.container.length - 1;
-        $scope.container.splice(lastBlock);
-    };
-  
+      
     $scope.createCustomer = function (enteredData, customerPhoto) {
         console.log($scope.container);console.log(enteredData);
         var customerData = {};
@@ -72,6 +60,9 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             }, function (evt, response) {});
     };
     
+    $scope.addContactDetails = function () { 
+        $scope.modal = {};
+    }
     /*$scope.getCustomerDetails = function (customerData) {
         var customerData = $scope.customerData.searchWithMobile;
         customerData = (typeof $scope.customerData.searchWithMobile === 'undefined') ? $scope.customerData.searchWithEmail : $scope.customerData.searchWithMobile;   

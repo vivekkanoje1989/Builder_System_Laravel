@@ -21,6 +21,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class LstState extends Eloquent
 {
 	protected $primaryKey = 'id';
+	 protected $connection = 'masterdb';
 	public $timestamps = false;
 
 	protected $casts = [

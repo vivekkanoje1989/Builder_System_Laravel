@@ -42,14 +42,14 @@ class MasterSalesController extends Controller {
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             
-//            if(!empty($input['customerData'])){
-//                $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
-//                if ($validator->fails()) {
-//                    $result = ['success' => false, 'message' => $validator->messages()];
-//                    echo json_encode($result,true);
-//                    exit;
-//                }
-//            }
+            if(!empty($input['customerData'])){
+                $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
+                if ($validator->fails()) {
+                    $result = ['success' => false, 'message' => $validator->messages()];
+                    echo json_encode($result,true);
+                    exit;
+                }
+            }
             /*************************** EMPLOYEE PHOTO UPLOAD **********************************
             $imgRules = array(
                 'image_file' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',

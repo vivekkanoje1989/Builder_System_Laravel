@@ -20,6 +20,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class LstEducation extends Eloquent
 {
 	protected $primaryKey = 'education_id';
+
+	protected $connection = 'masterdb';
+
 	public $timestamps = false;
 	protected $fillable = [
 		'education_title'

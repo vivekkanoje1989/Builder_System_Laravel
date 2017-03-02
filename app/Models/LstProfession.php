@@ -20,6 +20,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class LstProfession extends Eloquent
 {
 	public $timestamps = false;
+	protected $connection = 'masterdb';
 
 	protected $fillable = [
 		'profession'

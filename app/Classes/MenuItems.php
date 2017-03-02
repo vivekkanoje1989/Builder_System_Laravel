@@ -305,7 +305,7 @@ class MenuItems {
                 )),
                 3 => array('id' => '01103', 'name' => 'Telephony Registration', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '0110301', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                    1 => array('id' => '0110301', 'name' => 'Registration', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
+                    1 => array('id' => '0110301', 'name' => 'Registration', 'icon' => '', 'url' => '/'.$getUrl.'/cloudtelephony/index', 'slug' => '.numbersIndex', 'uiSrefActive' => 'active'),
                 )),
             )),
             12 => array('name' => 'My Storage', 'icon' => 'stor-img menu-icon-sz', 'uiSrefActive' => '', 'url' => '', 'slug' => '', 'has_submenu' => true, 'total_submenu' => 1,

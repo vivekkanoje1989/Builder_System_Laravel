@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 06 Feb 2017 09:11:10 +0000.
+ * Date: Mon, 06 Feb 2017 10:46:09 +0000.
  */
 
 namespace App\Models;
@@ -31,11 +31,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class CtEmployeesExtensionsLog extends Eloquent
 {
-	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'id' => 'int',
 		'client_id' => 'int',
 		'main_record_id' => 'int',
 		'employee_id' => 'int',
@@ -50,7 +48,6 @@ class CtEmployeesExtensionsLog extends Eloquent
 	];
 
 	protected $fillable = [
-		'id',
 		'client_id',
 		'main_record_id',
 		'employee_id',

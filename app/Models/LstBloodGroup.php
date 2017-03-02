@@ -20,6 +20,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class LstBloodGroup extends Eloquent
 {
 	protected $primaryKey = 'blood_group_id';
+	 protected $connection = 'masterdb';
 	public $incrementing = false;
 	public $timestamps = false;
 

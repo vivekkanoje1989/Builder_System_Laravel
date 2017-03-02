@@ -8,11 +8,16 @@ use App\Models\backend\Employee;
 use App\Models\LstTitle;
 use App\Models\LstGender;
 use App\Models\LstBloodGroup;
-use App\Models\Department;
+use App\Models\LstDepartment;
 use App\Models\LstEducation;
 use App\Models\LstCountry;
 use App\Models\LstState;
 use App\Models\LstCity;
+use App\Models\ClientInfo;
+use App\Models\EnquirySource;
+use App\Models\EnquirySubSource;
+use App\Models\VehicleBrand;
+use App\Models\VehicleModel;
 use App\Models\LstProfession;
 use Illuminate\Http\Request;
 use Auth;
@@ -124,7 +129,7 @@ class AdminController extends Controller {
         }
     }
     public function getDepartments(){
-        $getDepartments = Department::all();
+        $getDepartments = LstDepartment::all();
         if(!empty($getDepartments))
         {
             $result = ['success' => true, 'records' => $getDepartments];
@@ -166,7 +171,7 @@ class AdminController extends Controller {
         $getTitle = LstTitle::all();
         $getGender = LstGender::all();
         $getBloodGroup = LstBloodGroup::all();
-        $getDepartments = Department::all();
+        $getDepartments = LstDepartment::all();
         $getEducationList = LstEducation::all();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender,'bloodGroup' => $getBloodGroup,'departments' =>$getDepartments,'educationList' => $getEducationList];
@@ -248,4 +253,92 @@ class AdminController extends Controller {
     {
         return Auth::guard('admin');
     }
+    
+    
+    /****************************MANDAR*********************************/
+    
+    public function getEmployees(){
+        $getEmployees = Employee::select('id','first_name')->where("client_id",1)->get();
+        if(!empty($getEmployees))
+        {
+            $result = ['success' => true, 'records' => $getEmployees];
+            return $result;
+        }
+        else
+        {
+            $result = ['success' => false,'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    
+    public function getClient(){
+        $getclient = ClientInfo::all();
+        if(!empty($getclient))
+        {
+            $result = ['success' => true, 'records' => $getclient];
+            return json_encode($result);
+        }
+        else
+        {
+            $result = ['success' => false,'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    
+    public function getEnquirysources(){
+        $getEnquirysources = EnquirySource::select('*')->where("client_id",1)->get();
+        if(!empty($getEnquirysources))
+        {
+            $result = ['success' => true, 'records' => $getEnquirysources];
+            return json_encode($result);
+        }
+        else
+        {
+            $result = ['success' => false,'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    
+    public function getEnquirysubsources(){
+        $getEnquirysubsources = EnquirySubSource::select('*')->where("client_id",1)->get();
+        if(!empty($getEnquirysubsources))
+        {
+            $result = ['success' => true, 'records' => $getEnquirysubsources];
+            return json_encode($result);
+        }
+        else
+        {
+            $result = ['success' => false,'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    
+    public function getVehiclebrands(){
+        $getVehiclebrands = VehicleBrand::all();
+        if(!empty($getVehiclebrands))
+        {
+            $result = ['success' => true, 'records' => $getVehiclebrands];
+            return json_encode($result);
+        }
+        else
+        {
+            $result = ['success' => false,'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    
+    public function getVehiclemodels(){
+        $getVehiclemodels = VehicleModel::select('*')->where("brand_id",1)->get();
+        if(!empty($getVehiclemodels))
+        {
+            $result = ['success' => true, 'records' => $getVehiclemodels];
+            return json_encode($result);
+        }
+        else
+        {
+            $result = ['success' => false,'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    /****************************MANDAR*********************************/
 }

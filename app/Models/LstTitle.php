@@ -20,6 +20,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class LstTitle extends Eloquent
 {
 	protected $primaryKey = 'value';
+	 protected $connection = 'masterdb';
 	public $incrementing = false;
 	public $timestamps = false;
 

@@ -14,7 +14,7 @@
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
             <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
-                    <form novalidate role="form" ng-submit="createCustomer(customerData, customerData.image_file)" name="customerForm">
+                    <form novalidate role="form" ng-submit="createCustomer(customerData, customerData.image_file, contactData)" name="customerForm">
                         <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'" class="form-control">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">
                             <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -60,11 +60,14 @@
                                         <div class="form-group">
                                             <label for="">Title</label>
                                             <span class="input-icon icon-right">
-                                                <select ng-model="customerData.title_id" ng-controller="titleCtrl" name="title_id" class="form-control">
+                                                <select ng-model="customerData.title_id" ng-controller="titleCtrl" name="title_id" class="form-control" required>
                                                     <option value="">Select Title</option>
                                                     <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.title_id}}">{{t.title}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.title_id.$error" class="help-block">
+                                                    <div ng-message="required">This field is required.</div>
+                                                </div>
                                                 <div ng-if="title_id" class="errMsg">{{title_id}}</div>
                                             </span>
                                         </div>
@@ -124,24 +127,13 @@
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                    <div ng-if="birth_date"class="errMsg">{{birth_date}}</div>
+                                                <div ng-if="birth_date"class="errMsg">{{birth_date}}</div>
                                                 </p>
                                             </div>                                           
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Photo</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="file" ngf-select ng-model="customerData.image_file" name="image_file" id="image_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" image-extension-validation required ngf-model-invalid="errorFile" ng-change="checkImageExtension(customerData.image_file)">
-                                                <img src="http://localhost/BMS_BUILDER_V2/common/blank-avatar.svg" alt="{{ altName }}" class="thumb photoPreview"/>
-                                                <i class="fa fa-file-image-o"></i>
-                                                <div ng-if="image_file" class="errMsg">{{image_file}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="">Marriage Date</label>
@@ -151,7 +143,7 @@
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                    <div ng-if="marriage_date" class="errMsg">{{marriage_date}}</div>
+                                                <div ng-if="marriage_date" class="errMsg">{{marriage_date}}</div>
                                                 </p>
                                             </div>
                                         </div>
@@ -175,33 +167,40 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="">Pan Number</label>
+                                            <label for="">Monthly Income</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control date-picker" data-date-format="dd-mm-yyyy">
-                                                <i class="fa fa-pencil-square-o"></i>
-                                                <div ng-if="pan_number" class="errMsg">{{pan_number}}</div>
-                                            </span>                                          
+                                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                <i class="fa fa-money"></i>
+                                                <div ng-if="monthly_income" class="errMsg">{{monthly_income}}</div>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="">Aadhar Number</label>
+                                            <label for="">SMS Privacy Status</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                                                <i class="fa fa-pencil-square-o"></i>
-                                                <div ng-if="aadhar_number" class="errMsg">{{aadhar_number}}</div>
+                                                <select ng-model="customerData.sms_privacy_status" name="sms_privacy_status" class="form-control">
+                                                    <option value="0">In active</option>
+                                                    <option value="1">Active</option>
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                                <div ng-if="sms_privacy_status" class="errMsg">{{sms_privacy_status}}</div>
                                             </span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="">Monthly Income</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                                                <i class="fa fa-money"></i>
-                                                <div ng-if="monthly_income" class="errMsg">{{monthly_income}}</div>
+                                            <label for="">Email Privacy Status</label>
+                                            <span class="input-icon icon-right">                                                
+                                                <select ng-model="customerData.email_privacy_status" name="email_privacy_status" class="form-control">
+                                                    <option value="0">In active</option>
+                                                    <option value="1">Active</option>
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                                <div ng-if="email_privacy_status" class="errMsg">{{email_privacy_status}}</div>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -232,55 +231,97 @@
                                         <div class="form-group">
                                             <label for="">Source Description</label>
                                             <span class="input-icon icon-right">
-                                                <textarea ng-model="customerData.source_description" name="source_description" class="form-control"></textarea>
+                                                <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control">
                                                 <i class="fa fa fa-align-left"></i>
                                                 <div ng-if="source_description" class="errMsg">{{source_description}}</div>
                                             </span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">SMS Privacy Status</label>
-                                            <span class="input-icon icon-right">
-                                                <select ng-model="customerData.sms_privacy_status" name="sms_privacy_status" class="form-control">
-                                                    <option value="0">In active</option>
-                                                    <option value="1">Active</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="sms_privacy_status" class="errMsg">{{sms_privacy_status}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Email Privacy Status</label>
-                                            <span class="input-icon icon-right">
-                                                <select ng-model="customerData.email_privacy_status" name="email_privacy_status" class="form-control">
-                                                    <option value="0">In active</option>
-                                                    <option value="1">Active</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="email_privacy_status" class="errMsg">{{email_privacy_status}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div>                                
                             </div> 
-                            <hr class="wide col-md-12" />
+                            <hr class="wide col-md-12" />                            
                         </div>    
-                        <div class="row col-lg-12 col-sm-12 col-xs-12">
-                            <div class="col-lg-6 col-sm-6 col-xs-12" ng-repeat="contactData in container">
+                        
+                        <button type="button" ng-click="addContainer()" class="btn btn-primary btn-round" data-toggle="tooltip" data-placement="left" title="Add New Contact"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        <table class="table table-responsive">
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>Number Type</th>
+                                <th>Mobile Number</th>
+                                <th>Landline Type</th>
+                                <th>Landline Number</th>
+                                <th>Email Type</th>
+                                <th>Email ID</th>
+                                <th>Address Type</th>
+                                <th>House Number</th>
+                                <th>House Name</th>
+                                <th>Wing Name</th>
+                                <th>Area Name</th>
+                                <th>Lane Name</th>
+                                <th>Landmark</th>
+                                <th>Pin</th>
+                                <th>Country</th>
+                                <th>State</th>
+                                <th>City</th>
+                                <th>Google Map Link</th>
+                                <th>Remarks</th>
+                            </tr>
+                            <tr ng-repeat="company in companies">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        <hr class="wide col-lg-12 col-xs-12 col-md-12" />
+                        <div class="col-lg-12 col-xs-12 col-md-12" align="center">
+                            <!--                            <div ng-repeat="(key, val) in errorMsg track by $index">{{val}}</div>-->
+                            <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">Save & Continue</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" align="center">Change Password</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row col-lg-12 col-sm-12 col-xs-12">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="form-title">
-                                   <button type="button" ng-show="$last" ng-click="removeContainer()" class="btn btn-primary btn-round cross-btn2"><i class="fa fa-times" aria-hidden="true"></i></button>&nbsp; Contact Details
+                                    Contact Details
                                 </div>
+                            </div>                            
+                            <div class="col-lg-6 col-sm-6 col-xs-12">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="">Number Type</label>
                                             <span class="input-icon icon-right">
                                                 <select ng-model="contactData.mobile_number_lable" name="mobile_number_lable" class="form-control">
+                                                    <option value="">Select Type</option>
                                                     <option value="1">Personal</option>
                                                     <option value="2">Office</option>
                                                 </select>
@@ -292,7 +333,7 @@
                                         <div class="form-group">
                                             <label for="">Mobile Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.mobile_number" name="mobile_number" class="form-control callingCode">
+                                                <input type="text" ng-model="contactData.mobile_number" name="mobile_number"  id="mobile_number" class="form-control" intl-Tel>
                                                 <i class="glyphicon glyphicon-phone"></i>
                                             </span>
                                         </div>
@@ -304,6 +345,7 @@
                                             <label for="">Landline Type</label>
                                             <span class="input-icon icon-right">
                                                 <select ng-model="contactData.landline_lable" name="landline_lable" class="form-control">
+                                                    <option value="">Select Type</option>
                                                     <option value="1">Personal</option>
                                                     <option value="2">Office</option>
                                                 </select>
@@ -315,7 +357,7 @@
                                         <div class="form-group">
                                             <label for="">Landline Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.landline_number" name="landline_number" class="form-control callingCode">
+                                                <input type="text" ng-model="contactData.landline_number" name="landline_number" id="landline_number" class="form-control" intl-Tel>
                                                 <i class="glyphicon glyphicon-phone"></i>
                                             </span>
                                         </div>
@@ -327,6 +369,7 @@
                                             <label for="">Email Type</label>
                                             <span class="input-icon icon-right">
                                                 <select ng-model="contactData.email_id_lable" name="email_id_lable" class="form-control">
+                                                    <option value="">Select Type</option>
                                                     <option value="1">Personal</option>
                                                     <option value="2">Office</option>
                                                 </select>
@@ -350,6 +393,7 @@
                                             <label for="">Address</label>		
                                             <span class="input-icon icon-right">
                                                 <select ng-model="contactData.address_type" name="address_type" class="form-control">
+                                                    <option value="">Select Type</option>
                                                     <option>Personal</option>
                                                     <option>Office</option>
                                                 </select>
@@ -389,6 +433,8 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-6 col-xs-12">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
@@ -479,27 +525,18 @@
                                             </span>
                                         </div>
                                     </div>
-                                </div>
-                                
+                                </div>                                
                             </div>   
                         </div>
-                        <button type="button" ng-click="addContainer()" class="btn btn-primary btn-round btn-fix" data-toggle="tooltip" data-placement="left" title="Add New Contact"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                        <div id="choicesDisplay">
-                            {{ container }}
                         </div>
-                        <hr class="wide col-lg-12 col-xs-12 col-md-12" />
-                        <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-<!--                            <div ng-repeat="(key, val) in errorMsg track by $index">{{val}}</div>-->
-                            <button type="submit" class="btn btn-primary" ng-click="sbtBtn=true">Save & Continue</button>
+                        <div class="modal-footer" align="center">
+                            <button type="button" class="btn btn-sub" ng-click="changePassword(modal.empId)">Submit</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function(){
-        $(".callingCode").intlTelInput();
-    });
-</script>
+
