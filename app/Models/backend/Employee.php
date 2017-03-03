@@ -330,7 +330,7 @@ class Employee extends Authenticatable
             $input['userData']['landline_calling_code'] =!empty($landlineNo[1]) ?  $input['userData']['landline_calling_code'] : NULL;
             $input['userData']['landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] . $landlineNo[2] : '';
         }
-
+        
         $input['userData']['education_details'] = !empty($input['userData']['education_details']) ? $input['userData']['education_details'] : "";
         $input['userData']['show_on_homepage'] = !empty($input['userData']['show_on_homepage']) ? $input['userData']['show_on_homepage'] : "1";
         $input['userData']['employee_submenus'] = !empty($input['userData']['employee_submenus']) ? $input['userData']['employee_submenus'] : '["0101","0102","0103","0104"]';

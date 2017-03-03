@@ -7,6 +7,11 @@
         padding-left: 13px;
         outline: none !important;
     }
+    @media (min-width:768px){
+        .modal-dialog {
+            width: 700px !important;
+        }
+    }
 </style>
 <div class="row">
     <div class="widget flat radius-bordered ">
@@ -241,57 +246,43 @@
                             </div> 
                             <hr class="wide col-md-12" />                            
                         </div>    
-                        
-                        <button type="button" ng-click="addContainer()" class="btn btn-primary btn-round" data-toggle="tooltip" data-placement="left" title="Add New Contact"><i class="fa fa-plus" aria-hidden="true"></i></button>
-                        <table class="table table-responsive">
-                            <tr>
-                                <th>Sr No.</th>
-                                <th>Number Type</th>
-                                <th>Mobile Number</th>
-                                <th>Landline Type</th>
-                                <th>Landline Number</th>
-                                <th>Email Type</th>
-                                <th>Email ID</th>
-                                <th>Address Type</th>
-                                <th>House Number</th>
-                                <th>House Name</th>
-                                <th>Wing Name</th>
-                                <th>Area Name</th>
-                                <th>Lane Name</th>
-                                <th>Landmark</th>
-                                <th>Pin</th>
-                                <th>Country</th>
-                                <th>State</th>
-                                <th>City</th>
-                                <th>Google Map Link</th>
-                                <th>Remarks</th>
-                            </tr>
-                            <tr ng-repeat="company in companies">
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </table>
+                        <div class="col-xs-12 col-md-12">
+                            <div class="widget">                                
+                                <div class="widget-header">
+                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Contact List</span>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contactDataModal" ng-click="initContactModal()">Add new contact</button> 
+                                </div>
+                                <div class="widget-body table-responsive">
+                                    <table class="table table-hover table-striped table-bordered" at-config="config">
+                                        <thead class="bord-bot">
+                                            <tr>
+                                                <th>Sr. No. </th>
+                                                <th>Mobile Number</th>
+                                                <th>Landline Number</th>
+                                                <th>Email ID</th>
+                                                <th>Pin</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="list in contacts">
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{list.mobile_number}}</td>
+                                                <td>{{list.landline_number}}</td>
+                                                <td>{{list.email_id}}</td>
+                                                <td>{{list.pin}}</td>
+                                                <td><div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;">
+                                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#contactDataModal" ng-click="editContactDetails({{$index}})"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
+                                                    </div>
+                                                </td>
+                                            </tr>                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                         <hr class="wide col-lg-12 col-xs-12 col-md-12" />
                         <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-                            <!--                            <div ng-repeat="(key, val) in errorMsg track by $index">{{val}}</div>-->
                             <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">Save & Continue</button>
                         </div>
                     </form>
@@ -299,21 +290,17 @@
             </div>
             
             <!-- Modal -->
-            <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal fade" id="contactDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title" align="center">Change Password</h4>
+                            <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()">&times;</button>
+                            <h4 class="modal-title" align="center">Contact Details</h4>
                         </div>
+                        <form ng-submit="addRow()">
                         <div class="modal-body">
-                            <div class="row col-lg-12 col-sm-12 col-xs-12">
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <div class="form-title">
-                                    Contact Details
-                                </div>
-                            </div>                            
+                            <!--<div class="row col-lg-12 col-sm-12 col-xs-12">-->                           
                             <div class="col-lg-6 col-sm-6 col-xs-12">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -527,11 +514,12 @@
                                     </div>
                                 </div>                                
                             </div>   
-                        </div>
+                            <!--</div>-->
                         </div>
                         <div class="modal-footer" align="center">
-                            <button type="button" class="btn btn-sub" ng-click="changePassword(modal.empId)">Submit</button>
+                            <button type="submit" class="btn btn-sub" ng-click="changePassword(modal.empId)">Submit</button>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -539,4 +527,3 @@
         </div>
     </div>
 </div>
-

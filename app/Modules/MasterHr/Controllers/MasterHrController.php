@@ -56,7 +56,7 @@ class MasterHrController extends Controller {
                 }
                 $implodeDept = implode(",", $getDeptName);
                 $user->department_id = $implodeDept;
-                $user->login_date_time = date('Y-m-d', strtotime($user->login_date_time)); 
+                $user->login_date_time = !empty($user->login_date_time) ? date('Y-m-d', strtotime($user->login_date_time)) : ''; 
             }
         }
         if ($manageUsers) {            
@@ -105,7 +105,14 @@ class MasterHrController extends Controller {
     public function store(Request $request) {
         $validationMessages = Employee::validationMessages();
         $validationRules = Employee::validationRules();
-        $input = Input::all();
+        
+        $postdata = file_get_contents("php://input");
+        $input  = json_decode($postdata, true);
+        
+        if(empty($input)){
+            $input = Input::all();
+        }
+        echo "<pre>";print_r($input);exit;
         if(!empty($input['userData'])){
             $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
             if ($validator->fails()) {
@@ -132,11 +139,8 @@ class MasterHrController extends Controller {
             $input['userData']['emp_photo_url'] = $fileName;
             $input['userData']['password'] = \Hash::make($input['userData']['password']);
             $input['userData']['remember_token'] = str_random(10);
-            $input['userData']['created_date'] = date('Y-m-d');
-            $input['userData']['created_by'] = Auth::guard('admin')->user()->id;
-            $input['userData']['created_IP'] = $_SERVER['REMOTE_ADDR'];
-            $input['userData']['created_browser'] = $_SERVER['HTTP_USER_AGENT'];
-            $input['userData']['created_mac_id'] = CommonFunctions::getMacAddress();
+            $create = CommonFunctions::insertMainTableRecords();
+            $input['userData'] = array_merge($input['userData'],$create);
             $input = Employee::doAction($input);            
             $employee = Employee::create($input['userData']); //insert data into employees table
             

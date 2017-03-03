@@ -4,5 +4,6 @@ return [
         "MasterHr",
         "MasterSales",
         "CloudTelephony",
+        "BmsLists",
     ),
 ];

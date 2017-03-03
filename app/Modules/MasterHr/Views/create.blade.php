@@ -502,7 +502,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.emp_photo_url.$invalid) && errorMsg}">
+                            <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.emp_photo_url.$invalid)}">
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">

@@ -249,6 +249,8 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
                         $timeout(function () {
                             $("#permenent_state_id").val($scope.userData.current_state_id);
                             $("#permenent_city_id").val($scope.userData.current_city_id);
+                            $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);
+                            $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
                         }, 500);
                     });
                 }
