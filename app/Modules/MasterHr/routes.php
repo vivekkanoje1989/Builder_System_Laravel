@@ -8,6 +8,7 @@ Route::group(array('module' => 'MasterHr', 'namespace' => 'App\Modules\MasterHr\
     Route::post($getUrl.'/master-hr/editDepartments', 'MasterHrController@editDepartments');
     Route::post($getUrl.'/master-hr/getDepartmentsToEdit', 'MasterHrController@getDepartmentsToEdit'); 
     Route::post($getUrl.'/master-hr/changePassword', 'MasterHrController@changePassword'); 
+    Route::get($getUrl.'/master-hr/orgChart', 'MasterHrController@orgChart'); 
     
     /*********************************************** API **********************************************************/
     

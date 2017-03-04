@@ -18,11 +18,7 @@ class MasterHrController extends Controller {
     {
         $this->middleware('web');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+    
     public function index() { 
 //        if(Auth::guard('admin')->check()){ 
 //            echo Auth::guard('admin')->user()->first_name;            
@@ -86,22 +82,11 @@ class MasterHrController extends Controller {
             echo json_encode($result);
         }
     }
-    
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
+   
     public function create() {
         return view("MasterHr::create")->with("empId", '0');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
     public function store(Request $request) {
         $validationMessages = Employee::validationMessages();
         $validationRules = Employee::validationRules();

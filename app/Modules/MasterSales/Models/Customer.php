@@ -108,8 +108,6 @@ class Customer extends Model
             'gender_id.required' => 'Please enter gender',
             'profession_id.required' => 'Please enter profession',
             'monthly_income' => ['required' => 'Please enter monthly income', 'numeric' => 'Monthly income must be numbers'],
-            'pan_number.required' => 'Please enter pan number',
-            'aadhar_number.required' => 'Please enter aadhar number',
             'birth_date.required' => 'Please select birth date',
             'marriage_date.required' => 'Please select marriage date',
             'source_id.required' => 'Please select source',
@@ -126,8 +124,6 @@ class Customer extends Model
             'gender_id' => 'required',
             'profession_id' => 'required',
             'monthly_income' => 'required|numeric',
-            'pan_number' => 'required',
-            'aadhar_number' => 'required|numeric',
             'birth_date' => 'required',
             'marriage_date' => 'required',
             'source_id' => 'required|numeric',
@@ -135,9 +131,5 @@ class Customer extends Model
             'source_description' => 'required'
         );
         return $rules;
-    }
-    public static function doAction($input){        
-        $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
-        $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
     }
 }

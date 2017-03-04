@@ -248,6 +248,30 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
+    public function getEnquirySource() {
+       $getSource = EnquirySource::all();
+       if (!empty($getSource)) {
+           $result = ['success' => true, 'records' => $getSource];
+           return json_encode($result);
+       } else {
+           $result = ['success' => false, 'message' => 'Something went wrong'];
+           return json_encode($result);
+       }
+   }
+   
+    public function getEnquirySubSource() {
+       $postdata= file_get_contents('php://input');
+       $request = json_decode($postdata,true);
+       $sourceId = $request['data']['sourceId'];
+       $getsubSource = EnquirySubSource::where('source_id',$sourceId)->get();
+       if (!empty($getsubSource)) {
+           $result = ['success' => true, 'records' => $getsubSource];
+           return json_encode($result);
+       } else {
+           $result = ['success' => false, 'message' => 'Something went wrong'];
+           return json_encode($result);
+       }
+   }
 
     protected function guard()
     {
@@ -276,34 +300,6 @@ class AdminController extends Controller {
         if(!empty($getclient))
         {
             $result = ['success' => true, 'records' => $getclient];
-            return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
-    
-    public function getEnquirysources(){
-        $getEnquirysources = EnquirySource::select('*')->where("client_id",1)->get();
-        if(!empty($getEnquirysources))
-        {
-            $result = ['success' => true, 'records' => $getEnquirysources];
-            return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
-    
-    public function getEnquirysubsources(){
-        $getEnquirysubsources = EnquirySubSource::select('*')->where("client_id",1)->get();
-        if(!empty($getEnquirysubsources))
-        {
-            $result = ['success' => true, 'records' => $getEnquirysubsources];
             return json_encode($result);
         }
         else

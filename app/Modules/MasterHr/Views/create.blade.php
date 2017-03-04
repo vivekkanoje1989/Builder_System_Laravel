@@ -321,7 +321,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_country_id.$dirty && userForm.current_country_id.$invalid)}">
                                         <label for="">Select Country <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-change="onCountryChange()" ng-model="userData.current_country_id" name="current_country_id" class="form-control" required>
+                                            <select ng-change="onCountryChange()" ng-model="userData.current_country_id" name="current_country_id" id="current_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
                                                 <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == userData.current_country_id}}">{{country.name}}</option>
                                             </select>
@@ -336,7 +336,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_state_id.$dirty && userForm.current_state_id.$invalid)}">
                                         <label for="">Select State <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-model="userData.current_state_id" ng-change="onStateChange()" name="current_state_id" class="form-control" required>
+                                            <select ng-model="userData.current_state_id" ng-change="onStateChange()" name="current_state_id" id="current_state_id" class="form-control" required>
                                                 <option value="">Select State</option>
                                                 <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == userData.current_state_id}}">{{state.name}}</option>
                                             </select>

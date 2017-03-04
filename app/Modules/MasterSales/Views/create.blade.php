@@ -31,7 +31,7 @@
                                         <div class="form-group">
                                             <label for="">Mobile Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.searchWithMobile" get-customer-details minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,"")" ng-model-options="{allowInvalid: true, debounce: 100 }">
+                                                <input type="text" class="form-control" ng-model="customerData.searchWithMobile" get-customer-details minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100 }">
                                                 <i class="glyphicon glyphicon-phone"></i>
                                                 <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
                                                     <div ng-message="minlength">Invalid mobile no.</div>
@@ -209,12 +209,15 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" ng-controller="enquirySourceCtrl">
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="">Source</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.source_id" name="source_id" class="form-control">
+                                                <select class="form-control" ng-change="onEnquirySourceChange()" ng-model="customerData.source_id" name="source_id" id="source_id">
+                                                    <option value="">Select Source</option>
+                                                    <option ng-repeat="source in sourceList" value="{{source.id}}" ng-selected="{{source.id == customerData.source_id}}">{{source.source_name}}</option>
+                                                </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-if="source_id" class="errMsg">{{source_id}}</div>
                                             </span>
@@ -224,7 +227,10 @@
                                         <div class="form-group">
                                             <label for="">Sub Source</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.subsource_id" name="subsource_id" class="form-control">
+                                                <select class="form-control" ng-model="customerData.subsource_id" name="subsource_id" id="subsource_id">
+                                                    <option value="">Select SubSource</option>
+                                                    <option ng-repeat="subSource in subSourceList" value="{{subSource.id}}" ng-selected="{{subSource.id == customerData.subsource_id}}">{{subSource.sub_source}}</option>
+                                                </select>   
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-if="subsource_id" class="errMsg">{{subsource_id}}</div>
                                             </span>                                            
@@ -272,7 +278,7 @@
                                                 <td>{{list.email_id}}</td>
                                                 <td>{{list.pin}}</td>
                                                 <td><div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;">
-                                                        <a href="javascript:void(0);" data-toggle="modal" data-target="#contactDataModal" ng-click="editContactDetails({{$index}})"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
+                                                        <a href data-toggle="modal" data-target="#contactDataModal" ng-click="editContactDetails({{$index}})"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
                                                     </div>
                                                 </td>
                                             </tr>                                            
@@ -288,7 +294,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <!-- Modal -->
             <div class="modal fade" id="contactDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog">
@@ -299,231 +305,237 @@
                             <h4 class="modal-title" align="center">Contact Details</h4>
                         </div>
                         <form ng-submit="addRow()">
-                        <div class="modal-body">
-                            <!--<div class="row col-lg-12 col-sm-12 col-xs-12">-->                           
-                            <div class="col-lg-6 col-sm-6 col-xs-12">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Number Type</label>
-                                            <span class="input-icon icon-right">
-                                                <select ng-model="contactData.mobile_number_lable" name="mobile_number_lable" class="form-control">
-                                                    <option value="">Select Type</option>
-                                                    <option value="1">Personal</option>
-                                                    <option value="2">Office</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Mobile Number</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.mobile_number" name="mobile_number"  id="mobile_number" class="form-control" intl-Tel>
-                                                <i class="glyphicon glyphicon-phone"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Landline Type</label>
-                                            <span class="input-icon icon-right">
-                                                <select ng-model="contactData.landline_lable" name="landline_lable" class="form-control">
-                                                    <option value="">Select Type</option>
-                                                    <option value="1">Personal</option>
-                                                    <option value="2">Office</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Landline Number</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.landline_number" name="landline_number" id="landline_number" class="form-control" intl-Tel>
-                                                <i class="glyphicon glyphicon-phone"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Email Type</label>
-                                            <span class="input-icon icon-right">
-                                                <select ng-model="contactData.email_id_lable" name="email_id_lable" class="form-control">
-                                                    <option value="">Select Type</option>
-                                                    <option value="1">Personal</option>
-                                                    <option value="2">Office</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Email ID</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.email_id" name="email_id" class="form-control">
-                                                <i class="glyphicon glyphicon-envelope"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Address</label>		
-                                            <span class="input-icon icon-right">
-                                                <select ng-model="contactData.address_type" name="address_type" class="form-control">
-                                                    <option value="">Select Type</option>
-                                                    <option>Personal</option>
-                                                    <option>Office</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">House Number</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.house_number" name="house_number" class="form-control date-picker">
-                                                <i class="fa fa-home"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Building House Name</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.building_house_name" name="building_house_name" class="form-control">
-                                                <i class="fa fa-building-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <span class="input-icon icon-right">
-                                                <label for="">Wing Name</label>
+                            <div class="modal-body">
+                                <div class="col-lg-6 col-sm-6 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Number Type</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.wing_name" name="wing_name" class="form-control">
+                                                    <select ng-model="contactData.mobile_number_lable" name="mobile_number_lable" class="form-control">
+                                                        <option value="">Select Type</option>
+                                                        <option value="1">Personal</option>
+                                                        <option value="2">Office</option>
+                                                    </select>
+                                                    <i class="fa fa-sort-desc"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Mobile Number</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number"  id="mobile_number" class="form-control" intl-Tel>
+                                                    <i class="glyphicon glyphicon-phone"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Landline Type</label>
+                                                <span class="input-icon icon-right">
+                                                    <select ng-model="contactData.landline_lable" name="landline_lable" class="form-control">
+                                                        <option value="">Select Type</option>
+                                                        <option value="1">Personal</option>
+                                                        <option value="2">Office</option>
+                                                    </select>
+                                                    <i class="fa fa-sort-desc"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Landline Number</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.landline_number" name="landline_number" id="landline_number" class="form-control" intl-Tel>
+                                                    <i class="glyphicon glyphicon-phone"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Email Type</label>
+                                                <span class="input-icon icon-right">
+                                                    <select ng-model="contactData.email_id_lable" name="email_id_lable" class="form-control">
+                                                        <option value="">Select Type</option>
+                                                        <option value="1">Personal</option>
+                                                        <option value="2">Office</option>
+                                                    </select>
+                                                    <i class="fa fa-sort-desc"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Email ID</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.email_id" name="email_id" class="form-control">
+                                                    <i class="glyphicon glyphicon-envelope"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Address</label>		
+                                                <span class="input-icon icon-right">
+                                                    <select ng-model="contactData.address_type" name="address_type" class="form-control">
+                                                        <option value="">Select Type</option>
+                                                        <option>Personal</option>
+                                                        <option>Office</option>
+                                                    </select>
+                                                    <i class="fa fa-sort-desc"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">House Number</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.house_number" name="house_number" class="form-control date-picker">
+                                                    <i class="fa fa-home"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Building House Name</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.building_house_name" name="building_house_name" class="form-control">
                                                     <i class="fa fa-building-o"></i>
-                                                </span> 
-                                            </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <span class="input-icon icon-right">
+                                                    <label for="">Wing Name</label>
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" ng-model="contactData.wing_name" name="wing_name" class="form-control">
+                                                        <i class="fa fa-building-o"></i>
+                                                    </span> 
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-6 col-sm-6 col-xs-12" ng-controller="currentCountryListCtrl">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Area Name</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.area_name" name="area_name" class="form-control date-picker">
+                                                    <i class="fa fa-building-o"></i>
+                                                </span>                                      
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">                                            
+                                                <label for="">Lane Name</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.lane_name" name="lane_name" class="form-control date-picker">
+                                                    <i class="fa fa-building-o"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Landmark</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.landmark" name="landmark" class="form-control date-picker">
+                                                    <i class="fa fa-building-o"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Pin</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.pin" name="pin" class="form-control">
+                                                    <i class="fa fa-compass" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Country</label>
+                                                <span class="input-icon icon-right">
+                                                    <select ng-change="onCountryChange()" ng-model="contactData.country_id" name="country_id" id="current_country_id" class="form-control">
+                                                        <option value="">Select Country</option>
+                                                        <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == contactData.country_id}}">{{country.name}}</option>
+                                                    </select>
+                                                    <i class="fa fa-sort-desc"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">State</label>                                                
+                                                <span class="input-icon icon-right">
+                                                    <select ng-model="contactData.state_id" ng-change="onStateChange()" name="state_id" id="current_state_id" class="form-control">
+                                                        <option value="">Select State</option>
+                                                        <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == contactData.state_id}}">{{state.name}}</option>
+                                                    </select>
+                                                    <i class="fa fa-sort-desc"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">City</label>
+                                                <span class="input-icon icon-right">
+                                                    <select ng-model="contactData.city_id" name="city_id" class="form-control">
+                                                        <option value="">Select City</option>
+                                                        <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == contactData.city_id}}">{{city.name}}</option>
+                                                    </select>
+                                                    <i class="fa fa-sort-desc"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label for="">Google Map Link</label>
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" ng-model="contactData.google_map_link" name="google_map_link" class="form-control">
+                                                    <i class="fa fa-compass" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label for="">Remarks</label>
+                                                <span class="input-icon icon-right">
+                                                    <textarea ng-model="contactData.other_remarks" name="other_remarks" class="form-control"></textarea>
+                                                    <i class="fa fa-building-o"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>                                
+                                </div>   
                             </div>
-                            <div class="col-lg-6 col-sm-6 col-xs-12">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Area Name</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.area_name" name="area_name" class="form-control date-picker">
-                                                <i class="fa fa-building-o"></i>
-                                            </span>                                      
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">                                            
-                                            <label for="">Lane Name</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.lane_name" name="lane_name" class="form-control date-picker">
-                                                <i class="fa fa-building-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Landmark</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.landmark" name="landmark" class="form-control date-picker">
-                                                <i class="fa fa-building-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Pin</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.pin" name="pin" class="form-control">
-                                                <i class="fa fa-compass" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Country</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.country_id" name="country_id" class="form-control date-picker">
-                                                <i class="fa fa-building-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">State</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.state_id" name="state_id" class="form-control">
-                                                <i class="fa fa-compass" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">City</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.city_id" name="city_id" class="form-control">
-                                                <i class="fa fa-building-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Google Map Link</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="contactData.google_map_link" name="google_map_link" class="form-control">
-                                                <i class="fa fa-compass" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label for="">Remarks</label>
-                                            <span class="input-icon icon-right">
-                                                <textarea ng-model="contactData.other_remarks" name="other_remarks" class="form-control"></textarea>
-                                                <i class="fa fa-building-o"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div>   
-                            <!--</div>-->
-                        </div>
-                        <div class="modal-footer" align="center">
-                            <button type="submit" class="btn btn-sub" ng-click="changePassword(modal.empId)">Submit</button>
-                        </div>
+                            <div class="modal-footer" align="center">
+                                <button type="submit" class="btn btn-sub">Submit</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </div>

@@ -18,12 +18,12 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
         $scope.errorMsg = '';
     }
     $scope.login = function (loginData) {
-        Data.post('authenticate', { 
-            username:loginData.mobile,password:loginData.password,
+        Data.post('authenticate', {
+            username: loginData.mobile, password: loginData.password,
         }).then(function (response) {
             if (response.success) {
                 $state.reload();
-                $state.go(getUrl+'.dashboard');
+                $state.go(getUrl + '.dashboard');
                 return false;
             } else {
                 $scope.errorMsg = response.message;
@@ -72,17 +72,17 @@ app.controller('adminController', function ($rootScope, $scope, $location, $http
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
-                $state.go(getUrl+'.dashboard');
+                $state.go(getUrl + '.dashboard');
             }
         });
     }
-    
-    $rootScope.alert = function(type,msg){
+
+    $rootScope.alert = function (type, msg) {
         $rootScope.message = [];
         $rootScope.message.push(msg);
         $rootScope.alerts = {
             class: type,
-            messages:$rootScope.message
+            messages: $rootScope.message
         }
     }
 });
@@ -126,7 +126,7 @@ app.controller('departmentCtrl', function ($scope, Data, $timeout) {
     $scope.departments = [];
     var empId = $("#empId").val();
     if (empId === "0") {
-        
+
         Data.get('getDepartments').then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
@@ -134,8 +134,7 @@ app.controller('departmentCtrl', function ($scope, Data, $timeout) {
                 $scope.departments = response.records;
             }
         });
-    }
-    else{
+    } else {
         $timeout(function () {
             Data.post('master-hr/editDepartments', {data: empId}).then(function (response) {
                 if (!response.success) {
@@ -167,8 +166,8 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
     });
     $scope.onCountryChange = function () {
         $scope.stateList = "";
-        Data.post('getStates',{
-            data: {countryId: $scope.userData.current_country_id},
+        Data.post('getStates', {
+            data: {countryId: $("#current_country_id").val()},
         }).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
@@ -179,8 +178,8 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
     };
     $scope.onStateChange = function () {
         $scope.cityList = "";
-        Data.post('getCities',{
-            data: {stateId: $scope.userData.current_state_id},
+        Data.post('getCities', {
+            data: {stateId: $("#current_state_id").val()},
         }).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
@@ -199,10 +198,10 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
             $scope.countryList = response.records;
         }
     });
-    
+
     $scope.onPCountryChange = function () {
         $scope.stateList = "";
-        Data.post('getStates',{
+        Data.post('getStates', {
             data: {countryId: $scope.userData.permenent_country_id},
         }).then(function (response) {
             if (!response.success) {
@@ -214,7 +213,7 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
     };
     $scope.onPStateChange = function () {
         $scope.cityList = "";
-        Data.post('getCities',{
+        Data.post('getCities', {
             data: {stateId: $scope.userData.permenent_state_id},
         }).then(function (response) {
             if (!response.success) {
@@ -224,7 +223,7 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
             }
         });
     };
-    
+
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
             $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
@@ -237,14 +236,14 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-                    $scope.stateList = response.records;      
+                    $scope.stateList = response.records;
                     Data.post('getCities', {
                         data: {stateId: $scope.userData.current_state_id},
                     }).then(function (response) {
                         if (!response.success) {
                             $scope.errorMsg = response.message;
                         } else {
-                            $scope.cityList = response.records;                            
+                            $scope.cityList = response.records;
                         }
                         $timeout(function () {
                             $("#permenent_state_id").val($scope.userData.current_state_id);
@@ -259,62 +258,68 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
             $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
         }
     };
-    
 });
 
+app.controller('enquirySourceCtrl', function ($scope, Data) {
+    Data.get('getEnquirySource').then(function (response){
+        $scope.sourceList = '';
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.sourceList = response.records;
+        }
+    });
+    
+    $scope.onEnquirySourceChange = function (){
+        Data.post('getEnquirySubSource', {
+        data: {sourceId: $("#source_id").val()}}).then(function (response){
+            $scope.subSourceList = '';
+            if (!response.success){
+                $scope.errorMsg = response.message;
+            } else{
+                $scope.subSourceList = response.records;
+            }
+        });
+    };
+});
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {
     $scope.employees1 = [];
     Data.get('getEmployees').then(function (response) {
-        if(!response.success){
+        if (!response.success) {
             $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.employees1 = response.records;
+        } else {
+            $scope.employees1 = response.records;
         }
     });
 });
 
 app.controller('clientCtrl', function ($scope, Data) {
     Data.get('getClient').then(function (response) {
-        if(!response.success){
+        if (!response.success) {
             $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.clients = response.records;
-        }
-    });
-});
-
-app.controller('sourceCtrl', function ($scope, Data) {
-    Data.get('getEnquirysources').then(function (response) {
-        if(!response.success){
-            $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.enquirysources = response.records;
+        } else {
+            $scope.clients = response.records;
         }
     });
 });
 
 app.controller('vehiclebrandCtrl', function ($scope, Data) {
     Data.get('getVehiclebrands').then(function (response) {
-        if(!response.success){
+        if (!response.success) {
             $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.vehiclebrands = response.records;
+        } else {
+            $scope.vehiclebrands = response.records;
         }
     });
 });
 
 app.controller('vehiclemodelCtrl', function ($scope, Data) {
     Data.get('getVehiclemodels').then(function (response) {
-        if(!response.success){
+        if (!response.success) {
             $scope.errorMsg = response.message;
-        }
-        else{
-           $scope.vehiclemodels = response.records;
+        } else {
+            $scope.vehiclemodels = response.records;
         }
     });
 });

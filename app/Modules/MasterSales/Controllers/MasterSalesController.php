@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Modules\MasterSales\Models\Customer;
 use App\Modules\MasterSales\Models\CustomersContact;
+use App\Modules\MasterSales\Models\CustomersContactsLog;
 use Validator;
 use App\Classes\CommonFunctions;
 class MasterSalesController extends Controller {
@@ -67,9 +68,12 @@ class MasterSalesController extends Controller {
             /*************************** CUSTPMER PHOTO UPLOAD **********************************/
             $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
-//            echo "<pre>";print_r($input);exit;
+            
             $create = CommonFunctions::insertMainTableRecords();
             $input['customerData'] = array_merge($input['customerData'],$create);
+            
+//            echo "<pre>";print_r($input);exit;
+            
             $createCustomer = Customer::create($input['customerData']); //insert data into employees table
 
             if( !empty($input['customerContacts'])){
@@ -77,18 +81,19 @@ class MasterSalesController extends Controller {
                     $contacts['customer_id'] = $createCustomer->id; 
                     if (!empty($contacts['mobile_number'])) {
                         $mobileNumber = explode("-", $contacts['mobile_number']);
-                        $calling_code = (int) $mobileNumber[0];
+                        $calling_code = (int) $mobileNumber[0];                        
+                        $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? $calling_code : '';
                         $contacts['mobile_number'] = $mobileNumber[1];
-                        $contacts['calling_code'] = !empty($contacts['mobile_number']) ? $calling_code : '';
                     }
                     if (!empty($contacts['landline_number'])) {
                         $landlineNumber = explode("-", $contacts['landline_number']);
                         $landline_calling_code = (int) $landlineNumber[0];
                         $contacts['landline_calling_code'] =!empty($landlineNumber[1]) ?  $landline_calling_code : '';
-                        $contacts['landline_number'] = (!empty($landlineNumber[1])) ? $landlineNumber[1] . $landlineNumber[2] : '';
+                        $contacts['landline_number'] = (!empty($landlineNumber[1])) ? $landlineNumber[1] : '';
                     }
                     $contacts = array_merge($contacts,$create);
-                    CustomersContact::create($contacts); //insert data into employees table
+                    CustomersContact::create($contacts); //insert data into customer_contacts table
+                    CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
                 }
             }
             exit;
@@ -144,8 +149,25 @@ class MasterSalesController extends Controller {
         public function getCustomerDetails()
 	{
             $postdata = file_get_contents("php://input");
-            $request = json_decode($postdata, true);
-            echo "<pre>";print_r($request);exit;
+            $request = json_decode($postdata, true);            
+            $customerMobileNo = !empty($request['data']['customerMobileNo']) ? $request['data']['customerMobileNo'] : "";
+            $customerEmailId = !empty($request['data']['customerEmailId']) ? $request['data']['customerEmailId'] : "";
+            
+            $getCustomerContacts = CustomersContact::select('c2.*')
+                    ->join('customers_contacts AS c2', 'customers_contacts.customer_id', '=', 'c2.customer_id')
+                    ->where("customers_contacts.mobile_number", "=", "$customerMobileNo")
+                    ->orwhere("customers_contacts.email_id", "=", "$customerEmailId")
+                    ->get();
+            if(count($getCustomerContacts) > 0)
+            {
+                $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get(); 
+                $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails ,'customerContactDetails' => $getCustomerContacts];
+                return json_encode($result);
+            }
+            else{
+                $result = ['success' => false, "message" => "No record found"];
+                return json_encode($result);
+            }
 	}
         
 }

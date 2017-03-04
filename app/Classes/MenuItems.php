@@ -107,7 +107,7 @@ class MenuItems {
                     1 => array('id' => '030101', 'name' => 'List Users', 'icon' => '', 'url' => '/'.$getUrl.'/user/index', 'slug' => '.userIndex', 'uiSrefActive' => 'active'),
                     2 => array('id' => '030102', 'name' => 'New User', 'icon' => '', 'url' => '/'.$getUrl.'/user', 'slug' => '.user', 'uiSrefActive' => 'active'),
                     3 => array('id' => '030103', 'name' => 'Reassign Data', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
-                    4 => array('id' => '030104', 'name' => 'Organization Chart', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
+                    4 => array('id' => '030104', 'name' => 'Organization Chart', 'icon' => '', 'url' => '/'.$getUrl.'/user/orgChart', 'slug' => '.userChart', 'uiSrefActive' => 'active'),
                 )),
                 2 => array('id' => '0302', 'name' => 'Salary Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '030201', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
