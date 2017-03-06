@@ -13,20 +13,15 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         $scope.contacts = [];
         resetContactDetails();
         $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
-        var sessionContactData = $window.sessionStorage.getItem("sessionContactData");
+        var sessionContactData = $scope.contactData.index = "";
+        $window.sessionStorage.setItem("sessionContactData", "");
         $scope.editContactDetails = function (index) {
-            if(sessionContactData !== ""){
-                sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
-                $scope.contactData = sessionContactData[index];
-            }
-            else{
-                $scope.contactData = $scope.contacts[index];
-                $scope.contactData.index=index;
-                console.log($scope.contactData);
-            }
+            $scope.contactData = $scope.contacts[index];
+            $scope.contactData.index=index;                          
         }
-        $scope.addRow = function () {
-            if(typeof sessionContactData !== "undefined"){
+        $scope.addRow = function (contactData) {
+            if($scope.contactData.index === "" || typeof $scope.contactData.index === "undefined"){
+                $('#errContactDetails').text("");
                 $scope.contacts.push({
                     'mobile_number_lable': $scope.contactData.mobile_number_lable,
                     'mobile_number': $scope.contactData.mobile_number,
@@ -51,12 +46,15 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             }
             else{
                 var i = $scope.contactData.index;
-                console.log(i);
-                $scope.contacts[0] = $scope.contactData;   //make dynamic index -- need to correct           
+                angular.forEach($scope.contacts,function(data,index){
+                    if(index===i){
+                        $scope.contacts.splice(index,1); //Remove index
+                        $scope.contacts.splice(index,0,contactData);  //Update new value and returns array
+                        $scope.contactData={};
+                    }
+                });         
             }
-            $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
-            var sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
-            console.log(sessionContactData);
+            sessionContactData = $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
             resetContactDetails();
             $('#contactDataModal').modal('toggle');
         };
@@ -77,12 +75,18 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         $scope.initContactModal = function () {
             resetContactDetails();
         }
-
+        $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-            var sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
-            console.log(sessionContactData);
-            console.log(enteredData);
-            var customerData = {};
+            if(sessionContactData === null || sessionContactData === ''){
+                $('#errContactDetails').text(" - Please add contact details");
+                return false;
+            }
+            else{
+                sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
+            }
+//            console.log(sessionContactData);
+//            console.log(enteredData);
+            var customerData = {};            
             customerData = angular.fromJson(angular.toJson(enteredData));
             if (typeof customerPhoto === 'string' || typeof customerPhoto === 'undefined') {
                 customerPhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
@@ -96,12 +100,28 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 $timeout(function () {
                     if (!response.data.success) {
                         var obj = response.data.message;
-                        $('.errMsg').text('');
+                        var selector = [];
+                        var sessionAttribute = $window.sessionStorage.getItem("sessionAttribute");                        
                         for (var key in obj) {
                             var model = $parse(key);// Get the model
                             model.assign($scope, obj[key][0]);// Assigns a value to it
+                            selector.push(key);
+                        }                       
+                        if(sessionAttribute === null || sessionAttribute === ''){
+                            $window.sessionStorage.setItem("sessionAttribute", JSON.stringify(selector));
+                        }
+                        else{
+                            sessionAttribute = JSON.parse($window.sessionStorage.getItem("sessionAttribute"));
+                        }
+                        for (var key in sessionAttribute) {
+                            var elementExist = selector.indexOf(sessionAttribute[key]);
+                            if(selector.indexOf(sessionAttribute[key]) === -1)
+                                $("."+sessionAttribute[key]).hide();
+                            else 
+                                $("."+sessionAttribute[key]).show();
                         }
                     } else {
+                        $('.errMsg').text('');
                         $window.sessionStorage.setItem("sessionContactData", "");
                         $scope.disableCreateButton = true;
                         customerPhoto.result = response.data;

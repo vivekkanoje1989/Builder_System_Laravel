@@ -222,7 +222,8 @@ class MasterHrController extends Controller {
         $input['userData']['updated_mac_id'] = CommonFunctions::getMacAddress();
         unset($input['userData']['password_confirmation']);
         unset($input['userData']['passwordOld']);
-        unset($input['userData']['password']);                
+        unset($input['userData']['password']);      
+        
         /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
         $originalName = $input['emp_photo_url']->getClientOriginalName();
         if ($originalName !== 'fileNotSelected') {
@@ -247,6 +248,7 @@ class MasterHrController extends Controller {
         $pwdData=$originalValues[0]['attributes']['password'];
         unset($getResult['password']);
         $implodeArr =  implode(",",array_keys($getResult));
+        
         if ($employeeUpdate == 1) {
             $input['userData']['password'] = $pwdData;
             $input['userData']['main_record_id'] = Auth::guard('admin')->user()->id;
@@ -255,6 +257,7 @@ class MasterHrController extends Controller {
             $input['userData']['record_restore_status'] = 1;
             EmployeesLog::create($input['userData']);   
         }
+        
         $result = ['success' => true, 'message' => 'Employee Updated Succesfully'];
         echo json_encode($result);
     }

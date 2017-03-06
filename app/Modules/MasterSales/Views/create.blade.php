@@ -12,6 +12,9 @@
             width: 700px !important;
         }
     }
+    .errMsg{
+        color:red;
+    }
 </style>
 <div class="row">
     <div class="widget flat radius-bordered ">
@@ -19,7 +22,7 @@
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
             <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
-                    <form novalidate role="form" ng-submit="createCustomer(customerData, customerData.image_file, contactData)" name="customerForm">
+                    <form novalidate role="form" name="customerForm" ng-submit="customerForm.$valid && createCustomer(customerData, customerData.image_file, contactData)">
                         <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'" class="form-control">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">
                             <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -70,10 +73,10 @@
                                                     <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.title_id}}">{{t.title}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="sbtBtn" ng-messages="customerForm.title_id.$error" class="help-block">
-                                                    <div ng-message="required">This field is required.</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.title_id.$error" class="help-block errMsg">
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
-                                                <div ng-if="title_id" class="errMsg">{{title_id}}</div>
+                                                <div ng-if="title_id" class="errMsg title_id">{{title_id}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -81,9 +84,12 @@
                                         <div class="form-group">
                                             <label for="">First Name</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15">
+                                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                                 <i class="fa fa-user"></i>
-                                                <div ng-if="first_name" class="errMsg">{{first_name}}</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.first_name.$error" class="help-block errMsg">
+                                                    <div ng-message="required">Please enter first name</div>
+                                                </div>
+                                                <div ng-if="first_name" class="errMsg first_name">{{first_name}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -93,8 +99,9 @@
                                         <div class="form-group">
                                             <label for="">Middle Name</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.middle_name" name="middle_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15">
+                                                <input type="text" class="form-control" ng-model="customerData.middle_name" name="middle_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="17">
                                                 <i class="fa fa-user"></i>
+                                                <div ng-if="middle_name" class="errMsg middle_name">{{middle_name}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -102,9 +109,12 @@
                                         <div class="form-group">
                                             <label for="">Last Name</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15">
+                                                <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                                 <i class="fa fa-user"></i>
-                                                <div ng-if="last_name" class="errMsg">{{last_name}}</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.last_name.$error" class="help-block errMsg">
+                                                    <div ng-message="required">Please enter last name</div>
+                                                </div>
+                                                <div ng-if="last_name" class="errMsg last_name">{{last_name}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -114,12 +124,15 @@
                                         <div class="form-group">
                                             <label for="">Gender</label>
                                             <span class="input-icon icon-right">
-                                                <select ng-model="customerData.gender_id" name="gender_id" ng-controller="genderCtrl" class="form-control">
+                                                <select ng-model="customerData.gender_id" name="gender_id" ng-controller="genderCtrl" class="form-control" required>
                                                     <option value="">Select Gender</option>
                                                     <option ng-repeat="genderList in genders track by $index" value="{{genderList.gender_id}}" ng-selected="{{ genderList.gender_id == customerData.gender}}">{{genderList.gender_title}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="gender_id" class="errMsg">{{gender_id}}</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.gender_id.$error" class="help-block errMsg">
+                                                    <div ng-message="required">Please enter gender</div>
+                                                </div>
+                                                <div ng-if="gender_id" class="errMsg gender_id">{{gender_id}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -132,7 +145,10 @@
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                <div ng-if="birth_date"class="errMsg">{{birth_date}}</div>
+                                                    <div ng-show="sbtBtn" ng-messages="customerForm.birth_date.$error" class="help-block errMsg">
+                                                        <div ng-message="required">Please select birth date</div>
+                                                    </div>
+                                                    <div ng-if="birth_date"class="errMsg birth_date">{{birth_date}}</div>
                                                 </p>
                                             </div>                                           
                                         </div>
@@ -148,7 +164,10 @@
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                <div ng-if="marriage_date" class="errMsg">{{marriage_date}}</div>
+                                                    <div ng-show="sbtBtn" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
+                                                        <div ng-message="required">Please select marriage date</div>
+                                                    </div>
+                                                    <div ng-if="marriage_date" class="errMsg marriage_date">{{marriage_date}}</div>
                                                 </p>
                                             </div>
                                         </div>
@@ -161,12 +180,15 @@
                                         <div class="form-group">
                                             <label for="">Profession</label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="customerData.profession_id" name="profession_id" ng-controller="professionCtrl">
+                                                <select class="form-control" ng-model="customerData.profession_id" name="profession_id" ng-controller="professionCtrl" required>
                                                     <option value="">Select Profession</option>
                                                     <option ng-repeat="t in professions track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.profession}}">{{t.profession}}</option>
                                                 </select>                
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="profession_id" class="errMsg">{{profession_id}}</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.profession_id.$error" class="help-block errMsg">
+                                                    <div ng-message="required">Please enter profession</div>
+                                                </div>
+                                                <div ng-if="profession_id" class="errMsg profession_id">{{profession_id}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -174,9 +196,12 @@
                                         <div class="form-group">
                                             <label for="">Monthly Income</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                                 <i class="fa fa-money"></i>
-                                                <div ng-if="monthly_income" class="errMsg">{{monthly_income}}</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.monthly_income.$error" class="help-block errMsg">
+                                                    <div ng-message="required">Please enter monthly income</div>
+                                                </div>
+                                                <div ng-if="monthly_income" class="errMsg monthly_income">{{monthly_income}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -186,12 +211,15 @@
                                         <div class="form-group">
                                             <label for="">SMS Privacy Status</label>
                                             <span class="input-icon icon-right">
-                                                <select ng-model="customerData.sms_privacy_status" name="sms_privacy_status" class="form-control">
+                                                <select ng-model="customerData.sms_privacy_status" name="sms_privacy_status" class="form-control" required>
                                                     <option value="0">In active</option>
                                                     <option value="1">Active</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="sms_privacy_status" class="errMsg">{{sms_privacy_status}}</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.sms_privacy_status.$error" class="help-block errMsg">
+                                                    <div ng-message="required">This field is required</div>
+                                                </div>
+                                                <div ng-if="sms_privacy_status" class="errMsg sms_privacy_status">{{sms_privacy_status}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -199,12 +227,12 @@
                                         <div class="form-group">
                                             <label for="">Email Privacy Status</label>
                                             <span class="input-icon icon-right">                                                
-                                                <select ng-model="customerData.email_privacy_status" name="email_privacy_status" class="form-control">
+                                                <select ng-model="customerData.email_privacy_status" name="email_privacy_status" class="form-control" required>
                                                     <option value="0">In active</option>
                                                     <option value="1">Active</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="email_privacy_status" class="errMsg">{{email_privacy_status}}</div>
+                                                <div ng-if="email_privacy_status" class="errMsg email_privacy_status">{{email_privacy_status}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -214,12 +242,15 @@
                                         <div class="form-group">
                                             <label for="">Source</label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-change="onEnquirySourceChange()" ng-model="customerData.source_id" name="source_id" id="source_id">
+                                                <select class="form-control" ng-change="onEnquirySourceChange()" ng-model="customerData.source_id" name="source_id" id="source_id" required>
                                                     <option value="">Select Source</option>
                                                     <option ng-repeat="source in sourceList" value="{{source.id}}" ng-selected="{{source.id == customerData.source_id}}">{{source.source_name}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="source_id" class="errMsg">{{source_id}}</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.source_id.$error" class="help-block errMsg">
+                                                    <div ng-message="required">Please select source</div>
+                                                </div>
+                                                <div ng-if="source_id" class="errMsg source_id">{{source_id}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -232,7 +263,7 @@
                                                     <option ng-repeat="subSource in subSourceList" value="{{subSource.id}}" ng-selected="{{subSource.id == customerData.subsource_id}}">{{subSource.sub_source}}</option>
                                                 </select>   
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="subsource_id" class="errMsg">{{subsource_id}}</div>
+                                                <div ng-if="subsource_id" class="errMsg subsource_id">{{subsource_id}}</div>
                                             </span>                                            
                                         </div>
                                     </div>
@@ -242,9 +273,12 @@
                                         <div class="form-group">
                                             <label for="">Source Description</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control">
+                                                <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" required>
                                                 <i class="fa fa fa-align-left"></i>
-                                                <div ng-if="source_description" class="errMsg">{{source_description}}</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
+                                                    <div ng-message="required">Please enter source description</div>
+                                                </div>
+                                                <div ng-if="source_description" class="errMsg source_description">{{source_description}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -255,7 +289,7 @@
                         <div class="col-xs-12 col-md-12">
                             <div class="widget">                                
                                 <div class="widget-header">
-                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Contact List</span>
+                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Contact List <span id="errContactDetails" class="errMsg"></span></span>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contactDataModal" ng-click="initContactModal()">Add new contact</button> 
                                 </div>
                                 <div class="widget-body table-responsive">
@@ -304,7 +338,8 @@
                             <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()">&times;</button>
                             <h4 class="modal-title" align="center">Contact Details</h4>
                         </div>
-                        <form ng-submit="addRow()">
+                        <form ng-submit="addRow(contactData)">
+                            <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
                             <div class="modal-body">
                                 <div class="col-lg-6 col-sm-6 col-xs-12">
                                     <div class="row">
@@ -325,7 +360,7 @@
                                             <div class="form-group">
                                                 <label for="">Mobile Number</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number"  id="mobile_number" class="form-control" intl-Tel>
+                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number" id="mobile_number" class="form-control" intl-Tel>
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
                                             </div>

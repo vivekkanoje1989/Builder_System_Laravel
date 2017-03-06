@@ -51,6 +51,7 @@ class MasterSalesController extends Controller {
                     exit;
                 }
             }
+            echo "<pre>";print_r($input);exit;
             /*************************** EMPLOYEE PHOTO UPLOAD **********************************
             $imgRules = array(
                 'image_file' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',

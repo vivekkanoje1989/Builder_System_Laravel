@@ -314,7 +314,7 @@ class Employee extends Authenticatable
         if (!empty($input['userData']['personal_mobile_no2'])) {
             $personalMobileNo2 = explode("-", $input['userData']['personal_mobile_no2']);
             $input['userData']['mobile2_calling_code'] = (int) $personalMobileNo2[0];
-            $input['userData']['personal_mobile_no2'] = $personalMobileNo2[1];
+            $input['userData']['personal_mobile_no2'] = !empty($personalMobileNo2[1]) ? $personalMobileNo2[1] : NULL;
             $input['userData']['mobile2_calling_code'] = !empty($input['userData']['personal_mobile_no2']) ? $input['userData']['mobile2_calling_code'] : NULL;
         }
 

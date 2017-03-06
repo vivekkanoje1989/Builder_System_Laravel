@@ -111,7 +111,6 @@ class Customer extends Model
             'birth_date.required' => 'Please select birth date',
             'marriage_date.required' => 'Please select marriage date',
             'source_id.required' => 'Please select source',
-            'subsource_id.required' => 'Please select sub source',
             'source_description.required' => 'Please enter source description'
         );
         return $messages;
@@ -119,15 +118,16 @@ class Customer extends Model
     public static function validationRules(){
         $rules = array(
             'title_id' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|max:15',
+            'middle_name' => 'max:15',
+            'last_name' => 'required|max:15',
             'gender_id' => 'required',
             'profession_id' => 'required',
-            'monthly_income' => 'required|numeric',
-            'birth_date' => 'required',
-            'marriage_date' => 'required',
+            'monthly_income' => 'required|numeric|max:999999',
+            'birth_date' => 'required|date',
+            'marriage_date' => 'required|date',
             'source_id' => 'required|numeric',
-            'subsource_id' => 'required|numeric',
+            'subsource_id' => 'numeric',
             'source_description' => 'required'
         );
         return $rules;

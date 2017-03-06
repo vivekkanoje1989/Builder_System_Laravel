@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/BMS_BUILDER_V2/.env</file>
             <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
             <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/app/directives.js</file>
             <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/MasterSales/Views/create.blade.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/config/database.php</file>
             <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/customerController.js</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/MasterSales/Models/Customer.php</file>
         </group>
     </open-files>
 </project-private>
