@@ -286,10 +286,10 @@ class Employee extends Authenticatable
         return $rules;
     }
     
-    public static function doAction($input){        
+    public static function doAction($input){           
         $input['userData']['department_id'] = implode(',', array_map(function($el) {
-                    return $el['id'];
-                }, $input['userData']['department_id']));        
+                return $el['id'];
+            }, $input['userData']['department_id']));        
         
         $input['userData']['date_of_birth'] = date('Y-m-d', strtotime($input['userData']['date_of_birth']));
         $input['userData']['joining_date'] = date('Y-m-d', strtotime($input['userData']['joining_date']));

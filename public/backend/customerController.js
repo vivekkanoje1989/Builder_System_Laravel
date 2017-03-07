@@ -13,6 +13,12 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         $scope.contacts = [];
         resetContactDetails();
         $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
+        $scope.showDiv=true;
+        $scope.customerData.customerId = 0;
+        $scope.checkValue = function () {
+            if($scope.customerData.searchWithMobile === ''|| $scope.customerData.searchWithEmail === '')
+                $scope.showDiv=false;
+        }   
         var sessionContactData = $scope.contactData.index = "";
         $window.sessionStorage.setItem("sessionContactData", "");
         $scope.editContactDetails = function (index) {
@@ -77,6 +83,8 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
+            sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
+            console.log(sessionContactData);
             if(sessionContactData === null || sessionContactData === ''){
                 $('#errContactDetails').text(" - Please add contact details");
                 return false;
@@ -91,10 +99,18 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             if (typeof customerPhoto === 'string' || typeof customerPhoto === 'undefined') {
                 customerPhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
+            if($scope.customerData.customerId === 0){
+                var url = getUrl + '/master-sales';
+                var data = {customerData: customerData, image_file: customerPhoto, customerContacts: sessionContactData};
+            }else{
+                var url = getUrl + '/master-sales/' + $scope.customerData.customerId;
+                var data = {_method:"PUT", customerData: customerData, image_file: customerPhoto, customerContacts: sessionContactData};
+            }
+            
             customerPhoto.upload = Upload.upload({
-                url: getUrl + '/master-sales',
+                url: url,
                 headers: {enctype: 'multipart/form-data'},
-                data: {customerData: customerData, image_file: customerPhoto, customerContacts: sessionContactData},
+                data: data,
             });
             customerPhoto.upload.then(function (response) {
                 $timeout(function () {

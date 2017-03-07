@@ -135,7 +135,7 @@ class LoginController extends Controller {
         }        
         if ($employee_status == 1 && auth()->guard('admin')->attempt(['username' => $username, 'password' => $password],true)) { //username => mobile
             CommonFunctions::insertLoginLog($username, $password, $empId, 2, 0); //loginStatus = 2(login), loginFailureReason = 0
-            $result = ['success' => true, 'message' => 'Successfully logged in'];
+            $result = ['success' => true, 'message' => 'Successfully logged in', 'loggedInUserId' => $empId];
         } else {
             if ($employee_status === 2) {
                 $loginFailureReason = 2;

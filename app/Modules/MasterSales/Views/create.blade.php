@@ -24,6 +24,7 @@
                 <div id="customer-form">
                     <form novalidate role="form" name="customerForm" ng-submit="customerForm.$valid && createCustomer(customerData, customerData.image_file, contactData)">
                         <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'" class="form-control">
+                        <input type="hidden" ng-model="customerData.customerId" name="customerId" id="custId" value="{{customerData.customerId}}" class="form-control">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">
                             <div class="col-lg-6 col-sm-6 col-xs-12">
                                 <div class="form-title">
@@ -34,7 +35,7 @@
                                         <div class="form-group">
                                             <label for="">Mobile Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.searchWithMobile" get-customer-details minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100 }">
+                                                <input type="text" class="form-control" ng-model="customerData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100 }" ng-change="checkValue(customerData.searchWithMobile)">
                                                 <i class="glyphicon glyphicon-phone"></i>
                                                 <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
                                                     <div ng-message="minlength">Invalid mobile no.</div>
@@ -47,7 +48,7 @@
                                         <div class="form-group">
                                             <label for="">Email ID</label>
                                             <span class="input-icon icon-right">
-                                                <input type="email" class="form-control" get-customer-details ng-model="customerData.searchWithEmail" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{ allowInvalid: true, debounce: 500 }">
+                                                <input type="email" class="form-control" get-customer-details-directive ng-model="customerData.searchWithEmail" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{ allowInvalid: true, debounce: 500 }" ng-change="checkValue(customerData.searchWithEmail)">
                                                 <i class="glyphicon glyphicon-envelope"></i>
                                             </span>
                                         </div>
@@ -55,7 +56,7 @@
                                 </div>
                             </div>     
                         </div>  
-                        <div class="row col-lg-12 col-sm-12 col-xs-12">  
+                        <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
                             <hr class="wide" />
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="form-title">
@@ -286,7 +287,7 @@
                             </div> 
                             <hr class="wide col-md-12" />                            
                         </div>    
-                        <div class="col-xs-12 col-md-12">
+                        <div class="col-xs-12 col-md-12" ng-if="showDiv">
                             <div class="widget">                                
                                 <div class="widget-header">
                                     <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Contact List <span id="errContactDetails" class="errMsg"></span></span>
@@ -321,8 +322,8 @@
                                 </div>
                             </div>
                         </div>
-                        <hr class="wide col-lg-12 col-xs-12 col-md-12" />
-                        <div class="col-lg-12 col-xs-12 col-md-12" align="center">
+                        <hr class="wide col-lg-12 col-xs-12 col-md-12" ng-if="showDiv"/>
+                        <div class="col-lg-12 col-xs-12 col-md-12" align="center" ng-if="showDiv">
                             <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">Save & Continue</button>
                         </div>
                     </form>

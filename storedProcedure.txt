@@ -126,8 +126,16 @@ END
 
 
 
+**************************************************************************************************
+Get customer contacts
 
-
+BEGIN
+IF mobileNo != '' THEN
+select c.* from `customers_contacts` AS c where c.`customer_id` = (select `customer_id` from `customers_contacts` c1 where c1.`mobile_number` = mobileNo group by c1.customer_id);
+ELSE
+select c.* from `customers_contacts` AS c where c.`customer_id` = (select `customer_id` from `customers_contacts` c1 where c1.`email_id` = emailId group by c1.customer_id);
+END IF;
+END
 
 
 
