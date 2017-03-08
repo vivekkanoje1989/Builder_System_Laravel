@@ -282,6 +282,16 @@ app.controller('enquirySourceCtrl', function ($scope, Data) {
         });
     };
 });
+app.controller('teamLeadCtrl',function($scope, Data){
+   Data.get('getTeamLead').then(function (response) {       
+       if (!response.success) {
+           $scope.errorMsg = response.message;
+       } else {
+           $scope.teamLeads = response.records;
+       }
+   });
+});
+
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {
     $scope.employees1 = [];

@@ -99,6 +99,7 @@ Route::group(['middleware' =>[ 'auth:admin']], function () {
     Route::get($getUrl.'/getEducationList', 'backend\AdminController@getEducationList');
     Route::get($getUrl.'/getProfessionList', 'backend\AdminController@getProfessionList');
     Route::get($getUrl.'/getCountries', 'backend\AdminController@getCountries');
+    Route::get($getUrl.'/getTeamLead', 'backend\AdminController@getTeamLead');
     Route::post($getUrl.'/getStates', 'backend\AdminController@getStates');
     Route::post($getUrl.'/getCities', 'backend\AdminController@getCities');
     Route::post($getUrl.'/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');

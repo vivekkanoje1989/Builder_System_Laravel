@@ -602,6 +602,23 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="form-group" ng-class="{ 'has-error' : step4 && (!userForm.team_lead_id.$dirty && userForm.team_lead_id.$invalid)}">
+                                <label for="">Team Lead<span class="sp-err">*</span></label>
+                                <span class="input-icon icon-right">
+                                    <select ng-model="userData.team_lead_id" name="team_lead_id" ng-controller="teamLeadCtrl" class="form-control" required>
+                                        <option value="">Please Select</option>
+                                        <option ng-repeat="teamLead in teamLeads track by $index" value="{{teamLead.id}}" ng-selected="{{ userData.team_lead_id == teamLead.id }}">{{teamLead.first_name }} {{ teamLead.last_name }}</option>
+                                    </select>
+                                    <i class="fa fa-sort-desc"></i>
+                                    <div ng-show="step4" ng-messages="userForm.team_lead_id.$error" class="help-block step4">
+                                        <div ng-message="required">This field is required.</div>
+                                    </div>
+                                </span>                            
+                            </div>
+                        </div> 
+                        </div>
+                    <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="button" class="btn btn-primary btn-pre4">Prev</button>
                             <button type="button" class="btn btn-primary btn-nxt6" ng-click="step4=true">Next</button>
@@ -660,8 +677,8 @@
                                 <span class="input-icon icon-right" >
                                     <select ng-model="userData.high_security_password_type" name="high_security_password_type" class="form-control">
                                         <option value="">Select Password Type</option>
-                                        <option value="1">OTP</option>
-                                        <option value="2">Fixed</option>
+                                        <option value="0">OTP</option>
+                                        <option value="1">Fixed</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step5" ng-messages="userForm.high_security_password_type.$error" class="help-block step5">
@@ -670,7 +687,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-xs-6" ng-if="userData.high_security_password_type == 2">
+                        <div class="col-sm-3 col-xs-6" ng-if="userData.high_security_password_type == 1">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password.$dirty && userForm.high_security_password.$invalid)}">
                                 <label>High security password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">

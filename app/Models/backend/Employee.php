@@ -268,8 +268,6 @@ class Employee extends Authenticatable
             'personal_mobile_no1' => 'required',
             'office_mobile_no' => 'required',
             'email' => 'required|email|unique:employees',
-            'personal_email_id2' => 'email',
-            'office_email_id' => 'email',
             'current_country_id' => 'required',
             'current_state_id' => 'required',
             'current_city_id' => 'required',
@@ -297,8 +295,8 @@ class Employee extends Authenticatable
         $input['userData']['client_id'] = !empty($input['client_id']) ? $input['userData']['client_id'] : "0";
         $input['userData']['client_role_id'] = "1";
         $input['userData']['employee_id'] = !empty($input['userData']['employee_id']);    
-        $input['userData']['high_security_password_type'] = !empty($input['userData']['high_security_password_type']) ? $input['userData']['high_security_password_type'] : "1";
-        $input['userData']['high_security_password'] = !empty($input['userData']['high_security_password']) ? $input['userData']['high_security_password'] : "";
+        $input['userData']['high_security_password_type'] = !empty($input['userData']['high_security_password_type']) ? $input['userData']['high_security_password_type'] : "0";
+        $input['userData']['high_security_password'] = (!empty($input['userData']['high_security_password']) && $input['userData']['high_security_password_type'] == 1) ? $input['userData']['high_security_password'] : "";
         $input['userData']['password_changed'] = !empty($input['userData']['password_changed']) ? $input['userData']['password_changed'] : "0";
         $input['userData']['usertype'] = "admin";
         

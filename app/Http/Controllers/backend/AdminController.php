@@ -21,6 +21,7 @@ use App\Models\VehicleModel;
 use App\Models\LstProfession;
 use Illuminate\Http\Request;
 use Auth;
+
 class AdminController extends Controller {
 
     /**
@@ -49,29 +50,29 @@ class AdminController extends Controller {
 //            echo "login".Auth::guard('admin')->user()->id;            
 //        }else {echo "not login";}
 //        echo "<pre>";print_r(Auth::guard('admin')->user());exit;
-        $fullName = Auth::guard('admin')->user()->first_name." ".Auth::guard('admin')->user()->last_name;  
+        $fullName = Auth::guard('admin')->user()->first_name . " " . Auth::guard('admin')->user()->last_name;
         return view('layouts.backend.dashboard')->with('id', $fullName);
     }
-    
+
     public function getMenuItems() {
         $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus);
         $getMenu = MenuItems::getMenuItems();
-        $menuItem = $accessToActions =array();
+        $menuItem = $accessToActions = array();
         foreach ($getMenu as $key => $menu) {
             $menu = (array) $menu;
-            if(!empty($menu['url'])){
+            if (!empty($menu['url'])) {
                 $accessToActions[] = $menu['url'];
-            }            
+            }
             $submenu_ids = explode(',', $menu['submenu_ids']);
             if ($menu['has_submenu'] == 1) {
                 $intersection_arr = array_intersect($permission, $submenu_ids);
-                if (empty($intersection_arr)){
+                if (empty($intersection_arr)) {
                     continue;
                 }
                 if (isset($menu['submenu'])) {
                     foreach ($menu['submenu'] as $k => $submenu) {
                         $submenu = (array) $submenu;
-                        if(!empty($submenu['url'])){
+                        if (!empty($submenu['url'])) {
                             $accessToActions[] = $submenu['url'];
                         }
                         if (!(in_array($submenu['id'], $intersection_arr))) {
@@ -82,151 +83,133 @@ class AdminController extends Controller {
             }
             $menuItem[] = $menu;
         }
-        $collection = collect(['mainMenu'=>$menuItem]);
-        $merged = $collection->merge(['actions'=>$accessToActions]);
+        $collection = collect(['mainMenu' => $menuItem]);
+        $merged = $collection->merge(['actions' => $accessToActions]);
         $mergedMmenu = $merged->all();
         return json_encode($mergedMmenu);
         exit;
     }
-    
-    public function getTitle(){
+
+    public function getTitle() {
         $getTitle = LstTitle::all();
-        if(!empty($getTitle))
-        {
-            $result = ['success' => true, 'records' => $getTitle];
-            return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
-    public function getGender(){
-        $getGender = LstGender::all();
-        if(!empty($getGender))
-        {
-            $result = ['success' => true, 'records' => $getGender];
-            return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
-    public function getBloodGroup(){
-        $getBloodGroup = LstBloodGroup::all();
-        if(!empty($getBloodGroup))
-        {
-            $result = ['success' => true, 'records' => $getBloodGroup];
-            return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
-    public function getDepartments(){
-        $getDepartments = LstDepartment::all();
-        if(!empty($getDepartments))
-        {
-            $result = ['success' => true, 'records' => $getDepartments];
-            return $result;
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
-    public function getEducationList(){
-        $getEducationList = LstEducation::all();
-        if(!empty($getEducationList))
-        {
-            $result = ['success' => true, 'records' => $getEducationList];
-            return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
-    public function getProfessionList(){
-        $getProfessionList = LstProfession::all();
-        if(!empty($getProfessionList))
-        {
-            $result = ['success' => true, 'records' => $getProfessionList];
-            return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
-    public function getMasterData(){
-        $getTitle = LstTitle::all();
-        $getGender = LstGender::all();
-        $getBloodGroup = LstBloodGroup::all();
-        $getDepartments = LstDepartment::all();
-        $getEducationList = LstEducation::all();
         if (!empty($getTitle)) {
-            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender,'bloodGroup' => $getBloodGroup,'departments' =>$getDepartments,'educationList' => $getEducationList];
+            $result = ['success' => true, 'records' => $getTitle];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    public function getCountries(){
-        $getCountires = LstCountry::all();
-        if(!empty($getCountires))
-        {
-            $result = ['success' => true, 'records' => $getCountires];
+
+    public function getGender() {
+        $getGender = LstGender::all();
+        if (!empty($getGender)) {
+            $result = ['success' => true, 'records' => $getGender];
             return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    public function getStates(Request $request){
+
+    public function getBloodGroup() {
+        $getBloodGroup = LstBloodGroup::all();
+        if (!empty($getBloodGroup)) {
+            $result = ['success' => true, 'records' => $getBloodGroup];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getDepartments() {
+        $getDepartments = LstDepartment::all();
+        if (!empty($getDepartments)) {
+            $result = ['success' => true, 'records' => $getDepartments];
+            return $result;
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getEducationList() {
+        $getEducationList = LstEducation::all();
+        if (!empty($getEducationList)) {
+            $result = ['success' => true, 'records' => $getEducationList];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getProfessionList() {
+        $getProfessionList = LstProfession::all();
+        if (!empty($getProfessionList)) {
+            $result = ['success' => true, 'records' => $getProfessionList];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getMasterData() {
+        $getTitle = LstTitle::all();
+        $getGender = LstGender::all();
+        $getBloodGroup = LstBloodGroup::all();
+        $getDepartments = LstDepartment::all();
+        $getEducationList = LstEducation::all();
+        if (!empty($getTitle)) {
+            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getCountries() {
+        $getCountires = LstCountry::all();
+        if (!empty($getCountires)) {
+            $result = ['success' => true, 'records' => $getCountires];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getStates(Request $request) {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $countryId = $request['data']['countryId'];
-        $getStates = LstState::where("country_id",$countryId)->get();
-        if(!empty($getStates))
-        {
+        $getStates = LstState::where("country_id", $countryId)->get();
+        if (!empty($getStates)) {
             $result = ['success' => true, 'records' => $getStates];
             return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    public function getCities(){
+
+    public function getCities() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $stateId = $request['data']['stateId'];
-        $getCities = LstCity::where("state_id",$stateId)->get();
-        if(!empty($getCities))
-        {
+        $getCities = LstCity::where("state_id", $stateId)->get();
+        if (!empty($getCities)) {
             $result = ['success' => true, 'records' => $getCities];
             return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    
+
     public function checkUniqueEmail() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -248,93 +231,92 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-    public function getEnquirySource() {
-       $getSource = EnquirySource::all();
-       if (!empty($getSource)) {
-           $result = ['success' => true, 'records' => $getSource];
-           return json_encode($result);
-       } else {
-           $result = ['success' => false, 'message' => 'Something went wrong'];
-           return json_encode($result);
-       }
-   }
-   
-    public function getEnquirySubSource() {
-       $postdata= file_get_contents('php://input');
-       $request = json_decode($postdata,true);
-       $sourceId = $request['data']['sourceId'];
-       $getsubSource = EnquirySubSource::where('source_id',$sourceId)->get();
-       if (!empty($getsubSource)) {
-           $result = ['success' => true, 'records' => $getsubSource];
-           return json_encode($result);
-       } else {
-           $result = ['success' => false, 'message' => 'Something went wrong'];
-           return json_encode($result);
-       }
-   }
 
-    protected function guard()
-    {
+    public function getEnquirySource() {
+        $getSource = EnquirySource::all();
+        if (!empty($getSource)) {
+            $result = ['success' => true, 'records' => $getSource];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getEnquirySubSource() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $sourceId = $request['data']['sourceId'];
+        $getsubSource = EnquirySubSource::where('source_id', $sourceId)->get();
+        if (!empty($getsubSource)) {
+            $result = ['success' => true, 'records' => $getsubSource];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getTeamLead() {
+        $getTeamLead = Employee::all();
+        if (!empty($getTeamLead)) {
+            $result = ['success' => true, 'records' => $getTeamLead];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    protected function guard() {
         return Auth::guard('admin');
     }
-    
-    
-    /****************************MANDAR*********************************/
-    
-    public function getEmployees(){
-        $getEmployees = Employee::select('id','first_name')->where("client_id",1)->get();
-        if(!empty($getEmployees))
-        {
+
+    /*     * **************************MANDAR******************************** */
+
+    public function getEmployees() {
+        $getEmployees = Employee::select('id', 'first_name')->where("client_id", 1)->get();
+        if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
             return $result;
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    
-    public function getClient(){
+
+    public function getClient() {
         $getclient = ClientInfo::all();
-        if(!empty($getclient))
-        {
+        if (!empty($getclient)) {
             $result = ['success' => true, 'records' => $getclient];
             return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    
-    public function getVehiclebrands(){
+
+    public function getVehiclebrands() {
         $getVehiclebrands = VehicleBrand::all();
-        if(!empty($getVehiclebrands))
-        {
+        if (!empty($getVehiclebrands)) {
             $result = ['success' => true, 'records' => $getVehiclebrands];
             return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    
-    public function getVehiclemodels(){
-        $getVehiclemodels = VehicleModel::select('*')->where("brand_id",1)->get();
-        if(!empty($getVehiclemodels))
-        {
+
+    public function getVehiclemodels() {
+        $getVehiclemodels = VehicleModel::select('*')->where("brand_id", 1)->get();
+        if (!empty($getVehiclemodels)) {
             $result = ['success' => true, 'records' => $getVehiclemodels];
             return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    /****************************MANDAR*********************************/
+
+    /*     * **************************MANDAR******************************** */
 }

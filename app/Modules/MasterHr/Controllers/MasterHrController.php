@@ -97,9 +97,7 @@ class MasterHrController extends Controller {
         if(empty($input)){
             $input = Input::all();
         }
-//        echo "<pre>";print_r($input);
-//        echo json_encode($input);
-//        exit;
+        //echo "<pre>";print_r($input);exit;
         if(!empty($input['userData'])){
             $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
             if ($validator->fails()) {

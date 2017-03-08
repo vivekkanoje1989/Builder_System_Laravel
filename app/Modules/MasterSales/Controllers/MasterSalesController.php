@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Modules\MasterSales\Models\Customer;
+use App\Modules\MasterSales\Models\CustomersLog;
 use App\Modules\MasterSales\Models\CustomersContact;
 use App\Modules\MasterSales\Models\CustomersContactsLog;
 use Validator;
 use DB;
+use Auth;
 use App\Classes\CommonFunctions;
 class MasterSalesController extends Controller {
 
@@ -129,6 +131,7 @@ class MasterSalesController extends Controller {
 	public function update($id)
 	{
             $originalValues = Customer::where('id', $id)->get();
+            $originalContactValues = CustomersContact::where('id', $id)->get();
             $input = Input::all();
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
@@ -141,25 +144,31 @@ class MasterSalesController extends Controller {
                     exit;
                 }
             }
+            
             $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
-                       
+            $input['customerData']['created_date'] =  date('Y-m-d', strtotime($input['customerData']['created_date']));
+            $update = CommonFunctions::insertLogTableRecords();
+            $input['customerData'] = array_merge($input['customerData'],$update);
+        
             $updateCustomer = Customer::where('id',$id)->update($input['customerData']); //insert data into employees table
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
-            $pwdData=$originalValues[0]['attributes']['password'];
+            $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
+//            echo "<pre>";print_r($input['customerData']);
             $implodeArr =  implode(",",array_keys($getResult));
             
-            /*if ($updateCustomer == 1) {
+            if ($updateCustomer == 1) {
+                $create = CommonFunctions::insertMainTableRecords();
+                $input['customerData'] = array_merge($input['customerData'],$create);
                 $input['customerData']['main_record_id'] = $id;
                 $input['customerData']['record_type'] = 2;
                 $input['customerData']['column_names'] = $implodeArr;
                 $input['customerData']['record_restore_status'] = 1;
-                CustomerLog::create($input['customerData']);   
-            }*/
-        
-            if( !empty($input['customerContacts'])){
+                CustomersLog::create($input['customerData']);   
+            }
+       //echo "<pre>";print_r($input);exit;
+            $i = 0;
+            if(!empty($input['customerContacts'])){
                 foreach($input['customerContacts'] as $contacts){
-                    $contacts['customer_id'] = $createCustomer->id; 
                     if (!empty($contacts['mobile_number'])) {
                         $mobileNumber = explode("-", $contacts['mobile_number']);
                         $calling_code = (int) $mobileNumber[0];                        
@@ -170,14 +179,25 @@ class MasterSalesController extends Controller {
                         $landlineNumber = explode("-", $contacts['landline_number']);
                         $landline_calling_code = (int) $landlineNumber[0];
                         $contacts['landline_calling_code'] =!empty($landlineNumber[1]) ?  $landline_calling_code : '';
-                        $contacts['landline_number'] = (!empty($landlineNumber[1])) ? $landlineNumber[1] : '';
+                        $contacts['landline_number'] = $landlineNumber[1];
                     }
+                    unset($contacts['$hashKey'],$contacts['index']);
+//                    $contacts = array_merge($contacts,$create);
+                    CustomersContact::where('id',$contacts['id'])->update($contacts); //insert data into customer_contacts table
+                    $create = CommonFunctions::insertMainTableRecords();
                     $contacts = array_merge($contacts,$create);
-                    CustomersContact::update($contacts); //insert data into customer_contacts table
-                    CustomersContactsLog::update($contacts); //insert data into customer_contacts_logs table
+                    $getResult = array_diff_assoc($originalContactValues[$i]['attributes'], $contacts);
+                    $implodeArr =  implode(",",array_keys($getResult));
+                    echo $implodeArr;exit;  
+                    $contacts['main_record_id'] = $id;
+                    $contacts['record_type'] = 2;
+                    $contacts['column_names'] = $implodeArr;
+                    $contacts['record_restore_status'] = 1;
+                    CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
+                    $i++;
                 }
             }
-            echo "<pre>";print_r($input);exit;
+            
 	}
 
 	/**

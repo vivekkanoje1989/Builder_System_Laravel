@@ -74,9 +74,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         var userData = {};        
         userData = angular.fromJson(angular.toJson(enteredData));
         var date = new Date($scope.userData.date_of_birth);
-        $scope.userData.date_of_birth = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+        $scope.userData.date_of_birth = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
         var date = new Date($scope.userData.joining_date);
-        $scope.userData.joining_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+        $scope.userData.joining_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
         
         if(empId === 0)
         {          
@@ -156,7 +156,13 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                             var landlineNo = '+'+response.records.data[0].landline_calling_code + '-';
                             var landLineNumber=""+response.records.data[0].landline_no;
                             $scope.userData.landline_no = landlineNo +landLineNumber.slice(0,4)+"-"+landLineNumber.slice(4);
-                        }                        
+                        }
+                        if (response.records.data[0].office_email_id === null || response.records.data[0].office_email_id !== '') {                                
+                            $scope.userData.office_email_id = '';
+                        }
+                        if (response.records.data[0].personal_email_id2 === null || response.records.data[0].personal_email_id2 !== '') {                                
+                            $scope.userData.personal_email_id2 = '';
+                        }
                         $scope.userData.passwordOld = response.records.data[0].password;
                         var current_country = response.records.data[0].current_country_id;
                         var current_state = response.records.data[0].current_state_id;

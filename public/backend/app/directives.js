@@ -70,31 +70,31 @@ app.directive('getCustomerDetailsDirective', function ($timeout, $q, Data, $wind
         model.$asyncValidators.customerInputs = function () {
             var customerMobileNo = '';
             var customerEmailId ='';
-            customerMobileNo = $scope.customerData.searchWithMobile;
-            customerEmailId = $scope.customerData.searchWithEmail;
+            customerMobileNo = $scope.searchData.searchWithMobile;
+            customerEmailId = $scope.searchData.searchWithEmail;
             if (model.$isEmpty(customerMobileNo) && model.$isEmpty(customerEmailId))
                 return $q.when();
             
             return Data.post('master-sales/getCustomerDetails', {
                 data: {customerMobileNo: customerMobileNo,customerEmailId: customerEmailId},
             }).then(function (response) {
-                console.log(response);
                 if(response.success){
-                    console.log(response.customerPersonalDetails[0].id);
+                    console.log(response.customerPersonalDetails[0]);
                     $scope.showDiv=true;
                     $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                     $scope.contacts = angular.copy(response.customerContactDetails);
                     $scope.contactData = angular.copy(response.customerContactDetails);
                     $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
-                    $scope.customerData.searchWithMobile = customerMobileNo;
-                    $scope.customerData.searchWithEmail = customerEmailId;
-                    $scope.customerData.customerId = response.customerPersonalDetails[0].id;
+                    $scope.searchData.searchWithMobile = customerMobileNo;
+                    $scope.searchData.searchWithEmail = customerEmailId;
+                    $scope.searchData.customerId = response.customerPersonalDetails[0].id;
                 }
                 else{
                     $scope.showDiv=true;
                     $window.sessionStorage.setItem("sessionContactData", "");
+                    $scope.contacts = [];
 //                    $scope.customerData = '';
-                    $scope.customerData.title_id = $scope.customerData.first_name =
+                    $scope.customerData.title_id = $scope.customerData.first_name = $scope.customerData.middle_name =
                     $scope.customerData.last_name = $scope.customerData.birth_date = 
                     $scope.customerData.marriage_date = $scope.customerData.monthly_income =
                     $scope.customerData.source_description = $scope.customerData.subsource_id =
