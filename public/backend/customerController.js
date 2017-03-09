@@ -16,9 +16,12 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
         $scope.showDiv=false;
         $scope.searchData.customerId = 0;
+        var sessionContactData = $scope.contactData.index = "";
+        $window.sessionStorage.setItem("sessionContactData", "");
         $scope.checkValue = function () {
-            if($scope.customerData.searchWithMobile === ''|| $scope.customerData.searchWithEmail === '')
+            if($scope.customerData.searchWithMobile === ''|| $scope.customerData.searchWithEmail === ''){
                 $scope.showDiv=false;
+            }
         }
         $scope.validateMobileNumber = function (value) {
             var regex = /^(\+\d{1,4}-)\d{10}$/;
@@ -43,9 +46,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                     $scope.applyClass = 'ng-inactive';
                 }
             }
-        }; 
-        var sessionContactData = $scope.contactData.index = "";
-        $window.sessionStorage.setItem("sessionContactData", "");
+        };         
         $scope.editContactDetails = function (index) {
             $scope.contactData = $scope.contacts[index];
             $scope.contactData.index=index;                          
@@ -104,9 +105,6 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
            
         }
-        $scope.closeModal = function () {
-            $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
-        }
         $scope.initContactModal = function () {
             resetContactDetails();
         }
@@ -121,8 +119,6 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             else{
                 sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             }
-//            console.log(sessionContactData);
-//            console.log(enteredData);
             var customerData = {};            
             customerData = angular.fromJson(angular.toJson(enteredData));
             if (typeof customerPhoto === 'string' || typeof customerPhoto === 'undefined') {
@@ -188,18 +184,5 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         $scope.addContactDetails = function () {
             $scope.modal = {};
         }
-        
-        /*$scope.checkImageExtension = function (customerPhoto) {
-            if (typeof customerPhoto !== 'undefined' || typeof customerPhoto !== 'object') {
-                var ext = customerPhoto.name.match(/\.(.+)$/)[1];
-                if (angular.lowercase(ext) === 'jpg' || angular.lowercase(ext) === 'jpeg' || angular.lowercase(ext) === 'png' || angular.lowercase(ext) === 'bmp' || angular.lowercase(ext) === 'gif' || angular.lowercase(ext) === 'svg') {
-                    $scope.invalidImage = "";
-                    $scope.altName = customerPhoto.name;
-                } else {
-                    $(".imageFile").val("");
-                    $scope.invalidImage = "Invalid file format. Image should be jpg or jpeg or png or bmp format only.";
-                }
-            }
-        };*/
     }]);
 

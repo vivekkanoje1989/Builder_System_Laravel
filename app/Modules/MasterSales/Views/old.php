@@ -1,29 +1,4 @@
-<style>
-    .btn-round{
-        border-radius: 50%;
-        height: 40px;
-        width: 40px;
-        line-height: 28px;
-        padding-left: 13px;
-        outline: none !important;
-    }
-    @media (min-width:768px){
-        .modal-dialog {
-            width: 700px !important;
-        }
-    }
-    .errMsg{
-        color:red;
-    }
-</style>
-<div class="row">
-
-    <div class="widget flat radius-bordered ">
-        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController">
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
-            <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
-                <div id="customer-form">
-                    <form novalidate role="form" name="customerForm" ng-submit="customerForm.$valid && createCustomer(customerData, customerData.image_file, contactData)">
+<form novalidate role="form" name="custContactForm" ng-submit="custContactForm.$valid && createCustomer(customerData, customerData.image_file, contactData)">
                         <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'" class="form-control">
                         <input type="hidden" ng-model="searchData.customerId" name="customerId" id="custId" value="{{customerData.customerId}}" class="form-control">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">
@@ -56,9 +31,9 @@
                                     </div>
                                 </div>
                             </div>     
-                        </div>
-                         <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
-                        <hr class="wide" />
+                        </div>  
+                        <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
+                            <hr class="wide" />
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="form-title">
                                     Personal Details
@@ -75,7 +50,7 @@
                                                     <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.title_id}}">{{t.title}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i> 
-                                                <div ng-show="formButton" ng-messages="customerForm.title_id.$error" class="help-block errMsg">
+                                                <div ng-show="formSbtBtn" ng-messages="custContactForm.title_id.$error" class="help-block errMsg">
                                                     <div ng-message="required">This field is required</div>
                                                 </div>
                                                 <div ng-if="title_id" class="errMsg title_id">{{title_id}}</div>
@@ -88,7 +63,7 @@
                                             <span class="input-icon icon-right">
                                                 <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                                 <i class="fa fa-user"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.first_name.$error" class="help-block errMsg">
+                                                <div ng-show="formSbtBtn" ng-messages="custContactForm.first_name.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please enter first name</div>
                                                 </div>
                                                 <div ng-if="first_name" class="errMsg first_name">{{first_name}}</div>
@@ -113,7 +88,7 @@
                                             <span class="input-icon icon-right">
                                                 <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                                 <i class="fa fa-user"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.last_name.$error" class="help-block errMsg">
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.last_name.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please enter last name</div>
                                                 </div>
                                                 <div ng-if="last_name" class="errMsg last_name">{{last_name}}</div>
@@ -131,7 +106,7 @@
                                                     <option ng-repeat="genderList in genders track by $index" value="{{genderList.gender_id}}" ng-selected="{{ genderList.gender_id == customerData.gender}}">{{genderList.gender_title}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.gender_id.$error" class="help-block errMsg">
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.gender_id.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please enter gender</div>
                                                 </div>
                                                 <div ng-if="gender_id" class="errMsg gender_id">{{gender_id}}</div>
@@ -147,7 +122,7 @@
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                    <div ng-show="formButton" ng-messages="customerForm.birth_date.$error" class="help-block errMsg">
+                                                    <div ng-show="sbtBtn" ng-messages="customerForm.birth_date.$error" class="help-block errMsg">
                                                         <div ng-message="required">Please select birth date</div>
                                                     </div>
                                                     <div ng-if="birth_date"class="errMsg birth_date">{{birth_date}}</div>
@@ -166,7 +141,7 @@
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                    <div ng-show="formButton" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
+                                                    <div ng-show="sbtBtn" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
                                                         <div ng-message="required">Please select marriage date</div>
                                                     </div>
                                                     <div ng-if="marriage_date" class="errMsg marriage_date">{{marriage_date}}</div>
@@ -175,7 +150,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>   
                             <div class="col-lg-6 col-sm-6 col-xs-12">
                                 <div class="row">
                                     <div class="col-sm-6">
@@ -187,7 +162,7 @@
                                                     <option ng-repeat="t in professions track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.profession}}">{{t.profession}}</option>
                                                 </select>                
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.profession_id.$error" class="help-block errMsg">
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.profession_id.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please enter profession</div>
                                                 </div>
                                                 <div ng-if="profession_id" class="errMsg profession_id">{{profession_id}}</div>
@@ -200,7 +175,7 @@
                                             <span class="input-icon icon-right">
                                                 <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                                 <i class="fa fa-money"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.monthly_income.$error" class="help-block errMsg">
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.monthly_income.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please enter monthly income</div>
                                                 </div>
                                                 <div ng-if="monthly_income" class="errMsg monthly_income">{{monthly_income}}</div>
@@ -218,8 +193,8 @@
                                                     <option value="1">Active</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.sms_privacy_status.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter SMS privacy status</div>
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.sms_privacy_status.$error" class="help-block errMsg">
+                                                    <div ng-message="required">This field is required</div>
                                                 </div>
                                                 <div ng-if="sms_privacy_status" class="errMsg sms_privacy_status">{{sms_privacy_status}}</div>
                                             </span>
@@ -234,9 +209,6 @@
                                                     <option value="1">Active</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.email_privacy_status.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter email privacy status</div>
-                                                </div>
                                                 <div ng-if="email_privacy_status" class="errMsg email_privacy_status">{{email_privacy_status}}</div>
                                             </span>
                                         </div>
@@ -252,7 +224,7 @@
                                                     <option ng-repeat="source in sourceList" value="{{source.id}}" ng-selected="{{source.id == customerData.source_id}}">{{source.source_name}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.source_id.$error" class="help-block errMsg">
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.source_id.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please select source</div>
                                                 </div>
                                                 <div ng-if="source_id" class="errMsg source_id">{{source_id}}</div>
@@ -280,7 +252,7 @@
                                             <span class="input-icon icon-right">
                                                 <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" required>
                                                 <i class="fa fa fa-align-left"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
+                                                <div ng-show="sbtBtn" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please enter source description</div>
                                                 </div>
                                                 <div ng-if="source_description" class="errMsg source_description">{{source_description}}</div>
@@ -289,8 +261,8 @@
                                     </div>
                                 </div>                                
                             </div> 
-                            <hr class="wide col-md-12" />   
-                        </div> 
+                            <hr class="wide col-md-12" />                            
+                        </div>    
                         <div class="col-xs-12 col-md-12" ng-if="showDiv">
                             <div class="widget">                                
                                 <div class="widget-header">
@@ -327,262 +299,7 @@
                             </div>
                         </div>
                         <hr class="wide col-lg-12 col-xs-12 col-md-12" ng-if="showDiv"/>
-                        <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-                            <button type="submit" class="btn btn-primary" ng-click="formButton=true">Save & Continue</button>
+                        <div class="col-lg-12 col-xs-12 col-md-12" align="center" ng-if="showDiv">
+                            <button type="button" class="btn btn-primary" ng-click="formSbtBtn=true">Save & Continue</button>
                         </div>
                     </form>
-                </div>
-            </div>
-
-            <!-- Modal -->
-            <div class="modal fade" id="contactDataModal" role="dialog" tabindex='-1'>
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title" align="center">Contact Details</h4>
-                        </div>
-                        <form ng-submit="modalForm.$valid && addRow(contactData)" novalidate name="modalForm">
-                            <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
-                            <div class="modal-body">
-                                <div class="col-lg-6 col-sm-6 col-xs-12">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Number Type</label>
-                                                <span class="input-icon icon-right">
-                                                    <select ng-model="contactData.mobile_number_lable" name="mobile_number_lable" class="form-control">
-                                                        <option value="">Select Type</option>
-                                                        <option value="1">Personal</option>
-                                                        <option value="2">Office</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Mobile Number</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number" id="mobile_number" class="form-control" intl-Tel ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
-                                                    <i class="glyphicon glyphicon-phone"></i>
-                                                </span>
-                                                <div ng-show="modalSbtBtn" ng-messages="modalForm.mobile_number.$error" class="help-block">
-                                                    <div ng-message="required">This field is required.</div>
-                                                    <div ng-message="pattern">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Landline Type</label>
-                                                <span class="input-icon icon-right">
-                                                    <select ng-model="contactData.landline_lable" name="landline_lable" class="form-control">
-                                                        <option value="">Select Type</option>
-                                                        <option value="1">Personal</option>
-                                                        <option value="2">Office</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>                                                    
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Landline Number</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.landline_number" name="landline_number" id="landline_number" class="form-control" intl-Tel ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(contactData.landline_number)">
-                                                    <i class="glyphicon glyphicon-phone"></i>
-                                                </span>
-                                                <div ng-show="modalSbtBtn || errLandline" ng-messages="modalForm.landline_number.$error" class="help-block {{applyClass}}">
-                                                    <div>{{ errLandline }}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Email Type</label>
-                                                <span class="input-icon icon-right">
-                                                    <select ng-model="contactData.email_id_lable" name="email_id_lable" class="form-control">
-                                                        <option value="">Select Type</option>
-                                                        <option value="1">Personal</option>
-                                                        <option value="2">Office</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Email ID</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.email_id" name="email_id" class="form-control">
-                                                    <i class="glyphicon glyphicon-envelope"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Address</label>		
-                                                <span class="input-icon icon-right">
-                                                    <select ng-model="contactData.address_type" name="address_type" class="form-control">
-                                                        <option value="">Select Type</option>
-                                                        <option>Personal</option>
-                                                        <option>Office</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">House Number</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.house_number" name="house_number" class="form-control date-picker">
-                                                    <i class="fa fa-home"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Building House Name</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.building_house_name" name="building_house_name" class="form-control">
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <span class="input-icon icon-right">
-                                                    <label for="">Wing Name</label>
-                                                    <span class="input-icon icon-right">
-                                                        <input type="text" ng-model="contactData.wing_name" name="wing_name" class="form-control">
-                                                        <i class="fa fa-building-o"></i>
-                                                    </span> 
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-6 col-xs-12" ng-controller="currentCountryListCtrl">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Area Name</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.area_name" name="area_name" class="form-control date-picker">
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>                                      
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">                                            
-                                                <label for="">Lane Name</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.lane_name" name="lane_name" class="form-control date-picker">
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Landmark</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.landmark" name="landmark" class="form-control date-picker">
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Pin</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.pin" name="pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                                                    <i class="fa fa-compass" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Country</label>
-                                                <span class="input-icon icon-right">
-                                                    <select ng-change="onCountryChange()" ng-model="contactData.country_id" name="country_id" id="current_country_id" class="form-control">
-                                                        <option value="">Select Country</option>
-                                                        <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == contactData.country_id}}">{{country.name}}</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">State</label>                                                
-                                                <span class="input-icon icon-right">
-                                                    <select ng-model="contactData.state_id" ng-change="onStateChange()" name="state_id" id="current_state_id" class="form-control">
-                                                        <option value="">Select State</option>
-                                                        <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == contactData.state_id}}">{{state.name}}</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">City</label>
-                                                <span class="input-icon icon-right">
-                                                    <select ng-model="contactData.city_id" name="city_id" class="form-control">
-                                                        <option value="">Select City</option>
-                                                        <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == contactData.city_id}}">{{city.name}}</option>
-                                                    </select>
-                                                    <i class="fa fa-sort-desc"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="">Google Map Link</label>
-                                                <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.google_map_link" name="google_map_link" class="form-control">
-                                                    <i class="fa fa-compass" aria-hidden="true"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <label for="">Remarks</label>
-                                                <span class="input-icon icon-right">
-                                                    <textarea ng-model="contactData.other_remarks" name="other_remarks" class="form-control"></textarea>
-                                                    <i class="fa fa-building-o"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>                                
-                                </div>   
-                            </div>
-                            <div class="modal-footer" align="center">
-                                <button type="submit" class="btn btn-sub" ng-click="modalSbtBtn=true">Submit</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

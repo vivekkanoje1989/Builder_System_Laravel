@@ -74,23 +74,25 @@ class MasterSalesController extends Controller {
             $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
             $create = CommonFunctions::insertMainTableRecords();
             $input['customerData'] = array_merge($input['customerData'],$create);
-                        
+            $input['customerData']['main_record_id'] = Auth::guard('admin')->user()->id;
+            $input['customerData']['record_type'] = 1;
+            $input['customerData']['record_restore_status'] = 1;
             $createCustomer = Customer::create($input['customerData']); //insert data into employees table
-
+            CustomersLog::create($input['customerData']);   
             if( !empty($input['customerContacts'])){
                 foreach($input['customerContacts'] as $contacts){
                     $contacts['customer_id'] = $createCustomer->id; 
                     if (!empty($contacts['mobile_number'])) {
                         $mobileNumber = explode("-", $contacts['mobile_number']);
                         $calling_code = (int) $mobileNumber[0];                        
-                        $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? $calling_code : '';
-                        $contacts['mobile_number'] = $mobileNumber[1];
+                        $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? $calling_code : NULL;
+                        $contacts['mobile_number'] = !empty($mobileNumber[1]) ? (int) $mobileNumber[1] : NULL;
                     }
                     if (!empty($contacts['landline_number'])) {
                         $landlineNumber = explode("-", $contacts['landline_number']);
                         $landline_calling_code = (int) $landlineNumber[0];
-                        $contacts['landline_calling_code'] =!empty($landlineNumber[1]) ?  $landline_calling_code : '';
-                        $contacts['landline_number'] = (!empty($landlineNumber[1])) ? $landlineNumber[1] : '';
+                        $contacts['landline_calling_code'] =!empty($landlineNumber[1]) ?  $landline_calling_code : NULL;
+                        $contacts['landline_number'] = (!empty($landlineNumber[1])) ? (int) $landlineNumber[1] : NULL;
                     }
                     $contacts = array_merge($contacts,$create);
                     CustomersContact::create($contacts); //insert data into customer_contacts table
@@ -131,11 +133,10 @@ class MasterSalesController extends Controller {
 	public function update($id)
 	{
             $originalValues = Customer::where('id', $id)->get();
-            $originalContactValues = CustomersContact::where('id', $id)->get();
+            $originalContactValues = CustomersContact::where('customer_id', $id)->get();
             $input = Input::all();
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
-            
             if(!empty($input['customerData'])){
                 $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
                 if ($validator->fails()) {
@@ -144,18 +145,14 @@ class MasterSalesController extends Controller {
                     exit;
                 }
             }
-            
             $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
             $input['customerData']['created_date'] =  date('Y-m-d', strtotime($input['customerData']['created_date']));
             $update = CommonFunctions::insertLogTableRecords();
             $input['customerData'] = array_merge($input['customerData'],$update);
-        
             $updateCustomer = Customer::where('id',$id)->update($input['customerData']); //insert data into employees table
             $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
-//            echo "<pre>";print_r($input['customerData']);
             $implodeArr =  implode(",",array_keys($getResult));
-            
             if ($updateCustomer == 1) {
                 $create = CommonFunctions::insertMainTableRecords();
                 $input['customerData'] = array_merge($input['customerData'],$create);
@@ -164,37 +161,41 @@ class MasterSalesController extends Controller {
                 $input['customerData']['column_names'] = $implodeArr;
                 $input['customerData']['record_restore_status'] = 1;
                 CustomersLog::create($input['customerData']);   
-            }
-       //echo "<pre>";print_r($input);exit;
-            $i = 0;
+            }            
             if(!empty($input['customerContacts'])){
+                $i = 0;
                 foreach($input['customerContacts'] as $contacts){
                     if (!empty($contacts['mobile_number'])) {
                         $mobileNumber = explode("-", $contacts['mobile_number']);
                         $calling_code = (int) $mobileNumber[0];                        
-                        $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? $calling_code : '';
-                        $contacts['mobile_number'] = $mobileNumber[1];
+                        $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? $calling_code : NULL;
+                        $contacts['mobile_number'] = !empty($mobileNumber[1]) ? (int) $mobileNumber[1] : NULL;
                     }
                     if (!empty($contacts['landline_number'])) {
                         $landlineNumber = explode("-", $contacts['landline_number']);
                         $landline_calling_code = (int) $landlineNumber[0];
-                        $contacts['landline_calling_code'] =!empty($landlineNumber[1]) ?  $landline_calling_code : '';
-                        $contacts['landline_number'] = $landlineNumber[1];
+                        $contacts['landline_calling_code'] =!empty($landlineNumber[1]) ?  $landline_calling_code : NULL;
+                        $contacts['landline_number'] = !empty($landlineNumber[1]) ? (int) $landlineNumber[1] : NULL;
                     }
                     unset($contacts['$hashKey'],$contacts['index']);
-//                    $contacts = array_merge($contacts,$create);
-                    CustomersContact::where('id',$contacts['id'])->update($contacts); //insert data into customer_contacts table
-                    $create = CommonFunctions::insertMainTableRecords();
-                    $contacts = array_merge($contacts,$create);
-                    $getResult = array_diff_assoc($originalContactValues[$i]['attributes'], $contacts);
-                    $implodeArr =  implode(",",array_keys($getResult));
-                    echo $implodeArr;exit;  
-                    $contacts['main_record_id'] = $id;
-                    $contacts['record_type'] = 2;
-                    $contacts['column_names'] = $implodeArr;
-                    $contacts['record_restore_status'] = 1;
-                    CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
-                    $i++;
+                    $updateContact = CustomersContact::where('id',$contacts['id'])->update($contacts); //insert data into customer_contacts table
+                    if($updateContact == 1){
+                        echo $contacts['id']."<pre>";print_r($originalContactValues[$i]['attributes']);
+//                        print_r($contacts);
+                        $create = CommonFunctions::insertMainTableRecords();
+                        $contacts = array_merge($contacts,$create);
+                        $getResult = array_diff_assoc($originalContactValues[$i]['attributes'], $contacts);
+                        unset($getResult['created_date']);
+                        $implodeArr =  implode(",",array_keys($getResult));
+//                        echo $implodeArr; 
+                        
+                        $contacts['main_record_id'] = $originalContactValues[$i]['attributes']['id'];
+                        $contacts['record_type'] = 2;
+                        $contacts['column_names'] = $implodeArr;
+                        $contacts['record_restore_status'] = 1;
+                        CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
+                    }
+                    $i++;                     
                 }
             }
             

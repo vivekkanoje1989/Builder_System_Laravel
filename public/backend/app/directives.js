@@ -74,16 +74,24 @@ app.directive('getCustomerDetailsDirective', function ($timeout, $q, Data, $wind
             customerEmailId = $scope.searchData.searchWithEmail;
             if (model.$isEmpty(customerMobileNo) && model.$isEmpty(customerEmailId))
                 return $q.when();
-            
             return Data.post('master-sales/getCustomerDetails', {
                 data: {customerMobileNo: customerMobileNo,customerEmailId: customerEmailId},
             }).then(function (response) {
                 if(response.success){
-                    console.log(response.customerPersonalDetails[0]);
                     $scope.showDiv=true;
                     $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                     $scope.contacts = angular.copy(response.customerContactDetails);
                     $scope.contactData = angular.copy(response.customerContactDetails);
+                    for(var i=0; i < response.customerContactDetails.length; i++){
+                        if(response.customerContactDetails[i].mobile_calling_code !== null)
+                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code) + '-' + parseInt(response.customerContactDetails[i].mobile_number);
+                        else
+                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+                        if(response.customerContactDetails[i].landline_calling_code !== null){
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerContactDetails[i].landline_calling_code) + '-' + parseInt(response.customerContactDetails[i].landline_number);
+                        }else{
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';}
+                    }
                     $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
                     $scope.searchData.searchWithMobile = customerMobileNo;
                     $scope.searchData.searchWithEmail = customerEmailId;
@@ -91,16 +99,17 @@ app.directive('getCustomerDetailsDirective', function ($timeout, $q, Data, $wind
                 }
                 else{
                     $scope.showDiv=true;
-                    $window.sessionStorage.setItem("sessionContactData", "");
-                    $scope.contacts = [];
-//                    $scope.customerData = '';
+                    $scope.customerData = {};
+                    if($scope.searchData.searchWithMobile === undefined){
+                        $scope.searchData.searchWithMobile = '';
+                    }
+                    $scope.contacts = [{"mobile_number": '+91-' + $scope.searchData.searchWithMobile,"email_id":$scope.searchData.searchWithEmail}];
+                    $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
                     $scope.customerData.title_id = $scope.customerData.first_name = $scope.customerData.middle_name =
                     $scope.customerData.last_name = $scope.customerData.birth_date = 
                     $scope.customerData.marriage_date = $scope.customerData.monthly_income =
-                    $scope.customerData.source_description = $scope.customerData.subsource_id =
+                    $scope.customerData.source_description = $scope.customerData.source_id = $scope.customerData.subsource_id =
                     
-                    $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
-                    $scope.contactData.email_id_lable = $scope.contactData.address_type =
                     $scope.contactData.house_number = $scope.contactData.building_house_name =
                     $scope.contactData.wing_name = $scope.contactData.area_name =
                     $scope.contactData.lane_name = $scope.contactData.landmark =

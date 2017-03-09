@@ -284,7 +284,8 @@ class Employee extends Authenticatable
         return $rules;
     }
     
-    public static function doAction($input){           
+    public static function doAction($input){       
+        
         $input['userData']['department_id'] = implode(',', array_map(function($el) {
                 return $el['id'];
             }, $input['userData']['department_id']));        
@@ -304,10 +305,16 @@ class Employee extends Authenticatable
         $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
         $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
         $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : "";
-
+        
+        $input['userData']['personal_mobile_no1']= "+91-9856321473";
+        $input['userData']['personal_mobile_no2'] = "+91-9856321473";
+        $input['userData']['office_mobile_no'] = "+91-9856321473";
+        $input['userData']['landline_no'] = "+91-12625893";
+        
         $personalMobileNo1 = explode("-", $input['userData']['personal_mobile_no1']);
         $input['userData']['mobile1_calling_code'] = (int) $personalMobileNo1[0];
         $input['userData']['personal_mobile_no1'] = $personalMobileNo1[1];
+            
         
         if (!empty($input['userData']['personal_mobile_no2'])) {
             $personalMobileNo2 = explode("-", $input['userData']['personal_mobile_no2']);
@@ -325,8 +332,8 @@ class Employee extends Authenticatable
         if (!empty($input['userData']['landline_no'])) {            
             $landlineNo = explode("-", $input['userData']['landline_no']);
             $input['userData']['landline_calling_code'] = (int) $landlineNo[0];
-            $input['userData']['landline_calling_code'] =!empty($landlineNo[1]) ?  $input['userData']['landline_calling_code'] : NULL;
-            $input['userData']['landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] . $landlineNo[2] : '';
+            $input['userData']['landline_calling_code'] = !empty($landlineNo[1]) ?  (int) $landlineNo[0] : NULL;
+            $input['userData']['landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] : '';
         }
         
         $input['userData']['education_details'] = !empty($input['userData']['education_details']) ? $input['userData']['education_details'] : "";
