@@ -6,9 +6,24 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     Route::post($getUrl.'/cloudtelephony/manageLists', 'CloudTelephonyController@manageLists');
     Route::resource($getUrl.'/virtualnumber', 'VirtualNumberController');
     Route::post($getUrl.'/virtualnumber/manageLists', 'VirtualNumberController@manageLists');
-    Route::post($getUrl.'/virtualnumber/manageextLists', 'VirtualNumberController@manageextLists');
     Route::get($getUrl.'/getCttunetype', 'VirtualNumberController@getCttunetype');
     Route::get($getUrl.'/getCtforwardingtypes', 'VirtualNumberController@getCtforwardingtypes');
     Route::post($getUrl.'/virtualnumber/getEmployeelist', 'VirtualNumberController@getEmployeelist');
     Route::post($getUrl.'/virtualnumber/getSubsources', 'VirtualNumberController@getSubsources');
+    Route::resource($getUrl.'/extensionmenu', 'ExtensionMenuController');
+    Route::post($getUrl.'/extensionmenu/manageextLists', 'ExtensionMenuController@manageextLists');
+    Route::post($getUrl.'/extensionmenu/manageextUpdate', 'ExtensionMenuController@manageextUpdate');
+    Route::get($getUrl.'/getCttunetype', 'ExtensionMenuController@getCttunetype');
+    Route::get($getUrl.'/getCtforwardingtypes', 'ExtensionMenuController@getCtforwardingtypes');
+    Route::post($getUrl.'/extensionmenu/getEmployeelist', 'ExtensionMenuController@getEmployeelist');
+    Route::post($getUrl.'/extensionmenu/getSubsources', 'ExtensionMenuController@getSubsources');
+    
+    //Route::resource($getUrl.'/cloudcalling', 'CloudCallingController');
+    Route::get($getUrl.'/cloudcalling/agentnumbers', 'CloudCallingController@agentnumbers');
+    
+    
+    
+    
+    Route::get($getUrl.'/extensionmenu/{id}/viewData', 'ExtensionMenuController@viewData');
+    Route::get($getUrl.'/virtualnumber/{id}/existingUpdate', 'VirtualNumberController@existingUpdate');
 });	

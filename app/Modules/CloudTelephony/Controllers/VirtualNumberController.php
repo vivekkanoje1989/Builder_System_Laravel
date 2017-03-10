@@ -83,30 +83,53 @@ class VirtualNumberController extends Controller {
 	{
                 $validationMessages = CtSetting::validationMessages();
                 $validationRules = CtSetting::validationRules();
-//                $postdata = file_get_contents("php://input");
-//                $request = json_decode($postdata, true);
-                
-                $input = Input::all();
-                echo "<pre>";
-print_r($input);exit;
-//echo $request['data']['registrationData']['default_number'];exit;
-                
 
-                $validator = Validator::make($request['data']['vnumberData'], $validationRules,$validationMessages);
+                $input = Input::all();
+              
+
+                $validator = Validator::make($input['vnumberData'], $validationRules,$validationMessages);
                 
                 if ($validator->fails()) {
                     $result = ['success' => false, 'message' => $validator->messages()];
                     echo json_encode($result);
                     exit;
                 }
-                //echo $request['data']['registrationData']['id'];exit;
-                
-                if($request['data']['vnumberData']['id'] > 0 || !empty($request['data']['vnumberData']['id'])){
-                    //$fileName = time().'.'.$request['data']['vnumberData']['welcome_tune']->getClientOriginalExtension();
-                   // $request['data']['vnumberData']['welcome_tune']->move(base_path()."/common/tunes/", $fileName);
-                   // $request['data']['vnumberData']['welcome_tune'] = $fileName;
-                   // echo $request['data']['vnumberData']['welcome_tune'];exit;
-                    $status = CtSetting::updateStep1($request['data']['vnumberData']);
+                //echo '<pre>';print_r($input);exit;
+                if($input['vnumberData']['id'] > 0 || !empty($input['vnumberData']['id'])){
+                    if($input['vnumberData']['welcome_tune_type_id'] == 3){
+                        if(!empty($input['vnumberData']['welcome_tune_audio'])){
+                        $wfileName = 'welcome_tune'.date('Ymd').'.'.$input['vnumberData']['welcome_tune_audio']->getClientOriginalExtension();
+                        $input['vnumberData']['welcome_tune_audio']->move(base_path()."/common/tunes/", $wfileName);
+                        $input['vnumberData']['welcome_tune'] = $wfileName;
+                        }
+                    }elseif($input['vnumberData']['welcome_tune_type_id'] == 2){
+                        $input['vnumberData']['welcome_tune'] = $input['vnumberData']['welcome_tune'];
+                    }elseif($input['vnumberData']['welcome_tune_type_id'] == 1){
+                        $input['vnumberData']['welcome_tune'] = '';
+                    }
+                    if($input['vnumberData']['hold_tune_type_id'] == 3){
+                        if(!empty($input['vnumberData']['hold_tune_audio'])){
+                        $hfileName = 'hold_tune'.date('Ymd').'.'.$input['vnumberData']['hold_tune_audio']->getClientOriginalExtension();
+                        $input['vnumberData']['hold_tune_audio']->move(base_path()."/common/tunes/", $hfileName);
+                        $input['vnumberData']['hold_tune'] = $hfileName;
+                        }
+                    }elseif($input['vnumberData']['hold_tune_type_id'] == 2){
+                        $input['vnumberData']['hold_tune'] = $input['vnumberData']['hold_tune'];
+                    }elseif($input['vnumberData']['hold_tune_type_id'] == 1){
+                        $input['vnumberData']['hold_tune'] = '';
+                    }
+                    if($input['vnumberData']['nwh_welcome_tune_type_id'] == 3){
+                        if(!empty($input['vnumberData']['nwh_welcome_tune_audio'])){
+                        $nwhfileName = 'nwh_tune'.date('Ymd').'.'.$input['vnumberData']['nwh_welcome_tune_audio']->getClientOriginalExtension();
+                        $input['vnumberData']['nwh_welcome_tune_audio']->move(base_path()."/common/tunes/", $nwhfileName);
+                        $input['vnumberData']['nwh_welcome_tune'] = $nwhfileName;
+                        }
+                    }elseif($input['vnumberData']['nwh_welcome_tune_type_id'] == 2){
+                        $input['vnumberData']['nwh_welcome_tune'] = $input['vnumberData']['nwh_welcome_tune'];
+                    }elseif($input['vnumberData']['nwh_welcome_tune_type_id'] == 1){
+                        $input['vnumberData']['nwh_welcome_tune'] = '';
+                    }
+                    $status = CtSetting::updateStep1($input['vnumberData']);
                     $message = "Record Updated Successfully";
                 }
                 
@@ -115,7 +138,7 @@ print_r($input);exit;
                     $result = ['success' => true, 'message' => $message];
                     echo json_encode($result);
                 } else {
-                    $result = ['success' => false, 'message' => 'Number not register. Please try again'];
+                    $result = ['success' => false, 'message' => 'Something went wrong. Please try again'];
                     echo json_encode($result);
                 }
                 exit;
@@ -154,9 +177,56 @@ print_r($input);exit;
 	public function update($id)
 	{
 		//
-	}
+            $validationMessages = CtSetting::validationMessages();
+                $validationRules = CtSetting::validationRules();
 
-	/**
+                $input = Input::all();
+               // print_r($input);exit;
+                
+                if($input['vnumberData']['id'] > 0 || !empty($input['vnumberData']['id'])){
+                    if($input['vnumberData']['ec_welcome_tune_type_id'] == 3){
+                        if(!empty($input['vnumberData']['welcome_tune_audio'])){
+                        $wfileName = 'ecwelcome_tune'.date('Ymd').'.'.$input['vnumberData']['welcome_tune_audio']->getClientOriginalExtension();
+                        $input['vnumberData']['welcome_tune_audio']->move(base_path()."/common/tunes/", $wfileName);
+                        $input['vnumberData']['ec_welcome_tune'] = $wfileName;
+                        }
+                    }elseif($input['vnumberData']['ec_welcome_tune_type_id'] == 2){
+                        $input['vnumberData']['ec_welcome_tune'] = $input['vnumberData']['ec_welcome_tune'];
+                    }elseif($input['vnumberData']['ec_welcome_tune_type_id'] == 1){
+                        $input['vnumberData']['ec_welcome_tune'] = '';
+                    }
+                    if($input['vnumberData']['ec_hold_tune_type_id'] == 3){
+                        if(!empty($input['vnumberData']['hold_tune_audio'])){
+                        $hfileName = 'echold_tune'.date('Ymd').'.'.$input['vnumberData']['hold_tune_audio']->getClientOriginalExtension();
+                        $input['vnumberData']['hold_tune_audio']->move(base_path()."/common/tunes/", $hfileName);
+                        $input['vnumberData']['ec_hold_tune'] = $hfileName;
+                        }
+                    }elseif($input['vnumberData']['ec_hold_tune_type_id'] == 2){
+                        $input['vnumberData']['ec_hold_tune'] = $input['vnumberData']['ec_hold_tune'];
+                    }elseif($input['vnumberData']['hold_tune_type_id'] == 1){
+                        $input['vnumberData']['ec_hold_tune'] = '';
+                    }
+                    $status = CtSetting::updateStep2($input['vnumberData']);
+                    $message = "Record Updated Successfully";
+                }
+                
+                //insert data into database
+                if ($status==1) {
+                    $result = ['success' => true, 'message' => $message];
+                    echo json_encode($result);
+                } else {
+                    $result = ['success' => false, 'message' => 'Something went wrong. Please try again'];
+                    echo json_encode($result);
+                }
+                exit;
+	}
+        
+        public function existingUpdate($id)
+        {
+            return view("CloudTelephony::existingupdate")->with("id",$id);
+        }
+
+        /**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id

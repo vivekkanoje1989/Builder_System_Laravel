@@ -44,49 +44,99 @@ $scope.registrationNumber = function (registrationData) {
     };
     
     
-    $scope.updateVirtualNumber = function (vnumberData,welcomeTuneAudio) {
+    $scope.createExtNumber = function (extData1,welcomeTuneAudio,mscwelcomeTuneAudio,ct_settings_id) {
+        console.log(extData1);
+        $scope.submitted = true;
+            extData1.ct_settings_id = ct_settings_id;
+            //alert(extData1.id);return false;
+            if(extData1.id === '0')
+            {       
+                var url = getUrl+'/extensionmenu';
+                var data = {extData1: extData1, welcomeTuneAudio: welcomeTuneAudio, mscwelcomeTuneAudio: mscwelcomeTuneAudio};
+                welcomeTuneAudio.upload = Upload.upload({
+                    url: url,
+                    headers: {enctype: 'multipart/form-data'},
+                    data: data
+                }).then(function (response,evt) {
+                    $timeout(function () {
+                        $scope.manageextLists(extData1.ct_settings_id,'view');
+                        
+                        $scope.extData1 = {};
+                        $scope.extData1.msc_facility_status='0';
+                        $scope.extData1.msc_employee_type ='0';
+                        $scope.step2 = false;
+
+                        $('.alert-delay').delay(1000).fadeOut("slow");
+                        $state.go(getUrl+'.extensionMenu');
+                    });
+                });
+            }else{
+                var url = getUrl+'/extensionmenu/' + extData1.id;
+                var data = {_method: 'PUT', extData1: extData1, welcomeTuneAudio: welcomeTuneAudio, mscwelcomeTuneAudio: mscwelcomeTuneAudio};
+                welcomeTuneAudio.upload = Upload.upload({
+                    url: url,
+                    headers: {enctype: 'multipart/form-data'},
+                    data: data
+                }).then(function (response,evt) {
+                    $timeout(function () {
+                        $scope.manageextLists(extData1.ct_settings_id,'view');
+                        $scope.extData1 = {};
+                        $scope.extData1.msc_facility_status='0';
+                        $scope.extData1.msc_employee_type ='0';
+                        $scope.step2 = false;
+
+                        $('.alert-delay').delay(1000).fadeOut("slow");
+                        $state.go(getUrl+'.extensionMenu');
+                    });
+                });
+        }
+           
+       
+}
+    
+    
+    $scope.updateVirtualNumber = function (vnumberData,welcomeTuneAudio,holdTuneAudio) {
         console.log(vnumberData);
         console.log(welcomeTuneAudio);
-        //var date = new Date($scope.registrationData.activation_date);
-        //$scope.registrationData.activation_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+        console.log(holdTuneAudio);
+
         $scope.submitted = true;
-        //alert($scope.registrationData.joining_date);
-//        Data.post('virtualnumber', {
-//            data: {vnumberData: vnumberData},
-//        }).then(function (response,evt) {
-//            if (!response.success) {
-//                $scope.errorMsg = response.message;
-//            } else {
-//                
-//                $scope.vnumberData = {};
-//                $scope.step1 = false;
-//                $rootScope.alert('success', response.message);
-//                $('.alert-delay').delay(1000).fadeOut("slow");
-//                $timeout(function () {
-//                    $state.go(getUrl+'.vnumberUpdate');
-//                }, 1000);
-//                
-//                
-//            }
-//        });
-//          
-            //alert(welcome_tune);return false;
+     
             var url = getUrl+'/virtualnumber';
-            var data = {vnumberData: vnumberData, welcomeTuneAudio: welcomeTuneAudio};
+            var data = {vnumberData: vnumberData, welcomeTuneAudio: welcomeTuneAudio, holdTuneAudio:holdTuneAudio};
             welcomeTuneAudio.upload = Upload.upload({
-            url: url,
-            headers: {enctype: 'multipart/form-data'},
-            data: data
+                url: url,
+                headers: {enctype: 'multipart/form-data'},
+                data: data
+            }).then(function (response,evt) {
+                $timeout(function () {
+                    $state.go(getUrl+'.vnumberUpdate');
             });
             
-            welcomeTuneAudio.upload.then(function (response) {               
-            $timeout(function () {
-                $state.go(getUrl+'.vnumberUpdate');
+    });
+  }
+ 
+  
+  $scope.updateExisting = function (vnumberData,welcomeTuneAudio,holdTuneAudio) {
+        console.log(vnumberData);
+        console.log(welcomeTuneAudio);
+        console.log(holdTuneAudio);
+
+        $scope.submitted = true;
+            //alert(vnumberData.id);return false;
+            var url = getUrl+'/virtualnumber/'+vnumberData.id;
+            var data = {_method: 'PUT',vnumberData: vnumberData, welcomeTuneAudio: welcomeTuneAudio, holdTuneAudio:holdTuneAudio};
+            welcomeTuneAudio.upload = Upload.upload({
+                url: url,
+                headers: {enctype: 'multipart/form-data'},
+                data: data
+            }).then(function (response,evt) {
+                $timeout(function () {
+                    $state.go(getUrl+'.existingUpdate');
             });
-            }); 
-       
-    };
-    
+            
+    });
+}
     
     $scope.outboundStatus = function() {
         if($scope.registrationData.outbound_call_status == '0'){
@@ -199,6 +249,8 @@ $scope.registrationNumber = function (registrationData) {
                             });
                         }, 500);
                     }
+                }else if(action === 'existingedit'){
+                    $scope.registrationData = angular.copy(response.records.data[0]);
                 }else{
                     $scope.registrationData.id = id;
                 }
@@ -209,42 +261,62 @@ $scope.registrationNumber = function (registrationData) {
     };
     
     
-    $scope.manageextLists = function (menu_id,action) { //edit/index page
-        var cvn_id = $("#id").val();
-       // $scope.extData = {};
-        Data.post('virtualnumber/manageextLists',{
-            menu_id: menu_id,
-            cvn_id:cvn_id,
+    $scope.manageextLists = function (id,action) { 
+        Data.post('extensionmenu/manageextLists',{
+            id:id,
         }).then(function (response) {
             if (response.success) {
-                
                 console.log(response);
-                if(action === 'extmenulist'){
+                if(action === 'view'){
                     $scope.listNumbers = response.records.data;
                     $scope.listNumbersLength = response.records.total;
+                    $scope.virtualno = response.records.virtualno;
                     $scope.currentPage = 1;
                     $scope.itemsPerPage = 10;
+                    //$scope.msc_facility_status = 0;
                     //$scope.cvn_id = cvn_id;
                     
-                }
-                else if(action === 'extedit'){
-                    if(menu_id > 0 ){
-                        $scope.extData1 = angular.copy(response.records.data[0]);
-                        $scope.pageHeading = 'Edit Extension Menu';
-                        $scope.source_desc = angular.copy(response.records.data[0]['source_disc']);
-                        
-                        console.log(response.records);    
-                    
-                        
-                    }
-                }else{
-                    $scope.extData1.id = menu_id;
                 }
             } else {
                 $scope.errorMsg = response.message;
             }
         });
     };
+    
+    
+    $scope.manageextUpdate = function (id,action) { 
+        Data.post('extensionmenu/manageextUpdate',{
+            id:id,
+        }).then(function (response) {
+            if (response.success) {
+                console.log(response);
+                if(action === 'edit'){
+                      $scope.extData1 = angular.copy(response.records.data[0]);
+                      Data.post('extensionmenu/getEmployeelist',{
+                            ids: response.records.data[0]['employees'],
+                        }).then(function (response) {
+                            console.log(response.records);
+                            $scope.extData1.employees1 = response.records;
+                            //$scope.registrationData.msc_default_employee_id = response.records;
+                            //console.log($scope.registrationData.employees);
+                        });
+//                    $scope.listNumbers = response.records.data;
+//                    $scope.listNumbersLength = response.records.total;
+//                    $scope.virtualno = response.records.virtualno;
+//                    $scope.currentPage = 1;
+//                    $scope.itemsPerPage = 10;
+                    //$scope.msc_facility_status = 0;
+                    //$scope.cvn_id = cvn_id;
+                    
+                }
+            } else {
+                $scope.errorMsg = response.message;
+            }
+        });
+    };
+    
+    
+    
     
     $scope.getsubsource = function(source_id){
         $scope.enquirysubsources = {};

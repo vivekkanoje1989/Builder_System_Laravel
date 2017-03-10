@@ -24,8 +24,8 @@
             <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
                     <form novalidate role="form" name="customerForm" ng-submit="customerForm.$valid && createCustomer(customerData, customerData.image_file, contactData)">
-                        <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'" class="form-control">
-                        <input type="hidden" ng-model="searchData.customerId" name="customerId" id="custId" value="{{customerData.customerId}}" class="form-control">
+                        <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'">
+                        <input type="hidden" ng-model="searchData.customerId" name="customerId" id="custId" value="{{customerData.customerId}}">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">
                             <div class="col-lg-6 col-sm-6 col-xs-12">
                                 <div class="form-title">
@@ -162,14 +162,10 @@
                                             <label for="">Marriage Date</label>
                                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                                 <p class="input-group">
-                                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                    <div ng-show="formButton" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
-                                                        <div ng-message="required">Please select marriage date</div>
-                                                    </div>
-                                                    <div ng-if="marriage_date" class="errMsg marriage_date">{{marriage_date}}</div>
                                                 </p>
                                             </div>
                                         </div>
@@ -328,7 +324,7 @@
                         </div>
                         <hr class="wide col-lg-12 col-xs-12 col-md-12" ng-if="showDiv"/>
                         <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-                            <button type="submit" class="btn btn-primary" ng-click="formButton=true">Save & Continue</button>
+                            <button type="submit" class="btn btn-primary" ng-show="showDiv" ng-click="formButton=true">Save & Continue</button>
                         </div>
                     </form>
                 </div>

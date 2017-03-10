@@ -49,7 +49,8 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         };         
         $scope.editContactDetails = function (index) {
             $scope.contactData = $scope.contacts[index];
-            $scope.contactData.index=index;                          
+            $scope.contactData.index=index;          
+            $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
         }
         $scope.addRow = function (contactData) {
             if($scope.contactData.index === "" || typeof $scope.contactData.index === "undefined"){
@@ -87,7 +88,6 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 });         
             }
             sessionContactData = $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
-//            resetContactDetails();
             $scope.contactData = {};
             $scope.modalForm.$setPristine();
             $scope.modalForm.$setUntouched();
@@ -95,23 +95,23 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         };
         function resetContactDetails() {
             $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
-            $scope.contactData.email_id_lable = $scope.contactData.email_id = 
-            $scope.contactData.address_type = $scope.contactData.house_number = 
+            $scope.contactData.email_id_lable =  $scope.contactData.address_type = 1; 
+            $scope.contactData.email_id = $scope.contactData.house_number = 
             $scope.contactData.building_house_name = $scope.contactData.wing_name = 
             $scope.contactData.area_name = $scope.contactData.lane_name = 
             $scope.contactData.landmark = $scope.contactData.country_id = 
             $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
             $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
-            $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
-           
+            $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';           
         }
         $scope.initContactModal = function () {
+            $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
             resetContactDetails();
+            $scope.modalSbtBtn = false;
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
-            console.log(sessionContactData);
             if(sessionContactData === null || sessionContactData === ''){
                 $('#errContactDetails').text(" - Please add contact details");
                 return false;
@@ -124,7 +124,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             if (typeof customerPhoto === 'string' || typeof customerPhoto === 'undefined') {
                 customerPhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
-            if($scope.searchData.customerId === 0){
+            if($scope.searchData.customerId === 0 || $scope.searchData.customerId === ''){
                 var url = getUrl + '/master-sales';
                 var data = {customerData: customerData, image_file: customerPhoto, customerContacts: sessionContactData};
             }else{
@@ -175,7 +175,6 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 });
             }, function (response) {
                 if (response.status !== 200) {
-                    console.log(response.status);
                     $scope.errorMsg = "Something went wrong. Check your internet connection";
                 }
             }, function (evt, response) {});
@@ -185,4 +184,3 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             $scope.modal = {};
         }
     }]);
-

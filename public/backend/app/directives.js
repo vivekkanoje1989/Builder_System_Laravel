@@ -65,7 +65,7 @@ app.directive('checkLoginCredentials', function ($timeout, $q, Data) {
     }
 });
 
-app.directive('getCustomerDetailsDirective', function ($timeout, $q, Data, $window) {
+app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $window) {
     function link($scope, element, attributes, model) {
         model.$asyncValidators.customerInputs = function () {
             var customerMobileNo = '';
@@ -82,15 +82,19 @@ app.directive('getCustomerDetailsDirective', function ($timeout, $q, Data, $wind
                     $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                     $scope.contacts = angular.copy(response.customerContactDetails);
                     $scope.contactData = angular.copy(response.customerContactDetails);
+                    $scope.customerData.marriage_date = $scope.customerData.birth_date = $filter('date')(new Date(),'yyyy-MM-dd');
                     for(var i=0; i < response.customerContactDetails.length; i++){
-                        if(response.customerContactDetails[i].mobile_calling_code !== null)
-                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code) + '-' + parseInt(response.customerContactDetails[i].mobile_number);
-                        else
+                        if(response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === ''){
                             $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
-                        if(response.customerContactDetails[i].landline_calling_code !== null){
-                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerContactDetails[i].landline_calling_code) + '-' + parseInt(response.customerContactDetails[i].landline_number);
                         }else{
-                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';}
+                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code) + '-' + parseInt(response.customerContactDetails[i].mobile_number);}
+                        if(response.customerContactDetails[i].landline_calling_code === parseInt(0) || response.customerContactDetails[i].landline_calling_code === ''){ 
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+                        }else{
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerContactDetails[i].landline_calling_code) + '-' + parseInt(response.customerContactDetails[i].landline_number);
+                        }
+                        if(response.customerContactDetails[i].pin === 0)
+                            $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
                     }
                     $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
                     $scope.searchData.searchWithMobile = customerMobileNo;
@@ -99,11 +103,11 @@ app.directive('getCustomerDetailsDirective', function ($timeout, $q, Data, $wind
                 }
                 else{
                     $scope.showDiv=true;
-                    $scope.customerData = {};
                     if($scope.searchData.searchWithMobile === undefined){
                         $scope.searchData.searchWithMobile = '';
                     }
-                    $scope.contacts = [{"mobile_number": '+91-' + $scope.searchData.searchWithMobile,"email_id":$scope.searchData.searchWithEmail}];
+                    $scope.searchData.customerId = '';
+                    $scope.contacts = [{"mobile_number": '+91-' + $scope.searchData.searchWithMobile,"email_id_lable": 1, "email_id":$scope.searchData.searchWithEmail, "mobile_number_lable": 1, "landline_lable": 1, "landline_number": '+91-'}];
                     $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
                     $scope.customerData.title_id = $scope.customerData.first_name = $scope.customerData.middle_name =
                     $scope.customerData.last_name = $scope.customerData.birth_date = 

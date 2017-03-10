@@ -37,6 +37,14 @@ use App\Classes\CommonFunctions;
  * @property string $ec_welcome_tune
  * @property int $ec_hold_tune_type_id
  * @property string $ec_hold_tune
+ * @property bool $alert_to_enq_owner
+ * @property bool $open_enquiry_owner_emp_action
+ * @property bool $open_enquiry_other_emp_action
+ * @property bool $lost_enquiry_owner_emp_action
+ * @property bool $lost_enquiry_other_emp_action
+ * @property bool $read_cust_name
+ * @property bool $read_emp_name
+
  * @property int $nwh_status
  * @property \Carbon\Carbon $nwh_start_time
  * @property \Carbon\Carbon $nwh_end_time
@@ -60,8 +68,10 @@ use App\Classes\CommonFunctions;
 class CtSetting extends Eloquent
 {
 	public $timestamps = false;
+        
+        public $step = 1;
 
-	protected $casts = [
+        protected $casts = [
 		'ct_billing_settings_id' => 'int',
 		'client_id' => 'int',
 		'virtual_number' => 'int',
@@ -80,6 +90,13 @@ class CtSetting extends Eloquent
 		'ec_call_status' => 'bool',
 		'ec_welcome_tune_type_id' => 'int',
 		'ec_hold_tune_type_id' => 'int',
+                'alert_to_enq_owner' => 'bool',
+                'open_enquiry_owner_emp_action' => 'bool',
+                'open_enquiry_other_emp_action' => 'bool',
+                'lost_enquiry_owner_emp_action' => 'bool',
+                'lost_enquiry_other_emp_action' => 'bool',
+                'read_cust_name' => 'bool',
+                'read_emp_name' => 'bool',
 		'nwh_status' => 'int',
 		'nwh_welcome_tune_type_id' => 'int',
 		'nwh_call_insert_enquiry' => 'int',
@@ -94,8 +111,8 @@ class CtSetting extends Eloquent
 	];
 
 	protected $dates = [
-		'nwh_start_time',
-		'nwh_end_time',
+		//'nwh_start_time',
+		//'nwh_end_time',
 		'created_date',
 		'updated_date'
 	];
@@ -125,6 +142,13 @@ class CtSetting extends Eloquent
 		'ec_welcome_tune',
 		'ec_hold_tune_type_id',
 		'ec_hold_tune',
+                'alert_to_enq_owner',
+                'open_enquiry_owner_emp_action',
+                'open_enquiry_other_emp_action',
+                'lost_enquiry_owner_emp_action',
+                'lost_enquiry_other_emp_action',
+                'read_cust_name',
+                'read_emp_name',
 		'nwh_status',
 		'nwh_start_time',
 		'nwh_end_time',
@@ -145,7 +169,7 @@ class CtSetting extends Eloquent
 	];
         
         
-        public static function validationMessages(){
+    public static function validationMessages(){
         $messages = array(
             //'client_id.required' => 'Please select client',
             'virtual_number' =>['required' => 'Please enter viwelcomertual number', 'numeric' => 'Please enter only digits', 'max' => 'Virtual number must be 12 digits only'],
@@ -171,6 +195,7 @@ class CtSetting extends Eloquent
     }
     
     public static function updateStep1($input = array()) {
+       
         if(empty($input['default_number']))
             $input['default_number'] = 0;
         if(empty($input['menu_status']))
@@ -231,6 +256,28 @@ class CtSetting extends Eloquent
         
     }
     
+    
+    public static function updateStep2($input = array()) {
+        $affectedRows = CtSetting::where('id', '=', $input['id'])->update([
+            'ec_call_status' => $input['ec_call_status'],
+            'ec_welcome_tune_type_id' => $input['ec_welcome_tune_type_id'],
+            'ec_welcome_tune' => $input['ec_welcome_tune'],
+            'ec_hold_tune_type_id' => $input['ec_hold_tune_type_id'],
+            'ec_hold_tune' => $input['ec_hold_tune'],
+            'alert_to_enq_owner' => $input['alert_to_enq_owner'],
+            'open_enquiry_owner_emp_action' => $input['open_enquiry_owner_emp_action'],
+            'open_enquiry_other_emp_action' => $input['open_enquiry_other_emp_action'],
+            'lost_enquiry_owner_emp_action' => $input['lost_enquiry_owner_emp_action'],
+            'lost_enquiry_other_emp_action' => $input['lost_enquiry_other_emp_action'],
+            'updated_by' => Auth()->guard('admin')->user()->id,
+            'updated_date' => date('Y-m-d H:i:s'),
+            
+            ]);
+            CtSetting::ctsettingslogs2($input);
+        return true;
+        
+    }
+    
      public static function ctsettingslogs($input = array()) {
         
         $getMacAddress = CommonFunctions::getMacAddress();
@@ -240,6 +287,7 @@ class CtSetting extends Eloquent
         $loginMacId = empty($getMacAddress) ? "" : $getMacAddress;
         //$ip = $_SERVER['REMOTE_ADDR'];
         //$data = \Location::get("175.100.138.136");
+        
         if(empty($input['default_number']))
             $input['default_number'] = 0;
         if(empty($input['menu_status']))
@@ -256,7 +304,7 @@ class CtSetting extends Eloquent
         if(empty($input['missed_call_insert_enquiry']))
             $input['missed_call_insert_enquiry'] == 0;
         
-         $empcount = count($input['employees1']);
+        $empcount = count($input['employees1']);
         $employees='';
         $j= $empcount - 1;
         for($i=0;$i < $empcount;$i++){
@@ -265,6 +313,7 @@ class CtSetting extends Eloquent
             else
                 $employees .= $input['employees1'][$i]['id'];
         }
+        
         $stime = date('H:i:s',strtotime($input['nwh_start_time']));
         $etime = date('H:i:s',strtotime($input['nwh_end_time']));
         //echo $stime.' => '.$etime;exit;
@@ -289,6 +338,67 @@ class CtSetting extends Eloquent
             'missed_call_insert_enquiry' => $input['missed_call_insert_enquiry'],
             'msc_default_employee_id' => $input['msc_default_employee_id'][0]['id'],
             'employees' => $employees,
+            'ec_call_status' => $input['ec_call_status'],
+            'ec_welcome_tune_type_id' => $input['ec_welcome_tune_type_id'],
+            'ec_welcome_tune' => $input['ec_welcome_tune'],
+            'ec_hold_tune_type_id' => $input['ec_hold_tune_type_id'],
+            'ec_hold_tune' => $input['ec_hold_tune'],
+            'nwh_status' => $input['nwh_status'],
+            'nwh_start_time' => $stime,
+            'nwh_end_time' => $etime,
+            'nwh_welcome_tune_type_id' => $input['nwh_welcome_tune_type_id'],
+            'nwh_welcome_tune' => $input['nwh_welcome_tune'],
+            'nwh_call_insert_enquiry' => $input['nwh_call_insert_enquiry'],
+            'msc_employee_type' => $input['msc_employee_type'],
+
+            'msc_facility_status' => $input['msc_facility_status'],
+            'msc_welcome_tune_type_id' => $input['msc_welcome_tune_type_id'],
+            'msc_welcome_tune' => $input['msc_welcome_tune'],
+            'inbound_call_status' => $input['inbound_call_status'],
+            'outbound_call_status' => $input['outbound_call_status'],
+            
+            'created_by' => Auth()->guard('admin')->user()->id, 
+            'created_date' => date('Y-m-d'),
+            'created_IP' => $loginIP,
+            'created_browser' => $loginBrowser,
+            'created_mac_id' => $loginMacId,
+            'record_type' => 1,
+            'record_restore_status' => 1
+        ]);
+    }
+    
+    public static function ctsettingslogs2($input = array()) {
+        
+        $getMacAddress = CommonFunctions::getMacAddress();
+        $loginDateTime = date('Y-m-d H:i:s');
+        $loginIP = $_SERVER['REMOTE_ADDR'];
+        $loginBrowser = $_SERVER['HTTP_USER_AGENT'];
+        $loginMacId = empty($getMacAddress) ? "" : $getMacAddress;
+        
+        $stime = date('H:i:s',strtotime($input['nwh_start_time']));
+        $etime = date('H:i:s',strtotime($input['nwh_end_time']));
+        //echo $stime.' => '.$etime;exit;
+        CtSettingsLog::create([
+            'main_record_id' => $input['id'],
+            'client_id' => $input['client_id'],
+            'ct_billing_settings_id' => $input['ct_billing_settings_id'],
+            'virtual_number' => $input['virtual_number'],
+            'menu_status' => $input['menu_status'],            
+            'ivr_type_id' => $input['ivr_type_id'],
+            'welcome_tune_type_id' => $input['welcome_tune_type_id'],
+            'welcome_tune' => $input['welcome_tune'],
+            'hold_tune_type_id' => $input['hold_tune_type_id'],
+            'hold_tune' => $input['hold_tune'],
+            'forwarding_type_id' => $input['forwarding_type_id'],
+            'forwarding_time' => $input['forwarding_time'],
+            'source_id' => $input['source_id'],
+            'sub_source_id' => $input['sub_source_id'],
+            'source_disc' => $input['source_disc'],
+            'model_project_id' => $input['model_project_id'],
+            'insert_enquiry' => $input['insert_enquiry'],
+            'missed_call_insert_enquiry' => $input['missed_call_insert_enquiry'],
+            'msc_default_employee_id' => $input['msc_default_employee_id'],
+            'employees' => $input['employees'],
             'ec_call_status' => $input['ec_call_status'],
             'ec_welcome_tune_type_id' => $input['ec_welcome_tune_type_id'],
             'ec_welcome_tune' => $input['ec_welcome_tune'],

@@ -13,7 +13,7 @@
                                 <div id="registration-form">
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <div class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.client_id.$dirty || numberregistrationForm.client_id.$invalid)}">
+                                                <div class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.client_id.$dirty && numberregistrationForm.client_id.$invalid)}">
                                                     <label for="">Select Client <span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <select ng-controller="clientCtrl" ng-model="registrationData.client_id" name="client_id" class="form-control" required>
@@ -29,7 +29,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.virtual_number.$dirty || numberregistrationForm.virtual_number.$invalid)}">
+                                                <div class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.virtual_number.$dirty && numberregistrationForm.virtual_number.$invalid)}">
                                                     <label for="">Virtual Number <span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <input type="text" ng-model="registrationData.virtual_number" name="virtual_number" class="form-control" oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9 ]/g,'')" maxlength="10" required>
@@ -69,7 +69,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div ng-show="registrationData.incoming_call_status == '1'" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.incoming_pulse_duration.$dirty || numberregistrationForm.incoming_pulse_duration.$invalid)}">
+                                                <div ng-show="registrationData.incoming_call_status == '1'" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.incoming_pulse_duration.$dirty && numberregistrationForm.incoming_pulse_duration.$invalid)}">
                                                     <label for="">Incoming Pulse Duration (Seconds) <span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <select ng-model="registrationData.incoming_pulse_duration" name="incoming_pulse_duration"  class="form-control" required>
@@ -88,7 +88,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div ng-show="registrationData.incoming_call_status == '1'" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.incoming_pulse_rate.$dirty || numberregistrationForm.incoming_pulse_rate.$invalid)}">
+                                                <div ng-show="registrationData.incoming_call_status == '1'" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.incoming_pulse_rate.$dirty && numberregistrationForm.incoming_pulse_rate.$invalid)}">
                                                     <label for="">Incoming Pulse Rate (Paisa) <span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <input type="text" class="form-control" name="incoming_pulse_rate" ng-model="registrationData.incoming_pulse_rate" id="incomingPulseRate" placeholder="Incoming Pulse Rate" oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9 ]/g,'')" maxlength="3" required>
@@ -119,7 +119,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div ng-show="registrationData.outbound_call_status == '1'" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.outbound_pulse_duration.$dirty || numberregistrationForm.outbound_pulse_duration.$invalid)}">
+                                                <div ng-show="registrationData.outbound_call_status == '1'" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.outbound_pulse_duration.$dirty && numberregistrationForm.outbound_pulse_duration.$invalid)}">
                                                     <label for="">Outbound Pulse Duration (Seconds) <span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <select ng-model="registrationData.outbound_pulse_duration" name="outbound_pulse_duration"  class="form-control" ng-required="registrationData.outbound_call_status == '1'">
@@ -138,7 +138,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div ng-show="registrationData.outbound_call_status == '1'" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.outbound_pulse_rate.$dirty || numberregistrationForm.outbound_pulse_rate.$invalid)}">
+                                                <div ng-show="registrationData.outbound_call_status == '1'" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.outbound_pulse_rate.$dirty && numberregistrationForm.outbound_pulse_rate.$invalid)}">
                                                     <label for="">Outbound Pulse Rate (Paisa) <span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <input type="text" class="form-control" name="outbound_pulse_rate" ng-model="registrationData.outbound_pulse_rate" id="outboundPulseRate" placeholder="Outbound Pulse Rate" oninput="if (/[^0-9]/g.test(this.value)) this.value = this.value.replace(/[^0-9 ]/g,'')" maxlength="3" ng-required="registrationData.outbound_call_status == '1'">
@@ -153,7 +153,7 @@
                                         <div class="row">
                                              <div class="col-lg-4">
                                                  <label for="">Activation Date <span class="sp-err">*</span></label>
-                                                 <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.activation_date.$dirty  || numberregistrationForm.activation_date.$invalid)}">
+                                                 <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.activation_date.$dirty  && numberregistrationForm.activation_date.$invalid)}">
                                                     <p class="input-group">
                                                     <input type="text" class="form-control" ng-model="registrationData.activation_date" name="activation_date" id="activation_date" datepicker-popup="{{format}}" is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close"  required/>
                                                     <span class="input-group-btn">
@@ -167,7 +167,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.rent_duration.$dirty  || numberregistrationForm.rent_duration.$invalid)}">
+                                                <div class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.rent_duration.$dirty  && numberregistrationForm.rent_duration.$invalid)}">
                                                     <label for="">Rent Duration <span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <select ng-model="registrationData.rent_duration" name="rent_duration" id="rent_duration" class="form-control" required>
@@ -186,7 +186,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
-                                                <div class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.rent_amount.$dirty  || numberregistrationForm.rent_amount.$invalid)}">
+                                                <div class="form-group" ng-class="{ 'has-error' : step1 && (!numberregistrationForm.rent_amount.$dirty  && numberregistrationForm.rent_amount.$invalid)}">
                                                     <label for="">Rent Amount (Rs.)<span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
                                                         <input type="text" ng-model="registrationData.rent_amount" name="rent_amount" id="rent_amount" class="form-control" maxlength="3" required>
