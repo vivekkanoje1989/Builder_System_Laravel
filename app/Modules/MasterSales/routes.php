@@ -5,4 +5,5 @@ Route::group(array('module' => 'MasterSales', 'namespace' => 'App\Modules\Master
     
     Route::resource($getUrl.'/master-sales', 'MasterSalesController');
     Route::post($getUrl.'/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails');
+    Route::post($getUrl.'/master-sales/checkMobileExist', 'MasterSalesController@checkMobileExist');
 });	

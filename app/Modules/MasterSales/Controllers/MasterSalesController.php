@@ -255,7 +255,29 @@ class MasterSalesController extends Controller {
                 return json_encode($result);
             }
 	}
-        
+        public function checkMobileExist()
+        {
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            $id = $request['data']['id'];
+            $mobileNumber = $request['data']['mobileNumber'];
+            if (!empty($mobileNumber)) {
+                $explodeMobileNumber = explode("-", $mobileNumber);                  
+                $mobileNumber = (int) $explodeMobileNumber[1];
+            }
+            $checkMobile = CustomersContact::select('mobile_number')->where([
+                        ['mobile_number', '=', $mobileNumber],
+                        ['customer_id', '<>', $id],
+            ])->get();
+            $checkMobile = json_decode($checkMobile);
+            if (!empty($checkMobile[0]->mobile_number)) {
+                $result = ['success' => true];
+                return json_encode($result);
+            } else {
+                $result = ['success' => false];
+                return json_encode($result);
+            }
+        }
 }
 /*************************** EMPLOYEE PHOTO UPLOAD **********************************
             $imgRules = array(

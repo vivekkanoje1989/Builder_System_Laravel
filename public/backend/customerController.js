@@ -184,3 +184,23 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             $scope.modal = {};
         }
     }]);
+
+app.directive('checkMobileExist', function ($timeout, $q, Data) {
+    return {
+        restrict: 'AE',
+        require: 'ngModel',
+        link: function($scope, element, attributes, model) {
+            model.$asyncValidators.uniqueMobile = function(modelValue) {        
+                var mobileNumber = modelValue;
+                var customerId = $scope.searchData.customerId;        
+                return Data.post('master-sales/checkMobileExist',{
+                    data:{mobileNumber: mobileNumber,id:customerId},
+                }).then(function(response){
+                  $timeout(function(){
+                    model.$setValidity('uniqueMobile', !!response.success); 
+                  }, 1000);              
+                });                           
+            };
+        }
+    } 
+});
