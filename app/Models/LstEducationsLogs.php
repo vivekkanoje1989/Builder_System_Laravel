@@ -19,33 +19,34 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstBloodGroup extends Eloquent
+class LstEducationsLogs extends Eloquent
 {
-	protected $primaryKey = 'blood_group_id';
+	protected $primaryKey = 'education_id';
 	 protected $connection = 'masterdb';
-	 protected $table = 'lst_blood_groups';
+	
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'blood_group_id' => 'int'
+		'education_id' => 'int'
 	];
 
 	protected $fillable = [
-		'blood_group',
+		'education_id',
+               'education_title'
                 'created_date',
                 'created_at',
                 'created_by',
                 'created_IP',
                 'created_browser',
-                'created_mac_id',
-                'updated_date',
-                'updated_at',
-                'updated_by',
-                'updated_IP',
-                'updated_browser',
-                'updated_mac_id',
+                 'created_mac_id',
+                 'record_restore_status',
+                 'record_type',
+                 'column_names',
                 
+                  'main_record_id',
+            'record_restore_status',
+                'record_type'
 	];
 
     

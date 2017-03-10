@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 18 Jan 2017 09:04:39 +0000.
+ * Date: Tue, 10 Jan 2017 10:34:58 +0000.
  */
 
 namespace App\Models;
@@ -10,23 +10,23 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstEducation
+ * Class LstCountry
  * 
- * @property int $blood_group_id
- * @property string $blood_group
+ * @property int $country_id
+ * @property string $country_name
  *
  * @package App\Models
  */
-class LstEducation extends Eloquent
+class LstLocationTypes extends Eloquent
 {
-	protected $primaryKey = 'education_id';
-
-	protected $connection = 'masterdb';
-
+	protected $primaryKey = 'id';
+	 protected $connection = 'masterdb';
 	public $timestamps = false;
+    
 	protected $fillable = [
-		'education_title',
-                'education_id',
+                'id',
+                'location_type',
+                'status',
                 'created_date',
                 'created_at',
                 'created_by',
@@ -39,6 +39,5 @@ class LstEducation extends Eloquent
                 'updated_IP',
                 'updated_browser',
                 'updated_mac_id',
-            
 	];
 }

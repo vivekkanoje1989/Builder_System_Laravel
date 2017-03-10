@@ -280,8 +280,52 @@ class MasterHrController extends Controller {
     public function destroy($id) {
         //
     }
+    
+    /****************** END (Organization Chart) *********************/
+
+    public function orgchart() {
+        return view("MasterHr::chart");
+    }
+
+    public function getChartData() {
+        $input = Employee::whereIn('employee_status', [1, 2])
+                ->select('team_lead_id', 'designation', 'id', 'first_name', 'last_name', 'employee_status', 'emp_photo_url')
+                ->orderBy('team_lead_id')
+                ->get();
+        $data = array();
+        foreach ($input as $key => $team) {
+            $obj = Employee::where('id', $team['id'])
+                    ->whereIn('employee_status', [1, 2])
+                    ->select('team_lead_id', 'designation', 'id', 'first_name', 'last_name', 'employee_status', 'emp_photo_url')
+                    ->get();
+            if (!empty($obj)) {
+                $data[$key]['v'] = $obj[0]->id;
+                if (empty($team['emp_photo_url'])) {
+                    $team['emp_photo_url'] = 'http://icons.iconarchive.com/icons/alecive/flatwoken/96/Apps-User-Online-icon.png';
+                } else {
+                    $team['emp_photo_url'] = 'https://s3-ap-southeast-1.amazonaws.com/bmsbuilderdotin/admin_users/avatars/' . $team['emp_photo_url'];
+                }
+                if ($team['employee_status'] == 2) {
+                    $data[$key]['f'] = '<center><img src="' . $team['emp_photo_url'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:red">Temporary Suspended</b></div>';
+                } else {
+                    $data[$key]['f'] = '<center><img src="' . $team['emp_photo_url'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:Green">Active</b></div>';
+                }
+                $data[$key]['teamId'] = $team['team_lead_id'];
+                $data[$key]['designation'] = $team['designation'];
+            } else {
+                exit;
+            }
+        }
+        return $data;
+    }
+
+    /****************** END (Organization Chart) *********************/
+    
+    
     protected function guard()
     {
         return Auth::guard('admin');
     }
+    
+    
 }

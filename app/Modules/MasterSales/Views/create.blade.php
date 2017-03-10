@@ -17,7 +17,6 @@
     }
 </style>
 <div class="row">
-
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
@@ -361,7 +360,7 @@
                                             <div class="form-group">
                                                 <label for="">Mobile Number</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number" id="mobile_number" class="form-control" intl-Tel ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
+                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number" id="mobile_number" class="form-control" intl-Tel ng-pattern="/^(\+\d{1,4}-)\d{10}$/" check-mobile-exist required>
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
                                                 <div ng-show="modalSbtBtn" ng-messages="modalForm.mobile_number.$error" class="help-block">
@@ -416,9 +415,12 @@
                                             <div class="form-group">
                                                 <label for="">Email ID</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.email_id" name="email_id" class="form-control">
+                                                    <input type="text" ng-model="contactData.email_id" name="email_id" class="form-control" check-email-exist ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{ allowInvalid: true, debounce: 500 }">
                                                     <i class="glyphicon glyphicon-envelope"></i>
                                                 </span>
+                                                <div ng-show="modalSbtBtn" ng-messages="modalForm.email_id.$error" class="help-block">
+                                                    <div ng-message="pattern">Please enter valid email id</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

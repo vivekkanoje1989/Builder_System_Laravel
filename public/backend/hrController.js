@@ -231,4 +231,33 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             }
         });
     }
+    /****************** Organization Chart *********************/
+    $scope.showchartdata = function () {
+        google.charts.load('current', {packages: ["orgchart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Name');
+            data.addColumn('string', 'Manager');
+            data.addColumn('string', 'ToolTip');
+            Data.get('master-hr/getChartData', {
+                data: {},
+                async: false,
+            }).then(function (response) {
+               // console.log(response);
+                var arr = new Array();
+                var datalength = Object.keys(response).length;
+                for (var i = 0; i < datalength; i++)
+                {
+                    arr.push([{v: "'" + response[i]['v'] + "'", f: "'" + response[i]['f'] }, "'" + response[i]['teamId'] + "'", response[i]['designation']]);
+                }
+                data.addRows(arr);
+                // Create the chart.
+                var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+                // Draw the chart, setting the allowHtml option to true for the tooltips.
+                chart.draw(data, {allowHtml: true});
+            });
+        }
+    }
+    /****************** Organization Chart *********************/
 }]);

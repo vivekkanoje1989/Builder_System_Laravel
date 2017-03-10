@@ -1,0 +1,4 @@
+<?php
+ /**
+ *	BmsLists Helper  
+ */
