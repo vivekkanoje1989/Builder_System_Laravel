@@ -165,6 +165,79 @@ angular.module('app')
                     ]
                 }
             })
+		/* ********************** uma ******************** */
+	 .state(getUrl+'.portalIndex', {
+                    url: '/portals/index',
+                    templateUrl: getUrl+'/propertyportals/',
+                    controller: 'propertyPortalsController',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Property Portals'
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [                                        
+                                        '/backend/propertyPortalsController.js',
+                                    ]
+                                });
+                            }
+                        ]
+                    }
+                })
+                .state(getUrl+'.portalAccounts', {
+                    url: '/portalaccounts/:portalTypeId',
+                    templateUrl:  function (stateParams){
+                        return getUrl+'/propertyportals/' + stateParams.portalTypeId + '/showAccounts' ;
+                    },
+                    controller: 'propertyPortalsController',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Manage Portal Accounts',
+                        description: ''
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load(['ui.select',{
+                                    serie: true,
+                                    files: [
+                                         '/backend/propertyPortalsController.js',
+                                    ]
+                                }]);
+                            }
+                        ]
+                    }
+                })
+                .state(getUrl+'.createPortalAccounts', {
+                    url: '/createpropertyportals/:portalTypeId',
+                    templateUrl:  function (stateParams){
+                        return getUrl+'/propertyportals/' + stateParams.portalTypeId + '/createAccount' ;
+                    },
+                    controller: 'propertyPortalsController',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Add Portal Accounts',
+                        description: ''
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load(['ui.select',{
+                                    serie: true,
+                                    files: [
+                                         '/backend/propertyPortalsController.js',
+                                    ]
+                                }]);
+                            }
+                        ]
+                    }
+                }) 
             /****************************MANDAR*********************************/
             .state(getUrl + '.cloudtelephony', {
                 url: '/cloudtelephony/create',

@@ -5,5 +5,6 @@ return [
         "MasterSales",
         "CloudTelephony",
         "BmsLists",
+        "PropertyPortals",
     ),
 ];

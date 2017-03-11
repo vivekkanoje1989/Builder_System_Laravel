@@ -146,6 +146,18 @@ app.controller('departmentCtrl', function ($scope, Data, $timeout) {
         }, 3000);
     }
 });
+app.controller('assignEmployeeCtrl', function ($scope, Data, $timeout) {
+     $scope.employeeList = [];
+    $timeout(function () {
+        Data.get('getEmployees').then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.employeeList = response.records;
+            }
+        });
+    }, 3000);
+});
 app.controller('educationListCtrl', function ($scope, Data) {
     Data.get('getEducationList').then(function (response) {
         if (!response.success) {
