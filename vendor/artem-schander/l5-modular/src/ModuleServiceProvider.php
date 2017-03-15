@@ -12,15 +12,21 @@ class ModuleServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function boot() {
-
+	public function boot() 
+	{
 		if(is_dir(app_path().'/Modules/')) {
 			$modules = config("modules.enable") ?: array_map('class_basename', $this->files->directories(app_path().'/Modules/'));
-			foreach($modules as $module)  {
+			foreach($modules as $module) {
 				// Allow routes to be cached
 				if (!$this->app->routesAreCached()) {
-					$routes = app_path() . '/Modules/' . $module . '/routes.php';
-					if($this->files->exists($routes)) include $routes;
+					$route_files = [
+						app_path() . '/Modules/' . $module . '/routes.php',
+						app_path() . '/Modules/' . $module . '/routes/web.php',
+						app_path() . '/Modules/' . $module . '/routes/api.php',
+					];
+					foreach ($route_files as $route_file) {
+						if($this->files->exists($route_file)) include $route_file;
+					}
 				}
 				$helper = app_path().'/Modules/'.$module.'/helper.php';
 				$views  = app_path().'/Modules/'.$module.'/Views';
@@ -39,8 +45,8 @@ class ModuleServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function register() {
-
+	public function register() 
+	{
 		$this->files = new Filesystem;
 		$this->registerMakeCommand();
 	}
@@ -50,8 +56,8 @@ class ModuleServiceProvider extends ServiceProvider {
 	 *
 	 * @return Console\ModuleMakeCommand
 	 */
-	protected function registerMakeCommand() {
-
+	protected function registerMakeCommand() 
+	{
 		$this->commands('modules.make');
 		
 		$bind_method = method_exists($this->app, 'bindShared') ? 'bindShared' : 'singleton';

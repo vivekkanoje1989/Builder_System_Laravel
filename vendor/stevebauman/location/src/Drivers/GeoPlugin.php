@@ -20,10 +20,6 @@ class GeoPlugin extends Driver
      */
     protected function hydrate(Position $position, Fluent $location)
     {
-//        echo "<pre>";print_r($location);
-//        $geocodeFromLatlon = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.$location->geoplugin_latitude.','.$location->geoplugin_longitude.'&sensor=true_or_false');
-//        $output2 = json_decode($geocodeFromLatlon);
-//        echo "<pre>";print_r($geocodeFromLatlon);
         $position->countryCode = $location->geoplugin_countryCode;
         $position->countryName = $location->geoplugin_countryName;
         $position->regionName = $location->geoplugin_regionName;

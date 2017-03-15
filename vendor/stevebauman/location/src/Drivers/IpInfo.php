@@ -20,13 +20,11 @@ class IpInfo extends Driver
      */
     protected function hydrate(Position $position, Fluent $location)
     {
-        echo "<pre>";print_r($location);
         $position->countryCode = $location->country;
         $position->regionName = $location->region;
         $position->cityName = $location->city;
         $position->zipCode = $location->postal;
-        $position->ip = $location->ip;
-        $position->ISP = $location->org;
+
         if ($location->loc) {
             $coords = explode(',', $location->loc);
 

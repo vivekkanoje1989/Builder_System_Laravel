@@ -7,6 +7,13 @@ use Symfony\Component\Console\Input\InputArgument;
 class ModuleMakeCommand extends GeneratorCommand {
 
 	/**
+	 * Laravel version
+	 *
+	 * @var string
+	 */
+	protected $version;
+
+	/**
 	 * The console command name.
 	 *
 	 * @var string
@@ -42,6 +49,10 @@ class ModuleMakeCommand extends GeneratorCommand {
 	 */
 	public function fire()
 	{
+
+		$app = app();
+		$this->version = (int) str_replace('.', '', $app->version());
+
 		// check if module exists
 		if($this->files->exists(app_path().'/Modules/'.$this->getNameInput())) 
 			return $this->error($this->type.' already exists!');
@@ -54,24 +65,35 @@ class ModuleMakeCommand extends GeneratorCommand {
 
 		// Create Views folder
 		$this->generate('view');
-		
+
 		//Flag for no translation
 		if ( ! $this->option('no-translation')) // Create Translations folder
 			$this->generate('translation');
 
-		// Create Routes file
-		$this->generate('routes');
+		if ($this->version < 530) {
+
+			// Create Routes file
+			$this->generate('routes');
+
+		} else {
+
+			// Create WEB Routes file
+			$this->generate('web');
+			
+			// Create API Routes file
+			$this->generate('api');
+		}
 		
 		// Create Helper file
 		$this->generate('helper');
 
 
 
+		if ( ! $this->option('no-migration')) {
 
-
-		if ( ! $this->option('no-migration'))
-		{
-			$table = str_plural(snake_case(class_basename($this->argument('name'))));
+			// without hacky studly_case function 
+			// foo-bar results in foo-bar and not in foo_bar
+			$table = str_plural(snake_case(studly_case($this->getNameInput())));
 			$this->call('make:migration', ['name' => "create_{$table}_table", '--create' => $table]);
 		}
 
@@ -79,15 +101,15 @@ class ModuleMakeCommand extends GeneratorCommand {
 	}
 
 
-	protected function generate($type) {
-
+	protected function generate($type) 
+	{
 		switch ($type) {
 			case 'controller':
-				$filename = studly_case(class_basename($this->getNameInput()).ucfirst($type));
+				$filename = studly_case($this->getNameInput()).ucfirst($type);
 				break;
 
 			case 'model':
-				$filename = studly_case(class_basename($this->getNameInput()));
+				$filename = studly_case($this->getNameInput());
 				break;
 
 			case 'view':
@@ -101,17 +123,29 @@ class ModuleMakeCommand extends GeneratorCommand {
 			case 'routes':
 				$filename = 'routes';
 				break;
+
+			case 'web':
+				$filename = 'web';
+				$folder = 'routes\\';
+				break;
+
+			case 'api':
+				$filename = 'api';
+				$folder = 'routes\\';
+				break;
 				
 			case 'helper':
 				$filename = 'helper';
 				break;
 		}
 
-		// $suffix = ($type == 'controller') ? ucfirst($type) : '';
-		$folder = ($type != 'routes' && $type != 'helper') ? ucfirst($type).'s\\'. ($type === 'translation' ? 'en\\':'') : '';
+		if( ! isset($folder)) 
+			$folder = ($type != 'routes' && $type != 'helper') ? ucfirst($type).'s\\'. ($type === 'translation' ? 'en\\':'') : '';
 
-		$name = $this->parseName('Modules\\'.studly_case(ucfirst($this->getNameInput())).'\\'.$folder.$filename);
-		if ($this->files->exists($path = $this->getPath($name))) 
+		$qualifyClass = method_exists($this, 'qualifyClass') ? 'qualifyClass' : 'parseName';
+		$name = $this->$qualifyClass('Modules\\'.studly_case(ucfirst($this->getNameInput())).'\\'.$folder.$filename);
+
+		if ($this->files->exists($path = $this->getPath($name)))
 			return $this->error($this->type.' already exists!');
 
 		$this->currentStub = __DIR__.'/stubs/'.$type.'.stub';
@@ -128,6 +162,7 @@ class ModuleMakeCommand extends GeneratorCommand {
 	 */
 	protected function getNamespace($name)
 	{
+		$name = str_replace('\\routes\\', '\\', $name);
 		return trim(implode('\\', array_map('ucfirst', array_slice(explode('\\', studly_case($name)), 0, -1))), '\\');
 	}
 

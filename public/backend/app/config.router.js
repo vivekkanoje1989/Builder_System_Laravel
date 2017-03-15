@@ -165,6 +165,158 @@ angular.module('app')
                     ]
                 }
             })
+            /****************************UMA************************************/
+             .state(getUrl+'.portalIndex', {
+                    url: '/portals/index',
+                    templateUrl: getUrl+'/propertyportals/',
+                    controller: 'propertyPortalsController',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Property Portals'
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [                                        
+                                        '/backend/propertyPortalsController.js',
+                                    ]
+                                });
+                            }
+                        ]
+                    }
+                })
+                .state(getUrl+'.portalAccounts', {
+                    url: '/portalaccounts/:portalTypeId',
+                    templateUrl:  function (stateParams){
+                        return getUrl+'/propertyportals/' + stateParams.portalTypeId + '/showAccounts' ;
+                    },
+                    controller: 'propertyPortalsController',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Manage Portal Accounts',
+                        description: ''
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load(['ui.select',{
+                                    serie: true,
+                                    files: [
+                                         '/backend/propertyPortalsController.js',
+                                    ]
+                                }]);
+                            }
+                        ]
+                    }
+                })
+                .state(getUrl+'.createPortalAccounts', {
+                    url: '/createpropertyportals/:portalTypeId',
+                    templateUrl:  function (stateParams){
+                        return getUrl+'/propertyportals/' + stateParams.portalTypeId + '/createAccount' ;
+                    },
+                    controller: 'propertyPortalsController',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Add Portal Accounts',
+                        description: ''
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load(['ui.select',{
+                                    serie: true,
+                                    files: [
+                                         '/backend/propertyPortalsController.js',
+                                    ]
+                                }]);
+                            }
+                        ]
+                    }
+                }) 
+                .state(getUrl + '.portalupdate', {
+                url: '/propertyportals/updatePortalAccount/:portaltypeId/:accountId',
+                templateUrl: function (stateParams) {
+                    return getUrl + '/propertyportals/' + stateParams.portaltypeId + '/'+stateParams.accountId+'/updatePortalAccount';
+                },
+                controller: 'propertyPortalsController',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Edit Portal Account',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['ui.select', {
+                                    serie: true,
+                                    files: [
+                                        '/backend/propertyPortalsController.js',
+                                    ]
+                                }]);
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.contentPagesIndex', {
+                url: '/website_settings/contentpages',
+                templateUrl: getUrl + '/website_settings/getIndex',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Content Management',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/websiteSettingsController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.contentPagesUpdate', {
+                url: '/contentpages/:page_id',
+                templateUrl: function(stateParams){
+                    return getUrl + '/website_settings/' + stateParams.page_id + '/updateContentPage';
+                },
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Content Management',
+                    description: ''
+                },
+                resolve: {
+                deps: [
+                        '$ocLazyLoad',
+                        function($ocLazyLoad) {
+                        return $ocLazyLoad.load(['textAngular']).then(
+                                function() {
+                                return $ocLazyLoad.load(
+                                {
+                                serie: true,
+                                        files: [
+                                            '/backend/app/controllers/textangular.js',
+                                            '/backend/websiteSettingsController.js',
+                                             '/backend/app/controllers/select.js',
+                                        ]
+                                });
+                                }
+                            );
+                        }
+                    ]
+                }
+            })
+            /****************************UMA************************************/
             /****************************MANDAR*********************************/
             .state(getUrl + '.cloudtelephony', {
                 url: '/cloudtelephony/create',
@@ -716,6 +868,156 @@ angular.module('app')
                     ]
                 }
             })
+            .state(getUrl+'.contactUsIndex', {
+                    url: '/website_settings/contactus',
+                    templateUrl: getUrl+'/website_settings/contactus',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Manage Office Addresses'
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [                                        
+                                        '/backend/websiteSettingsController.js',
+                                         '/backend/app/controllers/accordion.js',
+                                           '/backend/app/controllers/tab.js'
+                                    ]
+                                });
+                            }
+                        ]
+                    }
+                })
+                .state(getUrl+'.socialwebIndex', {
+                    url: '/website_settings/socialweb',
+                    templateUrl: getUrl+'/website_settings/socialweb',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Manage Office Addresses'
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [                                        
+                                        '/backend/websiteSettingsController.js',
+                                         '/backend/app/controllers/accordion.js',
+                                           '/backend/app/controllers/tab.js'
+                                    ]
+                                });
+                            }
+                        ]
+                    }
+                })
+                .state(getUrl+'.autoWebEnquiries', {
+                    url: '/assign_web_enquiries/index',
+                    templateUrl: getUrl+'/assign_web_enquiries/index',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Manage auto assign web enquiries'
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [                                        
+                                        '/backend/bmsSettingsController.js',
+                                         '/backend/app/controllers/accordion.js',
+                                           '/backend/app/controllers/tab.js'
+                                    ]
+                                });
+                            }
+                        ]
+                    }
+                })
+                 .state(getUrl+'.blogIndex', {
+                    url: '/website_settings/index',
+                    templateUrl: getUrl+'/website_settings/blogIndex',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Manage Blogs'
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [                                        
+                                        '/backend/websiteSettingsController.js',
+                                         '/backend/app/controllers/accordion.js',
+                                           '/backend/app/controllers/tab.js'
+                                    ]
+                                });
+                            }
+                        ]
+                    }
+                })
+                 .state(getUrl+'.createBlog', {
+                    url: '/website_settings/create',
+                    templateUrl: getUrl+'/website_settings/blogCreate',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Create blog',
+                        description: ''
+                    },
+                     resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['textAngular']).then(
+                                        function() {
+                                            return $ocLazyLoad.load(
+                                            {
+                                                serie: true,
+                                                files: [
+                                                     '/backend/app/controllers/textangular.js',
+                                                     '/backend/websiteSettingsController.js',
+                                                ]
+                                            });
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                })
+                 .state(getUrl+'.blogUpdate', {
+                    url: '/website_settings/update/:blogId',
+                    templateUrl:  function (stateParams){
+                        return getUrl+'/website_settings/' + stateParams.blogId + '/edit';
+                    },
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Edit User',
+                        description: ''
+                    },
+                    resolve: {
+                            deps: [
+                                '$ocLazyLoad',
+                                function($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['textAngular']).then(
+                                        function() {
+                                            return $ocLazyLoad.load(
+                                            {
+                                                serie: true,
+                                                files: [
+                                                     '/backend/app/controllers/textangular.js',
+                                                     '/backend/websiteSettingsController.js',
+                                                ]
+                                            });
+                                        }
+                                    );
+                                }
+                            ]
+                        }
+                })
 
             /****************************MANOJ*********************************/
             .state('persian', {

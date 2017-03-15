@@ -29,7 +29,7 @@ class MasterHrController extends Controller {
         $manageUsers = [];
         
         if(!empty($request['empId']) && $request['empId'] !== "0"){ // for edit
-            $manageUsers = DB::select('CALL proc_manage_users(1,'.$request["empId"].')');
+            $manageUsers = DB::select('CALL proc_manage_users(1,'.$request["empId"].')');            
         }else if($request['empId'] === ""){ // for index
         $manageUsers = DB::select('CALL proc_manage_users(0,0)');
 //            $manageUsers = Employee::leftjoin('new_builder_master.lst_departments as dept', 'employees.department_id', '=', 'dept.id')
@@ -39,7 +39,6 @@ class MasterHrController extends Controller {
 //            ->get();
             
             foreach($manageUsers as $user){
-                
                 $getDeptName = array();
                 $dept = LstDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
                 for($i=0;$i<count($dept);$i++)
@@ -212,7 +211,18 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRules();
         $validationRules['email'] = 'required|email|unique:employees,email,' . $id . '';    
         $validationRules['password'] = '';
-        $input = Input::all();
+        
+        $postdata = file_get_contents("php://input");
+        $input  = json_decode($postdata, true);
+        
+        if(empty($input)){
+            $input = Input::all();
+        }
+        
+        
+//        $input = Input::all();
+        echo "<pre>";print_r($input);
+        exit;
         $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
         if ($validator->fails()) {
             $result = ['success' => false, 'message' => $validator->messages()];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\backend;
 
+use Auth;
 use App\Http\Controllers\Controller;
 use App\Classes\MenuItems;
 use App\Models\backend\Employee;
@@ -20,8 +21,9 @@ use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
 use App\Models\LstProfession;
 use Illuminate\Http\Request;
-use Auth;
 use App\Classes\Gupshup;
+use App\Models\ContentPage;
+use App\Models\PropertyPortalsType;
 
 class AdminController extends Controller {
 
@@ -45,6 +47,11 @@ class AdminController extends Controller {
 
     public function dashboard() {
         
+        /*$data = ["fileName" => "bulkMobileNumbers1.xls", "sendingType" => 1, "textSmsBody" => "send msg in bulk", "smsType" => "bulk_sms"];
+        $result = Gupshup::sendBulkSMS($data);
+        $decodeResult = json_decode($result,true);
+        return $decodeResult["message"];
+        */
         /*$smsBody = "Hello bms";
         $mobileNo = 917709026395;//9970844335;
         $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -281,12 +288,33 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-
-    protected function guard() {
-        return Auth::guard('admin');
+    /****************************UMA************************************/
+    public function getcotentPageList()
+    {
+       $getpages = ContentPage::all();
+       if (!empty($getpages)) {
+           $result = ['success' => true, 'records' => $getpages];
+           return json_encode($result);
+       } else {
+           $result = ['success' => false, 'message' => 'Something went wrong'];
+           return json_encode($result);
+       }
     }
-
-    /*     * **************************MANDAR******************************** */
+    public function getPropertyPortalType(){
+       $getPropertyPortal = PropertyPortalsType::all();
+       if(!empty($getPropertyPortal))
+       {
+           $result = ['success' => true, 'records' => $getPropertyPortal];
+           return json_encode($result);
+       }
+       else
+       {
+           $result = ['success' => false,'message' => 'Something went wrong'];
+           return json_encode($result);
+       }
+   }
+   /****************************UMA************************************/
+    /***************************MANDAR*********************************/
 
     public function getEmployees() {
         $getEmployees = Employee::select('id', 'first_name')->where("client_id", 1)->get();
@@ -332,5 +360,9 @@ class AdminController extends Controller {
         }
     }
 
-    /*     * **************************MANDAR******************************** */
+    /***************************MANDAR*********************************/
+    
+    protected function guard() {
+        return Auth::guard('admin');
+    }
 }

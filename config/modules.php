@@ -5,5 +5,8 @@ return [
         "MasterSales",
         "CloudTelephony",
         "BmsLists",
+        "PropertyPortals",
+        "WebsiteSettings",
+        "AssignWebEnquiries",
     ),
 ];

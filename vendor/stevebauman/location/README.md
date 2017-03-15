@@ -22,11 +22,11 @@ Add the service provider in `config/app.php`:
 
 Add the alias in your `config/app.php` file:
 
-	'Location' => 'Stevebauman\Location\Facades\Location',
+	'Location' => Stevebauman\Location\Facades\Location::class,
 
 Publish the config file:
 
-    php artisan vendor:publish
+    php artisan vendor:publish --provider="Stevebauman\Location\LocationServiceProvider"
 
 ## Upgrading
 
@@ -37,19 +37,24 @@ If you're upgrading from `v1.*`, there's some changes to be aware of:
 - `Location::is()` Removed
 - Second parameter in `Location::get()` removed: Was `Location::get($ip, $field)`, now `Location::get($ip)`
 - `Location::getConfig()` Removed
+- `Stevebauman\Location\Drivers\DriverInterface` has been removed
 - Configuration completely reworked, you will need to republish your configuration file
 
 ## Usage
 
 #### Retrieving a users location:
 
-    // Returns instance of Stevebauman\Location\Position
+```php
+$position = Location::get();
 
-    $position = Location::get();
+// Returns instance of Stevebauman\Location\Position
+```
 
 #### Retrieving a users location with a specific IP address:
 
-    $position = Location::get('192.168.1.1');
+```php
+$position = Location::get('192.168.1.1');
+```
 
 ## Drivers
 

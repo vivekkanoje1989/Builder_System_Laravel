@@ -7,8 +7,10 @@ use App\Models\Credit;
 use App\Models\EmailPassword;
 use App\Models\SmsLog;
 use App\Models\SystemConfig;
+use App\Models\EmailLog;
 use DB;
 use App\Mail\MailConfig;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Gupshup {
 
@@ -69,7 +71,7 @@ class Gupshup {
                         $curl_scraped_page = curl_exec($ch);
                         curl_close($ch);
 
-                        $curl_scraped_page = "success | 917709026395 | 3270637570192393521-331166354051551677";
+                        //$curl_scraped_page = "success | 917709026395 | 3270637570192393521-331166354051551677";
                         $result = @explode('|', $curl_scraped_page);
                         if ($result[0] == 'success ') {
                             $totalChar = strlen($smsBody);
@@ -135,8 +137,8 @@ class Gupshup {
                             return json_encode($result);
                         }
                     } else {
-                        $userName = 'support@edynamics.co.in';
-                        $password = 'edsupport@2016#';
+                        $userName = "support@edynamics.co.in";
+                        $password = "edsupport@2016#";
                         $mailBody = "Your SMS creadit limit is over , So Please recharge your account " . "<br><br>" . "Thank You!";
                         $companyName = config('global.companyName');
                         $subject = "Mail subject";
@@ -167,7 +169,6 @@ class Gupshup {
     }
     
     public static function sendBulkSMS($data) {
-           
         try{
             $rootPath = config('global.rootPath');            
             $loggedInUserId = Auth::guard('admin')->user()->id;  
@@ -188,33 +189,33 @@ class Gupshup {
                 $bulkSms = '1';
                 $file = $rootPath ."/". $fileName;
                 if ($data['smsType'] == 'bulk_sms') {
-                    if (!empty($data['fileName'])) {                        
-                        Excel::load($file, function ($reader)
+                    if (!empty($data['fileName'])) {           
+                        $excel = Excel::load($file)->all()->toArray();
+                        $count = 0;
+                        $mobileNumArray = array();
+                        for ($i=0; $i < count($excel); $i++)
                         {
-                            $count = 0;
-                            $mobileNumArray = array();
-                            $validFile = false;
-                            foreach ($reader->toArray() as $row)
-                            {
-                                $num = $row['phone'];
-                                if ($num != "") {
-                                    if (is_numeric($num)) {
-                                        $mobileNumArray[] = $num;
-                                        $count++;
-                                    }
-                                }
-                                if (!is_numeric($num) && $num == 'PHONE') {
-                                    $validFile = true;
-                                }
-                                if (!$validFile){
-                                    return 'Status 108 - Unable to process request, Invalid file or file not readable.';
+                            $num =  $excel[$i]['phone'] ;
+                            if ($num != "") {
+                                if (is_numeric($num)) {
+                                    $mobileNumArray[] = $num;
+                                    $count++;
                                 }
                             }
-                            if ($count > 50000)
-                                return 'Status 109 - Request maximum 50,000 mobile number\'s in excel sheet.';
-                        });
+                            if (!is_numeric($num)) {
+                                $validFile = false;
+                                $result = ["success" => false, "status" => 509, "message" => "Unable to process request, Invalid file or file not readable."];
+                                return json_encode($result);
+                            }
+                        }
+                        if ($count > 50000){
+                            $result = ["success" => false, "status" => 412, "message" => "Request maximum 50,000 mobile number\'s in excel sheet."];
+                            return json_encode($result);
+                        }
+                        
                     } else {
-                        return '106 - File not found, Please try again.';
+                        $result = ["success" => false, "status" => 404, "message" => "File not found, Please try again."];
+                        return json_encode($result);
                     }
                 } elseif ($data['smsType'] == 'customer_sms') {
                     $mobileNumArray = json_decode($_SESSION['customer_mobile_numbers'], true);
@@ -227,27 +228,40 @@ class Gupshup {
                     $smsType = $smsApi[0]['type'];                    
                     $folder = 'bulk_sms';
                     
-                    $postData = ["method" => "xlsUpload", "userid" => $smsApi[0]['email_id'], "password" => $smsApi[0]['email_pwd'], "filetype" => "xlsx", "xlsFile" => '@' . $file, "v" => "1.1", "auth_scheme" => "PLAIN", "format" => "XML", "msg_type" => $msgType, "msg" => urlencode($smsBody)];
-
+                    $postData = ["method" => "xlsUpload", 
+                        "userid" => $smsApi[0]['email_id'], 
+                        "password" => $smsApi[0]['email_pwd'], 
+                        "filetype" => "xls",                         
+                        "v" => "1.1", 
+                        "auth_scheme" => "PLAIN",
+                        "xlsFile" => new \CURLFile($file), 
+                        "msg_type" => $msgType, 
+                        "msg" => urlencode($smsBody), 
+                    ];
+                    /*****************************************************************************
                     $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, "https://enterprise.smsgupshup.com/GatewayAPI/rest");
-                    //curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+                    $timeout = 60;
+                    curl_setopt($ch, CURLOPT_URL, "http://enterprise.smsgupshup.com/GatewayAPI/rest");
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                    curl_setopt($ch, CURLOPT_VERBOSE, 1);
-                    $curl_scraped_page = curl_exec($ch);
+                    curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
+                    curl_setopt($ch, CURLOPT_POST, TRUE);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+                    curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+                    $data = curl_exec($ch);
+                    if ($data === FALSE) {
+                        throw new Exception(curl_errno($ch));
+                    }
                     curl_close($ch);
+                    /*****************************************************************************/
 
-                    $p = xml_parser_create();
-                    xml_parse_into_struct($p, $curl_scraped_page, $vals, $index);
-                    xml_parser_free($p);
-                    echo "<pre>";print_r($vals);exit;
-                    if ($vals[2]['value'] == 'success') {
-                        $status = $vals[2]['value'];
-                        $externalId1 = $vals[8]['value']; //exit;
+                    $matches = [];
+                    $data = "success | Your file is being processed. Transaction id 3271981124384453997. Please refer upload history below for final status.";
+                    $data = explode(" | ", $data);
+                    if ($data[0] == 'success') {
+                        $status = $data[0];
+                        $found = preg_match('/ id ([^-\s]*)/', $data[1], $matches);
+                        $externalId1 = rtrim($matches[1],'.');
                         $externalId2 = '';
-
                         $totalChar = strlen($smsBody);
                         $smsBody = addslashes($smsBody);
                         $smsBody = addslashes($smsBody);
@@ -262,10 +276,10 @@ class Gupshup {
                         if ($sendingType == 2)
                             $creditsDeducted = $j * 2;
                         $splitMobileNumber = array_chunk($mobileNumArray, 3000);
+                        
                         $deliveredTS = $deliveredStatus = $cause = $requestUrl = $logStatus = "";
                         $sms_sending_type = $isInternational = 0;
                         foreach ($splitMobileNumber as $mobileNumber) {
-                            $valuesArr = array();
                             foreach ($mobileNumber as $list) {
                                 $mNumber = str_replace(" ", "", $list);
                                 $externalId1 = trim($externalId1);
@@ -277,26 +291,6 @@ class Gupshup {
                                     "credits_deducted" => $creditsDeducted, "is_international" => $isInternational];   
                             }
                             $insertSmsLog = Gupshup::smslog($input);
-                                
-                                /*$valuesArr[] = '("' . $user_id . '","' . $date . '","' . $clientId .
-                                        '","' . $clientType . '","' . $externalId1 . '","' . $externalId2 .
-                                        '","' . $deliveredTS . '","' . $mNumber . '","' . $smsBody .
-                                        '","' . $customer . '","' . $customerId . '","' . $bulkSms .
-                                        '","' . $fileName . '","' . $smsType . '","' . $sms_sending_type .
-                                        '","' . $status . '","' . $delivered_status . '","' . $cause .
-                                        '","' . $request_url . '","' . $log_status . '","' . $creditsDeducted . '")';
-                            
-                            $sql = "INSERT INTO sms_log "
-                                    . "(am_uid, sent_date_time, client_id, "
-                                    . "client_type, externalId1, externalId2, "
-                                    . "deliveredTS, mobile_number, sms_body, "
-                                    . "customer_sms, customer_id, bulk_sms, "
-                                    . "bulk_file_id, sms_type,sms_sending_type, "
-                                    . "status, delivered_status, cause, "
-                                    . "request_url, log_status,credits_deducted) "
-                                    . "values ";
-                            $sql .= @implode(',', $valuesArr);
-                            $result = $this->smslog($sql);*/
                             
                             /*if ($insertSmsLog == 1) {
                                 $sql = "INSERT INTO smsgupshup_realtimereport "
@@ -325,23 +319,23 @@ class Gupshup {
                                 // Close request to clear up some resources
                                 curl_close($curl);
                             }*/
-                            $resp = 1;
-                            if ($resp == 1) {
-                                return TRUE;
-                            }
                         }
                         /*if (Yii::app()->s3->awsupload($file, $folder, $fileName)) { // push excel to s3 bucket
                             @unlink($file);
                         }*/
-                        return 'Status 101 - SMS sent successfully';
+                        $result = ["success" => true, "status" => 200, "message" => "SMS sent successfully"];
+                        return json_encode($result);
                     } else {
-                        return 'Status 103 - Unable to process request, Please try again after one hour.';
+                        $result = ["success" => false, "status" => 404, "message" => "Unable to process request, Please try again after one hour."];
+                        return json_encode($result);
                     }
                 } else {
-                    return 'Status 106 - File not found, Please try again.';
+                    $result = ["success" => false, "status" => 404, "message" => "File not found, Please try again."];
+                    return json_encode($result);
                 }
             } else {
-                return 'Status 102 - Account is deactivated or suspended';
+                $result = ["success" => true, "status" => 401, "message" => "Account is deactivated or suspended"];
+                return json_encode($result);
             }
 
             if (Yii::app()->s3->awsupload($file, $folder, $fileName)) { // push excel to s3 bucket
@@ -360,5 +354,5 @@ class Gupshup {
         } else {
             return FALSE;
         }
-    }
+    }    
 }

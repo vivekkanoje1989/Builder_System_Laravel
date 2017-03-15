@@ -34,7 +34,7 @@
                             <td ng-if="listPortal.status == 1"><label><input class="checkbox-slider slider-icon" id="accountStatuschk{{ listPortal.id}}" type="checkbox" checked ng-click="changeAccountStatus({{  listPortal.status}},{{ listPortal.id}})"><span class="text"></span></label></td>
                             <td ng-if="listPortal.status == 0"><label><input class="checkbox-slider slider-icon" id="accountStatuschk{{ listPortal.id}}" type="checkbox" ng-click="changeAccountStatus({{  listPortal.status}},{{ listPortal.id}})"><span class="text"></span></label></td>
                             <!-- <td>{{ listPortal.status }}</td> -->
-                            <td class="fa-div"><div class="fa-hover" tooltip-html-unsafe="Edit Account" style="display: block;"><a href="#/[[config('global.getUrl')]]/user/update/{{ listUser.id}}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div></td>
+                            <td class="fa-div"><div class="fa-hover" tooltip-html-unsafe="Edit Account" style="display: block;"><a href="#/[[config('global.getUrl')]]/propertyportals/updatePortalAccount/[[ $accountid ]]/{{ listPortal.id}}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div></td>
                         </tr>
                     </tbody>
                 </table> 

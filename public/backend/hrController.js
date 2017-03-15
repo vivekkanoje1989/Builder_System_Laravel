@@ -145,7 +145,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                        // console.log($scope.userData.emp_photo_url);
                         $scope.userData.password = '';
                         if($scope.userData.marriage_date == "0000-00-00"){
-                         $scope.userData.marriage_date = "";   
+                            $scope.userData.marriage_date = "";   
                         }                            
                         var personal_mobile_no1_code = '+' + response.records.data[0].mobile1_calling_code + '-';
                         var office_mobile_no_code = '+' + response.records.data[0].office_mobile_calling_code + '-';

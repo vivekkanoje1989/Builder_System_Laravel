@@ -9,7 +9,8 @@
         "laravel/framework": "5.3.*",
         "reliese/laravel": "^0.0.12",
 		"artem-schander/l5-modular": "dev-master",
-		"stevebauman/location": "2.0.*"
+		"stevebauman/location": "2.0.*",
+        "maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

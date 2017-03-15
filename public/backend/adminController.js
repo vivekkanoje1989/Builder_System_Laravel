@@ -291,7 +291,17 @@ app.controller('teamLeadCtrl',function($scope, Data){
        }
    });
 });
-
+/****************************UMA************************************/
+app.controller('cotentPageListCtrl', function ($scope, Data) {
+   Data.get('getcotentPageList').then(function (response) {
+       if (!response.success) {
+           $scope.errorMsg = response.message;
+       } else {
+           $scope.listPages = response.records;
+       }
+   });
+});
+/****************************UMA************************************/
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {
     $scope.employees1 = [];

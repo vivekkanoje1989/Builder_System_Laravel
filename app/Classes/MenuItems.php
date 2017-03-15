@@ -27,11 +27,11 @@ class MenuItems {
                 1 => array('id' => '0201', 'name' => 'Website Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '020101,020102,020103,020104,020105,020106,020107', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
                     1 => array('id' => '020101', 'name' => 'Image Management', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
-                    2 => array('id' => '020102', 'name' => 'Content Management', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
-                    3 => array('id' => '020103', 'name' => 'Contact Us', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
+                    2 => array('id' => '020102', 'name' => 'Content Management', 'icon' => '', 'url' => '/'.$getUrl.'/website_settings/contentpages', 'slug' => '.contentPagesIndex', 'uiSrefActive' => 'active'),  
+                    3 => array('id' => '020103', 'name' => 'Contact Us', 'icon' => '', 'url' => '/'.$getUrl.'/bms_lists/contactus',  'slug' => '.contactUsIndex', 'uiSrefActive' => 'active'),
                     4 => array('id' => '020104', 'name' => 'Website Changing Module', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
                     5 => array('id' => '020105', 'name' => 'Webpage Management', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
-                    6 => array('id' => '020106', 'name' => 'Social Websites Management', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
+                    6 => array('id' => '020106', 'name' => 'Social Websites Management', 'icon' => '', 'url' => '/'.$getUrl.'/bms_lists/social',  'slug' => '.socialwebIndex', 'uiSrefActive' => 'active'),
                     7 => array('id' => '020107', 'name' => 'Blogs Management', 'icon' => '', 'slug' => '/request/request/index', 'uiSrefActive' => 'active'),
                 )),
                     
@@ -84,8 +84,8 @@ class MenuItems {
                         2 => array('id' => '02020702', 'name' => 'Manage API', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
                     )),
                     8 => array('id' => '020208', 'name' => 'Property Portals', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
-                    'submenu_ids' => '020208', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
-                        1 => array('id' => '02020801', 'name' => 'Manage', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
+                   'submenu_ids' => '020208', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
+                       1 => array('id' => '02020801', 'name' => 'Manage', 'icon' => '', 'url' => '/'.$getUrl.'/portals/index', 'slug' => '.portalIndex', 'uiSrefActive' => 'active'),
                     )),
                     9 => array('id' => '020209', 'name' => 'Parking management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '02020901,02020902', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
