@@ -252,6 +252,8 @@ class MasterHrController extends Controller {
         }        
         /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
 
+        $update = CommonFunctions::updateMainTableRecords();
+        $input['userData'] = array_merge($input['userData'],$update);
         $employeeUpdate = Employee::where('id',$id)->update($input['userData']);
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData=$originalValues[0]['attributes']['password'];

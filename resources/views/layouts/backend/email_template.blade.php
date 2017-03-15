@@ -6,8 +6,4 @@
  * and open the template in the editor.
  */
 
-return [
-    'getUrl' => 'office',
-    'companyName' => 'BMS BUILDER',
-    'rootPath' => base_path(),
-];
+echo $mailBody;

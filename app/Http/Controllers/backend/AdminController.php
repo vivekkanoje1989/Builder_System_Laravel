@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
@@ -18,9 +19,9 @@ use App\Models\EnquirySubSource;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
 use App\Models\LstProfession;
-use App\Models\PropertyPortalsType;
 use Illuminate\Http\Request;
 use Auth;
+use App\Classes\Gupshup;
 
 class AdminController extends Controller {
 
@@ -43,7 +44,23 @@ class AdminController extends Controller {
     }
 
     public function dashboard() {
-
+        
+        $smsBody = "Hello bms";
+        $mobileNo = 917709026395;//9970844335;
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $customer = "No";
+        $customerId = 1;
+        $isInternational = 0; //0 OR 1
+        $sendingType = 1; //always 0 for T_SMS
+        $smsType = "T_SMS";
+        $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
+        $decodeResult = json_decode($result,true);
+        return $decodeResult["message"];
+        
+        
+        
+        echo "<pre>";print_r($decodeResult);exit;
+        exit;
 //        $rows = DB::select('CALL sp_test(1)');
 //        return json_encode($id);
 //        if(Auth::guard('admin')->check()){ 
@@ -171,20 +188,6 @@ class AdminController extends Controller {
         }
     }
 
-     public function getPropertyPortalType(){
-        $getPropertyPortal = PropertyPortalsType::all();
-        if(!empty($getPropertyPortal))
-        {
-            $result = ['success' => true, 'records' => $getPropertyPortal];
-            return json_encode($result);
-        }
-        else
-        {
-            $result = ['success' => false,'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
-    
     public function getCountries() {
         $getCountires = LstCountry::all();
         if (!empty($getCountires)) {
@@ -289,7 +292,7 @@ class AdminController extends Controller {
     /*     * **************************MANDAR******************************** */
 
     public function getEmployees() {
-        $getEmployees = Employee::select('id', 'first_name','last_name','designation')->where("client_id", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name')->where("client_id", 1)->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
             return $result;

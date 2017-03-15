@@ -143,7 +143,7 @@ class MasterSalesController extends Controller {
             $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
             $input['customerData']['created_date'] =  date('Y-m-d', strtotime($input['customerData']['created_date']));            
-            $update = CommonFunctions::insertLogTableRecords();
+            $update = CommonFunctions::updateMainTableRecords();
             $input['customerData'] = array_merge($input['customerData'],$update);
             $updateCustomer = Customer::where('id',$id)->update($input['customerData']); //insert data into employees table
             

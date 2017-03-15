@@ -85,7 +85,7 @@ class MenuItems {
                     )),
                     8 => array('id' => '020208', 'name' => 'Property Portals', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '020208', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
-                        1 => array('id' => '02020801', 'name' => 'Manage', 'icon' => '', 'url' => '/'.$getUrl.'/portals/index', 'slug' => '.portalIndex', 'uiSrefActive' => 'active'),
+                        1 => array('id' => '02020801', 'name' => 'Manage', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
                     )),
                     9 => array('id' => '020209', 'name' => 'Parking management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '02020901,02020902', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
