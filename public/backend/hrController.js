@@ -27,7 +27,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         }    
     };
     $scope.validateLandlineNumber = function (value) {
-        var regex = /^(\+\d{1,4}-\d{1,4}-)\d{6}$/;
+        var regex = /^(\+\d{1,4}-\d{1,4})\d{6}$/;
         if(!regex.test(value)){
             $scope.errLandline = "Landline number should be 12 digits and pattern should be for ex. +91-1234-999999";
             $scope.applyClass = 'ng-active';
@@ -144,6 +144,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                         $scope.userData = angular.copy(response.records.data[0]);
                        // console.log($scope.userData.emp_photo_url);
                         $scope.userData.password = '';
+                        if($scope.userData.marriage_date == "0000-00-00"){
+                         $scope.userData.marriage_date = "";   
+                        }                            
                         var personal_mobile_no1_code = '+' + response.records.data[0].mobile1_calling_code + '-';
                         var office_mobile_no_code = '+' + response.records.data[0].office_mobile_calling_code + '-';
                         $scope.userData.personal_mobile_no1 = personal_mobile_no1_code + angular.copy(response.records.data[0].personal_mobile_no1);
@@ -155,14 +158,17 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                         if (response.records.data[0].landline_no !== null || response.records.data[0].landline_no !== '') {
                             var landlineNo = '+'+response.records.data[0].landline_calling_code + '-';
                             var landLineNumber=""+response.records.data[0].landline_no;
-                            $scope.userData.landline_no = landlineNo +landLineNumber.slice(0,4)+"-"+landLineNumber.slice(4);
+                            $scope.userData.landline_no = landlineNo +landLineNumber;
                         }
-                        if (response.records.data[0].office_email_id === null || response.records.data[0].office_email_id !== '') {                                
+                        if (response.records.data[0].office_email_id === null || response.records.data[0].office_email_id === '') {                                
                             $scope.userData.office_email_id = '';
                         }
-                        if (response.records.data[0].personal_email_id2 === null || response.records.data[0].personal_email_id2 !== '') {                                
+                        else
+                            $scope.userData.office_email_id = response.records.data[0].office_email_id;
+                        if (response.records.data[0].personal_email_id2 === null || response.records.data[0].personal_email_id2 === '') {                                
                             $scope.userData.personal_email_id2 = '';
-                        }
+                        }else
+                            $scope.userData.personal_email_id2 = response.records.data[0].personal_email_id2;
                         $scope.userData.passwordOld = response.records.data[0].password;
                         var current_country = response.records.data[0].current_country_id;
                         var current_state = response.records.data[0].current_state_id;

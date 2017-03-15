@@ -8,7 +8,6 @@ use App\Models\EmailPassword;
 use App\Models\SmsLog;
 use App\Models\SystemConfig;
 use DB;
-
 use App\Mail\MailConfig;
 
 class Gupshup {

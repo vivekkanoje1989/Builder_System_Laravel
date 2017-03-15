@@ -292,7 +292,7 @@ class MenuItems {
                 'submenu_ids' => '01101,01102,01103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                 1 => array('id' => '01101', 'name' => 'Manage Virtual Numbers', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '0110101,0110102,0110103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                    1 => array('id' => '0110101', 'name' => 'Virtual Numbers', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
+                    1 => array('id' => '0110101', 'name' => 'Virtual Numbers', 'icon' => '', 'url' => '/'.$getUrl.'/virtualnumber/index', 'slug' => '.virtualnumberslist', 'uiSrefActive' => 'active'),
                     2 => array('id' => '0110102', 'name' => 'Manage Templates', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
                     3 => array('id' => '0110103', 'name' => 'Out-bound Call Log', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
                 )),

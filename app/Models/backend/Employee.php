@@ -303,18 +303,17 @@ class Employee extends Authenticatable
         
         $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1";
         $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
-        $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
+        if($input['userData']['marriage_date'] == "0000-00-00"){
+            $input['userData']['marriage_date'] = "";
+        }
+        else{
+            $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
+        }
         $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : "";
-        
-        $input['userData']['personal_mobile_no1']= "+91-9856321473";
-        $input['userData']['personal_mobile_no2'] = "+91-9856321473";
-        $input['userData']['office_mobile_no'] = "+91-9856321473";
-        $input['userData']['landline_no'] = "+91-12625893";
         
         $personalMobileNo1 = explode("-", $input['userData']['personal_mobile_no1']);
         $input['userData']['mobile1_calling_code'] = (int) $personalMobileNo1[0];
         $input['userData']['personal_mobile_no1'] = $personalMobileNo1[1];
-            
         
         if (!empty($input['userData']['personal_mobile_no2'])) {
             $personalMobileNo2 = explode("-", $input['userData']['personal_mobile_no2']);
@@ -335,7 +334,6 @@ class Employee extends Authenticatable
             $input['userData']['landline_calling_code'] = !empty($landlineNo[1]) ?  (int) $landlineNo[0] : NULL;
             $input['userData']['landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] : '';
         }
-        
         $input['userData']['education_details'] = !empty($input['userData']['education_details']) ? $input['userData']['education_details'] : "";
         $input['userData']['show_on_homepage'] = !empty($input['userData']['show_on_homepage']) ? $input['userData']['show_on_homepage'] : "1";
         $input['userData']['employee_submenus'] = !empty($input['userData']['employee_submenus']) ? $input['userData']['employee_submenus'] : '["0101","0102","0103","0104"]';

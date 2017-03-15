@@ -45,7 +45,7 @@ class AdminController extends Controller {
 
     public function dashboard() {
         
-        $smsBody = "Hello bms";
+        /*$smsBody = "Hello bms";
         $mobileNo = 917709026395;//9970844335;
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $customer = "No";
@@ -56,11 +56,8 @@ class AdminController extends Controller {
         $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
         $decodeResult = json_decode($result,true);
         return $decodeResult["message"];
+        echo "<pre>";print_r($decodeResult);exit;*/
         
-        
-        
-        echo "<pre>";print_r($decodeResult);exit;
-        exit;
 //        $rows = DB::select('CALL sp_test(1)');
 //        return json_encode($id);
 //        if(Auth::guard('admin')->check()){ 

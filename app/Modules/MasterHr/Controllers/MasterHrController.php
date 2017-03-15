@@ -20,10 +20,6 @@ class MasterHrController extends Controller {
     }
     
     public function index() { 
-//        if(Auth::guard('admin')->check()){ 
-//            echo Auth::guard('admin')->user()->first_name;            
-//        }else {echo "not login";}
-//        echo "<pre>";print_r(Auth::guard('admin')->user());exit;
         return view("MasterHr::index");
     }
     
@@ -253,6 +249,7 @@ class MasterHrController extends Controller {
         /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
 
         $update = CommonFunctions::updateMainTableRecords();
+        //echo "<pre>";print_r($input);exit;
         $input['userData'] = array_merge($input['userData'],$update);
         $employeeUpdate = Employee::where('id',$id)->update($input['userData']);
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
