@@ -1,0 +1,151 @@
+CREATE PROCEDURE get_user
+(
+IN userId INT,
+OUT firstName VARCHAR(100),
+OUT lastName VARCHAR(100)
+)
+BEGIN
+SELECT first_name, last_name
+INTO firstName, lastName
+FROM users
+WHERE users_id = userId;
+END
+**************************************************************************************************
+Insert login log
+Delimiter//
+CREATE PROCEDURE employees_login_logs
+(
+    employee_id int(11),
+    username_entered VARCHAR(10),
+    password_entered VARCHAR(50),
+    login_date_time timestamp,
+    login_status int(4),
+    login_failure_reason int(4),
+    bms_app_type int(11),
+    login_IP TEXT,
+    login_browser TEXT,
+    login_mac_id TEXT
+)
+
+BEGIN
+    INSERT INTO employees_login_logs 
+        (employee_id, username_entered, password_entered, login_date_time, login_status, login_failure_reason, bms_app_type, login_IP, login_browser, login_mac_id)    
+    VALUES
+        (employee_id, username_entered, password_entered, login_date_time, login_status, login_failure_reason, bms_app_type, login_IP, login_browser, login_mac_id);                                                                
+END
+**************************************************************************************************
+Manage_users
+
+CREATE PROCEDURE `proc_manage_users`() 
+
+BEGIN 
+SELECT employees.*, departments.department_name, employees_login_logs.login_date_time FROM employees LEFT JOIN (SELECT employee_id FROM employees_login_logs ORDER BY id DESC limit 1) AS employees_login_logs ON employees.id = employees_login_logs.employee_id LEFT JOIN departments AS departments ON employees.department_id = departments.id; 
+END
+
+**************************************************************************************************
+Get employee
+
+Delimiter//
+CREATE PROCEDURE get_employees
+(
+'client_role_id',
+'employee_id',
+		'username',
+		'password',
+		'password_changed',
+		'remember_token',
+		'usertype',
+		'team_lead_id',
+		'designation',
+		'department_id',
+		'reporting_to_id',
+		'title',
+		'first_name',
+		'middle_name',
+		'last_name',
+		'date_of_birth',
+		'gender_id',
+		'marital_status',
+		'marriage_date',
+		'blood_group_id',
+		'physic_status_id',
+		'physic_desc',
+		'mobile1_country_id',
+		'personal_mobile_no1',
+		'mobile2_country_id',
+		'personal_mobile_no2',
+		'landline_country_id',
+		'landline_no',
+		'email',//personal_email_id1
+		'personal_email_id2',
+		'office_mobile_country_id',
+		'office_mobile_no',
+		'office_email_id',
+		'current_country_id',
+		'current_state_id',
+		'current_city_id',
+		'current_pin',
+		'current_address',
+		'permenent_country_id',
+		'permenent_state_id',
+		'permenent_city_id',
+		'permenent_pin',
+		'permenent_address',
+		'highest_education_id',
+		'education_details',
+		'emp_photo_url',
+		'joining_date',
+		'employee_status',
+		'show_on_homepage',
+		'employee_submenus',
+		'employee_permissions',
+		'employee_email_subscriptions',
+		'employee_sms_subscrption',
+		'employee_info_form_url',
+		'employee_info_form_url_status',
+		'created_date',
+		'created_time',
+		'created_by',
+		'created_IP',
+		'created_browser',
+		'created_mac_id',
+		'updated_date',
+		'updated_time',
+		'updated_by',
+		'updated_IP',
+		'updated_browser',
+		'updated_mac_id'
+)
+
+BEGIN
+    INSERT INTO employees_login_logs 
+        (employee_id, login_date_time, login_status, login_failure_reason, login_IP, login_browser, login_mac_id)    
+    VALUES
+        (employee_id, login_date_time, login_status, login_failure_reason, login_IP, login_browser, login_mac_id);                                                                
+END             
+
+
+
+**************************************************************************************************
+Get customer contacts
+
+BEGIN
+IF mobileNo != '' THEN
+select c.* from `customers_contacts` AS c where c.`customer_id` = (select `customer_id` from `customers_contacts` c1 where c1.`mobile_number` = mobileNo group by c1.customer_id);
+ELSE
+select c.* from `customers_contacts` AS c where c.`customer_id` = (select `customer_id` from `customers_contacts` c1 where c1.`email_id` = emailId group by c1.customer_id);
+END IF;
+END
+
+
+
+
+
+
+
+
+
+
+
+
+           
