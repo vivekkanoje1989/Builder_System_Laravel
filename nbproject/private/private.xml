@@ -2,6 +2,27 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/bmsListsController.js</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/Models/ManageCity.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCountry/Models/LstCountries.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCountry/Views/index.blade.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/cityController.js</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCountry/Controllers/ManageCountryController.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/Controllers/ManageCityController.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCountry/routes/web.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/BlockStages/Controllers/BlockStagesController.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/blockStagesController.js</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/Views/index.blade.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/statesController.js</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/BlockStages/Models/BlockStages.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/Models/LstCities.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageStates/routes/web.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageStates/Views/states.blade.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageStates/Models/LstStates.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/countryController.js</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/routes/web.php</file>
+        </group>
     </open-files>
 </project-private>

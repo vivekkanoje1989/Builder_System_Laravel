@@ -1,0 +1,4 @@
+<?php
+ /**
+ *	DiscountHeadings Helper  
+ */

@@ -476,13 +476,13 @@ angular.module('app')
             /****************************MANDAR*********************************/
             /****************************MANOJ*********************************/
 
-            .state(getUrl + '.listBloodGroup', {
-                url: '/list/bloodgroup',
-                templateUrl: getUrl + '/bms_lists/bloodGroup',
-                controller: 'bloodGroupCtrl',
+            .state(getUrl + '.bloodGroupsIndex', {
+                url: '/bloodgroups/index',
+                templateUrl: getUrl +'/blood-groups/',
+                
                 requiredLogin: true,
                 ncyBreadcrumb: {
-                    label: 'Create User',
+                    label: 'Create blood groups',
                     description: ''
                 },
                 resolve: {
@@ -492,7 +492,7 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
+                                    '/backend/bloodGroupsController.js',
                                 ]
                             });
                         }
@@ -526,57 +526,9 @@ angular.module('app')
                     ]
                 }
             })
-
-            .state(getUrl + '.listStates', {
-                url: '/list/states',
-                templateUrl: getUrl + '/bms_lists/states',
-                controller: 'statesCtrl',
-                requiredLogin: true,
-                ncyBreadcrumb: {
-                    label: 'Create State',
-                    description: ''
-                },
-                resolve: {
-                    deps: [
-                        '$ocLazyLoad',
-                        function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                serie: true,
-                                files: [
-                                    '/backend/bmsListsController.js',
-                                ]
-                            });
-                        }
-                    ]
-                }
-            })
-            .state(getUrl + '.listCities', {
-                url: '/list/cities',
-                templateUrl: getUrl + '/bms_lists/cities',
-                controller: 'citiesCtrl',
-                requiredLogin: true,
-                ncyBreadcrumb: {
-                    label: 'Create State',
-                    description: ''
-                },
-                resolve: {
-                    deps: [
-                        '$ocLazyLoad',
-                        function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                serie: true,
-                                files: [
-                                    '/backend/bmsListsController.js',
-                                ]
-                            });
-                        }
-                    ]
-                }
-            })
-            .state(getUrl + '.listCountry', {
-                url: '/list/country',
-                templateUrl: getUrl + '/bms_lists/country',
-                controller: 'countryCtrl',
+             .state(getUrl + '.countryIndex', {
+                url: '/country/index',
+                templateUrl: getUrl + '/manage-country/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Create Country',
@@ -589,18 +541,62 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
+                                    '/backend/countryController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listLocation', {
-                url: '/list/location',
-                templateUrl: getUrl + '/bms_lists/location',
-                controller: 'locationCtrl',
+            .state(getUrl + '.statesIndex', {
+                url: '/states/index',
+                templateUrl: getUrl + '/manage-states/',
                 requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Create State',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/statesController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.cityIndex', {
+                url: '/city/index',
+                templateUrl: getUrl + '/manage-city/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Create City',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/cityController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+           
+            .state(getUrl + '.locationIndex', {
+                url: '/location/index',
+                templateUrl: getUrl + '/manage-location/',
+                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Create Location',
                     description: ''
@@ -612,20 +608,19 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
+                                    '/backend/locationController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listeducation', {
-                url: '/list/highestEducation',
-                templateUrl: getUrl + '/bms_lists/highestEducation',
-                controller: 'highestEducationCtrl',
+            .state(getUrl + '.highesteducationIndex', {
+                url: '/highesteducation/index',
+                templateUrl: getUrl + '/highest-education/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
-                    label: 'Create Block Types',
+                    label: 'Create highest education Types',
                     description: ''
                 },
                 resolve: {
@@ -635,17 +630,16 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
+                                    '/backend/highestEducationController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listdepartment', {
-                url: '/list/department',
-                templateUrl: getUrl + '/bms_lists/department',
-                controller: 'manageDepartmentCtrl',
+            .state(getUrl + '.departmentIndex', {
+                url: '/department/index',
+                templateUrl: getUrl + '/manage-department/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Create Department',
@@ -658,17 +652,16 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
+                                    '/backend/departmentController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listprofession', {
-                url: '/list/profession',
-                templateUrl: getUrl + '/bms_lists/profession',
-                controller: 'manageProfessionCtrl',
+            .state(getUrl + '.professionIndex', {
+                url: '/profession/index',
+                templateUrl: getUrl + '/manage-profession/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Create Profession',
@@ -681,17 +674,16 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
+                                    '/backend/professionController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listpaymentheading', {
-                url: '/list/paymentheading',
-                templateUrl: getUrl + '/bms_lists/paymentheading',
-                controller: 'managePaymentHeadingCtrl',
+            .state(getUrl + '.paymentheadingIndex', {
+                url: '/paymentheading/index',
+                templateUrl: getUrl + '/payment-headings/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Create Payment Heading',
@@ -704,16 +696,16 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
+                                    '/backend/projectPaymentController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.managelostreasons', {
-                url: '/bmslists/managelostreasons',
-                templateUrl: getUrl + '/bmslists/lostreason',
+            .state(getUrl + '.lostreasonsIndex', {
+                url: '/lostreasons/index',
+                templateUrl: getUrl + '/lost-reasons/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Manage Lost Reasons'
@@ -725,19 +717,19 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
+                                    '/backend/lostReasonController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listblockstages', {
-                url: '/bmslists/blockstages',
-                templateUrl: getUrl + '/bms_lists/blockstages',
+            .state(getUrl + '.blockStagesIndex', {
+                url: '/blockstages/index',
+                templateUrl: getUrl + '/block-stages/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
-                    label: 'Manage Lost Reasons'
+                    label: 'Manage block stages'
                 },
                 resolve: {
                     deps: [
@@ -746,19 +738,19 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
+                                    '/backend/blockStagesController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listEnquirySource', {
-                url: '/bmslists/enquirysource',
-                templateUrl: getUrl + '/bms_lists/enquirysource',
+            .state(getUrl + '.enquirySourceIndex', {
+                url: '/enquirySource/index',
+                templateUrl: getUrl + '/enquiry-source/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
-                    label: 'Manage Lost Reasons'
+                    label: 'Manage enquiry source'
                 },
                 resolve: {
                     deps: [
@@ -767,18 +759,16 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
-                                    '/backend/app/controllers/accordion.js',
-                                    '/backend/app/controllers/tab.js'
+                                    '/backend/enquirySourceController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listDiscountHeading', {
-                url: '/bmslists/managediscountheading',
-                templateUrl: getUrl + '/bms_lists/discountheading',
+            .state(getUrl + '.discountheadingIndex', {
+                url: '/discountheading/index',
+                templateUrl: getUrl + '/discount-headings/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Manage Discount Heading'
@@ -790,21 +780,19 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
-                                    '/backend/app/controllers/accordion.js',
-                                    '/backend/app/controllers/tab.js'
+                                    '/backend/discountHeadingController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listProjectPayment', {
-                url: '/bms_lists/projectpayment',
-                templateUrl: getUrl + '/bms_lists/projectpayment',
+            .state(getUrl + '.projectstagesIndex', {
+                url: '/projectstages/index',
+                templateUrl: getUrl + '/project-payment/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
-                    label: 'Manage Discount Heading'
+                    label: 'Manage project payment stages'
                 },
                 resolve: {
                     deps: [
@@ -813,18 +801,16 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
-                                    '/backend/app/controllers/accordion.js',
-                                    '/backend/app/controllers/tab.js'
+                                    '/backend/projectPaymentStagesController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listprojecttypes', {
-                url: '/bms_lists/projecttypes',
-                templateUrl: getUrl + '/bms_lists/projecttypes',
+            .state(getUrl + '.projecttypesIndex', {
+                url: '/projecttypes/index',
+                templateUrl: getUrl + '/project-types/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Manage Project Types'
@@ -836,18 +822,16 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
-                                    '/backend/app/controllers/accordion.js',
-                                    '/backend/app/controllers/tab.js'
+                                    '/backend/projectTypesController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.listBlockTypes', {
-                url: '/bms_lists/blockTypes',
-                templateUrl: getUrl + '/bms_lists/blockTypes',
+            .state(getUrl + '.blocktypesIndex', {
+                url: '/blocktypes/index',
+                templateUrl: getUrl + '/block-types/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Manage Block Types'
@@ -859,21 +843,19 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/bmsListsController.js',
-                                    '/backend/app/controllers/accordion.js',
-                                    '/backend/app/controllers/tab.js'
+                                    '/backend/blockTypesController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl+'.contactUsIndex', {
-                    url: '/website_settings/contactus',
-                    templateUrl: getUrl+'/website_settings/contactus',
+            .state(getUrl+'.contactusIndex', {
+                    url: '/contactus/index',
+                    templateUrl: getUrl+'/contact-us/',
                     requiredLogin: true,
                     ncyBreadcrumb: {
-                        label: 'Manage Office Addresses'
+                        label: 'Contact us'
                     },
                     resolve: {
                         deps: [

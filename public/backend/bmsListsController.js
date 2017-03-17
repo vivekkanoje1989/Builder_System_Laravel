@@ -540,10 +540,10 @@ app.controller('lostReasonsController', ['$rootScope', '$scope', '$state', 'Data
     }]);
 
 
-app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope','Flash','$timeout', function ($scope, Data, $rootScope,Flash,$timeout) {
+app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope,$timeout) {
 
         $scope.blockStages = function () {
-            Data.post('bms_lists/manageBlockStages').then(function (response) {
+            Data.post('block-stages/manageBlockStages').then(function (response) {
                 $scope.BlockStageRow = response.records;
                 
             });
@@ -561,7 +561,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope','Flash','$time
             $scope.errorMsg = '';
             if ($scope.id === 0) //for create
             {
-                Data.post('bms_lists/createBlockStages', {
+                Data.post('/block-stages/', {
                     block_stages: $scope.block_stages}).then(function (response) {
 
                     if (!response.success)
@@ -577,7 +577,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope','Flash','$time
                 });
             } else { //for update
 
-                Data.post('bms_lists/updateBlockStage', {
+                Data.post('block-stages/'+$scope.id, {
                     block_stages: $scope.block_stages, id: $scope.id}).then(function (response) {
                     if (!response.success)
                     {
@@ -598,7 +598,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope','Flash','$time
         };
         $scope.success = function(message) {
                Flash.create('success', message);
-           };
+        };
         
     }]);
 

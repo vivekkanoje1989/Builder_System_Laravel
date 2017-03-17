@@ -5,14 +5,10 @@ namespace App\Modules\BmsLists\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Validator;
-use Illuminate\Support\Facades\Input;
-use DB;
 use Illuminate\Hashing\HashServiceProvider;
 use Auth;
 use App\Classes\CommonFunctions;
 use App\Models\LstBloodGroup;
-use App\Models\LstBloodGroupsLogs;
 
 class BloodGroupsController extends Controller {
 
