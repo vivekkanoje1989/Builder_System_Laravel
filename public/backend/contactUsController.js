@@ -5,7 +5,7 @@ app.controller('contactUsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', fun
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.manageContactUs = function () {
-            Data.get('contact-us/manageContactUs').then(function (response) {
+            Data.post('contact-us/manageContactUs').then(function (response) {
                 $scope.contactUsRow = response.records;
 
             });

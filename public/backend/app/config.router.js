@@ -864,21 +864,19 @@ angular.module('app')
                                 return $ocLazyLoad.load({
                                     serie: true,
                                     files: [                                        
-                                        '/backend/websiteSettingsController.js',
-                                         '/backend/app/controllers/accordion.js',
-                                           '/backend/app/controllers/tab.js'
+                                        '/backend/contactUsController.js',
                                     ]
                                 });
                             }
                         ]
                     }
                 })
-                .state(getUrl+'.socialwebIndex', {
-                    url: '/website_settings/socialweb',
-                    templateUrl: getUrl+'/website_settings/socialweb',
+                .state(getUrl+'.socialwebsiteIndex', {
+                    url: '/social-website/index',
+                    templateUrl: getUrl+'/social-website/',
                     requiredLogin: true,
                     ncyBreadcrumb: {
-                        label: 'Manage Office Addresses'
+                        label: 'Manage social website'
                     },
                     resolve: {
                         deps: [
@@ -887,18 +885,16 @@ angular.module('app')
                                 return $ocLazyLoad.load({
                                     serie: true,
                                     files: [                                        
-                                        '/backend/websiteSettingsController.js',
-                                         '/backend/app/controllers/accordion.js',
-                                           '/backend/app/controllers/tab.js'
+                                        '/backend/socialWebsiteController.js',
                                     ]
                                 });
                             }
                         ]
                     }
                 })
-                .state(getUrl+'.autoWebEnquiries', {
-                    url: '/assign_web_enquiries/index',
-                    templateUrl: getUrl+'/assign_web_enquiries/index',
+                .state(getUrl+'.assignenquiryIndex', {
+                    url: '/assignenquiry/index',
+                    templateUrl: getUrl+'/assign-enquiry/',
                     requiredLogin: true,
                     ncyBreadcrumb: {
                         label: 'Manage auto assign web enquiries'
@@ -910,18 +906,16 @@ angular.module('app')
                                 return $ocLazyLoad.load({
                                     serie: true,
                                     files: [                                        
-                                        '/backend/bmsSettingsController.js',
-                                         '/backend/app/controllers/accordion.js',
-                                           '/backend/app/controllers/tab.js'
+                                        '/backend/AssignWebEnquiryController.js',
                                     ]
                                 });
                             }
                         ]
                     }
                 })
-                 .state(getUrl+'.blogIndex', {
-                    url: '/website_settings/index',
-                    templateUrl: getUrl+'/website_settings/blogIndex',
+                 .state(getUrl+'.manageblogIndex', {
+                    url: '/blog/index',
+                    templateUrl: getUrl+'/manage-blog/',
                     requiredLogin: true,
                     ncyBreadcrumb: {
                         label: 'Manage Blogs'
@@ -933,9 +927,7 @@ angular.module('app')
                                 return $ocLazyLoad.load({
                                     serie: true,
                                     files: [                                        
-                                        '/backend/websiteSettingsController.js',
-                                         '/backend/app/controllers/accordion.js',
-                                           '/backend/app/controllers/tab.js'
+                                        '/backend/manageBlogController.js',
                                     ]
                                 });
                             }
@@ -943,8 +935,8 @@ angular.module('app')
                     }
                 })
                  .state(getUrl+'.createBlog', {
-                    url: '/website_settings/create',
-                    templateUrl: getUrl+'/website_settings/blogCreate',
+                    url: '/manage-blog/create',
+                    templateUrl: getUrl+'/manage-blog/create',
                     requiredLogin: true,
                     ncyBreadcrumb: {
                         label: 'Create blog',
@@ -961,7 +953,7 @@ angular.module('app')
                                                 serie: true,
                                                 files: [
                                                      '/backend/app/controllers/textangular.js',
-                                                     '/backend/websiteSettingsController.js',
+                                                     '/backend/manageBlogController.js',
                                                 ]
                                             });
                                         }
@@ -971,9 +963,9 @@ angular.module('app')
                         }
                 })
                  .state(getUrl+'.blogUpdate', {
-                    url: '/website_settings/update/:blogId',
+                    url: '/manage-blog/update/:blogId',
                     templateUrl:  function (stateParams){
-                        return getUrl+'/website_settings/' + stateParams.blogId + '/edit';
+                        return getUrl+'/manage-blog/' + stateParams.blogId + '/edit';
                     },
                     requiredLogin: true,
                     ncyBreadcrumb: {
@@ -991,7 +983,7 @@ angular.module('app')
                                                 serie: true,
                                                 files: [
                                                      '/backend/app/controllers/textangular.js',
-                                                     '/backend/websiteSettingsController.js',
+                                                     '/backend/manageBlogController.js',
                                                 ]
                                             });
                                         }

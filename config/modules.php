@@ -25,6 +25,9 @@ return [
         "ManageProjectTypes",
         "ManageBlockTypes",
         "ProjectPaymentStages",
-        "ContactUs"
+        "ContactUs",
+        "SocialWebsites",
+        "BlogManagement",
+        "AssignWebEnquiry",
     ),
 ];

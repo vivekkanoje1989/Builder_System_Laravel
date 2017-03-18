@@ -5,4 +5,6 @@ Route::group(array('module' => 'ContactUs', 'namespace' => 'App\Modules\ContactU
     $getUrl = config('global.getUrl');
     Route::resource($getUrl.'/contact-us', 'ContactUsController');
     
+    Route::post($getUrl.'/contact-us/manageContactUs','ContactUsController@manageContactUs');
+    
 });	

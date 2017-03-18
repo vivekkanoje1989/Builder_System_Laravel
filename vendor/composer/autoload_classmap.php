@@ -6,7 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'CreateAssignWebEnquiriesTable' => $baseDir . '/database/migrations/2017_03_18_112854_create_assign_web_enquiries_table.php',
     'CreateBlockStagesTable' => $baseDir . '/database/migrations/2017_03_16_104439_create_block_stages_table.php',
+    'CreateBlogManagementsTable' => $baseDir . '/database/migrations/2017_03_18_104247_create_blog_managements_table.php',
     'CreateBlogStagesTable' => $baseDir . '/database/migrations/2017_03_16_104343_create_blog_stages_table.php',
     'CreateBloodGroupsTable' => $baseDir . '/database/migrations/2017_03_16_114232_create_blood_groups_table.php',
     'CreateContactUsesTable' => $baseDir . '/database/migrations/2017_03_17_184202_create_contact_uses_table.php',
@@ -27,6 +29,7 @@ return array(
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreatePaymentHeadingsTable' => $baseDir . '/database/migrations/2017_03_16_143830_create_payment_headings_table.php',
     'CreateProjectPaymentStagesTable' => $baseDir . '/database/migrations/2017_03_17_161019_create_project_payment_stages_table.php',
+    'CreateSocialWebsitesTable' => $baseDir . '/database/migrations/2017_03_18_100842_create_social_websites_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',

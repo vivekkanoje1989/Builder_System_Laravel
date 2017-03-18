@@ -352,7 +352,9 @@ class ComposerStaticInita4a83323fa74f9ee3390af915b46a8f0
     );
 
     public static $classMap = array (
+        'CreateAssignWebEnquiriesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_112854_create_assign_web_enquiries_table.php',
         'CreateBlockStagesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_16_104439_create_block_stages_table.php',
+        'CreateBlogManagementsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_104247_create_blog_managements_table.php',
         'CreateBlogStagesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_16_104343_create_blog_stages_table.php',
         'CreateBloodGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_16_114232_create_blood_groups_table.php',
         'CreateContactUsesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_17_184202_create_contact_uses_table.php',
@@ -373,6 +375,7 @@ class ComposerStaticInita4a83323fa74f9ee3390af915b46a8f0
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreatePaymentHeadingsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_16_143830_create_payment_headings_table.php',
         'CreateProjectPaymentStagesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_17_161019_create_project_payment_stages_table.php',
+        'CreateSocialWebsitesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_100842_create_social_websites_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
