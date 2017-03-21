@@ -26,6 +26,13 @@ class LstStates extends Eloquent
 	protected $fillable = [
 		'name',
 		'country_id',
-                'id'
+                'id',
+                'created_date',
+                'created_at',
+                'created_by',
+                'created_IP',
+                'created_browser',
+                'created_mac_id',
+                
 	];
 }

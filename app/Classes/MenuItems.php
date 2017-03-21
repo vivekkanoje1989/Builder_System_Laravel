@@ -200,9 +200,9 @@ class MenuItems {
                 )),
                 3 => array('id' => '0603', 'name' => 'Testimonials', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '060301,060302,060303', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                    1 => array('id' => '060301', 'name' => 'Approve', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
-                    2 => array('id' => '060302', 'name' => 'Create', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
-                    3 => array('id' => '060303', 'name' => 'Manage', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
+                    1 => array('id' => '060301', 'name' => 'Approve', 'icon' => '','url' => '/'.$getUrl.'/testimonials/index', 'slug' => '.testimonialsIndex', 'uiSrefActive' => 'active'),
+                    2 => array('id' => '060302', 'name' => 'Create', 'icon' => '', 'url' => '/'.$getUrl.'/testimonials/create', 'slug' => '.testimonialsCreate', 'uiSrefActive' => 'active'),
+                    3 => array('id' => '060303', 'name' => 'Manage', 'icon' => '', 'url' => '/'.$getUrl.'/testimonials/manage', 'slug' => '.testimonialsManage', 'uiSrefActive' => 'active'),
                 )),
                 4 => array('id' => '0604', 'name' => 'Website Visitors', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '060401', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    

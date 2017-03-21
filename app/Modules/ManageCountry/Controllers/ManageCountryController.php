@@ -71,17 +71,7 @@ class ManageCountryController extends Controller {
             return json_encode($result);
         } else {
              
-            $update = CommonFunctions::insertLogTableRecords();
-            $input['countryData'] = array_merge($request,$update);
-            
-            $originalValues = LstCountries::where('id', $request['id'])->get();
-            $result = LstCountries::where('id', $request['id'])->update($input['countryData']);
-            $result = ['success' => true, 'result' => $result];
-            
-            $last = DB::connection('masterdb')->table('lst_countries_logs')->latest('id')->first();
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
-            $implodeArr =  implode(",",array_keys($getResult));
-            $result =  DB::connection('masterdb')->table('lst_countries_logs')->where('id',$last->id)->update(['column_names'=>$implodeArr]);
+            $result = LstCountries::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

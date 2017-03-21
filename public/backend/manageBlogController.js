@@ -11,24 +11,22 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout','Upload'
 
         $scope.doblogscreateAction = function (bannerImage) {
             $scope.errorMsg = '';
+           
             if ($scope.blogId == '0')
             {
-                console.log("cc");
                 var url = getUrl + '/manage-blog/';
                 var data = {
              'blog_title': $scope.title, 'blog_seo_url': $scope.blog_seo_url,'blog_short_description':$scope.shortDescription,
-             'blog_description':$scope.blog_description,'meta_description':$scope.meta_description,'meta_Keywords':$scope.meta_Keywords,
+             'blog_description':$scope.blog_description,'meta_description':$scope.meta_description,'meta_keywords':$scope.meta_keywords,
              'blog_publish':$scope.blog_publish,'blogImages':{ 'blog_banner_images':bannerImage } }
                 var successMsg = "Blog created successfully.";
-                //'blogImages':{ 'blog_banner_images':bannerImage }
             } else {
-                 console.log(blogId);
-                var url = getUrl + '/manage-blog/'+ $scope.blogId;
+                var url = getUrl + '/manage-blog/update/'+$scope.blogId;
                 var successMsg = "Blog updated successfully.";
                 if (typeof bannerImage === 'string') {
                     bannerImage = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 }
-                var data = { _method: 'PUT',blog_banner_images : bannerImage, blog_id: blogId,
+                var data = { blog_banner_images : bannerImage, blog_id: $scope.blogId,
              'blog_title': $scope.title, 'blog_seo_url': $scope.blog_seo_url,'blog_short_description':$scope.shortDescription,'blog_description':$scope.blog_description,'meta_description':$scope.meta_description,'meta_Keywords':$scope.meta_Keywords,'blog_publish':$scope.blog_publish
                 }
             }
@@ -38,7 +36,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout','Upload'
                 data: data
             });
             bannerImage.upload.then(function (response) {
-                $timeout(function () {
+               $timeout(function () {
                     if (!response.data.success) {
                         var obj = response.data.message;
                         var arr = Object.keys(obj).map(function (k) {
@@ -57,12 +55,11 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout','Upload'
                         $rootScope.alert('success', successMsg);
                         $('.alert-delay').delay(3000).fadeOut("slow");
                         $timeout(function () {
-                            $state.go(getUrl+'.blogIndex');
+                            $state.go(getUrl+'.manageblogIndex');
                         }, 1000);
                     }
                 });
             }, function (response) {
-                console.log(response);
                 if (response.status !== 200) {
                     $scope.errorMsg = "Something went wrong. Check your internet connection";
                 }
@@ -108,6 +105,8 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout','Upload'
                 $scope.meta_description = response.records.meta_description;
                 $scope.meta_Keywords = response.records.meta_Keywords;
                 $scope.blog_publish = response.records.blog_publish;
+                $scope.blog_banner_images = response.records.blog_banner_images;
+                console.log($scope.blog_banner_images);
             });
         }
         $scope.success = function (message) {

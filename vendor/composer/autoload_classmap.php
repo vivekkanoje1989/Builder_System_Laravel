@@ -30,6 +30,7 @@ return array(
     'CreatePaymentHeadingsTable' => $baseDir . '/database/migrations/2017_03_16_143830_create_payment_headings_table.php',
     'CreateProjectPaymentStagesTable' => $baseDir . '/database/migrations/2017_03_17_161019_create_project_payment_stages_table.php',
     'CreateSocialWebsitesTable' => $baseDir . '/database/migrations/2017_03_18_100842_create_social_websites_table.php',
+    'CreateTestimonialsTable' => $baseDir . '/database/migrations/2017_03_20_104006_create_testimonials_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',

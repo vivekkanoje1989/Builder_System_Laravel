@@ -952,8 +952,8 @@ angular.module('app')
                                             {
                                                 serie: true,
                                                 files: [
-                                                     '/backend/app/controllers/textangular.js',
                                                      '/backend/manageBlogController.js',
+                                                      '/backend/app/controllers/textangular.js',
                                                 ]
                                             });
                                         }
@@ -969,7 +969,7 @@ angular.module('app')
                     },
                     requiredLogin: true,
                     ncyBreadcrumb: {
-                        label: 'Edit User',
+                        label: 'Edit Blog',
                         description: ''
                     },
                     resolve: {
@@ -991,6 +991,123 @@ angular.module('app')
                                 }
                             ]
                         }
+                })
+                .state(getUrl+'.testimonialsIndex', {
+                    url: '/testimonials/index',
+                    templateUrl: getUrl+'/testimonials-approve/',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Approve Testimonials',
+                        description: ''
+                    },
+                     resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/testimonialsController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+                })
+                .state(getUrl+'.testimonialUpdate', {
+                    url: '/testimonial-approve/update/:testimonialId',
+                    templateUrl:  function (stateParams){
+                        console.log("-"+stateParams)
+                        return getUrl+'/testimonial-approve/' + stateParams.testimonialId + '/edit';
+                    },
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Edit Testimonials',
+                        description: ''
+                    },
+                     resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/testimonialsController.js',
+                                ]
+                            });
+                        }
+                    ]
+                 }
+                 })
+                 
+                   .state(getUrl+'.testimonialManage', {
+                    url: '/testimonial-manage/update/:testimonialId',
+                    templateUrl:  function (stateParams){
+                        return getUrl+'/testimonial-manage/' + stateParams.testimonialId + '/manageEdit';
+                    },
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Update Testimonials',
+                        description: ''
+                    },
+                     resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/testimonialsController.js',
+                                ]
+                            });
+                        }
+                    ]
+                 }
+                 })
+                 
+                 .state(getUrl+'.testimonialsCreate', {
+                    url: '/testimonials/create',
+                    templateUrl: getUrl+'/testimonials-create/',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Create Testimonials',
+                        description: ''
+                    },
+                    resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/testimonialsController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+                })
+                 .state(getUrl+'.testimonialsManage', {
+                    url: '/testimonials/manage',
+                    templateUrl: getUrl+'/testimonials-manage/',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'manage Testimonials',
+                        description: ''
+                    },
+                    resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/testimonialsController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
                 })
 
             /****************************MANOJ*********************************/

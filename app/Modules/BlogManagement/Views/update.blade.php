@@ -1,3 +1,5 @@
+
+
 <style>
     .editor-text {
         border: 1px solid #cecece;
@@ -6,7 +8,7 @@
         padding: 10px;
     }
 </style>
-<div class="row" ng-controller="blogsCtrl" ng-init="editBlogs('<?php  echo $blogId; ?>')">  
+<div class="row" ng-controller="blogsCtrl" >  
     <div>
         <flash-message duration="5000"></flash-message>
     </div>
@@ -23,7 +25,7 @@
             </div>
 
             <div class="widget-body table-responsive">     
-<form novalidate ng-submit="blogsForm.$valid && doblogscreateAction(bannerImage)" name="blogsForm" ng-init="manageUsers([[ !empty($blogId) ?  $blogId : '0' ]],'edit')">
+<form  ng-submit="blogsForm.$valid && doblogscreateAction(bannerImage)" name="blogsForm"  ng-init="editBlogs('<?php echo $blogId; ?>');">
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -90,15 +92,29 @@
 
 
                                         <div class="col-lg-12 col-sm-12 col-xs-12">
-                                            <div class="widget flat radius-bordered">
+                                           <!-- <div class="widget flat radius-bordered">
                                                 <div class="widget-header bordered-bottom bordered-themeprimary">
                                                     <span class="widget-caption">TextAngular : A Lightweight, Two-Way-Bound & Totally Awesome Angular.js Text-Editor</span>
                                                 </div>
                                                 <div class="widget-body no-padding">
                                                     <div ng-controller="TextAngularCtrl">
-                                                        <div text-angular ng-model="blog_description" name="blog_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
+                                                        <div text-angular ng-model="blog_description" name="demo-editor" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            -->
+                                            
+                                            
+                                            
+                                            <div class="widget flat radius-bordered">
+                                                        <div class="widget-header bordered-bottom bordered-themeprimary">
+                                                            <span class="widget-caption">Page Content</span>
+                                                        </div>
+                                                    <div class="widget-body no-padding">
+                                                            <div ng-controller="TextAngularCtrl">
+                                                                <div text-angular ng-model="blog_description" id="description" name="blog_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                                            </div>
+                                                    </div>
                                             </div>
                                         </div>
 
@@ -113,8 +129,7 @@
                             <tr><td>Banner Image</td>
                                 <td>
                                     <span class="input-icon icon-right">
-                                       
-                                      <input type="file" ngf-select ng-model="bannerImage" name="bannerImage" id="bannerImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(bannerImage)">
+                                      <input type="file" ngf-select ng-model="bannerImage" name="bannerImage" id="bannerImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(bannerImage)">
                                         <br/>
                                     </span>
                                 </td>
@@ -181,10 +196,6 @@
                                 <td><button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button></td>
                             </tr>
                         
-
-
-
-                    
                     </tbody>
                 </table>
      </form>

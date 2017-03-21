@@ -29,5 +29,6 @@ return [
         "SocialWebsites",
         "BlogManagement",
         "AssignWebEnquiry",
+        "Testimonials"
     ),
 ];

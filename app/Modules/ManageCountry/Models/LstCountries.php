@@ -34,12 +34,7 @@ class LstCountries extends Eloquent
                 'created_IP',
                 'created_browser',
                 'created_mac_id',
-                'updated_date',
-                'updated_at',
-                'updated_by',
-                'updated_IP',
-                'updated_browser',
-                'updated_mac_id',
+                
                 
 	];
 }

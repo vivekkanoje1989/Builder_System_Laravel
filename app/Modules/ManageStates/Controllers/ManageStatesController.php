@@ -18,7 +18,7 @@ class ManageStatesController extends Controller {
 	 */
 	public function index()
 	{
-		return view("ManageStates::states");
+		return view("ManageStates::index");
 	}
        public function manageStates()
        {
@@ -86,23 +86,16 @@ class ManageStatesController extends Controller {
             return json_encode($result);
         } else {
              
-            $update = CommonFunctions::insertLogTableRecords();
-            $input['statesData'] = array_merge($request,$update);
            
             $getCountry = LstCountries::where('id', '=',$request['country_id'])
                ->select('name')
                ->first(); 
             
             $originalValues = LstStates::where('id', $request['id'])->get();
-            $result = LstStates::where('id', $request['id'])->update($input['statesData']);
+            $result = LstStates::where('id', $request['id'])->update($request);
             
-            $last = DB::connection('masterdb')->table('lst_states_logs')->latest('id')->first();
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
-            $implodeArr =  implode(",",array_keys($getResult));
-            $result =  DB::connection('masterdb')->table('lst_states_logs')->where('id',$last->id)->update(['column_names'=>$implodeArr]);
             $result = ['success' => true, 'result' => $result,'country_name'=>$getCountry->name];
-            
-            return json_encode($result);
+          return json_encode($result);
         }
     }
 

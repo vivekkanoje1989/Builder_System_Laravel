@@ -48,7 +48,7 @@
                             <td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>
                             <td>{{list.name}}</td>     
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#countryModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}',{{ itemsPerPage}},{{$index}},{{list.phonecode}},{{list.sortname}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#countryModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}',{{ itemsPerPage}},{{$index}},{{list.phonecode}},'{{list.sortname}}')"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

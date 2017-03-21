@@ -27,7 +27,7 @@ class Blogs extends Eloquent
             'blog_description',
             'blog_short_description',
             'meta_description',
-            'meta_keyword',
+            'meta_keywords',
             'blog_images',
             'blog_banner_images',
             'blog_seo_url',

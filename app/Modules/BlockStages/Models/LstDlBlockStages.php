@@ -2,32 +2,31 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 10 Jan 2017 10:34:58 +0000.
+ * Date: Wed, 18 Jan 2017 09:04:39 +0000.
  */
 
-namespace App\Modules\ContactUs\Models;
+namespace App\Modules\BlockStages\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
+ * Class LstEducation
  * 
- * 
- * 
- * 
+ * @property int $blood_group_id
+ * @property string $blood_group
  *
  * @package App\Models
  */
-class Contactus extends Eloquent
+class LstDlBlockStages extends Eloquent
 {
 	protected $primaryKey = 'id';
+
+
 	public $timestamps = false;
-        public $table = 'contactus';
 	protected $fillable = [
-            'id',
-            'address',
-            'telephone',
-            'email',
-            'created_date',
+		'block_stage_name',
+		'project_type_id',
+                'created_date',
                 'created_at',
                 'created_by',
                 'created_IP',

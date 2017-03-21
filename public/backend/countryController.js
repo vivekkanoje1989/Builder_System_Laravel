@@ -8,15 +8,14 @@ app.controller('countryCtrl', ['$scope', 'Data', '$rootScope','$timeout', functi
 
             });
         };
-        $scope.initialModal = function (id, name, index, index1,phonecode,sortname) {
+        $scope.initialModal = function (id, name, index, index1,phonecode,sname) {
 
             $scope.heading = 'Country';
             $scope.id = id;
             $scope.name = name;
             $scope.index = index * ($scope.noOfRows - 1) + (index1 + 1);
             $scope.phonecode = phonecode;
-            $scope.sortname = sortname;
-           
+            $scope.sortname = sname;
         }
         $scope.doCountryAction = function () {
             $scope.errorMsg = '';

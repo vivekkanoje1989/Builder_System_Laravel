@@ -5,30 +5,33 @@
  * Date: Tue, 10 Jan 2017 10:34:58 +0000.
  */
 
-namespace App\Modules\ManageCity\Models;
+namespace App\Modules\ManageProjectTypes\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
-
 /**
- * Class LstCountry
+ * Class LstCity
  * 
- * @property int $country_id
- * @property string $country_name
+ * @property int $city_id
+ * @property int $state_id
+ * @property string $city_name
  *
  * @package App\Models
  */
-class LstCountries extends Eloquent
+class LstProjectTypes extends Eloquent
 {
 	protected $primaryKey = 'id';
-	 protected $connection = 'masterdb';
 	public $timestamps = false;
+        protected $connection = 'masterdb';
+
+        protected $casts = [
+		'id' => 'int'
+	];
 
 	protected $fillable = [
+		
+		'project_type_name',
                 'id',
-                'sortname',
-                'name',
-                'phonecode',
                 'created_date',
                 'created_at',
                 'created_by',
@@ -41,6 +44,5 @@ class LstCountries extends Eloquent
                 'updated_IP',
                 'updated_browser',
                 'updated_mac_id',
-                
 	];
 }

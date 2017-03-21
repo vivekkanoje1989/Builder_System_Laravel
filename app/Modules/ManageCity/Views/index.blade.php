@@ -1,12 +1,12 @@
 <div class="row" ng-controller="citiesCtrl" ng-init="manageCities(); manageCountry();">  
-<div>
-          <flash-message duration="5000"></flash-message>
-</div>
+    <div>
+        <flash-message duration="5000"></flash-message>
+    </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage City</span>
-                <a href="" data-toggle="modal" data-target="#cityModal" ng-click="initialModal(0,'','','')" class="btn btn-info">Create New City</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#cityModal" ng-click="initialModal(0, '', '', '')" class="btn btn-info">Create New City</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -14,49 +14,49 @@
                 </div>
             </div>
             <div class="widget-body table-responsive">     
-            <div class="row">
+                <div class="row">
                     <div class="col-sm-6 col-xs-12">
-                      <label for="search">Search:</label>
-                      <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                        <label for="search">Search:</label>
+                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
                     </div>
 
                     <div class="col-sm-6 col-xs-12">
-                      <label for="search">Records per page:</label>
-                      <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                        <label for="search">Records per page:</label>
+                        <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
                     </div>
                 </div><br>           
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                            <tr>
+                        <tr>
                             <th style="width:5%">
-                            <a href="javascript:void(0);" ng-click="orderByField ='id'; reverseSort = !reverseSort">SR No.
-                              <span ng-show="orderByField == 'id'">
-                              <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                            </a></th> 
-                                                  
+                                <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">SR No.
+                                    <span ng-show="orderByField == 'id'">
+                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a></th> 
+
                             <th style="width:25%">
-                            <a href="javascript:void(0);" ng-click="orderByField ='state_name'; reverseSort = !reverseSort">State
-                              <span ng-show="orderByField == 'state_name'">
-                              <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                            </a></th> 
+                                <a href="javascript:void(0);" ng-click="orderByField = 'state_name'; reverseSort = !reverseSort">State
+                                    <span ng-show="orderByField == 'state_name'">
+                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a></th> 
                             <th style="width:25%">
-                            <a href="javascript:void(0);" ng-click="orderByField ='name'; reverseSort = !reverseSort">City
-                              <span ng-show="orderByField == 'name'">
-                              <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                            </a></th>                           
+                                <a href="javascript:void(0);" ng-click="orderByField = 'name'; reverseSort = !reverseSort">City
+                                    <span ng-show="orderByField == 'name'">
+                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a></th>                           
                             <th style="width: 5%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                       
+
                         <tr role="row" dir-paginate="list in citiesRow| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                            <td>{{itemsPerPage * (noOfRows-1)+$index+1}} </td>
-                           
+                            <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
+
                             <td>{{ list.state_name}}</td> 
                             <td>{{ list.name}}</td>                          
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#cityModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}','{{list.country_id}}','{{list.state_id}}',{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#cityModal"><a href="javascript:void(0);" ng-click="initialModal({{list}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -87,22 +87,22 @@
                 </div>
                 <form novalidate ng-submit="citiesForm.$valid && doCitiesAction()" name="citiesForm">
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!citiesForm.name.$dirty && citiesForm.name.$invalid)&& (!citiesForm.country_id.$dirty && citiesForm.country_id.$invalid)&& (!citiesForm.state_id.$dirty && citiesForm.state_id.$invalid)}">
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!citiesForm.name.$dirty && citiesForm.name.$invalid) && (!citiesForm.country_id.$dirty && citiesForm.country_id.$invalid) && (!citiesForm.state_id.$dirty && citiesForm.state_id.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
-                             <span class="input-icon icon-right">
-                                
-                                 <select id="country_id" class="form-control" ng-model="country_id" ng-options="item.id as item.name for item in countryRow" ng-change="manageStates()">
-        	                <option value="">--Select--</option>
-                                       </select>
+                            <span class="input-icon icon-right">
+
+                                <select id="country_id" name="country_id" class="form-control" ng-model="country_id" ng-options="item.id as item.name for item in countryRow" ng-change="manageStates()">
+                                    <option value="">--Select--</option>
+                                </select>
                                 <i class="fa fa-user thm-color circular"></i>
-                                <div class="help-block" ng-show="sbtBtn" ng-messages="citiesForm.state_id.$error">
+                                <div class="help-block" ng-show="sbtBtn" ng-messages="citiesForm.country_id.$error">
                                     <div ng-message="required">This field is required</div>
                                 </div>
                             </span>
                             <br/><br/>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="state_id" name="state_id" >
-                                    <option  ng-repeat="itemone in statesRow" value="{{itemone.id}}" selected>{{itemone.name}}</option>
+                                    <option  ng-repeat="itemone in statesRow" ng-selected="{{ state_id == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
                                 </select>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="citiesForm.state_id.$error">
