@@ -6,7 +6,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Location</span>
-                <a href="" data-toggle="modal" data-target="#LocationModal" ng-click="initialModal(0,'','','')" class="btn btn-info">Create New Location</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#LocationModal" ng-click="initialModal(0,'','','','')" class="btn btn-info">Create New Location</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -49,7 +49,7 @@
                             <td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>
                             <td>{{list.location_type}}</td>     
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#LocationModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.location_type}}',{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#LocationModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.location_type}}',{{ itemsPerPage}},{{$index}},{{list.status}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -79,7 +79,7 @@
                 </div>
                 <form novalidate ng-submit="LocationForm.$valid && doLocationAction()" name="LocationForm">
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!LocationForm.name.$dirty && LocationForm.name.$invalid)}">
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!LocationForm.name.$dirty && LocationForm.name.$invalid) && (!LocationForm.status.$dirty && LocationForm.status.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="name" name="name" placeholder="Location" ng-change="errorMsg = null" required>
@@ -87,6 +87,17 @@
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="LocationForm.name.$error">
                                     <div ng-message="required">This field is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
+                                </div>
+                                <br/>
+                            </span>
+                            <span class="input-icon icon-right">
+                                <select name="status" ng-model="status" class="form-control">
+                                    <option value="">Select status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">In active</option>
+                                </select>
+                                <div class="help-block" ng-show="sbtBtn" ng-messages="LocationForm.status.$error">
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                             </span>
                         </div>
@@ -99,4 +110,3 @@
         </div>
     </div>
 </div>
-

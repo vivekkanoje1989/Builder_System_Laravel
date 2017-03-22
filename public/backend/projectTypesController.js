@@ -5,36 +5,35 @@ app.controller('projecttypesController', ['$scope', 'Data', '$rootScope','$timeo
                 $scope.ProjectTypesRow = response.records;
             });
         };
-        $scope.initialModal = function (project_type_id, project_type_name, index) {
+        $scope.initialModal = function (id, project_type, index) {
 
             $scope.heading = 'Project Types';
-            $scope.project_type_id = project_type_id;
-            $scope.project_type_name = project_type_name;
+            $scope.id = id;
+            $scope.project_type = project_type;
             $scope.index = index;
         }
-
-
         $scope.doProjectTypesAction = function () {
+           
             $scope.errorMsg = '';
-            if ($scope.project_type_id === 0) //for create
+            if ($scope.id === 0) //for create
             {
                 Data.post('project-types/', {
-                    project_type_name: $scope.project_type_name}).then(function (response) {
-                    
+                    project_type: $scope.project_type}).then(function (response) {
+                    console.log(response);
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $('#projecttypesModal').modal('toggle');
-                        $scope.ProjectTypesRow.push({'project_type_name': $scope.project_type_name, 'project_type_id':response.lastinsertid});
+                        $scope.ProjectTypesRow.push({'project_type': $scope.project_type, 'id':response.lastinsertid});
                        
                    // $scope.success("Project type created successfully");   
                     }
                 });
             } else { //for update
 
-                Data.put('project-types/'+$scope.project_type_id, {
-                    project_type_name: $scope.project_type_name, project_type_id: $scope.project_type_id}).then(function (response) {
+                Data.put('project-types/'+$scope.id, {
+                    project_type: $scope.project_type, id: $scope.id}).then(function (response) {
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
@@ -42,7 +41,7 @@ app.controller('projecttypesController', ['$scope', 'Data', '$rootScope','$timeo
                        // $scope.success("Project type updated successfully");   
                         $scope.ProjectTypesRow.splice($scope.index, 1);
                         $scope.ProjectTypesRow.splice($scope.index, 0, {
-                            project_type_name: $scope.project_type_name, project_type_id: $scope.project_type_id});
+                            project_type: $scope.project_type, id: $scope.id});
                         $('#projecttypesModal').modal('toggle');
                     }
                 });

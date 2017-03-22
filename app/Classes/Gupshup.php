@@ -170,8 +170,9 @@ class Gupshup {
     
     public static function sendBulkSMS($data) {
         try{
-            $rootPath = config('global.rootPath');            
+                       
             $loggedInUserId = Auth::guard('admin')->user()->id;  
+            $filePath = $data['filePath'];
             $fileName = $data['fileName'];
             $sendingType = $data['sendingType'];
             $totalSmsCredits = Credit::select('sms_credit_limit', 'sms_status')->where(['id' => 1])->get();
@@ -187,7 +188,7 @@ class Gupshup {
                 $customer = 'YES';
                 $customerId = 1;
                 $bulkSms = '1';
-                $file = $rootPath ."/". $fileName;
+                $file = $filePath;
                 if ($data['smsType'] == 'bulk_sms') {
                     if (!empty($data['fileName'])) {           
                         $excel = Excel::load($file)->all()->toArray();
@@ -286,7 +287,7 @@ class Gupshup {
                                 $date = date("Y-m-d H:i:s");
                                 $input[] = ["employee_id" => $loggedInUserId, "sent_date_time" => $date, "client_id" => $clientId, "client_type" => "$clientType", "externalId1" => "$externalId1", 
                                     "externalId2" => "$externalId2", "deliveredTS" => "$deliveredTS", "mobile_number" => "$mNumber", "sms_body" => $smsBody, "customer_sms" => "$customer", 
-                                    "customer_id" => $customerId, "bulk_sms" => "$bulkSms", "bulk_file_id" => "$fileName", "sms_type" => "$smsType", "sms_sending_type" => $sms_sending_type, "status" => $status, 
+                                    "customer_id" => $customerId, "bulk_sms" => "$bulkSms", "bulk_file_id" => "$filePath", "sms_type" => "$smsType", "sms_sending_type" => $sms_sending_type, "status" => $status, 
                                     "delivered_status" => $deliveredStatus, "cause" => "$cause", "request_url" => $requestUrl, "log_status" => $logStatus, 
                                     "credits_deducted" => $creditsDeducted, "is_international" => $isInternational];   
                             }
@@ -338,7 +339,7 @@ class Gupshup {
                 return json_encode($result);
             }
 
-            if (Yii::app()->s3->awsupload($file, $folder, $fileName)) { // push excel to s3 bucket
+            if (Yii::app()->s3->awsupload($file, $folder, $filePath)) { // push excel to s3 bucket
                 @unlink($file);
             }
         } catch (Exception $ex) {

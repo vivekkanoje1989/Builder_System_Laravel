@@ -42,10 +42,17 @@ class MasterSalesController extends Controller {
 	 */
 	public function store()
 	{
-            $input = Input::all();
+            $postdata = file_get_contents("php://input");
+            $input  = json_decode($postdata, true);
+
+            if(empty($input)){
+                $input = Input::all();
+            }
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
             
+            echo "<pre>";print_r($input);exit;
             if(!empty($input['customerData'])){
                 $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
                 if ($validator->fails()) {
@@ -53,17 +60,26 @@ class MasterSalesController extends Controller {
                     echo json_encode($result,true);
                     exit;
                 }
-            }            
+            } 
             
+            if(!empty($input['userData']['loggedInUserId'])){
+                $loggedInUserId = $input['userData']['loggedInUserId'];
+            }
+            else{
+                $loggedInUserId = Auth::guard('admin')->user()->id;
+            }
+           
             $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
-            $create = CommonFunctions::insertMainTableRecords();
+            
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'],$create);
-            $input['customerData']['main_record_id'] = Auth::guard('admin')->user()->id;
-            $input['customerData']['record_type'] = 1;
-            $input['customerData']['record_restore_status'] = 1;
+            
             $createCustomer = Customer::create($input['customerData']); //insert data into employees table
             CustomersLog::create($input['customerData']);  
+            $input['customerData']['main_record_id'] = $createCustomer->id;
+            $input['customerData']['record_type'] = 1;
+            $input['customerData']['record_restore_status'] = 1;
             
             if(!empty($input['customerContacts'])){
                 foreach($input['customerContacts'] as $contacts){
@@ -83,14 +99,17 @@ class MasterSalesController extends Controller {
                         $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ?  (int) $mobileNumber[0] : "";
                         $contacts['mobile_number'] = (!empty($mobileNumber[1])) ? (int) $mobileNumber[1] : "";
                     }
+                    
                     if (!empty($contacts['landline_number'])) {
                         $landlineNumber = explode("-", $contacts['landline_number']);
-                        $contacts['landline_calling_code'] = !empty($landlineNumber[1]) ?  (int) $landlineNumber[0] : "";
+                        $contacts['landline_calling_code'] = (!empty($landlineNumber[1])) ?  (int) $landlineNumber[0] : "";
                         $contacts['landline_number'] = (!empty($landlineNumber[1])) ? (int) $landlineNumber[1] : "";
                     }
+                    
                     $contacts = array_merge($contacts,$create);
                     CustomersContact::create($contacts); //insert data into customer_contacts table
                     CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
+                    
                 }
             }
             exit;            
@@ -128,7 +147,13 @@ class MasterSalesController extends Controller {
 	{
             $originalValues = Customer::where('id', $id)->get();
             $originalContactValues = CustomersContact::where('customer_id', $id)->get();
-            $input = Input::all();
+            
+            $postdata = file_get_contents("php://input");
+            $input  = json_decode($postdata, true);
+
+            if(empty($input)){
+                $input = Input::all();
+            }
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             if(!empty($input['customerData'])){
@@ -140,17 +165,23 @@ class MasterSalesController extends Controller {
                 }
             }
             
+            if(!empty($input['userData']['loggedInUserId'])){
+                $loggedInUserId = $input['userData']['loggedInUserId'];
+            }
+            else{
+                $loggedInUserId = Auth::guard('admin')->user()->id;
+            }
             $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
             $input['customerData']['created_date'] =  date('Y-m-d', strtotime($input['customerData']['created_date']));            
-            $update = CommonFunctions::updateMainTableRecords();
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'],$update);
             $updateCustomer = Customer::where('id',$id)->update($input['customerData']); //insert data into employees table
             
             $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
             $implodeArr =  implode(",",array_keys($getResult));
             if ($updateCustomer == 1) {
-                $create = CommonFunctions::insertMainTableRecords();
+                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                 $input['customerData'] = array_merge($input['customerData'],$create);
                 $input['customerData']['main_record_id'] = $id;
                 $input['customerData']['record_type'] = 2;
@@ -193,7 +224,7 @@ class MasterSalesController extends Controller {
                     if(count($checkMobileNumber) === 0)
                     {
                         $contacts['customer_id'] = $id;
-                        $create = CommonFunctions::insertMainTableRecords();
+                        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                         $contacts = array_merge($contacts,$create);
                         CustomersContact::create($contacts); //insert data into customer_contacts table
                     }
@@ -202,7 +233,7 @@ class MasterSalesController extends Controller {
                         $updateContact = CustomersContact::where('id',$contacts['id'])->update($contacts); //insert data into customer_contacts table
                     }
                     if($updateContact == 1){
-                        $create = CommonFunctions::insertMainTableRecords();
+                        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                         $contacts = array_merge($contacts,$create);
                         if(count($checkMobileNumber) == 0)
                         {
@@ -271,10 +302,10 @@ class MasterSalesController extends Controller {
             ])->get();
             $checkMobile = json_decode($checkMobile);
             if (!empty($checkMobile[0]->mobile_number)) {
-                $result = ['success' => true];
+                $result = ['success' => false];
                 return json_encode($result);
             } else {
-                $result = ['success' => false];
+                $result = ['success' => true];
                 return json_encode($result);
             }
         }

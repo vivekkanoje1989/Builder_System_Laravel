@@ -132,7 +132,7 @@
                                                 <td>{{ aliasList.project_alias_name }}</td>
                                                 <td style="display:none;" ng-if="portalData.assign_employee == '1'">{{ aliasList.project_employee_id }}</td>
                                                 <td ng-if="portalData.assign_employee == '1'">{{ aliasList.project_employee_name }}</td>
-                                                <td data-toggle="modal" data-target="#projectModal">Edit</td>
+                                                <td data-toggle="modal" data-target="#projectModal" ng-click="getUpdatePropertAlias({{aliasList.id}},{{aliasList.property_portal_type_id}},{{aliasList.property_portal_id}})">Edit</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -157,7 +157,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">{{ modal_title}}</h4>
                 </div>
-                <form name="addProjectForm" novalidate ng-submit="addProjectForm.$valid && addEditProjects(modal)">  
+                <form name="updateProjectForm" novalidate ng-submit="updateProjectForm.$valid && addEditProjects(modal)">  
                     <div class="modal-body">               
                         <input type='hidden' id="property_portal_type_id" name="actionModal" ng-model="modal.property_portal_id" value="[[ $portalTypeId ]]">
                         <div class="form-group">                            
@@ -192,7 +192,7 @@
                         </div>                
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-primary" ng-click="" ng-disabled="addProjectForm.$invalid">Add</button>                       
+                        <button type="submit" class="btn btn-primary" ng-click="" ng-disabled="updateProjectForm.$invalid">Add</button>                       
                     </div>  
                 </form>                      
             </div>

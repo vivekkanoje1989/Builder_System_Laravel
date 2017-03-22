@@ -338,7 +338,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" align="center">Contact Details</h4>
                         </div>
-                        <form ng-submit="modalForm.$valid && addRow(contactData)" novalidate name="modalForm">
+                        <form novalidate name="modalForm" ng-submit="modalForm.$valid && addRow(contactData)">
                             <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
                             <div class="modal-body">
                                 <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -366,6 +366,7 @@
                                                 <div ng-show="modalSbtBtn" ng-messages="modalForm.mobile_number.$error" class="help-block">
                                                     <div ng-message="required">This field is required.</div>
                                                     <div ng-message="pattern">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
+                                                    <div ng-message="uniqueMobile">Mobile number already exist</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -431,8 +432,8 @@
                                                 <span class="input-icon icon-right">
                                                     <select ng-model="contactData.address_type" name="address_type" class="form-control">
                                                         <option value="">Select Type</option>
-                                                        <option>Personal</option>
-                                                        <option>Office</option>
+                                                        <option value="1">Personal</option>
+                                                        <option value="2">Office</option>
                                                     </select>
                                                     <i class="fa fa-sort-desc"></i>
                                                 </span>

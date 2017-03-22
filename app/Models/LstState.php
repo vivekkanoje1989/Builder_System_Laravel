@@ -5,7 +5,7 @@
  * Date: Tue, 10 Jan 2017 10:34:58 +0000.
  */
 
-namespace App\Modules\Models;
+namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 

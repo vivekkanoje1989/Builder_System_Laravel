@@ -1,107 +1,116 @@
-<?php
-
-namespace App\Modules\BlockStages\Controllers;
+<?php namespace App\Modules\BlockStages\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\BlockStages\Models\LstDlBlockStages;
-use App\Modules\ManageProjectTypes\Models\LstProjectTypes;
-use DB;
-use App\Classes\CommonFunctions;
+use App\Modules\BlockStages\Models\BlockStages;
+
 
 class BlockStagesController extends Controller {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index() {
-        return view("BlockStages::index");
-    }
-
-    public function manageBlockStages() {
-        $getBlockstage = LstDlBlockStages::all();
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function index()
+	{
+            return view("BlockStages::index");
+	}
+        
+        public function manageBlockStages() {
+            $getBlockstage = BlockStages::all();
 //echo "<pre>";print_r($getBlockstage);exit;
-        if (!empty($getBlockstage)) {
-            $result = ['success' => true, 'records' => $getBlockstage];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+            if (!empty($getBlockstage)) {
+                $result = ['success' => true, 'records' => $getBlockstage];
+                return json_encode($result);
+            } else {
+                $result = ['success' => false, 'message' => 'Something went wrong'];
+                return json_encode($result);
+            }
         }
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		//
+	}
 
-    public function manageProjectTypes() {
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+            $postdata = file_get_contents('php://input');
+            $request = json_decode($postdata, true);
+            $cnt = BlockStages::where(['block_stages' => $request['block_stages']])->get()->count();
+            if ($cnt > 0) { 
+                $result = ['success' => false, 'errormsg' => 'Block already exists'];
+                return json_encode($result);
+            } else {
+                $getResult = BlockStages::create($request);
+                $result = ['success' => true, 'result' => $getResult];
+                return json_encode($result);
+            }
+	}
 
-        $getTypes = LstProjectTypes::all();
-        if (!empty($getTypes)) {
-            $result = ['success' => true, 'records' => $getTypes];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		//
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-    public function store() {
-        $postdata = file_get_contents('php://input');
-        $request = json_decode($postdata, true);
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		//
+	}
 
-        $cnt = LstDlBlockStages::where(['block_stage_name' => $request['block_stage_name']])->get()->count();
-        if ($cnt > 0) {
-            $result = ['success' => false, 'errormsg' => 'Block stage name already exists'];
-            return json_encode($result);
-        } else {
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+            $postdata = file_get_contents('php://input');
+            $request = json_decode($postdata, true);
+            $getCount = BlockStages::where(['block_stages' => $request['block_stages']])->get()->count();
+            if ($getCount > 0) {
+                $result = ['success' => false, 'errormsg' => 'Block already exists'];
+                return json_encode($result);
+            } else {
+                $result = BlockStages::where('id', $request['id'])->update($request);
+                $result = ['success' => true, 'result' => $result];
+                return json_encode($result);
+            }
+	}
 
-            $create = CommonFunctions::insertMainTableRecords();
-            $input['blockStagesData'] = array_merge($request, $create);
-
-            $result = LstDlBlockStages::create($input['blockStagesData']);
-            $last3 = LstDlBlockStages::latest('id')->first();
-            $input['blockStagesData']['id'] = $last3->id;
-            $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id];
-            return json_encode($result);
-        }
-    }
-
-    public function update($id) {
-        $postdata = file_get_contents('php://input');
-        $request = json_decode($postdata, true);
-
-        $getCount = LstDlBlockStages::where(['block_stage_name' => $request['block_stage_name']])->get()->count();
-        if ($getCount > 0) {
-            $result = ['success' => false, 'errormsg' => 'Block stage name already exists'];
-            return json_encode($result);
-        } else {
-
-            $update = CommonFunctions::insertLogTableRecords();
-            $input['blockStagesData'] = array_merge($request, $update);
-            $originalValues = LstDlBlockStages::where('id', $request['id'])->get();
-            $result = LstDlBlockStages::where('id', $request['id'])->update($input['blockStagesData']);
-            $last = DB::table('lst_dl_block_stages_logs')->latest('id')->first();
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
-            $implodeArr = implode(",", array_keys($getResult));
-            $result = DB::table('lst_dl_block_stages_logs')->where('id', $last->id)->update(['column_names' => $implodeArr]);
-            $result = ['success' => true, 'result' => $result];
-            return json_encode($result);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id) {
-        //
-    }
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		//
+	}
 
 }

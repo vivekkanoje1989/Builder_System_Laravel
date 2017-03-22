@@ -1,4 +1,4 @@
-'use strict';
+//'use strict';
 app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse) {
     $scope.pageHeading = 'Create User';
     $scope.buttonLabel = 'Create';
@@ -237,6 +237,94 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             }
         });
     }
+    $scope.userPermissions = function(id){
+        Data.get('master-hr/getMenuLists/'+id).then(function (response) {
+            if (response) {
+                $scope.menuItems = response;
+            } else {
+                $scope.errorMsg = response.message;
+            }
+        });
+    }
+    
+
+        
+    $scope.accessControl = function(empId,checkboxid, parentId, submenuId){
+        var isChecked = $("#"+checkboxid).prop("checked");
+        var obj = $("#"+checkboxid);
+        var level = $("#"+checkboxid).attr("data-level");
+     
+        if(isChecked)
+        {
+            if(level === "first"){
+                $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
+                $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', true);
+                $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).each(function() {
+                    var str = $( this ).attr('id');
+                    var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                    submenuId.push(parseInt(afterUnderscore));
+                });
+                $( obj.parent().parent().find('input[type=checkbox][data-level="third"]')).each(function() {
+                    var str = $( this ).attr('id');
+                    var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                    submenuId.push(parseInt(afterUnderscore));
+                });
+            }else if(level === "second"){
+                $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', true);
+                $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).each(function() {
+                    var str = $( this ).attr('id');
+                    var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                    submenuId.push(parseInt(afterUnderscore));
+                });
+            }
+            else if(level === "third"){
+                $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
+            }
+        }
+        else
+        {
+            if(level === "first"){
+                $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
+                $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', false);
+                $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).each(function() {
+                    var str = $( this ).attr('id');
+                    var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                    submenuId.push(parseInt(afterUnderscore));
+                   
+                });
+                $( obj.parent().parent().find('input[type=checkbox][data-level="third"]')).each(function() {
+                    var str = $( this ).attr('id');
+                    var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                    submenuId.push(parseInt(afterUnderscore));
+                });
+            }
+            else if(level === "second"){
+                $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', false);
+                $( obj.parent().find('input[type=checkbox][data-level="third"]')).each(function() {
+                    var str = $( this ).attr('id');
+                    var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                    submenuId.push(parseInt(afterUnderscore));
+                });
+            }
+            else if(level === "third"){
+                //console.log($(obj.parent().parent().prev().find('input[type=checkbox][data-level="third"]')));
+//                $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).each(function() {
+//                    var checkStatus = $( this ).is(':checked');
+//                    console.log(checkStatus);
+//                });
+            }
+        }
+        console.log(submenuId);
+        Data.post('master-hr/accessControl',{
+            data: {empId:empId, parentId:parentId, submenuId:submenuId,isChecked:isChecked}
+        }).then(function (response) {
+            if (response) {
+            } else {
+                $scope.errorMsg = response.message;
+            }
+        });
+    }
+    
     /****************** Organization Chart *********************/
     $scope.showchartdata = function () {
         google.charts.load('current', {packages: ["orgchart"]});

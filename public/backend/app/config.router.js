@@ -111,6 +111,32 @@ angular.module('app')
                     ]
                 }
             })
+            .state(getUrl + '.userPermissions', {
+                url: '/userpermissions/:empId',
+                templateUrl: function (stateParams) {
+                    return getUrl + '/master-hr/userPermissions/' + stateParams.empId;
+                },
+                controller: 'hrController',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'User Permissions',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [
+                                        '/backend/app/controllers/accordion.js',
+                                    ]
+                                });
+                        }
+                    ]
+                }
+                
+            })
             .state(getUrl + '.salesCreate', {
                 url: '/sales/create',
                 templateUrl: getUrl + '/master-sales/create',
@@ -165,9 +191,9 @@ angular.module('app')
                     ]
                 }
             })
-            /****************************UMA************************************/
-             .state(getUrl+'.portalIndex', {
-                    url: '/portals/index',
+            /************************************ uma ******************************/ 
+				.state(getUrl+'.propertyPortalIndex', {
+                    url: '/propertyportals/index',
                     templateUrl: getUrl+'/propertyportals/',
                     controller: 'propertyPortalsController',
                     requiredLogin: true,
@@ -188,10 +214,10 @@ angular.module('app')
                         ]
                     }
                 })
-                .state(getUrl+'.portalAccounts', {
+                .state(getUrl+'.propertyPortalAccounts', {
                     url: '/portalaccounts/:portalTypeId',
                     templateUrl:  function (stateParams){
-                        return getUrl+'/propertyportals/' + stateParams.portalTypeId + '/showAccounts' ;
+                        return getUrl+'/propertyportals/' + stateParams.portalTypeId + '/showPortalAccounts' ;
                     },
                     controller: 'propertyPortalsController',
                     requiredLogin: true,
@@ -214,7 +240,7 @@ angular.module('app')
                     }
                 })
                 .state(getUrl+'.createPortalAccounts', {
-                    url: '/createpropertyportals/:portalTypeId',
+                    url: '/portalaccounts/create/:portalTypeId',
                     templateUrl:  function (stateParams){
                         return getUrl+'/propertyportals/' + stateParams.portalTypeId + '/createAccount' ;
                     },
@@ -238,8 +264,8 @@ angular.module('app')
                         ]
                     }
                 }) 
-                .state(getUrl + '.portalupdate', {
-                url: '/propertyportals/updatePortalAccount/:portaltypeId/:accountId',
+                .state(getUrl + '.updatePortalAccounts', {
+                url: '/portalaccounts/update/:portaltypeId/:accountId',
                 templateUrl: function (stateParams) {
                     return getUrl + '/propertyportals/' + stateParams.portaltypeId + '/'+stateParams.accountId+'/updatePortalAccount';
                 },
@@ -263,12 +289,12 @@ angular.module('app')
                     ]
                 }
             })
-            .state(getUrl + '.contentPagesIndex', {
-                url: '/website_settings/contentpages',
-                templateUrl: getUrl + '/website_settings/getIndex',
+            .state(getUrl + '.webPagesIndex', {
+                url: '/webpages/index',
+                templateUrl: getUrl + '/web-pages/',
                 requiredLogin: true,
                 ncyBreadcrumb: {
-                    label: 'Content Management',
+                    label: 'Web Page Management',
                     description: ''
                 },
                 resolve: {
@@ -278,21 +304,21 @@ angular.module('app')
                             return $ocLazyLoad.load({
                                 serie: true,
                                 files: [
-                                    '/backend/websiteSettingsController.js',
+                                    '/backend/webPageController.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
-            .state(getUrl + '.contentPagesUpdate', {
-                url: '/contentpages/:page_id',
+            .state(getUrl + '.webPagesUpdate', {
+                url: '/webpages/update/:id',
                 templateUrl: function(stateParams){
-                    return getUrl + '/website_settings/' + stateParams.page_id + '/updateContentPage';
+                    return getUrl + '/web-pages/' + stateParams.id + '/edit';
                 },
                 requiredLogin: true,
                 ncyBreadcrumb: {
-                    label: 'Content Management',
+                    label: 'Web Page Management',
                     description: ''
                 },
                 resolve: {
@@ -306,7 +332,7 @@ angular.module('app')
                                 serie: true,
                                         files: [
                                             '/backend/app/controllers/textangular.js',
-                                            '/backend/websiteSettingsController.js',
+                                            '/backend/webPageController.js',
                                              '/backend/app/controllers/select.js',
                                         ]
                                 });
@@ -316,6 +342,7 @@ angular.module('app')
                     ]
                 }
             })
+
             /****************************UMA************************************/
             /****************************MANDAR*********************************/
             .state(getUrl + '.cloudtelephony', {
@@ -475,11 +502,10 @@ angular.module('app')
             })
             /****************************MANDAR*********************************/
             /****************************MANOJ*********************************/
-
             .state(getUrl + '.bloodGroupsIndex', {
                 url: '/bloodgroups/index',
-                templateUrl: getUrl +'/blood-groups/',
-                
+                templateUrl: getUrl + '/blood-groups/',
+
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Create blood groups',
@@ -526,7 +552,7 @@ angular.module('app')
                     ]
                 }
             })
-             .state(getUrl + '.countryIndex', {
+            .state(getUrl + '.countryIndex', {
                 url: '/country/index',
                 templateUrl: getUrl + '/manage-country/',
                 requiredLogin: true,
@@ -592,11 +618,11 @@ angular.module('app')
                     ]
                 }
             })
-           
+
             .state(getUrl + '.locationIndex', {
                 url: '/location/index',
                 templateUrl: getUrl + '/manage-location/',
-                 requiredLogin: true,
+                requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Create Location',
                     description: ''
@@ -850,157 +876,157 @@ angular.module('app')
                     ]
                 }
             })
-            .state(getUrl+'.contactusIndex', {
-                    url: '/contactus/index',
-                    templateUrl: getUrl+'/contact-us/',
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Contact us'
-                    },
-                    resolve: {
-                        deps: [
-                            '$ocLazyLoad',
-                            function ($ocLazyLoad) {
-                                return $ocLazyLoad.load({
-                                    serie: true,
-                                    files: [                                        
-                                        '/backend/contactUsController.js',
-                                    ]
-                                });
-                            }
-                        ]
-                    }
-                })
-                .state(getUrl+'.socialwebsiteIndex', {
-                    url: '/social-website/index',
-                    templateUrl: getUrl+'/social-website/',
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Manage social website'
-                    },
-                    resolve: {
-                        deps: [
-                            '$ocLazyLoad',
-                            function ($ocLazyLoad) {
-                                return $ocLazyLoad.load({
-                                    serie: true,
-                                    files: [                                        
-                                        '/backend/socialWebsiteController.js',
-                                    ]
-                                });
-                            }
-                        ]
-                    }
-                })
-                .state(getUrl+'.assignenquiryIndex', {
-                    url: '/assignenquiry/index',
-                    templateUrl: getUrl+'/assign-enquiry/',
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Manage auto assign web enquiries'
-                    },
-                    resolve: {
-                        deps: [
-                            '$ocLazyLoad',
-                            function ($ocLazyLoad) {
-                                return $ocLazyLoad.load({
-                                    serie: true,
-                                    files: [                                        
-                                        '/backend/AssignWebEnquiryController.js',
-                                    ]
-                                });
-                            }
-                        ]
-                    }
-                })
-                 .state(getUrl+'.manageblogIndex', {
-                    url: '/blog/index',
-                    templateUrl: getUrl+'/manage-blog/',
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Manage Blogs'
-                    },
-                    resolve: {
-                        deps: [
-                            '$ocLazyLoad',
-                            function ($ocLazyLoad) {
-                                return $ocLazyLoad.load({
-                                    serie: true,
-                                    files: [                                        
-                                        '/backend/manageBlogController.js',
-                                    ]
-                                });
-                            }
-                        ]
-                    }
-                })
-                 .state(getUrl+'.createBlog', {
-                    url: '/manage-blog/create',
-                    templateUrl: getUrl+'/manage-blog/create',
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Create blog',
-                        description: ''
-                    },
-                     resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['textAngular']).then(
-                                        function() {
-                                            return $ocLazyLoad.load(
-                                            {
-                                                serie: true,
-                                                files: [
-                                                     '/backend/manageBlogController.js',
-                                                      '/backend/app/controllers/textangular.js',
-                                                ]
-                                            });
-                                        }
-                                    );
-                                }
-                            ]
+            .state(getUrl + '.contactusIndex', {
+                url: '/contactus/index',
+                templateUrl: getUrl + '/contact-us/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Contact us'
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/contactUsController.js',
+                                ]
+                            });
                         }
-                })
-                 .state(getUrl+'.blogUpdate', {
-                    url: '/manage-blog/update/:blogId',
-                    templateUrl:  function (stateParams){
-                        return getUrl+'/manage-blog/' + stateParams.blogId + '/edit';
-                    },
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Edit Blog',
-                        description: ''
-                    },
-                    resolve: {
-                            deps: [
-                                '$ocLazyLoad',
-                                function($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['textAngular']).then(
-                                        function() {
-                                            return $ocLazyLoad.load(
-                                            {
-                                                serie: true,
-                                                files: [
-                                                     '/backend/app/controllers/textangular.js',
-                                                     '/backend/manageBlogController.js',
-                                                ]
-                                            });
-                                        }
-                                    );
-                                }
-                            ]
+                    ]
+                }
+            })
+            .state(getUrl + '.socialwebsiteIndex', {
+                url: '/social-website/index',
+                templateUrl: getUrl + '/social-website/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Manage social website'
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/socialWebsiteController.js',
+                                ]
+                            });
                         }
-                })
-                .state(getUrl+'.testimonialsIndex', {
-                    url: '/testimonials/index',
-                    templateUrl: getUrl+'/testimonials-approve/',
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Approve Testimonials',
-                        description: ''
-                    },
-                     resolve: {
+                    ]
+                }
+            })
+            .state(getUrl + '.assignenquiryIndex', {
+                url: '/assignenquiry/index',
+                templateUrl: getUrl + '/assign-enquiry/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Manage auto assign web enquiries'
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/AssignWebEnquiryController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.manageblogIndex', {
+                url: '/blog/index',
+                templateUrl: getUrl + '/manage-blog/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Manage Blogs'
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/manageBlogController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.createBlog', {
+                url: '/manage-blog/create',
+                templateUrl: getUrl + '/manage-blog/create',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Create blog',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['textAngular']).then(
+                                    function () {
+                                        return $ocLazyLoad.load(
+                                                {
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/manageBlogController.js',
+                                                        '/backend/app/controllers/textangular.js',
+                                                    ]
+                                                });
+                                    }
+                            );
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.blogUpdate', {
+                url: '/manage-blog/update/:blogId',
+                templateUrl: function (stateParams) {
+                    return getUrl + '/manage-blog/' + stateParams.blogId + '/edit';
+                },
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Edit Blog',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['textAngular']).then(
+                                    function () {
+                                        return $ocLazyLoad.load(
+                                                {
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/app/controllers/textangular.js',
+                                                        '/backend/manageBlogController.js',
+                                                    ]
+                                                });
+                                    }
+                            );
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.testimonialsIndex', {
+                url: '/testimonials/index',
+                templateUrl: getUrl + '/testimonials-approve/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Approve Testimonials',
+                    description: ''
+                },
+                resolve: {
                     deps: [
                         '$ocLazyLoad',
                         function ($ocLazyLoad) {
@@ -1013,67 +1039,19 @@ angular.module('app')
                         }
                     ]
                 }
-                })
-                .state(getUrl+'.testimonialUpdate', {
-                    url: '/testimonial-approve/update/:testimonialId',
-                    templateUrl:  function (stateParams){
-                        console.log("-"+stateParams)
-                        return getUrl+'/testimonial-approve/' + stateParams.testimonialId + '/edit';
-                    },
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Edit Testimonials',
-                        description: ''
-                    },
-                     resolve: {
-                    deps: [
-                        '$ocLazyLoad',
-                        function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                serie: true,
-                                files: [
-                                    '/backend/testimonialsController.js',
-                                ]
-                            });
-                        }
-                    ]
-                 }
-                 })
-                 
-                   .state(getUrl+'.testimonialManage', {
-                    url: '/testimonial-manage/update/:testimonialId',
-                    templateUrl:  function (stateParams){
-                        return getUrl+'/testimonial-manage/' + stateParams.testimonialId + '/manageEdit';
-                    },
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Update Testimonials',
-                        description: ''
-                    },
-                     resolve: {
-                    deps: [
-                        '$ocLazyLoad',
-                        function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                serie: true,
-                                files: [
-                                    '/backend/testimonialsController.js',
-                                ]
-                            });
-                        }
-                    ]
-                 }
-                 })
-                 
-                 .state(getUrl+'.testimonialsCreate', {
-                    url: '/testimonials/create',
-                    templateUrl: getUrl+'/testimonials-create/',
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'Create Testimonials',
-                        description: ''
-                    },
-                    resolve: {
+            })
+            .state(getUrl + '.testimonialUpdate', {
+                url: '/testimonial-approve/update/:testimonialId',
+                templateUrl: function (stateParams) {
+                    console.log("-" + stateParams)
+                    return getUrl + '/testimonial-approve/' + stateParams.testimonialId + '/edit';
+                },
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Edit Testimonials',
+                    description: ''
+                },
+                resolve: {
                     deps: [
                         '$ocLazyLoad',
                         function ($ocLazyLoad) {
@@ -1086,30 +1064,77 @@ angular.module('app')
                         }
                     ]
                 }
-                })
-                 .state(getUrl+'.testimonialsManage', {
-                    url: '/testimonials/manage',
-                    templateUrl: getUrl+'/testimonials-manage/',
-                    requiredLogin: true,
-                    ncyBreadcrumb: {
-                        label: 'manage Testimonials',
-                        description: ''
-                    },
-                    resolve: {
-                    deps: [
-                        '$ocLazyLoad',
-                        function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                serie: true,
-                                files: [
-                                    '/backend/testimonialsController.js',
-                                ]
-                            });
-                        }
-                    ]
-                }
-                })
+            })
 
+            .state(getUrl + '.testimonialManage', {
+                url: '/testimonial-manage/update/:testimonialId',
+                templateUrl: function (stateParams) {
+                    return getUrl + '/testimonial-manage/' + stateParams.testimonialId + '/manageEdit';
+                },
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Update Testimonials',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/testimonialsController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+
+            .state(getUrl + '.testimonialsCreate', {
+                url: '/testimonials/create',
+                templateUrl: getUrl + '/testimonials-create/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Create Testimonials',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/testimonialsController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.testimonialsManage', {
+                url: '/testimonials/manage',
+                templateUrl: getUrl + '/testimonials-manage/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'manage Testimonials',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/testimonialsController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
             /****************************MANOJ*********************************/
             .state('persian', {
                 abstract: true,
@@ -1447,34 +1472,30 @@ angular.module('app')
         }
 
         /*else {
-         
-         var nextUrl = $location.path();
-         if (!toState.requiredLogin){
-         if (nextUrl === '/'+getUrl+'/register' || nextUrl === '/'+getUrl+'/login' || nextUrl === '/'+getUrl+'/forgotPassword' || nextUrl === '/'+getUrl+'/resetPassword') {
-         $state.go('admin.dashboard');  
-         $state.reload();
-         return false;
-         }
-         }
-         else{
-         var flag;
-         console.log($rootScope.getMenu.actions+"===="+nextUrl);
-         angular.forEach($rootScope.getMenu.actions, function (value, key) {
-         if (value === nextUrl) {
-         flag = true;
-         }
-         else {
-         flag = false;
-         }
-         });
-         if (flag === true) {
-         alert("access");
-         }
-         else {
-         alert("noaccess");
-         }
-         }
-         }*/
+            var nextUrl = $location.path();
+            if (!toState.requiredLogin) {
+                if (nextUrl === '/' + getUrl + '/register' || nextUrl === '/' + getUrl + '/login' || nextUrl === '/' + getUrl + '/forgotPassword' || nextUrl === '/' + getUrl + '/resetPassword') {
+                    $state.go('admin.dashboard');
+                    $state.reload();
+                    return false;
+                }
+            } else {
+                var flag;
+                console.log($rootScope.getMenu.actions + "====" + nextUrl);
+                angular.forEach($rootScope.getMenu.actions, function (value, key) {
+                    if (value === nextUrl) {
+                        flag = true;
+                    } else {
+                        flag = false;
+                    }
+                });
+                if (flag === true) {
+                    alert("access");
+                } else {
+                    alert("noaccess");
+                }
+            }
+        }*/
 
     });
 });

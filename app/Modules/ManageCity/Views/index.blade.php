@@ -56,7 +56,7 @@
                             <td>{{ list.state_name}}</td> 
                             <td>{{ list.name}}</td>                          
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#cityModal"><a href="javascript:void(0);" ng-click="initialModal({{list}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#cityModal"><a href="javascript:void(0);" ng-click="initialModal(1,{{list}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -92,7 +92,7 @@
                             <span class="input-icon icon-right">
 
                                 <select id="country_id" name="country_id" class="form-control" ng-model="country_id" ng-options="item.id as item.name for item in countryRow" ng-change="manageStates()">
-                                    <option value="">--Select--</option>
+                                    <option value="">Select country</option>
                                 </select>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="citiesForm.country_id.$error">
@@ -102,6 +102,7 @@
                             <br/><br/>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="state_id" name="state_id" >
+                                          <option value="">Select state</option>
                                     <option  ng-repeat="itemone in statesRow" ng-selected="{{ state_id == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
                                 </select>
                                 <i class="fa fa-user thm-color circular"></i>

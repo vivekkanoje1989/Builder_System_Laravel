@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -99,8 +98,8 @@ Route::group(['middleware' =>[ 'auth:admin']], function () {
     Route::get($getUrl.'/getEducationList', 'backend\AdminController@getEducationList');
     Route::get($getUrl.'/getProfessionList', 'backend\AdminController@getProfessionList');
     Route::get($getUrl.'/getCountries', 'backend\AdminController@getCountries');
-    Route::get($getUrl.'/getTeamLead', 'backend\AdminController@getTeamLead');
-    Route::get($getUrl.'/getcotentPageList', 'backend\AdminController@getcotentPageList'); //uma 
+    Route::get($getUrl.'/getTeamLead', 'backend\AdminController@getTeamLead');    
+    Route::get($getUrl.'/getWebPageList', 'backend\AdminController@getWebPageList'); //uma 
     Route::get($getUrl.'/getPropertyPortalType', 'backend\AdminController@getPropertyPortalType'); //uma 
     Route::post($getUrl.'/getStates', 'backend\AdminController@getStates');
     Route::post($getUrl.'/getCities', 'backend\AdminController@getCities');

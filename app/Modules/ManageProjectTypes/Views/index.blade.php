@@ -19,12 +19,12 @@
                         <tr>
                            <tr>
                             <th style="width:5%">
-                            <a href="javascript:void(0);" ng-click="orderByField ='project_type_id'; reverseSort = !reverseSort">SR No.
+                            <a href="javascript:void(0);" ng-click="orderByField ='id'; reverseSort = !reverseSort">SR No.
                               <span ng-show="orderByField == 'project_type_id'">
                               <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                             </a></th> 
                              <th style="width: 30%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'project_type_name'; reverseSort = !reverseSort">Project Types
+                                <a href="javascript:void(0);" ng-click="orderByField = 'project_type'; reverseSort = !reverseSort">Project Types
                                 <span ng-show="orderByField == 'project_type_name'">
                                   <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                 </span>
@@ -40,9 +40,9 @@
                             <td></td>                        </tr>
                         <tr role="row" ng-repeat="list in ProjectTypesRow| filter:search | orderBy:orderByField:reverseSort">
                             <td>{{ $index + 1}}</td>
-                            <td>{{ list.project_type_name }}</td>   
+                            <td>{{ list.project_type }}</td>   
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit project types" style="display: block;" data-toggle="modal" data-target="#projecttypesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.project_type_id}},'{{ list.project_type_name}}',$index)"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit project types" style="display: block;" data-toggle="modal" data-target="#projecttypesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.project_type}}',$index)"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -60,10 +60,10 @@
                 </div>
                 <form novalidate ng-submit="projecttypesForm.$valid && doProjectTypesAction()" name="projecttypesForm">
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projecttypesForm.name.$dirty && projecttypesForm.name.$invalid)}">
-                            <input type="hidden" class="form-control" ng-model="project_type_id" name="project_type_id">
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projecttypesForm.project_type.$dirty && projecttypesForm.project_type.$invalid)}">
+                            <input type="hidden" class="form-control" ng-model="id" name="_id">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="project_type_name" name="project_type_name" placeholder="Project Type" ng-change="errorMsg = null" required>
+                                <input type="text" class="form-control" ng-model="project_type" name="project_type" placeholder="Project Type" ng-change="errorMsg = null" required>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="projecttypesForm.project_type_name.$error">
                                     <div ng-message="required">This field is required</div>

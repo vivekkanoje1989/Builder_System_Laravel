@@ -6,7 +6,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Modules\ManageBlockTypes\Models\LstBlockTypes;
-use App\Modules\ManageProjectTypes\Models\ProjectTypes;
+use App\Modules\ManageProjectTypes\Models\LstProjectTypes;
 use DB;
 use App\Classes\CommonFunctions;
 class ManageBlockTypesController extends Controller {
@@ -27,8 +27,8 @@ class ManageBlockTypesController extends Controller {
      */
     public function manageBlockTypes() {
 
-        $getBlockname = LstBlockTypes::join('project_types', 'project_types.project_type_id', '=', 'lst_block_types.project_type_id')
-                ->select('lst_block_types.id', 'lst_block_types.block_name', 'project_types.project_type_id as project_id', 'project_types.project_type_name as project_name')
+        $getBlockname = LstBlockTypes::join('new_builder_master.lst_project_types', 'lst_project_types.id', '=', 'lst_block_types.project_type_id')
+                ->select('lst_block_types.id', 'lst_block_types.block_name', 'lst_project_types.id as project_id', 'lst_project_types.project_type as project_name')
                 ->get();
         if (!empty($getBlockname)) {
             $result = ['success' => true, 'records' => $getBlockname];
@@ -40,7 +40,7 @@ class ManageBlockTypesController extends Controller {
     }
     public function manageProjectTypes()
     {
-      $getTypes = ProjectTypes::all();
+      $getTypes = LstProjectTypes::all();
 
         if(!empty($getTypes))
         {

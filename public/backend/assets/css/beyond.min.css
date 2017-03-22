@@ -4058,9 +4058,9 @@ a:active {
 
 .widget.flat .widget-body,
 .widget.flat .widget-header {
-    -webkit-box-shadow: none;
+  /*  -webkit-box-shadow: none;
     -moz-box-shadow: none;
-    box-shadow: none
+    box-shadow: none*/
 }
 
 .widget.lightshadow .widget-body,
@@ -7619,14 +7619,15 @@ fieldset[disabled] .btn-maroon.active {
 }
 
 .accordion.panel-group .panel-heading .accordion-toggle.collapsed {
-    color: #737373;
+    color: #000;
     font-weight: normal;
     background-color: #fff;
     -webkit-transition: border .218s;
     -moz-transition: border .218s;
     -o-transition: border .218s;
     transition: border .218s;
-    border-bottom: 1px solid #f5f5f5
+    border-bottom: 1px solid #ddd;
+    font-weight: 600;
 }
 
 .accordion.panel-group .panel-heading .accordion-toggle:hover {

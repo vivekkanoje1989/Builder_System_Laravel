@@ -22,8 +22,8 @@ use App\Models\VehicleModel;
 use App\Models\LstProfession;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
-use App\Models\ContentPage;
-use App\Models\PropertyPortalsType;
+use App\Modules\PropertyPortals\Models\PropertyPortalsType;
+use App\Modules\WebPages\Models\WebPage;
 
 class AdminController extends Controller {
 
@@ -47,11 +47,12 @@ class AdminController extends Controller {
 
     public function dashboard() {
         
-        /*$data = ["fileName" => "bulkMobileNumbers1.xls", "sendingType" => 1, "textSmsBody" => "send msg in bulk", "smsType" => "bulk_sms"];
+        /*$rootPath = config('global.rootPath'); 
+        $data = ["filePath" => $rootPath."/bulkMobileNumbers1.xls","fileName" => "bulkMobileNumbers1.xls", "sendingType" => 1, "textSmsBody" => "send msg in bulk", "smsType" => "bulk_sms"];
         $result = Gupshup::sendBulkSMS($data);
         $decodeResult = json_decode($result,true);
-        return $decodeResult["message"];
-        */
+        return $decodeResult["message"];*/
+        
         /*$smsBody = "Hello bms";
         $mobileNo = 917709026395;//9970844335;
         $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -85,12 +86,13 @@ class AdminController extends Controller {
                 $accessToActions[] = $menu['url'];
             }
             $submenu_ids = explode(',', $menu['submenu_ids']);
+            
             if ($menu['has_submenu'] == 1) {
-                $intersection_arr = array_intersect($permission, $submenu_ids);
+                $intersection_arr = array_intersect($permission, $submenu_ids);//child1 id
                 if (empty($intersection_arr)) {
                     continue;
                 }
-                if (isset($menu['submenu'])) {
+                if (isset($menu['submenu'])) {                    
                     foreach ($menu['submenu'] as $k => $submenu) {
                         $submenu = (array) $submenu;
                         if (!empty($submenu['url'])) {
@@ -98,6 +100,27 @@ class AdminController extends Controller {
                         }
                         if (!(in_array($submenu['id'], $intersection_arr))) {
                             unset($menu['submenu'][$k]);
+                        }
+                        if (!empty($submenu['submenu'])) {
+                            $submenu_ids2 = explode(',', $submenu['submenu_ids']);
+                            $intersection_arr2 = array_intersect($permission, $submenu_ids2);//child2 id
+                            foreach ($submenu['submenu'] as $k2 => $submenu2) {
+                                $submenu2 = (array) $submenu2;
+                                if (!(in_array($submenu2['id'], $intersection_arr2)) && !empty($menu['submenu'][$k])) {
+                                    unset($menu['submenu'][$k]['submenu'][$k2]);
+                                }
+                                
+                                if (!empty($submenu2['submenu'])) {
+                                    $submenu_ids3 = explode(',', $submenu2['submenu_ids']);
+                                    $intersection_arr3 = array_intersect($permission, $submenu_ids3);//child3 id
+                                    foreach ($submenu2['submenu'] as $k3 => $submenu3) {
+                                        $submenu3 = (array) $submenu3;
+                                        if (!(in_array($submenu3['id'], $intersection_arr3)) && !empty($menu['submenu'][$k]['submenu'][$k2])) {
+                                            unset($menu['submenu'][$k]['submenu'][$k2]['submenu'][$k3]);
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -110,7 +133,7 @@ class AdminController extends Controller {
         return json_encode($mergedMmenu);
         exit;
     }
-
+    
     public function getTitle() {
         $getTitle = LstTitle::all();
         if (!empty($getTitle)) {
@@ -183,8 +206,11 @@ class AdminController extends Controller {
         $getBloodGroup = LstBloodGroup::all();
         $getDepartments = LstDepartment::all();
         $getEducationList = LstEducation::all();
+        $getEnquirySource = EnquirySource::all();
+        $getEnquirySubSource = EnquirySubSource::all();
+        $getEmployees = Employee::select('id', 'first_name')->get();
         if (!empty($getTitle)) {
-            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList];
+            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -289,35 +315,33 @@ class AdminController extends Controller {
         }
     }
     /****************************UMA************************************/
-    public function getcotentPageList()
-    {
-       $getpages = ContentPage::all();
-       if (!empty($getpages)) {
-           $result = ['success' => true, 'records' => $getpages];
-           return json_encode($result);
-       } else {
-           $result = ['success' => false, 'message' => 'Something went wrong'];
-           return json_encode($result);
-       }
+    public function getWebPageList() {
+        $getpages = WebPage::all();
+        if (!empty($getpages)) {
+            $result = ['success' => true, 'records' => $getpages];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
     }
-    public function getPropertyPortalType(){
-       $getPropertyPortal = PropertyPortalsType::all();
-       if(!empty($getPropertyPortal))
-       {
-           $result = ['success' => true, 'records' => $getPropertyPortal];
-           return json_encode($result);
-       }
-       else
-       {
-           $result = ['success' => false,'message' => 'Something went wrong'];
-           return json_encode($result);
-       }
-   }
+
+    public function getPropertyPortalType() {
+        $getPropertyPortal = PropertyPortalsType::all();
+        if (!empty($getPropertyPortal)) {
+            $result = ['success' => true, 'records' => $getPropertyPortal];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
    /****************************UMA************************************/
     /***************************MANDAR*********************************/
 
     public function getEmployees() {
-        $getEmployees = Employee::select('id', 'first_name')->where("client_id", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name','last_name','designation')->where("client_id", 1)->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
             return $result;

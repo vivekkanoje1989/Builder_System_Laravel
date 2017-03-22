@@ -1,5 +1,5 @@
 'use strict';
-app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', 'Data','$timeout', function ($rootScope, $scope, $state, Data,$timeout) {
+app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', 'Data', '$timeout', function ($rootScope, $scope, $state, Data, $timeout) {
         Data.get('getPropertyPortalType').then(function (response) {
             $scope.listPortals = response.records;
         });
@@ -35,36 +35,27 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
         $scope.managePortalAccounts = function (portalTypeId, portalAccountId, action)
         {
             if (portalAccountId === 0)
-            {//create
+            {   //create
                 $scope.modal_title = 'Add Project';
                 $scope.page_heading = 'Add Account';
                 $scope.buttonLabel = 'Create';
-//                Data.post('propertyportals/getProperyAlias', {
-//                    Data: {portalTypeId: portalTypeId, }
-//                }).then(function (response) {
-//                    $scope.aliasLists = response.records;
-//
-//                });
             } else
-            {// edit account
+            {   // edit account
                 $scope.modal_title = 'Update Project';
                 $scope.page_heading = 'Edit Account';
                 $scope.buttonLabel = 'Update';
-                Data.post('propertyportals/getEditAccountsData', {
-                    Data: {portalTypeId: portalTypeId,portalAccountId:portalAccountId }
+                Data.post('propertyportals/getupdatePortalAccount', {
+                    Data: {portalTypeId: portalTypeId, portalAccountId: portalAccountId}
                 }).then(function (response) {
-                    console.log(response.records[0]);
-                      console.log(response.employee);
-                  $scope.portalData = angular.copy(response.records[0]);
-                 
+                    $scope.portalData = angular.copy(response.records[0]);
+
                 });
-                
-                 Data.post('propertyportals/getProperyAlias', {
-                    Data: {portalId: portalAccountId, }
+
+                Data.post('propertyportals/getProperyAlias', {
+                    Data: {portalId: portalAccountId, portalTypeId:portalTypeId,id:0}
                 }).then(function (response) {
                     $scope.aliasLists = response.records;
                 });
-                
             }
         }
         $scope.addEditProjects = function (modalData)
@@ -77,10 +68,13 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
                 empname = empname + item.first_name + ' ' + item.last_name + ',';
                 ids = ids + item.id + ',';
             });
-            if(typeof $scope.aliasLists ==='undefined'){$scope.aliasLists=[];count=0;}else
+            if (typeof $scope.aliasLists === 'undefined') {
+                $scope.aliasLists = [];
+                count = 0;
+            } else
             {
-               count = Object.keys($scope.aliasLists).length; 
-            }            
+                count = Object.keys($scope.aliasLists).length;
+            }
             if (count > 0)
             {
                 for (var i = 0; i < count; i++)
@@ -113,21 +107,19 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
             document.getElementById('portalaliastable').style.display = 'block';
             document.getElementById('btnCreate').style.display = 'block';
             clearModalControls();
-
         }
-        $scope.createPortalAccount = function (portalData, aliasData, portalId,portalAccountId)
+        $scope.createPortalAccount = function (portalData, aliasData, portalId, portalAccountId)
         {
-            Data.post('propertyportals/createPortalAccount', {
-                portalData: portalData, aliasData: aliasData, portalTypeId: portalId,portalAccountId:portalAccountId,
+            Data.post('propertyportals/actionPortalAccount', {
+                portalData: portalData, aliasData: aliasData, portalTypeId: portalId, portalAccountId: portalAccountId,
             }).then(function (response) { // FLASH MSG
-                if(!response.success)
+                if (!response.success)
                 {
-                    
-                }
-                else
+
+                } else
                 {
-                   $timeout(function () {
-                        $state.go(getUrl+'.portalAccounts', {portalTypeId: portalId});
+                    $timeout(function () {
+                        $state.go(getUrl + '.propertyPortalAccounts', {portalTypeId: portalId});
                     }, 1000);
                 }
             });
@@ -150,7 +142,18 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
         }
         function clearModalControls()
         {
-           // $scope.modal='';
+            // $scope.modal='';
+        }
+        $scope.getUpdatePropertAlias = function(id,portaltypeid,portalid)
+        {
+            alert(id+":"+portaltypeid+":"+portalid);
+            Data.post('propertyportals/getProperyAlias', {
+                    Data: {portalId: portalid, portalTypeId:portaltypeid,id:id}
+                }).then(function (response) {
+                    console.log(response.records[0]['project_employee_id']);
+                    $scope.modal = response.records[0];
+                    $scope.modal.employee_id =response.records[0]['project_employee_id'];
+                });
         }
     }]);
 

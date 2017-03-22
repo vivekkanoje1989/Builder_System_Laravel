@@ -59,33 +59,6 @@ class ManageDepartmentController extends Controller {
             return json_encode($result);
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id) {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -96,29 +69,9 @@ class ManageDepartmentController extends Controller {
             return json_encode($result);
         } else {
 
-            $update = CommonFunctions::insertLogTableRecords();
-            $input['departmentData'] = array_merge($request, $update);
-            $originalValues = LstDepartments::where('id', $request['id'])->get();
-            $result = LstDepartments::where('id', $request['id'])->update($input['departmentData']);
-
-            $last = DB::connection('masterdb')->table('lst_departments_logs')->latest('id')->first();
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
-            $implodeArr = implode(",", array_keys($getResult));
-            $result = DB::connection('masterdb')->table('lst_departments_logs')->where('id', $last->id)->update(['column_names' => $implodeArr]);
+            $result = LstDepartments::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
-
-            return json_encode($result);
+           return json_encode($result);
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id) {
-        //
-    }
-
 }

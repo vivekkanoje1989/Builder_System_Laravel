@@ -21,7 +21,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class LstCities extends Eloquent
 {
 	protected $primaryKey = 'id';
-	 protected $connection = 'masterdb';
+	protected $connection = 'masterdb';
 	public $timestamps = false;
 
 	protected $casts = [

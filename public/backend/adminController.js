@@ -292,6 +292,15 @@ app.controller('teamLeadCtrl',function($scope, Data){
    });
 });
 /****************************UMA************************************/
+app.controller('webPageListCtrl', function ($scope, Data) {
+   Data.get('getWebPageList').then(function (response) {
+       if (!response.success) {
+           $scope.errorMsg = response.message;
+       } else {
+           $scope.listPages = response.records;
+       }
+   });
+});
 app.controller('cotentPageListCtrl', function ($scope, Data) {
    Data.get('getcotentPageList').then(function (response) {
        if (!response.success) {
@@ -304,12 +313,12 @@ app.controller('cotentPageListCtrl', function ($scope, Data) {
 /****************************UMA************************************/
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {
-    $scope.employees1 = [];
+    $scope.employeeList = [];
     Data.get('getEmployees').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {
-            $scope.employees1 = response.records;
+            $scope.employeeList = response.records;
         }
     });
 });

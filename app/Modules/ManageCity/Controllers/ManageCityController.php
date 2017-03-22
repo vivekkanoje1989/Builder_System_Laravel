@@ -13,11 +13,6 @@ use App\Classes\CommonFunctions;
 
 class ManageCityController extends Controller {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index() {
         return view("ManageCity::index");
     }
@@ -35,10 +30,11 @@ class ManageCityController extends Controller {
             return json_encode($result);
         }
     }
+
     public function manageStates() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        
+
         $getStates = LstStates::where('country_id', $request['country_id'])
                 ->select('id', 'name')
                 ->get();
@@ -50,6 +46,7 @@ class ManageCityController extends Controller {
             return json_encode($result);
         }
     }
+
     public function manageCountry() {
         $getCountry = LstCountries::all();
 
@@ -70,10 +67,6 @@ class ManageCityController extends Controller {
             $result = ['success' => false, 'errormsg' => 'City already exists'];
             return json_encode($result);
         } else {
-
-            $create = CommonFunctions::insertMainTableRecords();
-            $input['cityData'] = array_merge($request, $create);
-            $result = LstCities::create($input['cityData']);
             $last3 = LstCities::latest('id')->first();
             $input['cityData']['main_record_id'] = $last3->id;
 
@@ -89,73 +82,23 @@ class ManageCityController extends Controller {
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id) {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
+       
         $getCount = LstCities::where(['name' => $request['name']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'City already exists'];
             return json_encode($result);
         } else {
-
-            $update = CommonFunctions::insertLogTableRecords();
-            $input['cityData'] = array_merge($request, $update);
-            $originalValues = LstCities::where('id', $request['id'])->get();
-            $result = LstCities::where('id', $request['id'])->update($input['cityData']);
+            $result = LstCities::where('id', $request['id'])->update($request);
             $getState = LstStates::where('id', '=', $request['state_id'])
                     ->select('name')
                     ->first();
+           
             $result = ['success' => true, 'result' => $result, 'state_name' => $getState->name];
-            $last = DB::connection('masterdb')->table('lst_cities_logs')->latest('id')->first();
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
-            $implodeArr = implode(",", array_keys($getResult));
-            $result1 = DB::connection('masterdb')->table('lst_cities_logs')->where('id', $last->id)->update(['column_names' => $implodeArr]);
-
             return json_encode($result);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id) {
-        //
     }
 
 }

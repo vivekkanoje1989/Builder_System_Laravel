@@ -11,7 +11,7 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$tim
             $scope.id = id;
             $scope.project_stages = project_stages;
             $scope.index = index;
-            $scope.project_type_id = project_type_id;
+            $scope.project_type = project_type_id;
         }
         $scope.getProjectTypes = function()
         {

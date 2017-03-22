@@ -97,17 +97,7 @@ class HighestEducationController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Country already exists'];
             return json_encode($result);
         } else {
-
-            $update = CommonFunctions::insertLogTableRecords();
-            $input['educationData'] = array_merge($request, $update);
-
-            $originalValues = LstEducations::where('education_id', $request['education_id'])->get();
-            $result = LstEducations::where('education_id', $request['education_id'])->update($input['educationData']);
-
-            $last = DB::connection('masterdb')->table('lst_educations_logs')->latest('education_id')->first();
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
-            $implodeArr = implode(",", array_keys($getResult));
-            $result = DB::connection('masterdb')->table('lst_educations_logs')->where('education_id', $last->education_id)->update(['column_names' => $implodeArr]);
+            $result = LstEducations::where('education_id', $request['education_id'])->update($request);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

@@ -12,15 +12,13 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', functi
             if ($id == 1)
             {
                 $scope.country_name_id = country_id;
-                alert('1');
-
+               
             } else {
                 $scope.country__id = $scope.countryRow[$scope.country_id - 1].id;
                 alert($scope.country_id);
             }
-            Data.post('manage-city/manageStates', {country_name_id: $scope.country_id}).then(function (response) {
+            Data.post('manage-city/manageStates', {country_id: $scope.country_id}).then(function (response) {
                 $scope.statesRow = response.records;
-                console.log($scope.statesRow);
             });
         };
         $scope.manageCountry = function () {
@@ -28,14 +26,16 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', functi
                 $scope.countryRow = response.records;
             });
         };
-        $scope.initialModal = function (list, index, index1) {
+        $scope.initialModal = function (ids,list, index, index1) {
 
             $scope.heading = 'City';
             $scope.country_id = list.country_id;
             $scope.id = list.id;
             $scope.name = list.name;
-
-            //$scope.manageStates(1,$scope.country_id);
+     
+            if(ids !== 0){
+                 $scope.manageStates(1,$scope.country_id);
+            }
             $scope.state_id = list.state_id;
 
             $scope.index = index * ($scope.noOfRows - 1) + (index1 + 1);
@@ -47,7 +47,7 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', functi
             {
 
                 Data.post('manage-city/', {
-                    name: $scope.name, state_id: $scope.state_id, country_id: $scope.country_id}).then(function (response) {
+                    'name': $scope.name, 'state_id': $scope.state_id, 'country_id': $scope.country_id}).then(function (response) {
 
                     if (!response.success)
                     {

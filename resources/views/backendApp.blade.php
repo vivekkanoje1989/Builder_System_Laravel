@@ -86,5 +86,6 @@
         <script src="/backend/app/directives/navbar.js"></script>
         <script src="/backend/app/directives/chatbar.js"></script>
         <script src="/backend/app/directives/widget.js"></script>
+        
     </body>               
 </html>

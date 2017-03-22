@@ -42,7 +42,7 @@
                             <td>{{ $index + 1}}</td>
                             <td>{{ list.project_stages }}</td>   
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit Lost Reason" style="display: block;" data-toggle="modal" data-target="#projectpaymentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.project_stages}}',{{list.project_type_id}},$index)"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#projectpaymentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.project_stages}}',{{list.project_type_id}},$index)"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -65,7 +65,7 @@
                            <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="project_type_id" name="project_type" required>
                                     <option value="">Select project type</option>
-                                    <option  ng-repeat="item in ProjectTypesRow" value="{{item.project_type_id}}" selected>{{item.project_type_name}}</option>
+                                    <option  ng-repeat="item in ProjectTypesRow" value="{{item.id}}" selected>{{item.project_type}}</option>
                                 </select>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="projectpaymentForm.project_type.$error">

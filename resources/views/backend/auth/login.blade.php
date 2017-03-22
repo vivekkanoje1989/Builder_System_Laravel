@@ -20,7 +20,7 @@
                             <div ng-show="next1" ng-messages="loginForm.mobile.$error" class="help-block next1">
                                 <div ng-message="required">Required</div>
                                 <div ng-message="minlength">Invalid mobile no.</div>
-                                <div ng-message="wrongCredentials">Mobile number does not exist!</div>
+                                <div ng-message="wrongCredentials">{{errMsg}}</div>
                             </div>                     
                         </div>
                         <br>

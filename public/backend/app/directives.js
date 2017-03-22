@@ -58,7 +58,8 @@ app.directive('checkLoginCredentials', function ($timeout, $q, Data) {
                 }).then(function (response) {+
                     $timeout(function () {
                         model.$setValidity('wrongCredentials', !!response.success);
-                    }, 1000);
+                        $scope.errMsg = response.message;
+                    }, 200);
                 });
             };
         }
@@ -81,14 +82,14 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     $scope.showDiv=true;
                     $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                     $scope.contacts = angular.copy(response.customerContactDetails);
-                    $scope.contactData = angular.copy(response.customerContactDetails);
+                    $scope.contactData = angular.copy(response.customerContactDetails);                    
                     $scope.customerData.marriage_date = $scope.customerData.birth_date = $filter('date')(new Date(),'yyyy-MM-dd');
                     for(var i=0; i < response.customerContactDetails.length; i++){
                         if(response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === ''){
                             $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
                         }else{
                             $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code) + '-' + parseInt(response.customerContactDetails[i].mobile_number);}
-                        if(response.customerContactDetails[i].landline_calling_code === parseInt(0) || response.customerContactDetails[i].landline_calling_code === ''){ 
+                        if(response.customerContactDetails[i].landline_calling_code === parseInt(0) || response.customerContactDetails[i].landline_calling_code === '' || response.customerContactDetails[i].landline_calling_code === NULL){ 
                             $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
                         }else{
                             $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerContactDetails[i].landline_calling_code) + '-' + parseInt(response.customerContactDetails[i].landline_number);

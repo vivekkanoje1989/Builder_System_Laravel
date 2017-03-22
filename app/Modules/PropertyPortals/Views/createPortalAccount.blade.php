@@ -82,10 +82,10 @@
                                 </div> 
                             </div>
                             <div class="col-sm-3 col-xs-12" ng-show="portalData.assign_employee == '0'">                            
-                                <div class="form-group multi-sel-div" class="form-control" ng-controller="assignEmployeeCtrl" style="width: 100%;">
+                                <div class="form-group multi-sel-div" class="form-control" ng-controller="employeesCtrl" style="width: 100%;">
                                     <label for="">Select Common Employee <span class="sp-err">*</span></label>	
                                     <ui-select multiple='true' class="form-control" ng-model="portalData.employee_id" name="employee_id" theme="" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalEmployees()" required>
-                                        <ui-select-match placeholder="Select Employees">{{$item.first_name}}{{$item.last_name}}</ui-select-match>
+                                       <ui-select-match placeholder="Select Employees">{{$item.first_name}}{{$item.last_name}}</ui-select-match>
                                         <ui-select-choices repeat="list in employeeList | filter:$select.search ">
                                             {{list.first_name}} {{list.last_name}}({{list.designation}})
                                         </ui-select-choices>
@@ -107,8 +107,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div> 
-
+                        </div>
                         <div class="row">
                             <div class="col-md-12 col-xs-12">
                                 <div align="right">  <p class="add-btn btn btn-primary" data-toggle="modal" data-target="#projectModal"><i class="fa fa-plus"></i></p></div>
