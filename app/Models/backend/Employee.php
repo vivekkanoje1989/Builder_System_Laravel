@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Classes\CommonFunctions;
 use Illuminate\Hashing\HashServiceProvider;
+
 /**
  * Class Employee
  * 
@@ -88,136 +89,132 @@ use Illuminate\Hashing\HashServiceProvider;
  *
  * @package App\Models
  */
-class Employee extends Authenticatable
-{
-    
-        use Notifiable;
-	public $timestamps = false;
-                
-        protected $primaryKey = 'id';
-	protected $casts = [
-		'client_id' => 'int',
-		'client_role_id' => 'int',
-		'employee_id' => 'int',
-		'high_security_password_type' => 'int',
-		'high_security_password' => 'int',
-		'password_changed' => 'int',
-		'team_lead_id' => 'int',
-		'reporting_to_id' => 'int',
-		'marital_status' => 'int',
-		'blood_group_id' => 'int',
-		'physic_status_id' => 'int',
-		'mobile1_calling_code' => 'int',
-		'mobile2_calling_code' => 'int',
-		'landline_calling_code' => 'int',
-		'landline_no' => 'int',
-		'office_mobile_calling_code' => 'int',
-		'current_country_id' => 'int',
-		'current_state_id' => 'int',
-		'current_city_id' => 'int',
-		'current_pin' => 'int',
-		'permenent_country_id' => 'int',
-		'permenent_state_id' => 'int',
-		'permenent_city_id' => 'int',
-		'permenent_pin' => 'int',
-		'highest_education_id' => 'int',
-		'employee_status' => 'int',
-		'show_on_homepage' => 'bool',
-		'employee_info_form_url_status' => 'int',
-		'created_by' => 'int',
-		'updated_by' => 'int'
-	];
+class Employee extends Authenticatable {
 
-	protected $dates = [
-		'date_of_birth',
-		'marriage_date',
-		'joining_date',
-		'created_date',
-		'updated_date'
-	];
+    use Notifiable;
 
-	protected $hidden = [
-		'remember_token'
-	];
+    public $timestamps = false;
+    protected $primaryKey = 'id';
+    protected $casts = [
+        'client_id' => 'int',
+        'client_role_id' => 'int',
+        'employee_id' => 'int',
+        'high_security_password_type' => 'int',
+        'high_security_password' => 'int',
+        'password_changed' => 'int',
+        'team_lead_id' => 'int',
+        'reporting_to_id' => 'int',
+        'marital_status' => 'int',
+        'blood_group_id' => 'int',
+        'physic_status_id' => 'int',
+        'mobile1_calling_code' => 'int',
+        'mobile2_calling_code' => 'int',
+        'landline_calling_code' => 'int',
+        'landline_no' => 'int',
+        'office_mobile_calling_code' => 'int',
+        'current_country_id' => 'int',
+        'current_state_id' => 'int',
+        'current_city_id' => 'int',
+        'current_pin' => 'int',
+        'permenent_country_id' => 'int',
+        'permenent_state_id' => 'int',
+        'permenent_city_id' => 'int',
+        'permenent_pin' => 'int',
+        'highest_education_id' => 'int',
+        'employee_status' => 'int',
+        'show_on_homepage' => 'bool',
+        'employee_info_form_url_status' => 'int',
+        'created_by' => 'int',
+        'updated_by' => 'int'
+    ];
+    protected $dates = [
+        'date_of_birth',
+        'marriage_date',
+        'joining_date',
+        'created_date',
+        'updated_date'
+    ];
+    protected $hidden = [
+        'remember_token'
+    ];
+    protected $fillable = [
+        'client_id',
+        'client_role_id',
+        'employee_id',
+        'username',
+        'password',
+        'high_security_password_type',
+        'high_security_password',
+        'password_changed',
+        'remember_token',
+        'usertype',
+        'team_lead_id',
+        'designation',
+        'department_id',
+        'reporting_to_id',
+        'title',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'date_of_birth',
+        'gender',
+        'marital_status',
+        'marriage_date',
+        'blood_group_id',
+        'physic_status_id',
+        'physic_desc',
+        'mobile1_calling_code',
+        'personal_mobile_no1',
+        'mobile2_calling_code',
+        'personal_mobile_no2',
+        'landline_calling_code',
+        'landline_no',
+        'email',
+        'personal_email_id2',
+        'office_mobile_calling_code',
+        'office_mobile_no',
+        'office_email_id',
+        'current_country_id',
+        'current_state_id',
+        'current_city_id',
+        'current_pin',
+        'current_address',
+        'permenent_country_id',
+        'permenent_state_id',
+        'permenent_city_id',
+        'permenent_pin',
+        'permenent_address',
+        'highest_education_id',
+        'education_details',
+        'emp_photo_url',
+        'joining_date',
+        'employee_status',
+        'show_on_homepage',
+        'employee_submenus',
+        'employee_permissions',
+        'employee_email_subscriptions',
+        'employee_sms_subscrption',
+        'employee_info_form_url',
+        'employee_info_form_url_status',
+        'created_date',
+        'created_by',
+        'created_IP',
+        'created_browser',
+        'created_mac_id',
+        'updated_date',
+        'updated_by',
+        'updated_IP',
+        'updated_browser',
+        'updated_mac_id'
+    ];
 
-	protected $fillable = [
-		'client_id',
-		'client_role_id',
-		'employee_id',
-		'username',
-		'password',
-		'high_security_password_type',
-		'high_security_password',
-		'password_changed',
-		'remember_token',
-		'usertype',
-		'team_lead_id',
-		'designation',
-		'department_id',
-		'reporting_to_id',
-		'title',
-		'first_name',
-		'middle_name',
-		'last_name',
-		'date_of_birth',
-		'gender',
-		'marital_status',
-		'marriage_date',
-		'blood_group_id',
-		'physic_status_id',
-		'physic_desc',
-		'mobile1_calling_code',
-		'personal_mobile_no1',
-		'mobile2_calling_code',
-		'personal_mobile_no2',
-		'landline_calling_code',
-		'landline_no',
-		'email',
-		'personal_email_id2',
-		'office_mobile_calling_code',
-		'office_mobile_no',
-		'office_email_id',
-		'current_country_id',
-		'current_state_id',
-		'current_city_id',
-		'current_pin',
-		'current_address',
-		'permenent_country_id',
-		'permenent_state_id',
-		'permenent_city_id',
-		'permenent_pin',
-		'permenent_address',
-		'highest_education_id',
-		'education_details',
-		'emp_photo_url',
-		'joining_date',
-		'employee_status',
-		'show_on_homepage',
-		'employee_submenus',
-		'employee_permissions',
-		'employee_email_subscriptions',
-		'employee_sms_subscrption',
-		'employee_info_form_url',
-		'employee_info_form_url_status',
-		'created_date',
-		'created_by',
-		'created_IP',
-		'created_browser',
-		'created_mac_id',
-		'updated_date',
-		'updated_by',
-		'updated_IP',
-		'updated_browser',
-		'updated_mac_id'
-	];
-        
-    public static function getRecords($select,$where){
+    public static function getRecords($select, $where) {
         $attributes = empty($select) ? '*' : $select;
         $getEmployeeRecords = Employee::select($attributes)->where($where)->get();
         return json_decode($getEmployeeRecords);
     }
-    
-    public static function validationMessages(){
+
+    public static function validationMessages() {
         $messages = array(
             'username.required' => 'Please enter user name',
             'username.numeric' => 'Please enter user name numeric',
@@ -250,7 +247,8 @@ class Employee extends Authenticatable
         );
         return $messages;
     }
-    public static function validationRules(){
+
+    public static function validationRules() {
         $rules = array(
             'username' => 'required|numeric',
             'password' => 'required|max:6',
@@ -283,38 +281,39 @@ class Employee extends Authenticatable
         );
         return $rules;
     }
-    
-    public static function doAction($input){       
-        
-        $input['userData']['department_id'] = implode(',', array_map(function($el) {
-                return $el['id'];
-            }, $input['userData']['department_id']));        
-        
+
+    public static function doAction($input) {
+        if (!empty($input['userData']['departmentid'])) {
+            $input['userData']['department_id'] = $input['userData']['departmentid'];
+        } else {
+            $input['userData']['department_id'] = implode(',', array_map(function($el) {
+                        return $el['id'];
+            }, $input['userData']['department_id']));
+        }
         $input['userData']['date_of_birth'] = date('Y-m-d', strtotime($input['userData']['date_of_birth']));
         $input['userData']['joining_date'] = date('Y-m-d', strtotime($input['userData']['joining_date']));
-        
+
         $input['userData']['client_id'] = !empty($input['client_id']) ? $input['userData']['client_id'] : "0";
         $input['userData']['client_role_id'] = "1";
-        $input['userData']['employee_id'] = !empty($input['userData']['employee_id']);    
+        $input['userData']['employee_id'] = !empty($input['userData']['employee_id']) ? $input['userData']['employee_id'] :1;
         $input['userData']['high_security_password_type'] = !empty($input['userData']['high_security_password_type']) ? $input['userData']['high_security_password_type'] : "0";
         $input['userData']['high_security_password'] = (!empty($input['userData']['high_security_password']) && $input['userData']['high_security_password_type'] == 1) ? $input['userData']['high_security_password'] : "";
         $input['userData']['password_changed'] = !empty($input['userData']['password_changed']) ? $input['userData']['password_changed'] : "0";
         $input['userData']['usertype'] = "admin";
-        
+
         $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1";
         $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
-        if($input['userData']['marriage_date'] == "0000-00-00"){
+        if (empty($input['userData']['marriage_date']) || $input['userData']['marriage_date'] == "0000-00-00") {
             $input['userData']['marriage_date'] = "";
-        }
-        else{
+        } else {
             $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
         }
         $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : "";
-        
+
         $personalMobileNo1 = explode("-", $input['userData']['personal_mobile_no1']);
         $input['userData']['mobile1_calling_code'] = (int) $personalMobileNo1[0];
         $input['userData']['personal_mobile_no1'] = $personalMobileNo1[1];
-        
+
         if (!empty($input['userData']['personal_mobile_no2'])) {
             $personalMobileNo2 = explode("-", $input['userData']['personal_mobile_no2']);
             $input['userData']['mobile2_calling_code'] = (int) $personalMobileNo2[0];
@@ -327,11 +326,11 @@ class Employee extends Authenticatable
             $input['userData']['office_mobile_calling_code'] = (int) $officeMobileNo[0];
             $input['userData']['office_mobile_no'] = $officeMobileNo[1];
         }
-        
-        if (!empty($input['userData']['landline_no'])) {            
+
+        if (!empty($input['userData']['landline_no'])) {
             $landlineNo = explode("-", $input['userData']['landline_no']);
             $input['userData']['landline_calling_code'] = (int) $landlineNo[0];
-            $input['userData']['landline_calling_code'] = !empty($landlineNo[1]) ?  (int) $landlineNo[0] : NULL;
+            $input['userData']['landline_calling_code'] = !empty($landlineNo[1]) ? (int) $landlineNo[0] : NULL;
             $input['userData']['landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] : '';
         }
         $input['userData']['education_details'] = !empty($input['userData']['education_details']) ? $input['userData']['education_details'] : "";
@@ -344,4 +343,5 @@ class Employee extends Authenticatable
         $input['userData']['employee_info_form_url_status'] = !empty($input['userData']['employee_info_form_url_status']) ? $input['userData']['employee_info_form_url_status'] : "1";
         return $input;
     }
+
 }

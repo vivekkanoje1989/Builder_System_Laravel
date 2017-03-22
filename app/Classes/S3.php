@@ -1,10 +1,17 @@
 <?php
-
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+ 
+ * Develope By :Uma Shinde(22-03-2017)
+ * purpose : Managing images on AWS S3 Buckets
+ * 1) s3Configuration() : This Funcion is use for set access key,secret key,region,bucket dynamically from system_configs table.
+ * 2) s3FileUplod() : this function upload image to the s3 bucket with folder name.
+                    also pass the image count and image array parameters.
+                    It returns comma seperated images name after uploaded
+ * 3)s3FileDelete() : delete file from s3 bucket if exist.also pass the parameter folder name for delete under that folder.
+                    it returns true if file exist & delete  otherwise return false. 
+ * 4)s3FileLists() :listing all files from bucket and it returns files name list in json array.
+                    
+  */
 
 namespace App\Classes;
 
@@ -15,12 +22,10 @@ use App\Models\backend\Employee;
 use Auth;
 
 class S3 {
-
     public static function s3Configuration() {
        // echo Auth::guard('admin')->user()->id;exit;
         $data = DB::table('system_configs')->where('id', 1)->get();
         //print_r($data[0]->aws_bucket_id);exit;
-        //$bucket = 'bmsbuilderv2';
         Config::set('filesystems.disks.s3.bucket', $data[0]->aws_bucket_id);
         Config::set('filesystems.disks.s3.secret', $data[0]->aws_secret_key);
         Config::set('filesystems.disks.s3.key', $data[0]->aws_access_key);
@@ -44,9 +49,9 @@ class S3 {
         }
     }
 
-    public static function s3FileDelete($image) {
+    public static function s3FileDelete($image,$s3FolderName) {
         S3::s3Configuration();
-        $path = '/support-tickets/' . $image;
+        $path = '/'.$s3FolderName.'/' . $image;
         if (\Storage::disk('s3')->exists($path)) {
             \Storage::disk('s3')->delete($path);
             return true;
