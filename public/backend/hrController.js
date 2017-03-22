@@ -246,9 +246,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             }
         });
     }
-    
-
-        
+            
     $scope.accessControl = function(empId,checkboxid, parentId, submenuId){
         var isChecked = $("#"+checkboxid).prop("checked");
         var obj = $("#"+checkboxid);
@@ -257,19 +255,23 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         if(isChecked)
         {
             if(level === "first"){
-                $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
-                $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', true);
-                $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).each(function() {
-                    var str = $( this ).attr('id');
-                    var afterUnderscore = str.substr(str.indexOf("_") + 1);
-                    submenuId.push(parseInt(afterUnderscore));
-                });
-                $( obj.parent().parent().find('input[type=checkbox][data-level="third"]')).each(function() {
+                $(obj.parent().parent().find('input[type=checkbox][data-level="second"], input[type=checkbox][data-level="third"]')).prop('checked', true);
+                $(obj.parent().parent().find('input[type=checkbox][data-level="second"],input[type=checkbox][data-level="third"]')).each(function() {
                     var str = $( this ).attr('id');
                     var afterUnderscore = str.substr(str.indexOf("_") + 1);
                     submenuId.push(parseInt(afterUnderscore));
                 });
             }else if(level === "second"){
+                var flag = [];
+                $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="second"]'))).each(function() {//for loop thr' data-level second, check if all data-level=second checkbox is checked then check data-level=first checkbox
+                    if($( this ).is(':checked'))
+                        flag.push(true);
+                    else
+                        flag.push(false);
+                });
+                if($.inArray(false, flag) === -1)
+                    $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', true);
+                
                 $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', true);
                 $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).each(function() {
                     var str = $( this ).attr('id');
@@ -278,7 +280,15 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                 });
             }
             else if(level === "third"){
-                $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
+                var flag = [];
+                $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="third"]'))).each(function() {
+                    if($( this ).is(':checked'))
+                        flag.push(true);
+                    else
+                        flag.push(false);
+                });
+                if($.inArray(false, flag) === -1)
+                    $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
             }
         }
         else
@@ -299,6 +309,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                 });
             }
             else if(level === "second"){
+                var flag = [];
+                $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="second"]'))).each(function() {
+                    if($( this ).is(':checked'))
+                        flag.push(true);
+                    else
+                        flag.push(false);
+                });
+                if($.inArray(true, flag) === -1)
+                    $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', false);
+                
                 $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', false);
                 $( obj.parent().find('input[type=checkbox][data-level="third"]')).each(function() {
                     var str = $( this ).attr('id');
@@ -307,11 +327,15 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                 });
             }
             else if(level === "third"){
-                //console.log($(obj.parent().parent().prev().find('input[type=checkbox][data-level="third"]')));
-//                $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).each(function() {
-//                    var checkStatus = $( this ).is(':checked');
-//                    console.log(checkStatus);
-//                });
+                var flag = [];
+                $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="third"]'))).each(function() {
+                    if($( this ).is(':checked'))
+                        flag.push(true);
+                    else
+                        flag.push(false);
+                });
+                if($.inArray(true, flag) === -1)
+                    $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
             }
         }
         console.log(submenuId);
