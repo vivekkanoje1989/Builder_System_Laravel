@@ -138,7 +138,11 @@ class MasterHrController extends Controller {
             
             $employee = Employee::create($input['userData']); //insert data into employees table
             
+<<<<<<< HEAD
             $input['userData']['main_record_id'] = $loggedInUserId;         
+=======
+            $input['userData']['main_record_id'] = $loggedInUserId;                    
+>>>>>>> 7e81b0485dd8072bf2b0bd4eaa8a110fa6c29051
             $input['userData']['record_type'] = 1;
             $input['userData']['record_restore_status'] = 1;            
             EmployeesLog::create($input['userData']);   //insert data into employees_logs table

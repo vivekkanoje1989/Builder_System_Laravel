@@ -4,7 +4,7 @@
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>User Permissions</h5>
         </div>    
         <div class="">
-            <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="col-lg-12 col-sm-6 col-xs-12">
                 <div class="widget">
                     <div class="widget-body no-padding">
                         <div class="widget-main ">
@@ -13,7 +13,7 @@
                                     <div class="panel-heading ">
                                         <h4 class="panel-title">
                                             <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" target="_self" href="#{{ parent.slug }}">
-                                                {{ parent.name }}
+                                               <i class="fa fa-caret-right themeprimary"></i> {{ parent.name }}
                                             </a>
                                         </h4>
                                     </div>
