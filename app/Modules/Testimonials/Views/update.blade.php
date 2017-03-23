@@ -15,7 +15,7 @@
                 </div>
             </div> 
             <div class="widget-body table-responsive">     
-<form novalidate ng-submit="testimonialsForm.$valid && doTestimonialsAction(photo_src)" name="testimonialsForm" ng-init="getTestimonialData('<?php echo $testimonialId; ?>')">
+<form novalidate ng-submit="testimonialsForm.$valid && doTestimonialsAction(photo_src)" name="testimonialsForm"  enctype="multipart/form-data" ng-init="getTestimonialData('<?php echo $testimonialId; ?>')">
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -24,7 +24,6 @@
                     </thead>
                     <tbody>
                     <input type="hidden" class="form-control" ng-model="testimonial_id" name="testimonial_id"  >
-                                       
                             <tr><td>Person name *</td>
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.person_name.$dirty && testimonialsForm.person_name.$invalid) }">
@@ -53,15 +52,22 @@
                                 </td>
                             </tr>
                             
-                           
                             <tr><td>Photo</td>
                                 <td>
-                                    <div style="width:80px; height:80px; border:1px solid black;"></div>
-                                    <br/>
-                                  <span class="input-icon icon-right">
-                                      <input type="file" ngf-select ng-model="photo_src" name="photo_src" id="bannerImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(bannerImage)">
+                                    <div >
+                                        <img ng-src="{{image_name}}" width="80px" height="80px">
+                                    </div>
+                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.photo_src.$dirty && testimonialsForm.photo_src.$invalid) }">
+                                   
+                                    <span class="input-icon icon-right">
+                                      <input type="file" ngf-select multiple ng-model="photo_src" name="photo_src" id="photo_src" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile">
+                                        <br/>
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.photo_src.$error">
+                                            <div ng-message="required">Photo is required</div>
+                                        </div>
                                         <br/>
                                     </span>
+                                    </div>  
                                 </td>
                             </tr>
                             <tr><td>Video url *</td>

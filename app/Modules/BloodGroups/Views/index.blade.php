@@ -43,7 +43,7 @@
                             <td>{{$index + 1}}</td>
                             <td>{{ list.blood_group}}</td>                          
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#bloodGroupModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.blood_group_id}},'{{list.blood_group}}',$index)"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#bloodGroupModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.blood_group_id}},'{{list.blood_group}}',$index)"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

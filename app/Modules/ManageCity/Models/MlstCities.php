@@ -5,7 +5,7 @@
  * Date: Tue, 10 Jan 2017 10:34:58 +0000.
  */
 
-namespace App\Modules\ManageProjectTypes\Models;
+namespace App\Modules\ManageCity\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -18,19 +18,19 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstProjectTypes extends Eloquent
+class MlstCities extends Eloquent
 {
 	protected $primaryKey = 'id';
+	protected $connection = 'masterdb';
 	public $timestamps = false;
-        protected $connection = 'masterdb';
 
-        protected $casts = [
-		'id' => 'int'
+	protected $casts = [
+		'state_id' => 'int'
 	];
 
 	protected $fillable = [
-		
-		'project_type_name',
+		'state_id',
+		'name',
                 'id',
                 'created_date',
                 'created_at',
@@ -38,11 +38,6 @@ class LstProjectTypes extends Eloquent
                 'created_IP',
                 'created_browser',
                 'created_mac_id',
-                'updated_date',
-                'updated_at',
-                'updated_by',
-                'updated_IP',
-                'updated_browser',
-                'updated_mac_id',
+                
 	];
 }

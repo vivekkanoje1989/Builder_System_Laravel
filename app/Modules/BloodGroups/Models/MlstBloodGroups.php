@@ -2,37 +2,42 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 18 Jan 2017 09:04:39 +0000.
+ * Date: Mon, 06 Feb 2017 05:28:47 +0000.
  */
 
-namespace App\Modules\ManageStates\Models;
+namespace App\Modules\BloodGroups\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstEducation
+ * Class LstBloodGroup
  * 
  * @property int $blood_group_id
  * @property string $blood_group
  *
  * @package App\Models
  */
-class LstStates extends Eloquent
+class MlstBloodGroups extends Eloquent
 {
-	protected $primaryKey = 'id';
-
-        protected $connection = "masterdb";
+	protected $primaryKey = 'blood_group_id';
+	 protected $connection = 'masterdb';
+         public $table = 'mlst_blood_groups';
+         public $incrementing = false;
 	public $timestamps = false;
+
+	protected $casts = [
+		'blood_group_id' => 'int'
+	];
+
 	protected $fillable = [
-		'name',
-		'country_id',
-                'id',
+		'blood_group',
                 'created_date',
                 'created_at',
                 'created_by',
                 'created_IP',
                 'created_browser',
                 'created_mac_id',
-                
 	];
+
+    
 }

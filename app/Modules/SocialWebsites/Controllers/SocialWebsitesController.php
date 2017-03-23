@@ -81,8 +81,8 @@ class SocialWebsitesController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Address already exists'];
             return json_encode($result);
         } else {
-
-            $update = CommonFunctions::insertLogTableRecords();
+             $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::insertLogTableRecords($loggedInUserId);
             $input['socialData'] = array_merge($request, $update);
 
             $originalValues = SocialWebsites::where('id', $request['id'])->get();

@@ -2,39 +2,37 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 10 Jan 2017 10:34:58 +0000.
+ * Date: Wed, 18 Jan 2017 09:04:39 +0000.
  */
 
-namespace App\Modules\ManageCountry\Models;
+namespace App\Modules\ManageStates\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstCountry
+ * Class LstEducation
  * 
- * @property int $country_id
- * @property string $country_name
+ * @property int $blood_group_id
+ * @property string $blood_group
  *
  * @package App\Models
  */
-class LstCountries extends Eloquent
+class MlstStates extends Eloquent
 {
 	protected $primaryKey = 'id';
-	 protected $connection = 'masterdb';
-	public $timestamps = false;
 
+        protected $connection = "masterdb";
+	public $timestamps = false;
 	protected $fillable = [
+		'name',
+		'country_id',
                 'id',
-                'sortname',
-                'name',
-                'phonecode',
                 'created_date',
                 'created_at',
                 'created_by',
                 'created_IP',
                 'created_browser',
                 'created_mac_id',
-                
                 
 	];
 }

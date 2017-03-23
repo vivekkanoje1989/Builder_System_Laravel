@@ -13,6 +13,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
     $scope.disableCreateButton = false;
     $scope.currentPage =  $scope.itemsPerPage = 4;
     $scope.noOfRows = 1;
+    //$scope.emptyDepartmentId = false;
 //    $scope.imgUrl = "blank-avatar.svg";
     
     $scope.validateMobileNumber = function (value) {

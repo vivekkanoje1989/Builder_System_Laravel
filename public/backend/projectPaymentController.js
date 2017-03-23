@@ -3,7 +3,7 @@ app.controller('managePaymentHeadingCtrl', ['$scope', 'Data', '$rootScope','$tim
         $scope.managePaymentHeading = function () {
             Data.get('payment-headings/managePaymentHeading').then(function (response) {
                 $scope.PaymentHeadingRow = response.records;
-         
+               console.log($scope.PaymentHeadingRow);
                 
             });
         };
@@ -14,36 +14,35 @@ app.controller('managePaymentHeadingCtrl', ['$scope', 'Data', '$rootScope','$tim
                
             });
         }
-        $scope.initialModal = function (id, type_of_payment,project_type_id,is_tax_heading,is_date_dependent,index) {
+        $scope.initialModal = function (id, payment_heading,tax_heading,date_dependent_tax,tax_applicable,index) {
 
             $scope.heading = 'Project Heading';
             if(id == 0)
             {
-                $scope.is_tax_heading = 1;
-                $scope.is_date_dependent = 1;
+                $scope.tax_heading = 1;
+                $scope.date_dependent_tax = 1;
+                $scope.tax_applicable = 1;
             }else
             {
-                $scope.is_tax_heading = is_tax_heading;
-                $scope.is_date_dependent = is_date_dependent;
+                $scope.tax_heading = tax_heading;
+                $scope.date_dependent_tax = date_dependent_tax;
+                $scope.tax_applicable = tax_applicable;
             }
             $scope.id = id;
-            $scope.project_type_id = project_type_id;
-            $scope.type_of_payment = type_of_payment;
+            $scope.payment_heading = payment_heading;
             $scope.index = index;
         }
         $scope.dopaymentheadingAction = function () {
             $scope.errorMsg = '';
             if ($scope.id === 0) //for create
             {
-                Data.post('payment-headings/', { type_of_payment:$scope.type_of_payment,
-                    project_type_id: $scope.project_type_id,is_tax_heading:$scope.is_tax_heading,is_date_dependent:$scope.is_date_dependent}).then(function (response) {
-
+                Data.post('payment-headings/', { payment_heading:$scope.payment_heading,tax_heading:$scope.tax_heading,date_dependent_tax:$scope.date_dependent_tax,tax_applicable:$scope.tax_applicable}).then(function (response) {
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $('#paymentheadingModal').modal('toggle');
-                        $scope.PaymentHeadingRow.push({'type_of_payment': $scope.type_of_payment, 'id': $scope.PaymentHeadingRow.length + 1,'project_type_id': $scope.project_type_id,'is_tax_heading':$scope.is_tax_heading,'is_date_dependent':$scope.is_date_dependent});
+                        $scope.PaymentHeadingRow.push({'payment_heading': $scope.payment_heading, 'id':response.lastinsertid,'project_type_id': $scope.project_type_id,'tax_heading':$scope.tax_heading,'date_dependent_tax':$scope.date_dependent_tax,tax_applicable:$scope.tax_applicable});
                        
                         // $scope.success("Payment heading created successfully");   
                     }
@@ -51,15 +50,14 @@ app.controller('managePaymentHeadingCtrl', ['$scope', 'Data', '$rootScope','$tim
             } else { //for update
 
                 Data.put('payment-headings/'+$scope.id, {
-                     type_of_payment:$scope.type_of_payment,
-                    project_type_id: $scope.project_type_id,id:$scope.id,is_tax_heading:$scope.is_tax_heading,is_date_dependent:$scope.is_date_dependent,is_tax_heading:$scope.is_tax_heading,is_date_dependent:$scope.is_date_dependent}).then(function (response) {
+                     payment_heading:$scope.payment_heading,tax_heading:$scope.tax_heading,date_dependent_tax:$scope.date_dependent_tax,tax_applicable:$scope.tax_applicable}).then(function (response) {
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $scope.PaymentHeadingRow.splice($scope.index, 1);
                         $scope.PaymentHeadingRow.splice($scope.index, 0, {
-                            'type_of_payment': $scope.type_of_payment, 'id': $scope.id,'project_type_id': $scope.project_type_id,'is_tax_heading':$scope.is_tax_heading,'is_date_dependent':$scope.is_date_dependent});
+                            'payment_heading': $scope.payment_heading, 'id': $scope.id,'tax_heading':$scope.tax_heading,'date_dependent_tax':$scope.date_dependent_tax,tax_applicable:$scope.tax_applicable});
                         $('#paymentheadingModal').modal('toggle');
                        // $scope.success("Payment heading updated successfully");   
                     }

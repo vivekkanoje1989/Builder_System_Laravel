@@ -5,10 +5,11 @@ namespace App\Modules\ManageBlockTypes\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\ManageBlockTypes\Models\LstBlockTypes;
-use App\Modules\ManageProjectTypes\Models\LstProjectTypes;
+use App\Modules\ManageBlockTypes\Models\MlstBlockTypes;
+use App\Modules\ManageProjectTypes\Models\MlstProjectTypes;
 use DB;
 use App\Classes\CommonFunctions;
+use Auth;
 class ManageBlockTypesController extends Controller {
 
     /**
@@ -27,8 +28,8 @@ class ManageBlockTypesController extends Controller {
      */
     public function manageBlockTypes() {
 
-        $getBlockname = LstBlockTypes::join('new_builder_master.lst_project_types', 'lst_project_types.id', '=', 'lst_block_types.project_type_id')
-                ->select('lst_block_types.id', 'lst_block_types.block_name', 'lst_project_types.id as project_id', 'lst_project_types.project_type as project_name')
+        $getBlockname = MlstBlockTypes::join('new_builder_master.mlst_project_types', 'mlst_project_types.id', '=', 'mlst_block_types.project_type_id')
+                ->select('mlst_block_types.id', 'mlst_block_types.block_name', 'mlst_project_types.id as project_id', 'mlst_project_types.project_type as project_name')
                 ->get();
         if (!empty($getBlockname)) {
             $result = ['success' => true, 'records' => $getBlockname];
@@ -40,7 +41,7 @@ class ManageBlockTypesController extends Controller {
     }
     public function manageProjectTypes()
     {
-      $getTypes = LstProjectTypes::all();
+      $getTypes = MlstProjectTypes::all();
 
         if(!empty($getTypes))
         {
@@ -63,79 +64,35 @@ class ManageBlockTypesController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
        
-        $cnt = LstBlockTypes::where(['block_name' => $request['block_name']])->get()->count();
+        $cnt = MlstBlockTypes::where(['block_name' => $request['block_name']])->get()->count();
         if ($cnt > 0) {  
             $result = ['success' => false, 'errormsg' => 'Block name already exists'];
             return json_encode($result);
         } else {
-            
-              $create = CommonFunctions::insertMainTableRecords();
+              $loggedInUserId = Auth::guard('admin')->user()->id;
+              $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
               $input['BlockTypesData'] = array_merge($request,$create);
-              $result = LstBlockTypes::create($input['BlockTypesData']);
-              $last3 = LstBlockTypes::latest('id')->first();
+              $result = MlstBlockTypes::create($input['BlockTypesData']);
+              $last3 = MlstBlockTypes::latest('id')->first();
               $result = ['success' => true, 'result' => $result,'lastinsertid'=>$last3->id];
            return json_encode($result);
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id) {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
        
-        $getCount = LstBlockTypes::where(['block_name' => $request['block_name']])->get()->count();
+        $getCount = MlstBlockTypes::where(['block_name' => $request['block_name']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Block name already exists'];
             return json_encode($result);
         } else {
              
-            $update = CommonFunctions::insertLogTableRecords();
-            $input['BlockTypesData'] = array_merge($request,$update);
-            $originalValues = LstBlockTypes::where('id', $request['id'])->get();
-            $result = LstBlockTypes::where('id', $request['id'])->update($input['BlockTypesData']);
+            $result = MlstBlockTypes::where('id', $request['id'])->update($request);
             
-            $last = DB::table('lst_block_types_logs')->latest('id')->first();
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
-            $implodeArr =  implode(",",array_keys($getResult));
-            $result =  DB::table('lst_block_types_logs')->where('id',$last->id)->update(['column_names'=>$implodeArr]);
             $result = ['success' => true, 'result' => $result];
          return json_encode($result);
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id) {
-        //
-    }
-
 }

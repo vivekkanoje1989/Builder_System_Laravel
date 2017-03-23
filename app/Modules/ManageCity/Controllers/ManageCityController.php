@@ -4,12 +4,13 @@ namespace App\Modules\ManageCity\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Modules\ManageCity\Models\LstCities;
+use App\Modules\ManageCity\Models\MlstCities;
 use Illuminate\Http\Request;
-use App\Modules\ManageCountry\Models\LstCountries;
-use App\Modules\ManageStates\Models\LstStates;
+use App\Modules\ManageCountry\Models\MlstCountries;
+use App\Modules\ManageStates\Models\MlstStates;
 use DB;
 use App\Classes\CommonFunctions;
+use Auth;
 
 class ManageCityController extends Controller {
 
@@ -18,9 +19,9 @@ class ManageCityController extends Controller {
     }
 
     public function manageCity() {
-        $getCities = LstCities::join('lst_states', 'lst_states.id', '=', 'lst_cities.id')
-                ->join('lst_countries', 'lst_states.country_id', '=', 'lst_countries.id')
-                ->select('lst_cities.*', 'lst_states.country_id', 'lst_states.id as state_id', 'lst_cities.name', 'lst_states.name as state_name', 'lst_countries.name as country_name')
+        $getCities = MlstCities::join('mlst_states', 'mlst_states.id', '=', 'mlst_cities.id')
+                ->join('mlst_countries', 'mlst_states.country_id', '=', 'mlst_countries.id')
+                ->select('mlst_cities.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
                 ->get();
         if (!empty($getCities)) {
             $result = ['success' => true, 'records' => $getCities];
@@ -35,7 +36,7 @@ class ManageCityController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getStates = LstStates::where('country_id', $request['country_id'])
+        $getStates = MlstStates::where('country_id', $request['country_id'])
                 ->select('id', 'name')
                 ->get();
         if (!empty($getStates)) {
@@ -48,7 +49,7 @@ class ManageCityController extends Controller {
     }
 
     public function manageCountry() {
-        $getCountry = LstCountries::all();
+        $getCountry = MlstCountries::all();
 
         if (!empty($getCountry)) {
             $result = ['success' => true, 'records' => $getCountry];
@@ -62,21 +63,19 @@ class ManageCityController extends Controller {
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $cnt = LstCities::where(['name' => $request['name']])->get()->count();
+        $cnt = MlstCities::where(['name' => $request['name']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'City already exists'];
             return json_encode($result);
         } else {
-            $last3 = LstCities::latest('id')->first();
+            $last3 = MlstCities::latest('id')->first();
             $input['cityData']['main_record_id'] = $last3->id;
-
-            $getCountry = LstCountries::where('id', '=', $request['country_id'])
+            $getCountry = MlstCountries::where('id', '=', $request['country_id'])
                     ->select('name')
                     ->first();
-            $getState = LstStates::where('id', '=', $request['state_id'])
+            $getState = MlstStates::where('id', '=', $request['state_id'])
                     ->select('name')
                     ->first();
-
             $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id, 'country_name' => $getCountry->name, 'state_name' => $getState->name];
             return json_encode($result);
         }
@@ -85,17 +84,16 @@ class ManageCityController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-       
-        $getCount = LstCities::where(['name' => $request['name']])->get()->count();
+
+        $getCount = MlstCities::where(['name' => $request['name']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'City already exists'];
             return json_encode($result);
         } else {
-            $result = LstCities::where('id', $request['id'])->update($request);
-            $getState = LstStates::where('id', '=', $request['state_id'])
+            $result = MlstCities::where('id', $request['id'])->update($request);
+            $getState = MlstStates::where('id', '=', $request['state_id'])
                     ->select('name')
                     ->first();
-           
             $result = ['success' => true, 'result' => $result, 'state_name' => $getState->name];
             return json_encode($result);
         }

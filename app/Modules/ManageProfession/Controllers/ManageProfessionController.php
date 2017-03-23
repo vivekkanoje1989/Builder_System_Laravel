@@ -5,16 +5,17 @@ namespace App\Modules\ManageProfession\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\ManageProfession\Models\LstProfessions;
+use App\Modules\ManageProfession\Models\MlstProfessions;
 use DB;
 use App\Classes\CommonFunctions;
+use Auth;
 class ManageProfessionController extends Controller {
 
     public function index() {
         return view("ManageProfession::index");
     }
     public function manageProfession() {
-        $getProfession = LstProfessions::all();
+        $getProfession = MlstProfessions::all();
 
         if (!empty($getProfession)) {
             $result = ['success' => true, 'records' => $getProfession];
@@ -28,15 +29,16 @@ class ManageProfessionController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $cnt = LstProfessions::where(['profession' => $request['profession']])->get()->count();
+        $cnt = MlstProfessions::where(['profession' => $request['profession']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Profession already exists'];
             return json_encode($result);
         } else {
-            $create = CommonFunctions::insertMainTableRecords();
+            $loggedInUserId = Auth::guard('admin')->user()->id; 
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['professionData'] = array_merge($request, $create);
-            $result = LstProfessions::create($input['professionData']);
-            $last3 = LstProfessions::latest('id')->first();
+            $result = MlstProfessions::create($input['professionData']);
+            $last3 = MlstProfessions::latest('id')->first();
             $input['professionData']['main_record_id'] = $last3->id;
 
             $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id];
@@ -47,14 +49,14 @@ class ManageProfessionController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getCount = LstProfessions::where(['profession' => $request['profession']])->get()->count();
+        $getCount = MlstProfessions::where(['profession' => $request['profession']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'profession already exists'];
           return json_encode($result);
         } else {
 
-            $originalValues = LstProfessions::where('id', $request['id'])->get();
-            $result = LstProfessions::where('id', $request['id'])->update($request);
+            $originalValues = MlstProfessions::where('id', $request['id'])->get();
+            $result = MlstProfessions::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
           return json_encode($result);
         }

@@ -51,8 +51,8 @@ class DiscountHeadingsController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Discount heading already exists'];
             return json_encode($result);
         } else {
-
-            $create = CommonFunctions::insertMainTableRecords();
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['discountData'] = array_merge($request, $create);
             $result = Discountheading::create($input['discountData']);
             $last3 = Discountheading::latest('id')->first();
@@ -96,8 +96,8 @@ class DiscountHeadingsController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Discount heading already exists'];
             return json_encode($result);
         } else {
-
-            $update = CommonFunctions::insertLogTableRecords();
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::insertLogTableRecords($loggedInUserId);
             $input['discountData'] = array_merge($request, $update);
 
             $originalValues = Discountheading::where('id', $request['id'])->get();

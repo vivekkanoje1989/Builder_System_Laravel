@@ -5,9 +5,10 @@ namespace App\Modules\ManageDepartment\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\ManageDepartment\Models\LstDepartments;
+use App\Modules\ManageDepartment\Models\MlstDepartments;
 use DB;
 use App\Classes\CommonFunctions;
+use Auth;
 class ManageDepartmentController extends Controller {
 
     /**
@@ -25,7 +26,7 @@ class ManageDepartmentController extends Controller {
      * @return Response
      */
     public function manageDepartment() {
-        $getDepartment = LstDepartments::all();
+        $getDepartment = MlstDepartments::all();
         if (!empty($getDepartment)) {
             $result = ['success' => true, 'records' => $getDepartment];
             return json_encode($result);
@@ -44,16 +45,16 @@ class ManageDepartmentController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $cnt = LstDepartments::where(['department_name' => $request['department_name']])->get()->count();
+        $cnt = MlstDepartments::where(['department_name' => $request['department_name']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Department already exists'];
             return json_encode($result);
         } else {
-
-            $create = CommonFunctions::insertMainTableRecords();
+            $loggedInUserId = Auth::guard('admin')->user()->id;   
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['departmentData'] = array_merge($request, $create);
-            $result = LstDepartments::create($input['departmentData']);
-            $last3 = LstDepartments::latest('id')->first();
+            $result = MlstDepartments::create($input['departmentData']);
+            $last3 = MlstDepartments::latest('id')->first();
             $input['departmentData']['main_record_id'] = $last3->id;
             $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id];
             return json_encode($result);
@@ -63,13 +64,13 @@ class ManageDepartmentController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getCount = LstDepartments::where(['department_name' => $request['department_name']])->get()->count();
+        $getCount = MlstDepartments::where(['department_name' => $request['department_name']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Country already exists'];
             return json_encode($result);
         } else {
 
-            $result = LstDepartments::where('id', $request['id'])->update($request);
+            $result = MlstDepartments::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
            return json_encode($result);
         }

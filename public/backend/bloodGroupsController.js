@@ -2,7 +2,7 @@
 app.controller('bloodGroupCtrl', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope,$timeout) {
 
         $scope.manageBloodGroup = function () {
-            Data.get('bms_lists/manageBloodGroup').then(function (response) {
+            Data.post('blood-groups/manageBloodGroup').then(function (response) {
                 $scope.bloodGrpRow = response.records;
             });
         };

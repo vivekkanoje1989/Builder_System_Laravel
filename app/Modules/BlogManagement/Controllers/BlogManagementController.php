@@ -4,7 +4,7 @@ namespace App\Modules\BlogManagement\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Modules\BlogManagement\Models\Blogs;
+use App\Modules\BlogManagement\Models\WebBlogs;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Input;
@@ -12,22 +12,11 @@ use App\Classes\CommonFunctions;
 
 class BlogManagementController extends Controller {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index() {
         return view("BlogManagement::index");
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
     public function manageBlogs() {
-        $getBlogs = Blogs::all();
+        $getBlogs = WebBlogs::all();
         if (!empty($getBlogs)) {
             $result = ['success' => true, 'records' => $getBlogs];
             return json_encode($result);
@@ -58,12 +47,6 @@ class BlogManagementController extends Controller {
             return json_encode($result);
         }
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
     public function store() {
         $input = Input::all();
        
@@ -85,30 +68,6 @@ class BlogManagementController extends Controller {
             return json_encode($result);
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function update() {
         $input = Input::all();
       
@@ -122,8 +81,8 @@ class BlogManagementController extends Controller {
         } else {
 
             $update = CommonFunctions::insertLogTableRecords();
-            $originalValues = Blogs::where('blog_id', $blog_id)->get();
-            $result = Blogs::where('blog_id', $blog_id)->update($input);
+            $originalValues = WebBlogs::where('blog_id', $blog_id)->get();
+            $result = WebBlogs::where('blog_id', $blog_id)->update($input);
 
             $last = DB::table('blogs_logs')->latest('blog_id')->first();
             $getResult = array_diff_assoc($originalValues[0]['attributes'], $input);
@@ -133,15 +92,4 @@ class BlogManagementController extends Controller {
             return json_encode($result);
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id) {
-        //
-    }
-
 }

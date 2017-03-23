@@ -12,6 +12,7 @@ use App\Modules\ManageCountry\Models\LstCountries;
 use App\Modules\ManageStates\Models\LstStates;
 use App\Modules\ManageCity\Models\LstCities;
 use App\Modules\ManageLocation\Models\LstLocationTypes;
+
 class ContactUsController extends Controller {
 
     /**
@@ -83,12 +84,12 @@ class ContactUsController extends Controller {
             return json_encode($result);
         }
     }
-    public function getContactUsRow()
-    {
-         $postdata = file_get_contents('php://input');
+
+    public function getContactUsRow() {
+        $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-       
-        $getContactus = WebContactus::where('id',$request['id'])->select('*')->first();
+
+        $getContactus = WebContactus::where('id', $request['id'])->select('*')->first();
         if (!empty($getContactus)) {
             $result = ['success' => true, 'records' => $getContactus];
             return json_encode($result);
@@ -97,8 +98,8 @@ class ContactUsController extends Controller {
             return json_encode($result);
         }
     }
-    public function manageLocation()
-    {
+
+    public function manageLocation() {
         $getLocation = LstLocationTypes::all();
         if (!empty($getLocation)) {
             $result = ['success' => true, 'records' => $getLocation];
@@ -112,19 +113,21 @@ class ContactUsController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-       
-            $update = CommonFunctions::insertLogTableRecords();
-            $input['countryData'] = array_merge($request, $update);
 
-            $originalValues = WebContactus::where('id', $request['id'])->get();
-            $result = WebContactus::where('id', $request['id'])->update($input['countryData']);
-            $result = ['success' => true, 'result' => $result];
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $update = CommonFunctions::insertLogTableRecords($loggedInUserId);
+        $input['countryData'] = array_merge($request, $update);
 
-            $last = DB::table('web_contactus_logs')->latest('id')->first();
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
-            $implodeArr = implode(",", array_keys($getResult));
-            $result = DB::table('web_contactus_logs')->where('id', $last->id)->update(['column_names' => $implodeArr]);
-            $result = ['success' => true, 'result' => $result];
-            return json_encode($result);
+        $originalValues = WebContactus::where('id', $request['id'])->get();
+        $result = WebContactus::where('id', $request['id'])->update($input['countryData']);
+        $result = ['success' => true, 'result' => $result];
+
+        $last = DB::table('web_contactus_logs')->latest('id')->first();
+        $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
+        $implodeArr = implode(",", array_keys($getResult));
+        $result = DB::table('web_contactus_logs')->where('id', $last->id)->update(['column_names' => $implodeArr]);
+        $result = ['success' => true, 'result' => $result];
+        return json_encode($result);
     }
+
 }

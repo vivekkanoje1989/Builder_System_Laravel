@@ -7,7 +7,6 @@
         margin-bottom: 0px !important; 
     }
 </style>
-
 <form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.emp_photo_url,[[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
     <input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
     <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-init="userForm.id = '[[ $empId ]]'" value="[[ $empId ]]" class="form-control">
@@ -505,8 +504,8 @@
                             <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.emp_photo_url.$invalid)}">
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
-                                    <img src="http://localhost/BMS_BUILDER_V2/common/employee_photo/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
+                                    <input type="file" multiple ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
+                                    <img src="[[config('global.s3Path')]]/employee_photo/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
                                     <div ng-show="step3 || invalidImage" ng-messages="userForm.emp_photo_url.$error" class="help-block step3">
                                         <div ng-show="invalidImage">{{ invalidImage }}</div>
                                         <div ng-message="required">This field is required.</div>
@@ -518,7 +517,6 @@
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group">
                                 <label for=""></label>
-
                             </div>
                         </div>
                     </div>
@@ -537,7 +535,7 @@
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (step4 && (!userForm.department_id.$dirty && userForm.department_id.$invalid)) && emptyDepartmentId}" ng-controller="departmentCtrl">
                                 <label for="">Select Department <span class="sp-err">*</span></label>	
-                                <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkDepartment()">
+                                <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required="true"  ng-change="checkDepartment()">
                                     <ui-select-match placeholder="Select Departments">{{$item.department_name}}</ui-select-match>
                                     <ui-select-choices repeat="list in departments | filter:$select.search">
                                         {{list.department_name}} 
