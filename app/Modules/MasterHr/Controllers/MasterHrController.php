@@ -5,7 +5,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use App\Models\EmployeesLog;
-use App\Models\LstDepartment;
+use App\Models\MlstDepartment;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Illuminate\Hashing\HashServiceProvider;
@@ -41,7 +41,7 @@ class MasterHrController extends Controller {
             
             foreach($manageUsers as $user){
                 $getDeptName = array();
-                $dept = LstDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
+                $dept = MlstDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
                 for($i=0;$i<count($dept);$i++)
                 {
                     $getDeptName[] = $dept[$i]->department_name;
@@ -318,71 +318,77 @@ class MasterHrController extends Controller {
     public function getMenuLists($id) {
         $getMenu = MenuItems::getMenuItems();
         $getPermission = Employee::select('employee_submenus')->where('id', $id)->get();
-        $permission = explode(",",$getPermission[0]['employee_submenus']);
-        
-        //$permission = explode(",","0201,0202,0301,0602,01001,01101,01103,01201,01202,01203,020101,020102,020103,020104,020105,020106,020107,020201,020202,030101,030102,030103,030104,0110101,0110301,02020101,02020102,02020103,02020201,02020210,02020211");
-                                   
-        $menuItem = array();
-        foreach ($getMenu as $key => $menu) {
-            $submenu_ids = explode(',', $menu['submenu_ids']);
-            if(count(array_intersect($submenu_ids, $permission)) == count($submenu_ids)){
-                $menu['checked'] = true;
-            }
-            foreach ($menu['submenu'] as $k1 => $child1) {
-                if(!empty($child1['submenu'])){
-                    $submenu_ids1 = explode(',', $menu['submenu'][$k1]['submenu_ids']);
-                    if(count(array_intersect($submenu_ids1, $permission)) == count($submenu_ids1)){
-                        $menu['submenu'][$k1]['checked'] = true;
-                    }  
-                    foreach ($child1['submenu'] as $k2 => $child2) { 
-                        if(!empty($child2['submenu'])){
-                            $submenu_ids2 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu_ids']);
-                            if(count(array_intersect($submenu_ids2, $permission)) == count($submenu_ids2)){
-                                $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
-                            }
-                            foreach ($child2['submenu'] as $k3 => $child3) {
-                                if(!empty($child3['submenu'])){
-                                    $submenu_ids3 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['submenu_ids']);
-                                    if(count(array_intersect($submenu_ids3, $permission)) == count($submenu_ids3)){
-                                       $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['checked'] = true;
+//        $permission = explode(",",$getPermission[0]['employee_submenus']);
+        //$str ='{"1":"0101","2":"0102","0":"0103","3":"0201","4":"0202","5":"0203","6":"0301","7":"0401","8":"0402","9":"0602","10":"0604","11":"0801","12":"0901","13":"0903","14":"01001","15":"01101","16":"01102","17":"01103","18":"01202","19":"01203","20":"020301","21":"020302","22":"020303","23":"030101","24":"030102","25":"030103","26":"030104","27":"040101","28":"040102","29":"040103","30":"040104","31":"040105","32":"040106","33":"040107","34":"040108","35":"040109","36":"040204","37":"090101","38":"090102","39":"090301","40":"0110101","41":"02020101","42":"02020102","43":"02020103","44":"02020201","45":"02020210","46":"02020211","47":"09010101","48":"09010102","49":"09010103","50":"09010201","51":"09010202","52":"09010203","53":"09030103"}';
+//        $permission = explode(",","0201,0202,0301,0602,01001,01101,01103,01201,01202,01203,020101,020102,020103,020104,020105,020106,020107,020201,020202,030101,030102,030103,030104,0110101,0110301,02020101,02020102,02020103,02020201,02020210,02020211");
+        if(!empty($getPermission[0]['employee_submenus'])){
+            $permission = json_decode($getPermission[0]['employee_submenus'],true);
+            $menuItem = array();
+            foreach ($getMenu as $key => $menu) {
+                $submenu_ids = explode(',', $menu['submenu_ids']);
+                if(count(array_intersect($submenu_ids, $permission)) == count($submenu_ids)){
+                    $menu['checked'] = true;
+                }
+                foreach ($menu['submenu'] as $k1 => $child1) {
+                    if(!empty($child1['submenu'])){
+                        $submenu_ids1 = explode(',', $menu['submenu'][$k1]['submenu_ids']);
+                        if(count(array_intersect($submenu_ids1, $permission)) == count($submenu_ids1)){
+                            $menu['submenu'][$k1]['checked'] = true;
+                        }  
+                        foreach ($child1['submenu'] as $k2 => $child2) { 
+                            if(!empty($child2['submenu'])){
+                                $submenu_ids2 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu_ids']);
+                                if(count(array_intersect($submenu_ids2, $permission)) == count($submenu_ids2)){
+                                    $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
+                                }
+                                foreach ($child2['submenu'] as $k3 => $child3) {
+                                    if(!empty($child3['submenu'])){
+                                        $submenu_ids3 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['submenu_ids']);
+                                        if(count(array_intersect($submenu_ids3, $permission)) == count($submenu_ids3)){
+                                           $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['checked'] = true;
+                                        }
+                                    }
+                                    if (in_array($child3['id'], $permission)) {
+                                        $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['checked'] = true;
                                     }
                                 }
-                                if (in_array($child3['id'], $permission)) {
-                                    $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['checked'] = true;
+                            }
+                             else{
+                                if (in_array($child2['id'], $permission)) {
+                                    $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
                                 }
                             }
-                        }
-                         else{
-                            if (in_array($child2['id'], $permission)) {
-                                $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
-                            }
-                        }
-                    }                    
+                        }                    
+                    }
+                    else{
+                        if (in_array($child1['id'], $permission)) {
+                            $menu['submenu'][$k1]['checked'] = true;
+                        }                    
+                    }
                 }
-                else{
-                    if (in_array($child1['id'], $permission)) {
-                        $menu['submenu'][$k1]['checked'] = true;
-                    }                    
-                }
+                $menuItem[] = $menu;
             }
-            $menuItem[] = $menu;
+            ksort($menuItem);
+            return json_encode($menuItem);
         }
-//        echo "<pre>"; print_r($menuItem);exit;
-        ksort($menuItem);
-        return json_encode($menuItem);
+        else{
+            ksort($getMenu);
+            return json_encode($getMenu); 
+        }       
     }
     public function accessControl() {
         $postdata = file_get_contents("php://input");
         $input  = json_decode($postdata, true);
         
-        if(!empty($input)){
+        if(!empty($input)){//checkbox checked
             $getSubMenus = Employee::select('employee_submenus')->where('id', $input['data']['empId'])->get();
             if(!empty($input['data']['isChecked'])){ //checkbox checked
                 $parentId = $submenuId = array();
                 if(empty($getSubMenus[0]['employee_submenus']))
                     $getMenuItem = [];
                 else{
-                    $getMenuItem = explode(",",$getSubMenus[0]['employee_submenus']);
+//                    $getMenuItem = explode(",",$getSubMenus[0]['employee_submenus']);
+                    $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'],true);
                 }
                 if(!empty($input['data']['parentId'])){
                 $parentId = array_map(function($el){ return '0'.$el; },  $input['data']['parentId']);}
@@ -390,9 +396,11 @@ class MasterHrController extends Controller {
 
                 $menuArr = array_merge($parentId,$submenuId); 
                 $menuArr = array_unique(array_merge($menuArr,$getMenuItem)); //merge elements
-                asort($menuArr);
-                $implodArr = implode(',', $menuArr);
-                Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $implodArr));
+                ksort($menuArr);
+                $jsonArr = json_encode($menuArr,true);
+                
+//                $implodArr = implode(',', $menuArr);
+                Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
                 $result = ['success' => true];
                 return json_encode($result);
             }
@@ -402,13 +410,9 @@ class MasterHrController extends Controller {
                 else{
                     $getMenuItem = explode(",",$getSubMenus[0]['employee_submenus']);  
                 }
-//                echo "<pre>";print_r($getMenuItem);
-                
                 $submenuId = array_map(function($el){ return '0'.$el; },  $input['data']['submenuId']);   
-//                echo "<pre>";print_r($submenuId);
                 $menuArr = array_diff($getMenuItem, $submenuId); //removes elements
-//                echo "<pre>";print_r($menuArr);exit;
-                asort($menuArr);
+                ksort($menuArr);
                 $implodArr = implode(',', $menuArr);
                 Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $implodArr));
                 $result = ['success' => true];

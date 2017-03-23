@@ -18,11 +18,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstDepartment extends Eloquent
+class MlstDepartment extends Eloquent
 {
 	public $timestamps = false;
 
-	 protected $connection = 'masterdb';
+        protected $connection = 'masterdb';
 
 	protected $casts = [
 		'client_id' => 'int'
