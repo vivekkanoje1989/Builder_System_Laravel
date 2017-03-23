@@ -91,10 +91,7 @@ class MasterHrController extends Controller {
         if(empty($input)){
             $input = Input::all();
         }
-        print_r($input['emp_photo_url']);exit;
-//        echo "<pre>";print_r($input);exit;
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
-        exit;
         if(!empty($input['userData'])){
             if(!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i',$userAgent)||preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',substr($userAgent,0,4))){
                 $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
@@ -218,7 +215,6 @@ class MasterHrController extends Controller {
         
         $postdata = file_get_contents("php://input");
         $input  = json_decode($postdata, true);
-//      print_r($input);exit;   
         if(empty($input)){
             $input = Input::all();
         }
@@ -237,10 +233,7 @@ class MasterHrController extends Controller {
             unset($input['userData']['department_name']);
             unset($input['userData']['login_date_time']);
             unset($input['userData']['departmentid']);
-            unset($input['userData']['loggedInUserId']);
-//            $photoCopy = $input['userData']['emp_photo_url'];
-//            $input['userData']['emp_photo_url']='';
-//            $input['userData']['emp_photo_url'] = $photoCopy;        
+            unset($input['userData']['loggedInUserId']);       
         }
         else{
             $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -274,10 +267,8 @@ class MasterHrController extends Controller {
             }        
         }
         /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
-        //echo "<pre>";print_r($input);exit;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'],$update);
-        //print_r($input['userData']['employee_id']);exit; 
         $employeeUpdate = Employee::where('id',$id)->update($input['userData']);  
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData=$originalValues[0]['attributes']['password'];
@@ -291,7 +282,6 @@ class MasterHrController extends Controller {
             $input['userData']['record_restore_status'] = 1;
             EmployeesLog::create($input['userData']);   
         }
-       // print_r($input);echo'-----------------';print_r($getResult);exit; 
         $result = ['success' => true, 'message' => 'Employee Updated Succesfully','empId'=>$id];
         return json_encode($result);
     }
@@ -312,10 +302,8 @@ class MasterHrController extends Controller {
     public function getMenuLists($id) {
         $getMenu = MenuItems::getMenuItems();
         $getPermission = Employee::select('employee_submenus')->where('id', $id)->get();
-//        $permission = explode(",",$getPermission[0]['employee_submenus']);
-        //$str ='{"1":"0101","2":"0102","0":"0103","3":"0201","4":"0202","5":"0203","6":"0301","7":"0401","8":"0402","9":"0602","10":"0604","11":"0801","12":"0901","13":"0903","14":"01001","15":"01101","16":"01102","17":"01103","18":"01202","19":"01203","20":"020301","21":"020302","22":"020303","23":"030101","24":"030102","25":"030103","26":"030104","27":"040101","28":"040102","29":"040103","30":"040104","31":"040105","32":"040106","33":"040107","34":"040108","35":"040109","36":"040204","37":"090101","38":"090102","39":"090301","40":"0110101","41":"02020101","42":"02020102","43":"02020103","44":"02020201","45":"02020210","46":"02020211","47":"09010101","48":"09010102","49":"09010103","50":"09010201","51":"09010202","52":"09010203","53":"09030103"}';
-//        $permission = explode(",","0201,0202,0301,0602,01001,01101,01103,01201,01202,01203,020101,020102,020103,020104,020105,020106,020107,020201,020202,030101,030102,030103,030104,0110101,0110301,02020101,02020102,02020103,02020201,02020210,02020211");
-        if(!empty($getPermission[0]['employee_submenus'])){
+//        echo "<pre>";print_r($getPermission[0]['employee_submenus']);exit;
+        if($getPermission[0]['employee_submenus'] != ''){
             $permission = json_decode($getPermission[0]['employee_submenus'],true);
             $menuItem = array();
             foreach ($getMenu as $key => $menu) {
@@ -378,37 +366,39 @@ class MasterHrController extends Controller {
             $getSubMenus = Employee::select('employee_submenus')->where('id', $input['data']['empId'])->get();
             if(!empty($input['data']['isChecked'])){ //checkbox checked
                 $parentId = $submenuId = array();
-                if(empty($getSubMenus[0]['employee_submenus']))
+                if($getSubMenus[0]['employee_submenus'] == '')
                     $getMenuItem = [];
                 else{
-//                    $getMenuItem = explode(",",$getSubMenus[0]['employee_submenus']);
                     $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'],true);
                 }
                 if(!empty($input['data']['parentId'])){
                 $parentId = array_map(function($el){ return '0'.$el; },  $input['data']['parentId']);}
                 $submenuId = array_map(function($el){ return '0'.$el; },  $input['data']['submenuId']);
-
-                $menuArr = array_merge($parentId,$submenuId); 
-                $menuArr = array_unique(array_merge($menuArr,$getMenuItem)); //merge elements
-                ksort($menuArr);
-                $jsonArr = json_encode($menuArr,true);
                 
-//                $implodArr = implode(',', $menuArr);
+                $menuArr = array_merge($parentId,$submenuId); 
+                if(!empty($getMenuItem)){
+                    $menuArr = array_unique(array_merge($menuArr,$getMenuItem)); //merge elements
+                }
+                asort($menuArr);
+                $jsonArr = json_encode($menuArr,true);
                 Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
                 $result = ['success' => true];
                 return json_encode($result);
             }
             else{//checkbox unchecked
-                if(empty($getSubMenus[0]['employee_submenus']))
+                if($getSubMenus[0]['employee_submenus'] == '')
                     $getMenuItem = [];
                 else{
-                    $getMenuItem = explode(",",$getSubMenus[0]['employee_submenus']);  
+                    $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'],true);  
                 }
                 $submenuId = array_map(function($el){ return '0'.$el; },  $input['data']['submenuId']);   
                 $menuArr = array_diff($getMenuItem, $submenuId); //removes elements
-                ksort($menuArr);
-                $implodArr = implode(',', $menuArr);
-                Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $implodArr));
+                if(!empty($getMenuItem)){
+                    $menuArr = array_unique(array_merge($menuArr,$getMenuItem)); //merge elements
+                }
+                asort($menuArr);
+                $jsonArr = json_encode($menuArr,true);
+                Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
                 $result = ['success' => true];
                 return json_encode($result);
             }

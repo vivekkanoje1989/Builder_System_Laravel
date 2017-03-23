@@ -2,29 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group/>
-=======
-        <group>
-<<<<<<< HEAD
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Models/backend/Employee.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Views/create.blade.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/WebPages/Controllers/WebPagesController.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Http/Controllers/backend/AdminController.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/hrController.js</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/webPageController.js</file>
-=======
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageProfession/Controllers/ManageProfessionController.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/Models/MlstCities.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageProjectTypes/Models/MlstProjectTypes.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageLocation/Models/MlstLocationTypes.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageProjectTypes/Controllers/ManageProjectTypesController.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/Controllers/ManageCityController.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageLocation/Controllers/ManageLocationController.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/routes/web.php</file>
->>>>>>> ece50802b0a6bef755f860d690074d2370efbd78
-        </group>
->>>>>>> 7a7f08b1b7437c4f5f25fd0fe100054a77ef0a17
     </open-files>
 </project-private>
