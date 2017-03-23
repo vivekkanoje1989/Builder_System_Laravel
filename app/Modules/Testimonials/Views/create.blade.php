@@ -14,7 +14,7 @@
                 </div>
             </div> 
             <div class="widget-body table-responsive">     
-<form novalidate ng-submit="testimonialsForm.$valid && doTestimonialsAction(photo_src)" name="testimonialsForm">
+                <form novalidate ng-submit="testimonialsForm.$valid && doTestimonialsAction(photo_src)" name="testimonialsForm" enctype="multipart/form-data">
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -57,9 +57,14 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.photo_src.$dirty && testimonialsForm.photo_src.$invalid) }">
                                    
                                     <span class="input-icon icon-right">
-                                      <input type="file" ngf-select ng-model="photo_src" name="photo_src" id="bannerImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(bannerImage)">
+                                      <input type="file" ngf-select multiple ng-model="photo_src" name="photo_src" id="photo_src" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile">
+                                        <br/>
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.photo_src.$error">
+                                            <div ng-message="required">Photo is required</div>
+                                        </div>
                                         <br/>
                                     </span>
+                                    </div>  
                                 </td>
                             </tr>
                             <tr><td>Video url *</td>

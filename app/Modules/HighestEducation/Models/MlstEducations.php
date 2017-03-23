@@ -16,7 +16,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstEducations extends Eloquent
+class MlstEducations extends Eloquent
 {
 	protected $primaryKey = 'education_id';
 

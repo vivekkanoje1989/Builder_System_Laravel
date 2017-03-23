@@ -68,7 +68,7 @@
                              <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="project_type_id" name="project_type_id" required>
                                     <option value="">Select project type</option>
-                                    <option  ng-repeat="list in getProjectNamesRow" value="{{list.project_type_id}}" selected>{{list.project_type_name}}</option>
+                                    <option  ng-repeat="list in getProjectNamesRow" value="{{list.id}}" selected>{{list.project_type}}</option>
                                 </select>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blocktypesForm.project_type_id.$error">

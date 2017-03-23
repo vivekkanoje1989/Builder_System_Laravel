@@ -5,13 +5,13 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$tim
                 $scope.ProjectPaymentStagesRow = response.records;
             });
         };
-        $scope.initialModal = function (id, project_stages, project_type_id,index) {
+        $scope.initialModal = function (id, stage_name, project_type_id,index) {
 
             $scope.heading = 'Project payment stages';
             $scope.id = id;
-            $scope.project_stages = project_stages;
+            $scope.stage_name = stage_name;
             $scope.index = index;
-            $scope.project_type = project_type_id;
+            $scope.project_type_id = project_type_id;
         }
         $scope.getProjectTypes = function()
         {
@@ -24,8 +24,8 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$tim
             if ($scope.id === 0) //for create
             {
                 Data.post('project-payment', {
-                    project_stages: $scope.project_stages,project_type_id:$scope.project_type_id}).then(function (response) {
-                  console.log(response);
+                    stage_name: $scope.stage_name,project_type_id:$scope.project_type_id}).then(function (response) {
+                 
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
@@ -39,7 +39,7 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$tim
             } else { //for update
 
                 Data.put('project-payment/'+$scope.id, {
-                    project_stages: $scope.project_stages, id: $scope.id,project_type_id:$scope.project_type_id}).then(function (response) {
+                    stage_name: $scope.stage_name, id: $scope.id,project_type_id:$scope.project_type_id}).then(function (response) {
                    
                     if (!response.success)
                     {

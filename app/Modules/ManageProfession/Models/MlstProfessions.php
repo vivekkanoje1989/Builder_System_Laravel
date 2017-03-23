@@ -17,7 +17,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstProfessions extends Eloquent {
+class MlstProfessions extends Eloquent {
 
     public $timestamps = false;
     protected $connection = 'masterdb';

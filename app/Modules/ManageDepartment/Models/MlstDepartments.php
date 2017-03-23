@@ -18,7 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstDepartments extends Eloquent
+class MlstDepartments extends Eloquent
 {
 	public $timestamps = false;
 

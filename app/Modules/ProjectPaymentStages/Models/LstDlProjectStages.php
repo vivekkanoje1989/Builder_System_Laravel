@@ -2,29 +2,33 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 18 Jan 2017 09:04:39 +0000.
+ * Date: Tue, 10 Jan 2017 10:34:58 +0000.
  */
 
-namespace App\Modules\ManageBlockTypes\Models;
+namespace App\Modules\ProjectPaymentStages\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstEducation
+ * Class LstCity
  * 
- * @property int $blood_group_id
- * @property string $blood_group
+ * @property int $city_id
+ * @property int $state_id
+ * @property string $city_name
  *
  * @package App\Models
  */
-class LstBlockTypes extends Eloquent {
+class LstDlProjectStages extends Eloquent {
 
     protected $primaryKey = 'id';
     public $timestamps = false;
+    protected $casts = [
+        'id' => 'int'
+    ];
     protected $fillable = [
+        'stage_name',
+        'id',
         'project_type_id',
-        'block_name',
-        'block_id',
         'created_date',
         'created_at',
         'created_by',

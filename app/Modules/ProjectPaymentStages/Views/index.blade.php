@@ -40,9 +40,9 @@
                             <td></td>                        </tr>
                         <tr role="row" ng-repeat="list in ProjectPaymentStagesRow| filter:search | orderBy:orderByField:reverseSort" ng-class="{'selected':$index == selectedRow}" ng-click="setClickedRow($index)">
                             <td>{{ $index + 1}}</td>
-                            <td>{{ list.project_stages }}</td>   
+                            <td>{{ list.stage_name }}</td>   
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#projectpaymentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.project_stages}}',{{list.project_type_id}},$index)"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#projectpaymentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.stage_name}}',{{list.project_type_id}},$index)"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -60,10 +60,10 @@
                 </div>
                 <form novalidate ng-submit="projectpaymentForm.$valid && doprojectpaymentAction()" name="projectpaymentForm">
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.project_type.$dirty && projectpaymentForm.project_type.$invalid)  && (!projectpaymentForm.project_stages.$dirty && projectpaymentForm.project_stages.$invalid)}">
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.project_type_id.$dirty && projectpaymentForm.project_type_id.$invalid)  && (!projectpaymentForm.stage_name.$dirty && projectpaymentForm.stage_name.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
                            <span class="input-icon icon-right">
-                                <select class="form-control" ng-model="project_type_id" name="project_type" required>
+                                <select class="form-control" ng-model="project_type_id" name="project_type_id" required>
                                     <option value="">Select project type</option>
                                     <option  ng-repeat="item in ProjectTypesRow" value="{{item.id}}" selected>{{item.project_type}}</option>
                                 </select>
@@ -74,9 +74,9 @@
                             </span>
                             <br/><br/>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="project_stages" name="project_stages" placeholder="Project stages" ng-change="errorMsg = null" required>
+                                <input type="text" class="form-control" ng-model="stage_name" name="stage_name" placeholder="Project stages" ng-change="errorMsg = null" required>
                                 <i class="fa fa-user thm-color circular"></i>
-                                <div class="help-block" ng-show="sbtBtn" ng-messages="projectpaymentForm.project_stages.$error">
+                                <div class="help-block" ng-show="sbtBtn" ng-messages="projectpaymentForm.stage_name.$error">
                                     <div ng-message="required">Payment stage is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>

@@ -5,11 +5,11 @@ namespace App\Modules\ProjectPaymentStages\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\ProjectPaymentStages\Models\ProjectStages;
-use App\Modules\ManageProjectTypes\Models\LstProjectTypes;
+use App\Modules\ProjectPaymentStages\Models\LstDlProjectStages;
+use App\Modules\ManageProjectTypes\Models\MlstProjectTypes;
 use DB;
 use App\Classes\CommonFunctions;
-
+use Auth;
 class ProjectPaymentStagesController extends Controller {
 
     public function index() {
@@ -17,7 +17,7 @@ class ProjectPaymentStagesController extends Controller {
     }
 
     public function manageProjectPaymentStages() {
-        $getDiscountname = ProjectStages::all();
+        $getDiscountname = LstDlProjectStages::all();
        
         if (!empty($getDiscountname)) {
             $result = ['success' => true, 'records' => $getDiscountname];
@@ -29,7 +29,7 @@ class ProjectPaymentStagesController extends Controller {
     }
 
     public function manageProjectTypes() {
-        $getTypes = LstProjectTypes::all();
+        $getTypes = MlstProjectTypes::all();
 
         if (!empty($getTypes)) {
             $result = ['success' => true, 'records' => $getTypes];
@@ -44,19 +44,21 @@ class ProjectPaymentStagesController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $cnt = ProjectStages::where(['project_stages' => $request['project_stages']])->get()->count();
+        print_r($request);
+        exit();
+        $cnt = LstDlProjectStages::where(['stage_name' => $request['stage_name']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Project payment stages already exists'];
             return json_encode($result);
         } else {
-
-            $create = CommonFunctions::insertMainTableRecords();
+           $loggedInUserId = Auth::guard('admin')->user()->id;
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['projectStagesData'] = array_merge($request, $create);
             $input['projectStagesData']['project_type_id'];
 
-            $result = ProjectStages::create($input['projectStagesData']);
+            $result = LstDlProjectStages::create($input['projectStagesData']);
 
-            $last3 = ProjectStages::latest('id')->first();
+            $last3 = LstDlProjectStages::latest('id')->first();
             $input['projectStagesData']['id'] = $last3->id;
             $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id];
             return json_encode($result);
@@ -66,12 +68,12 @@ class ProjectPaymentStagesController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $getCount = ProjectStages::where(['project_stages' => $request['project_stages']])->get()->count();
+        $getCount = LstDlProjectStages::where(['stage_name' => $request['stage_name']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Project payment stage already exists'];
             return json_encode($result);
         } else {
-            $result = ProjectStages::where('id', $request['id'])->update($request);
+            $result = LstDlProjectStages::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

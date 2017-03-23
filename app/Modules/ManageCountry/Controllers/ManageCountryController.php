@@ -3,10 +3,10 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\ManageCountry\Models\LstCountries;
+use App\Modules\ManageCountry\Models\MlstCountries;
 use DB;
 use App\Classes\CommonFunctions;
-
+use Auth;
 class ManageCountryController extends Controller {
  
 	/**
@@ -27,7 +27,7 @@ class ManageCountryController extends Controller {
 	 */
 	public function manageCountry()
 	{
-		$getCountry = LstCountries::all();
+		$getCountry = MlstCountries::all();
             
         if(!empty($getCountry))
         {
@@ -44,16 +44,16 @@ class ManageCountryController extends Controller {
          $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
      
-        $cnt = LstCountries::where(['name' => $request['name']])->get()->count();
+        $cnt = MlstCountries::where(['name' => $request['name']])->get()->count();
         if ($cnt > 0) {  
             $result = ['success' => false, 'errormsg' => 'State already exists'];
             return json_encode($result);
         } else {
-            
-            $create = CommonFunctions::insertMainTableRecords();
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['countryData'] = array_merge($request,$create);
-             $result = LstCountries::create($input['countryData']);
-             $last3 = LstCountries::latest('id')->first();
+             $result = MlstCountries::create($input['countryData']);
+             $last3 = MlstCountries::latest('id')->first();
             $input['countryData']['main_record_id'] = $last3->id;
              $result = ['success' => true, 'result' => $result,'lastinsertid'=>$last3->id];
               return json_encode($result);
@@ -65,13 +65,13 @@ class ManageCountryController extends Controller {
        $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
        
-        $getCount = LstCountries::where(['name' => $request['name']])->get()->count();
+        $getCount = MlstCountries::where(['name' => $request['name']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Country already exists'];
             return json_encode($result);
         } else {
              
-            $result = LstCountries::where('id', $request['id'])->update($request);
+            $result = MlstCountries::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

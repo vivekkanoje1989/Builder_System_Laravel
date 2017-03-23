@@ -2,35 +2,32 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 06 Feb 2017 05:28:47 +0000.
+ * Date: Tue, 10 Jan 2017 10:34:58 +0000.
  */
 
-namespace App\Modules\BloodGroups\Models;
+
+namespace App\Modules\ManageLocation\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstBloodGroup
+ * Class LstCountry
  * 
- * @property int $blood_group_id
- * @property string $blood_group
+ * @property int $country_id
+ * @property string $country_name
  *
  * @package App\Models
  */
-class LstBloodGroup extends Eloquent
+class MlstLocationTypes extends Eloquent
 {
-	protected $primaryKey = 'blood_group_id';
+	protected $primaryKey = 'id';
 	 protected $connection = 'masterdb';
-	 protected $table = 'lst_blood_groups';
-	public $incrementing = false;
 	public $timestamps = false;
-
-	protected $casts = [
-		'blood_group_id' => 'int'
-	];
-
+    
 	protected $fillable = [
-		'blood_group',
+                'id',
+                'location_type',
+                'status',
                 'created_date',
                 'created_at',
                 'created_by',
@@ -43,8 +40,5 @@ class LstBloodGroup extends Eloquent
                 'updated_IP',
                 'updated_browser',
                 'updated_mac_id',
-                
 	];
-
-    
 }
