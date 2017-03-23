@@ -9,7 +9,7 @@ Route::group(array('module' => 'Testimonials', 'namespace' => 'App\Modules\Testi
     Route::post($getUrl.'/testimonials/approve','TestimonialsController@getApproveTestimonials');
      
     Route::get($getUrl.'/testimonial-approve/{id}/edit','TestimonialsController@edit');
-    Route::post($getUrl.'/testimonials-approve/update/{id}','TestimonialsController@update');
+    Route::post($getUrl.'/testimonials-approve/update','TestimonialsController@update');
    
     Route::post($getUrl.'/testimonials-approve/getTestimonialData','TestimonialsController@getTestimonialData');
     Route::get($getUrl.'/testimonial-manage/{id}/manageEdit','TestimonialsController@manageEdit');

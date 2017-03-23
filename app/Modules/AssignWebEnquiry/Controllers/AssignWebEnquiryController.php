@@ -81,7 +81,8 @@ class AssignWebEnquiryController extends Controller {
 		 $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
        
-            $update = CommonFunctions::insertLogTableRecords();
+         $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::insertLogTableRecords($loggedInUserId);
             $input['AutoEnquiriesData'] = array_merge($request,$update);
             
             $originalValues = AssignWebEnquiries::first();

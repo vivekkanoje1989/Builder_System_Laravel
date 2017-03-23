@@ -5,10 +5,10 @@ namespace App\Modules\HighestEducation\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\HighestEducation\Models\LstEducations;
+use App\Modules\HighestEducation\Models\MlstEducations;
 use App\Classes\CommonFunctions;
 use DB;
-
+use Auth;
 class HighestEducationController extends Controller {
 
     /**
@@ -21,7 +21,7 @@ class HighestEducationController extends Controller {
     }
 
     public function manageHighestEducation() {
-        $getHighestEducation = LstEducations::all();
+        $getHighestEducation = MlstEducations::all();
 
         if (!empty($getHighestEducation)) {
             $result = ['success' => true, 'records' => $getHighestEducation];
@@ -45,72 +45,36 @@ class HighestEducationController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $cnt = LstEducations::where(['education_title' => $request['education_title']])->get()->count();
+        $cnt = MlstEducations::where(['education_title' => $request['education_title']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Education title already exists'];
             return json_encode($result);
         } else {
-
-            $create = CommonFunctions::insertMainTableRecords();
+             $loggedInUserId = Auth::guard('admin')->user()->id; 
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['educationData'] = array_merge($request, $create);
-            $result = LstEducations::create($input['educationData']);
-            $last3 = LstEducations::latest('education_id')->first();
+            $result = MlstEducations::create($input['educationData']);
+            $last3 = MlstEducations::latest('education_id')->first();
             $input['educationData']['main_record_id'] = $last3->education_id;
 
             $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->education_id];
             return json_encode($result);
         }
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id) {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getCount = LstEducations::where(['education_title' => $request['education_title']])->get()->count();
+        $getCount = MlstEducations::where(['education_title' => $request['education_title']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Country already exists'];
             return json_encode($result);
         } else {
-            $result = LstEducations::where('education_id', $request['education_id'])->update($request);
+            $result = MlstEducations::where('education_id', $request['education_id'])->update($request);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id) {
-        //
-    }
-
+    
 }

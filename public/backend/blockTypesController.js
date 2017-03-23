@@ -38,8 +38,9 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
             } else { //for update
 
                 Data.put('block-types/'+$scope.id, {
-                     block_id:$scope.block_name,
+                   
                     project_type_id: $scope.project_type_id, block_name:$scope.block_name,id:$scope.id}).then(function (response) {
+                    console.log(response);
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;

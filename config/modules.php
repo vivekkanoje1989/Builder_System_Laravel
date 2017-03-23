@@ -27,5 +27,7 @@ return [
         "ProjectPaymentStages",
         "ContactUs",
         "WebPages",
+        "BlogManagement",
+        "Testimonials",
     ),
 ];

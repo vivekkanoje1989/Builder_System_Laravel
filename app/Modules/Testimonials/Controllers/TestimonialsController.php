@@ -7,9 +7,10 @@ use App\Http\Controllers\Controller;
 use DB;
 use App\Modules\Testimonials\Models\Testimonials;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use App\Classes\CommonFunctions;
-
+use Illuminate\Support\Facades\Input;
+use App\Classes\S3;
+use Auth;
 class TestimonialsController extends Controller {
 
     public function index() {
@@ -23,10 +24,9 @@ class TestimonialsController extends Controller {
     public function create() {
         return view("Testimonials::create");
     }
-    
-    public function manageEdit($id)
-    {
-         return view("Testimonials::manageUpdate")->with("testimonialId", $id);
+
+    public function manageEdit($id) {
+        return view("Testimonials::manageUpdate")->with("testimonialId", $id);
     }
 
     public function getApproveTestimonials() {
@@ -53,10 +53,9 @@ class TestimonialsController extends Controller {
             return json_encode($result);
         }
     }
-    
-    public function manageApprovedTestimonials()
-    {
-        $getApprovedTestimonials = Testimonials::where('is_approve','1')->get();
+
+    public function manageApprovedTestimonials() {
+        $getApprovedTestimonials = Testimonials::where('is_approve', '1')->get();
         if (!empty($getApprovedTestimonials)) {
             $result = ['success' => true, 'records' => $getApprovedTestimonials];
             return json_encode($result);
@@ -68,10 +67,13 @@ class TestimonialsController extends Controller {
 
     public function store() {
         $input = Input::all();
+      
+        $s3FolderName = 'Testimonial';
+        $fileName = S3::s3FileUplod($input['photo_src']['photo_src'], $s3FolderName, 1);
+        $fileName = trim($fileName, ",");
 
-        $fileName = time() . '.' . $input['photo_src']['photo_src']->getClientOriginalExtension();
-        $input['photo_src']['photo_src']->move(base_path() . "/common/blog_images/", $fileName);
-        $create = CommonFunctions::insertMainTableRecords();
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['testimonialsData'] = array_merge($input, $create);
         $input['testimonialsData']['photo_src'] = $fileName;
 
@@ -86,21 +88,18 @@ class TestimonialsController extends Controller {
         return view("Testimonials::update")->with("testimonialId", $id);
     }
 
-   
-
-    public function update($id) {
+    public function update() {
         $input = Input::all();
-        $fileName = time() . '.' . $input['photo_src']['photo_src']->getClientOriginalExtension();
-        $input['photo_src']['photo_src']->move(base_path() . "/common/blog_images/", $fileName);
-        $create = CommonFunctions::insertMainTableRecords();
+        
+        $s3FolderName = 'Testimonial';
+        $fileName = S3::s3FileUplod($input['photo_src']['photo_src'], $s3FolderName, 1);
+        $fileName = trim($fileName, ",");
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['testimonialsData'] = array_merge($input, $create);
         $input['testimonialsData']['photo_src'] = $fileName;
-
-        $result = Testimonials::where('testimonial_id', $id)->update($input['testimonialsData']);
-
-        //  $last3 = Testimonials::latest('testimonial_id')->first();
-        // $result = ['success' => true, 'result' => $blogData, 'lastinsertid' => $last3->blog_id];
-        return json_encode($result);
+        $result = Testimonials::where('testimonial_id', $input['testimonial_id'])->update($input['testimonialsData']);
+      return json_encode($result);
     }
 
 }

@@ -54,14 +54,23 @@
                             </tr>
                             
                            
-                            <tr><td>Photo</td>
+                           <tr><td>Photo</td>
                                 <td>
-                                    <div style="width:80px; height:80px; border:1px solid black;"></div>
+                                    <div >
+                                        <img ng-src="{{image_name}}" width="80px" height="80px">
+                                    </div>
                                     <br/>
-                                  <span class="input-icon icon-right">
-                                      <input type="file" ngf-select ng-model="photo_src" name="photo_src" id="bannerImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(bannerImage)">
+                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.photo_src.$dirty && testimonialsForm.photo_src.$invalid) }">
+                                   
+                                    <span class="input-icon icon-right">
+                                      <input type="file" ngf-select multiple ng-model="photo_src" name="photo_src" id="photo_src" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile">
                                         <br/>
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.photo_src.$error">
+                                            <div ng-message="required">Photo is required</div>
+                                        </div>
+                                        
                                     </span>
+                                    </div>  
                                 </td>
                             </tr>
                             <tr><td>Video url *</td>

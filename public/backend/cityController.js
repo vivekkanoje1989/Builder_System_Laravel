@@ -14,8 +14,8 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', functi
                 $scope.country_name_id = country_id;
                
             } else {
-                $scope.country__id = $scope.countryRow[$scope.country_id - 1].id;
-                alert($scope.country_id);
+                $scope.country_id = $scope.countryRow[$scope.country_id - 1].id;
+                
             }
             Data.post('manage-city/manageStates', {country_id: $scope.country_id}).then(function (response) {
                 $scope.statesRow = response.records;

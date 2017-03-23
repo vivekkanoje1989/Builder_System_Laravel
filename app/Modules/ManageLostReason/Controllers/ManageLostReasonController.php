@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Classes\CommonFunctions;
 use App\Modules\ManageLostReason\Models\EnquiryLostReason;
-
+use Auth; 
 class ManageLostReasonController extends Controller {
 
     /**
@@ -50,7 +50,8 @@ class ManageLostReasonController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Discount heading already exists'];
             return json_encode($result);
         } else {
-            $create = CommonFunctions::insertMainTableRecords();
+             $loggedInUserId = Auth::guard('admin')->user()->id; 
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['reasonData'] = array_merge($request, $create);
             $result = EnquiryLostReason::create($input['reasonData']);
             $last3 = EnquiryLostReason::latest('id')->first();
@@ -94,18 +95,10 @@ class ManageLostReasonController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Reason already exists'];
             return json_encode($result);
         } else {
-
-            $update = CommonFunctions::insertLogTableRecords();
-            $input['reasonData'] = array_merge($request, $update);
-            $originalValues = EnquiryLostReason::where('id', $request['id'])->get();
-            $result = EnquiryLostReason::where('id', $request['id'])->update($input['reasonData']);
+            
+            $result = EnquiryLostReason::where('id', $request['id'])->update(($request));
             $result = ['success' => true, 'result' => $result];
-
-            $last = DB::table('enquiry_lost_reasons_logs')->latest('id')->first();
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $request);
-            $implodeArr = implode(",", array_keys($getResult));
-            $result = DB::table('enquiry_lost_reasons_logs')->where('id', $last->id)->update(['column_names' => $implodeArr]);
-            return json_encode($result);
+         return json_encode($result);
         }
     }
 

@@ -17,7 +17,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstStates extends Eloquent
+class MlstStates extends Eloquent
 {
 	protected $primaryKey = 'id';
 

@@ -5,9 +5,10 @@ namespace App\Modules\ManageLocation\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\ManageLocation\Models\LstLocationTypes;
+use App\Modules\ManageLocation\Models\MlstLocationTypes;
 use DB;
 use App\Classes\CommonFunctions;
+use Auth;
 
 class ManageLocationController extends Controller {
 
@@ -21,7 +22,7 @@ class ManageLocationController extends Controller {
     }
 
     public function manageLocation() {
-        $getLocation = LstLocationTypes::all();
+        $getLocation = MlstLocationTypes::all();
         if (!empty($getLocation)) {
             $result = ['success' => true, 'records' => $getLocation];
             return json_encode($result);
@@ -45,16 +46,16 @@ class ManageLocationController extends Controller {
         $request = json_decode($postdata, true);
 
 
-        $cnt = LstLocationTypes::where(['location_type' => $request['location_type']])->get()->count();
+        $cnt = MlstLocationTypes::where(['location_type' => $request['location_type']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'State already exists'];
             return json_encode($result);
         } else {
-
-            $create = CommonFunctions::insertMainTableRecords();
+            $loggedInUserId = Auth::guard('admin')->user()->id; 
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['locationData'] = array_merge($request, $create);
-            $result = LstLocationTypes::create($input['locationData']);
-            $last3 = LstLocationTypes::latest('id')->first();
+            $result = MlstLocationTypes::create($input['locationData']);
+            $last3 = MlstLocationTypes::latest('id')->first();
             $input['locationData']['main_record_id'] = $last3->id;
 
             $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id];
@@ -92,13 +93,13 @@ class ManageLocationController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getCount = LstLocationTypes::where(['location_type' => $request['location_type']])->get()->count();
+        $getCount = MlstLocationTypes::where(['location_type' => $request['location_type']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Location already exists'];
             return json_encode($result);
         } else {
 
-            $result = LstLocationTypes::where('id', $request['id'])->update($request);
+            $result = MlstLocationTypes::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
 
             return json_encode($result);
