@@ -178,7 +178,7 @@
                                                     <div class="img-div2" data-title="name" ng-repeat="img in imgs track by $index" ng-model="imagePage.allimages">   
                                                         <i class="fa fa-times rem-icon"  title="{{ img }}" ng-click="removeImg('{{img}}',{{$index}},[[ $pageId]])"></i>
                                                         <!--<img src="[[ URL::to('/') ]]/images/{{ img }}" alt="" style="width: 60px;height: 60px;">-->
-                                                        <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Banner-Images/{{ img }}" style="width: 60px;height: 60px;">
+                                                        <img src="[[config('global.s3Path')]]Banner-Images/{{ img }}" style="width: 60px;height: 60px;">
                                                     </div>
                                                 </div>
                                             </div>

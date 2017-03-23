@@ -22,7 +22,6 @@ use App\Models\backend\Employee;
 use Auth;
 
 class S3 {
-
     public static function s3Configuration() {
        // echo Auth::guard('admin')->user()->id;exit;
         $data = DB::table('system_configs')->where('id', 1)->get();

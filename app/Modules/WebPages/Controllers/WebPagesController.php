@@ -122,7 +122,8 @@ class WebPagesController extends Controller {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
         $name = implode(',', $obj['allimg']);
-        $msg = S3::s3FileDelete($obj['imageName']);
+        $s3FolderName = 'Banner-Images';
+        $msg = S3::s3FileDelete($obj['imageName'],$s3FolderName);
 
         /* if (file_exists(base_path() . '/public/images/' . $obj['imageName'])) {
           unlink(base_path() . "/public/images/" . $obj['imageName']);
