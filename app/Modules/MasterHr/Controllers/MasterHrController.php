@@ -5,13 +5,14 @@ use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use App\Models\EmployeesLog;
-use App\Models\LstDepartment;
+use App\Models\MlstDepartment;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Illuminate\Hashing\HashServiceProvider;
 use Auth;
 use App\Classes\CommonFunctions;
 use App\Classes\MenuItems;
+use s3;
 
 class MasterHrController extends Controller {
    
@@ -40,7 +41,7 @@ class MasterHrController extends Controller {
             
             foreach($manageUsers as $user){
                 $getDeptName = array();
-                $dept = LstDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
+                $dept = MlstDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
                 for($i=0;$i<count($dept);$i++)
                 {
                     $getDeptName[] = $dept[$i]->department_name;
@@ -134,19 +135,13 @@ class MasterHrController extends Controller {
             }
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['userData'] = array_merge($input['userData'],$create);            
-            $input = Employee::doAction($input);              
-            
-            $employee = Employee::create($input['userData']); //insert data into employees table
-            
-<<<<<<< HEAD
-            $input['userData']['main_record_id'] = $loggedInUserId;         
-=======
-            $input['userData']['main_record_id'] = $loggedInUserId;                    
->>>>>>> 7e81b0485dd8072bf2b0bd4eaa8a110fa6c29051
+            $input = Employee::doAction($input);
+            $employee = Employee::create($input['userData']); //insert data into employees table            
+            $input['userData']['main_record_id'] = $loggedInUserId;
+            $input['userData']['main_record_id'] = $loggedInUserId;
             $input['userData']['record_type'] = 1;
             $input['userData']['record_restore_status'] = 1;            
             EmployeesLog::create($input['userData']);   //insert data into employees_logs table
-
             if ($employee) {
                 $result = ['success' => true, 'message' => 'Employee registeration successfully', "empId" => $employee->id];
                 echo json_encode($result);
@@ -183,7 +178,7 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
         $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();
         $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);
-        $getDepartments = LstDepartment::whereNotIn('id', $explodeDepartment)->get();
+        $getDepartments = MlstDepartment::whereNotIn('id', $explodeDepartment)->get();
         if (!empty($getDepartments)) {
             $result = ['success' => true, 'records' => $getDepartments];
             return $result;
@@ -198,7 +193,7 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
         $deptId = $request['data']['deptId'];
         $arr = explode(",", $deptId);
-        $getdepts = LstDepartment::whereIn('id', $arr)->get();
+        $getdepts = MlstDepartment::whereIn('id', $arr)->get();
         if (!empty($getdepts)) {
             $result = ['success' => true, 'records' => $getdepts];
             return json_encode($result);

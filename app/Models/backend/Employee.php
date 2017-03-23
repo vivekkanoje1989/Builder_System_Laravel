@@ -300,14 +300,10 @@ class Employee extends Authenticatable {
         $input['userData']['high_security_password'] = (!empty($input['userData']['high_security_password']) && $input['userData']['high_security_password_type'] == 1) ? $input['userData']['high_security_password'] : "";
         $input['userData']['password_changed'] = !empty($input['userData']['password_changed']) ? $input['userData']['password_changed'] : "0";
         $input['userData']['usertype'] = "admin";
-
         $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1";
         $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
-<<<<<<< HEAD
         if (empty($input['userData']['marriage_date']) || $input['userData']['marriage_date'] == "0000-00-00") {
-=======
         if(empty($input['userData']['marriage_date'])|| $input['userData']['marriage_date'] == "0000-00-00"){
->>>>>>> 7e81b0485dd8072bf2b0bd4eaa8a110fa6c29051
             $input['userData']['marriage_date'] = "";
         } else {
             $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
@@ -348,4 +344,5 @@ class Employee extends Authenticatable {
         return $input;
     }
 
+}
 }

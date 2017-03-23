@@ -17,12 +17,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstBloodGroup extends Eloquent
+class MlstBloodGroups extends Eloquent
 {
 	protected $primaryKey = 'blood_group_id';
 	 protected $connection = 'masterdb';
-	 protected $table = 'lst_blood_groups';
-	public $incrementing = false;
+         public $table = 'mlst_blood_groups';
+         public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
@@ -37,13 +37,6 @@ class LstBloodGroup extends Eloquent
                 'created_IP',
                 'created_browser',
                 'created_mac_id',
-                'updated_date',
-                'updated_at',
-                'updated_by',
-                'updated_IP',
-                'updated_browser',
-                'updated_mac_id',
-                
 	];
 
     

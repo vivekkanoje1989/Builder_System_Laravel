@@ -3,11 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/Views/index.blade.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/cityController.js</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/Models/LstCities.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/Controllers/ManageCityController.php</file>
-            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/ManageCity/routes/web.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Models/backend/Employee.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Views/create.blade.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/WebPages/Controllers/WebPagesController.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Http/Controllers/backend/AdminController.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/hrController.js</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/webPageController.js</file>
         </group>
     </open-files>
 </project-private>
