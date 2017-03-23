@@ -9,7 +9,7 @@ use App\Models\backend\Employee;
 use App\Models\LstTitle;
 use App\Models\LstGender;
 use App\Models\LstBloodGroup;
-use App\Models\LstDepartment;
+use App\Models\MlstDepartment;
 use App\Models\LstEducation;
 use App\Models\LstCountry;
 use App\Models\LstState;
@@ -77,9 +77,14 @@ class AdminController extends Controller {
     }
 
     public function getMenuItems() {
+<<<<<<< HEAD
        // $permission = explode(",",Auth()->guard('admin')->user()->employee_submenus);
         $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
         
+=======
+//        $permission = explode(",",Auth()->guard('admin')->user()->employee_submenus);
+        $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
+>>>>>>> 5a047ea5d459599fb09fd9bded94b80401e7ba14
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
         foreach ($getMenu as $key => $menu) {
@@ -170,7 +175,7 @@ class AdminController extends Controller {
     }
 
     public function getDepartments() {
-        $getDepartments = LstDepartment::all();
+        $getDepartments = MlstDepartment::all();
         if (!empty($getDepartments)) {
             $result = ['success' => true, 'records' => $getDepartments];
             return $result;
@@ -206,7 +211,7 @@ class AdminController extends Controller {
         $getTitle = LstTitle::all();
         $getGender = LstGender::all();
         $getBloodGroup = LstBloodGroup::all();
-        $getDepartments = LstDepartment::all();
+        $getDepartments = MlstDepartment::all();
         $getEducationList = LstEducation::all();
         $getEnquirySource = EnquirySource::all();
         $getEnquirySubSource = EnquirySubSource::all();

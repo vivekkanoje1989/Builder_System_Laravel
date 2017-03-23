@@ -99,5 +99,4 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
             }
 
         }
-
     }]);
