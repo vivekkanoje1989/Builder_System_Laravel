@@ -44,8 +44,6 @@ class ProjectPaymentStagesController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        print_r($request);
-        exit();
         $cnt = LstDlProjectStages::where(['stage_name' => $request['stage_name']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Project payment stages already exists'];
