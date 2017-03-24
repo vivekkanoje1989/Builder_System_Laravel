@@ -10,14 +10,14 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstTitle
+ * Class MlstTitle
  * 
  * @property string $value
  * @property string $title
  *
  * @package App\Models
  */
-class LstTitle extends Eloquent
+class MlstTitle extends Eloquent
 {
 	protected $primaryKey = 'value';
 	 protected $connection = 'masterdb';

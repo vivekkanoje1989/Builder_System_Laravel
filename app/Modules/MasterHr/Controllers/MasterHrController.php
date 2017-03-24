@@ -13,6 +13,7 @@ use Auth;
 use App\Classes\CommonFunctions;
 use App\Classes\MenuItems;
 use s3;
+use App\Modules\MasterHr\Models\EmployeeRole;
 
 class MasterHrController extends Controller {
    
@@ -22,7 +23,7 @@ class MasterHrController extends Controller {
     }
     
     public function index() { 
-        return view("MasterHr::index");
+        return view("MasterHr::index")->with("loggedInUserId", Auth::guard('admin')->user()->id);
     }    
     public function manageUsers() {
         $postdata = file_get_contents("php://input");
@@ -57,6 +58,24 @@ class MasterHrController extends Controller {
         } 
     }
     
+    public function manageRoles() {
+        if( Auth::guard('admin')->user()->id == 1){ 
+            $roles = EmployeeRole::all();
+            return view("MasterHr::manageroles")->with("roles",$roles);
+        }
+    }
+    public function getRoles() {
+        if( Auth::guard('admin')->user()->id == 1){ 
+            $roles = EmployeeRole::all();
+            if(!empty($roles)){
+                $result = ['success' => true, "list" => $roles];
+                echo json_encode($result);
+            }else{
+                $result = ['success' => false, "message" => "No records found"];
+                echo json_encode($result);
+            }
+        }
+    }
     public function changePassword() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -299,10 +318,21 @@ class MasterHrController extends Controller {
     public function userPermissions($id) {
         return view("MasterHr::userpermissions")->with("empId", $id);
     }
-    public function getMenuLists($id) {
+    public function rolePermissions($id) {
+        return view("MasterHr::rolepermissions")->with("roleId", $id);
+    }
+    public function getMenuLists() {
+        $postdata = file_get_contents("php://input");
+        $input  = json_decode($postdata, true);
+        $id = $input['data']['id'];
+        if($input['data']['moduleType'] == 'roles'){
+            $getPermission = EmployeeRole::select('employee_submenus')->where('id', $id)->get();
+        }else{
+            $getPermission = Employee::select('employee_submenus')->where('id', $id)->get();
+        }
+
         $getMenu = MenuItems::getMenuItems();
-        $getPermission = Employee::select('employee_submenus')->where('id', $id)->get();
-//        echo "<pre>";print_r($getPermission[0]['employee_submenus']);exit;
+        
         if($getPermission[0]['employee_submenus'] != ''){
             $permission = json_decode($getPermission[0]['employee_submenus'],true);
             $menuItem = array();
@@ -361,16 +391,20 @@ class MasterHrController extends Controller {
     public function accessControl() {
         $postdata = file_get_contents("php://input");
         $input  = json_decode($postdata, true);
-        
         if(!empty($input)){//checkbox checked
-            $getSubMenus = Employee::select('employee_submenus')->where('id', $input['data']['empId'])->get();
+            if($input['data']['moduleType'] === 'roles'){
+                $getSubMenus = EmployeeRole::select('employee_submenus')->where('id', $input['data']['empId'])->get();
+            }else{
+                $getSubMenus = Employee::select('employee_submenus')->where('id', $input['data']['empId'])->get();
+            }
+            
+            $getMenuItem = [];
+            if($getSubMenus[0]['employee_submenus'] != ''){
+                $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'],true);
+            }
             if(!empty($input['data']['isChecked'])){ //checkbox checked
                 $parentId = $submenuId = array();
-                if($getSubMenus[0]['employee_submenus'] == '')
-                    $getMenuItem = [];
-                else{
-                    $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'],true);
-                }
+                
                 if(!empty($input['data']['parentId'])){
                 $parentId = array_map(function($el){ return '0'.$el; },  $input['data']['parentId']);}
                 $submenuId = array_map(function($el){ return '0'.$el; },  $input['data']['submenuId']);
@@ -381,24 +415,28 @@ class MasterHrController extends Controller {
                 }
                 asort($menuArr);
                 $jsonArr = json_encode($menuArr,true);
-                Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+                
+                if($input['data']['moduleType'] === 'roles'){
+                    EmployeeRole::where('id',$input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+                }else{
+                    Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+                }               
                 $result = ['success' => true];
                 return json_encode($result);
             }
             else{//checkbox unchecked
-                if($getSubMenus[0]['employee_submenus'] == '')
-                    $getMenuItem = [];
-                else{
-                    $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'],true);  
-                }
-                $submenuId = array_map(function($el){ return '0'.$el; },  $input['data']['submenuId']);   
-                $menuArr = array_diff($getMenuItem, $submenuId); //removes elements
+                $submenuId = array_map(function($el){ return '0'.$el; },  $input['data']['submenuId']); 
+                $menuArrDiff = array_diff($getMenuItem, $submenuId); //removes elements
                 if(!empty($getMenuItem)){
-                    $menuArr = array_unique(array_merge($menuArr,$getMenuItem)); //merge elements
+                    $menuArr = array_unique($menuArrDiff); //merge elements
                 }
                 asort($menuArr);
                 $jsonArr = json_encode($menuArr,true);
-                Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+                if($input['data']['moduleType'] === 'roles'){
+                    EmployeeRole::where('id',$input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+                }else{
+                    Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+                } 
                 $result = ['success' => true];
                 return json_encode($result);
             }

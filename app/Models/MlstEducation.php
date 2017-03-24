@@ -10,14 +10,14 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstEducation
+ * Class MlstEducation
  * 
  * @property int $blood_group_id
  * @property string $blood_group
  *
  * @package App\Models
  */
-class LstEducation extends Eloquent
+class MlstEducation extends Eloquent
 {
 	protected $primaryKey = 'education_id';
 

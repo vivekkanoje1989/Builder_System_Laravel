@@ -6,20 +6,20 @@ use Auth;
 use App\Http\Controllers\Controller;
 use App\Classes\MenuItems;
 use App\Models\backend\Employee;
-use App\Models\LstTitle;
-use App\Models\LstGender;
-use App\Models\LstBloodGroup;
+use App\Models\MlstTitle;
+use App\Models\MlstGender;
+use App\Models\MlstBloodGroup;
 use App\Models\MlstDepartment;
-use App\Models\LstEducation;
-use App\Models\LstCountry;
-use App\Models\LstState;
-use App\Models\LstCity;
+use App\Models\MlstEducation;
+use App\Models\MlstCountry;
+use App\Models\MlstState;
+use App\Models\MlstCity;
 use App\Models\ClientInfo;
 use App\Models\EnquirySource;
 use App\Models\EnquirySubSource;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
-use App\Models\LstProfession;
+use App\Models\MlstProfession;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\PropertyPortalsType;
@@ -77,17 +77,7 @@ class AdminController extends Controller {
     }
 
     public function getMenuItems() {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-       // $permission = explode(",",Auth()->guard('admin')->user()->employee_submenus);
         $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
-        
-=======
-//        $permission = explode(",",Auth()->guard('admin')->user()->employee_submenus);
->>>>>>> 9b6be44f5987c665a9ad0030a6ea0206ca28046e
-        $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
->>>>>>> 5a047ea5d459599fb09fd9bded94b80401e7ba14
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
         foreach ($getMenu as $key => $menu) {
@@ -145,7 +135,7 @@ class AdminController extends Controller {
     }
     
     public function getTitle() {
-        $getTitle = LstTitle::all();
+        $getTitle = MlstTitle::all();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'records' => $getTitle];
             return json_encode($result);
@@ -156,7 +146,7 @@ class AdminController extends Controller {
     }
 
     public function getGender() {
-        $getGender = LstGender::all();
+        $getGender = MlstGender::all();
         if (!empty($getGender)) {
             $result = ['success' => true, 'records' => $getGender];
             return json_encode($result);
@@ -167,7 +157,7 @@ class AdminController extends Controller {
     }
 
     public function getBloodGroup() {
-        $getBloodGroup = LstBloodGroup::all();
+        $getBloodGroup = MlstBloodGroup::all();
         if (!empty($getBloodGroup)) {
             $result = ['success' => true, 'records' => $getBloodGroup];
             return json_encode($result);
@@ -189,7 +179,7 @@ class AdminController extends Controller {
     }
 
     public function getEducationList() {
-        $getEducationList = LstEducation::all();
+        $getEducationList = MlstEducation::all();
         if (!empty($getEducationList)) {
             $result = ['success' => true, 'records' => $getEducationList];
             return json_encode($result);
@@ -200,7 +190,7 @@ class AdminController extends Controller {
     }
 
     public function getProfessionList() {
-        $getProfessionList = LstProfession::all();
+        $getProfessionList = MlstProfession::all();
         if (!empty($getProfessionList)) {
             $result = ['success' => true, 'records' => $getProfessionList];
             return json_encode($result);
@@ -211,11 +201,11 @@ class AdminController extends Controller {
     }
 
     public function getMasterData() {
-        $getTitle = LstTitle::all();
-        $getGender = LstGender::all();
-        $getBloodGroup = LstBloodGroup::all();
+        $getTitle = MlstTitle::all();
+        $getGender = MlstGender::all();
+        $getBloodGroup = MlstBloodGroup::all();
         $getDepartments = MlstDepartment::all();
-        $getEducationList = LstEducation::all();
+        $getEducationList = MlstEducation::all();
         $getEnquirySource = EnquirySource::all();
         $getEnquirySubSource = EnquirySubSource::all();
         $getEmployees = Employee::select('id', 'first_name')->get();
@@ -229,7 +219,7 @@ class AdminController extends Controller {
     }
 
     public function getCountries() {
-        $getCountires = LstCountry::all();
+        $getCountires = MlstCountry::all();
         if (!empty($getCountires)) {
             $result = ['success' => true, 'records' => $getCountires];
             return json_encode($result);
@@ -243,7 +233,7 @@ class AdminController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $countryId = $request['data']['countryId'];
-        $getStates = LstState::where("country_id", $countryId)->get();
+        $getStates = MlstState::where("country_id", $countryId)->get();
         if (!empty($getStates)) {
             $result = ['success' => true, 'records' => $getStates];
             return json_encode($result);
@@ -257,7 +247,7 @@ class AdminController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $stateId = $request['data']['stateId'];
-        $getCities = LstCity::where("state_id", $stateId)->get();
+        $getCities = MlstCity::where("state_id", $stateId)->get();
         if (!empty($getCities)) {
             $result = ['success' => true, 'records' => $getCities];
             return json_encode($result);

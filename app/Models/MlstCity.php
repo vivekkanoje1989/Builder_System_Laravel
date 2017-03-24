@@ -18,7 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstCity extends Eloquent
+class MlstCity extends Eloquent
 {
 	protected $primaryKey = 'id';
 	 protected $connection = 'masterdb';
