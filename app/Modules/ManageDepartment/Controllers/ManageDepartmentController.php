@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Modules\ManageDepartment\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,7 +8,6 @@ use DB;
 use App\Classes\CommonFunctions;
 use Auth;
 class ManageDepartmentController extends Controller {
-
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +23,11 @@ class ManageDepartmentController extends Controller {
      * @return Response
      */
     public function manageDepartment() {
-        $getDepartment = MlstDepartments::all();
+        $getDepartment = MlstDepartments::leftJoin('mlst_verticals', 'mlst_departments.vertical_id', '=', 'mlst_verticals.id')->select('mlst_departments.id','name','department_name')->get();
+       // print_r($getDepartment); exit;
+//        $getDepartment = DB::table('users')
+//            ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
+//            ->get();
         if (!empty($getDepartment)) {
             $result = ['success' => true, 'records' => $getDepartment];
             return json_encode($result);
@@ -63,13 +64,12 @@ class ManageDepartmentController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
-        $getCount = MlstDepartments::where(['department_name' => $request['department_name']])->get()->count();
+        print_r($request);exit;
+        $getCount = MlstDepartments::where(['department_name' => $request['department_name'],['id' ,'<>',$id]])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Country already exists'];
             return json_encode($result);
         } else {
-
             $result = MlstDepartments::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
            return json_encode($result);

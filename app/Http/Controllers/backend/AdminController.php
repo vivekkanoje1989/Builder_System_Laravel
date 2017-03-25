@@ -20,6 +20,7 @@ use App\Models\EnquirySubSource;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
 use App\Models\MlstProfession;
+use App\Models\MlstVertical;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\PropertyPortalsType;
@@ -336,7 +337,16 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-
+    public function getVerticals() {
+        $getVerticals = MlstVertical::all();
+        if (!empty($getVerticals)) {
+            $result = ['success' => true, 'records' => $getVerticals];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
    /****************************UMA************************************/
     /***************************MANDAR*********************************/
 

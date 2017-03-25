@@ -6,7 +6,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Department</span>
-                <a href="" data-toggle="modal" data-target="#departmentModal" ng-click="initialModal(0,'','')" class="btn btn-info">Create New Department</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#departmentModal" ng-click="initialModal(0,'','','')" class="btn btn-info">Create New Department</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -22,14 +22,21 @@
                             <a href="javascript:void(0);" ng-click="orderByField ='id'; reverseSort = !reverseSort">SR No.
                               <span ng-show="orderByField == 'id'">
                               <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                            </a></th>                       
+                            </a></th>                 
                             <th style="width: 30%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'department_name'; reverseSort = !reverseSort">Department
                                 <span ng-show="orderByField == 'department_name'">
                                   <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                 </span>
                                 </a>
-                            </th>                            
+                            </th>
+                            <th style="width: 30%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'vertical_name'; reverseSort = !reverseSort">vertical
+                                <span ng-show="orderByField == 'vertical_name'">
+                                  <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                </span>
+                                </a>
+                            </th> 
                             <th style="width: 5%">Actions</th>
                         </tr>
                     </thead>
@@ -42,8 +49,9 @@
                         <tr role="row" ng-repeat="list in departmentRow| filter:search |orderBy:orderByField:reverseSort" ng-class="{'selected':$index == selectedRow}" ng-click="setClickedRow($index)">
                             <td>{{$index + 1}}</td>
                             <td>{{ list.department_name}}</td>                          
-                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit department" style="display: block;" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.department_name}}',$index)"><i class="fa fa-pencil"></i></a></div>
+                            <td>{{ list.name }}</td>
+                            <td class="fa-div">
+                                <div class="fa-hover" tooltip-html-unsafe="Edit department" style="display: block;" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id }},'{{list.department_name}}','{{ list.name}}',$index)"><i class="fa fa-pencil"></i></a></div>
                             </td> 
                         </tr>
                     </tbody>
@@ -69,6 +77,16 @@
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="departmentForm.department_name.$error">
                                     <div ng-message="required">Department is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
+                                </div>
+                            </span>
+                            <span class="input-icon icon-right">
+                                <select ng-model="vertical_id" ng-controller="vericalCtrl" name="vertical_id" class="form-control" required="required">
+                                    <option value="">Select Vertical</option>
+                                    <option ng-repeat="v in verticals track by $index" value="{{v.id}}" ng-selected="{{ vertical_id == v.id }}">{{v.name}}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                                <div ng-show="step1" ng-messages="departmentForm.vertical_id.$error" class="help-block step1">
+                                    <div ng-message="required">This field is required.</div>
                                 </div>
                             </span>
                         </div>
