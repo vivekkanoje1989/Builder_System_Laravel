@@ -302,11 +302,7 @@ class Employee extends Authenticatable {
         $input['userData']['usertype'] = "admin";
         $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1";
         $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> ad9120531da91118a4a0bc6d956be2a054446752
         if (empty($input['userData']['marriage_date']) || $input['userData']['marriage_date'] == "0000-00-00") {
             $input['userData']['marriage_date'] = "";
         } else {

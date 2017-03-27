@@ -71,5 +71,14 @@ class CommonFunctions {
         }
         else return false;
     }
+    public static function sendMail($userName, $password, $data){      
+        config(['mail.username' =>  $userName, 'mail.password' =>  $password]);
+        Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
+            $message->from($data['fromEmail'], $data['fromName']);
+            $message->subject($data['subject']);
+            $message->to($data['to'])->cc($data['cc']);
+        });
+        return true; 
+    }
     
 }

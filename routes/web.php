@@ -81,7 +81,7 @@ Route::group(['middleware' =>[ 'web']], function () {
     /*********************************************** API **********************************************************/
 });
 
-Route::group(['middleware' =>[ 'auth:admin']], function () { 
+Route::group(['middleware' =>['auth:admin']], function () { 
     $getUrl = config('global.getUrl');
     /*************************** Admin Dashboard ****************************/
     Route::get($getUrl.'/dashboard', 'backend\AdminController@dashboard');

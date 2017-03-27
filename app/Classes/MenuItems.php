@@ -33,7 +33,6 @@ class MenuItems {
                     5 => array('id' => '020105', 'name' => 'Webpage Management', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     6 => array('id' => '020106', 'name' => 'Social Websites Management', 'icon' => '', 'url' => '/'.$getUrl.'/bms_lists/social',  'slug' => '.socialwebIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     7 => array('id' => '020107', 'name' => 'Blogs Management', 'icon' => '', 'url' => '/'.$getUrl.'/manageblog/index',  'slug' => '.manageblogIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-
                 )),
                     
                 2 => array('id' => '0202', 'name' => 'BMS Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 9,

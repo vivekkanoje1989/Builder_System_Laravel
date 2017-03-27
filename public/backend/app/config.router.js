@@ -12,7 +12,7 @@ angular.module('app')
             ['$stateProvider', '$urlRouterProvider',
             function ($stateProvider, $urlRouterProvider) {
             $urlRouterProvider
-                    .otherwise(getUrl + '/login');
+                .otherwise(getUrl + '/login');
             $stateProvider
             .state(getUrl, {
                 abstract: true,
@@ -113,7 +113,7 @@ angular.module('app')
             })
             .state(getUrl + '.manageRoles', {
                 url: '/user/manageroles',
-                templateUrl: getUrl + '/master-hr/manageRoles',
+                templateUrl: getUrl + '/master-hr/manageRolesPermission',
                 controller: 'hrController',
                 requiredLogin: true,
                 ncyBreadcrumb: {

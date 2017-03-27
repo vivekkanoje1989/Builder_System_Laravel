@@ -5,7 +5,7 @@ Route::group(array('module' => 'MasterHr', 'namespace' => 'App\Modules\MasterHr\
     
     Route::get($getUrl.'/master-hr/orgchart', 'MasterHrController@orgchart');// show page
     Route::get($getUrl.'/master-hr/getChartData', 'MasterHrController@getChartData'); //show chart
-    Route::get($getUrl.'/master-hr/manageRoles', 'MasterHrController@manageRoles'); //show manage role page
+    Route::get($getUrl.'/master-hr/manageRolesPermission', 'MasterHrController@manageRolesPermission'); //show manage role page
     Route::get($getUrl.'/master-hr/getRoles', 'MasterHrController@getRoles'); //get role data from table
     Route::resource($getUrl.'/master-hr', 'MasterHrController');
     Route::post($getUrl.'/master-hr/manageUsers', 'MasterHrController@manageUsers');    
@@ -15,7 +15,7 @@ Route::group(array('module' => 'MasterHr', 'namespace' => 'App\Modules\MasterHr\
     Route::get($getUrl.'/master-hr/userPermissions/{id}', 'MasterHrController@userPermissions'); //show user permission page
     Route::post($getUrl.'/master-hr/getMenuLists', 'MasterHrController@getMenuLists'); //show submenu list
     Route::post($getUrl.'/master-hr/accessControl', 'MasterHrController@accessControl'); //save multiple comma separated submenu list
-    
+    Route::post($getUrl.'/master-hr/updatePermissions', 'MasterHrController@updatePermissions');
     Route::get($getUrl.'/master-hr/rolePermissions/{id}', 'MasterHrController@rolePermissions'); //show user permission page
     
     

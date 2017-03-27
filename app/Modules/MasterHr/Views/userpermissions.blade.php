@@ -1,15 +1,58 @@
-<div class="row">
+<div class="row" ng-controller="hrController">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>User Permissions</h5>
         </div>    
+        <div class="col-lg-12 col-sm-12 col-xs-12" >
+            <div class="row">
+                <div class="col-sm-6 col-lg-2">
+                    <div class="form-group">
+                        <span>
+                            <label>Role type</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <div class="radio">
+                                            <label>
+                                                <input name="roleType" type="radio" ng-model="roleData.roleType" value="0" class="colored-blue">
+                                                <span class="text">Custom </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="radio">
+                                        <label>
+                                            <input name="roleType" type="radio" ng-model="roleData.roleType" value="1" class="colored-blue" >
+                                            <span class="text">Role wise</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div ng-show='roleData.roleType == 1' class="col-sm-6 col-lg-2">
+                    <div class="form-group">
+                        <span class="input-icon icon-right">
+                            <label>Role</label>
+                            <select class="form-control" ng-model="roleData.roleId" name="roleId" ng-init="manageRoles()" ng-change="updatePermissions([[ $empId ]],roleData.roleId)">
+                                <option value="">Select Role</option>
+                                <option ng-repeat="list in roleList track by $index" value="{{list.id}}">{{list.role_name}}</option>  
+                            </select>
+                            <i class="fa fa-sort-desc"></i>                 
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="">
             <div class="col-lg-12 col-sm-6 col-xs-12">
                 <div class="widget">
                     <div class="widget-body no-padding">
                         <div class="widget-main ">
-                            <div class="panel-group accordion" id="accordion" ng-controller="hrController" ng-init="userPermissions('employee',[[ $empId ]])">
-                                <div class="panel panel-default" ng-repeat="parent in menuItems">
+                            <div class="panel-group accordion" id="accordion" ng-init="userPermissions('employee',[[ $empId ]])">
+                                <div class="panel panel-default" ng-repeat="parent in menuItems track by $index">
                                     <div class="panel-heading ">
                                         <h4 class="panel-title">
                                             <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" target="_self" href="#{{ parent.slug }}">
@@ -17,6 +60,8 @@
                                             </a>
                                         </h4>
                                     </div>
+<!--                                    <input type="hidden" id="moduleType" name="moduleType" value="employee" />
+                                    <input type="hidden" id="empId" name="empId" value="[[ $empId ]]" />-->
                                     <div id="{{ parent.slug }}" class="panel-collapse collapse" ng-class="parent.slug == 'dashboard' ? 'in' : ''" >
                                         <div class="panel-body border-red">
                                             <div  class="col-md-12 col-xs-12">

@@ -1,5 +1,5 @@
 //'use strict';
-app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse) {
+app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', '$stateParams', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse, $stateParams) {
     $scope.pageHeading = 'Create User';
     $scope.buttonLabel = 'Create';
     $scope.userData = {};
@@ -243,24 +243,31 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             data: {id: id, moduleType: moduleType},
         }).then(function (response) {
             if (response) {
+                console.log(response);
                 $scope.menuItems = response;
             } else {
                 $scope.errorMsg = response.message;
             }
         });
     }
-    /*$scope.rolePermissions = function(id){
-        Data.post('master-hr/getMenuLists',{
-            data: {id: id, moduleType: 'roles'},
+    
+    $scope.updatePermissions = function(empId,roleId){
+        Data.post('master-hr/updatePermissions',{
+            data: {empId: empId, roleId:roleId},
         }).then(function (response) {
-            if (response) {
-                $scope.menuItems = response;
+            if (response.success) {
+                $scope.menuItems = response.employeeSubmenus;
+
             } else {
                 $scope.errorMsg = response.message;
             }
         });
-    }*/
-        
+        $state.transitionTo($state.current, $stateParams, {
+            reload: true, //reload current page
+            inherit: false, //if set to true, the previous param values are inherited
+            notify: true //reinitialise object
+        });
+    }    
     $scope.accessControl = function(moduleType,empId,checkboxid, parentId, submenuId){
         var isChecked = $("#"+checkboxid).prop("checked");
         var obj = $("#"+checkboxid);
@@ -402,3 +409,20 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
     }
     /****************** Organization Chart *********************/
 }]);
+
+/*app.controller('roleCtrl', function ($scope, $state, Data) {
+    Data.post('master-hr/getMenuLists',{
+        data: {id: 87, moduleType: "employee"},
+    }).then(function (response) {
+        if (response) {
+            console.log(response);
+            $scope.menuItems = response;
+        } else {
+            $scope.errorMsg = response.message;
+        }
+    });
+    
+   
+});*/
+        
+        
