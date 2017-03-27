@@ -1,4 +1,4 @@
-<div class="row" ng-controller="dashboardCtrl" ng-init="getMyRequest()">  
+<div class="row" ng-controller="dashboardCtrl" ng-init="getRequestForMe()">  
     <div>
         <flash-message duration="5000"></flash-message>
     </div>
@@ -63,8 +63,13 @@
                                     <span ng-show="orderByField == 'application_close_date'">
                                         <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>
-                                <th style="width:10%">
+                            <th style="width:10%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Status
+                                    <span ng-show="orderByField == 'status'">
+                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a></th>
+                            <th style="width:10%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Action
                                     <span ng-show="orderByField == 'status'">
                                         <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>
@@ -76,11 +81,17 @@
                             <td>{{$index + 1}}</td>
                             <td>{{list.created_at}}</td> 
                             <td> {{list.request_type}}</td>
-                            <td>{{list.first_name + " "+ list.last_name }}</td>
+                            <td>{{list.first_name + " " + list.last_name}}</td>
                             <td>{{list.from_date}}</td> 
                             <td>{{list.to_date}}</td>
                             <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-info" ng-click="view_description({{list.id}},'{{list.created_date}}','{{list.request_type}}','{{list.from_date}}','{{list.to_date}}','{{list.req_desc}}','{{list.first_name}}','{{list.last_name}}')">View Description</a></td>
                             <td>{{list.status === 1 ? "Leave" : "Approved" }}</td>
+                            <td><select ng-model="newStatus" name="newStatus" ng-change="change_status({{list.id}})">
+                                    <option value="">Select status</option>
+                                    <option value="1">Requested</option>
+                                    <option value="1">Approved</option>
+                                    <option value="1">Rejected</option>
+                                </select></td>
                         </tr>
                     </tbody>
                 </table>
@@ -113,7 +124,7 @@
                     <tr><td>CC</td><td>{{cc_name}}</td></tr>
                     <tr><td>Description</td><td>{{desc}}</td></tr>
                 </table>
-                 <br/>
+                <br/>
             </div>
         </div>
     </div>

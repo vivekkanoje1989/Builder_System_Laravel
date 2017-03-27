@@ -10,14 +10,14 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstProfession
+ * Class MlstProfession
  * 
  * @property int $id
  * @property string $profession
  *
  * @package App\Models
  */
-class LstProfession extends Eloquent
+class MlstProfession extends Eloquent
 {
 	public $timestamps = false;
 	protected $connection = 'masterdb';

@@ -238,8 +238,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             }
         });
     }
-    $scope.userPermissions = function(id){
-        Data.get('master-hr/getMenuLists/'+id).then(function (response) {
+    $scope.userPermissions = function(moduleType,id){
+        Data.post('master-hr/getMenuLists',{
+            data: {id: id, moduleType: moduleType},
+        }).then(function (response) {
             if (response) {
                 $scope.menuItems = response;
             } else {
@@ -247,8 +249,19 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             }
         });
     }
-            
-    $scope.accessControl = function(empId,checkboxid, parentId, submenuId){
+    /*$scope.rolePermissions = function(id){
+        Data.post('master-hr/getMenuLists',{
+            data: {id: id, moduleType: 'roles'},
+        }).then(function (response) {
+            if (response) {
+                $scope.menuItems = response;
+            } else {
+                $scope.errorMsg = response.message;
+            }
+        });
+    }*/
+        
+    $scope.accessControl = function(moduleType,empId,checkboxid, parentId, submenuId){
         var isChecked = $("#"+checkboxid).prop("checked");
         var obj = $("#"+checkboxid);
         var level = $("#"+checkboxid).attr("data-level");
@@ -339,9 +352,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                     $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
             }
         }
-        console.log(submenuId);
         Data.post('master-hr/accessControl',{
-            data: {empId:empId, parentId:parentId, submenuId:submenuId,isChecked:isChecked}
+            data: {empId:empId, parentId:parentId, submenuId:submenuId,isChecked:isChecked,moduleType:moduleType}
         }).then(function (response) {
             if (response) {
             } else {
@@ -349,7 +361,17 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             }
         });
     }
-    
+    /****************** Roles *********************/
+    $scope.manageRoles = function () {
+        Data.get('master-hr/getRoles').then(function (response) {
+            if (response.success) {
+                $scope.roleList = response.list;
+            } else {
+                $scope.errorMsg = response.message;
+            }
+        });
+    }
+    /****************** Roles *********************/
     /****************** Organization Chart *********************/
     $scope.showchartdata = function () {
         google.charts.load('current', {packages: ["orgchart"]});

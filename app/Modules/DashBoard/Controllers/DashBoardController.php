@@ -88,7 +88,8 @@ class DashBoardController extends Controller {
 
     public function getMyRequest() {
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name','request.status')
+        $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name','request.status')
                 ->where('request.created_by', '=', $loggedInUserId)
                 ->get();
 
@@ -107,6 +108,22 @@ class DashBoardController extends Controller {
         $employees = EmployeeRequest::join('employees', 'request.cc', '=', 'employees.id')
                 ->select('employees.first_name', 'employees.last_name')
                 ->first();
+
+        if (!empty($employees)) {
+            $result = ['status' => true, 'records' => $employees];
+        } else {
+            $result = ['status' => false, 'message' => "No record"];
+        }
+        return json_encode($result);
+    }
+    
+    public function getRequestForMe()
+    {
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name','request.status')
+                ->where('request.uid', '=', $loggedInUserId)
+                ->get();
 
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];

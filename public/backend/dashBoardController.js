@@ -43,7 +43,6 @@ app.controller('dashboardCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$s
                 }
             });
         };
-
         $scope.doOtherApprovalAction = function ()
         {
             Data.post('request-approval/other', {
@@ -53,7 +52,6 @@ app.controller('dashboardCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$s
                 }
             });
         };
-
         $scope.getMyRequest = function ()
         {
             Data.post('my-request/getMyRequest', {
@@ -61,7 +59,17 @@ app.controller('dashboardCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$s
                 $scope.myRequest = response.records;
             });
         };
-
+        $scope.getRequestForMe = function ()
+        {
+            Data.get('my-request/getRequestForMe').then(function (response) {
+                $scope.myRequest = response.records;
+            });
+        }
+        
+        $scope.change_status= function(id){
+            alert(id);
+            alert($scope.newStatus);
+        }
         $scope.success = function (message) {
             Flash.create('success', message);
         };

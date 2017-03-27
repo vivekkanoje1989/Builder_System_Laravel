@@ -111,8 +111,18 @@ angular.module('app')
                     ]
                 }
             })
+            .state(getUrl + '.manageRoles', {
+                url: '/user/manageroles',
+                templateUrl: getUrl + '/master-hr/manageRoles',
+                controller: 'hrController',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Manage Roles',
+                    description: ''
+                },
+            })
             .state(getUrl + '.userPermissions', {
-                url: '/userpermissions/:empId',
+                url: '/user/permissions/:empId',
                 templateUrl: function (stateParams) {
                     return getUrl + '/master-hr/userPermissions/' + stateParams.empId;
                 },
@@ -135,7 +145,31 @@ angular.module('app')
                         }
                     ]
                 }
-                
+            })
+            .state(getUrl + '.rolePermissions', {
+                url: '/role/permissions/:empId',
+                templateUrl: function (stateParams) {
+                    return getUrl + '/master-hr/rolePermissions/' + stateParams.empId;
+                },
+                controller: 'hrController',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Role Permissions',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [
+                                    '/backend/app/controllers/accordion.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
             })
             .state(getUrl + '.salesCreate', {
                 url: '/sales/create',
@@ -521,33 +555,6 @@ angular.module('app')
                                     '/backend/bloodGroupsController.js',
                                 ]
                             });
-                        }
-                    ]
-                }
-            })
-
-            .state(getUrl + '.listCreate', {
-                url: '/list/create',
-                templateUrl: getUrl + '/bms_lists/create',
-                controller: 'bloodGroupCtrl',
-                requiredLogin: true,
-                ncyBreadcrumb: {
-                    label: 'Create User',
-                    description: ''
-                },
-                resolve: {
-                    deps: [
-                        '$ocLazyLoad',
-                        function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['ui.select', {
-                                    serie: true,
-                                    files: [
-                                        '/js/intlTelInput.js',
-                                        '/backend/app/controllers/datepicker.js',
-                                        '/backend/app/controllers/select.js',
-                                        '/backend/bmsListsController.js',
-                                    ]
-                                }]);
                         }
                     ]
                 }

@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Users</span>
-                
+                <a href="#/[[config('global.getUrl')]]/user/manageroles" ng-if="[[ $loggedInUserId ]] == 1" class="btn btn-info">Manage Roles</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -100,7 +100,7 @@
                             <td ng-if="listUser.employee_status == 3">Permanent Suspended</td>
                             <td>{{ listUser.login_date_time | date:'dd-MM-yyyy' }}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="#/[[config('global.getUrl')]]/userpermissions/{{ listUser.id }}"><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="#/[[config('global.getUrl')]]/user/permissions/{{ listUser.id }}"><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
                                 <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/[[config('global.getUrl')]]/user/update/{{ listUser.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                                 <div class="fa-hover" tooltip-html-unsafe="Change Password" style="display: block;" data-toggle="modal" data-target="#myModal"><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id }},'changePassword')"><i class="fa fa-lock"></i></a></div>
                             </td>
