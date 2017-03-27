@@ -53,9 +53,9 @@
                             </tr>
                             
                             <tr><td>Photo</td>
-                                <td>
+                                <td> 
                                     <div >
-                                        <img ng-src="{{image_name}}" width="80px" height="80px">
+                                        <img ng-src="{{photo_src}}" width="80px" height="80px">
                                     </div>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.photo_src.$dirty && testimonialsForm.photo_src.$invalid) }">
                                    

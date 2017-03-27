@@ -77,14 +77,7 @@ class AdminController extends Controller {
     }
 
     public function getMenuItems() {
-<<<<<<< HEAD
-       // $permission = explode(",",Auth()->guard('admin')->user()->employee_submenus);
         $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
-        
-=======
-//        $permission = explode(",",Auth()->guard('admin')->user()->employee_submenus);
-        $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
->>>>>>> 5a047ea5d459599fb09fd9bded94b80401e7ba14
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
         foreach ($getMenu as $key => $menu) {

@@ -29,5 +29,7 @@ return [
         "WebPages",
         "BlogManagement",
         "Testimonials",
+        "CareerManagement",
+        "DashBoard",
     ),
 ];

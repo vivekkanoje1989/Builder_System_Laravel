@@ -30,7 +30,7 @@ class MlstProjectTypes extends Eloquent
 
 	protected $fillable = [
 		
-		'project_type_name',
+		'project_type',
                 'id',
                 'created_date',
                 'created_at',

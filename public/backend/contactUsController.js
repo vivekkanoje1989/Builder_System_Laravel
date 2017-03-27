@@ -76,9 +76,9 @@ app.controller('contactUsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', fun
                 {
                     $scope.errorMsg = response.errormsg;
                 } else {
-                    $scope.contactUsRow.splice($scope.index - 1, 1);
-                    $scope.contactUsRow.splice($scope.index - 1, 0, {
-                        address: $scope.address, id: $scope.id, name: $scope.name, 'pin_code': $scope.pin_code, 'email': $scope.email});
+                    $scope.contactUsRow.splice($scope.index, 1);
+                    $scope.contactUsRow.splice($scope.index, 0, {country_id: $scope.country_id, state_id: $scope.state_id, city_id: $scope.city_id, location_type_id: $scope.location_id, contact_number1: $scope.contact_number1, contact_number2: $scope.contact_number2, contact_number3: $scope.contact_number3, google_map_url: $scope.google_map_url,
+                address: $scope.address, pin_code:$scope.pin_code, id: $scope.id, 'contact_person_name':$scope.contact_person_name, 'email':$scope.email });
                     $('#contactUsModal').modal('toggle');
                 }
             });

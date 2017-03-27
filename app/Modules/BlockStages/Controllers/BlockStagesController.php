@@ -18,7 +18,6 @@ class BlockStagesController extends Controller {
 
     public function manageBlockStages() {
         $getBlockstage = LstDlBlockStages::all();
-//echo "<pre>";print_r($getBlockstage);exit;
         if (!empty($getBlockstage)) {
             $result = ['success' => true, 'records' => $getBlockstage];
             return json_encode($result);
@@ -50,11 +49,9 @@ class BlockStagesController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Block stage name already exists'];
             return json_encode($result);
         } else {
-            
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['blockStagesData'] = array_merge($request, $create);
-
             $result = LstDlBlockStages::create($input['blockStagesData']);
             $last3 = LstDlBlockStages::latest('id')->first();
             $input['blockStagesData']['id'] = $last3->id;
@@ -72,8 +69,7 @@ class BlockStagesController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Block stage name already exists'];
             return json_encode($result);
         } else {
-
-             $loggedInUserId = Auth::guard('admin')->user()->id;
+            $loggedInUserId = Auth::guard('admin')->user()->id;
             $update = CommonFunctions::insertLogTableRecords($loggedInUserId);
             $input['blockStagesData'] = array_merge($request, $update);
             $originalValues = LstDlBlockStages::where('id', $request['id'])->get();

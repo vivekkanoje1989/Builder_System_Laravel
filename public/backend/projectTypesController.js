@@ -13,13 +13,13 @@ app.controller('projecttypesController', ['$scope', 'Data', '$rootScope','$timeo
             $scope.index = index;
         }
         $scope.doProjectTypesAction = function () {
-           
+               console.log($scope.project_type);
             $scope.errorMsg = '';
             if ($scope.id === 0) //for create
             {
                 Data.post('project-types/', {
                     project_type: $scope.project_type}).then(function (response) {
-                    console.log(response);
+                
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
