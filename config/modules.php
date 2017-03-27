@@ -29,6 +29,11 @@ return [
         "WebPages",
         "BlogManagement",
         "Testimonials",
+<<<<<<< HEAD
         "EmailConfig",
+=======
+        "CareerManagement",
+        "DashBoard",
+>>>>>>> 20007c4b6c98a1429075b7cd4aea828557e0e7ff
     ),
 ];
