@@ -29,5 +29,6 @@ return [
         "WebPages",
         "BlogManagement",
         "Testimonials",
+        "EmailConfig",
     ),
 ];

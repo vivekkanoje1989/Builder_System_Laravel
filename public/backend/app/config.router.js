@@ -226,7 +226,7 @@ angular.module('app')
                 }
             })
             /************************************ uma ******************************/ 
-				.state(getUrl+'.propertyPortalIndex', {
+                .state(getUrl+'.propertyPortalIndex', {
                     url: '/propertyportals/index',
                     templateUrl: getUrl+'/propertyportals/',
                     controller: 'propertyPortalsController',
@@ -376,7 +376,52 @@ angular.module('app')
                     ]
                 }
             })
-
+            .state(getUrl+'.emailConfig', {
+                    url: '/emailConfig/index',
+                    templateUrl: getUrl+'/email-config/',
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Email Configuration'
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [                                        
+                                        '/backend/emailConfigController.js',
+                                    ]
+                                });
+                            }
+                        ]
+                    }
+                })
+                
+                 .state(getUrl+'.updateemailConfig', {
+                    url: '/emailConfig/update/:id',
+                    templateUrl: function(setParams)
+                    {
+                       return getUrl+'/email-config/'+setParams.id+'/edit';
+                    },
+                    requiredLogin: true,
+                    ncyBreadcrumb: {
+                        label: 'Email Configuration'
+                    },
+                    resolve: {
+                        deps: [
+                            '$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load({
+                                    serie: true,
+                                    files: [                                        
+                                        '/backend/emailConfigController.js',
+                                    ]
+                                });
+                            }
+                        ]
+                    }
+                })
             /****************************UMA************************************/
             /****************************MANDAR*********************************/
             .state(getUrl + '.cloudtelephony', {

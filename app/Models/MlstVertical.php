@@ -17,11 +17,14 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstVertical extends Eloquent
-{
-	public $timestamps = false;
-        protected $connection = 'masterdb';
-	protected $fillable = [
-		'name'
-	];
+class MlstVertical extends Eloquent {
+
+    protected $primaryKey = 'id';
+    protected $connection = 'masterdb';
+    public $incrementing = false;
+    //public $timestamps = false;
+    protected $fillable = [
+        'name'
+    ];
+
 }

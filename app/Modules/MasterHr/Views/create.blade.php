@@ -33,7 +33,7 @@
                                     <select ng-model="userData.title" ng-controller="titleCtrl" name="title" class="form-control" required="required">
                                         <option value="">Select Title</option>
                                         <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == userData.title}}">{{t.title}}</option>
-                                    </select>
+                                    </select>{{ userData.title}}
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.title.$error" class="help-block step1">
                                         <div ng-message="required">This field is required.</div>

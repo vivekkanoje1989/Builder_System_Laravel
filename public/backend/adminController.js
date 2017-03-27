@@ -301,8 +301,7 @@ app.controller('webPageListCtrl', function ($scope, Data) {
        }
    });
 });
-
-app.controller('vericalCtrl', function ($scope, Data) {
+app.controller('verticalCtrl', function ($scope, Data) {
     Data.get('getVerticals').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;

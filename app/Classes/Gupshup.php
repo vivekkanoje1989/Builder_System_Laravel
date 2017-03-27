@@ -23,8 +23,7 @@ class Gupshup {
                 $logs = SmsLog::selectRaw("sum(credits_deducted) AS credits_deducted")->whereBetween('sent_date_time', array($fromDate, $toDate))->first();
                 $smsConsume = $logs['credits_deducted'];
 
-                $totalSmsCredits = Credit::select('sms_credit_limit', 'sms_status')->where(['id' => 1])->get();
-                
+                $totalSmsCredits = Credit::select('sms_credit_limit', 'sms_status')->where(['id' => 1])->get();                
                 if ($totalSmsCredits[0]['sms_status'] == '1') {
                     if ($totalSmsCredits[0]['sms_credit_limit'] >= $smsConsume) {
                         

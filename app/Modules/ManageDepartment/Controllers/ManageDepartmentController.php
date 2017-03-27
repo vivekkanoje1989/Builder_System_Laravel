@@ -23,7 +23,7 @@ class ManageDepartmentController extends Controller {
      * @return Response
      */
     public function manageDepartment() {
-        $getDepartment = MlstDepartments::leftJoin('mlst_verticals', 'mlst_departments.vertical_id', '=', 'mlst_verticals.id')->select('mlst_departments.id','name','department_name')->get();
+        $getDepartment = MlstDepartments::leftJoin('mlst_verticals', 'mlst_departments.vertical_id', '=', 'mlst_verticals.id')->select('mlst_departments.id','name','department_name','vertical_id')->get();
        // print_r($getDepartment); exit;
 //        $getDepartment = DB::table('users')
 //            ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
