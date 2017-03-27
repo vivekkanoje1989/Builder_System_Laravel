@@ -15,10 +15,10 @@ class MenuItems {
             1 => array('name' => 'Dashborad', 'icon' => 'dash-img menu-icon-sz', 'uiSrefActive' => '', 'url' => '', 'slug' => 'dashboard', 'has_submenu' => true, 'total_submenu' => 1,
                 'submenu_ids' => '0101,0102,0103,0104,0105,0106,0107', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu','liClass' => 'open', 'submenu' => array( 
                 1 => array('id' => '0101', 'name' => 'My Salary Slips', 'icon' => '', 'url' => '/'.$getUrl.'/databoxes', 'slug' => '.databoxes', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                2 => array('id' => '0102', 'name' => 'Request Leave', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                3 => array('id' => '0103', 'name' => 'Request Other Approval', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                4 => array('id' => '0104', 'name' => 'Requests for Me', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                5 => array('id' => '0105', 'name' => 'My Requests', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                2 => array('id' => '0102', 'name' => 'Request Leave', 'icon' => '',  'url' => '/'.$getUrl.'/requestLeave/index',  'slug' => '.requestLeaveIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                3 => array('id' => '0103', 'name' => 'Request Other Approval', 'icon' => '', 'url' => '/'.$getUrl.'/requestOtherApproval/index',  'slug' => '.requestOtherApprovalIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                4 => array('id' => '0104', 'name' => 'Requests for Me', 'icon' => '','url' => '/'.$getUrl.'/requestForMe/index',  'slug' => '.requestForMeIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                5 => array('id' => '0105', 'name' => 'My Requests', 'icon' => '', 'url' => '/'.$getUrl.'/myRequest/index',  'slug' => '.myRequestIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 6 => array('id' => '0106', 'name' => 'Configure Dashboard', 'icon' => '#', 'url' => '', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 7 => array('id' => '0107', 'name' => 'My Settings', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
             )),
@@ -289,8 +289,8 @@ class MenuItems {
             )),
             10 => array('name' => 'Careers', 'icon' => 'care-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'careers', 'has_submenu' => true, 'total_submenu' => 2,
                 'submenu_ids' => '01001,01002', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                1 => array('id' => '01001', 'name' => 'Manage Job Postings', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                2 => array('id' => '01002', 'name' => 'Create Job Posting', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                1 => array('id' => '01001', 'name' => 'Manage Job Postings', 'icon' => '', 'url' => '/'.$getUrl.'/manageCareer/index',  'slug' => '.manageJobIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                2 => array('id' => '01002', 'name' => 'Create Job Posting', 'icon' => '', 'url' => '/'.$getUrl.'/manageCareer/create',  'slug' => '.createJobIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
             )),
             11 => array('name' => 'Cloud Telephony', 'icon' => 'cloud-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'cloud-telephony', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '01101,01102,01103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(

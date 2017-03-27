@@ -304,6 +304,7 @@ class Employee extends Authenticatable {
         $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
 
         if (empty($input['userData']['marriage_date']) || $input['userData']['marriage_date'] == "0000-00-00") {
+
             $input['userData']['marriage_date'] = "";
         } else {
             $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
@@ -343,4 +344,6 @@ class Employee extends Authenticatable {
         $input['userData']['employee_info_form_url_status'] = !empty($input['userData']['employee_info_form_url_status']) ? $input['userData']['employee_info_form_url_status'] : "1";
         return $input;
     }
+
+
 }

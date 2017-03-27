@@ -61,6 +61,7 @@
                                         <br/>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.photo_src.$error">
                                             <div ng-message="required">Photo is required</div>
+                                             <div ng-if="invalidImage">{{invalidImage}}</div>
                                         </div>
                                         <br/>
                                     </span>

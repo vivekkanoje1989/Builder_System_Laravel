@@ -1005,21 +1005,22 @@ angular.module('app')
                     label: 'Edit Blog',
                     description: ''
                 },
-                resolve: {
-                    deps: [
+              resolve: {
+                deps: [
                         '$ocLazyLoad',
-                        function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['textAngular']).then(
-                                    function () {
-                                        return $ocLazyLoad.load(
-                                                {
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/app/controllers/textangular.js',
-                                                        '/backend/manageBlogController.js',
-                                                    ]
-                                                });
-                                    }
+                        function($ocLazyLoad) {
+                        return $ocLazyLoad.load(['textAngular']).then(
+                                function() {
+                                return $ocLazyLoad.load(
+                                {
+                                serie: true,
+                                        files: [
+                                            '/backend/app/controllers/textangular.js',
+                                            '/backend/manageBlogController.js',
+                                             '/backend/app/controllers/select.js',
+                                        ]
+                                });
+                                }
                             );
                         }
                     ]
@@ -1142,6 +1143,197 @@ angular.module('app')
                     ]
                 }
             })
+            .state(getUrl + '.manageJobIndex', {
+               url: '/manage-job/index',
+                templateUrl: getUrl + '/manage-job/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Manage job posting',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/careerManagementController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+             .state(getUrl + '.createJobIndex', {
+                url: '/createJob/index',
+                templateUrl: getUrl + '/create-Job/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Create job posting',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                  '/backend/careerManagementController.js',
+                                  '/backend/app/controllers/datepicker.js'
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.careerUpdate', {
+                url: '/manage-job/update/:jobId',
+                templateUrl: function (stateParams) {
+                    return getUrl + '/manage-job/' + stateParams.jobId + '/edit';
+                },
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Update career',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                  '/backend/careerManagementController.js',
+                                  '/backend/app/controllers/datepicker.js'
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.careerShow', {
+                url: '/manage-job/show/:jobId',
+                templateUrl: function (stateParams) {
+                    return getUrl + '/manage-job/' + stateParams.jobId + '/show';
+                },
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'View application',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                  '/backend/careerManagementController.js',
+                                  '/backend/app/controllers/datepicker.js'
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.requestLeaveIndex', {
+                url: '/request-leave/index',
+                templateUrl: getUrl + '/request-leave/',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Request leave',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                  '/backend/dashBoardController.js',
+                                   '/backend/app/controllers/datepicker.js'
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.requestOtherApprovalIndex', {
+                url: '/request-approval/index',
+                templateUrl: getUrl + '/request-approval/index',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Request other approval',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                  '/backend/dashBoardController.js',
+                                   '/backend/app/controllers/datepicker.js'
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+             .state(getUrl + '.requestForMeIndex', {
+                url: '/request-forme/index',
+                templateUrl: getUrl + '/request-forme/index',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Request for me',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                  '/backend/dashBoardController.js',
+                                   '/backend/app/controllers/datepicker.js'
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            
+            .state(getUrl + '.myRequestIndex', {
+                url: '/my-request/index',
+                templateUrl: getUrl + '/my-request/index',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'My request',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                  '/backend/dashBoardController.js',
+                                   '/backend/app/controllers/datepicker.js'
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            
+            
+            
             /****************************MANOJ*********************************/
             .state('persian', {
                 abstract: true,

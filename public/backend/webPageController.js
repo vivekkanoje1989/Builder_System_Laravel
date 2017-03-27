@@ -44,8 +44,11 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                 $scope.err_msg = '';
                 var imgCount = document.getElementById("banner_images").files.length;
                 allimg.push(imageData['name']);
+                
                 var url = getUrl + '/web-pages/updateWebPageImage';
+                
                 var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount};
+                
                 imageData.upload = Upload.upload({
                     url: url,
                     headers: {enctype: 'multipart/form-data'},

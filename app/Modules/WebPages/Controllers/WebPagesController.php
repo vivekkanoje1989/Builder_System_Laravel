@@ -115,7 +115,6 @@ class WebPagesController extends Controller {
         $result = ['success' => true, 'message' => 'Image updated successfully'];
         echo json_encode($result);
     }
-
     public function removeWebPageImage() {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);

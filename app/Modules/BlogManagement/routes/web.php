@@ -11,5 +11,5 @@ Route::group(array('module' => 'BlogManagement',  'namespace' => 'App\Modules\Bl
     Route::post($getUrl.'/manage-blog/update/{id}','BlogManagementController@update');
     
     Route::post($getUrl.'/manage-blog/getBlogsDetail','BlogManagementController@getBlogsDetail');   
- 
+    Route::post($getUrl.'/manage-blog/removeBlogImage','BlogManagementController@removeBlogImage');   
 });	
