@@ -127,8 +127,7 @@ class MasterHrController extends Controller {
                     echo json_encode($result,true);
                     exit;
                 }
-            }
-            
+            }           
             /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
             if(!empty($input['emp_photo_url'])){
                 $imgRules = array(
@@ -164,7 +163,9 @@ class MasterHrController extends Controller {
             $input['userData']['main_record_id'] = $loggedInUserId;
             $input['userData']['main_record_id'] = $loggedInUserId;
             $input['userData']['record_type'] = 1;
-            $input['userData']['record_restore_status'] = 1;            
+            $input['userData']['record_restore_status'] = 1;  
+            //unset($input['userData']['loggedInUserId']);
+            //print_r($input['userData']);exit;
             EmployeesLog::create($input['userData']);   //insert data into employees_logs table
             if ($employee) {
                 $result = ['success' => true, 'message' => 'Employee registeration successfully', "empId" => $employee->id];

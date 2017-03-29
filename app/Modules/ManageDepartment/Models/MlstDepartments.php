@@ -30,6 +30,7 @@ class MlstDepartments extends Eloquent
 
 	protected $fillable = [
 		'client_id',
+                'vertical_id',
 		'department_name',
                 'created_date',
                 'created_at',

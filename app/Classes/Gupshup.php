@@ -24,7 +24,7 @@ class Gupshup {
                 $smsConsume = $logs['credits_deducted'];
 
                 $totalSmsCredits = VasCredit::select('sms_credit_limit', 'sms_status')->where(['id' => 1])->get();
-                
+
                 if ($totalSmsCredits[0]['sms_status'] == '1') {
                     if ($totalSmsCredits[0]['sms_credit_limit'] >= $smsConsume) {
                         

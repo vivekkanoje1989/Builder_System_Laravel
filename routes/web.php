@@ -101,6 +101,7 @@ Route::group(['middleware' =>['auth:admin']], function () {
     Route::get($getUrl.'/getTeamLead', 'backend\AdminController@getTeamLead');    
     Route::get($getUrl.'/getWebPageList', 'backend\AdminController@getWebPageList'); //uma 
     Route::get($getUrl.'/getPropertyPortalType', 'backend\AdminController@getPropertyPortalType'); //uma 
+    Route::get($getUrl.'/getVerticals', 'backend\AdminController@getVerticals'); //uma
     Route::post($getUrl.'/getStates', 'backend\AdminController@getStates');
     Route::post($getUrl.'/getCities', 'backend\AdminController@getCities');
     Route::post($getUrl.'/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');

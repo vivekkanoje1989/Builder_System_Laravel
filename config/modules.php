@@ -31,5 +31,8 @@ return [
         "Testimonials",
         "CareerManagement",
         "DashBoard",
+        "EmailConfig",
+        "CareerManagement",
+        "DashBoard",
     ),
 ];

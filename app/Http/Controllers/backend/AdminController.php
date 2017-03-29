@@ -9,7 +9,7 @@ use App\Models\backend\Employee;
 use App\Models\MlstTitle;
 use App\Models\MlstGender;
 use App\Models\MlstBloodGroup;
-use App\Models\MlstDepartment;
+use App\Modules\ManageDepartment\Models\MlstDepartment;
 use App\Models\MlstEducation;
 use App\Models\MlstCountry;
 use App\Models\MlstState;
@@ -20,6 +20,8 @@ use App\Models\EnquirySubSource;
 use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
+use App\Models\MlstProfession;
+use App\Models\MlstVertical;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\PropertyPortalsType;
@@ -337,7 +339,16 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-
+    public function getVerticals() {
+        $getVerticals = MlstVertical::all();
+        if (!empty($getVerticals)) {
+            $result = ['success' => true, 'records' => $getVerticals];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
    /****************************UMA************************************/
     /***************************MANDAR*********************************/
 

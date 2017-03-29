@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Classes;
 
 use Auth;
@@ -17,7 +18,6 @@ class Gupshup {
             if (!empty($data['to'])) {
                 $from_date = date("Y-m-d 00:00:00", strtotime("first day of this month"));
                 $to_date = date("Y-m-d 23:59:59", strtotime("last day of this month"));
-
                 $logs = EmailLog::selectRaw("sum(*)")->whereBetween('sent_date_time', array($fromDate, $toDate))->first();
                 $emailconsume = $logs[0]['count(*)'];
 
@@ -232,4 +232,5 @@ class Gupshup {
     }
 
 }
+
 ?>

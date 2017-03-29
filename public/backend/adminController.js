@@ -103,7 +103,7 @@ app.controller('genderCtrl', function ($scope, Data) {
             $scope.genders = response.records;
         }
     });
-});
+}); 
 app.controller('bloodGroupCtrl', function ($scope, Data) {
     Data.get('getBloodGroup').then(function (response) {
         if (!response.success) {
@@ -301,15 +301,15 @@ app.controller('webPageListCtrl', function ($scope, Data) {
        }
    });
 });
-app.controller('cotentPageListCtrl', function ($scope, Data) {
-   Data.get('getcotentPageList').then(function (response) {
-       if (!response.success) {
-           $scope.errorMsg = response.message;
-       } else {
-           $scope.listPages = response.records;
-       }
-   });
-});
+app.controller('verticalCtrl', function ($scope, Data) {
+    Data.get('getVerticals').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.verticals = response.records;
+        }
+    });
+}); 
 /****************************UMA************************************/
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {

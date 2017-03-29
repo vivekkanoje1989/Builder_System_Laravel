@@ -2,6 +2,37 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/app/config.router.js</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/emailConfigController.js</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/Models/EmailConfiguration.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/ManageDepartment/Controllers/ManageDepartmentController.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Views/index.blade.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/Controllers/EmailConfigController.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/ManageDepartment/Views/index.blade.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/Views/manageEmailConfig.blade.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/hrController.js</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/Views/index.blade.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Views/create.blade.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/adminController.js</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/routes/web.php</file>
+        </group>
+=======
+<<<<<<< HEAD
+        <group>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/DashBoard/routes/web.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/DashBoard/Views/myrequest.blade.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/DashBoard/Views/index.blade.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/DashBoard/Controllers/DashBoardController.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/DashBoard/Views/other.blade.php</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/public/backend/dashBoardController.js</file>
+            <file>file:/var/www/html/BMS_BUILDER_V2/app/Modules/DashBoard/Views/requestsforme.blade.php</file>
+        </group>
+=======
         <group/>
+>>>>>>> 2757b50a18820e1f0634b615a491b56a0b9e4bf9
+>>>>>>> 20007c4b6c98a1429075b7cd4aea828557e0e7ff
     </open-files>
 </project-private>
