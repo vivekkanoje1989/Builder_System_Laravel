@@ -9,7 +9,7 @@ use App\Models\backend\Employee;
 use App\Models\MlstTitle;
 use App\Models\MlstGender;
 use App\Models\MlstBloodGroup;
-use App\Modules\ManageDepartment\Models\MlstDepartment;
+use App\Modules\ManageDepartment\Models\MlstDepartments;
 use App\Models\MlstEducation;
 use App\Models\MlstCountry;
 use App\Models\MlstState;
@@ -20,7 +20,6 @@ use App\Models\EnquirySubSource;
 use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
-use App\Models\MlstProfession;
 use App\Models\MlstVertical;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
@@ -65,6 +64,7 @@ class AdminController extends Controller {
         $smsType = "T_SMS";
         $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
         $decodeResult = json_decode($result,true);
+        
         return $decodeResult["message"];
         echo "<pre>";print_r($decodeResult);exit;*/
         
@@ -170,7 +170,7 @@ class AdminController extends Controller {
     }
 
     public function getDepartments() {
-        $getDepartments = MlstDepartment::all();
+        $getDepartments = MlstDepartments::all();
         if (!empty($getDepartments)) {
             $result = ['success' => true, 'records' => $getDepartments];
             return $result;
@@ -206,7 +206,7 @@ class AdminController extends Controller {
         $getTitle = MlstTitle::all();
         $getGender = MlstGender::all();
         $getBloodGroup = MlstBloodGroup::all();
-        $getDepartments = MlstDepartment::all();
+        $getDepartments = MlstDepartments::all();
         $getEducationList = MlstEducation::all();
         $getEnquirySource = EnquirySource::all();
         $getEnquirySubSource = EnquirySubSource::all();

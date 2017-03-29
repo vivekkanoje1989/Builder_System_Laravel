@@ -3,6 +3,8 @@ namespace App\Classes;
 
 use DB;
 use Auth;
+use Mail;
+use App\Mail\MailConfig;
 class CommonFunctions {
 
     public static function getMacAddress(){

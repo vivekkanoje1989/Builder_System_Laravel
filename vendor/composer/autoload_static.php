@@ -402,6 +402,7 @@ class ComposerStaticInita4a83323fa74f9ee3390af915b46a8f0
         'CreateBloodGroupsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_16_114232_create_blood_groups_table.php',
         'CreateCareerManagementsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_24_120812_create_career_managements_table.php',
         'CreateContactUsesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_17_184202_create_contact_uses_table.php',
+        'CreateCustomersDatasTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_29_115611_create_customers_datas_table.php',
         'CreateDashBoardsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_25_133535_create_dash_boards_table.php',
         'CreateDiscountHeadingsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_17_113229_create_discount_headings_table.php',
         'CreateEmailConfigsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_27_105440_create_email_configs_table.php',

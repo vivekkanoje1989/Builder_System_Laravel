@@ -34,5 +34,6 @@ return [
         "EmailConfig",
         "CareerManagement",
         "DashBoard",
+        "CustomersData",
     ),
 ];

@@ -225,6 +225,29 @@ angular.module('app')
                     ]
                 }
             })
+            .state(getUrl + '.customerDataIndex', {
+                url: '/customer/index',
+                templateUrl: getUrl + '/customers-data/',
+                controller: 'customerController',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Manage Customers',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/customerController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
             /************************************ uma ******************************/ 
                 .state(getUrl+'.propertyPortalIndex', {
                     url: '/propertyportals/index',
