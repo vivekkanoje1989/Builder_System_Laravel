@@ -439,7 +439,7 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                             <label for="">Upload Non-Working Tune as Mp3</label>
                                             <span class="input-icon icon-right">
                                                 <audio controls>
-                                                    <source type="audio/mpeg" ng-src="https://s3-ap-south-1.amazonaws.com/lms-auto/1/cloud_calling/caller_tune/hold_tune071056.mp3"">
+                                                    <source type="audio/mpeg" ng-src="https://s3-ap-south-1.amazonaws.com/lms-auto/1/cloud_calling/caller_tune/hold_tune071056.mp3">
                                                 </audio>
                                                 <input type="file"  ngf-select ng-model="registrationData.nwh_welcome_tune_audio"  id="nwh_welcome_tune_audio" class="form-control" name="nwh_welcome_tune_audio" accept="mp3/*">
                                                 <div ng-show="step1" ng-messages="updatevnoForm.nwh_welcome_tune_audio.$error" class="help-block step1">
