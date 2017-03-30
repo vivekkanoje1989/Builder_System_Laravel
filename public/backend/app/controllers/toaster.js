@@ -1,4 +1,4 @@
-﻿app.controller('ToasterCtrl', ['$scope', 'toaster', function ($scope, toaster) {
+app.controller('ToasterCtrl', ['$scope', 'toaster', function ($scope, toaster) {
     $scope.toaster = {
         type: 'success',
         title: 'Title',

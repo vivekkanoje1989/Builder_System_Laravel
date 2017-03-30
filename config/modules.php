@@ -35,5 +35,6 @@ return [
         "CareerManagement",
         "DashBoard",
         "CustomersData",
+        "Projects",
     ),
 ];

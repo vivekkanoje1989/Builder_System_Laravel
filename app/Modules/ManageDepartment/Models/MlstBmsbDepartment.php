@@ -5,7 +5,7 @@
  * Date: Fri, 24 Feb 2017 15:00:41 +0530.
  */
 
-namespace App\Models;
+namespace App\Modules\ManageDepartment\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -18,7 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstDepartment extends Eloquent
+class MlstBmsbDepartment extends Eloquent
 {
 	public $timestamps = false;
 

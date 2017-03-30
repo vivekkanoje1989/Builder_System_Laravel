@@ -43,8 +43,8 @@ class MenuItems {
                         2 => array('id' => '02020102', 'name' => 'Custom Templates', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         3 => array('id' => '02020103', 'name' => 'SMS Templates', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     )),
-                    2 => array('id' => '020202', 'name' => 'BMS Lists Management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 15,
-                    'submenu_ids' => '02020201,02020202,02020203,02020204,02020205,02020206,02020207,02020208,02020209,02020210,02020211,02020212,02020213,02020214,02020215','02020216',
+                    2 => array('id' => '020202', 'name' => 'BMS Lists Management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 17,
+                    'submenu_ids' => '02020201,02020202,02020203,02020204,02020205,02020206,02020207,02020208,02020209,02020210,02020211,02020212,02020213,02020214,02020215,02020216,02020217',
                         'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
                         1 => array('id' => '02020201', 'name' => 'Manage Blood Groups', 'icon' => '', 'url' => '/'.$getUrl.'/bloodgroups/index', 'slug' => '.bloodGroupsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         2 => array('id' => '02020202', 'name' => 'Manage Highest Education', 'icon' => '', 'url' => '/'.$getUrl.'/highesteducation/index', 'slug' => '.highesteducationIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -62,6 +62,7 @@ class MenuItems {
                         14 => array('id' => '02020214', 'name' => 'Manage Cities', 'icon' => '', 'url' => '/'.$getUrl.'/city/index', 'slug' => '.cityIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         15 => array('id' => '02020215', 'name' => 'Manage Locations', 'icon' => '', 'url' => '/'.$getUrl.'/location/index', 'slug' => '.locationIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         16 => array('id' => '02020216', 'name' => 'Manage Discount Headings', 'icon' => '', 'url' => '/'.$getUrl.'/discountheading/index', 'slug' => '.discountheadingIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        17 => array('id' => '02020217', 'name' => 'Manage Enquiry Location', 'icon' => '', 'url' => '/' . $getUrl . '/enquirylocation/index', 'slug' => '.enquirylocationIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     )),
                     3 => array('id' => '020203', 'name' => 'Auto Assign Web Enquires', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '02020301', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
@@ -170,14 +171,13 @@ class MenuItems {
             )),
             5 => array('name' => 'Projects', 'icon' => 'proj-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'projects', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '0501,0502,0503,0504', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                1 => array('id' => '0501', 'name' => 'Website Settings', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
+                1 => array('id' => '0501', 'name' => 'Projects Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
                     'submenu_ids' => '050101,050102,050103,050104', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                    1 => array('id' => '050101', 'name' => 'Projects Management', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    2 => array('id' => '050102', 'name' => 'Manage Projects', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    3 => array('id' => '050103', 'name' => 'New Project', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    4 => array('id' => '050104', 'name' => 'Project Availability', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    1 => array('id' => '050102', 'name' => 'Manage Projects', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    2 => array('id' => '050103', 'name' => 'New Project', 'icon' => '', 'url' => '/'.$getUrl.'/projects/create', 'slug' => '.createProjects', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    3 => array('id' => '050104', 'name' => 'Project Availability', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
-                2 => array('id' => '0502', 'name' => 'Manage Project Stages', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active','total_submenu' => 1,
+                2 => array('id' => '0502', 'name' => 'Manage Project Stages', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'has_submenu' => true,'uiSrefActive' => 'active','total_submenu' => 1,
                     'submenu_ids' => '050201', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
                     1 => array('id' => '050201', 'name' => 'Manage', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),

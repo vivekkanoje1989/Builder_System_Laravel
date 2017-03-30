@@ -180,17 +180,23 @@ angular.module('app')
                     label: 'Customer Details'
                 },
                 resolve: {
-                    deps: [
+                    deps:
+                    [
                         '$ocLazyLoad',
-                        function ($ocLazyLoad) {
-                            return $ocLazyLoad.load({
-                                serie: true,
-                                files: [
-                                    '/js/intlTelInput.js',
-                                    '/backend/customerController.js',
-                                    '/backend/app/controllers/datepicker.js',
-                                ]
-                            });
+                        function($ocLazyLoad) {
+                            return $ocLazyLoad.load('toaster').then(
+                                function() {
+                                    return $ocLazyLoad.load({
+                                            serie: true,
+                                            files: [
+                                                '/js/intlTelInput.js',
+                                                '/backend/customerController.js',
+                                                '/backend/app/controllers/datepicker.js',
+                                            ]
+                                        }
+                                    );
+                                }
+                            );
                         }
                     ]
                 }
@@ -242,6 +248,31 @@ angular.module('app')
                                 serie: true,
                                 files: [
                                     '/backend/customerController.js',
+                                ]
+                            });
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.createProjects', {
+                url: '/projects/create',
+                templateUrl: getUrl + '/projects/create',
+                controller: 'projectsController',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Create Project',
+                    description: ''
+                },
+                resolve: {
+                    deps: [
+                        '$ocLazyLoad',
+                        function ($ocLazyLoad) {
+                            return $ocLazyLoad.load({
+                                serie: true,
+                                files: [
+                                    '/backend/projectsController.js',
+                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                    '/backend/app/controllers/tab.js',
                                 ]
                             });
                         }

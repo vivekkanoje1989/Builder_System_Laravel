@@ -42,75 +42,81 @@ class MasterSalesController extends Controller {
 	 */
 	public function store()
 	{
-            $postdata = file_get_contents("php://input");
-            $input  = json_decode($postdata, true);
+            try
+            {
+                $postdata = file_get_contents("php://input");
+                $input  = json_decode($postdata, true);
 
-            if(empty($input)){
-                $input = Input::all();
-            }
-            
-            $validationRules = Customer::validationRules();
-            $validationMessages = Customer::validationMessages();
-            $userAgent = $_SERVER['HTTP_USER_AGENT'];
-            
-            if(!empty($input['customerData'])){
-                $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
-                if ($validator->fails()) {
-                    $result = ['success' => false, 'message' => $validator->messages()];
-                    echo json_encode($result,true);
-                    exit;
+                if(empty($input)){
+                    $input = Input::all();
+                    $input['customerData']['loggedInUserId'] = Auth::guard('admin')->user()->id;
                 }
-            } 
-            
-            if(!empty($input['customerData']['loggedInUserId']) ||  $input['customerData']['loggedInUserId'] !== '0'){ // change  by uma
-                $loggedInUserId = $input['customerData']['loggedInUserId'];
-            }
-            else{
-                $loggedInUserId = Auth::guard('admin')->user()->id;
-            }
-          
-            $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
-            $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
-            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-            $input['customerData'] = array_merge($input['customerData'],$create);
-            $createCustomer = Customer::create($input['customerData']); //insert data into employees table
-            
-            CustomersLog::create($input['customerData']);  
-            $input['customerData']['main_record_id'] = $createCustomer->id;
-            $input['customerData']['record_type'] = 1;
-            $input['customerData']['record_restore_status'] = 1;
-            
-            if(!empty($input['customerContacts'])){
-                foreach($input['customerContacts'] as $contacts){
-                    $contacts['customer_id'] = $createCustomer->id;
-                    $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = 
-                    $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] =  $contacts['email_optin_status'] = 
-                    $contacts['email_verification_status'] = $contacts['mobile_verification_timestamp'] = 0;
-                    $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] =
-                    $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = 
-                    $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
-                    $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;
-                    $contacts['mobile_alerts_inactivation_timestamp'] = $contacts['landline_verification_timestamp'] = $contacts['landline_alerts_inactivation_timestamp'] =  $contacts['email_verification_timestamp'] = 
-                    $contacts['email_alerts_inactivation_timestamp'] = "0000-00-00 00:00:00";
-                    
-                    if (!empty($contacts['mobile_number'])) {
-                        $mobileNumber = explode("-", $contacts['mobile_number']); 
-                        $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ?  (int) $mobileNumber[0] : "";
-                        $contacts['mobile_number'] = (!empty($mobileNumber[1])) ? (int) $mobileNumber[1] : "";
+
+                $validationRules = Customer::validationRules();
+                $validationMessages = Customer::validationMessages();
+                $userAgent = $_SERVER['HTTP_USER_AGENT'];
+
+                if(!empty($input['customerData'])){
+                    $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
+                    if ($validator->fails()) {
+                        $result = ['success' => false, 'message' => $validator->messages()];
+                        echo json_encode($result,true);
+                        exit;
                     }
-                    
-                    if (!empty($contacts['landline_number'])) {
-                        $landlineNumber = explode("-", $contacts['landline_number']);
-                        $contacts['landline_calling_code'] = (!empty($landlineNumber[1])) ?  (int) $landlineNumber[0] : "";
-                        $contacts['landline_number'] = (!empty($landlineNumber[1])) ? (int) $landlineNumber[1] : "";
+                } 
+
+                if(!empty($input['customerData']['loggedInUserId']) ||  $input['customerData']['loggedInUserId'] !== '0'){ // change  by uma
+                    $loggedInUserId = $input['customerData']['loggedInUserId'];
+                }
+
+                $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
+                $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
+                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                $input['customerData'] = array_merge($input['customerData'],$create);
+                $createCustomer = Customer::create($input['customerData']); //insert data into employees table
+
+                CustomersLog::create($input['customerData']);  
+                $input['customerData']['main_record_id'] = $createCustomer->id;
+                $input['customerData']['record_type'] = 1;
+                $input['customerData']['record_restore_status'] = 1;
+
+                if(!empty($input['customerContacts'])){
+                    foreach($input['customerContacts'] as $contacts){
+                        $contacts['customer_id'] = $createCustomer->id;
+                        $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = 
+                        $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] =  $contacts['email_optin_status'] = 
+                        $contacts['email_verification_status'] = $contacts['mobile_verification_timestamp'] = 0;
+                        $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] =
+                        $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = 
+                        $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
+                        $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;
+                        $contacts['mobile_alerts_inactivation_timestamp'] = $contacts['landline_verification_timestamp'] = $contacts['landline_alerts_inactivation_timestamp'] =  $contacts['email_verification_timestamp'] = 
+                        $contacts['email_alerts_inactivation_timestamp'] = "0000-00-00 00:00:00";
+
+                        if (!empty($contacts['mobile_number'])) {
+                            $mobileNumber = explode("-", $contacts['mobile_number']); 
+                            $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ?  (int) $mobileNumber[0] : "";
+                            $contacts['mobile_number'] = (!empty($mobileNumber[1])) ? (int) $mobileNumber[1] : "";
+                        }
+
+                        if (!empty($contacts['landline_number'])) {
+                            $landlineNumber = explode("-", $contacts['landline_number']);
+                            $contacts['landline_calling_code'] = (!empty($landlineNumber[1])) ?  (int) $landlineNumber[0] : "";
+                            $contacts['landline_number'] = (!empty($landlineNumber[1])) ? (int) $landlineNumber[1] : "";
+                        }
+
+                        $contacts = array_merge($contacts,$create);
+                        CustomersContact::create($contacts); //insert data into customer_contacts table
+                        CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
                     }
-                    
-                    $contacts = array_merge($contacts,$create);
-                    CustomersContact::create($contacts); //insert data into customer_contacts table
-                    CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
                 }
             }
-            return true;          
+            catch (\Exception $ex) {
+                $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+                return json_encode($result);
+            }
+            $result = ["success" => true];
+            return json_encode($result);        
 	}
 
 	/**
@@ -143,114 +149,121 @@ class MasterSalesController extends Controller {
 	 */
 	public function update($id)
 	{
-            $originalValues = Customer::where('id', $id)->get();
-            $originalContactValues = CustomersContact::where('customer_id', $id)->get();
-            
-            $postdata = file_get_contents("php://input");
-            $input  = json_decode($postdata, true);
+            try
+            {
+                $originalValues = Customer::where('id', $id)->get();
+                $originalContactValues = CustomersContact::where('customer_id', $id)->get();
 
-            if(empty($input)){
-                $input = Input::all();
-            }
-            $validationRules = Customer::validationRules();
-            $validationMessages = Customer::validationMessages();
-            if(!empty($input['customerData'])){
-                $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
-                if ($validator->fails()) {
-                    $result = ['success' => false, 'message' => $validator->messages()];
-                    echo json_encode($result,true);
-                    exit;
+                $postdata = file_get_contents("php://input");
+                $input  = json_decode($postdata, true);
+
+                if(empty($input)){
+                    $input = Input::all();
+                    $input['userData']['loggedInUserId'] = Auth::guard('admin')->user()->id;
                 }
-            }
-            
-            if(!empty($input['userData']['loggedInUserId'])){
-                $loggedInUserId = $input['userData']['loggedInUserId'];
-            }
-            else{
-                $loggedInUserId = Auth::guard('admin')->user()->id;
-            }
-            $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
-            $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
-            $input['customerData']['created_date'] =  date('Y-m-d', strtotime($input['customerData']['created_date']));            
-            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-            $input['customerData'] = array_merge($input['customerData'],$update);
-            $updateCustomer = Customer::where('id',$id)->update($input['customerData']); //insert data into employees table
-            
-            $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
-            $implodeArr =  implode(",",array_keys($getResult));
-            if ($updateCustomer == 1) {
-                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                $input['customerData'] = array_merge($input['customerData'],$create);
-                $input['customerData']['main_record_id'] = $id;
-                $input['customerData']['record_type'] = 2;
-                $input['customerData']['column_names'] = $implodeArr;
-                $input['customerData']['record_restore_status'] = 1;
-                CustomersLog::create($input['customerData']);   
-            }            
-            if(!empty($input['customerContacts'])){
-                $i = 0;
-                foreach($input['customerContacts'] as $contacts){
-                    $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = 
-                    $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] =  $contacts['email_optin_status'] = 
-                    $contacts['email_verification_status'] = 0;
-                    $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] =
-                    $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = 
-                    $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
-                    $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;
-                    $contacts['mobile_verification_timestamp'] = $contacts['mobile_alerts_inactivation_timestamp'] = $contacts['landline_verification_timestamp'] = 
-                    $contacts['landline_alerts_inactivation_timestamp'] = $contacts['email_verification_timestamp'] = 
-                    $contacts['email_alerts_inactivation_timestamp'] = "0000-00-00 00:00:00";
-                   
-                    $result = substr($contacts['mobile_number'], 0, 4);
-                    if($result == "+91-")
-                    {
-                        if (!empty($contacts['mobile_number'])) {
-                            $mobileNumber = explode("-", $contacts['mobile_number']);
-                            $calling_code = (int) $mobileNumber[0];                        
-                            $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? $calling_code : "";
-                            $contacts['mobile_number'] = !empty($mobileNumber[1]) ? (int) $mobileNumber[1] : "";
-                        }
-                        if (!empty($contacts['landline_number'])) {
-                            $landlineNumber = explode("-", $contacts['landline_number']);
-                            $landline_calling_code = (int) $landlineNumber[0];
-                            $contacts['landline_calling_code'] =!empty($landlineNumber[1]) ?  $landline_calling_code : "";
-                            $contacts['landline_number'] = !empty($landlineNumber[1]) ? (int) $landlineNumber[1] : "";
-                        }
+                $validationRules = Customer::validationRules();
+                $validationMessages = Customer::validationMessages();
+                if(!empty($input['customerData'])){
+                    $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
+                    if ($validator->fails()) {
+                        $result = ['success' => false, 'message' => $validator->messages()];
+                        echo json_encode($result,true);
+                        exit;
                     }
-                    unset($contacts['$hashKey'],$contacts['index']);
-                    $checkMobileNumber = CustomersContact::where(['customer_id' => $id,"mobile_number" => $contacts['mobile_number']])->get();
-                    if(count($checkMobileNumber) === 0)
-                    {
-                        $contacts['customer_id'] = $id;
-                        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                        $contacts = array_merge($contacts,$create);
-                        CustomersContact::create($contacts); //insert data into customer_contacts table
-                    }
-                    else{
-                        $contacts['created_date'] =  date('Y-m-d', strtotime($contacts['created_date']));
-                        $updateContact = CustomersContact::where('id',$contacts['id'])->update($contacts); //insert data into customer_contacts table
-                    }
-                    if($updateContact == 1){
-                        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                        $contacts = array_merge($contacts,$create);
-                        if(count($checkMobileNumber) == 0)
+                }
+
+                if(!empty($input['userData']['loggedInUserId'])){
+                    $loggedInUserId = $input['userData']['loggedInUserId'];
+                }
+                $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
+                $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
+                $input['customerData']['created_date'] =  date('Y-m-d', strtotime($input['customerData']['created_date']));            
+                $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                $input['customerData'] = array_merge($input['customerData'],$update);
+                $updateCustomer = Customer::where('id',$id)->update($input['customerData']); //insert data into employees table
+
+                $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
+                $implodeArr =  implode(",",array_keys($getResult));
+                if ($updateCustomer == 1) {
+                    $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                    $input['customerData'] = array_merge($input['customerData'],$create);
+                    $input['customerData']['main_record_id'] = $id;
+                    $input['customerData']['record_type'] = 2;
+                    $input['customerData']['column_names'] = $implodeArr;
+                    $input['customerData']['record_restore_status'] = 1;
+                    CustomersLog::create($input['customerData']);   
+                }            
+                if(!empty($input['customerContacts'])){
+                    $i = 0;
+                    foreach($input['customerContacts'] as $contacts){
+                        $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = 
+                        $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] =  $contacts['email_optin_status'] = 
+                        $contacts['email_verification_status'] = 0;
+                        $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] =
+                        $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = 
+                        $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
+                        $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;
+                        $contacts['mobile_verification_timestamp'] = $contacts['mobile_alerts_inactivation_timestamp'] = $contacts['landline_verification_timestamp'] = 
+                        $contacts['landline_alerts_inactivation_timestamp'] = $contacts['email_verification_timestamp'] = 
+                        $contacts['email_alerts_inactivation_timestamp'] = "0000-00-00 00:00:00";
+                        
+                        $result = substr($contacts['mobile_number'], 0, 4);
+                        if($result == "+91-")
                         {
-                            $contacts['record_type'] = 1;
+                            if (!empty($contacts['mobile_number'])) {
+                                $mobileNumber = explode("-", $contacts['mobile_number']);
+                                $calling_code = (int) $mobileNumber[0];                        
+                                $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? $calling_code : "";
+                                $contacts['mobile_number'] = !empty($mobileNumber[1]) ? (int) $mobileNumber[1] : "";
+                            }
+                            if (!empty($contacts['landline_number'])) {
+                                $landlineNumber = explode("-", $contacts['landline_number']);
+                                $landline_calling_code = (int) $landlineNumber[0];
+                                $contacts['landline_calling_code'] =!empty($landlineNumber[1]) ?  $landline_calling_code : "";
+                                $contacts['landline_number'] = !empty($landlineNumber[1]) ? (int) $landlineNumber[1] : "";
+                            }
+                        }
+                        unset($contacts['$hashKey'],$contacts['index']);
+                        $checkMobileNumber = CustomersContact::where(['customer_id' => $id,"mobile_number" => $contacts['mobile_number']])->get();
+                        if(count($checkMobileNumber) === 0)
+                        {
+                            $contacts['customer_id'] = $id;
+                            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                            $contacts = array_merge($contacts,$create);
+                            CustomersContact::create($contacts); //insert data into customer_contacts table
                         }
                         else{
-                            $getResult = array_diff_assoc($originalContactValues[$i]['attributes'], $contacts);
-                            $contacts['main_record_id'] = $originalContactValues[$i]['attributes']['id'];
-                            unset($getResult['created_date']);
-                            $implodeArr =  implode(",",array_keys($getResult));
-                            $contacts['record_type'] = 2;
-                            $contacts['column_names'] = $implodeArr;
-                        }                        
-                        $contacts['record_restore_status'] = 1;
-                        CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
+                            $contacts['updated_date'] =  date('Y-m-d', strtotime($contacts['created_date']));
+                            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                            $contacts = array_merge($contacts,$update);
+                            $updateContact = CustomersContact::where('id',$contacts['id'])->update($contacts); //insert data into customer_contacts table
+                        }
+                        if($updateContact == 1){
+                            if(count($checkMobileNumber) == 0)
+                            {
+                                $contacts['record_type'] = 1;
+                            }
+                            else{
+                                $getResult = array_diff_assoc($originalContactValues[$i]['attributes'], $contacts);
+                                $contacts['main_record_id'] = $originalContactValues[$i]['attributes']['id'];
+                                unset($getResult['created_date']);
+                                $implodeArr =  implode(",",array_keys($getResult));
+                                $contacts['record_type'] = 2;
+                                $contacts['column_names'] = $implodeArr;
+                            }                        
+                            $contacts['record_restore_status'] = 1;
+                            CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
+                        }
+                        $i++;                     
                     }
-                    $i++;                     
-                }exit;
+                }
             }
+            catch (\Exception $ex) {
+                $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+                return json_encode($result);
+            }
+            $result = ["success" => true];
+            return json_encode($result);   
             
 	}
 

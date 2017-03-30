@@ -5,7 +5,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use App\Models\EmployeesLog;
-use App\Models\MlstDepartment;
+use App\Models\MlstBmsbDepartment;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Illuminate\Hashing\HashServiceProvider;
@@ -42,7 +42,7 @@ class MasterHrController extends Controller {
             
             foreach($manageUsers as $user){
                 $getDeptName = array();
-                $dept = MlstDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
+                $dept = MlstBmsbDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
                 for($i=0;$i<count($dept);$i++)
                 {
                     $getDeptName[] = $dept[$i]->department_name;
@@ -203,7 +203,7 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
         $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();
         $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);
-        $getDepartments = MlstDepartment::whereNotIn('id', $explodeDepartment)->get();
+        $getDepartments = MlstBmsbDepartment::whereNotIn('id', $explodeDepartment)->get();
         if (!empty($getDepartments)) {
             $result = ['success' => true, 'records' => $getDepartments];
             return $result;
@@ -218,7 +218,7 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
         $deptId = $request['data']['deptId'];
         $arr = explode(",", $deptId);
-        $getdepts = MlstDepartment::whereIn('id', $arr)->get();
+        $getdepts = MlstBmsbDepartment::whereIn('id', $arr)->get();
         if (!empty($getdepts)) {
             $result = ['success' => true, 'records' => $getdepts];
             return json_encode($result);

@@ -172,7 +172,7 @@
 }
 
 
-/* vkm custome */
+ /*vkm custome */
 
 @-webkit-keyframes borderPulse {
     15% {
@@ -11356,6 +11356,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
 }
 
 .wizard ul li {
+    float: left;
     margin: 0;
     padding: 0 20px 0 30px;
     line-height: 46px;

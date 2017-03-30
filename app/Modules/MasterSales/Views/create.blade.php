@@ -323,7 +323,7 @@
                         </div>
                         <hr class="wide col-lg-12 col-xs-12 col-md-12" ng-if="showDiv"/>
                         <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-                            <button type="submit" class="btn btn-primary" ng-show="showDiv" ng-click="formButton=true">Save & Continue</button>
+                            <button type="submit" class="btn btn-primary" ng-show="showDiv" ng-disabled="disableCreateButton" ng-click="formButton=true">Save & Continue</button>
                         </div>
                     </form>
                 </div>

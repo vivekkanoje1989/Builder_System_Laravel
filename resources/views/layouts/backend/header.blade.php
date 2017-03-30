@@ -9,8 +9,3 @@
     <a href="" class="fullscreen"></a>
 </div>
 <!--Header Buttons End-->
-<script>
-    $(document).ready(function () {
-      // $('#aa').attr('ui-sref',$('#aa').attr('href'));
-    });
-</script>

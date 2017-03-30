@@ -1,4 +1,3 @@
-//'use strict';
 app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', '$stateParams', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse, $stateParams) {
     $scope.pageHeading = 'Create User';
     $scope.buttonLabel = 'Create';

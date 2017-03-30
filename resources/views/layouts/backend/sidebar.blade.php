@@ -56,23 +56,4 @@
 </ul>
 <!-- /Sidebar Menu -->
 
-
-<div class="alert-delay panel-{{alerts.class}}" ng-show="alerts.messages" style="position: fixed;top:14.5%; z-index: 9999;right: 1%;">
-    <div ng-repeat="alert in alerts.messages track by $index" class="panel-body alert-{{alerts.class}}" >{{alert}}</div>
-</div>
-<script>
-$(document).ready(function(){
-    $(function () {
-        $(":file").change(function () {
-            if (this.files && this.files[0]) {
-                var reader = new FileReader();
-                reader.onload = imageIsLoaded;
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-    });
-    function imageIsLoaded(e) {
-        $('.photoPreview').attr('src', e.target.result);
-    };
-});
-</script>
+<toaster-container toaster-options="{'time-out': 2000,'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
