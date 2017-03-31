@@ -398,6 +398,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                 {
                     arr.push([{v: "'" + response[i]['v'] + "'", f: "'" + response[i]['f'] }, "'" + response[i]['teamId'] + "'", response[i]['designation']]);
                 }
+                console.log(arr);
                 data.addRows(arr);
                 // Create the chart.
                 var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));

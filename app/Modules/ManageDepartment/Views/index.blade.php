@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="departmentModal" role="dialog" tabindex="-1">   
+    <div class="modal fade" id="departmentModal" role="dialog" tabindex="-1" ng-init="data()">   
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -71,7 +71,7 @@
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!departmentForm.department_name.$dirty && departmentForm.department_name.$invalid && !departmentForm.vertical_id.$dirty && departmentForm.vertical_id.$invalid)}">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="departmentData.department_name" name="department_name" placeholder="Department" ng-change="errorMsg = null" required>
+                                <input type="text" class="form-control" ng-model="departmentData.department_name" id="department_name" name="department_name" placeholder="Department" ng-change="errorMsg = null" required>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="departmentForm.department_name.$error">
                                     <div ng-message="required">Department is required</div>
@@ -79,15 +79,15 @@
                                 </div>
                             </span>                            
                             <span class="input-icon icon-right">
-                                <select ng-model="departmentData.vertical_id" name="vertical_id" class="form-control ng-valid ng-touched ng-dirty ng-valid-parse" required="required" ng-controller="verticalCtrl" ng-change="errorMsg = null">
+                                <select ng-model="departmentData.vertical_id" name="vertical_id" id="vertical_id" class="form-control ng-valid ng-touched ng-dirty ng-valid-parse" required="required" ng-controller="verticalCtrl" ng-change="errorMsg = null">
                                     <option value="0">Select Vertical</option>
-                                    <option ng-repeat="v in verticals" value="{{v.id}}">{{v.name}}</option>                                    
+                                    <option ng-repeat="v in verticals" value="{{v.id}}"  ng-selected="{{ v.id == departmentData.vertical_id }}">{{v.name}}</option>                                    
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="departmentForm.vertical_id.$error" >
                                     <div ng-message="required">Verticals name is required.</div>
                                     <!--<div ng-if="errorMsg">{{errorMsg}}</div>-->
-                                </div>
+                                </div>{{ departmentData.vertical_id }}
                             </span>
                         </div>
                     </div>

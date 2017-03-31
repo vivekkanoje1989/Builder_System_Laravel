@@ -146,6 +146,7 @@ app.controller('departmentCtrl', function ($scope, Data, $timeout) {
         }, 3000);
     }
 });
+
 app.controller('educationListCtrl', function ($scope, Data) {
     Data.get('getEducationList').then(function (response) {
         if (!response.success) {
