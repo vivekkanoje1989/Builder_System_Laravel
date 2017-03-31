@@ -5,6 +5,7 @@ namespace App\Classes;
 use DB;
 use Auth;
 use Mail;
+use App\Mail\MailConfig;
 
 class CommonFunctions {
 
@@ -83,13 +84,11 @@ class CommonFunctions {
                         $message->subject($data['subject']);
                         $message->to($data['to'])->cc($data['cc']);
                     });
-                    if (count(Mail::failures()) <= 0) {
-                         return true;           
-                    }            
-                    else
-                    {
-                         return false;  
-                    }                   
+            if (count(Mail::failures()) <= 0) {
+                return true;
+            } else {
+                return false;
+            }
         } catch (\Exception $ex) {
             return false;
         }

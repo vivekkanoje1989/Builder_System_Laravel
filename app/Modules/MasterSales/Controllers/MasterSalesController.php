@@ -48,11 +48,11 @@ class MasterSalesController extends Controller {
             if(empty($input)){
                 $input = Input::all();
             }
+            
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             
-            echo "<pre>";print_r($input);exit;
             if(!empty($input['customerData'])){
                 $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
                 if ($validator->fails()) {
@@ -62,20 +62,19 @@ class MasterSalesController extends Controller {
                 }
             } 
             
-            if(!empty($input['userData']['loggedInUserId'])){
-                $loggedInUserId = $input['userData']['loggedInUserId'];
+            if(!empty($input['customerData']['loggedInUserId']) ||  $input['customerData']['loggedInUserId'] !== '0'){ // change  by uma
+                $loggedInUserId = $input['customerData']['loggedInUserId'];
             }
             else{
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             }
-           
+          
             $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
-            
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'],$create);
-            
             $createCustomer = Customer::create($input['customerData']); //insert data into employees table
+            
             CustomersLog::create($input['customerData']);  
             $input['customerData']['main_record_id'] = $createCustomer->id;
             $input['customerData']['record_type'] = 1;
@@ -109,10 +108,9 @@ class MasterSalesController extends Controller {
                     $contacts = array_merge($contacts,$create);
                     CustomersContact::create($contacts); //insert data into customer_contacts table
                     CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
-                    
                 }
             }
-            exit;            
+            return true;          
 	}
 
 	/**

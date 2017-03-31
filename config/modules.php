@@ -29,8 +29,17 @@ return [
         "WebPages",
         "BlogManagement",
         "Testimonials",
+<<<<<<< HEAD
         "EmailConfig",
         "CareerManagement",
         "DashBoard",
+=======
+        "CareerManagement",
+        "DashBoard",
+        "EmailConfig",
+        "CareerManagement",
+        "DashBoard",
+        "CustomersData",
+>>>>>>> bd535f29bfedbd699035645919b0b1aac06857ed
     ),
 ];

@@ -4,11 +4,10 @@ angular.module('app')
                 [
                     '$rootScope', '$state', '$stateParams',
                     function ($rootScope, $state, $stateParams) {
-
-                    }
-                ]
-                )
-        .config(
+                }
+            ]
+        )
+       .config(
                 ['$stateProvider', '$urlRouterProvider',
                     function ($stateProvider, $urlRouterProvider) {
                         $urlRouterProvider

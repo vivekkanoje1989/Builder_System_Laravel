@@ -58,24 +58,32 @@ class MasterHrController extends Controller {
         } 
     }
     
-    public function manageRoles() {
+    public function manageRolesPermission() {
         if( Auth::guard('admin')->user()->id == 1){ 
             $roles = EmployeeRole::all();
             return view("MasterHr::manageroles")->with("roles",$roles);
         }
     }
     public function getRoles() {
-        if( Auth::guard('admin')->user()->id == 1){ 
-            $roles = EmployeeRole::all();
-            if(!empty($roles)){
-                $result = ['success' => true, "list" => $roles];
-                echo json_encode($result);
-            }else{
-                $result = ['success' => false, "message" => "No records found"];
-                echo json_encode($result);
-            }
+        $roles = EmployeeRole::all();
+        if(!empty($roles)){
+            $result = ['success' => true, "list" => $roles];
+            echo json_encode($result);
+        }else{
+            $result = ['success' => false, "message" => "No records found"];
+            echo json_encode($result);
         }
     }
+//    public function getRolesList() {
+//        $roles = EmployeeRole::all();
+//        if(!empty($roles)){
+//            $result = ['success' => true, "list" => $roles];
+//            echo json_encode($result);
+//        }else{
+//            $result = ['success' => false, "message" => "No records found"];
+//            echo json_encode($result);
+//        }
+//    }        
     public function changePassword() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -322,6 +330,84 @@ class MasterHrController extends Controller {
     public function rolePermissions($id) {
         return view("MasterHr::rolepermissions")->with("roleId", $id);
     }
+    public function updatePermissions() { 
+        $postdata = file_get_contents("php://input");
+        $input  = json_decode($postdata, true);
+        
+        $id = $input['data']['empId'];
+        $roleId = $input['data']['roleId'];
+        $getRolePermission = EmployeeRole::select('employee_submenus')->where('id', $roleId)->get();
+        $updateRecord = Employee::where('id',$input['data']['empId'])->update(array('employee_submenus' => $getRolePermission[0]['employee_submenus']));
+        $result = MasterHrController::arrangeMenu($getRolePermission[0]['employee_submenus']);
+//        $menuItems = [json_decode($result,true)];
+        return json_encode($result);
+        if($result){
+            $result = ['success' => true, "employeeSubmenus" => json_encode($menuItems)];
+            return json_encode($result);
+        }
+        else{
+            $result = ['success' => false, "message" => "Something went wrong"];
+            return json_encode($result);
+        }
+    }
+    public static function arrangeMenu($employeeSubmenus){
+        $getMenu = MenuItems::getMenuItems();
+        if($employeeSubmenus != ''){
+            $permission = json_decode($employeeSubmenus,true);
+            $menuItem = array();
+            foreach ($getMenu as $key => $menu) {
+                $submenu_ids = explode(',', $menu['submenu_ids']);
+                if(count(array_intersect($submenu_ids, $permission)) == count($submenu_ids)){
+                    $menu['checked'] = true;
+                }
+                foreach ($menu['submenu'] as $k1 => $child1) {
+                    if(!empty($child1['submenu'])){
+                        $submenu_ids1 = explode(',', $menu['submenu'][$k1]['submenu_ids']);
+                        if(count(array_intersect($submenu_ids1, $permission)) == count($submenu_ids1)){
+                            $menu['submenu'][$k1]['checked'] = true;
+                        }  
+                        foreach ($child1['submenu'] as $k2 => $child2) { 
+                            if(!empty($child2['submenu'])){
+                                $submenu_ids2 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu_ids']);
+                                if(count(array_intersect($submenu_ids2, $permission)) == count($submenu_ids2)){
+                                    $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
+                                }
+                                foreach ($child2['submenu'] as $k3 => $child3) {
+                                    if(!empty($child3['submenu'])){
+                                        $submenu_ids3 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['submenu_ids']);
+                                        if(count(array_intersect($submenu_ids3, $permission)) == count($submenu_ids3)){
+                                           $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['checked'] = true;
+                                        }
+                                    }
+                                    if (in_array($child3['id'], $permission)) {
+                                        $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['checked'] = true;
+                                    }
+                                }
+                            }
+                             else{
+                                if (in_array($child2['id'], $permission)) {
+                                    $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
+                                }
+                            }
+                        }                    
+                    }
+                    else{
+                        if (in_array($child1['id'], $permission)) {
+                            $menu['submenu'][$k1]['checked'] = true;
+                        }                    
+                    }
+                }
+                $menuItem[] = $menu;
+            }
+            ksort($menuItem);
+            return $menuItem;
+        }
+        else{
+            ksort($getMenu);
+            return $getMenu; 
+        }    
+    }
+
     public function getMenuLists() {
         $postdata = file_get_contents("php://input");
         $input  = json_decode($postdata, true);
@@ -332,10 +418,10 @@ class MasterHrController extends Controller {
             $getPermission = Employee::select('employee_submenus')->where('id', $id)->get();
         }
 
-        $getMenu = MenuItems::getMenuItems();
-        
-        if($getPermission[0]['employee_submenus'] != ''){
+            $getMenu = MenuItems::getMenuItems();
             $permission = json_decode($getPermission[0]['employee_submenus'],true);
+
+            if(!empty($permission)){
             $menuItem = array();
             foreach ($getMenu as $key => $menu) {
                 $submenu_ids = explode(',', $menu['submenu_ids']);

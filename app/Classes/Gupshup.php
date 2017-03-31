@@ -3,7 +3,7 @@
 namespace App\Classes;
 
 use Auth;
-use App\Models\Credit;
+use App\Models\VasCredit;
 use App\Models\EmailPassword;
 use App\Models\SmsLog;
 use App\Models\SystemConfig;
@@ -23,22 +23,31 @@ class Gupshup {
                 $logs = SmsLog::selectRaw("sum(credits_deducted) AS credits_deducted")->whereBetween('sent_date_time', array($fromDate, $toDate))->first();
                 $smsConsume = $logs['credits_deducted'];
 
-                $totalSmsCredits = Credit::select('sms_credit_limit', 'sms_status')->where(['id' => 1])->get();                
+                $totalSmsCredits = VasCredit::select('sms_credit_limit', 'sms_status')->where(['id' => 1])->get();
+$smsConsume = 200000;
                 if ($totalSmsCredits[0]['sms_status'] == '1') {
                     if ($totalSmsCredits[0]['sms_credit_limit'] >= $smsConsume) {
                         
                         if ($smsType == "P_SMS") { //Promossional SMS
-                            $smsApi = EmailPassword::select('email_id', 'email_pwd', 'client_id', 'type', 'system_id')->where(['id' => 1])->get(); //sms credentials
+                            //$smsApi = EmailPassword::select('email_id', 'email_pwd', 'client_id', 'type', 'system_id')->where(['id' => 1])->get(); //sms credentials
                             if ($sendingType == 1) {
                                 $msgType = "TEXT";
                             } elseif ($sendingType == 2) {
                                 $msgType = "FLASH";
                             }
-                            $smsType = $smsApi[0]['type'];
+                            $smsType = "P_sms";
+                            $userId = "2000161554";
+                            $password = "Nextedge@2016#";
                         } else { //Transactional SMS
-                            $smsApi = EmailPassword::select('email_id', 'email_pwd', 'client_id', 'type', 'system_id')->where(['id' => 2])->get(); //sms credentials
-                            $smsType = $smsApi[0]['type'];
+                            //$smsApi = EmailPassword::select('email_id', 'email_pwd', 'client_id', 'type', 'system_id')->where(['id' => 2])->get(); //sms credentials
+                            $smsType = "T_sms";
                             $msgType = "TEXT";
+                            $userId = "2000161552";
+                            $password = "Nextedge@2016#";
+                            if ($customer == 'Yes'){
+                                $mask = "EDDEMO";}
+                            else{
+                                $mask = "BMSSYS";}
                         }
 
                         $clientData = SystemConfig::select('client_id')->where(['id' => 1])->get(); //get client id
@@ -48,14 +57,8 @@ class Gupshup {
                         if ($isInternational == 1) {
                             $userId = "2000163069";
                             $password = "Nextedge@2016#";
-                        } else {
-                            $userId = $smsApi[0]['email_id'];
-                            $password = $smsApi[0]['email_pwd'];
-                        }
-                        if ($customer == 'Yes')
-                            $mask = $smsApi[0]['client_id'];
-                        else
-                            $mask = $smsApi[0]['system_id'];
+                        } 
+                        
 
                         $param = ["method" => "sendMessage", "send_to" => $mobileNo, "msg" => $smsBody, "userid" => $userId, "password" => $password, "mask" => $mask, "v" => "1.1", "msg_type" => $msgType, "auth_scheme" => "PLAIN"];
                         //Have to encode the url values 
@@ -174,8 +177,8 @@ class Gupshup {
             $filePath = $data['filePath'];
             $fileName = $data['fileName'];
             $sendingType = $data['sendingType'];
-            $totalSmsCredits = Credit::select('sms_credit_limit', 'sms_status')->where(['id' => 1])->get();
-            $smsApi = EmailPassword::select('email_id', 'email_pwd', 'type')->where(['id' => 1])->get(); //sms credentials
+            $totalSmsCredits = VasCredit::select('sms_credit_limit', 'sms_status')->where(['id' => 1])->get();
+            //$smsApi = EmailPassword::select('email_id', 'email_pwd', 'type')->where(['id' => 1])->get(); //sms credentials
 
             if ($totalSmsCredits[0]['sms_status'] == '1') {
                 $smsBody = $data['textSmsBody'];
@@ -225,12 +228,12 @@ class Gupshup {
                      
                     $clientId = $clientData[0]['client_id'];
                     $clientType = '';
-                    $smsType = $smsApi[0]['type'];                    
+                    $smsType = "P_SMS";                    
                     $folder = 'bulk_sms';
                     
                     $postData = ["method" => "xlsUpload", 
-                        "userid" => $smsApi[0]['email_id'], 
-                        "password" => $smsApi[0]['email_pwd'], 
+                        "userid" => "2000161554", 
+                        "password" => "Nextedge@2016#", 
                         "filetype" => "xls",                         
                         "v" => "1.1", 
                         "auth_scheme" => "PLAIN",

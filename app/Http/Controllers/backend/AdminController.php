@@ -17,9 +17,9 @@ use App\Models\MlstCity;
 use App\Models\ClientInfo;
 use App\Models\EnquirySource;
 use App\Models\EnquirySubSource;
+use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
-use App\Models\MlstProfession;
 use App\Models\MlstVertical;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
@@ -64,6 +64,7 @@ class AdminController extends Controller {
         $smsType = "T_SMS";
         $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
         $decodeResult = json_decode($result,true);
+        
         return $decodeResult["message"];
         echo "<pre>";print_r($decodeResult);exit;*/
         
@@ -205,13 +206,14 @@ class AdminController extends Controller {
         $getTitle = MlstTitle::all();
         $getGender = MlstGender::all();
         $getBloodGroup = MlstBloodGroup::all();
-        $getDepartments = MlstDepartment::all();
+        $getDepartments = MlstDepartments::all();
         $getEducationList = MlstEducation::all();
         $getEnquirySource = EnquirySource::all();
         $getEnquirySubSource = EnquirySubSource::all();
+        $getMlstProfession = MlstProfession::all();
         $getEmployees = Employee::select('id', 'first_name')->get();
         if (!empty($getTitle)) {
-            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource];
+            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
