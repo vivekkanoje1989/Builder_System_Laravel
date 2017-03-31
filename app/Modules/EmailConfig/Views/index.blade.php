@@ -1,9 +1,10 @@
-<div class="row" ng-controller="emailconfigCtrl" ng-init="manageEmailConfig(0)">
+<div class="row" ng-controller="emailconfigCtrl" ng-init="manageEmailConfig('index')">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Configure Email Accounts</span>
                 <div class="widget-buttons">
+                    <a class="btn btn-info" href="#/[[config('global.getUrl')]]/emailConfig/create/">Create Account</a>
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
                     <a href="" widget-dispose></a>
@@ -28,7 +29,7 @@
                             <td>{{listmail.email }}</td>
                             <td><input type="password" value="{{listmail.password }}" style="border:none;background: transparent;" disabled></td>
                             <td>Gmail</td>          
-                            <td>{{ listmail.department_id }}</td>
+                            <td>{{ listmail.deptName }}</td>
 <!--                            <td>Test</td>-->
                             <td class="fa-div">
                                 <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/[[config('global.getUrl')]]/emailConfig/update/{{ listmail.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>

@@ -9,7 +9,7 @@ use App\Models\backend\Employee;
 use App\Models\MlstTitle;
 use App\Models\MlstGender;
 use App\Models\MlstBloodGroup;
-use App\Modules\ManageDepartment\Models\MlstDepartment;
+use App\Modules\ManageDepartment\Models\MlstBmsbDepartment;
 use App\Models\MlstEducation;
 use App\Models\MlstCountry;
 use App\Models\MlstState;
@@ -169,7 +169,7 @@ class AdminController extends Controller {
     }
 
     public function getDepartments() {
-        $getDepartments = MlstDepartment::all();
+        $getDepartments =MlstBmsbDepartment::all();
         if (!empty($getDepartments)) {
             $result = ['success' => true, 'records' => $getDepartments];
             return $result;

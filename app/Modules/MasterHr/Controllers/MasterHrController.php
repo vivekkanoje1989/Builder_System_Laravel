@@ -468,9 +468,9 @@ class MasterHrController extends Controller {
                     $team['emp_photo_url'] = 'https://s3-ap-southeast-1.amazonaws.com/bmsbuilderdotin/admin_users/avatars/' . $team['emp_photo_url'];
                 }
                 if ($team['employee_status'] == 2) {
-                    $data[$key]['f'] = '<center><img src="' . $team['emp_photo_url'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:red">Temporary Suspended</b></div>';
+                    $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['emp_photo_url'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:red">Temporary Suspended</b></div>';
                 } else {
-                    $data[$key]['f'] = '<center><img src="' . $team['emp_photo_url'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:Green">Active</b></div>';
+                    $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['emp_photo_url'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:Green">Active</b></div>';
                 }
                 $data[$key]['teamId'] = $team['team_lead_id'];
                 $data[$key]['designation'] = $team['designation'];

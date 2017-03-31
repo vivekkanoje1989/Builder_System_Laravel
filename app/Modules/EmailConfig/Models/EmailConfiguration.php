@@ -25,14 +25,11 @@ class EmailConfiguration extends Eloquent
 {
 	protected $table = 'email_configuration';
 	public $timestamps = false;
-
+        protected $primaryKey = 'id';   
 	protected $casts = [
 		'client_id' => 'int'
 	];
 
-//	protected $hidden = [
-//		'password'
-//	];
 
 	protected $fillable = [
 		'client_id',

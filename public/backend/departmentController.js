@@ -7,16 +7,22 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
             });
         };
         $scope.initialModal = function (id) {
-            $scope.heading = 'Department';
-            if(id >0 )
+            $scope.heading = 'Departments';
+            if (id > 0)
             {
-               // alert();
-               //$scope.departmentData.department_name="uma";
+                Data.post('manage-department/getDepartment',{id:id}).then(function (response) {
+                   console.log(response.records);
+                    $("#department_name").val(response.records[0]['department_name']);
+                    //document.getElementById("vertical_id").selectedIndex = 1;
+                   // $("#vertical_id").val(response.records[0]['name'])
+                });
+               
+                //$scope.departmentData.department_name="uma";
             }
             $scope.id = id;
         }
-        
-       
+
+
         $scope.doDepartmentAction = function (deptData) {
             $scope.errorMsg = '';
             if ($scope.id === 0) //for create

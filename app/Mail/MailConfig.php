@@ -28,6 +28,6 @@ class MailConfig extends Mailable
      */
     public function build()
     {
-        //
+        return $this->view('layouts.backend.email_template');
     }
 }

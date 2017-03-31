@@ -78,7 +78,7 @@ class MenuItems {
                     )),
                     6 => array('id' => '020206', 'name' => 'Configure email accounts', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '02020601', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
-                        1 => array('id' => '02020601', 'name' => 'Manage', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        1 => array('id' => '02020601', 'name' => 'Manage', 'icon' => '','url' => '/'.$getUrl.'/emailConfig/index', 'slug' => '.emailConfigIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     )),
                     7 => array('id' => '020207', 'name' => 'API Management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
                     'submenu_ids' => '02020701,02020702', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
@@ -226,7 +226,7 @@ class MenuItems {
                     1 => array('id' => '070201', 'name' => 'Email to Ids', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active'),
                     2 => array('id' => '070202', 'name' => 'Emails to Customers', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     3 => array('id' => '070203', 'name' => 'Emails Sent by Me', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    4 => array('id' => '070204', 'name' => 'Emails Sent by Team', 'icon' => '', 'url' => '/'.$getUrl.'/emailConfig/index', 'slug' => '.emailConfig', 'uiSrefActive' => 'active', 'total_submenu' => 1),                    
+                    4 => array('id' => '070204', 'name' => 'Emails Sent by Team', 'icon' => '', 'url' => '#', 'slug' => '', 'uiSrefActive' => 'active', 'total_submenu' => 1),                    
                 )),
                 3 => array('id' => '0703', 'name' => 'Marketing Campaigning', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                     'submenu_ids' => '070301,070302,070303', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
