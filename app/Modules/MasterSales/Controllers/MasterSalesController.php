@@ -51,6 +51,7 @@ class MasterSalesController extends Controller {
                     $input = Input::all();
                     $input['customerData']['loggedInUserId'] = Auth::guard('admin')->user()->id;
                 }
+                echo json_encode($input);exit;
 
                 $validationRules = Customer::validationRules();
                 $validationMessages = Customer::validationMessages();
@@ -73,16 +74,19 @@ class MasterSalesController extends Controller {
                 $input['customerData']['marriage_date'] =  date('Y-m-d', strtotime($input['customerData']['marriage_date']));
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                 $input['customerData'] = array_merge($input['customerData'],$create);
-                $createCustomer = Customer::create($input['customerData']); //insert data into employees table
+//                
+                //$createCustomer = Customer::create($input['customerData']); //insert data into employees table
 
-                CustomersLog::create($input['customerData']);  
+                //CustomersLog::create($input['customerData']);  
                 $input['customerData']['main_record_id'] = $createCustomer->id;
                 $input['customerData']['record_type'] = 1;
                 $input['customerData']['record_restore_status'] = 1;
-
+                
+                $createCustomerId = $createCustomer->id;
                 if(!empty($input['customerContacts'])){
+                    echo "<pre>";print_r($input['customerContacts']);exit;
                     foreach($input['customerContacts'] as $contacts){
-                        $contacts['customer_id'] = $createCustomer->id;
+                        $contacts['customer_id'] = (int)$createCustomerId;
                         $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = 
                         $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] =  $contacts['email_optin_status'] = 
                         $contacts['email_verification_status'] = $contacts['mobile_verification_timestamp'] = 0;

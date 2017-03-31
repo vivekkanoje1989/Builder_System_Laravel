@@ -1,7 +1,4 @@
 <div class="row" ng-controller="statesCtrl" ng-init="manageStates(); manageCountry();">  
- <div>
-          <flash-message duration="5000"></flash-message>
- </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">

@@ -254,13 +254,44 @@ angular.module('app')
                     ]
                 }
             })
-            .state(getUrl + '.createProjects', {
+            .state(getUrl + '.projectsCreate', {
                 url: '/projects/create',
                 templateUrl: getUrl + '/projects/create',
                 controller: 'projectsController',
                 requiredLogin: true,
                 ncyBreadcrumb: {
                     label: 'Create Project',
+                    description: ''
+                },
+                resolve: {
+                    deps: 
+                        [
+                        '$ocLazyLoad',
+                        function($ocLazyLoad) {
+                            return $ocLazyLoad.load('toaster').then(
+                                function() {
+                                    return $ocLazyLoad.load({
+                                            serie: true,
+                                            files: [
+                                                '/backend/projectsController.js',
+                                                '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                '/backend/app/controllers/tab.js',
+                                            ]
+                                        }
+                                    );
+                                }
+                            );
+                        }
+                    ]
+                }
+            })
+            .state(getUrl + '.createProjectsIndex', {
+                url: '/projects/index',
+                templateUrl: getUrl + '/projects/',
+                controller: 'projectsController',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Manage Project',
                     description: ''
                 },
                 resolve: {
@@ -271,14 +302,44 @@ angular.module('app')
                                 serie: true,
                                 files: [
                                     '/backend/projectsController.js',
-                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                    '/backend/app/controllers/tab.js',
                                 ]
                             });
                         }
                     ]
                 }
             })
+            .state(getUrl + '.projectsWebPage', {
+                url: '/projects/webpage',
+                templateUrl: getUrl + '/projects/webPage',
+                controller: 'projectsController',
+                requiredLogin: true,
+                ncyBreadcrumb: {
+                    label: 'Project Web Page',
+                    description: ''
+                },
+                resolve: {
+                    deps: 
+                        [
+                        '$ocLazyLoad',
+                        function($ocLazyLoad) {
+                            return $ocLazyLoad.load('toaster').then(
+                                function() {
+                                    return $ocLazyLoad.load({
+                                            serie: true,
+                                            files: [
+                                                '/backend/projectsController.js',
+                                                '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                '/backend/app/controllers/tab.js',
+                                            ]
+                                        }
+                                    );
+                                }
+                            );
+                        }
+                    ]
+                }
+            })
+            
             /************************************ uma ******************************/ 
                 .state(getUrl+'.propertyPortalIndex', {
                     url: '/propertyportals/index',

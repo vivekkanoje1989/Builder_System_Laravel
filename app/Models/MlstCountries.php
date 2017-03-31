@@ -20,7 +20,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class MlstCountries extends Eloquent
 {
 	protected $primaryKey = 'id';
-	 protected $connection = 'masterdb';
+        protected $connection = 'masterdb';
 	public $timestamps = false;
 
 	protected $fillable = [

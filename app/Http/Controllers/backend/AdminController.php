@@ -15,7 +15,7 @@ use App\Models\MlstCountry;
 use App\Models\MlstState;
 use App\Models\MlstCity;
 use App\Models\ClientInfo;
-use App\Models\EnquirySource;
+use App\Models\MlstEnquirySalesSource;
 use App\Models\EnquirySubSource;
 use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
@@ -208,7 +208,7 @@ class AdminController extends Controller {
         $getBloodGroup = MlstBloodGroup::all();
         $getDepartments = MlstBmsbDepartment::all();
         $getEducationList = MlstEducation::all();
-        $getEnquirySource = EnquirySource::all();
+        $getEnquirySource = MlstEnquirySalesSource::all();
         $getEnquirySubSource = EnquirySubSource::all();
         $getMlstProfession = MlstProfession::all();
         $getEmployees = Employee::select('id', 'first_name')->get();
@@ -283,7 +283,7 @@ class AdminController extends Controller {
     }
 
     public function getEnquirySource() {
-        $getSource = EnquirySource::all();
+        $getSource = MlstEnquirySalesSource::all();
         if (!empty($getSource)) {
             $result = ['success' => true, 'records' => $getSource];
             return json_encode($result);

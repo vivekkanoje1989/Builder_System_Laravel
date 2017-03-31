@@ -117,6 +117,7 @@ class MasterHrController extends Controller {
         $input  = json_decode($postdata, true);        
         if(empty($input)){
             $input = Input::all();
+            $input['userData']['loggedInUserId'] = Auth::guard('admin')->user()->id;
         }
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         if(!empty($input['userData'])){
@@ -149,12 +150,9 @@ class MasterHrController extends Controller {
             
             $input['userData']['password'] = \Hash::make($input['userData']['password']);
             $input['userData']['remember_token'] = str_random(10);
-          // $input['userData'][''] = '0000:00:00';
+
             if(!empty($input['userData']['loggedInUserId'])){
                 $loggedInUserId = $input['userData']['loggedInUserId'];
-            }
-            else{
-                $loggedInUserId = Auth::guard('admin')->user()->id;
             }
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['userData'] = array_merge($input['userData'],$create);            
@@ -171,7 +169,7 @@ class MasterHrController extends Controller {
                 $result = ['success' => true, 'message' => 'Employee registeration successfully', "empId" => $employee->id];
                 echo json_encode($result);
             } else {
-                $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
+                $result = ['success' => false, 'message' => 'Something went wrong.'];
                 echo json_encode($result);
             }
         }

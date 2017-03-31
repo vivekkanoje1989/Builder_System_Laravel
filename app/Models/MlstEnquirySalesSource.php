@@ -32,10 +32,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class EnquirySource extends Eloquent
+class MlstEnquirySalesSource extends Eloquent
 {
 	public $incrementing = false;
-
+        protected $connection = 'masterdb';
 	protected $casts = [
 		'id' => 'int',
 		'client_id' => 'int',

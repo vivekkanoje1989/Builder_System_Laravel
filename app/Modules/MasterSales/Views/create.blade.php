@@ -20,7 +20,7 @@
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
-            <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
+            <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
                     <form novalidate role="form" name="customerForm" ng-submit="customerForm.$valid && createCustomer(customerData, customerData.image_file, contactData)">
                         <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'">
@@ -576,7 +576,7 @@
                                 </div>   
                             </div>
                             <div class="modal-footer" align="center">
-                                <button type="submit" class="btn btn-sub" ng-click="modalSbtBtn=true">Submit</button>
+                                <button type="submit" class="btn btn-primary" ng-click="modalSbtBtn=true">Submit</button>
                             </div>
                         </form>
                     </div>
