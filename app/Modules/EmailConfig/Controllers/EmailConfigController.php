@@ -26,12 +26,11 @@ class EmailConfigController extends Controller {
             $getEmailConfigs = EmailConfiguration::where('id', $input['id'])->get();
             $arr = explode(',', $getEmailConfigs[0]['department_id']);
             $getDepartment = MlstBmsbDepartment::whereIn('id', $arr)->get();
-            $getEmailConfigs[0]['email'] = utf8_decode($getEmailConfigs[0]['email']);
-            $getEmailConfigs[0]['password'] = utf8_decode($getEmailConfigs[0]['password']);
+            //$getEmailConfigs[0]['password'] = base64_decode($getEmailConfigs[0]['password']);
         } else { // index mail configuration 
             $getEmailConfigs = EmailConfiguration::select('id', 'email', 'password', 'department_id', 'status')->get();
             foreach ($getEmailConfigs as $getEmailConfig) {
-                $getEmailConfig['email'] = utf8_decode($getEmailConfig['email']);
+                //$getEmailConfig['password'] = base64_decode($getEmailConfig['password']);
                 $arr = explode(',', $getEmailConfig['department_id']);
                 $getDepartment = '';
                 $getDepartments = MlstBmsbDepartment::whereIn('id', $arr)->select('department_name')->get();
@@ -55,7 +54,6 @@ class EmailConfigController extends Controller {
     public function testEmail() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-        // $data = MlstBmsbVertical::find(1)->deparments;
         $userName = $input['email'];
         $password = $input['password'];
         $mailBody = "Testing mail " . "<br><br>" . "Thank You!";
@@ -84,6 +82,7 @@ class EmailConfigController extends Controller {
     public function store() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
+       // $input['emaildata']['password'] = base64_encode($input['emaildata']['password']);
         if (!empty($input['emaildata']['departmentid'])) {
             $input['emaildata']['department_id'] = $input['emaildata']['departmentid'];
         } else {
@@ -110,32 +109,14 @@ class EmailConfigController extends Controller {
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function show($id) {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function edit($id) {
         return view('EmailConfig::manageEmailConfig')->with('id', $id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function update($id) {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
@@ -159,12 +140,6 @@ class EmailConfigController extends Controller {
         return json_encode($result);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function destroy($id) {
         
     }

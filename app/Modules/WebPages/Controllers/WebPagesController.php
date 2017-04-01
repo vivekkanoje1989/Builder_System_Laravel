@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Modules\WebPages\Controllers;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,6 +10,7 @@ use Validator;
 use App\Classes\CommonFunctions;
 use Illuminate\Support\Facades\Input;
 use App\Classes\S3;
+use Auth;
 
 class WebPagesController extends Controller {
 
@@ -35,15 +38,15 @@ class WebPagesController extends Controller {
     public function create() {
         //
     }
-    
+
     public function store() {
         //
     }
-    
+
     public function show($id) {
         //
     }
-    
+
     public function edit($id) {
         return view("WebPages::updateWebPage")->with("pageId", $id);
     }
@@ -75,7 +78,12 @@ class WebPagesController extends Controller {
                 exit;
             }
         }
-        $update = CommonFunctions::updateMainTableRecords();
+        if (!empty($input['userData']['loggedInUserId'])) {
+            $loggedInUserId = $input['userData']['loggedInUserId'];
+        } else {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        }
+        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $obj['contentData'] = array_merge($obj['contentData'], $update);
         $updatedata = WebPage::where('id', $obj['pageId'])->update($obj['contentData']);
         $result = ['success' => true, 'message' => 'page updated successfully'];
@@ -96,31 +104,26 @@ class WebPagesController extends Controller {
     }
 
     public function updateWebPageImage() {
-        $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
         $input = Input::all();
-        $name = implode(",", $input['imageData']);
-        $s3FolderName ='Banner-Images';  
-        $name .= S3::s3FileUplod($input['uploadImage'], $s3FolderName,$input['totalImages']);
-        
-        /*  * *************** image upload  ****************** */
-        /* $cnt = count($input['uploadImage']); 
-         * for ($i = 0; $i < $cnt - 1; $i++) {
-          $fileName = time() . $i . '.' . $input['uploadImage'][$i]->getClientOriginalExtension();
-          $input['uploadImage'][$i]->move(base_path() . "/public/images/", $fileName);
-          $name .= ',' . $fileName;
-          } */
+        if (array_key_exists('imageData', $input)) {
+            $name = implode(",", $input['imageData']);
+        } else {
+            $name = '';
+        }
+        $s3FolderName = 'Banner-Images';
+        $name .= S3::s3FileUplod($input['uploadImage'], $s3FolderName, $input['totalImages']);
         $name = trim($name, ",");
         $updatedata = WebPage::where('id', $input['pageId'])->update(['banner_images' => $name]);
         $result = ['success' => true, 'message' => 'Image updated successfully'];
         echo json_encode($result);
     }
+
     public function removeWebPageImage() {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
         $name = implode(',', $obj['allimg']);
         $s3FolderName = 'Banner-Images';
-        $msg = S3::s3FileDelete($obj['imageName'],$s3FolderName);
+        $msg = S3::s3FileDelete($obj['imageName'], $s3FolderName);
 
         /* if (file_exists(base_path() . '/public/images/' . $obj['imageName'])) {
           unlink(base_path() . "/public/images/" . $obj['imageName']);

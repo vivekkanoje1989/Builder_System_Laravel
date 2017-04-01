@@ -1,5 +1,5 @@
 'use strict';
-app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse) {
+app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', 'toaster', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse, toaster) {
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
 
@@ -21,9 +21,10 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
             }).then(function (response) {
                 if (!response.success)
                 {
-
+                    toaster.pop('error', 'Web Page', 'Something Went Wrong!!');
                 } else
                 {
+                    toaster.pop('success', 'Web Page', 'Page updated successfully.');
                     $state.go(getUrl + '.webPagesIndex');
                 }
             });
@@ -44,11 +45,11 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                 $scope.err_msg = '';
                 var imgCount = document.getElementById("banner_images").files.length;
                 allimg.push(imageData['name']);
-                
+
                 var url = getUrl + '/web-pages/updateWebPageImage';
-                
+
                 var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount};
-                
+
                 imageData.upload = Upload.upload({
                     url: url,
                     headers: {enctype: 'multipart/form-data'},
@@ -57,7 +58,7 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                 imageData.upload.then(function (response) {
                     $timeout(function () {
                         if (!response.data.success) {
-                            alert("wrong");
+                            toaster.pop('error', 'Banner Image', 'Image not uploaded');
                         } else
                         {
                             Data.post('web-pages/getImages', {
@@ -65,6 +66,7 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                             }).then(function (response) {
                                 var arraydata = response.records[0]['banner_images'].split(',');
                                 $scope.imgs = arraydata;
+                                toaster.pop('success', 'Banner Image', 'Image uploaded successfully.');
                             });
                         }
                     });
@@ -89,10 +91,10 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                     }).then(function (response) {
                         if (!response.success)
                         {
-
+                            toaster.pop('success', 'Banner Image', 'Image remove successfully.');
                         } else
                         {
-                            // $state.go(getUrl+'.contentPagesIndex');
+                            toaster.pop('success', 'Banner Image', 'Image remove successfully.');
                         }
                     });
                 }
@@ -100,6 +102,5 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
             {
 
             }
-
         }
     }]);

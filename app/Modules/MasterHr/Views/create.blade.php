@@ -33,7 +33,7 @@
                                     <select ng-model="userData.title" ng-controller="titleCtrl" name="title" class="form-control" required="required">
                                         <option value="">Select Title</option>
                                         <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == userData.title}}">{{t.title}}</option>
-                                    </select>{{ userData.title}}
+                                    </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.title.$error" class="help-block step1">
                                         <div ng-message="required">This field is required.</div>
@@ -504,8 +504,8 @@
                             <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.emp_photo_url.$invalid)}">
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="file" multiple ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
-                                    <img src="[[config('global.s3Path')]]/employee_photo/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
+                                    <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
+                                    <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Employee-Photos/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
                                     <div ng-show="step3 || invalidImage" ng-messages="userForm.emp_photo_url.$error" class="help-block step3">
                                         <div ng-show="invalidImage">{{ invalidImage }}</div>
                                         <div ng-message="required">This field is required.</div>
@@ -634,20 +634,20 @@
                                 <div class="control-group">
                                     <div class="radio">
                                         <label>
-                                            <input name="form-field-radio" type="radio" ng-model="userData.employee_status" value="1" class="colored-blue">
+                                            <input name="form-field-radio" type="radio" ng-model="userData.employee_status" value="1" class="colored-success">
                                             <span class="text">Active </span>
                                         </label>
                                     </div>
 
                                     <div class="radio">
                                         <label>
-                                            <input name="form-field-radio" type="radio" ng-model="userData.employee_status" value="2" class="colored-danger">
+                                            <input name="form-field-radio" type="radio" ng-model="userData.employee_status" value="2" class="colored-blue">
                                             <span class="text">  Temporary Suspended </span>
                                         </label>
                                     </div>
                                     <div class="radio">
                                         <label>
-                                            <input name="form-field-radio" type="radio" ng-model="userData.employee_status" value="3" class="colored-success">
+                                            <input name="form-field-radio" type="radio" ng-model="userData.employee_status" value="3" class="colored-danger">
                                             <span class="text"> Permanently Suspended  </span>
                                         </label>
                                     </div>
