@@ -24,7 +24,7 @@ use App\Models\MlstVertical;
 use App\Models\LstEnquiryLocation;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
-use App\Modules\PropertyPortals\Models\PropertyPortalsType;
+use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
 use App\Modules\WebPages\Models\WebPage;
 
 class AdminController extends Controller {
@@ -345,7 +345,7 @@ class AdminController extends Controller {
     }
 
     public function getPropertyPortalType() {
-        $getPropertyPortal = PropertyPortalsType::all();
+        $getPropertyPortal = MlstBmsbPropertyPortal::all();
         if (!empty($getPropertyPortal)) {
             $result = ['success' => true, 'records' => $getPropertyPortal];
             return json_encode($result);

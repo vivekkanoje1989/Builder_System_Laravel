@@ -4,10 +4,10 @@ angular.module('app')
                 [
                     '$rootScope', '$state', '$stateParams',
                     function ($rootScope, $state, $stateParams) {
-                }
-            ]
-        )
-       .config(
+                    }
+                ]
+                )
+        .config(
                 ['$stateProvider', '$urlRouterProvider',
                     function ($stateProvider, $urlRouterProvider) {
                         $urlRouterProvider
@@ -395,17 +395,23 @@ angular.module('app')
                                         description: ''
                                     },
                                     resolve: {
-                                        deps: [
+                                        deps:
+                                        [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/webPageController.js',
-                                                    ]
-                                                });
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/webPageController.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
                                             }
-                                        ]
+                                        ]                                      
                                     }
                                 })
                                 .state(getUrl + '.webPagesUpdate', {
@@ -419,20 +425,21 @@ angular.module('app')
                                         description: ''
                                     },
                                     resolve: {
-                                        deps: [
+                                        deps:
+                                        [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['textAngular']).then(
+                                                return $ocLazyLoad.load(['textAngular', 'toaster']).then(
                                                         function () {
-                                                            return $ocLazyLoad.load(
-                                                                    {
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/app/controllers/textangular.js',
-                                                                            '/backend/webPageController.js',
-                                                                            '/backend/app/controllers/select.js',
-                                                                        ]
-                                                                    });
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/textangular.js',
+                                                                    '/backend/webPageController.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
                                                         }
                                                 );
                                             }
@@ -447,17 +454,23 @@ angular.module('app')
                                         label: 'Configure Email Accounts'
                                     },
                                     resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/emailConfigController.js',
-                                                    ]
-                                                });
-                                            }
-                                        ]
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load(['ui.select', {
+                                                                            serie: true,
+                                                                            files: [
+                                                                                '/backend/emailConfigController.js',
+                                                                            ]
+                                                                        }]
+                                                                            );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
                                     }
                                 })
                                 .state(getUrl + '.updateEmailConfig', {
@@ -496,50 +509,50 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                        [
-                                            '$ocLazyLoad',
-                                            function($ocLazyLoad) {
-                                                return $ocLazyLoad.load('toaster').then(
-                                                    function() {
-                                                        return $ocLazyLoad.load(['ui.select', {
-                                                                serie: true,
-                                                                files: [
-                                                                    '/backend/emailConfigController.js',
-                                                                ]
-                                                            }]
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load(['ui.select', {
+                                                                            serie: true,
+                                                                            files: [
+                                                                                '/backend/emailConfigController.js',
+                                                                            ]
+                                                                        }]
+                                                                            );
+                                                                }
                                                         );
                                                     }
-                                                );
+                                                ]
+                                    }
+                                })
+                                /****************************UMA************************************/
+                                /****************************MANDAR*********************************/
+                                .state(getUrl + '.cloudtelephony', {
+                                    url: '/cloudtelephony/create',
+                                    templateUrl: getUrl + '/cloudtelephony/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Virtual Number Registration',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/cloudtelephonyController.js',
+                                                            '/backend/app/controllers/datepicker.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
                                             }
                                         ]
                                     }
                                 })
-                        /****************************UMA************************************/
-                        /****************************MANDAR*********************************/
-                        .state(getUrl + '.cloudtelephony', {
-                            url: '/cloudtelephony/create',
-                            templateUrl: getUrl + '/cloudtelephony/create',
-                            requiredLogin: true,
-                            ncyBreadcrumb: {
-                                label: 'Virtual Number Registration',
-                                description: ''
-                            },
-                            resolve: {
-                                deps: [
-                                    '$ocLazyLoad',
-                                    function ($ocLazyLoad) {
-                                        return $ocLazyLoad.load(['ui.select', {
-                                                serie: true,
-                                                files: [
-                                                    '/backend/cloudtelephonyController.js',
-                                                    '/backend/app/controllers/datepicker.js',
-                                                    '/backend/app/controllers/select.js',
-                                                ]
-                                            }]);
-                                    }
-                                ]
-                            }
-                        })
 
                                 .state(getUrl + '.virtualnumberslist', {
                                     url: '/virtualnumber/index',

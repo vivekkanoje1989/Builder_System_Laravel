@@ -1,22 +1,23 @@
 <?php
 
 /**
- * Created by uma
- * Date: Fri, 10 Mar 2017 11:05:22 +0530.
+ * Created by Reliese Model.
+ * Date: Sat, 01 Apr 2017 15:23:53 +0530.
  */
-
 namespace App\Modules\PropertyPortals\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
+
 /**
- * Class PropertyPortal
+ * Class LstPropertyPortalsConfig
  * 
  * @property int $id
- * @property int $property_portal_type_id
+ * @property int $api_type
+ * @property int $property_portal_id
  * @property string $username
  * @property string $password
  * @property string $api_key
  * @property string $portal_name
- * @property int $assign_employee
+ * @property int $enquiry_alocation_types
  * @property string $employee_id
  * @property int $project_id
  * @property int $status
@@ -32,36 +33,50 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $updated_IP
  * @property string $updated_browser
  * @property string $updated_mac_id
+ * @property int $deleted_status
+ * @property \Carbon\Carbon $deleted_date
+ * @property int $deleted_by
+ * @property int $deleted_IP
+ * @property int $deleted_browser
+ * @property int $deleted_mac_id
  *
  * @package App\Models
  */
-class PropertyPortal extends Eloquent
+class LstPropertyPortalsConfig extends Eloquent
 {
 	protected $casts = [
-		'property_portal_type_id' => 'int',
-		'assign_employee' => 'int',
+		'api_type' => 'int',
+		'property_portal_id' => 'int',
+		'enquiry_alocation_types' => 'int',
 		'project_id' => 'int',
 		'status' => 'int',
 		'created_by' => 'int',
-		'updated_by' => 'int'
+		'updated_by' => 'int',
+		'deleted_status' => 'int',
+		'deleted_by' => 'int',
+		'deleted_IP' => 'int',
+		'deleted_browser' => 'int',
+		'deleted_mac_id' => 'int'
 	];
 
 	protected $dates = [
 		'created_date',
-		'updated_date'
+		'updated_date',
+		'deleted_date'
 	];
 
-//	protected $hidden = [
-//		'password'
-//	];
+	protected $hidden = [
+		'password'
+	];
 
 	protected $fillable = [
-		'property_portal_type_id',
+		'api_type',
+		'property_portal_id',
 		'username',
 		'password',
 		'api_key',
 		'portal_name',
-		'assign_employee',
+		'enquiry_alocation_types',
 		'employee_id',
 		'project_id',
 		'status',
@@ -74,6 +89,12 @@ class PropertyPortal extends Eloquent
 		'updated_by',
 		'updated_IP',
 		'updated_browser',
-		'updated_mac_id'
+		'updated_mac_id',
+		'deleted_status',
+		'deleted_date',
+		'deleted_by',
+		'deleted_IP',
+		'deleted_browser',
+		'deleted_mac_id'
 	];
 }
