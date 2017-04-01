@@ -59,6 +59,10 @@ class MasterHrController extends Controller {
     }
     
     public function manageRolesPermission() {
+        echo "==".Auth::guard('admin')->user()->id;
+        
+        
+        
         if( Auth::guard('admin')->user()->id == 1){ 
             $roles = EmployeeRole::all();
             return view("MasterHr::manageroles")->with("roles",$roles);

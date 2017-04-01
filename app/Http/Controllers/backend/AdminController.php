@@ -21,6 +21,7 @@ use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
 use App\Models\MlstVertical;
+use App\Models\LstEnquiryLocation;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\PropertyPortalsType;
@@ -259,7 +260,21 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-
+    public function getLocations() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $countryId = $request['data']['countryId'];
+        $stateId = $request['data']['stateId'];
+        $cityId = $request['data']['cityId'];
+        $getLocations = LstEnquiryLocation::where(['country_id'=> $countryId,'state_id'=> $stateId,'city_id'=> $cityId])->get();
+        if (!empty($getLocations)) {
+            $result = ['success' => true, 'records' => $getLocations];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
     public function checkUniqueEmail() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);

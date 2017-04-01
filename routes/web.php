@@ -71,14 +71,6 @@ Route::group(['middleware' =>[ 'web']], function () {
     Route::get('user/password/reset/{token}', 'frontend\Auth\ResetPasswordController@showResetForm');
     Route::post('user/password/reset', 'frontend\Auth\ResetPasswordController@reset');
     
-    
-    /*********************************************** API **********************************************************/
-    
-    Route::post('api/authenticate', 'backend\Auth\LoginController@authenticate');
-    Route::post('api/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
-    Route::get('api/getMasterData', 'backend\AdminController@getMasterData');       
-    
-    /*********************************************** API **********************************************************/
 });
 
 Route::group(['middleware' =>['auth:admin']], function () { 
@@ -104,6 +96,7 @@ Route::group(['middleware' =>['auth:admin']], function () {
     Route::get($getUrl.'/getVerticals', 'backend\AdminController@getVerticals'); //uma
     Route::post($getUrl.'/getStates', 'backend\AdminController@getStates');
     Route::post($getUrl.'/getCities', 'backend\AdminController@getCities');
+    Route::post($getUrl.'/getLocations', 'backend\AdminController@getLocations');
     Route::post($getUrl.'/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
     Route::get($getUrl.'/getEnquirySource', 'backend\AdminController@getEnquirySource');
     Route::post($getUrl.'/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');

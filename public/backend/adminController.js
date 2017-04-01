@@ -165,7 +165,7 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
             $scope.countryList = response.records;
         }
     });
-    $scope.onCountryChange = function () {
+    $scope.onCountryChange = function () {//for state list
         $scope.stateList = "";
         Data.post('getStates', {
             data: {countryId: $("#current_country_id").val()},
@@ -177,7 +177,7 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
             }
         });
     };
-    $scope.onStateChange = function () {
+    $scope.onStateChange = function () {//for city list
         $scope.cityList = "";
         Data.post('getCities', {
             data: {stateId: $("#current_state_id").val()},
@@ -186,6 +186,18 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
                 $scope.errorMsg = response.message;
             } else {
                 $scope.cityList = response.records;
+            }
+        });
+    };
+    $scope.onCityChange = function () { //for location list
+        $scope.locationList = "";
+        Data.post('getLocations', {
+            data: {countryId: $("#current_country_id").val(),stateId: $("#current_state_id").val(),cityId: $("#current_city_id").val()},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.locationList = response.records;
             }
         });
     };
