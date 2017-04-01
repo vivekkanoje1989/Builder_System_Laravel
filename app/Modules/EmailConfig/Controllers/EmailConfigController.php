@@ -139,9 +139,6 @@ class EmailConfigController extends Controller {
     public function update($id) {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-
-        print_r($input['emaildata']);
-        exit;
         if (!empty($input['emaildata']['departmentid'])) {
             $input['emaildata']['department_id'] = $input['emaildata']['departmentid'];
         } else {
