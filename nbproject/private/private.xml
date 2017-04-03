@@ -2,23 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group>
             <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/app/config.router.js</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/Views/manageEmailConfig.blade.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/hrController.js</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/routes.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/PropertyPortals/Models/LstPropertyPortalsConfig.php</file>
             <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/emailConfigController.js</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Models/backend/Employee.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/Views/index.blade.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Classes/S3.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Views/create.blade.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/propertyPortalsController.js</file>
             <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/Controllers/EmailConfigController.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/routes/web.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/BlogManagement/Models/WebBlogs.php</file>
             <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Classes/CommonFunctions.php</file>
             <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/PropertyPortals/Controllers/PropertyPortalsController.php</file>
+            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/webPageController.js</file>
         </group>
-=======
-        <group/>
->>>>>>> bd535f29bfedbd699035645919b0b1aac06857ed
     </open-files>
 </project-private>

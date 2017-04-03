@@ -463,6 +463,33 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                .state(getUrl + '.employeeDeviceIndex', {
+                                    url: '/employeeDevice/index',
+                                    templateUrl: getUrl + '/employee-device/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Employee Device Management'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load(['ui.select', {
+                                                                            serie: true,
+                                                                            files: [
+                                                                                '/backend/emailConfigController.js',
+                                                                            ]
+                                                                        }]
+                                                                            );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
                                 /****************************UMA************************************/
                                 /****************************MANDAR*********************************/
                                 .state(getUrl + '.cloudtelephony', {

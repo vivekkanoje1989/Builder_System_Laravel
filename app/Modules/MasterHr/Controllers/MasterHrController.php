@@ -291,7 +291,7 @@ class MasterHrController extends Controller {
                 } else {                             
                     $folderName = 'Employee-Photos';
                     $image = ['0' => $input['emp_photo_url']]; 
-                    print_r($image);exit;
+                   // print_r($image);exit;
                     $imageName = S3::s3FileUplod($image, $folderName, 1);
                     $imageName = trim($imageName,',');
                 }

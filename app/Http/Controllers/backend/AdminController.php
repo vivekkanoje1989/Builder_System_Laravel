@@ -353,7 +353,7 @@ class AdminController extends Controller {
     /***************************MANDAR*********************************/
 
     public function getEmployees() {
-        $getEmployees = Employee::select('id', 'first_name','last_name','designation')->where("client_id", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name','last_name','designation_id')->where("client_id", 1)->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
             return $result;

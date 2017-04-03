@@ -95,7 +95,7 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
             {
                 $scope.aliasLists.push({
                     project_id: modalData.project_id,
-                    project_alias_name: modalData.project_alias_name,
+                    project_alias: modalData.project_alias,
                     project_employee_name: empname,
                     project_employee_id: ids
                 });

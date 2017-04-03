@@ -65,9 +65,9 @@ class LstPropertyPortalsConfig extends Eloquent
 		'deleted_date'
 	];
 
-	protected $hidden = [
-		'password'
-	];
+//	protected $hidden = [
+//		'password'
+//	];
 
 	protected $fillable = [
 		'api_type',
