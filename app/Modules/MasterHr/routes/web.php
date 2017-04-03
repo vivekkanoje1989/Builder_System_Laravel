@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'MasterHr', 'namespace' => 'App\Modules\MasterHr\Controllers'), function() {
+Route::group(array('module' => 'MasterHr', 'middleware' => 'auth:admin', 'namespace' => 'App\Modules\MasterHr\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
     Route::get($getUrl . '/master-hr/orgchart', 'MasterHrController@orgchart'); // show page
