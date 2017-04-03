@@ -267,7 +267,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             notify: true //reinitialise object
         });
     }    
-    $scope.accessControl = function(moduleType,empId,checkboxid, parentId, submenuId){
+    $scope.accessControl = function(moduleType, empId, checkboxid, parentId, submenuId){
         var isChecked = $("#"+checkboxid).prop("checked");
         var obj = $("#"+checkboxid);
         var level = $("#"+checkboxid).attr("data-level");

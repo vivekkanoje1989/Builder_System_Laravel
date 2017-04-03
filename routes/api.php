@@ -16,3 +16,10 @@ use Illuminate\Http\Request;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
+
+Route::group(['middleware' =>['api']], function () {
+    Route::get('/getMasterData', 'backend\AdminController@getMasterData'); 
+    Route::post('/authenticate', 'backend\Auth\LoginController@authenticate');
+    Route::post('/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
+});
+

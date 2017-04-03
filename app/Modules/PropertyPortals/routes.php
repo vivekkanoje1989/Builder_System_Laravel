@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'PropertyPortals', 'namespace' => 'App\Modules\PropertyPortals\Controllers'), function() {
+Route::group(array('module' => 'PropertyPortals', 'middleware' => 'auth:admin', 'namespace' => 'App\Modules\PropertyPortals\Controllers'), function() {
     $getUrl = config('global.getUrl');
     Route::resource($getUrl.'/propertyportals', 'PropertyPortalsController');
     Route::post($getUrl.'/propertyportals/changePortalTypeStatus', 'PropertyPortalsController@changePortalTypeStatus'); //change protal type status

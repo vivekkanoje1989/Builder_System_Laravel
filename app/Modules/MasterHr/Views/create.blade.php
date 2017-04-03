@@ -638,7 +638,6 @@
                                             <span class="text">Active </span>
                                         </label>
                                     </div>
-
                                     <div class="radio">
                                         <label>
                                             <input name="form-field-radio" type="radio" ng-model="userData.employee_status" value="2" class="colored-blue">

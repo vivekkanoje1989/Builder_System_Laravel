@@ -1,11 +1,17 @@
+<style>
+    .editor-text {
+        border: 1px solid #cecece;
+        margin-top: 10px;
+        background-color: #fff;
+        padding: 10px;
+    }
+</style>
 <div>
     <div id="tabbedwizard" class="wizard wizard-tabbed" data-target="#tabbedwizardsteps" ui-jq="wizard">
         <ul class="steps">
             <li data-target="#tabbedwizardstep1" class="active"><span class="step">1</span>Project Basic Information<span class="chevron"></span></li>
-            <li data-target="#tabbedwizardstep2"><span class="step">2</span>Project Email Id<span class="chevron"></span></li>
-            <li data-target="#tabbedwizardstep3"><span class="step">3</span>Project Contact Details<span class="chevron"></span></li>
-            <li data-target="#tabbedwizardstep4"><span class="step">4</span>Project Wing<span class="chevron"></span></li>
-            <li data-target="#tabbedwizardstep5"><span class="step">5</span>Project Seo Setting<span class="chevron"></span></li>
+            <li data-target="#tabbedwizardstep2"><span class="step">2</span>Project Contact Details<span class="chevron"></span></li>
+            <li data-target="#tabbedwizardstep3"><span class="step">3</span>Project Seo Setting<span class="chevron"></span></li>
         </ul>
     </div>
     <div class="step-content" id="tabbedwizardsteps">
@@ -14,69 +20,183 @@
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            <label>Project Alias</label>
+                            <input type="text" class="form-control" ng-model="project_alias" name="project_alias">
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">  
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <label>Alias Status</label>
+                            <div class="radio">
+                                <label>
+                                    <input name="form-field-radio" type="radio" ng-model="alias_status" name="alias_status" value="1" class="colored-blue">
+                                    <span class="text">Active </span>
+                                </label> &nbsp;&nbsp;
+                                <label>
+                                    <input name="form-field-radio" type="radio" ng-model="alias_status" name="alias_status" value="0" class="colored-danger">
+                                    <span class="text">  Inactive </span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-3 col-xs-6">  
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                    <div class="col-sm-3 col-xs-6 col-lg-6">  
+                        <div class="widget flat radius-bordered">
+                            <div class="widget-header bordered-bottom bordered-themeprimary">
+                                <span class="widget-caption">Short Description</span>
+                            </div>
+                            <div class="widget-body no-padding">
+                                <div ng-controller="TextAngularCtrl">
+                                    <div text-angular ng-model="contentPage.short_description" name="short-description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">  
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-xs-6 col-lg-6">  
+                        <div class="widget flat radius-bordered">
+                            <div class="widget-header bordered-bottom bordered-themeprimary">
+                                <span class="widget-caption">Brief Description</span>
+                            </div>
+                            <div class="widget-body no-padding">
+                                <div ng-controller="TextAngularCtrl">
+                                    <div text-angular ng-model="contentPage.brief_description" name="brief-description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
-                        <div class="col-sm-3 col-xs-6">
+                        <div class="form-group">
                             <button type="submit" class="btn btn-blue">Submit</button>
                         </div>
                     </div>
                 </div>
             </form>
-            
         </div>
-        <div class="step-pane" id="tabbedwizardstep2">This is step 2</div>
-        <div class="step-pane" id="tabbedwizardstep3">This is step 3</div>
-        <div class="step-pane" id="tabbedwizardstep4">This is step 4</div>
-        <div class="step-pane" id="tabbedwizardstep5">This is step 5</div>
+        <div class="step-pane" id="tabbedwizardstep2">
+            <form role="form">
+                <div class="row" ng-controller="currentCountryListCtrl">
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>Country</label>
+                            <span class="input-icon icon-right">
+                                <select ng-change="onCountryChange()" ng-model="project_country" name="project_country" id="current_country_id" class="form-control" required>
+                                    <option value="">Select Country</option>
+                                    <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == current_country_id}}">{{country.name}}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>State</label>
+                            <span class="input-icon icon-right">
+                                <select ng-change="onStateChange()" ng-model="project_state" name="project_state" id="current_state_id" class="form-control" required>
+                                    <option value="">Select State</option>
+                                    <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == project_state}}">{{state.name}}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>City</label>
+                            <span class="input-icon icon-right">
+                                <select ng-change="onCityChange()" ng-model="project_city" name="project_city" id="current_city_id" class="form-control" required>
+                                    <option value="">Select City</option>
+                                    <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == project_city}}">{{city.name}}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>Location</label>
+                            <span class="input-icon icon-right">
+                                <select ng-model="project_location" name="project_location" id="current_location_id" class="form-control" required>
+                                    <option value="">Select Location</option>
+                                    <option ng-repeat="llist in locationList" value="{{llist.id}}" ng-selected="{{ llist.id == project_location}}">{{llist.location}}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>Address</label>
+                            <textarea class="form-control" ng-model="project_address" name="project_address"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>Contact Numbers</label>
+                            <textarea class="form-control" ng-model="project_contact_numbers" name="project_contact_numbers"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-blue">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="step-pane" id="tabbedwizardstep3">
+            <form role="form">
+                <div class="row">
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>Page Title</label>
+                            <input type="text" class="form-control" ng-model="page_title" name="page_title" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>Seo Url</label>
+                            <input type="text" class="form-control" ng-model="seo_url" name="seo_url" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>Meta Description</label>
+                            <input type="text" class="form-control" ng-model="meta_description" name="meta_description" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>Meta Keywords</label>
+                            <input type="text" class="form-control" ng-model="meta_keywords" name="meta_keywords" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-xs-6">  
+                        <div class="form-group">
+                            <label>Canonical Tag</label>
+                            <input type="text" class="form-control" ng-model="canonical_tag" name="canonical_tag" />
+                        </div>
+                    </div>
+                </div>                    
+                <div class="row">
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-blue">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
     <div class="actions actions-footer" id="tabbedwizard-actions">
         <div class="btn-group">

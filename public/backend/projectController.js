@@ -1,4 +1,4 @@
-app.controller('projectsController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', 'toaster', '$timeout', function ($rootScope, $scope, $state, Data, $filter, Upload, toaster, $timeout) {
+app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$timeout', function ($scope, $state, Data, toaster, $timeout) {
     $scope.pageHeading = "Create Project";
     $scope.projectData = {};
     $scope.createProject = function(projectData){

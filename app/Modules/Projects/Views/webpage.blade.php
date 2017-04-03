@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12">
-        <h5 class="row-title"><i class="typcn typcn-folder themeprimary"></i>Project Configurations</h5>
+        <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Project Web Page</h5>
         <div class="row">
             <div class="col-sm-3 col-xs-6">  
                 <div class="form-group" ng-controller="projectCntrl">
@@ -20,10 +20,10 @@
                         <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/basicinfo' "></div>
                     </tab>
                     <tab heading="Uploads">
-                        <p>Uploads</p>
+                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads' "></div>
                     </tab>
                     <tab heading="Project Inventory">
-                        <p>Project Inventory</p>
+                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/inventory' "></div>
                     </tab>
                     <tab heading="Floor Inventory">
                         <p>Floor Inventory</p>

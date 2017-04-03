@@ -1,6 +1,6 @@
 <div class="row">
     <div class="widget flat radius-bordered">
-        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="projectsController">
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="projectController">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">

@@ -5,6 +5,12 @@ Route::group(array('module' => 'Projects', 'middleware' => ['web'], 'namespace' 
     Route::get($getUrl.'/projects/basicinfo', function () {
         return View::make('Projects::basicinfo');
     });
+    Route::get($getUrl.'/projects/uploads', function () {
+        return View::make('Projects::uploads');
+    });
+    Route::get($getUrl.'/projects/inventory', function () {
+        return View::make('Projects::inventory');
+    });
     Route::get($getUrl. '/projects/projectType', 'ProjectsController@projectType'); //for populate dropdown
     Route::get($getUrl. '/projects/projectStatus', 'ProjectsController@projectStatus'); //for populate dropdown
     Route::get($getUrl. '/projects/getProjects', 'ProjectsController@getProjects'); //for populate dropdown

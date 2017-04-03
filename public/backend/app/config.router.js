@@ -99,20 +99,20 @@ angular.module('app')
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/js/intlTelInput.js',
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                    serie: true,
+                                                    files: [
+                                                        '/js/intlTelInput.js',
+                                                        '/backend/app/controllers/datepicker.js',
+                                                        '/backend/app/controllers/select.js',
+                                                    ]
+                                                }]);
                                             }
                                         ]
                                     }
                                 })
                                 .state(getUrl + '.manageRoles', {
                                     url: '/user/manageroles',
-                                    templateUrl: getUrl + '/master-hr/manageRoles',
+                                    templateUrl: getUrl + '/master-hr/manageRolesPermission',
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -179,17 +179,23 @@ angular.module('app')
                                         label: 'Customer Details'
                                     },
                                     resolve: {
-                                        deps: [
+                                        deps:
+                                        [
                                             '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/js/intlTelInput.js',
-                                                        '/backend/customerController.js',
-                                                        '/backend/app/controllers/datepicker.js',
-                                                    ]
-                                                });
+                                            function($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function() {
+                                                        return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/customerController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            }
+                                                        );
+                                                    }
+                                                );
                                             }
                                         ]
                                     }
@@ -220,6 +226,64 @@ angular.module('app')
                                                         '/backend/app/controllers/chartloader.js',
                                                     ]
                                                 });
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.projectCreate', {
+                                    url: '/project/create',
+                                    templateUrl: getUrl + '/projects/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create Project'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function() {
+                                                        return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/projectController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            }
+                                                        );
+                                                    }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.projectWebPage', {
+                                    url: '/project/webpage',
+                                    templateUrl: getUrl + '/projects/webPage',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Project Configurations'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['textAngular','toaster']).then(
+                                                    function() {
+                                                        return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/projectController.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/textangular.js',
+                                                                ]
+                                                            }
+                                                        );
+                                                    }
+                                                );
                                             }
                                         ]
                                     }
