@@ -22,7 +22,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" ng-model="portalData.portal_name" name="portal_name" class="form-control" maxlength="15" required>
                                         <i class="fa fa-address-card"></i>
-                                        <div ng-messages="portalAccountForm.friendly_account_name.$error">
+                                        <div ng-show="addbtn" ng-messages="portalAccountForm.friendly_account_name.$error">
                                             <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>
@@ -34,7 +34,7 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" ng-model="portalData.username" name="username" class="form-control" maxlength="15">
                                         <i class="fa fa-user"></i>
-                                        <div ng-messages="portalAccountForm.first_name.$error">
+                                        <div ng-show="addbtn" ng-messages="portalAccountForm.first_name.$error">
                                             <div ng-message="required">This field is required.</div>
                                         </div>
                                     </span>                                
@@ -140,7 +140,7 @@
                         </div>
                         <div class="row" style="margin-top: 2%;display:none;" id="btnCreate">
                             <div class="col-md-12 col-xs-12" align="right">                            
-                                <button type="submit" class="btn btn-primary btn-submit-last"  ng-disabled="portalAccountForm.$invalid">{{ buttonLabel }}</button>                                
+                                <button type="submit" class="btn btn-primary btn-submit-last" ng-click="addbtn=true" ng-disabled="portalAccountForm.$invalid">{{ buttonLabel }}</button>                                
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                                 <i class="fa fa-sort-desc"></i>
                             </span>
                             <span ng-if="portalData.assign_employee == '1'">
-                                <div class="form-group multi-sel-div" class="form-control" ng-controller="assignEmployeeCtrl"  style="width: 100%;">
+                                <div class="form-group multi-sel-div" class="form-control" ng-controller="getAllEmployeesCtrl"  style="width: 100%;">
                                     <label for="">Select Common Employee <span class="sp-err">*</span></label>	
                                     <ui-select multiple='true' class="form-control" ng-model="modal.employee_id" name="employee_id" theme="" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalAliasEmployees()">
                                         <ui-select-match placeholder="Select Employees">{{$item.first_name}}{{$item.last_name}}</ui-select-match>

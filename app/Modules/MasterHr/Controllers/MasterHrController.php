@@ -16,9 +16,7 @@ use App\Classes\CommonFunctions;
 use App\Classes\MenuItems;
 use App\Classes\S3;
 use App\Modules\MasterHr\Models\EmployeeRole;
-
 class MasterHrController extends Controller {
-
     public function __construct() {
         $this->middleware('web');
     }
@@ -544,27 +542,30 @@ class MasterHrController extends Controller {
     }
 
     public function getChartData() {
+       
         $input = Employee::whereIn('employee_status', [1, 2])
-                ->select('team_lead_id', 'designation', 'id', 'first_name', 'last_name', 'employee_status', 'emp_photo_url')
+                ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
+                ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')                
                 ->orderBy('team_lead_id')
                 ->get();
         $data = array();
         foreach ($input as $key => $team) {
-            $obj = Employee::where('id', $team['id'])
+            $obj = Employee::where('employees.id', $team['id'])
+                    ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                     ->whereIn('employee_status', [1, 2])
-                    ->select('team_lead_id', 'designation', 'id', 'first_name', 'last_name', 'employee_status', 'emp_photo_url')
+                    ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
                     ->get();
             if (!empty($obj)) {
                 $data[$key]['v'] = $obj[0]->id;
-                if (empty($team['emp_photo_url'])) {
-                    $team['emp_photo_url'] = 'http://icons.iconarchive.com/icons/alecive/flatwoken/96/Apps-User-Online-icon.png';
+                if (empty($team['employee_photo_file_name'])) {
+                    $team['employee_photo_file_name'] = 'http://icons.iconarchive.com/icons/alecive/flatwoken/96/Apps-User-Online-icon.png';
                 } else {
-                    $team['emp_photo_url'] = 'https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Employee-Photos/' . $team['emp_photo_url'];
+                    $team['employee_photo_file_name'] = config('global.s3Path').'Employee-Photos/' . $team['employee_photo_file_name'];
                 }
                 if ($team['employee_status'] == 2) {
-                    $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['emp_photo_url'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:red">Temporary Suspended</b></div>';
+                    $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['employee_photo_file_name'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:red">Temporary Suspended</b></div>';
                 } else {
-                    $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['emp_photo_url'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:Green">Active</b></div>';
+                    $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['employee_photo_file_name'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:Green">Active</b></div>';
                 }
                 $data[$key]['teamId'] = $team['team_lead_id'];
                 $data[$key]['designation'] = $team['designation'];
@@ -577,6 +578,8 @@ class MasterHrController extends Controller {
 
     public function photoUpload(){   
         print_r($_FILES['file']);exit;
+        $input= Input::all();
+        print_r($input);
         echo $_FILES['file']['name'];exit;
         $image = ['0' => $_FILES['file']];
         print_r($image[0]);

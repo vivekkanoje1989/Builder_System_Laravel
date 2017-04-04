@@ -2,5 +2,9 @@
 /.idea
 Homestead.json
 Homestead.yaml
+<<<<<<< HEAD
 /vendor/
 /nbproject/private/
+=======
+/vendor/
+>>>>>>> 038ab028d7f9e7141251f0284df769d847a40480
