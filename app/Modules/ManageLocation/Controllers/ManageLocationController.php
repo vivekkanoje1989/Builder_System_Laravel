@@ -93,7 +93,8 @@ class ManageLocationController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getCount = MlstLocationTypes::where(['location_type' => $request['location_type']])->get()->count();
+        $getCount = MlstLocationTypes::where(['location_type' => $request['location_type']])
+                                       ->where('id','!=',$id)->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Location already exists'];
             return json_encode($result);

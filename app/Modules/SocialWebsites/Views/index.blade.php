@@ -1,7 +1,4 @@
 <div class="row" ng-controller="socialwebsitesCtrl" ng-init="manageSocialWebsite()">  
-  <div>
-          <flash-message duration="5000"></flash-message>
-  </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -75,11 +72,14 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="socialwebsiteForm.$valid && dosocialwebsiteAction()" name="socialwebsiteForm">
+                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                   
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!socialwebsiteForm.name.$dirty && socialwebsiteForm.name.$invalid) && (!socialwebsiteForm.link.$dirty && socialwebsiteForm.link.$invalid) && (!socialwebsiteForm.status.$dirty && socialwebsiteForm.status.$invalid)}">
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!socialwebsiteForm.name.$dirty && socialwebsiteForm.name.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
+                            <label>Name</label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="name" name="name" placeholder="Name" ng-change="errorMsg = null" required>
+                                <input type="text" class="form-control" ng-model="name" name="name"  ng-change="errorMsg = null" required>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="socialwebsiteForm.name.$error">
                                     <div ng-message="required">This field is required</div>
@@ -87,16 +87,22 @@
                                 </div>
                                 <br/>
                             </span>
-                            
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn &&  (!socialwebsiteForm.link.$dirty && socialwebsiteForm.link.$invalid)}">
+                          
+                             <label>Url</label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="link" name="link" placeholder="Link"  required>
+                                <input type="text" class="form-control" ng-model="link" name="link"  required>
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="socialwebsiteForm.link.$error">
                                     <div ng-message="required">This field is required</div>
                                 </div>
                                 <br/>
                             </span>
-                             
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn &&  (!socialwebsiteForm.status.$dirty && socialwebsiteForm.status.$invalid)}">
+                         
+                            <label>Status</label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="status" name="status">
                                     <option value="1">Active</option>

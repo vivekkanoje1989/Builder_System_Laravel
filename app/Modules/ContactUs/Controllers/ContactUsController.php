@@ -10,7 +10,7 @@ use DB;
 use App\Modules\ManageCountry\Models\MlstCountries;
 use App\Modules\ManageStates\Models\MlstStates;
 use App\Modules\ManageCity\Models\MlstCities;
-use App\Modules\ManageLocation\Models\MlstLocationTypes;
+use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Classes\CommonFunctions;
 use Auth;
 class ContactUsController extends Controller {
@@ -84,7 +84,10 @@ class ContactUsController extends Controller {
         }
     }
     public function manageLocation() {
-        $getLocation = MlstLocationTypes::all();
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+
+        $getLocation = LstEnquiryLocations::where('city_id', $request['city_id'])->select('*')->get();
         if (!empty($getLocation)) {
             $result = ['success' => true, 'records' => $getLocation];
             return json_encode($result);

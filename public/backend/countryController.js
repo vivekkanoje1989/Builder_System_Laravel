@@ -1,11 +1,11 @@
-app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
+app.controller('countryCtrl', ['$scope', 'Data', '$rootScope','$timeout','toaster', function ($scope, Data, $rootScope,$timeout,toaster) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
+        
         $scope.manageCountry = function () {
             Data.get('manage-country/manageCountry').then(function (response) {
                 $scope.countryRow = response.records;
-
             });
         };
         $scope.initialModal = function (id, name, index, index1,phonecode,sortname) {
@@ -16,7 +16,7 @@ app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
             $scope.index = index * ($scope.noOfRows - 1) + (index1 + 1);
             $scope.phonecode = phonecode;
             $scope.sortname = sortname;
-           
+            $scope.sbtBtn = false;
         }
         $scope.doCountryAction = function () {
             $scope.errorMsg = '';
@@ -32,7 +32,7 @@ app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
                     } else {
                         $scope.countryRow.push({'name': $scope.name,'id':response.lastinsertid,'sortname':$scope.sortname,'phonecode':$scope.phonecode});
                         $('#countryModal').modal('toggle');
-                        //$scope.success("Country details created successfully");
+                       toaster.pop('success', 'Manage country', 'Record successfully created');
                     }
                 });
             } else { //for update
@@ -49,15 +49,11 @@ app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
                             name: $scope.name, id: $scope.id, name: $scope.name,'sortname':$scope.sortname,'phonecode':$scope.phonecode});
 
                         $('#countryModal').modal('toggle');
-                        //$scope.success("Country details updated successfully");
+                       toaster.pop('success', 'Manage country', 'Record successfully updated');
                     }
                 });
             }
         }
-        $scope.success = function(message) {
-               Flash.create('success', message);
-           };
-
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

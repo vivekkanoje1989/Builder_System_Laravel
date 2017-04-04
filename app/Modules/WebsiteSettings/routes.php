@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'WebsiteSettings', 'namespace' => 'App\Modules\WebsiteSettings\Controllers'), function() {
+Route::group(array('module' => 'WebsiteSettings', 'middleware' => 'auth:admin', 'namespace' => 'App\Modules\WebsiteSettings\Controllers'), function() {
     $getUrl = config('global.getUrl');
     /*******************************UMA*********************************/
     Route::get($getUrl.'/website_settings/managePages', 'ContentPagesController@managePages');

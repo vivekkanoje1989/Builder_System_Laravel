@@ -6,7 +6,7 @@ namespace App\Modules\Testimonials\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 
-class Testimonials extends Eloquent {
+class WebTestimonials extends Eloquent {
 
 	protected $primaryKey = 'testimonial_id';
     public $timestamps = false;
@@ -16,14 +16,14 @@ class Testimonials extends Eloquent {
     protected $fillable = [
         'testimonial_id',
         'testimonial_designation_id',
-        'person_name',
-        'photo_src',
+        'customer_name',
+        'photo_url',
         'video_url',
         'company_name',
         'testimonial',
-        'mobile_no',
-        'is_shown',
-        'is_approve',
+        'mobile_number',
+        'web_status',
+        'approve_status',
         'created_date',
         'created_at',
         'created_by',

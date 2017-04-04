@@ -1,8 +1,5 @@
-<div class="row" ng-controller="contactUsCtrl" ng-init="manageContactUs(); manageCountry(); manageLocationRow();">  
-  <div>
-          <flash-message duration="5000"></flash-message>
-  </div>
-    <div class="col-xs-12 col-md-12">
+<div class="row" ng-controller="contactUsCtrl" ng-init="manageContactUs(); manageCountry();">  
+  <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Office Addresses</span>
@@ -82,6 +79,8 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="contactUsForm.$valid && doContactusAction()" name="contactUsForm">
+                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                   
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!contactUsForm.country_id.$dirty && contactUsForm.country_id.$invalid) && (!contactUsForm.state_id.$dirty && contactUsForm.state_id.$invalid) && (!contactUsForm.city_id.$dirty && contactUsForm.city_id.$invalid) && (!contactUsForm.location_id.$dirty && contactUsForm.location_id.$invalid)  && (!contactUsForm.contact_number1.$dirty && contactUsForm.contact_number1.$invalid)  && (!contactUsForm.contact_number2.$dirty && contactUsForm.contact_number2.$invalid)  && (!contactUsForm.contact_number3.$dirty && contactUsForm.contact_number3.$invalid) && (!contactUsForm.address.$dirty && contactUsForm.address.$invalid) && (!contactUsForm.telephone.$dirty && contactUsForm.telephone.$invalid) && (!contactUsForm.email.$dirty && contactUsForm.email.$invalid) && (!contactUsForm.contact_person_name.$dirty && contactUsForm.contact_person_name.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
@@ -106,7 +105,7 @@
                             </span>
                             <br/><br/>
                              <span class="input-icon icon-right">
-                                <select class="form-control" ng-model="city_id" name="city_id" required>
+                                <select class="form-control" ng-model="city_id" name="city_id" ng-change="manageLocationRow(city_id)" required>
                                      <option value="">Select city</option>
                                     <option  ng-repeat="itemtwo in cityRow" ng-selected="{{ city_id == itemtwo.id}}" value="{{itemtwo.id}}">{{itemtwo.name}}</option>
                                 </select>
@@ -116,7 +115,7 @@
                             </span>
                             <br/><br/>
                              <span class="input-icon icon-right">
-                                  <select id="country_id" name="location_id" class="form-control" ng-model="location_id" ng-options="itemthree.id as itemthree.location_type for itemthree in locationRow" required>
+                                  <select id="country_id" name="location_id" class="form-control" ng-model="location_id" ng-options="itemthree.id as itemthree.location for itemthree in locationRow" required>
         	                           <option value="">Select location</option>
                                   </select>
                                

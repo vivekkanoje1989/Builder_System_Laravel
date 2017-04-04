@@ -18,7 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstBmsbDepartment extends Eloquent
+class MlstBmsbDepartments extends Eloquent
 {
 	public $timestamps = false;
 
@@ -30,6 +30,7 @@ class MlstBmsbDepartment extends Eloquent
 
 	protected $fillable = [
 		'client_id',
-		'department_name'
+		'department_name',
+                   'vertical_id'
 	];
 }

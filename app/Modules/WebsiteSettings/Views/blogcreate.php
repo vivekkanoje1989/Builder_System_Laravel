@@ -7,9 +7,6 @@
     }
 </style>
 <div class="row" ng-controller="blogsCtrl" >  
-    <div>
-        <flash-message duration="5000"></flash-message>
-    </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -24,7 +21,9 @@
 
             <div class="widget-body table-responsive">     
 <form novalidate ng-submit="blogsForm.$valid && doblogscreateAction(bannerImage)" name="blogsForm" ng-init="manageUsers([[ !empty($blogId) ?  $blogId : '0' ]],'edit')">
-                <table class="table table-hover table-striped table-bordered" at-config="config">
+     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                              
+    <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
                             <td colspan="2">Add New Blog</td>

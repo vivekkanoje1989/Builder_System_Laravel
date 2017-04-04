@@ -1,7 +1,4 @@
-<div class="row" ng-controller="dashboardCtrl" ng-init="getMyRequest()">  
-    <div>
-        <flash-message duration="5000"></flash-message>
-    </div>
+<div class="row" ng-controller="dashboardCtrl" ng-init="getMyRequest()">    
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -111,7 +108,7 @@
                     <tr><td>Request Type</td><td>{{request_type}}</td></tr>
                     <tr><td>To</td><td>{{to_name}}</td></tr>
                     <tr><td>CC</td><td>{{cc_name}}</td></tr>
-                    <tr><td>Description</td><td>{{desc}}</td></tr>
+                    <tr><td>Description</td><td>{{req_desc}}</td></tr>
                 </table>
                  <br/>
             </div>

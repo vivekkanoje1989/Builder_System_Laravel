@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'Testimonials', 'namespace' => 'App\Modules\Testimonials\Controllers'), function() {
+Route::group(array('module' => 'Testimonials', 'middleware' => 'auth:admin','namespace' => 'App\Modules\Testimonials\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
     Route::resource($getUrl.'/testimonials-approve', 'TestimonialsController');

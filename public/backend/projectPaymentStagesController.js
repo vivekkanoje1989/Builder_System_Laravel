@@ -1,4 +1,4 @@
-app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope,$timeout) {
+app.controller('projectpaymentController', ['$scope', 'Data','toaster', function ($scope, Data,toaster) {
 
         $scope.fix_stage = 1;
         $scope.manageProjectPaymentStages = function () {
@@ -14,6 +14,7 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$tim
             $scope.index = index;
             $scope.project_type_id = project_type_id;
             $scope.fix_stage = fix_stage;
+            $scope.sbtBtn = false;
         }
         $scope.getProjectTypes = function()
         {
@@ -34,8 +35,7 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$tim
                     } else {
                         $('#projectpaymentModal').modal('toggle');
                         $scope.ProjectPaymentStagesRow.push({'stage_name': $scope.stage_name, 'id': response.lastinsertid, 'status': $scope.status,'project_type_id':$scope.project_type_id,fix_stage:$scope.fix_stage});
-                       
-                        // $scope.success("Project payment stages created successfully");   
+                       toaster.pop('success', 'Manage project payment stages', 'Record successfully created');  
                     }
                 });
             } else { //for update
@@ -51,14 +51,11 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$tim
                         $scope.ProjectPaymentStagesRow.splice($scope.index, 0, {
                             stage_name: $scope.stage_name, id: $scope.id,'project_type_id':$scope.project_type_id,fix_stage:$scope.fix_stage});
                         $('#projectpaymentModal').modal('toggle');
-                       // $scope.success("Project payment stages updated successfully");   
+                        toaster.pop('success', 'Manage project payment stages', 'Record successfully updated');  
                     }
                 });
             }
         }
-        $scope.success = function(message) {
-               Flash.create('success', message);
-           };
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

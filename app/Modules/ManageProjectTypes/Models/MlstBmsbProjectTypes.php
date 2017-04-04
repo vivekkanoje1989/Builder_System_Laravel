@@ -18,7 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstProjectTypes extends Eloquent
+class MlstBmsbProjectTypes extends Eloquent
 {
 	protected $primaryKey = 'id';
 	public $timestamps = false;

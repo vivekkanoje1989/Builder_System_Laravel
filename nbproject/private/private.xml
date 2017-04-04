@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-<<<<<<< HEAD
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/app/config.router.js</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/PropertyPortals/Models/LstPropertyPortalsConfig.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/emailConfigController.js</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Classes/S3.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Views/create.blade.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/propertyPortalsController.js</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/EmailConfig/Controllers/EmailConfigController.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Classes/CommonFunctions.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/app/Modules/PropertyPortals/Controllers/PropertyPortalsController.php</file>
-            <file>file:/opt/lampp/htdocs/BMS_BUILDER_V2/public/backend/webPageController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCountry/Controllers/ManageCountryController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageStates/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCity/Controllers/ManageCityController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/cityController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCity/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageStates/Controllers/ManageStatesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCity/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCity/Models/MlstCities.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCountry/Views/index.blade.php</file>
         </group>
     </open-files>
-=======
->>>>>>> 2005777039414b54bab0bd4997935ef44b189f3f
 </project-private>

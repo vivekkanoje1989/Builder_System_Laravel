@@ -17,7 +17,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstBlockTypes extends Eloquent {
+class MlstBmsbBlockTypes extends Eloquent {
 
     protected $primaryKey = 'id';
     public $timestamps = false;

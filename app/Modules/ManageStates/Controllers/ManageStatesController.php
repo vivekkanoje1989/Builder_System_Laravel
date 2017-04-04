@@ -80,20 +80,21 @@ class ManageStatesController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
       
-        $getCount = MlstStates::where(['name' => $request['name'],'country_id' => $request['country_id']])->get()->count();
+        $getCount = MlstStates::where(['name' => $request['name'],'country_id' => $request['country_id']])
+                                ->where('id','!=',$id)->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'State already exists'];
             return json_encode($result);
         } else {
              
-           
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['stateData'] = array_merge($request, $create);
+            
             $getCountry = MlstCountries::where('id', '=',$request['country_id'])
                ->select('name')
-               ->first(); 
-            
-            $originalValues = LstStates::where('id', $request['id'])->get();
-            $result = MlstStates::where('id', $request['id'])->update($request);
-            
+               ->first();
+            $result = MlstStates::where('id', $request['id'])->update($input['stateData']);
             $result = ['success' => true, 'result' => $result,'country_name'=>$getCountry->name];
           return json_encode($result);
         }

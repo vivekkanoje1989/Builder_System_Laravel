@@ -1,4 +1,4 @@
-app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope , $timeout) {
+app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout','toaster', function ($scope, Data, $rootScope , $timeout,toaster) {
 
         $scope.manageBlockTypes = function () {
             Data.post('block-types/manageBlockTypes').then(function (response) {
@@ -8,7 +8,7 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
         $scope.getProjectNames = function(){
              Data.post('block-types/manageProjectTypes').then(function (response) {
                 $scope.getProjectNamesRow = response.records;
-             
+            
             });
         }
          $scope.initialModal = function (id, block_name,project_type_id, index) {
@@ -18,6 +18,7 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
             $scope.project_type_id = project_type_id;
             $scope.block_name = block_name;
             $scope.index = index;
+            $scope.sbtBtn = false;
         }
         $scope.doblocktypesAction = function () {
             $scope.errorMsg = '';
@@ -32,7 +33,7 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
                     } else {
                         $('#blocktypesModal').modal('toggle');
                         $scope.BlockTypesRow.push({'block_name': $scope.block_name, 'id': response.lastinsertid,'project_id': $scope.project_type_id});
-                       // $scope.success("Block types created successfully");   
+                        toaster.pop('success', 'Block types', 'Record successfully created');
                     }
                 });
             } else { //for update
@@ -40,7 +41,7 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
                 Data.put('block-types/'+$scope.id, {
                    
                     project_type_id: $scope.project_type_id, block_name:$scope.block_name,id:$scope.id}).then(function (response) {
-                    console.log(response);
+                    
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
@@ -49,14 +50,11 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
                         $scope.BlockTypesRow.splice($scope.index, 0, {
                             'block_name': $scope.block_name, 'id': $scope.id,'project_id': $scope.project_type_id});
                         $('#blocktypesModal').modal('toggle');
-                        //$scope.success("Block types updated successfully");   
+                       toaster.pop('success', 'Block types', 'Record successfully updated');
                     }
                 });
             }
         }
-        $scope.success = function(message) {
-               Flash.create('success', message);
-           };
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
