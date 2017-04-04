@@ -2,6 +2,7 @@
 
 Route::group(array('module' => 'PropertyPortals', 'middleware' => 'auth:admin', 'namespace' => 'App\Modules\PropertyPortals\Controllers'), function() {
     $getUrl = config('global.getUrl');
+    Route::get($getUrl.'/propertyportals/getAllEmployeesList','PropertyPortalsController@getAllEmployeesList');
     Route::resource($getUrl.'/propertyportals', 'PropertyPortalsController');
     Route::post($getUrl.'/propertyportals/changePortalTypeStatus', 'PropertyPortalsController@changePortalTypeStatus'); //change protal type status
     Route::post($getUrl.'/propertyportals/changePortalAccountStatus', 'PropertyPortalsController@changePortalAccountStatus'); //change account status

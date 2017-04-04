@@ -27,7 +27,7 @@ use Illuminate\Hashing\HashServiceProvider;
  * @property string $remember_token
  * @property string $usertype
  * @property int $team_lead_id
- * @property string $designation
+ * @property string $designation_id
  * @property string $department_id
  * @property int $reporting_to_id
  * @property string $title
@@ -344,6 +344,4 @@ class Employee extends Authenticatable {
         $input['userData']['employee_info_form_url_status'] = !empty($input['userData']['employee_info_form_url_status']) ? $input['userData']['employee_info_form_url_status'] : "1";
         return $input;
     }
-
-
 }

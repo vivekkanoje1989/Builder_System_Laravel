@@ -157,3 +157,13 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
         }
     }]);
 
+app.controller('getAllEmployeesCtrl', function ($scope, Data) {
+    $scope.employeeList = [];
+    Data.get('employee-device/getAllEmployeesList').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.employeeList = response.records;
+        }
+    });
+});

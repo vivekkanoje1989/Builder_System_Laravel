@@ -505,7 +505,7 @@
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.emp_photo_url" name="emp_photo_url" id="emp_photo_url" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.emp_photo_url)">
-                                    <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Employee-Photos/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
+                                    <img src="[[ config('global.s3Path') ]]Employee-Photos/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
                                     <div ng-show="step3 || invalidImage" ng-messages="userForm.emp_photo_url.$error" class="help-block step3">
                                         <div ng-show="invalidImage">{{ invalidImage }}</div>
                                         <div ng-message="required">This field is required.</div>

@@ -82,7 +82,7 @@
                                 </div> 
                             </div>
                             <div class="col-sm-3 col-xs-12" ng-show="portalData.project_employee_id == '0'">                            
-                                <div class="form-group multi-sel-div" class="form-control" ng-controller="employeesCtrl" style="width: 100%;">
+                                <div class="form-group multi-sel-div" class="form-control" ng-controller="getAllEmployeesCtrl" style="width: 100%;">
                                     <label for="">Select Common Employee <span class="sp-err">*</span></label>	
                                     <ui-select multiple='true' class="form-control" ng-model="portalData.employee_id" name="employee_id" theme="" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalEmployees()" required>
                                         <ui-select-match placeholder="Select Employees">{{$item.first_name}}{{$item.last_name}}</ui-select-match>

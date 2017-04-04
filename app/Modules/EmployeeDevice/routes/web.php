@@ -1,7 +1,9 @@
 <?php
 
 Route::group(array('module' => 'EmployeeDevice', 'middleware' => ['web'], 'namespace' => 'App\Modules\EmployeeDevice\Controllers'), function() {
-
-    Route::resource('employee-device', 'EmployeeDeviceController');
+    $getUrl = config('global.getUrl');
+    Route::get($getUrl.'/employee-device/getAllEmployeesList', 'EmployeeDeviceController@getAllEmployeesList');
+    Route::post($getUrl.'/employee-device/manageDevice', 'EmployeeDeviceController@manageDevice');
+    Route::resource($getUrl.'/employee-device', 'EmployeeDeviceController');
     
 });	
