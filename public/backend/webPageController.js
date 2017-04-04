@@ -41,7 +41,7 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
         $scope.updateImagePage = function (allimg, imageData, pageId)
         {
             if (typeof imageData !== 'undefined') {
-              
+                console.log(imageData);
                 $scope.err_msg = '';
                 var imgCount = document.getElementById("banner_images").files.length;
                 allimg.push(imageData['name']);

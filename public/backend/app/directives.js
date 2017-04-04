@@ -135,17 +135,25 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
         link: link
     }
 });
-
+//app.directive('copyToUsername', function ($q, Data) {
+//    return {
+//        restrict: 'AE',
+//        require: 'ngModel',
+//        link: function($scope, model) {
+//            $scope.userData.personal_mobile1 = $scope.userData.username;
+//        }
+//    } 
+//});
 app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
     return {
         restrict: 'AE',
         require: 'ngModel',
         link: function($scope, element, attributes, model) {
             model.$asyncValidators.uniqueEmail = function() {               
-                var email = $scope.userData.email;
+                var personal_email1 = $scope.userData.personal_email1;
                 var employeeId = (typeof $scope.userData.id === "undefined" || $scope.userData.id === "0") ? "0" : $scope.userData.id;        
                 return Data.post('checkUniqueEmail',{
-                    data:{emailData: email,id:employeeId},
+                    data:{emailData: personal_email1,id:employeeId},
                 }).then(function(response){
                   $timeout(function(){
                     model.$setValidity('uniqueEmail', !!response.success); 
@@ -170,5 +178,20 @@ app.directive('intlTel', function(){
   }
 });
 
-
-
+app.directive("ngfSelect",function(){
+  return {
+    link: function($scope,el){
+      el.bind("change", function(e){
+        $scope.currentFile = (e.srcElement || e.target).files[0];
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          $scope.image_source = event.target.result;
+          $scope.$apply(function($scope) {
+            $scope.files = e.files;
+          });
+        }
+        reader.readAsDataURL((e.srcElement || e.target).files[0]);
+      })      
+    }    
+  }    
+});

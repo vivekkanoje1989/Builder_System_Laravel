@@ -1,9 +1,10 @@
-app.controller('locationCtrl', ['$scope', 'Data', '$rootScope','$timeout','toaster', function ($scope, Data, $rootScope,$timeout,toaster) {
+app.controller('locationCtrl', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope,$timeout) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.manageLocation = function () {
-            Data.post('manage-location/manageLocation').then(function (response) {            
+            Data.post('manage-location/manageLocation').then(function (response) {
+             
                 $scope.locationRow = response.records;
 
             });
@@ -15,7 +16,6 @@ app.controller('locationCtrl', ['$scope', 'Data', '$rootScope','$timeout','toast
             $scope.name = name;
             $scope.index = index * ($scope.noOfRows - 1) + (index1 + 1);
             $scope.status = status;
-            $scope.sbtBtn = false;
         }
         $scope.doLocationAction = function () {
             $scope.errorMsg = '';
@@ -29,12 +29,14 @@ app.controller('locationCtrl', ['$scope', 'Data', '$rootScope','$timeout','toast
                     } else {
                         $scope.locationRow.push({'location_type': $scope.name,id:response.lastinsertid,status:$scope.status});
                         $('#LocationModal').modal('toggle');
-                    toaster.pop('success', 'Manage location', 'Record successfully created');
+                      //  $scope.success("Location details created successfully");
                     }
                 });
             } else { //for update
+
                 Data.put('manage-location/'+$scope.id, {
                     location_type: $scope.name, id: $scope.id,status:$scope.status}).then(function (response) {
+
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
@@ -43,11 +45,14 @@ app.controller('locationCtrl', ['$scope', 'Data', '$rootScope','$timeout','toast
                         $scope.locationRow.splice($scope.index - 1, 0, {
                             location_type: $scope.name, id: $scope.id,status:$scope.status});
                         $('#LocationModal').modal('toggle');
-                         toaster.pop('success', 'Manage location', 'Record successfully created');
+                        // $scope.success("Location details Updated successfully");
                     }
                 });
             }
         }
+        $scope.success = function(message) {
+               Flash.create('success', message);
+           };
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

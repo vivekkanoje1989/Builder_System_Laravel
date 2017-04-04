@@ -1,4 +1,4 @@
-app.controller('socialwebsitesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
+app.controller('socialwebsitesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','$state', function ($scope, Data, $rootScope, $timeout, $state ) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -16,11 +16,11 @@ app.controller('socialwebsitesCtrl', ['$scope', 'Data', 'toaster', function ($sc
             $scope.index = index;
             $scope.link = link;
             $scope.status = status;
-            $scope.sbtBtn = false;
         }
         $scope.dosocialwebsiteAction = function () {
             $scope.errorMsg = '';
-            Data.put('social-website/' + $scope.id, {
+
+            Data.put('social-website/'+$scope.id, {
                 name: $scope.name, id: $scope.id, link: $scope.link, status: $scope.status}).then(function (response) {
                 if (!response.success)
                 {
@@ -30,10 +30,14 @@ app.controller('socialwebsitesCtrl', ['$scope', 'Data', 'toaster', function ($sc
                     $scope.socialwebsiteRow.splice($scope.index, 0, {
                         name: $scope.name, id: $scope.id, link: $scope.link, status: $scope.status});
                     $('#contactUsModal').modal('toggle');
-                    toaster.pop('success', 'Manage social website', 'Record successfully updated');
+                    //$scope.success("Social website details updated successfully");
                 }
             });
         }
+        $scope.success = function (message) {
+            Flash.create('success', message);
+        };
+
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

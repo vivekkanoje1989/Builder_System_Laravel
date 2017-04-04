@@ -54,33 +54,22 @@ class BlogManagementController extends Controller {
     public function store() {
         $input = Input::all();
 
-        if (!empty($input['blogImages']['blog_banner_images'])) {
+     $imgCount =   count($input['galleryImage']['galleryImage']);
+        
+        $s3FolderName = "Blog_Banner";
+        $fileName = S3::s3FileUplod($input['blogImages']['blog_banner_images'], $s3FolderName, 1);
+        $fileName = trim($fileName, ",");
 
-            $originalName = $input['blogImages']['blog_banner_images']->getClientOriginalName();
-            if ($originalName !== 'fileNotSelected') {
-                $fileName = $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
-                $image = ['0' => $input['blogImages']['blog_banner_images']];
-                $s3FolderName = 'blogBannerImages';
-                $fileName = S3::s3FileUplod($image, $s3FolderName, 1);
-                $banner_images = trim($fileName, ",");
-            } else {
-                unset($input['blog_banner_images']);
-                $banner_images = '';
-            }
-        }
-
-        if (!empty($input['galleryImage']['galleryImage'])) {
-            $imgCount = count($input['galleryImage']['galleryImage']);
-            if ($imgCount > 0) {
-
-                $s3FolderName = 'galleryImages';
-                $fileName = S3::s3FileUplod($input['galleryImage']['galleryImage'], $s3FolderName, $imgCount);
-                $allfile = trim($fileName, ",");
-            }
-        } else {
-            $allfile = '';
-            unset($input['blog_images']);
-        }
+        
+        $input = Input::all();
+        $name = implode(",", $input['galleryImage']['galleryImage']);
+        $s3FolderName ='Blog';  
+        $fileone = '';
+        $input['galleryImage']['galleryImage'];
+                
+        $fileone .= S3::s3FileUplod($input['galleryImage']['galleryImage'], $s3FolderName,$imgCount);
+        $fileone .= trim($fileone, ",");
+       
         $cnt = WebBlogs::where(['blog_title' => $input['blog_title']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Blog title already exists'];
@@ -90,10 +79,11 @@ class BlogManagementController extends Controller {
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['blogData'] = array_merge($input, $create);
             $input['blogData']['blog_code'] = date('Y') . date('m') . date('d') . date('h') . date('i') . date('s') . rand('1', '10000');
-            $input['blogData']['blog_banner_images'] = $banner_images;
-            $input['blogData']['blog_images'] = $allfile;
+            $input['blogData']['blog_banner_images'] = $fileName;
+            $input['blogData']['blog_images'] = $fileone;
             $blogData = WebBlogs::create($input['blogData']);
-            $result = ['success' => true, 'result' => $blogData];
+            $last3 = WebBlogs::latest('id')->first();
+            $result = ['success' => true, 'result' => $blogData, 'lastinsertid' => $last3->id];
             return json_encode($result);
         }
     }
@@ -101,68 +91,42 @@ class BlogManagementController extends Controller {
     public function update($id) {
         $input = Input::all();
 
-        if (!empty($input['blogImages']['blog_banner_images'])) {
+        $s3FolderName = "Blog";
+        $fileName = S3::s3FileUplod($input['blogImages']['blog_banner_images'][0], $s3FolderName, 1);
+        $fileName = trim($fileName, ",");
 
-            $originalName = $input['blogImages']['blog_banner_images']->getClientOriginalName();
-            if ($originalName !== 'fileNotSelected') {
-                $fileName = $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
-                $image = ['0' => $input['blogImages']['blog_banner_images']];
-                $s3FolderName = 'blogBannerImages';
-                $fileName = S3::s3FileUplod($image, $s3FolderName, 1);
-                $banner_images = trim($fileName, ",");
-            } else {
-                unset($input['blog_banner_images']);
-                $banner_images = $input['allbanner'];
-            }
-        }
-
-        if (!empty($input['galleryImage']['galleryImage'])) {
-            $imgCount = count($input['galleryImage']['galleryImage']);
-            if ($imgCount > 0) {
-
-                $s3FolderName = 'galleryImages';
-                $fileName = S3::s3FileUplod($input['galleryImage']['galleryImage'], $s3FolderName, $imgCount);
-                $allfile = trim($fileName, ",");
-                $allfile .= ",";
-                $allfile .= implode(',', $input['allgallery']);
-            }
-        } else {
-            $allfile = '';
-            unset($input['blog_images']);
-            $allfile = implode(',', $input['allgallery']);
-        }
-
-
-        $cnt = WebBlogs::where(['blog_title' => $input['blog_title']])
-                        ->where('id', '!=', $id)->get()->count();
-        if ($cnt > 0) {
+        $cnt = WebBlogs::where(['blog_title' => $input['blog_title']])->get()->count();
+        if ($cnt > 0) {  //exists blog_title
             $result = ['success' => false, 'errormsg' => 'Blog title already exists'];
             return json_encode($result);
         } else {
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-            $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
-            $input['blogData'] = array_merge($input, $create);
-            $input['blogData']['blog_banner_images'] = $banner_images;
-            $input['blogData']['blog_images'] = $allfile;
-            unset($input['blogData']['blogImages']);
-            unset($input['blogData']['galleryImage']);
-            unset($input['blogData']['allgallery']);
-            unset($input['blogData']['allbanner']);
-            $blogData = WebBlogs::where('id', '=', $id)->update($input['blogData']);
-            $result = ['success' => true, 'result' => $blogData];
+
+            //$update = CommonFunctions::insertLogTableRecords();
+            // $originalValues = WebBlogs::where('blog_id', $blog_id)->get();
+            $result = WebBlogs::where('id', $id)->update($input);
+
+            //$last = DB::table('blogs_logs')->latest('blog_id')->first();
+            // $getResult = array_diff_assoc($originalValues[0]['attributes'], $input);
+            //// $implodeArr = implode(",", array_keys($getResult));
+            // $result = DB::table('blogs_logs')->where('blog_id', $last->blog_id)->update(['column_names' => $implodeArr]);
+            $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }
     }
-
-    public function removeBlogImage() {
+    
+    public function removeBlogImage()
+    {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
+       echo $obj;
+        exit();
         $name = implode(',', $obj['allimg']);
         $s3FolderName = 'Blog';
-        $msg = S3::s3FileDelete($obj['imageName'], $s3FolderName);
-
+        $msg = S3::s3FileDelete($obj['imageName'],$s3FolderName);
+       
         if ($msg) {
             $updatedata = WebBlogs::where('id', $obj['blogId'])->update(['blog_images' => $name]);
+          
         } else {
             
         }

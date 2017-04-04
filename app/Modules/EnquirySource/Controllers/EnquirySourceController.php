@@ -14,6 +14,7 @@ class EnquirySourceController extends Controller {
     public function index() {
         return view("EnquirySource::index");
     }
+
     public function manageEnquirySource() {
         $getEnquirySources = EnquirySources::all();
         if (!empty($getEnquirySources)) {
@@ -51,13 +52,15 @@ class EnquirySourceController extends Controller {
             return json_encode($result);
         }
     }
+
+    
     public function createsubEnquirySource()
     {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
         $cnt = EnquirySubSources::where(['sub_source' => $request['sub_source']])->get()->count();
-        if ($cnt > 0) { 
+        if ($cnt > 0) { //exists Source
             $result = ['success' => false, 'errormsg' => 'Sub source name already exists'];
             return json_encode($result);
         } else {
@@ -66,6 +69,7 @@ class EnquirySourceController extends Controller {
             return json_encode($result);
         }
     }
+
     public function updateSubEnquirySource() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -79,4 +83,5 @@ class EnquirySourceController extends Controller {
             return json_encode($result);
         }
     }
+
 }

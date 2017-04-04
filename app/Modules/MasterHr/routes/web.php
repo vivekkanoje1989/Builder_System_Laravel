@@ -3,6 +3,8 @@
 Route::group(array('module' => 'MasterHr', 'middleware' => 'auth:admin', 'namespace' => 'App\Modules\MasterHr\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
+    Route::get($getUrl.'/master-hr/getTeamLead/{id}', 'MasterHrController@getTeamLead');    
+    
     Route::get($getUrl . '/master-hr/orgchart', 'MasterHrController@orgchart'); // show page
     Route::get($getUrl . '/master-hr/getChartData', 'MasterHrController@getChartData'); //show chart
     Route::get($getUrl . '/master-hr/manageRolesPermission', 'MasterHrController@manageRolesPermission'); //show manage role page

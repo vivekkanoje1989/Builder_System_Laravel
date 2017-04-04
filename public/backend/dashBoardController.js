@@ -24,9 +24,11 @@ app.controller('dashboardCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$s
             $scope.request_type = request_type;
             $scope.from_date = from_date;
             $scope.to_date = to_date;
-            $scope.req_desc = req_desc;
+            $scope.desc = req_desc;
             $scope.to_name = to_fname + " " + to_lname;
             $scope.id = id;
+
+
             Data.post('my-request/description', {
                 id: $scope.id}).then(function (response) {
                 $scope.cc_name = response.records.first_name + " " + response.records.last_name;
@@ -63,32 +65,15 @@ app.controller('dashboardCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$s
                 $scope.myRequest = response.records;
             });
         }
-        $scope.changeStatus = function ()
-        {
-            Data.post('request-forme/changeStatus', {
-                status: $scope.status, reply: $scope.reply, id: $scope.id}).then(function (response) {
-                if (response.status)
-                {
-                    $('#newModal').modal('toggle');
-                    
-                   $scope.myRequest.splice($scope.index, 1);
-                        $scope.myRequest.splice($scope.index, 0, {
-                            status: $scope.status, id: $scope.id,created_date:$scope.created_date,request_type:$scope.request_type,first_name:$scope.first_name,last_name:$scope.last_name,from_date:$scope.from_date,to_date:$scope.to_date, req_desc:$scope.req_desc });
-                }
-            });
+        
+        $scope.change_status= function(id){
+            alert(id);
+            alert($scope.newStatus);
         }
-        $scope.statusChange = function (id,created_date ,request_type,from_date,to_date,req_desc,first_name,last_name,index)
-        {
-            $scope.id = id;
-            $scope.index = index;
-            $scope.created_date =created_date;
-            $scope.request_type =request_type;
-            $scope.first_name = first_name;
-            $scope.last_name = last_name;
-            $scope.from_date = from_date;
-            $scope.to_date = to_date;
-            $scope.req_desc = req_desc;
-        }
+        $scope.success = function (message) {
+            Flash.create('success', message);
+        };
+
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

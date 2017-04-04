@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'CareerManagement', 'middleware' => 'auth:admin','namespace' => 'App\Modules\CareerManagement\Controllers'), function() {
+Route::group(array('module' => 'CareerManagement', 'namespace' => 'App\Modules\CareerManagement\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
     Route::get($getUrl.'/manage-job/manageCareers', 'CareerManagementController@manageCareers');

@@ -147,6 +147,15 @@ app.controller('departmentCtrl', function ($scope, Data, $timeout) {
     }
 });
 
+app.controller('designationCtrl', function ($scope, Data) {
+    Data.get('getDesignations').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.designationList = response.records;
+        }
+    });
+});
 app.controller('educationListCtrl', function ($scope, Data) {
     Data.get('getEducationList').then(function (response) {
         if (!response.success) {
@@ -295,15 +304,7 @@ app.controller('enquirySourceCtrl', function ($scope, Data) {
         });
     };
 });
-app.controller('teamLeadCtrl',function($scope, Data){
-   Data.get('getTeamLead').then(function (response) {       
-       if (!response.success) {
-           $scope.errorMsg = response.message;
-       } else {
-           $scope.teamLeads = response.records;
-       }
-   });
-});
+
 /****************************UMA************************************/
 app.controller('webPageListCtrl', function ($scope, Data) {
    Data.get('getWebPageList').then(function (response) {

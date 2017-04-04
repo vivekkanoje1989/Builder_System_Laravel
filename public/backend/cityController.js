@@ -1,4 +1,4 @@
-app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaster', function ($scope, Data, $rootScope, $timeout,toaster) {
+app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -30,24 +30,24 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
 
             $scope.heading = 'City';
             $scope.country_id = list.country_id;
-            $scope.id = ids;
+            $scope.id = list.id;
             $scope.name = list.name;
-            if($scope.id !== 0){
+     
+            if(ids !== 0){
                  $scope.manageStates(1,$scope.country_id);
             }
             $scope.state_id = list.state_id;
-            $scope.states = list.state_id;
+
             $scope.index = index * ($scope.noOfRows - 1) + (index1 + 1);
-            $scope.sbtBtn = false;
+
         }
         $scope.doCitiesAction = function () {
             $scope.errorMsg = '';
-          
             if ($scope.id === 0) //for create
             {
 
                 Data.post('manage-city/', {
-                    'name': $scope.name, 'state_id': $scope.state_id}).then(function (response) {
+                    'name': $scope.name, 'state_id': $scope.state_id, 'country_id': $scope.country_id}).then(function (response) {
 
                     if (!response.success)
                     {
@@ -55,14 +55,14 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
                     } else {
                         $scope.citiesRow.push({'name': $scope.name, 'state_id': $scope.state_id, 'country_id': $scope.country_id, id: response.lastinsertid, 'country_name': response.country_name, 'state_name': response.state_name});
                         $('#cityModal').modal('toggle');
-                        toaster.pop('success', 'Manage city ', 'Record successfully created');
+                        //  $scope.success("City details created successfully");
                     }
                 });
             } else {//for update
 
                 Data.put('manage-city/' + $scope.id, {
                     name: $scope.name, id: $scope.id, state_id: $scope.state_id}).then(function (response) {
-               
+                    console.log(response)
                     if (!response.success)
                     {
 
@@ -72,12 +72,14 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
                         $scope.citiesRow.splice($scope.index - 1, 0, {
                             name: $scope.name, id: $scope.id, country_id: $scope.country_id, state_id: $scope.state_id, state_name: response.state_name});
                         $('#cityModal').modal('toggle');
-                        toaster.pop('success', 'Manage city ', 'Record successfully updated');
+                        //$scope.success("City details updated successfully");
                     }
                 });
             }
         }
-       
+        $scope.success = function (message) {
+            Flash.create('success', message);
+        };
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

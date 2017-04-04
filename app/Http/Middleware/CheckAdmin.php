@@ -19,11 +19,12 @@ class CheckAdmin
         if(!empty(Auth()->guard('admin')->id()))
         {
             $data = DB::table('employees')//admins
-                    ->select('employees.usertype','employees.id')
+                    ->select('employees.id')
                     ->where('employees.id',auth()->guard('admin')->id())
                     ->get();
             
-            if (!$data[0]->id  && $data[0]->usertype != 'admin')
+//            if (!$data[0]->id  && $data[0]->usertype != 'admin')
+            if (!$data[0]->id)
             {
                 return redirect()->intended('admin/login/')->with('status', 'You do not have access to admin side');
             }

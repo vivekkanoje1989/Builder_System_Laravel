@@ -1,4 +1,7 @@
 <div class="row" ng-controller="autoassignEnquiriesCtrl" ng-init="manageEnquiries()">  
+  <div>
+          <flash-message duration="5000"></flash-message>
+  </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -21,7 +24,6 @@
                         <tr>
                             <td></td>
                             <td>
-                                <label>Employee name</label>
                                 <select id="employee_id" class="form-control" ng-model="employee_id">
                                     <option value="">Select Employee</option> 
         	                <option ng-repeat = "item in EnquirieRow" value="{{item.id}}">{{item.first_name}}</option>

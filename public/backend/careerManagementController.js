@@ -1,4 +1,4 @@
-app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state','toaster', function ($scope, Data, $rootScope, $timeout, $state,toaster) {
+app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state', function ($scope, Data, $rootScope, $timeout, $state) {
 
         $scope.display_portal = 1;
         $scope.id = 0;
@@ -30,7 +30,6 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
             Data.post('manage-job/deleteJob', {
                 'id': id}).then(function (response) {
                 $scope.careerRow.splice(index, 1);
-                toaster.pop('success', 'Career management ', 'Record successfully deleted');
             });
         }
         $scope.model = {application_start_date: new Date(), application_close_date: new Date()};
@@ -49,7 +48,6 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $state.go(getUrl + '.manageJobIndex');
-                        toaster.pop('success', 'Career management ', 'Record successfully created');
                     }
                 });
             } else { //for update
@@ -63,7 +61,6 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $state.go(getUrl + '.manageJobIndex');
-                        toaster.pop('success', 'Career management ', 'Record successfully updated');
                     }
                 });
             }
@@ -75,8 +72,13 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                 $scope.viewApplicantsRow = response.records;
             });
         }
+        $scope.success = function (message) {
+            Flash.create('success', message);
+        };
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
+
+
     }]);

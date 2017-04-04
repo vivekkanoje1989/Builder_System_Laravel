@@ -4,7 +4,6 @@
  * Created by Reliese Model.
  * Date: Wed, 18 Jan 2017 09:04:39 +0000.
  */
-
 namespace App\Modules\HighestEducation\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
@@ -17,27 +16,28 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstEducations extends Eloquent {
+class MlstEducations extends Eloquent
+{
+	protected $primaryKey = 'education_id';
 
-    protected $primaryKey = 'id';
-    protected $connection = 'masterdb';
-    public $timestamps = false;
-    protected $fillable = [
-        'education',
-        'id',
-        'status',
-        'created_date',
-        'created_at',
-        'created_by',
-        'created_IP',
-        'created_browser',
-        'created_mac_id',
-        'updated_date',
-        'updated_at',
-        'updated_by',
-        'updated_IP',
-        'updated_browser',
-        'updated_mac_id',
-    ];
+	protected $connection = 'masterdb';
 
+	public $timestamps = false;
+	protected $fillable = [
+		'education_title',
+                'education_id',
+                'created_date',
+                'created_at',
+                'created_by',
+                'created_IP',
+                'created_browser',
+                'created_mac_id',
+                'updated_date',
+                'updated_at',
+                'updated_by',
+                'updated_IP',
+                'updated_browser',
+                'updated_mac_id',
+            
+	];
 }

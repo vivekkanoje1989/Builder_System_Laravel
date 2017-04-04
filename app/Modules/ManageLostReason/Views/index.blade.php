@@ -1,4 +1,7 @@
 <div class="row" ng-controller="lostReasonsController" ng-init="manageLostReasons()">  
+ <div>
+          <flash-message duration="5000"></flash-message>
+</div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -64,31 +67,25 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="lostReasonForm.$valid && doLostReasonsAction()" name="lostReasonForm">
-                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!lostReasonForm.reason.$dirty && lostReasonForm.reason.$invalid) }">
-                            <input type="hidden" class="form-control" ng-model="actionModal" name="actionModal" >
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!lostReasonForm.reason.$dirty && lostReasonForm.reason.$invalid) && (!lostReasonForm.lost_reason_status.$dirty && lostReasonForm.lost_reason_status.$invalid)}">
+                            <input type="hidden" class="form-control" ng-model="actionModal" name="actionModal" placeholder="actionModal" >
                                
                             <span class="input-icon icon-right">
-                                <label>Lost reason</label>
-                                <input type="text" class="form-control" ng-model="reason" name="reason"  ng-change="errorMsg = null" required>
-                               
+                                <input type="text" class="form-control" ng-model="reason" name="reason" placeholder="Reason" ng-change="errorMsg = null" required>
+                                <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="lostReasonForm.reason.$error">
                                     <div ng-message="required">Source is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>
                             </span><br/><br/>
-                        </div>
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn  && (!lostReasonForm.lost_reason_status.$dirty && lostReasonForm.lost_reason_status.$invalid)}">
-                         
                             <span class="input-icon icon-right">
-                                <label>Status</label>
-                                <select ng-model="lost_reason_status" name="lost_reason_status" class="form-control" required>
+                                <select ng-model="lost_reason_status" name="lost_reason_status" class="form-control">
                                     <option value="">Select status</option>
                                      <option value="1">Active</option>
                                       <option value="0">Inactive</option>
                                 </select>
+                                <i class="fa fa-user thm-color circular"></i>
                                  <div class="help-block" ng-show="sbtBtn" ng-messages="lostReasonForm.lost_reason_status.$error">
                                     <div ng-message="required">Source status is required</div>
                                 </div>

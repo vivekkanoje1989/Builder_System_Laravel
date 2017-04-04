@@ -1,5 +1,5 @@
 
-app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload', '$state', 'toaster', function ($scope, Data, $rootScope, $timeout, Upload, $state, toaster) {
+app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload', '$state', function ($scope, Data, $rootScope, $timeout, Upload, $state) {
 
         $scope.blogId = 0;
         $scope.manageBlogs = function () {
@@ -7,20 +7,19 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload
                 $scope.blogsRow = response.records;
             });
         };
-        $scope.doblogscreateAction = function (bannerImage, galleryImage) {
+
+        $scope.doblogscreateAction = function (bannerImage,galleryImage) {
+
             $scope.errorMsg = '';
             $scope.allimages = '';
-            if (typeof bannerImage === 'undefined') {
-                bannerImage = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
-            }
             if ($scope.blogId == '0')
             {
                 var url = getUrl + '/manage-blog/';
                 var data = {
                     'blog_title': $scope.title, 'blog_seo_url': $scope.blog_seo_url, 'blog_short_description': $scope.blog_short_description,
                     'blog_description': $scope.blog_description, 'meta_description': $scope.meta_description,
-                    'blog_publish': $scope.blog_publish, 'meta_keywords': $scope.meta_Keywords, 'blogImages': {'blog_banner_images': bannerImage}, 'galleryImage': {'galleryImage': galleryImage}}
-               
+                    'blog_publish': $scope.blog_publish, 'meta_keywords': $scope.meta_Keywords, 'blogImages': {'blog_banner_images': bannerImage},'galleryImage':{'galleryImage':galleryImage}}
+                var successMsg = "Blog created successfully.";
             } else {
                 var url = getUrl + '/manage-blog/update/' + $scope.blogId;
                 var successMsg = "Blog updated successfully.";
@@ -29,8 +28,9 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload
                 }
                 var data = {'blog_title': $scope.title, 'blog_seo_url': $scope.blog_seo_url, 'blog_short_description': $scope.blog_short_description,
                     'blog_description': $scope.blog_description, 'meta_description': $scope.meta_description,
-                    'blog_publish': $scope.blog_publish, 'meta_keywords': $scope.meta_Keywords, 'blogImages': {'blog_banner_images': bannerImage}, 'galleryImage': {'galleryImage': galleryImage}, 'allgallery': $scope.imgs, 'allbanner': $scope.bannerImg
+                    'blog_publish': $scope.blog_publish, 'meta_keywords': $scope.meta_Keywords, 'blogImages': {'blog_banner_images': bannerImage},'galleryImage':{'galleryImage':galleryImage}
                 }
+                var successMsg = "Blog updated successfully.";
             }
             bannerImage.upload = Upload.upload({
                 url: url,
@@ -38,16 +38,9 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload
                 data: data
             });
             bannerImage.upload.then(function (response) {
-
-                $scope.errormsg = response.errormsg;
+                console.log(response);
                 $timeout(function () {
-                    if ($scope.blogId == '0')
-                    {
-                        toaster.pop('success', 'Manage blog', 'Record successfully created');
-                    }else{
-                        toaster.pop('success', 'Manage blog', 'Record successfully updated');
-                    }   
-                    $state.go(getUrl + '.manageblogIndex');
+                   //$state.go(getUrl + '.blogsIndex');
                 });
             }, function (response) {
                 if (response.status !== 200) {
@@ -59,25 +52,28 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload
         $scope.editBlogs = function (blogId) {
             $scope.blogId = blogId;
             Data.post('manage-blog/getBlogsDetail', {blog_id: $scope.blogId}).then(function (response) {
-
+                console.log(response.records);
                 $scope.title = response.records.blog_title;
                 $scope.blog_title = response.records.blog_title;
                 $scope.blog_seo_url = response.records.blog_seo_url;
+               
                 $scope.blog_description = response.records.blog_description;
                 $scope.meta_description = response.records.meta_description;
-                console.log(response.records);
-                $scope.meta_Keywords = response.records.meta_keywords;
+                $scope.meta_Keywords = response.records.meta_Keywords;
                 $scope.blog_publish = response.records.blog_publish;
                 $scope.blog_banner_images = response.records.blog_banner_images;
                 $scope.blog_short_description = response.records.blog_short_description;
-                $scope.bannerImg = response.records.blog_banner_images;
-                $scope.blog_banner_images = "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/blogBannerImages/" + response.records.blog_banner_images;
-
-                var arraydata = response.records.blog_images.split(',');
-                $scope.imgs = arraydata;
+                $scope.blog_banner_images = "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Blog_Banner/" + response.records.blog_banner_images;
+                
+                 var arraydata = response.records.blog_images.split(',');
+                 $scope.imgs = arraydata;
+              
             });
         }
-       
+        $scope.success = function (message) {
+            Flash.create('success', message);
+        };
+
         $scope.checkImageExtension = function (galleryImage) {
             if (typeof galleryImage !== 'undefined' || typeof galleryImage !== 'object') {
                 var ext = galleryImage.match(/\.(.+)$/)[1];
@@ -90,9 +86,9 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload
                 }
             }
         };
-
-
-        $scope.removeImg = function (imgname, indeximg, blogId)
+        
+        
+         $scope.removeImg = function (imgname, indeximg, blogId)
         {
             if (window.confirm("Are you sure want to remove this image?"))
             {
@@ -101,7 +97,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload
                     Data.post('manage-blog/removeBlogImage', {
                         blogId: blogId, imageName: imgname, allimg: $scope.imgs,
                     }).then(function (response) {
-                        
+                        console.log(response);
                         if (!response.success)
                         {
 

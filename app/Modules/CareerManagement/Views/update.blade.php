@@ -1,4 +1,7 @@
 <div class="row" ng-controller="careerCtrl"  ng-init = "getCareer(<?php echo $id; ?>);">  
+    <div>
+        <flash-message duration="5000"></flash-message>
+    </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -13,8 +16,6 @@
 
             <div class="widget-body table-responsive">     
                 <form  ng-submit="jobPosting.$valid && dojobPostingAction()" name="jobPosting"  novalidate enctype="multipart/form-data">
-                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
                     <table class="table table-hover table-striped table-bordered" at-config="config">
                         <thead class="bord-bot">
                             <tr>
@@ -29,7 +30,7 @@
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_title.$dirty && jobPosting.job_title.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="job_title" name="job_title"  ng-change="errorMsg = null" required>
+                                            <input type="text" class="form-control" ng-model="job_title" name="job_title" placeholder="Title" ng-change="errorMsg = null" required>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_title.$error">
                                                 <div ng-message="required">Title is required</div>
                                                 <div ng-if="errorMsg">{{errorMsg}}</div>
@@ -44,7 +45,7 @@
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_locations.$dirty && jobPosting.job_locations.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="job_locations" name="job_locations"  required>
+                                            <input type="text" class="form-control" ng-model="job_locations" name="job_locations" placeholder="Job locations" required>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_locations.$error">
                                                 <div ng-message="required">Job location is required</div>
                                             </div>
@@ -57,7 +58,7 @@
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_eligibility.$dirty && jobPosting.job_eligibility.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="job_eligibility" name="job_eligibility" cols="50" rows="5" required ></textarea>
+                                            <textarea ng-model="job_eligibility" name="job_eligibility" cols="50" rows="5" required placeholder="Eligibility Criteria"></textarea>
 
                                         </span>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_eligibility.$error">
@@ -72,7 +73,7 @@
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_role.$dirty && jobPosting.job_role.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="job_role" name="job_role"   required>
+                                            <input type="text" class="form-control" ng-model="job_role" name="job_role" placeholder="Job Role"  required>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_locations.$error">
                                                 <div ng-message="required">Title is required</div>
                                             </div>
@@ -130,7 +131,7 @@
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.number_of_positions.$dirty && jobPosting.number_of_positions.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="number_of_positions" name="number_of_positions"  required>
+                                            <input type="text" class="form-control" ng-model="number_of_positions" name="number_of_positions" placeholder="Number of positions"  required>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.number_of_positions.$error">
                                                 <div ng-message="required">Number of position is required</div>
                                             </div>

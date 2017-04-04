@@ -20,16 +20,16 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class MlstBmsbDepartment extends Eloquent
 {
-	public $timestamps = false;
+    public $timestamps = false;
+    protected $primaryKey = 'id';
+    protected $connection = 'masterdb';
 
-        protected $connection = 'masterdb';
+    protected $casts = [
+            'client_id' => 'int'
+    ];
 
-	protected $casts = [
-		'client_id' => 'int'
-	];
-
-	protected $fillable = [
-		'client_id',
-		'department_name'
-	];
+    protected $fillable = [
+            'client_id',
+            'department_name'
+    ];
 }

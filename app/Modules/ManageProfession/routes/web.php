@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'ManageProfession','middleware' => 'auth:admin','namespace' => 'App\Modules\ManageProfession\Controllers'), function() {
+Route::group(array('module' => 'ManageProfession','namespace' => 'App\Modules\ManageProfession\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
     Route::resource($getUrl.'/manage-profession', 'ManageProfessionController');

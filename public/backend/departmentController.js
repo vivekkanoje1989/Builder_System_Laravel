@@ -1,24 +1,25 @@
-app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', function ($scope, Data, $rootScope, $timeout, toaster) {
+app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
 
         $scope.manageDepartment = function () {
             Data.post('manage-department/manageDepartment').then(function (response) {
                 $scope.departmentRow = response.records;
+
             });
         };
-        $scope.initialModal = function (id, vertical_id) {
-            alert(vertical_id);
+        $scope.initialModal = function (id) {
             $scope.heading = 'Departments';
-            $scope.id = id;
-            $scope.vertical = vertical_id;
-            $scope.sbtBtn = false;
             if (id > 0)
             {
-                Data.post('manage-department/getDepartment', {id: id}).then(function (response) {
-                    console.log(response.records);
+                Data.post('manage-department/getDepartment',{id:id}).then(function (response) {
+                   console.log(response.records);
                     $("#department_name").val(response.records[0]['department_name']);
-
+                    //document.getElementById("vertical_id").selectedIndex = 1;
+                   // $("#vertical_id").val(response.records[0]['name'])
                 });
+               
+                //$scope.departmentData.department_name="uma";
             }
+            $scope.id = id;
         }
 
 
@@ -28,14 +29,13 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
             {
                 Data.post('manage-department/', {
                     department_name: deptData.department_name, vertical_id: deptData.vertical_id, }).then(function (response) {
-                   
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                        $scope.departmentRow.push({'department_name': deptData.department_name, 'vertical_id': deptData.vertical_id, 'id': response.lastinsertid, name: response.vertical});
+                        $scope.departmentRow.push({'department_name': deptData.department_name, 'vertical_id': deptData.vertical_id, 'id': response.lastinsertid});
                         $('#departmentModal').modal('toggle');
-                        toaster.pop('success', 'Manage department', 'Record successfully created');
+                        //  $scope.success("Department details created successfully"); 
                     }
                 });
             } else { //for update
@@ -50,12 +50,14 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
                         $scope.departmentRow.splice($scope.index, 0, {
                             department_name: $scope.department_name, id: $scope.id});
                         $('#departmentModal').modal('toggle');
-                        toaster.pop('success', 'Manage department', 'Record successfully updated');
+                        //  $scope.success("Department details updated successfully"); 
                     }
                 });
             }
         }
-
+        $scope.success = function (message) {
+            Flash.create('success', message);
+        };
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

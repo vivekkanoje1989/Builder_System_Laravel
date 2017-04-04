@@ -1,5 +1,5 @@
 'use strict';
-app.controller('autoassignEnquiriesCtrl', ['$scope', 'Data','toaster', function ($scope, Data,toaster) {
+app.controller('autoassignEnquiriesCtrl', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope,$timeout) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -19,8 +19,11 @@ app.controller('autoassignEnquiriesCtrl', ['$scope', 'Data','toaster', function 
                         $scope.errorMsg = response.errormsg;
                     } else {
                         
-                       toaster.pop('success', 'Web enquiry', 'Record successfully created');
+                       // $scope.success("Contact details updated successfully");
                     }
                 });
         }
+        $scope.success = function(message) {
+               Flash.create('success', message);
+           };
     }]);
