@@ -17,7 +17,6 @@ return array(
     'CreateDashBoardsTable' => $baseDir . '/database/migrations/2017_03_25_133535_create_dash_boards_table.php',
     'CreateDiscountHeadingsTable' => $baseDir . '/database/migrations/2017_03_17_113229_create_discount_headings_table.php',
     'CreateEmailConfigsTable' => $baseDir . '/database/migrations/2017_03_27_105440_create_email_configs_table.php',
-    'CreateEmployeeDevicesTable' => $baseDir . '/database/migrations/2017_04_03_145950_create_employee_devices_table.php',
     'CreateEnquirySourcesTable' => $baseDir . '/database/migrations/2017_03_16_131657_create_enquiry_sources_table.php',
     'CreateHighestEducationsTable' => $baseDir . '/database/migrations/2017_03_17_113306_create_highest_educations_table.php',
     'CreateManageBlockTypesTable' => $baseDir . '/database/migrations/2017_03_17_160955_create_manage_block_types_table.php',

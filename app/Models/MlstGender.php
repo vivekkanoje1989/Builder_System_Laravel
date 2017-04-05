@@ -19,16 +19,16 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class MlstGender extends Eloquent
 {
-	protected $primaryKey = 'gender_id';
+	protected $primaryKey = 'id';
 	protected $connection = 'masterdb';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'gender_id' => 'int'
+		'id' => 'int'
 	];
 
 	protected $fillable = [
-		'gender_title'
+		'gender'
 	];
 }

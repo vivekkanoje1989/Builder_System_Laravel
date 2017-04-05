@@ -19,13 +19,13 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class MlstEducation extends Eloquent
 {
-	protected $primaryKey = 'education_id';
+	protected $primaryKey = 'id';
 
 	protected $connection = 'masterdb';
 
 	public $timestamps = false;
 	protected $fillable = [
-		'education_title',
+		'education',
                 'education_id',
                 'created_date',
                 'created_at',

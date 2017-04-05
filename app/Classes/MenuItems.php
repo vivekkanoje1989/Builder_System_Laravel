@@ -95,9 +95,9 @@ class MenuItems {
                         2 => array('id' => '02020902', 'name' => 'Parking Sub Type', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     )),
                     10 => array('id' => '0202010', 'name' => 'Device Configuration', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
-                    'submenu_ids' => '020201001', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
-                        1 => array('id' => '020201001', 'name' => 'Manage', 'icon' => '', 'url' => '/'.$getUrl.'/employeeDevice/index', 'slug' => '.employeeDeviceIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),                       
-                    )),
+                   'submenu_ids' => '020201001', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
+                       1 => array('id' => '020201001', 'name' => 'Manage', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),                       
+                   )),
                 )),
                 3 => array('id' => '0203', 'name' => 'BMS Consumption', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '020301,020302,020303', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    

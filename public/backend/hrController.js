@@ -3,17 +3,15 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
     $scope.buttonLabel = 'Create';
     $scope.userData = {};
     $scope.listUsers = [];
-    $scope.userData.gender = $scope.userData.title = $scope.userData.blood_group_id =
-    $scope.userData.physic_status_id = $scope.userData.marital_status = $scope.userData.highest_education_id =
+    $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
+    $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
     $scope.userData.current_country_id = $scope.userData.current_state_id = $scope.userData.current_city_id =
     $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = "";
     $scope.userData.employee_status = "1";
-    $scope.userData.personal_mobile_no1 = $scope.userData.office_mobile_no = $scope.userData.personal_mobile_no2 = $scope.userData.landline_no = "+91-";
+    $scope.userData.personal_mobile1 = $scope.userData.office_mobile_no = $scope.userData.personal_mobile2 = $scope.userData.personal_landline_no = "+91-";
     $scope.disableCreateButton = false;
     $scope.currentPage =  $scope.itemsPerPage = 4;
     $scope.noOfRows = 1;
-    //$scope.emptyDepartmentId = false;
-//    $scope.imgUrl = "blank-avatar.svg";
     
     $scope.validateMobileNumber = function (value) {
         var regex = /^(\+\d{1,4}-)\d{10}$/;
@@ -58,8 +56,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
             }
         }
     };
+    
+    $scope.copyToUsername = function (value) {
+        $scope.userData.username = value.split('-')[1];
+    };
     /*$scope.checkTitle = function () {
-        if ($scope.userData.title === "Mrs.")
+        if ($scope.userData.title_id === "Mrs.")
         {
             $scope.userData.marital_status = "2";
             $("#marital_status").prop("disabled","disabled");
@@ -81,16 +83,17 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         if(empId === 0)
         {          
             var url = getUrl+'/master-hr/';
-            var data = {userData: userData, emp_photo_url: employeePhoto, empId: empId};
+            var data = {userData: userData, employee_photo_file_name: employeePhoto, empId: empId};
             var successMsg = "Employee registeration successfully.";
         }
         else{
             var url = getUrl+'/master-hr/' + empId;            
             var successMsg = "Employee registeration updated successfully.";  
+            console.log(employeePhoto);
             if (typeof employeePhoto === 'string') {
                 employeePhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
-            var data = {_method: 'PUT', userData: userData, emp_photo_url: employeePhoto, empId: empId};
+            var data = {_method: 'PUT', userData: userData, employee_photo_file_name: employeePhoto, empId: empId};
         }
         
         employeePhoto.upload = Upload.upload({
@@ -107,8 +110,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                         var model = $parse(key);// Get the model
                         model.assign($scope, obj[key][0]);// Assigns a value to it
                     } 
-                } else
-                {
+                } else{
                     $scope.disableCreateButton = true;
                     employeePhoto.result = response.data;
                     $rootScope.alert('success', successMsg);
@@ -142,33 +144,34 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                         $scope.pageHeading = 'Edit User';
                         $scope.buttonLabel = 'Update';
                         $scope.userData = angular.copy(response.records.data[0]);
-                       // console.log($scope.userData.emp_photo_url);
+                        console.log(response.records.data[0]);
                         $scope.userData.password = '';
                         if($scope.userData.marriage_date == "0000-00-00"){
                             $scope.userData.marriage_date = "";   
                         }                            
-                        var personal_mobile_no1_code = '+' + response.records.data[0].mobile1_calling_code + '-';
+                        var personal_mobile_no1_code = '+' + response.records.data[0].personal_mobile1_calling_code + '-';
                         var office_mobile_no_code = '+' + response.records.data[0].office_mobile_calling_code + '-';
-                        $scope.userData.personal_mobile_no1 = personal_mobile_no1_code + angular.copy(response.records.data[0].personal_mobile_no1);
+                        $scope.userData.personal_mobile1 = personal_mobile_no1_code + angular.copy(response.records.data[0].personal_mobile1);
                         $scope.userData.office_mobile_no = office_mobile_no_code + angular.copy(response.records.data[0].office_mobile_no);
-                        if (response.records.data[0].mobile2_calling_code !== null) {
-                            var personal_mobile_no2_code = '+' + response.records.data[0].mobile2_calling_code + '-';
-                            $scope.userData.personal_mobile_no2 = personal_mobile_no2_code + angular.copy(response.records.data[0].personal_mobile_no2);
-                        }
-                        if (response.records.data[0].landline_no !== null || response.records.data[0].landline_no !== '') {
-                            var landlineNo = '+'+response.records.data[0].landline_calling_code + '-';
-                            var landLineNumber=""+response.records.data[0].landline_no;
-                            $scope.userData.landline_no = landlineNo +landLineNumber;
-                        }
+                        if (response.records.data[0].personal_mobile2_calling_code !== null) {
+                            var personal_mobile_no2_code = '+' + response.records.data[0].personal_mobile2_calling_code + '-';
+                            $scope.userData.personal_mobile2 = personal_mobile_no2_code + angular.copy(response.records.data[0].personal_mobile2);
+                        }else{$scope.userData.personal_mobile2 = "+91-";}
+                        
+                        if (response.records.data[0].personal_landline_calling_code !== null) {
+                            var landlineNo = '+'+response.records.data[0].personal_landline_calling_code + '-';
+                            var landLineNumber=""+response.records.data[0].personal_landline_no;
+                            $scope.userData.personal_landline_no = landlineNo +landLineNumber;
+                        }else{$scope.userData.personal_landline_no = "+91-";}
                         if (response.records.data[0].office_email_id === null || response.records.data[0].office_email_id === '') {                                
                             $scope.userData.office_email_id = '';
                         }
                         else
                             $scope.userData.office_email_id = response.records.data[0].office_email_id;
-                        if (response.records.data[0].personal_email_id2 === null || response.records.data[0].personal_email_id2 === '') {                                
-                            $scope.userData.personal_email_id2 = '';
+                        if (response.records.data[0].personal_email2 === null || response.records.data[0].personal_email2 === '') {                                
+                            $scope.userData.personal_email2 = '';
                         }else
-                            $scope.userData.personal_email_id2 = response.records.data[0].personal_email_id2;
+                            $scope.userData.personal_email2 = response.records.data[0].personal_email2;
                         $scope.userData.passwordOld = response.records.data[0].password;
                         var current_country = response.records.data[0].current_country_id;
                         var current_state = response.records.data[0].current_state_id;
@@ -195,7 +198,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                                 });
                             }
                         });
-                        $scope.imgUrl = response.records.data[0].emp_photo_url;
+                        $scope.imgUrl = response.records.data[0].employee_photo_file_name;
                         var deptId = response.records.data[0].department_id;
                         Data.post('master-hr/getDepartmentsToEdit', {
                             data: {deptId: deptId},
@@ -396,7 +399,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                 var datalength = Object.keys(response).length;
                 for (var i = 0; i < datalength; i++)
                 {
-                    arr.push([{v: "'" + response[i]['v'] + "'", f: "'" + response[i]['f'] }, "'" + response[i]['teamId'] + "'", response[i]['designation']]);
+                    arr.push([{v: "'" + response[i]['v'] + "'", f: "'" + response[i]['f'] }, "'" + response[i]['teamId'] + "'", response[i]['designation_id']]);
                 }
                 console.log(arr);
                 data.addRows(arr);
@@ -408,21 +411,25 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         }
     }
     /****************** Organization Chart *********************/
+    /*$scope.uploadedFile = function(element) {
+        $scope.currentFile = element.files[0];
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          $scope.image_source = event.target.result;
+          $scope.$apply(function($scope) {
+            $scope.files = element.files;
+          });
+        }
+        reader.readAsDataURL(element.files[0]);
+    }*/
 }]);
 
-/*app.controller('roleCtrl', function ($scope, $state, Data) {
-    Data.post('master-hr/getMenuLists',{
-        data: {id: 87, moduleType: "employee"},
-    }).then(function (response) {
-        if (response) {
-            console.log(response);
-            $scope.menuItems = response;
-        } else {
+app.controller('teamLeadCtrl', function ($scope, Data) {
+    Data.get('master-hr/getTeamLead/' + $("#empId").val()).then(function (response) {
+        if (!response.success) {
             $scope.errorMsg = response.message;
+        } else {
+            $scope.teamLeads = response.records;
         }
     });
-    
-   
-});*/
-        
-        
+});    

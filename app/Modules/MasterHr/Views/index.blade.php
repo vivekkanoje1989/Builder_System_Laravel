@@ -26,13 +26,6 @@
                     <thead class="bord-bot">
                         <tr>
                             <th style="width:5%">SR No.</th>
-                            <th style="width: 5%">
-                                <a href="javascript:void(0);" ng-click="orderByField='id'; reverseSort = !reverseSort">Id 
-                                    <span ng-show="orderByField == 'id'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
                             <th style="width: 10%">
                                 <a href="javascript:void(0);" ng-click="orderByField='first_name'; reverseSort = !reverseSort">Employee Name 
                                     <span ng-show="orderByField == 'first_name'">
@@ -87,12 +80,11 @@
                     </thead>
                     <tbody>
                         <tr role="row" dir-paginate="listUser in listUsers | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                            <td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>
-                            <td>{{ listUser.id }}</td>
+                            <td>{{ itemsPerPage * (noOfRows-1)+$index+1 }}</td>
                             <td>{{ listUser.first_name }} {{ listUser.last_name }}</td>
-                            <td>{{ listUser.designation }}</td>
-                            <td>{{ listUser.reporting_to_fname }} {{ listUser.reporting_to_lname }}</td>
-                            <td>{{ listUser.team_lead_fname }} {{ listUser.team_lead_lname }}</td>
+                            <td>{{ listUser.designation_id }}</td>
+                            <td>{{ listUser.reporting_to_id }}</td>
+                            <td>{{ listUser.team_lead_id }}</td>
                             <td>{{ listUser.department_id }}</td>
                             <td>{{ listUser.joining_date | date:'dd-MM-yyyy' }}</td>
                             <td ng-if="listUser.employee_status == 1">Active</td>

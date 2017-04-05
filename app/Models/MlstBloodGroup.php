@@ -21,14 +21,14 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class MlstBloodGroup extends Eloquent
 {
-	protected $primaryKey = 'blood_group_id';
+	protected $primaryKey = 'id';
         protected $connection = 'masterdb';
         protected $table = 'mlst_blood_groups';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'blood_group_id' => 'int'
+		'id' => 'int'
 	];
 
 	protected $fillable = [
