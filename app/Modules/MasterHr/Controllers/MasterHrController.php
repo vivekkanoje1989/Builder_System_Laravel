@@ -544,7 +544,7 @@ class MasterHrController extends Controller {
         return view("MasterHr::chart");
     }
 
-    public function getChartData() {
+   public function getChartData() {
         $input = Employee::whereIn('employee_status', [1, 2])
                 ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                 ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
