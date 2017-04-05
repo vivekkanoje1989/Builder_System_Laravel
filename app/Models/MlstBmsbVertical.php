@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 29 Mar 2017 17:02:33 +0530.
+ * Date: Wed, 05 Apr 2017 13:02:43 +0530.
  */
 
 namespace App\Models;
@@ -22,9 +22,8 @@ class MlstBmsbVertical extends Eloquent {
     public $timestamps = false;
     protected $primaryKey = 'id';
     protected $connection = 'masterdb';
-    public $table = 'mlst_bmsb_verticals';
-    public $incrementing = false;
     protected $fillable = [
         'name'
     ];
+
 }

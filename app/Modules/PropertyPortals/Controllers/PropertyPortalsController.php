@@ -278,4 +278,15 @@ class PropertyPortalsController extends Controller {
         }
     }
 
+    public function getAllEmployees() {
+        $getEmployees = Employee::select('id', 'first_name', 'last_name')->get();
+        if (!empty($getEmployees)) {
+            $result = ['success' => true, 'records' => $getEmployees];
+            return $result;
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
 }

@@ -32,12 +32,8 @@ return [
         "EmailConfig",
         "CareerManagement",
         "DashBoard",
-        "CareerManagement",
-        "DashBoard",
-        "EmailConfig",
-        "CareerManagement",
-        "DashBoard",
         "CustomersData",
         "Projects",
+        "EmployeeDevice",
     ),
 ];

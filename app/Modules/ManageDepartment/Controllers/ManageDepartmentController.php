@@ -1,18 +1,15 @@
 <?php
-
 namespace App\Modules\ManageDepartment\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\ManageDepartment\Models\MlstDepartments;
+use App\Modules\ManageDepartment\Models\MlstBmsbDepartment;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
 use Illuminate\Support\Facades\Input;
 
 class ManageDepartmentController extends Controller {
-
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +25,7 @@ class ManageDepartmentController extends Controller {
      * @return Response
      */
     public function manageDepartment() {
-        $getDepartment = MlstDepartments::leftJoin('mlst_verticals', 'mlst_departments.vertical_id', '=', 'mlst_verticals.id')->select('mlst_departments.id', 'name', 'department_name', 'vertical_id')->get();
+        $getDepartment = MlstBmsbDepartment::leftJoin('mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
         // print_r($getDepartment); exit;
 //        $getDepartment = DB::table('users')
 //            ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
@@ -45,7 +42,7 @@ class ManageDepartmentController extends Controller {
     public function getDepartment() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $getDepartment = MlstDepartments::leftJoin('mlst_verticals', 'mlst_departments.vertical_id', '=', 'mlst_verticals.id')->where('mlst_departments.id', $request['id'])->select('mlst_departments.id', 'name', 'department_name', 'vertical_id')->get();
+        $getDepartment = MlstBmsbDepartment::leftJoin('mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->where('mlst_bmsb_departments.id', $request['id'])->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
         if (!empty($getDepartment)) {
             $result = ['success' => true, 'records' => $getDepartment];
             return json_encode($result);
@@ -65,7 +62,7 @@ class ManageDepartmentController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $cnt = MlstDepartments::where(['department_name' => $request['department_name']])->get()->count();
+        $cnt = MlstBmsbDepartment::where(['department_name' => $request['department_name']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Department already exists'];
             return json_encode($result);
@@ -73,8 +70,8 @@ class ManageDepartmentController extends Controller {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['departmentData'] = array_merge($request, $create);
-            $result = MlstDepartments::create($input['departmentData']);
-            $last3 = MlstDepartments::latest('id')->first();
+            $result = MlstBmsbDepartment::create($input['departmentData']);
+            $last3 = MlstBmsbDepartment::latest('id')->first();
             $input['departmentData']['main_record_id'] = $last3->id;
             $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id];
             return json_encode($result);
@@ -87,12 +84,12 @@ class ManageDepartmentController extends Controller {
         $request = Input::all();
        // print_r($request);
       //  exit;
-        $getCount = MlstDepartments::where(['department_name' => $request['department_name'], ['id', '<>', $id]])->get()->count();
+        $getCount = MlstBmsbDepartment::where(['department_name' => $request['department_name'], ['id', '<>', $id]])->get()->count();
         if ($getCount > 0) {
-            $result = ['success' => false, 'errormsg' => 'Country already exists'];
+            $result = ['success' => false, 'errormsg' => 'Department already exists'];
             return json_encode($result);
         } else {
-            $result = MlstDepartments::where('id', $request['id'])->update($request);
+            $result = MlstBmsbDepartment::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

@@ -80,15 +80,15 @@
                                     <div class="form-group">
                                         <label for="">Device Description <span class="sp-err"></span></label>
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="deviceData.device_description" cols="20" rows="4" name="device_description" class="form-control" required></textarea>                                            
+                                            <textarea ng-model="deviceData.device_description" cols="20" rows="4" name="device_description" class="form-control"></textarea>                                            
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-6">
                                     <div class="form-group">
-                                        <label for="">Remark <span class="sp-err"></span></label>
+                                        <label for="">Remarks <span class="sp-err"></span></label>
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="deviceData.remark" name="remark" cols="20" rows="4" class="form-control" required></textarea>                                            
+                                            <textarea ng-model="deviceData.remarks" name="remarks" cols="20" rows="4" class="form-control"></textarea>                                            
                                         </span>
                                     </div>
                                 </div>
