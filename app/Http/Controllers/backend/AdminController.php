@@ -15,7 +15,7 @@ use App\Models\MlstCountry;
 use App\Models\MlstState;
 use App\Models\MlstCity;
 use App\Models\ClientInfo;
-use App\Models\MlstEnquirySalesSource;
+use App\Models\MlstBmsbEnquirySalesSource;
 use App\Models\EnquirySubSource;
 use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
@@ -219,12 +219,13 @@ class AdminController extends Controller {
         $getBloodGroup = MlstBloodGroup::all();
         $getDepartments = MlstBmsbDepartment::all();
         $getEducationList = MlstEducation::all();
-        $getEnquirySource = MlstEnquirySalesSource::all();
+        $getEnquirySource = MlstBmsbEnquirySalesSource::all();
         $getEnquirySubSource = EnquirySubSource::all();
         $getMlstProfession = MlstProfession::all();
+        $getMlstBmsbDesignation = MlstBmsbDesignation::all();
         $getEmployees = Employee::select('id', 'first_name')->get();
         if (!empty($getTitle)) {
-            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession];
+            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -308,7 +309,7 @@ class AdminController extends Controller {
     }
 
     public function getEnquirySource() {
-        $getSource = MlstEnquirySalesSource::all();
+        $getSource = MlstBmsbEnquirySalesSource::all();
         if (!empty($getSource)) {
             $result = ['success' => true, 'records' => $getSource];
             return json_encode($result);

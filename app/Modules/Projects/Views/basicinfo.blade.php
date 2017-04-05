@@ -6,7 +6,7 @@
         padding: 10px;
     }
 </style>
-<div>
+<div ng-controller="basicInfoController">
     <div id="tabbedwizard" class="wizard wizard-tabbed" data-target="#tabbedwizardsteps" ui-jq="wizard">
         <ul class="steps">
             <li data-target="#tabbedwizardstep1" class="active"><span class="step">1</span>Project Basic Information<span class="chevron"></span></li>
@@ -16,12 +16,12 @@
     </div>
     <div class="step-content" id="tabbedwizardsteps">
         <div class="step-pane active" id="tabbedwizardstep1">
-            <form role="form">
+            <form role="form" name='basicInfoForm' ng-submit="basicInfoForm.$valid && saveBasicInfo(basicData)">
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Project Alias</label>
-                            <input type="text" class="form-control" ng-model="project_alias" name="project_alias">
+                            <input type="text" class="form-control" ng-model="basicData.project_alias" name="project_alias" maxlength="200" />
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">
@@ -29,11 +29,11 @@
                             <label>Alias Status</label>
                             <div class="radio">
                                 <label>
-                                    <input name="form-field-radio" type="radio" ng-model="alias_status" name="alias_status" value="1" class="colored-blue">
+                                    <input name="form-field-radio" type="radio" ng-model="basicData.alias_status" ng-selected="1" name="alias_status" value="1" class="colored-blue">
                                     <span class="text">Active </span>
                                 </label> &nbsp;&nbsp;
                                 <label>
-                                    <input name="form-field-radio" type="radio" ng-model="alias_status" name="alias_status" value="0" class="colored-danger">
+                                    <input name="form-field-radio" type="radio" ng-model="basicData.alias_status" name="alias_status" value="0" class="colored-danger">
                                     <span class="text">  Inactive </span>
                                 </label>
                             </div>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="widget-body no-padding">
                                 <div ng-controller="TextAngularCtrl">
-                                    <div text-angular ng-model="contentPage.short_description" name="short-description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                    <div text-angular ng-model="basicData.short_description" name="short-description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                             </div>
                             <div class="widget-body no-padding">
                                 <div ng-controller="TextAngularCtrl">
-                                    <div text-angular ng-model="contentPage.brief_description" name="brief-description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                    <div text-angular ng-model="basicData.brief_description" name="brief-description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
                                 </div>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-blue">Submit</button>
+                            <button type="submit" class="btn btn-blue">Save & Continue</button>
                         </div>
                     </div>
                 </div>

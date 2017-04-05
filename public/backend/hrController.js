@@ -1,4 +1,4 @@
-app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', '$stateParams', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse, $stateParams) {
+app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster', function ($scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster) {
     $scope.pageHeading = 'Create User';
     $scope.buttonLabel = 'Create';
     $scope.userData = {};
@@ -84,12 +84,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
         {          
             var url = getUrl+'/master-hr/';
             var data = {userData: userData, employee_photo_file_name: employeePhoto, empId: empId};
-            var successMsg = "Employee registeration successfully.";
+            var successMsg = "Record successfully created.";
         }
         else{
             var url = getUrl+'/master-hr/' + empId;            
-            var successMsg = "Employee registeration updated successfully.";  
-            console.log(employeePhoto);
+            var successMsg = "Record successfully updated.";  
             if (typeof employeePhoto === 'string') {
                 employeePhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
@@ -113,8 +112,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', '$filt
                 } else{
                     $scope.disableCreateButton = true;
                     employeePhoto.result = response.data;
-                    $rootScope.alert('success', successMsg);
-                    $('.alert-delay').delay(3000).fadeOut("slow");
+                    toaster.pop('success', 'Employee Details', successMsg);
+                    
                     $timeout(function () {
                         $state.go(getUrl+'.userIndex');
                     }, 1000);

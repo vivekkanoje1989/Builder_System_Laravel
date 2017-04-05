@@ -17,6 +17,11 @@ app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$ti
         });
     }
 }]);
+app.controller('basicInfoController', ['$scope', '$state', 'Data', 'toaster', '$timeout', function ($scope, $state, Data, toaster, $timeout) {
+    $scope.basicData = {};
+    $scope.basicData.alias_status = "0";
+}]);
+
 
 app.controller('projectCntrl', function ($scope, Data) {
     Data.get('projects/getProjects').then(function (response) {

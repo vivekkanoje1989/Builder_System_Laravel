@@ -161,20 +161,19 @@ class MasterHrController extends Controller {
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['userData'] = array_merge($input['userData'], $create);
             $input = Employee::doAction($input);
-            $employee = Employee::create($input['userData']); //insert data into employees table            
-            $input['userData']['main_record_id'] = $loggedInUserId;
+            $employee = Employee::create($input['userData']); //insert data into employees table     
+            
             $input['userData']['main_record_id'] = $loggedInUserId;
             $input['userData']['record_type'] = 1;
             $input['userData']['record_restore_status'] = 1;
-            //unset($input['userData']['loggedInUserId']);
-            //print_r($input['userData']);exit;
             EmployeesLog::create($input['userData']);   //insert data into employees_logs table
+           
             if ($employee) {
                 $result = ['success' => true, 'message' => 'Employee registeration successfully', "empId" => $employee->id];
-                echo json_encode($result);
+                return json_encode($result);
             } else {
                 $result = ['success' => false, 'message' => 'Something went wrong.'];
-                echo json_encode($result);
+                return json_encode($result);
             }
         }
         exit;
@@ -247,25 +246,26 @@ class MasterHrController extends Controller {
         $input = json_decode($postdata, true);
         if (empty($input)) {
             $input = Input::all();
+            $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
+            if ($validator->fails()) {
+                $result = ['success' => false, 'message' => $validator->messages()];
+                return json_encode($result);
+            }
+            $loggedInUserId = Auth::guard('admin')->user()->id;
         }
-
-        $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
-        if ($validator->fails()) {
-            $result = ['success' => false, 'message' => $validator->messages()];
-            return json_encode($result);
-        }
-
-        $input = Employee::doAction($input);
-        $input['userData']['updated_date'] = date('Y-m-d');
-        if (!empty($input['userData']['loggedInUserId'])) {
+        else{
             $loggedInUserId = $input['userData']['loggedInUserId'];
             unset($input['userData']['department_name']);
             unset($input['userData']['login_date_time']);
             unset($input['userData']['departmentid']);
             unset($input['userData']['loggedInUserId']);
-        } else {
-            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $empPhoto = $input['userData']['employee_photo_file_name'];
+            $input['userData']['employee_photo_file_name'] = '';
         }
+        
+        $input = Employee::doAction($input);
+        $input['userData']['updated_date'] = date('Y-m-d');
+        
         $input['userData']['updated_by'] = $loggedInUserId;
         $input['userData']['updated_IP'] = $_SERVER['REMOTE_ADDR'];
         $input['userData']['updated_browser'] = $_SERVER['HTTP_USER_AGENT'];
@@ -274,7 +274,6 @@ class MasterHrController extends Controller {
         unset($input['userData']['password_confirmation']);
         unset($input['userData']['passwordOld']);
         unset($input['userData']['password']);
-
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
         if (!empty($input['employee_photo_file_name'])) {
             $originalName = $input['employee_photo_file_name']->getClientOriginalName();
@@ -296,13 +295,18 @@ class MasterHrController extends Controller {
             }
         }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
+        $input['userData']['employee_photo_file_name'] = $empPhoto;
+        
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
+        //
         $employeeUpdate = Employee::where('id', $id)->update($input['userData']);
+        echo "<pre>";print_r($employeeUpdate);exit;
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData = $originalValues[0]['attributes']['password'];
         unset($getResult['password']);
         $implodeArr = implode(",", array_keys($getResult));
+        
         if ($employeeUpdate == 1) {
             $input['userData']['password'] = $pwdData;
             $input['userData']['main_record_id'] = $loggedInUserId;
