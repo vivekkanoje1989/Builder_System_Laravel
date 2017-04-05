@@ -34,5 +34,6 @@ return [
         "DashBoard",
         "CustomersData",
         "Projects",
+        "EmployeeDevice",
     ),
 ];

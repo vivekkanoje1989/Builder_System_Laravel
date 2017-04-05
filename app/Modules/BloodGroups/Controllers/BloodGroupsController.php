@@ -37,8 +37,8 @@ class BloodGroupsController extends Controller {
              $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
              $input['bloodGroupData'] = array_merge($request,$create);
              $bloodgroup = MlstBloodGroups::create($input['bloodGroupData']);
-             $last3 = MlstBloodGroups::latest('blood_group_id')->first();
-             $result = ['success' => true, 'result' => $bloodgroup,'lastinsertid'=>$last3->blood_group_id];
+             $last3 = MlstBloodGroups::latest('id')->first();
+             $result = ['success' => true, 'result' => $bloodgroup,'lastinsertid'=>$last3->id];
           return json_encode($result);
         }
     }
@@ -51,8 +51,10 @@ class BloodGroupsController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Blood group already exists'];
             return json_encode($result);
         } else {
-            $originalValues = MlstBloodGroups::where('blood_group_id', $request['blood_group_id'])->get();
-            $result = MlstBloodGroups::where('blood_group_id', $request['blood_group_id'])->update($request);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['bloodData'] = array_merge($request, $update);
+            $result = MlstBloodGroups::where('id', $request['id'])->update($input['bloodData']);
             $result = ['success' => true, 'result' => $result];
            
          return json_encode($result);

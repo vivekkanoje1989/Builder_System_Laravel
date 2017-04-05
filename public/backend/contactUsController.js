@@ -1,6 +1,4 @@
-'use strict';
-/*******************************MANOJ*********************************/
-app.controller('contactUsCtrl', ['$scope', 'Data', function ($scope, Data) {
+app.controller('contactUsCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaster', function ($scope, Data, $rootScope, $timeout,toaster) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -29,9 +27,12 @@ app.controller('contactUsCtrl', ['$scope', 'Data', function ($scope, Data) {
                     $scope.state_id = $scope.contactRow.state_id;
                     $scope.manageCity(1,$scope.state_id);
                     $scope.city_id = $scope.contactRow.city_id;
+                    $scope.manageLocationRow($scope.city_id);
+                    $scope.location_id = $scope.contactRow.location_type_id;
                     $scope.contact_person_name = $scope.contactRow.contact_person_name;
                     
                 }); 
+                $scope.sbtBtn = false;
         }
         $scope.manageStates = function ($id, country_id) {
             
@@ -62,8 +63,8 @@ app.controller('contactUsCtrl', ['$scope', 'Data', function ($scope, Data) {
             });
         };
 
-        $scope.manageLocationRow = function () {
-            Data.post('contact-us/manageLocation').then(function (response) {
+        $scope.manageLocationRow = function (city_id) {
+            Data.post('contact-us/manageLocation',{'city_id':city_id}).then(function (response) {
                 $scope.locationRow = response.records;
             });
         };
@@ -80,13 +81,10 @@ app.controller('contactUsCtrl', ['$scope', 'Data', function ($scope, Data) {
                     $scope.contactUsRow.splice($scope.index, 0, {country_id: $scope.country_id, state_id: $scope.state_id, city_id: $scope.city_id, location_type_id: $scope.location_id, contact_number1: $scope.contact_number1, contact_number2: $scope.contact_number2, contact_number3: $scope.contact_number3, google_map_url: $scope.google_map_url,
                 address: $scope.address, pin_code:$scope.pin_code, id: $scope.id, 'contact_person_name':$scope.contact_person_name, 'email':$scope.email });
                     $('#contactUsModal').modal('toggle');
+                     toaster.pop('success', 'Office address', 'Record successfully updated');
                 }
             });
         };
-        $scope.success = function (message) {
-            Flash.create('success', message);
-        };
-
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

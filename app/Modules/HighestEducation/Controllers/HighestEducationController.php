@@ -11,41 +11,24 @@ use DB;
 use Auth;
 class HighestEducationController extends Controller {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public function index() {
         return view("HighestEducation::index");
     }
-
     public function manageHighestEducation() {
         $getHighestEducation = MlstEducations::all();
-
         if (!empty($getHighestEducation)) {
             $result = ['success' => true, 'records' => $getHighestEducation];
             return json_encode($result);
-        } else {
+        }else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-
-    public function create() {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return Response
-     */
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
-        $cnt = MlstEducations::where(['education_title' => $request['education_title']])->get()->count();
+        
+        $cnt = MlstEducations::where(['education' => $request['education']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Education title already exists'];
             return json_encode($result);
@@ -54,10 +37,10 @@ class HighestEducationController extends Controller {
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['educationData'] = array_merge($request, $create);
             $result = MlstEducations::create($input['educationData']);
-            $last3 = MlstEducations::latest('education_id')->first();
-            $input['educationData']['main_record_id'] = $last3->education_id;
+            $last3 = MlstEducations::latest('id')->first();
+            $input['educationData']['main_record_id'] = $last3->id;
 
-            $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->education_id];
+            $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id];
             return json_encode($result);
         }
     }
@@ -65,12 +48,16 @@ class HighestEducationController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getCount = MlstEducations::where(['education_title' => $request['education_title']])->get()->count();
+        $getCount = MlstEducations::where(['education' => $request['education']])
+                                    ->where('id','!=',$id)->get()->count();
         if ($getCount > 0) {
-            $result = ['success' => false, 'errormsg' => 'Country already exists'];
+            $result = ['success' => false, 'errormsg' => 'Education title already exists'];
             return json_encode($result);
         } else {
-            $result = MlstEducations::where('education_id', $request['education_id'])->update($request);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['educationData'] = array_merge($request, $update);
+            $result = MlstEducations::where('id', $request['id'])->update($input['educationData']);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

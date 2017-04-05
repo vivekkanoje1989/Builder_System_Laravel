@@ -548,16 +548,18 @@ class MasterHrController extends Controller {
         return view("MasterHr::chart");
     }
 
-    public function getChartData() {
+   public function getChartData() {
         $input = Employee::whereIn('employee_status', [1, 2])
-                ->select('team_lead_id', 'designation', 'id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
+                ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
+                ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
                 ->orderBy('team_lead_id')
                 ->get();
         $data = array();
         foreach ($input as $key => $team) {
-            $obj = Employee::where('id', $team['id'])
+            $obj = Employee::where('employees.id', $team['id'])
+                    ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                     ->whereIn('employee_status', [1, 2])
-                    ->select('team_lead_id', 'designation', 'id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
+                    ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
                     ->get();
             if (!empty($obj)) {
                 $data[$key]['v'] = $obj[0]->id;
@@ -579,24 +581,25 @@ class MasterHrController extends Controller {
     }
 
     public function photoUpload() {
-        $image = ['0' => $_FILES['file']];
-        print_r($image[0]);
-
         $folderName = 'Employee-Photos';
-        $imageName = S3::s3FileUplod($image, $folderName, 1);
-        $imageName = trim($imageName, ',');
-        if (move_uploaded_file($_FILES['file']['tmp_name'], base_path() . "/common/employee_photo/" . $_FILES['file']['name'])) {
+        //print_r($_FILES['file']);exit;
+        $imageName = S3::s3FileUplodForApp($_FILES['file'], $folderName, 1);
+//        $imageName = trim($imageName, ',');
+//        if (move_uploaded_file($_FILES['file']['tmp_name'], base_path() . "/common/employee_photo/" . $_FILES['file']['name'])) {
+//            Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
+//            $result = ['success' => true];
+//            return json_encode($result);
+       // echo ''.$imageName;
+        if (!empty($imageName)) {
             Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
-            $result = ['success' => true];
+            $result = ['success' => true,'message' => 'Image uploaded'];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Image not uploaded'];
             return json_encode($result);
         }
     }
-
     /*     * **************** END (Organization Chart) ******************** */
-
     protected function guard() {
         return Auth::guard('admin');
     }

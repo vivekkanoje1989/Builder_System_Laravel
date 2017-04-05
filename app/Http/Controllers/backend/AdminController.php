@@ -20,7 +20,7 @@ use App\Models\EnquirySubSource;
 use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
-use App\Models\MlstVertical;
+use App\Models\MlstBmsbVertical;
 use App\Models\MlstBmsbDesignation;
 use App\Models\LstEnquiryLocation;
 use Illuminate\Http\Request;
@@ -356,7 +356,7 @@ class AdminController extends Controller {
         }
     }
     public function getVerticals() {
-        $getVerticals = MlstVertical::all();
+        $getVerticals = MlstBmsbVertical::all();
         if (!empty($getVerticals)) {
             $result = ['success' => true, 'records' => $getVerticals];
             return json_encode($result);
@@ -369,7 +369,7 @@ class AdminController extends Controller {
     /***************************MANDAR*********************************/
 
     public function getEmployees() {
-        $getEmployees = Employee::select('id', 'first_name','last_name','designation')->where("client_id", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name','last_name','designation_id')->where("client_id", 1)->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
             return $result;

@@ -7,7 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Modules\OperationalSettings\Models\OperationalSettings;
 use App\Modules\OperationalSettings\Models\lstEnquiryLocations;
-
+use Auth;
+use App\Classes\CommonFunctions;
 class OperationalSettingsController extends Controller {
 
     public function index() {
@@ -17,7 +18,11 @@ class OperationalSettingsController extends Controller {
     public function updatePreEnquiries() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $operational = OperationalSettings::where('id', 1)->update($request);
+        
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+        $input['OperationalData'] = array_merge($request, $update);
+        $operational = OperationalSettings::where('id', 1)->update($input['OperationalData']);
         if (!empty($operational)) {
             $result = ['success' => true, 'records' => $operational];
             return json_encode($result);
@@ -30,7 +35,10 @@ class OperationalSettingsController extends Controller {
     public function budgetUpdate() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $operational = OperationalSettings::where('id', 4)->update($request);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+        $input['OperationalData'] = array_merge($request, $update);
+        $operational = OperationalSettings::where('id', 4)->update($input['OperationalData']);
         if (!empty($operational)) {
             $result = ['success' => true, 'records' => $operational];
             return json_encode($result);
@@ -68,7 +76,10 @@ class OperationalSettingsController extends Controller {
             $area_loc = implode(',', $area_location);
         }
         $post = ['preferred_area' => $area_loc];
-        $area = OperationalSettings::where('id', 3)->update($post);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+        $input['OperationalData'] = array_merge($request, $post);
+        $area = OperationalSettings::where('id', 3)->update($input['OperationalData']);
         if (!empty($area)) {
             $result = ['success' => true, 'records' => $area];
             return json_encode($result);

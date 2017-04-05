@@ -77,8 +77,13 @@
                             </span>
                             <br/><br/>
                             <span class="input-icon icon-right">
+<<<<<<< HEAD
+                                <input type="text" class="form-control" ng-model="block_name" name="block_name"  ng-change="errorMsg = null" required>
+                            
+=======
                                 <input type="text" class="form-control" ng-model="block_name" name="block_name" placeholder="Block Name" ng-change="errorMsg = null" required>
                                 <i class="fa fa-user thm-color circular"></i>
+>>>>>>> a7984705ae68370e688a6582b29da4335d46a2ff
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blocktypesForm.block_name.$error">
                                     <div ng-message="required">Block type is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>

@@ -85,9 +85,9 @@
                                 <div class="form-group multi-sel-div" class="form-control" ng-controller="assignEmployeeCtrl" style="width: 100%;">
                                     <label for="">Select Common Employee <span class="sp-err">*</span></label>	
                                     <ui-select multiple='true' class="form-control" ng-model="portalData.employee_id" name="employee_id" theme="" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalEmployees()" required>
-                                        <ui-select-match placeholder="Select Employees">{{$item.first_name}}{{$item.last_name}}</ui-select-match>
-                                        <ui-select-choices repeat="list in employeeList | filter:$select.search ">
-                                            {{list.first_name}} {{list.last_name}}({{list.designation}})
+                                        <ui-select-match placeholder="Select Employees">{{$item.first_name}} {{$item.last_name}}</ui-select-match>
+                                        <ui-select-choices repeat="list in lstAllEmployees | filter:$select.search ">
+                                            {{list.first_name}} {{list.last_name}}
                                         </ui-select-choices>
                                     </ui-select>
                                     <div ng-show="emptyEmployeeId" >
@@ -178,10 +178,10 @@
                             <span ng-if="portalData.assign_employee == '1'">
                                 <div class="form-group multi-sel-div" class="form-control" ng-controller="assignEmployeeCtrl"  style="width: 100%;">
                                     <label for="">Select Common Employee <span class="sp-err">*</span></label>	
-                                    <ui-select multiple='true' class="form-control" ng-model="modal.employee_id" name="employee_id" theme="" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalAliasEmployees()">
+                                    <ui-select multiple ng-model="modal.employee_id" name="employee_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalAliasEmployees()">
                                         <ui-select-match placeholder="Select Employees">{{$item.first_name}}{{$item.last_name}}</ui-select-match>
                                         <ui-select-choices repeat="list in employeeList | filter:$select.search ">
-                                            {{list.first_name}} {{list.last_name}}({{list.designation}})
+                                            {{list.first_name}} {{list.last_name}}
                                         </ui-select-choices>
                                     </ui-select>
                                     <div ng-show="isEmptyEmployeeId" >

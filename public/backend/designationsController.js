@@ -19,7 +19,6 @@ app.controller('designationsCtrl', ['$scope', 'Data','toaster', function ($scope
         };
         $scope.dodesignationsAction = function () {
             $scope.errorMsg = '';
-           alert($scope.id);
             if ($scope.id === 0) //for create
             {
                 Data.post('manage-designations/', {

@@ -13,11 +13,13 @@ use App\Modules\ManageCity\Models\MlstCities;
 use App\Modules\ManageLocation\Models\MlstLocationTypes;
 use App\Classes\CommonFunctions;
 use Auth;
+
 class ContactUsController extends Controller {
 
     public function index() {
         return view("ContactUs::index");
     }
+
     public function manageContactUs() {
         $getContactus = WebContactus::all();
 
@@ -29,7 +31,8 @@ class ContactUsController extends Controller {
             return json_encode($result);
         }
     }
-    public function manageStates() { 
+
+    public function manageStates() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
@@ -44,6 +47,7 @@ class ContactUsController extends Controller {
             return json_encode($result);
         }
     }
+
     public function manageCountry() {
         $getCountry = MlstCountries::all();
 
@@ -55,6 +59,7 @@ class ContactUsController extends Controller {
             return json_encode($result);
         }
     }
+
     public function manageCity() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -70,6 +75,7 @@ class ContactUsController extends Controller {
             return json_encode($result);
         }
     }
+
     public function getContactUsRow() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -83,6 +89,7 @@ class ContactUsController extends Controller {
             return json_encode($result);
         }
     }
+
     public function manageLocation() {
         $getLocation = MlstLocationTypes::all();
         if (!empty($getLocation)) {
@@ -96,8 +103,12 @@ class ContactUsController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $result = WebContactus::where('id', $request['id'])->update($request);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+        $input['contactUsData'] = array_merge($request, $update);
+        $result = WebContactus::where('id', $request['id'])->update($input['contactUsData']);
         $result = ['success' => true, 'result' => $result];
-       return json_encode($result);
+        return json_encode($result);
     }
+
 }
