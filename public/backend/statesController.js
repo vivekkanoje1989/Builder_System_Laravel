@@ -1,4 +1,4 @@
-app.controller('statesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
+app.controller('statesCtrl', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope,$timeout) {
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 4;
         $scope.manageStates = function () {
@@ -19,9 +19,9 @@ app.controller('statesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
             $scope.statesForm.index = index * ($scope.noOfRows - 1) + (index1 + 1);
             $scope.country = country;
             $scope.country_id = country_id;
-            $scope.sbtBtn = false;
         }
         $scope.doStatesAction = function () {
+          
             $scope.errorMsg = '';
             if ($scope.id === 0) //for create
             {
@@ -34,7 +34,7 @@ app.controller('statesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
                     } else {
                         $('#statesModal').modal('toggle');
                          $scope.statesRow.push({'name': $scope.name,'id':response.lastinsertid,'country_id':$scope.country_id,'country_name':response.country_name});
-                         toaster.pop('success', 'Manage states', 'Record successfully created');
+                         //$scope.success("State details created successfully");
                     }
                 });
             } else {      //for update
@@ -48,11 +48,14 @@ app.controller('statesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
                         $scope.statesRow.splice($scope.statesForm.index - 1, 1);
                         $scope.statesRow.splice($scope.statesForm.index - 1, 0, {
                             name: $scope.name, id: $scope.id, country_name: $scope.country,'country_id':$scope.country_id,'country_name':response.country_name});
-                        toaster.pop('success', 'Manage states', 'Record successfully updated');
+                        //$scope.success("State details updated successfully");
                     }
                 });
             }
         }
+        $scope.success = function(message) {
+               Flash.create('success', message);
+           };
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

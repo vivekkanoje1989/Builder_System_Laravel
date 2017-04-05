@@ -1,4 +1,7 @@
 <div class="row" ng-controller="socialwebsitesCtrl" ng-init="manageSocialWebsite()">  
+  <div>
+          <flash-message duration="5000"></flash-message>
+  </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -72,8 +75,6 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="socialwebsiteForm.$valid && dosocialwebsiteAction()" name="socialwebsiteForm">
-                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!socialwebsiteForm.name.$dirty && socialwebsiteForm.name.$invalid) && (!socialwebsiteForm.link.$dirty && socialwebsiteForm.link.$invalid) && (!socialwebsiteForm.status.$dirty && socialwebsiteForm.status.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">

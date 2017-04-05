@@ -24,31 +24,32 @@ use Illuminate\Hashing\HashServiceProvider;
  * @property int $high_security_password_type
  * @property int $high_security_password
  * @property int $password_changed
+ * @property string $mobile_remember_token
  * @property string $remember_token
  * @property string $usertype
  * @property int $team_lead_id
  * @property string $designation_id
  * @property string $department_id
  * @property int $reporting_to_id
- * @property string $title
+ * @property string $title_id
  * @property string $first_name
  * @property string $middle_name
  * @property string $last_name
  * @property \Carbon\Carbon $date_of_birth
- * @property string $gender
+ * @property string $gender_id
  * @property int $marital_status
  * @property \Carbon\Carbon $marriage_date
  * @property int $blood_group_id
- * @property int $physic_status_id
+ * @property int $physic_status
  * @property string $physic_desc
- * @property int $mobile1_calling_code
- * @property string $personal_mobile_no1
- * @property int $mobile2_calling_code
- * @property string $personal_mobile_no2
- * @property int $landline_calling_code
- * @property int $landline_no
- * @property string $email
- * @property string $personal_email_id2
+ * @property int $personal_mobile1_calling_code
+ * @property string $personal_mobile1
+ * @property int $personal_mobile2_calling_code
+ * @property string $personal_mobile2
+ * @property int $personal_landline_calling_code
+ * @property int $personal_landline_no
+ * @property string $personal_email1
+ * @property string $personal_email2
  * @property int $office_mobile_calling_code
  * @property string $office_mobile_no
  * @property string $office_email_id
@@ -64,7 +65,7 @@ use Illuminate\Hashing\HashServiceProvider;
  * @property string $permenent_address
  * @property int $highest_education_id
  * @property string $education_details
- * @property string $emp_photo_url
+ * @property string $employee_photo_file_name
  * @property \Carbon\Carbon $joining_date
  * @property int $employee_status
  * @property bool $show_on_homepage
@@ -106,11 +107,11 @@ class Employee extends Authenticatable {
         'reporting_to_id' => 'int',
         'marital_status' => 'int',
         'blood_group_id' => 'int',
-        'physic_status_id' => 'int',
-        'mobile1_calling_code' => 'int',
-        'mobile2_calling_code' => 'int',
-        'landline_calling_code' => 'int',
-        'landline_no' => 'int',
+        'physic_status' => 'int',
+        'personal_mobile1_calling_code' => 'int',
+        'personal_mobile2_calling_code' => 'int',
+        'personal_landline_calling_code' => 'int',
+        'personal_landline_no' => 'int',
         'office_mobile_calling_code' => 'int',
         'current_country_id' => 'int',
         'current_state_id' => 'int',
@@ -152,25 +153,25 @@ class Employee extends Authenticatable {
         'designation_id',
         'department_id',
         'reporting_to_id',
-        'title',
+        'title_id',
         'first_name',
         'middle_name',
         'last_name',
         'date_of_birth',
-        'gender',
+        'gender_id',
         'marital_status',
         'marriage_date',
         'blood_group_id',
-        'physic_status_id',
+        'physic_status',
         'physic_desc',
-        'mobile1_calling_code',
-        'personal_mobile_no1',
-        'mobile2_calling_code',
-        'personal_mobile_no2',
-        'landline_calling_code',
-        'landline_no',
-        'email',
-        'personal_email_id2',
+        'personal_mobile1_calling_code',
+        'personal_mobile1',
+        'personal_mobile2_calling_code',
+        'personal_mobile2',
+        'personal_landline_calling_code',
+        'personal_landline_no',
+        'personal_email1',
+        'personal_email2',
         'office_mobile_calling_code',
         'office_mobile_no',
         'office_email_id',
@@ -186,7 +187,7 @@ class Employee extends Authenticatable {
         'permenent_address',
         'highest_education_id',
         'education_details',
-        'emp_photo_url',
+        'employee_photo_file_name',
         'joining_date',
         'employee_status',
         'show_on_homepage',
@@ -220,17 +221,17 @@ class Employee extends Authenticatable {
             'username.numeric' => 'Please enter user name numeric',
             'password.numeric' => 'Please enter password numeric',
             'password.required' => 'Please enter password',
-            'designation_id.required' => 'Please enter designation',
+            'designation_id.required' => 'Please enter designation_id',
             'department_id.required' => 'Please enter department',
-            'reporting_to_id.required' => 'Please enter reporting to',
-            'title.required' => 'Please enter title',
+//            'reporting_to_id.required' => 'Please enter reporting to',
+            'title_id.required' => 'Please enter title_id',
             'first_name.required' => 'Please enter first name',
             'last_name.required' => 'Please enter last name',
             'date_of_birth.required' => 'Please enter birth date',
-            'gender.required' => 'Please enter gender',
+            'gender_id.required' => 'Please enter gender_id',
             'marital_status.required' => 'Please enter marital status',
-            'physic_status_id.required' => 'Please enter physic status',
-            'personal_mobile_no1.required' => 'Please enter personal mobile number',
+            'physic_status.required' => 'Please enter physic status',
+            'personal_mobile1.required' => 'Please enter personal mobile number',
             'office_mobile_no.required' => 'Please enter office mobile number',
             'current_country_id.required' => 'Please enter current country',
             'current_state_id.required' => 'Please enter current state',
@@ -254,18 +255,18 @@ class Employee extends Authenticatable {
             'password' => 'required|max:6',
             'designation_id' => 'required',
             'department_id' => 'required',
-            'reporting_to_id' => 'required',
-            'title' => 'required',
+//            'reporting_to_id' => 'required',
+            'title_id' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
             'date_of_birth' => 'required|date',
-            'gender' => 'required',
+            'gender_id' => 'required',
             'marital_status' => 'required',
             'blood_group_id' => 'required',
-            'physic_status_id' => 'required',
-            'personal_mobile_no1' => 'required',
+            'physic_status' => 'required',
+            'personal_mobile1' => 'required',
             'office_mobile_no' => 'required',
-            'email' => 'required|email|unique:employees',
+            'personal_email1' => 'required|email|unique:employees',
             'current_country_id' => 'required',
             'current_state_id' => 'required',
             'current_city_id' => 'required',
@@ -281,7 +282,12 @@ class Employee extends Authenticatable {
         );
         return $rules;
     }
-
+    
+    public function designationName()
+    {
+        return $this->belongsTo('App\Models\MlstBmsbDesignation', 'id'); //(designation model name, primary of designation model) 
+    }
+    
     public static function doAction($input) {
         if (!empty($input['userData']['departmentid'])) {
             $input['userData']['department_id'] = $input['userData']['departmentid'];
@@ -299,7 +305,7 @@ class Employee extends Authenticatable {
         $input['userData']['high_security_password_type'] = !empty($input['userData']['high_security_password_type']) ? $input['userData']['high_security_password_type'] : "0";
         $input['userData']['high_security_password'] = (!empty($input['userData']['high_security_password']) && $input['userData']['high_security_password_type'] == 1) ? $input['userData']['high_security_password'] : "";
         $input['userData']['password_changed'] = !empty($input['userData']['password_changed']) ? $input['userData']['password_changed'] : "0";
-        $input['userData']['usertype'] = "admin";
+        $input['userData']['remember_token'] = \Hash::make(str_random(6));
         $input['userData']['team_lead_id'] = !empty($input['userData']['team_lead_id']) ? $input['userData']['team_lead_id'] : "1";
         $input['userData']['middle_name'] = !empty($input['userData']['middle_name']) ? $input['userData']['middle_name'] : "";
 
@@ -309,17 +315,17 @@ class Employee extends Authenticatable {
         } else {
             $input['userData']['marriage_date'] = !empty($input['userData']['marriage_date']) ? date('Y-m-d', strtotime($input['userData']['marriage_date'])) : "";
         }
-        $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : "";
+        $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : NULL;
 
-        $personalMobileNo1 = explode("-", $input['userData']['personal_mobile_no1']);
-        $input['userData']['mobile1_calling_code'] = (int) $personalMobileNo1[0];
-        $input['userData']['personal_mobile_no1'] = $personalMobileNo1[1];
+        $personalMobileNo1 = explode("-", $input['userData']['personal_mobile1']);
+        $input['userData']['personal_mobile1_calling_code'] = (int) $personalMobileNo1[0];
+        $input['userData']['personal_mobile1'] = $personalMobileNo1[1];
 
-        if (!empty($input['userData']['personal_mobile_no2'])) {
-            $personalMobileNo2 = explode("-", $input['userData']['personal_mobile_no2']);
-            $input['userData']['mobile2_calling_code'] = (int) $personalMobileNo2[0];
-            $input['userData']['personal_mobile_no2'] = !empty($personalMobileNo2[1]) ? $personalMobileNo2[1] : NULL;
-            $input['userData']['mobile2_calling_code'] = !empty($input['userData']['personal_mobile_no2']) ? $input['userData']['mobile2_calling_code'] : NULL;
+        if (!empty($input['userData']['personal_mobile2'])) {
+            $personalMobileNo2 = explode("-", $input['userData']['personal_mobile2']);
+            $input['userData']['personal_mobile2_calling_code'] = (int) $personalMobileNo2[0];
+            $input['userData']['personal_mobile2'] = !empty($personalMobileNo2[1]) ? $personalMobileNo2[1] : NULL;
+            $input['userData']['personal_mobile2_calling_code'] = !empty($input['userData']['personal_mobile2']) ? $input['userData']['personal_mobile2_calling_code'] : NULL;
         }
 
         if (!empty($input['userData']['office_mobile_no'])) {
@@ -328,20 +334,19 @@ class Employee extends Authenticatable {
             $input['userData']['office_mobile_no'] = $officeMobileNo[1];
         }
 
-        if (!empty($input['userData']['landline_no'])) {
-            $landlineNo = explode("-", $input['userData']['landline_no']);
-            $input['userData']['landline_calling_code'] = (int) $landlineNo[0];
-            $input['userData']['landline_calling_code'] = !empty($landlineNo[1]) ? (int) $landlineNo[0] : NULL;
-            $input['userData']['landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] : '';
+        if (!empty($input['userData']['personal_landline_no'])) {
+            $landlineNo = explode("-", $input['userData']['personal_landline_no']);
+            $input['userData']['personal_landline_calling_code'] = !empty($landlineNo[1]) ? (int) $landlineNo[0] : NULL;
+            $input['userData']['personal_landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] : "";
         }
         $input['userData']['education_details'] = !empty($input['userData']['education_details']) ? $input['userData']['education_details'] : "";
         $input['userData']['show_on_homepage'] = !empty($input['userData']['show_on_homepage']) ? $input['userData']['show_on_homepage'] : "1";
-        $input['userData']['employee_submenus'] = !empty($input['userData']['employee_submenus']) ? $input['userData']['employee_submenus'] : '["0101","0102","0103","0104"]';
+        $input['userData']['employee_submenus'] = !empty($input['userData']['employee_submenus']) ? $input['userData']['employee_submenus'] : '[]';
         $input['userData']['employee_permissions'] = !empty($input['userData']['employee_permissions']) ? $input['userData']['employee_permissions'] : "1";
-        $input['userData']['employee_email_subscriptions'] = !empty($input['userData']['employee_email_subscriptions']) ? $input['userData']['employee_email_subscriptions'] : "1";
-        $input['userData']['employee_sms_subscrption'] = !empty($input['userData']['employee_sms_subscrption']) ? $input['userData']['employee_sms_subscrption'] : "1";
         $input['userData']['employee_info_form_url'] = !empty($input['userData']['employee_info_form_url']) ? $input['userData']['employee_info_form_url'] : "1";
         $input['userData']['employee_info_form_url_status'] = !empty($input['userData']['employee_info_form_url_status']) ? $input['userData']['employee_info_form_url_status'] : "1";
         return $input;
     }
+
+
 }

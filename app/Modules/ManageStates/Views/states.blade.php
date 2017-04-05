@@ -1,4 +1,7 @@
 <div class="row" ng-controller="statesCtrl" ng-init="manageStates(); manageCountry();">  
+ <div>
+          <flash-message duration="5000"></flash-message>
+ </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -50,7 +53,7 @@
                             <td>{{list.country_name}}</td>
                             <td>{{list.name}}</td>                          
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#statesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}','{{list.country_name}}','{{list.country_id}}',{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#statesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}','{{list.country_name}}','{{list.country_id}}',{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -84,12 +87,11 @@
                             <input type="hidden" class="form-control" ng-model="id" name="id">
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="country_id" name="country_id" >
-                                    <option value="">Select country</option>
                                     <option  ng-repeat="item in countryRow" value="{{item.id}}" selected>{{item.name}}</option>
                                 </select>
                                 <i class="fa fa-user thm-color circular"></i>
-                                <div class="help-block" ng-show="sbtBtn" ng-messages="statesForm.country_id.$error">
-                                    <div ng-message="required">State name is required</div>
+                                <div class="help-block" ng-show="sbtBtn" ng-messages="statesForm.state_id.$error">
+                                    <div ng-message="required">This field is required</div>
                                 </div>
                             </span>
                             <br/><br/>

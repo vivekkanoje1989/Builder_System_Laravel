@@ -43,7 +43,7 @@ class CommonFunctions {
         }
     }
 
-    public static function insertLoginLog($mobile, $password, $empId, $loginStatus, $loginFailureReason) {
+    public static function insertLoginLog($mobile, $password, $empId, $loginStatus, $loginFailureReason, $platformType) {
         $getMacAddress = CommonFunctions::getMacAddress();
         $loginDateTime = date('Y-m-d h:i:s');
         $loginIP = $_SERVER['REMOTE_ADDR'];
@@ -53,7 +53,7 @@ class CommonFunctions {
         $data = \Location::get("175.100.138.136");
         $otherInfoArray = "Country:$data->countryName,State:$data->regionName,City:$data->cityName,Latitude:$data->latitude,Logitude:$data->longitude";
         $otherInfo = iconv('UTF-8', 'ISO-8859-1//TRANSLIT//IGNORE', $otherInfoArray);
-        DB::select('CALL employees_login_logs(' . $empId . ',"' . $mobile . '","' . $password . '","' . $loginDateTime . '",' . $loginStatus . ',' . $loginFailureReason . ',1,"' . $loginIP . '","' . $loginBrowser . '","' . $loginMacId . '","' . $otherInfo . '")');
+        DB::select('CALL employees_login_logs(' . $empId . ',"' . $mobile . '","' . $password . '","' . $loginDateTime . '",' . $loginStatus . ',' . $loginFailureReason . ','.$platformType.',"' . $loginIP . '","' . $loginBrowser . '","' . $loginMacId . '","' . $otherInfo . '")');
     }
 
     public static function insertMainTableRecords($loggedInUserId) {

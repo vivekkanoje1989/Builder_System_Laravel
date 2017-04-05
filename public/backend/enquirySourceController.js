@@ -1,4 +1,4 @@
-app.controller('enquirysourceCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data,toaster) {
+app.controller('enquirysourceCtrl', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope,$timeout) {
 
         $scope.manageEnquirySource = function () {
             Data.post('enquiry-source/manageEnquirySource').then(function (response) {
@@ -24,11 +24,11 @@ app.controller('enquirysourceCtrl', ['$scope', 'Data', 'toaster', function ($sco
             $scope.source_id = source_id;
             $scope.sub_source = subsource;
             $scope.index = index;
-            $scope.sbtBtn = false;
         }
 
         $scope.dosourceAction = function () {
             $scope.errorMsg = '';
+
             Data.post('enquiry-source/', {
                 source_name: $scope.source_name}).then(function (response) {
 
@@ -38,7 +38,8 @@ app.controller('enquirysourceCtrl', ['$scope', 'Data', 'toaster', function ($sco
                 } else {
                     $('#sourceModal').modal('toggle');
                     $scope.EnquirySourceRow.push({'source_name': $scope.source_name, 'id': $scope.EnquirySourceRow.length + 1});
-                    toaster.pop('success', 'Enquiry source', 'Record successfully created');
+                     //$scope.success("Source details created successfully"); 
+
                 }
             });
         }
@@ -46,15 +47,17 @@ app.controller('enquirysourceCtrl', ['$scope', 'Data', 'toaster', function ($sco
             $scope.errorMsg = '';
             if ($scope.subid === 0) //for create
             {
-                Data.post('enquiry-source/createSubEnquirySource', {
+                Data.post('enquiry-source/createSubEnquirySource',{
                     sub_source: $scope.sub_source, source_id: $scope.source_id}).then(function (response) {
+
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $('#subsourceModal').modal('toggle');
                         $scope.SubEnquirySourceRow.push({'sub_source': $scope.sub_source, 'id': $scope.SubEnquirySourceRow.length + 1});
-                        toaster.pop('success', 'Sub enquiry source', 'Record successfully created');
+                       // $scope.success("Sub source details created successfully"); 
+
                     }
                 });
             } else { //for update
@@ -69,14 +72,17 @@ app.controller('enquirysourceCtrl', ['$scope', 'Data', 'toaster', function ($sco
                         $scope.SubEnquirySourceRow.splice($scope.index, 0, {
                             sub_source: $scope.sub_source, id: $scope.subid});
                         $('#subsourceModal').modal('toggle');
-                        toaster.pop('success', 'Sub enquiry source', 'Record successfully updated');
+                         //$scope.success("Sub source details updated successfully"); 
                     }
                 });
             }
         }
+        $scope.success = function(message) {
+               Flash.create('success', message);
+           };
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
+        
     }]);

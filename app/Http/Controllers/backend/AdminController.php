@@ -20,7 +20,8 @@ use App\Models\EnquirySubSource;
 use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
-use App\Models\MlstVertical;
+use App\Models\MlstBmsbVertical;
+use App\Models\MlstBmsbDesignation;
 use App\Models\LstEnquiryLocation;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
@@ -169,7 +170,16 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-
+    public function getDesignations() {
+        $getBloodGroup = MlstBmsbDesignation::all();
+        if (!empty($getBloodGroup)) {
+            $result = ['success' => true, 'records' => $getBloodGroup];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
     public function getDepartments() {
         $getDepartments = MlstBmsbDepartment::all();
         if (!empty($getDepartments)) {
@@ -280,15 +290,15 @@ class AdminController extends Controller {
         $request = json_decode($postdata, true);
         $id = $request['data']['id'];
         if ($id == 0) {
-            $checkEmail = Employee::getRecords(["email"], ["email" => $request['data']['emailData']]);
+            $checkEmail = Employee::getRecords(["personal_email1"], ["personal_email1" => $request['data']['emailData']]);
         } else {
-            $checkEmail = Employee::select('email')->where([
-                        ['email', '=', $request['data']['emailData']],
+            $checkEmail = Employee::select('personal_email1')->where([
+                        ['personal_email1', '=', $request['data']['emailData']],
                         ['id', '<>', $id],
-                    ])->get();
+                    ])->get();   
             $checkEmail = json_decode($checkEmail);
         }
-        if (empty($checkEmail[0]->email)) {
+        if (empty($checkEmail[0]->personal_email1)) {
             $result = ['success' => true];
             return json_encode($result);
         } else {
@@ -322,16 +332,6 @@ class AdminController extends Controller {
         }
     }
 
-    public function getTeamLead() {
-        $getTeamLead = Employee::all();
-        if (!empty($getTeamLead)) {
-            $result = ['success' => true, 'records' => $getTeamLead];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
     /****************************UMA************************************/
     public function getWebPageList() {
         $getpages = WebPage::all();
@@ -355,7 +355,7 @@ class AdminController extends Controller {
         }
     }
     public function getVerticals() {
-        $getVerticals = MlstVertical::all();
+        $getVerticals = MlstBmsbVertical::all();
         if (!empty($getVerticals)) {
             $result = ['success' => true, 'records' => $getVerticals];
             return json_encode($result);
@@ -368,9 +368,7 @@ class AdminController extends Controller {
     /***************************MANDAR*********************************/
 
     public function getEmployees() {
-        echo"HII";exit;
         $getEmployees = Employee::select('id', 'first_name','last_name','designation_id')->where("client_id", 1)->get();
-        print_r($getEmployees);
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
             return $result;

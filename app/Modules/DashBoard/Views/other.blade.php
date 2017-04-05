@@ -1,4 +1,7 @@
-<div class="row" ng-controller="dashboardCtrl" ng-init="getEmployees()"> 
+<div class="row" ng-controller="dashboardCtrl" ng-init="getEmployees()">  
+    <div>
+        <flash-message duration="5000"></flash-message>
+    </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -13,8 +16,6 @@
 
             <div class="widget-body table-responsive">     
                 <form  ng-submit="requestLeave.$valid && doOtherApprovalAction('2')" name="requestLeave"  novalidate>
-                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
                     <table class="table table-hover table-striped table-bordered" at-config="config">
                         <thead class="bord-bot">
                             <tr>
@@ -56,7 +57,7 @@
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.req_desc.$dirty && requestLeave.req_desc.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="req_desc" name="req_desc" cols="50" rows="5" required ></textarea>
+                                            <textarea ng-model="req_desc" name="req_desc" cols="50" rows="5" required placeholder="Description"></textarea>
 
                                         </span>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.req_desc.$error">

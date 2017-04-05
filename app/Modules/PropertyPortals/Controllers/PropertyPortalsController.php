@@ -10,7 +10,7 @@ use App\Modules\PropertyPortals\Models\LstPropertyPortalsProjectConfig;
 use App\Classes\CommonFunctions;
 use App\Modules\PropertyPortals\Models\LstPropertyPortalsConfig;
 use Illuminate\Http\Request;
-use Auth;
+
 /* created By- Uma Shinde
  * Date- 14/3/2017
  * updated by-
@@ -51,7 +51,7 @@ class PropertyPortalsController extends Controller {
             } else {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             }
-            if ($obj['portalData']['enquiry_alocation_types'] == 0) {
+            if ($obj['portalData']['assign_employee'] == 0) {
                 $obj['portalData']['employee_id'] = implode(',', array_map(function($el) {
                             return $el['id'];
                         }, $obj['portalData']['employee_id']));
@@ -65,11 +65,11 @@ class PropertyPortalsController extends Controller {
             $updatePortal = LstPropertyPortalsConfig::where('id', $obj['portalAccountId'])->update($obj['portalData']);
             if (!empty($obj['aliasData'])) {
                 foreach ($obj['aliasData'] as $updatealias) {
-//                    if (array_key_exists('project_employee_id', $updatealias)) {
-//                        $updatealias['project_employee_id'] = (!empty($updatealias['project_employee_id'])) ? $updatealias['project_employee_id'] : 1;
-//                    } else {
-//                        $updatealias['project_employee_id'] = 1;
-//                    }
+                    if (array_key_exists('project_employee_id', $updatealias)) {
+                        $updatealias['project_employee_id'] = (!empty($updatealias['project_employee_id'])) ? $updatealias['project_employee_id'] : 1;
+                    } else {
+                        $updatealias['project_employee_id'] = 1;
+                    }
                     unset($updatealias['project_employee_name']);
                     if (array_key_exists('id', $updatealias)) {
                         $updatealias = array_merge($updatealias, $update);
@@ -87,14 +87,13 @@ class PropertyPortalsController extends Controller {
             $result = ['success' => true, 'message' => 'Account updated successfully'];
             echo json_encode($result);
         } else {                 //create
-            print_r($obj['portalData']);exit;
             if (!empty($obj['portalData']) && !empty($obj['aliasData'])) {
                 if (!empty($obj['portalData']['loggedInUserId'])) {
                     $loggedInUserId = $obj['portalData']['loggedInUserId'];
                 } else {
                     $loggedInUserId = Auth::guard('admin')->user()->id;
                 }
-                if ($obj['portalData']['enquiry_alocation_types'] == 0) {
+                if ($obj['portalData']['assign_employee'] == 0) {
                     $obj['portalData']['employee_id'] = implode(',', array_map(function($el) {
                                 return $el['id'];
                             }, $obj['portalData']['employee_id']));
@@ -108,11 +107,11 @@ class PropertyPortalsController extends Controller {
                 $createPortal = LstPropertyPortalsConfig::create($obj['portalData']);
                 if ($createPortal) {
                     foreach ($obj['aliasData'] as $createalias) {
-//                        if (array_key_exists('project_employee_id', $createalias)) {
-//                            $createalias['project_employee_id'] = (!empty($createalias['project_employee_id'])) ? $createalias['project_employee_id'] : 1;
-//                        } else {
-//                            $createalias['project_employee_id'] = 1;
-//                        }
+                        if (array_key_exists('project_employee_id', $createalias)) {
+                            $createalias['project_employee_id'] = (!empty($createalias['project_employee_id'])) ? $createalias['project_employee_id'] : 1;
+                        } else {
+                            $createalias['project_employee_id'] = 1;
+                        }
                         $createalias['property_portal_id'] = $createPortal->id;
                         $createalias['property_portal_id'] = $createPortal->property_portal_id;
                         $createalias = array_merge($createalias, $create);
@@ -219,7 +218,7 @@ class PropertyPortalsController extends Controller {
         $obj = json_decode($postdata, true);
         $accountdata = LstPropertyPortalsConfig::where([['id', '=', $obj['Data']['portalAccountId']], ['property_portal_id', '=', $obj['Data']['portalTypeId']]])->get();
         $ids = explode(',', '' . $accountdata[0]['employee_id']);
-        $getemployee = Employee::whereIn('id', $ids)->select('id', 'first_name', 'last_name', 'designation_id')->get();
+        $getemployee = Employee::whereIn('id', $ids)->select('id', 'first_name', 'last_name', 'designation')->get();
         $accountdata[0]['employee_id'] = $getemployee;
         if ($accountdata) {
             $result = ['success' => true, 'records' => $accountdata];
@@ -237,6 +236,7 @@ class PropertyPortalsController extends Controller {
         $portalName = LstPropertyPortalsConfig::where('id', $obj['Data']['id'])->get();
         $portalAccounts = LstPropertyPortalsConfig::where('property_portal_id', $obj['Data']['id'])->get();
         foreach ($portalAccounts as $user) {
+
             $getEmpName = array();
             $empname = Employee::select('first_name', 'last_name')->whereRaw("id IN($user->employee_id)")->get();
             for ($i = 0; $i < count($empname); $i++) {
@@ -254,22 +254,19 @@ class PropertyPortalsController extends Controller {
         return view('PropertyPortals::indexPortalAccount')->with("accountid", $id);
     }
 
-    public function getProperyAlias() {        
+    public function getProperyAlias() {
         $postdata = file_get_contents('php://input');
         $obj = json_decode($postdata, true);
         if ($obj['Data']['id'] === 0) {   //show all alias
             $portalAlias = LstPropertyPortalsProjectConfig::where('property_portal_id', $obj['Data']['portalId'])->get();
-           // print_r($portalAlias);exit;
-        
         } else { // get alias for update modal
             $portalAlias = LstPropertyPortalsProjectConfig::where([
                         ['property_portal_config_id', '=', $obj['Data']['portalId']],
                         ['id', '=', $obj['Data']['id']],
                         ['property_portal_id', '=', $obj['Data']['portalTypeId']]
                     ])->get();
-             //print_r($portalAlias);exit;
-//            $arr = explode(',', $portalAlias[0]['project_employee_id']);
-//            $portalAlias[0]['project_employee_id'] = Employee::whereIn('id', $arr)->select('id', 'first_name', 'last_name', 'designations')->get();
+            $arr = explode(',', $portalAlias[0]['project_employee_id']);
+            $portalAlias[0]['project_employee_id'] = Employee::whereIn('id', $arr)->select('id', 'first_name', 'last_name', 'designation')->get();
             //print_r($portalAlias[0]['project_employee_id']);exit;
         }
         if ($portalAlias) {
@@ -280,8 +277,8 @@ class PropertyPortalsController extends Controller {
             echo json_encode($result);
         }
     }
-    
-     public function getAllEmployeesList() {
+
+    public function getAllEmployees() {
         $getEmployees = Employee::select('id', 'first_name', 'last_name')->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
@@ -291,4 +288,5 @@ class PropertyPortalsController extends Controller {
             return json_encode($result);
         }
     }
+
 }

@@ -1,4 +1,4 @@
-app.controller('blockstagesCtrl', ['$scope', 'Data', 'toaster', function ($scope,Data,toaster) {
+app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
 
         $scope.blockStages = function () {
             Data.post('block-stages/manageBlockStages').then(function (response) {
@@ -11,7 +11,6 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', 'toaster', function ($scope
             $scope.block_stages = blockStage;
             $scope.index = index;
             $scope.project_type_id = project_type_id;
-            $scope.sbtBtn = false;
         }
         $scope.getProjectTypes = function ()
         {
@@ -26,14 +25,13 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', 'toaster', function ($scope
             {
                 Data.post('block-stages/', {
                     block_stage_name: $scope.block_stages, project_type_id: $scope.project_type_id}).then(function (response) {
-                   
+                    console.log(response);
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $('#blockstagesModal').modal('toggle');
                         $scope.BlockStageRow.push({'block_stage_name': $scope.block_stages, 'id': response.lastinsertid, 'project_type_id': $scope.project_type_id});
-                        toaster.pop('success', 'Block stages', 'Record successfully created');
                     }
                 });
             } else { //for update
@@ -47,7 +45,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', 'toaster', function ($scope
                         $scope.BlockStageRow.splice($scope.index, 0, {
                             block_stage_name: $scope.block_stages, id: $scope.id, 'project_type_id': $scope.project_type_id});
                         $('#blockstagesModal').modal('toggle');
-                        toaster.pop('success', 'Block stages', 'Record successfully updated');
+                        // $scope.success("Block stage details updated successfully");
                     }
                 });
             }

@@ -1,4 +1,7 @@
 <div class="row" ng-controller="careerCtrl" ng-init = "viewApplicants(<?php echo $career_id; ?>);">  
+    <div>
+        <flash-message duration="5000"></flash-message>
+    </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">

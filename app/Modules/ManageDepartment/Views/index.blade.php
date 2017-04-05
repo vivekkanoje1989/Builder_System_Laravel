@@ -1,4 +1,7 @@
 <div class="row" ng-controller="manageDepartmentCtrl" ng-init="manageDepartment()">  
+    <div>
+        <flash-message duration="5000"></flash-message>
+    </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -56,9 +59,9 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="departmentModal" role="dialog" tabindex="-1" ng-init="data()">   
+    <div class="modal fade" id="departmentModal" role="dialog" tabindex="-1" ng-init="">
         <div class="modal-dialog">
-            <div class="modal-content">
+            <div class="modal-content">                
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">{{heading}}</h4>
@@ -68,24 +71,24 @@
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                     <input type="hidden" class="form-control" ng-model="id" name="id">
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!departmentForm.department_name.$dirty && departmentForm.department_name.$invalid)}">
-                            <label>Department name</label>
+                        <div class="form-group">
+                            <label>Department Name<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="department_name" id="department_name" name="department_name"  ng-change="errorMsg = null" required>
-
+                                <input type="text" class="form-control" ng-model="departmentData.department_name" id="department_name" name="department_name" placeholder="Department" ng-change="errorMsg = null" required>
+                                <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="departmentForm.department_name.$error">
-                                    <div ng-message="required">Department name is required</div>
+                                    <div ng-message="required">Department is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>
-                                <br/>
                             </span> 
                         </div>
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!departmentForm.vertical_id.$dirty && departmentForm.vertical_id.$invalid)}">
-                            <label>Verticals name</label>
+                        <div class="form-group">
+                            <label>Select Vertical<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select ng-model="vertical_id" name="vertical_id" id="vertical_id" class="form-control" ng-options="v.id as v.name for v in verticals"  ng-controller="verticalCtrl" required>
-                                    <option value="" selected>Select Vertical</option>
+                                <select ng-model="departmentData.vertical_id" name="vertical_id" id="vertical_id" class="form-control" ng-controller="verticalCtrl" ng-change="errorMsg = null" placeholder="Select Vertical" required>
+                                    <option ng-repeat="v in verticals track by $index" value="{{v.id}}"  ng-selected="{{ v.id == departmentData.vertical_id }}">{{v.name}}</option>                                    
                                 </select>
+                                <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="departmentForm.vertical_id.$error" >
                                     <div ng-message="required">Verticals name is required.</div>
                                 </div>

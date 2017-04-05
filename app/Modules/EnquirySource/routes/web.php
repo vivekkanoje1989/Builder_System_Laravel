@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'EnquirySource','middleware' => 'auth:admin',  'namespace' => 'App\Modules\EnquirySource\Controllers'), function() {
+Route::group(array('module' => 'EnquirySource',  'namespace' => 'App\Modules\EnquirySource\Controllers'), function() {
 
       $getUrl = config('global.getUrl');
   

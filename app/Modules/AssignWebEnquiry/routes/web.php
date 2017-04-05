@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'AssignWebEnquiry','middleware' => 'auth:admin', 'namespace' => 'App\Modules\AssignWebEnquiry\Controllers'), function() {
+Route::group(array('module' => 'AssignWebEnquiry', 'namespace' => 'App\Modules\AssignWebEnquiry\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
     Route::resource($getUrl.'/assign-enquiry', 'AssignWebEnquiryController');

@@ -1,4 +1,7 @@
 <div class="row" ng-controller="discountheadingController" ng-init="manageDiscountHeading()">  
+ <div>
+          <flash-message duration="5000"></flash-message>
+ </div> 
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -66,12 +69,9 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="discountheadingForm.$valid && doDiscountHeadingAction()" name="discountheadingForm">
-                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!discountheadingForm.name.$dirty && discountheadingForm.name.$invalid) && (!discountheadingForm.status.$dirty && discountheadingForm.status.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="actionModal" name="actionModal">
-                            <label>Discount name</label>
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="discount_name" name="discount_name" ng-change="errorMsg = null" required>
                              
@@ -81,7 +81,6 @@
                                 </div>
                             </span>
                             <br/><br/>
-                            <label>Status</label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="status" name="status" required>
                                     <option value="" Selected>Select Status</option>

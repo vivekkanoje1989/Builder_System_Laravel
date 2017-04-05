@@ -158,7 +158,7 @@ class EmployeeDeviceController extends Controller {
     }
 
     public function getAllEmployeesList() {
-        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->where("client_id", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
             return $result;

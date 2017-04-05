@@ -1,4 +1,7 @@
 <div class="row" ng-controller="manageProfessionCtrl" ng-init="manageProfession()">  
+<div>
+          <flash-message duration="5000"></flash-message>
+</div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -48,7 +51,11 @@
                             <td>{{ list.profession}}</td> 
                             <td>{{ list.status == 1 ? "Active" : "Inactive" }}</td> 
                              <td class="fa-div">
+<<<<<<< HEAD
                                 <div class="fa-hover" tooltip-html-unsafe="Edit profession" style="display: block;" data-toggle="modal" data-target="#professionModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.profession}}','{{list.status}}',$index)"><i class="fa fa-pencil"></i></a></div>
+=======
+                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#professionModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.profession}}',$index)"><i class="fa fa-pencil"></i></a></div>
+>>>>>>> a7984705ae68370e688a6582b29da4335d46a2ff
                             </td> 
                         </tr>
                     </tbody>
@@ -65,32 +72,15 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="professionForm.$valid && doprofessionAction()" name="professionForm">
-                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!professionForm.profession_name.$dirty && professionForm.profession_name.$invalid)}">
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!professionForm.profession.$dirty && professionForm.profession.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
-                            <label>Profession name</label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="profession" name="profession_name"  ng-change="errorMsg = null" required>
-                                
+                                <input type="text" class="form-control" ng-model="profession" name="profession_name" placeholder="Profession" ng-change="errorMsg = null" required>
+                                <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="professionForm.profession_name.$error">
                                     <div ng-message="required">Profession is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
-                                </div>
-                            </span>
-                        </div>
-                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!professionForm.status.$dirty && professionForm.status.$invalid)}">
-                            <input type="hidden" class="form-control" ng-model="id" name="id">
-                            <label>Status</label>
-                            <span class="input-icon icon-right">
-                                <select name="status" ng-model="status" class="form-control" required>
-                                    <option value="">Select status</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                                <div class="help-block" ng-show="sbtBtn" ng-messages="professionForm.status.$error">
-                                    <div ng-message="required">Status is required</div>
                                 </div>
                             </span>
                         </div>

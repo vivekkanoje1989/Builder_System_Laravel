@@ -1,5 +1,6 @@
 'use strict';
 app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', 'Data', '$timeout', function ($rootScope, $scope, $state, Data, $timeout) {
+        $scope.lstAllEmployees=[];
         Data.get('getPropertyPortalType').then(function (response) {
             $scope.listPortals = response.records;
         });
@@ -95,7 +96,7 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
             {
                 $scope.aliasLists.push({
                     project_id: modalData.project_id,
-                    project_alias: modalData.project_alias,
+                    project_alias_name: modalData.project_alias_name,
                     project_employee_name: empname,
                     project_employee_id: ids
                 });
@@ -157,13 +158,16 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
         }
     }]);
 
-app.controller('getAllEmployeesCtrl', function ($scope, Data) {
-    $scope.employeeList = [];
-    Data.get('employee-device/getAllEmployeesList').then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $scope.employeeList = response.records;
-        }
-    });
+app.controller('assignEmployeeCtrl', function ($scope, Data, $timeout) {
+    $scope.lstAllEmployees=[];
+    $timeout(function () {
+        Data.get('propertyportals/getAllEmployees').then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                //console.log(response);
+                $scope.lstAllEmployees = response.records;
+            }
+        });
+    }, 3000);
 });

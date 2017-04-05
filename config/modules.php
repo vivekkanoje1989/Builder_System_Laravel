@@ -4,40 +4,36 @@ return [
         "MasterHr",
         "MasterSales",
         "CloudTelephony",
-        "BlockStages",   //Manoj
-        "BmsLists",      //Manoj
+        "BlockStages",
+        "BmsLists",
         "PropertyPortals",
-        "WebsiteSettings",  //Manoj
-        "AssignWebEnquiries",  //Manoj
-        "BloodGroups",   //Manoj
-        "EnquirySource",  //Manoj
-        "PaymentHeadings",  //Manoj
-        "ManageStates",    //Manoj
-        "ManageCountry",   //Manoj
-        "ManageCity",      //Manoj
-        "ManageLocation",   //Manoj
-        "HighestEducation",  //Manoj
-        "DiscountHeadings",  //Manoj
-        "ManageDepartment",   //Manoj
-        "ManageProfession",    //Manoj
-        "ManageProjectTypes",   //Manoj
-        "ManageLostReason",    //Manoj   
-        "ManageBlockTypes",    //Manoj   
-        "ProjectPaymentStages", //Manoj   
-        "ContactUs",            //Manoj   
-        "WebPages", 
-        "BlogManagement",      //Manoj   
-        "Testimonials",        //Manoj   
+        "WebsiteSettings",
+        "AssignWebEnquiries",
+        "BloodGroups",
+        "EnquirySource",
+        "PaymentHeadings",
+        "ManageStates",
+        "ManageCountry",
+        "ManageCity",
+        "ManageLocation",
+        "HighestEducation",
+        "DiscountHeadings",
+        "ManageDepartment",
+        "ManageProfession",
+        "ManageProjectTypes",
+        "ManageLostReason",
+        "ManageProjectTypes",
+        "ManageBlockTypes",
+        "ProjectPaymentStages",
+        "ContactUs",
+        "WebPages",
+        "BlogManagement",
+        "Testimonials",
         "EmailConfig",
-        "CareerManagement",   //Manoj   
-        "DashBoard",          //Manoj    
-        "EmailConfig",
+        "CareerManagement",
+        "DashBoard",
         "CustomersData",
         "Projects",
         "EmployeeDevice",
-        "EnquiryLocations", //Manoj
-        "Designations",  //Manoj
-        "OperationalSettings", //Manoj
-        
     ),
 ];
