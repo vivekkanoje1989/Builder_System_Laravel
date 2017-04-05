@@ -74,7 +74,10 @@ class ProjectPaymentStagesController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Project payment stage already exists'];
             return json_encode($result);
         } else {
-            $result = LstDlProjectStages::where('id', $request['id'])->update($request);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['projectPaymentData'] = array_merge($request, $update);
+            $result = LstDlProjectStages::where('id', $request['id'])->update($input['projectPaymentData']);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

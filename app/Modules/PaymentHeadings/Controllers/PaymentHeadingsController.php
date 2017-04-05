@@ -48,7 +48,7 @@ class PaymentHeadingsController extends Controller {
         $cnt = LstDlPaymentHeadings::where(['payment_heading' => $request['payment_heading']])->get()->count();
         if ($cnt > 0) { //exists blood group
             $result = ['success' => false, 'errormsg' => 'Payment type already exists'];
-            return json_encode($result);
+          return json_encode($result);
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
@@ -56,7 +56,7 @@ class PaymentHeadingsController extends Controller {
             $getResult = LstDlPaymentHeadings::create($input['paymentHeading']);
             $last3 = LstDlPaymentHeadings::latest('id')->first();
             $result = ['success' => true, 'lastinsertid' => $last3->id];
-            return json_encode($result);
+          return json_encode($result);
         }
     }
 
@@ -69,9 +69,13 @@ class PaymentHeadingsController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Payment type already exists'];
             return json_encode($result);
         } else {
-            $result = LstDlPaymentHeadings::where('id', $id)->update($request);
+            
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['paymentHeading'] = array_merge($request, $create);
+            $result = LstDlPaymentHeadings::where('id', $id)->update($input['paymentHeading']);
             $result = ['success' => true, 'result' => $result];
-            return json_encode($result);
+         return json_encode($result);
         }
     }
 

@@ -1,4 +1,4 @@
-app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
+app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$timeout','toaster', function ($scope, Data, $rootScope, $timeout,toaster) {
 
         $scope.manageProjectTypes = function () {
             Data.post('project-types/manageProjectTypes').then(function (response) {

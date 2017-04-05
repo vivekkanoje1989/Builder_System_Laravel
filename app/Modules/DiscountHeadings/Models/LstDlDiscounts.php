@@ -3,13 +3,12 @@
 namespace App\Modules\DiscountHeadings\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
-class MlstEducations extends Eloquent {
+class LstDlDiscounts extends Eloquent {
 
     protected $primaryKey = 'id';
-    protected $connection = 'masterdb';
     public $timestamps = false;
     protected $fillable = [
-        'education',
+        'discount_name',
         'id',
         'status',
         'created_date',

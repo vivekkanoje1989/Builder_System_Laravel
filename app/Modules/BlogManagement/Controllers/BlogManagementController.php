@@ -100,7 +100,6 @@ class BlogManagementController extends Controller {
 
     public function update($id) {
         $input = Input::all();
-
         if (!empty($input['blogImages']['blog_banner_images'])) {
 
             $originalName = $input['blogImages']['blog_banner_images']->getClientOriginalName();
@@ -115,7 +114,6 @@ class BlogManagementController extends Controller {
                 $banner_images = $input['allbanner'];
             }
         }
-
         if (!empty($input['galleryImage']['galleryImage'])) {
             $imgCount = count($input['galleryImage']['galleryImage']);
             if ($imgCount > 0) {

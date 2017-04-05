@@ -3,16 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCountry/Controllers/ManageCountryController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageStates/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCity/Controllers/ManageCityController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/cityController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCity/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageStates/Controllers/ManageStatesController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCity/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCity/Models/MlstCities.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCountry/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Controllers/CareerManagementController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/careerManagementController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Models/WebCareers.php</file>
         </group>
     </open-files>
 </project-private>

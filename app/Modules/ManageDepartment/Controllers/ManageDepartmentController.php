@@ -55,13 +55,13 @@ class ManageDepartmentController extends Controller {
             $input['departmentData'] = array_merge($request, $create);
             $result = MlstBmsbDepartments::create($input['departmentData']);
             $last3 = MlstBmsbDepartments::latest('id')->first();
-            
-             $getvertical = DB::connection('masterdb')->table('mlst_bmsb_verticals')->where('id', '=', $request['vertical_id'])
+
+            $getvertical = DB::connection('masterdb')->table('mlst_bmsb_verticals')->where('id', '=', $request['vertical_id'])
                     ->select('name')
                     ->first();
-             
+
             $input['departmentData']['main_record_id'] = $last3->id;
-            $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id,'vertical'=>$getvertical->name];
+            $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id, 'vertical' => $getvertical->name];
             return json_encode($result);
         }
     }
@@ -70,12 +70,16 @@ class ManageDepartmentController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = Input::all();
         $getCount = MlstBmsbDepartments::where(['department_name' => $request['department_name']])
-                                ->where('id','!=',$id)->get()->count();
+                        ->where('id', '!=', $id)->get()->count();
         if ($getCount > 0) {
-            $result = ['success' => false, 'errormsg' => 'Country already exists'];
+            $result = ['success' => false, 'errormsg' => 'Department already exists'];
             return json_encode($result);
         } else {
-            $result = MlstBmsbDepartments::where('id', $request['id'])->update($request);
+
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['departmentData'] = array_merge($request, $create);
+            $result = MlstBmsbDepartments::where('id', $request['id'])->update($input['departmentData']);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

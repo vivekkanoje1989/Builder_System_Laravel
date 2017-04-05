@@ -11,7 +11,6 @@ use App\Classes\CommonFunctions;
 use Illuminate\Support\Facades\Input;
 use App\Classes\S3;
 use Auth;
-
 class TestimonialsController extends Controller {
 
     public function index() {

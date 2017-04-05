@@ -51,8 +51,10 @@ class BloodGroupsController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Blood group already exists'];
             return json_encode($result);
         } else {
-            $originalValues = MlstBloodGroups::where('id', $request['id'])->get();
-            $result = MlstBloodGroups::where('id', $request['id'])->update($request);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['bloodData'] = array_merge($request, $update);
+            $result = MlstBloodGroups::where('id', $request['id'])->update($input['bloodData']);
             $result = ['success' => true, 'result' => $result];
            
          return json_encode($result);

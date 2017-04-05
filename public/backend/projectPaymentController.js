@@ -12,7 +12,7 @@ app.controller('managePaymentHeadingCtrl', ['$scope', 'Data','toaster', function
         }
         $scope.initialModal = function (id, payment_heading,tax_heading,date_dependent_tax,tax_applicable,index) {
 
-            $scope.heading = 'Project Heading';
+            $scope.heading = 'Project payment heading';
             if(id == 0)
             {
             }else
@@ -37,7 +37,7 @@ app.controller('managePaymentHeadingCtrl', ['$scope', 'Data','toaster', function
                     } else {
                         $('#paymentheadingModal').modal('toggle');
                         $scope.PaymentHeadingRow.push({'payment_heading': $scope.payment_heading, 'id':response.lastinsertid,'project_type_id': $scope.project_type_id,'tax_heading':$scope.tax_heading,'date_dependent_tax':$scope.date_dependent_tax,tax_applicable:$scope.tax_applicable});
-                        toaster.pop('success', 'Manage project payment', 'Record successfully created');
+                        toaster.pop('success', 'Manage project payment heading', 'Record successfully created');
                     }
                 });
             } else { //for update
@@ -51,7 +51,7 @@ app.controller('managePaymentHeadingCtrl', ['$scope', 'Data','toaster', function
                         $scope.PaymentHeadingRow.splice($scope.index, 0, {
                             'payment_heading': $scope.payment_heading, 'id': $scope.id,'tax_heading':$scope.tax_heading,'date_dependent_tax':$scope.date_dependent_tax,tax_applicable:$scope.tax_applicable});
                         $('#paymentheadingModal').modal('toggle');
-                       toaster.pop('success', 'Manage project payment', 'Record successfully updated');  
+                       toaster.pop('success', 'Manage project payment heading', 'Record successfully updated');  
                     }
                 });
             }

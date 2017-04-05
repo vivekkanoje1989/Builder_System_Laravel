@@ -73,8 +73,8 @@
                             <input type="hidden" class="form-control" ng-model="actionModal" name="actionModal">
                             <label>Discount name</label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="discount_name" name="discount_name" placeholder="Discount Heading" ng-change="errorMsg = null" required>
-                                <i class="fa fa-user thm-color circular"></i>
+                                <input type="text" class="form-control" ng-model="discount_name" name="discount_name" ng-change="errorMsg = null" required>
+                             
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="discountheadingForm.discount_name.$error">
                                     <div ng-message="required">This field is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
@@ -88,7 +88,6 @@
                                     <option value="1">Active</option>
                                     <option value="0">In Active</option>
                                 </select>
-                                <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="discountheadingForm.status.$error">
                                     <div ng-message="required">This field is required</div>
                                 </div>

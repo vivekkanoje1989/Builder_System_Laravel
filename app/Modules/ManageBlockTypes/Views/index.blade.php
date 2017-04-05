@@ -78,7 +78,7 @@
                      <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blocktypesForm.block_name.$dirty && blocktypesForm.block_name.$invalid)}">
                            <label>Block name</label>      
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="block_name" name="block_name" placeholder="Block Name" ng-change="errorMsg = null" required>
+                                <input type="text" class="form-control" ng-model="block_name" name="block_name"  ng-change="errorMsg = null" required>
                             
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blocktypesForm.block_name.$error">
                                     <div ng-message="required">Block type is required</div>

@@ -54,7 +54,10 @@ class HighestEducationController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Education title already exists'];
             return json_encode($result);
         } else {
-            $result = MlstEducations::where('id', $request['id'])->update($request);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['educationData'] = array_merge($request, $update);
+            $result = MlstEducations::where('id', $request['id'])->update($input['educationData']);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

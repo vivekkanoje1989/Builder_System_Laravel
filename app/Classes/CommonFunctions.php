@@ -67,6 +67,12 @@ class CommonFunctions {
         $create = ['updated_date' => date('Y-m-d'), 'updated_by' => $loggedInUserId, 'updated_IP' => $_SERVER['REMOTE_ADDR'], 'updated_browser' => $_SERVER['HTTP_USER_AGENT'], 'updated_mac_id' => $getMacAddress];
         return $create;
     }
+    
+    public static function deleteMainTableRecords($loggedInUserId) {
+        $getMacAddress = CommonFunctions::getMacAddress();
+        $create = ['deleted_status'=> '1','deleted_date' => date('Y-m-d'), 'deleted_by' => $loggedInUserId, 'deleted_IP' => $_SERVER['REMOTE_ADDR'], 'deleted_browser' => $_SERVER['HTTP_USER_AGENT'], 'deleted_mac_id' => $getMacAddress];
+        return $create;
+    }
 
     public static function checkPlatform() {
         $userAgent = $_SERVER['HTTP_USER_AGENT'];

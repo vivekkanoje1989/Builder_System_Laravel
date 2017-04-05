@@ -74,9 +74,10 @@ class ManageBlockTypesController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Block name already exists'];
             return json_encode($result);
         } else {
-
-            $result = MlstBmsbBlockTypes::where('id', $request['id'])->update($request);
-
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['blockTypesData'] = array_merge($request, $update);
+            $result = MlstBmsbBlockTypes::where('id', $request['id'])->update($input['blockTypesData']);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

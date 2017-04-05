@@ -18,6 +18,7 @@ class EnquiryLocationsController extends Controller {
     public function index() {
         return view("EnquiryLocations::index");
     }
+
     public function enquiryLocation() {
         $getLocation = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
                 ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
@@ -32,6 +33,7 @@ class EnquiryLocationsController extends Controller {
             return json_encode($result);
         }
     }
+
     public function manageStates() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -47,7 +49,8 @@ class EnquiryLocationsController extends Controller {
             return json_encode($result);
         }
     }
-   public function manageCity() {
+
+    public function manageCity() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $getCity = MlstCities::where('state_id', $request['state_id'])
@@ -61,6 +64,7 @@ class EnquiryLocationsController extends Controller {
             return json_encode($result);
         }
     }
+
     public function manageCountry() {
         $getCountry = MlstCountries::all();
 
@@ -72,12 +76,13 @@ class EnquiryLocationsController extends Controller {
             return json_encode($result);
         }
     }
+
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
         $cnt = lstEnquiryLocations::where(['location' => $request['location']])
-                                    ->where('id','!=',$id)->get()->count();
+                        ->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Location already exists'];
             return json_encode($result);
@@ -96,6 +101,7 @@ class EnquiryLocationsController extends Controller {
             return json_encode($result);
         }
     }
+
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -107,7 +113,10 @@ class EnquiryLocationsController extends Controller {
             $result = ['success' => false, 'errormsg' => 'Location already exists'];
             return json_encode($result);
         } else {
-            $result = lstEnquiryLocations::where('id', $id)->update($request);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['locationData'] = array_merge($request, $update);
+            $result = lstEnquiryLocations::where('id', $id)->update($input['locationData']);
             $getCity = MlstCities::where('id', '=', $id)
                     ->select('name')
                     ->first();
@@ -115,4 +124,5 @@ class EnquiryLocationsController extends Controller {
             return json_encode($result);
         }
     }
+
 }

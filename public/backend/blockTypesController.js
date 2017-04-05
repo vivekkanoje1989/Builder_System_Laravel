@@ -8,11 +8,9 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
         $scope.getProjectNames = function(){
              Data.post('block-types/manageProjectTypes').then(function (response) {
                 $scope.getProjectNamesRow = response.records;
-            
             });
         }
          $scope.initialModal = function (id, block_name,project_type_id, index) {
-
             $scope.heading = 'Project block types';
             $scope.id = id;
             $scope.project_type_id = project_type_id;
@@ -23,7 +21,7 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
         $scope.doblocktypesAction = function () {
             $scope.errorMsg = '';
             if ($scope.id === 0) //for create
-            {  alert($scope.id);
+            {  
                 Data.post('block-types/', { block_id:$scope.block_name,
                     project_type_id: $scope.project_type_id, block_name:$scope.block_name}).then(function (response) {
             
@@ -37,11 +35,8 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
                     }
                 });
             } else { //for update
-
                 Data.put('block-types/'+$scope.id, {
-                   
                     project_type_id: $scope.project_type_id, block_name:$scope.block_name,id:$scope.id}).then(function (response) {
-                    
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;

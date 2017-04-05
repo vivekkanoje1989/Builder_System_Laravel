@@ -5,7 +5,6 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
         $scope.manageCities = function () {
             Data.get('manage-city/manageCity').then(function (response) {
                 $scope.citiesRow = response.records;
-
             });
         };
         $scope.manageStates = function ($id, country_id) {
@@ -26,13 +25,15 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
                 $scope.countryRow = response.records;
             });
         };
-        $scope.initialModal = function (ids,list, index, index1) {
+        $scope.initialModal = function (ids,city_id,list, index, index1) {
 
             $scope.heading = 'City';
             $scope.country_id = list.country_id;
-            $scope.id = ids;
+            $scope.id = city_id;
+            alert($scope.id);
             $scope.name = list.name;
             if($scope.id !== 0){
+                alert("dfdf");
                  $scope.manageStates(1,$scope.country_id);
             }
             $scope.state_id = list.state_id;
@@ -42,13 +43,11 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
         }
         $scope.doCitiesAction = function () {
             $scope.errorMsg = '';
-          
+          alert($scope.id);
             if ($scope.id === 0) //for create
             {
-
                 Data.post('manage-city/', {
                     'name': $scope.name, 'state_id': $scope.state_id}).then(function (response) {
-
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
@@ -62,7 +61,7 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
 
                 Data.put('manage-city/' + $scope.id, {
                     name: $scope.name, id: $scope.id, state_id: $scope.state_id}).then(function (response) {
-               
+                 console.log(response);
                     if (!response.success)
                     {
 
@@ -77,11 +76,8 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
                 });
             }
         }
-       
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
-
     }]);

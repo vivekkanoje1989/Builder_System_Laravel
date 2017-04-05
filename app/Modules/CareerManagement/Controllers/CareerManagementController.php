@@ -9,6 +9,7 @@ use App\Modules\CareerManagement\Models\WebCareers;
 use App\Classes\CommonFunctions;
 use Auth;
 use App\Modules\CareerManagement\Models\WebCareersApplications;
+use Illuminate\Support\Facades\Input;
 
 class CareerManagementController extends Controller {
 
@@ -23,14 +24,17 @@ class CareerManagementController extends Controller {
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $careers = WebCareers::create($request);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+        $input['careerData'] = array_merge($request, $create);
+        $careers = WebCareers::create($input['careerData']);
         $last3 = WebCareers::latest('id')->first();
         $result = ['success' => true, 'result' => $careers, 'lastinsertid' => $last3->id];
         return json_encode($result);
     }
 
     public function manageCareers() {
-        $careers = WebCareers::all();
+        $careers = WebCareers::where('deleted_status','!=',1)->get();
         if (!empty($careers)) {
             $result = ['success' => true, 'records' => $careers];
             return json_encode($result);
@@ -63,21 +67,25 @@ class CareerManagementController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $careers = WebCareers::where('id', $request['id'])->delete();
-        if (!empty($careers)) {
-            $result = ['success' => true, 'records' => $careers];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
+       
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['careerData'] = array_merge($request, $create);
+         
+        $careers = WebCareers::where('id', $request['id'])->update($input['careerData']);
+        $result = ['success' => true, 'result' => $careers];
+        return json_encode($result);
     }
 
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $careers = WebCareers::where('id', $id)->update($request);
-        $result = ['success' => true, 'result' => $careers,];
+
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
+        $input['careerData'] = array_merge($request, $create);
+        $careers = WebCareers::where('id', $id)->update($input['careerData']);
+        $result = ['success' => true, 'result' => $careers];
         return json_encode($result);
     }
 
@@ -90,7 +98,8 @@ class CareerManagementController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $careers = WebCareersApplications::where('career_id', $request['career_id'])->get();
+        $careers = WebCareersApplications::where('career_id', $request['career_id'])
+                                         ->where('deleted_status','!=',1)->get();
         if (!empty($careers)) {
             $result = ['success' => true, 'records' => $careers];
             return json_encode($result);
@@ -101,7 +110,7 @@ class CareerManagementController extends Controller {
     }
 
     public function download($file_name) {
-        $file_path = public_path('resumes/'.$file_name);
+        $file_path = public_path('resumes/' . $file_name);
         return response()->download($file_path);
     }
 
