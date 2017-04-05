@@ -544,16 +544,18 @@ class MasterHrController extends Controller {
         return view("MasterHr::chart");
     }
 
-    public function getChartData() {
+   public function getChartData() {
         $input = Employee::whereIn('employee_status', [1, 2])
-                ->select('team_lead_id', 'designation', 'id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
+                ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
+                ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
                 ->orderBy('team_lead_id')
                 ->get();
         $data = array();
         foreach ($input as $key => $team) {
-            $obj = Employee::where('id', $team['id'])
+            $obj = Employee::where('employees.id', $team['id'])
+                    ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                     ->whereIn('employee_status', [1, 2])
-                    ->select('team_lead_id', 'designation', 'id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
+                    ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
                     ->get();
             if (!empty($obj)) {
                 $data[$key]['v'] = $obj[0]->id;
