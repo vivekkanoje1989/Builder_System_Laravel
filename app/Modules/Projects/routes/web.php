@@ -28,4 +28,5 @@ Route::group(array('module' => 'Projects', 'middleware' => ['web'], 'namespace' 
     Route::get($getUrl. '/projects/getProjects', 'ProjectsController@getProjects'); //for populate dropdown
     Route::get($getUrl. '/projects/webPage', 'ProjectsController@webPage'); //show page
     Route::resource($getUrl. '/projects', 'ProjectsController');
+    Route::post($getUrl. '/projects/basicInfo', 'ProjectsController@basicInfo'); //save basic info
 });	

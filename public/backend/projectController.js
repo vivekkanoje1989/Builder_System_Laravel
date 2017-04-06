@@ -20,8 +20,20 @@ app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$ti
 app.controller('basicInfoController', ['$scope', '$state', 'Data', 'toaster', '$timeout', function ($scope, $state, Data, toaster, $timeout) {
     $scope.basicData = {};
     $scope.basicData.alias_status = "0";
+    $scope.saveBasicInfo = function(basicData){
+        Data.post('projects/basicInfo',{
+            data: {basicData: basicData, projectId: $scope.projectData.project_id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.basicInfo = true;
+                toaster.pop('success', 'Project Details', response.message);
+                angular.element('.btn-next').trigger('click');
+            }
+        });
+    }
 }]);
-
 
 app.controller('projectCntrl', function ($scope, Data) {
     Data.get('projects/getProjects').then(function (response) {

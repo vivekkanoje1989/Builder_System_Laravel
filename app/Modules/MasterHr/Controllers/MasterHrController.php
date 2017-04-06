@@ -259,7 +259,7 @@ class MasterHrController extends Controller {
             unset($input['userData']['login_date_time']);
             unset($input['userData']['departmentid']);
             unset($input['userData']['loggedInUserId']);
-            $empPhoto = $input['userData']['employee_photo_file_name'];
+            $imageName = $input['userData']['employee_photo_file_name'];
             $input['userData']['employee_photo_file_name'] = '';
         }
         
@@ -294,14 +294,17 @@ class MasterHrController extends Controller {
                 $input['userData']['employee_photo_file_name'] = $imageName;
             }
         }
+        else{
+            $input['userData']['employee_photo_file_name'] = $imageName;
+        }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
-        $input['userData']['employee_photo_file_name'] = $empPhoto;
+        
         
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
         //
         $employeeUpdate = Employee::where('id', $id)->update($input['userData']);
-        echo "<pre>";print_r($employeeUpdate);exit;
+        //echo "<pre>";print_r($employeeUpdate);exit;
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData = $originalValues[0]['attributes']['password'];
         unset($getResult['password']);

@@ -100,7 +100,6 @@ class MasterSalesController extends Controller {
                             $contacts['landline_calling_code'] = (!empty($landlineNumber[1])) ?  (int) $landlineNumber[0] : "";
                             $contacts['landline_number'] = (!empty($landlineNumber[1])) ? (int) $landlineNumber[1] : "";
                         }
-
                         $contacts = array_merge($contacts,$create);
                         CustomersContact::create($contacts); //insert data into customer_contacts table
                         CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table

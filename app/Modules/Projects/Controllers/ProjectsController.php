@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Modules\Projects\Models\MlstBmsbProjectStatus;
 use App\Modules\Projects\Models\MlstBmsbProjectType;
 use App\Modules\Projects\Models\Project;
+use App\Modules\Projects\Models\ProjectWebPage;
 use Auth;
 use App\Classes\CommonFunctions;
 
@@ -50,6 +51,39 @@ class ProjectsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong. Record not created.'];
             echo json_encode($result);
         }
+    }
+    
+    public function basicInfo(){
+        try{
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);      
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $isProjectExist = ProjectWebPage::where('project_id', '=',$request['data']['projectId'])->first();
+            if (empty($isProjectExist)) {
+                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                $request['data']['basicData'] = array_merge($request['data']['basicData'],$create);
+                $request['data']['basicData']['project_id'] = $request['data']['projectId'];
+                $actionProject = ProjectWebPage::create($request['data']['basicData']);
+                $msg = "Record added successfully";
+            }else{
+                $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                $request['data']['basicData'] = array_merge($request['data']['basicData'],$update);
+                $request['data']['basicData']['project_id'] = $request['data']['projectId'];
+                $actionProject = ProjectWebPage::where('project_id', $request['data']['projectId'])->update($request['data']['basicData']);
+                $msg = "Record updated successfully";
+            }
+            if(!empty($actionProject)){
+                $result = ['success' => true, 'message' => $msg];
+                echo json_encode($result);
+            }else{
+                $result = ['success' => false, 'message' => 'Something went wrong.'];
+                echo json_encode($result);
+            }
+
+            } catch (\Exception $ex) {
+                $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+                return json_encode($result);
+            }
     }
 
     /**

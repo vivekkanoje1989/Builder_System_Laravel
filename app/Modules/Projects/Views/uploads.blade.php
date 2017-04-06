@@ -4,7 +4,7 @@
             <tab heading="Images">
                 <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/images' "></div>
             </tab>
-            <tab heading="Projects Status">
+            <tab heading="Status">
                 <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
                 <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
             </tab>

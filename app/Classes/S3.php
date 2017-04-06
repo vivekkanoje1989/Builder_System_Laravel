@@ -2,7 +2,7 @@
 
 /*
 
- * Develope By :Uma Shinde(22-03-2017)
+ * Developed By :Uma Shinde(22-03-2017)
  * purpose : Managing images on AWS S3 Buckets
  * 1) s3Configuration() : This function is for s3 configuratio. We can set access key,secret key,region,bucket dynamically from system_configs table.
  * 2) s3FileUplod() : This function will upload image to the s3 bucket with folder name.

@@ -16,7 +16,7 @@
     </div>
     <div class="step-content" id="tabbedwizardsteps">
         <div class="step-pane active" id="tabbedwizardstep1">
-            <form role="form" name='basicInfoForm' ng-submit="basicInfoForm.$valid && saveBasicInfo(basicData)">
+            <form role="form" name="basicInfoForm" ng-submit="saveBasicInfo(basicData)">
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
@@ -29,12 +29,12 @@
                             <label>Alias Status</label>
                             <div class="radio">
                                 <label>
-                                    <input name="form-field-radio" type="radio" ng-model="basicData.alias_status" ng-selected="1" name="alias_status" value="1" class="colored-blue">
-                                    <span class="text">Active </span>
+                                    <input name="form-field-radio" type="radio" ng-model="basicData.alias_status" ng-selected="1" name="alias_status" value="1" class="colored-blue" />
+                                    <span class="text">Active</span>
                                 </label> &nbsp;&nbsp;
                                 <label>
-                                    <input name="form-field-radio" type="radio" ng-model="basicData.alias_status" name="alias_status" value="0" class="colored-danger">
-                                    <span class="text">  Inactive </span>
+                                    <input name="form-field-radio" type="radio" ng-model="basicData.alias_status" name="alias_status" value="0" class="colored-danger" />
+                                    <span class="text">Inactive</span>
                                 </label>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="widget-body no-padding">
                                 <div ng-controller="TextAngularCtrl">
-                                    <div text-angular ng-model="basicData.short_description" name="short-description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                    <div text-angular ng-model="basicData.short_description" name="short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                             </div>
                             <div class="widget-body no-padding">
                                 <div ng-controller="TextAngularCtrl">
-                                    <div text-angular ng-model="basicData.brief_description" name="brief-description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                    <div text-angular ng-model="basicData.brief_description" name="brief_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
                                 </div>
                             </div>
                         </div>
@@ -78,13 +78,13 @@
             </form>
         </div>
         <div class="step-pane" id="tabbedwizardstep2">
-            <form role="form">
+            <form role="form" name="contactInfoForm" ng-submit="saveContactInfo(contactData)">
                 <div class="row" ng-controller="currentCountryListCtrl">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Country</label>
                             <span class="input-icon icon-right">
-                                <select ng-change="onCountryChange()" ng-model="project_country" name="project_country" id="current_country_id" class="form-control" required>
+                                <select ng-change="onCountryChange()" ng-model="contactData.project_country" name="project_country" id="current_country_id" class="form-control" required>
                                     <option value="">Select Country</option>
                                     <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == current_country_id}}">{{country.name}}</option>
                                 </select>
@@ -96,7 +96,7 @@
                         <div class="form-group">
                             <label>State</label>
                             <span class="input-icon icon-right">
-                                <select ng-change="onStateChange()" ng-model="project_state" name="project_state" id="current_state_id" class="form-control" required>
+                                <select ng-change="onStateChange()" ng-model="contactData.project_state" name="project_state" id="current_state_id" class="form-control" required>
                                     <option value="">Select State</option>
                                     <option ng-repeat="state in stateList" value="{{state.id}}" ng-selected="{{ state.id == project_state}}">{{state.name}}</option>
                                 </select>
@@ -108,7 +108,7 @@
                         <div class="form-group">
                             <label>City</label>
                             <span class="input-icon icon-right">
-                                <select ng-change="onCityChange()" ng-model="project_city" name="project_city" id="current_city_id" class="form-control" required>
+                                <select ng-change="onCityChange()" ng-model="contactData.project_city" name="project_city" id="current_city_id" class="form-control" required>
                                     <option value="">Select City</option>
                                     <option ng-repeat="city in cityList" value="{{city.id}}" ng-selected="{{ city.id == project_city}}">{{city.name}}</option>
                                 </select>
@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <label>Location</label>
                             <span class="input-icon icon-right">
-                                <select ng-model="project_location" name="project_location" id="current_location_id" class="form-control" required>
+                                <select ng-model="contactData.project_location" name="project_location" id="current_location_id" class="form-control" required>
                                     <option value="">Select Location</option>
                                     <option ng-repeat="llist in locationList" value="{{llist.id}}" ng-selected="{{ llist.id == project_location}}">{{llist.location}}</option>
                                 </select>
