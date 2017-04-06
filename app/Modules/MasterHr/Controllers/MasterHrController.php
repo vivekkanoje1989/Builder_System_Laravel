@@ -7,7 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use App\Models\EmployeesLog;
-use App\Models\MlstBmsbDepartment;
+use App\Modules\ManageDepartment\Models\MlstBmsbDepartment;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Illuminate\Hashing\HashServiceProvider;
