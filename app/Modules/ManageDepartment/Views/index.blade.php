@@ -6,7 +6,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Department</span>
-                <a href="" data-toggle="modal" data-target="#departmentModal" ng-click="initialModal(0,'','')" class="btn btn-info">Create New Department</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#departmentModal" ng-click="initialModal(0)" class="btn btn-info">Create New Department</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -23,14 +23,14 @@
                                     <span ng-show="orderByField == 'id'">
                                         <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>                 
-                            <th style="width: 70%">
+                            <th style="width: 30%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'department_name'; reverseSort = !reverseSort">Department
                                     <span ng-show="orderByField == 'department_name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
                                 </a>
                             </th>
-                            <th style="width: 10%">
+                            <th style="width: 30%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'vertical_name'; reverseSort = !reverseSort">vertical
                                     <span ng-show="orderByField == 'vertical_name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
@@ -51,7 +51,7 @@
                             <td>{{ list.department_name}}</td>                          
                             <td>{{ list.name}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit department" style="display: block;" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.department_name}}',{{list.vertical_id}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit department" style="display: block;" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}})"><i class="fa fa-pencil"></i></a></div>
                             </td> 
                         </tr>
                     </tbody>
@@ -66,10 +66,8 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
-               
-                <form novalidate ng-submit="departmentForm.$valid && doDepartmentAction()" name="departmentForm">
-                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                    <input type="hidden" class="form-control" ng-model="id" name="id">
+                <input type="hidden" class="form-control" ng-model="id" name="id">
+                <form novalidate ng-submit="departmentForm.$valid && doDepartmentAction(departmentData)" name="departmentForm" role="form">
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Department Name<span class="sp-err">*</span></label>

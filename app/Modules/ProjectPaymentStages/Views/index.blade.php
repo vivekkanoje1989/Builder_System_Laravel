@@ -1,7 +1,4 @@
-<div class="row" ng-controller="projectpaymentController" ng-init="manageProjectPaymentStages(); getProjectTypes();">  
-    <div>
-        <flash-message duration="5000"></flash-message>
-    </div>  
+<div class="row" ng-controller="projectpaymentController" ng-init="manageProjectPaymentStages(); getProjectTypes();">   
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -59,56 +56,69 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="projectpaymentForm.$valid && doprojectpaymentAction()" name="projectpaymentForm">
+                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                   
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.project_type_id.$dirty && projectpaymentForm.project_type_id.$invalid) && (!projectpaymentForm.stage_name.$dirty && projectpaymentForm.stage_name.$invalid)}">
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.project_type_id.$dirty && projectpaymentForm.project_type_id.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
+
                             <span class="input-icon icon-right">
+                                <label>Project type<span class="sp-err">*</span></label>
                                 <select class="form-control" ng-model="project_type_id" name="project_type_id" required>
                                     <option value="">Select project type</option>
                                     <option  ng-repeat="item in ProjectTypesRow" value="{{item.id}}" selected>{{item.project_type}}</option>
                                 </select>
-                                <i class="fa fa-user thm-color circular"></i>
+                                
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="projectpaymentForm.project_type_id.$error">
                                     <div ng-message="required">Project type is required</div>
                                 </div>
                             </span>
                             <br/><br/>
+                        </div>
+                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.stage_name.$dirty && projectpaymentForm.stage_name.$invalid)}">
+                         
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="stage_name" name="stage_name" placeholder="Project stages" ng-change="errorMsg = null" required>
-                                <i class="fa fa-user thm-color circular"></i>
+                                <label>Stage name<span class="sp-err">*</span></label>
+                                <input type="text" class="form-control" ng-model="stage_name" name="stage_name"  ng-change="errorMsg = null" required>
+                             
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="projectpaymentForm.stage_name.$error">
                                     <div ng-message="required">Payment stage is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>
                             </span>
-                                    <br/>
-                                    <span>
-                                        <label>Fix stage</label>
-                                        <div class="row" style="margin-left: 10px;">
-                                            <div class="col-md-6">
-                                                <div class="control-group">
-                                                    <div class="radio">
-                                                        <label>
-                                                            <input name="fix_stage" type="radio" ng-model="fix_stage" value="1" class="colored-blue" >
-                                                            <span class="text">Stage </span>
-                                                        </label>
-                                                    </div>
-                                                </div>
+                            <br/> <br/>
+                         </div>
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.fix_stage.$dirty && projectpaymentForm.fix_stage.$invalid)}">
+                         
+                            <span>
+                                <label>Stage type<span class="sp-err">*</span></label>
+                                <div class="row" style="margin-left: 10px;">
+                                    <div class="col-md-6">
+                                        <div class="control-group">
+                                            <div class="radio">
+                                                <label>
+                                                    <input name="fix_stage" type="radio" ng-model="fix_stage" value="1" class="colored-blue" required>
+                                                    <span class="text">Stage </span>
+                                                </label>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="radio">
-                                                    <label>
-                                                        <input name="fix_stage" type="radio" ng-model="fix_stage" value="0" class="colored-danger"  >
-                                                        <span class="text"> Normal stage  </span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            
                                         </div>
-
-                                    </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="radio">
+                                            <label>
+                                                <input name="fix_stage" type="radio" ng-model="fix_stage" value="0" class="colored-danger" required >
+                                                <span class="text"> Normal stage  </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="help-block" ng-show="sbtBtn" ng-messages="projectpaymentForm.fix_stage.$error">
+                                        <div ng-message="required">Stage type is required</div>
+                                    </div>
                                 </div>
-                            
+
+                            </span>
+                        </div>
+
                     </div>
                     <div class="modal-footer" align="center">
                         <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>

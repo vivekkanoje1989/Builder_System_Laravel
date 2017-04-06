@@ -1,7 +1,4 @@
 <div class="row" ng-controller="highestEducationCtrl" ng-init="manageHighestEducation()">  
- <div>
-          <flash-message duration="5000"></flash-message>
- </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -24,8 +21,8 @@
                               <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                             </a></th>                      
                             <th style="width: 30%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'education_title'; reverseSort = !reverseSort">Education Title
-                                <span ng-show="orderByField == 'education_title'">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'education'; reverseSort = !reverseSort">Education Title
+                                <span ng-show="orderByField == 'education'">
                                   <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                 </span>
                                 </a>
@@ -39,11 +36,11 @@
                             <td><input type="text" ng-model="search" class="form-control"  placeholder="Search"></td>                           
                             <td></td>
                         </tr>
-                        <tr role="row" ng-repeat="list in educationRow| filter:search |orderBy:orderByField:reverseSort" ng-class="{'selected':$index == selectedRow}" ng-click="setClickedRow($index)">
+                        <tr role="row" ng-repeat="list in educationRow| filter:search |orderBy:orderByField:reverseSort">
                             <td>{{$index + 1}}</td>
-                            <td>{{ list.education_title}}</td>                          
+                            <td>{{ list.education}}</td>                          
                              <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit highest education" style="display: block;" data-toggle="modal" data-target="#highesteducModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.education_id}},'{{list.education_title}}',{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit highest education" style="display: block;" data-toggle="modal" data-target="#highesteducModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.education}}','{{list.status}}',{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td> 
                         </tr>
                     </tbody>
@@ -62,15 +59,32 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="highesteducForm.$valid && doHighestEducationAction()" name="highesteducForm">
+                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                   
                     <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!highesteducForm.blood_group.$dirty && highesteducForm.education_title.$invalid)}">
-                            <input type="hidden" class="form-control" ng-model="education_id" name="education_id">
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!highesteducForm.education.$dirty && highesteducForm.education.$invalid)}">
+                            <input type="hidden" class="form-control" ng-model="id" name="id">
+                            <label>Education title<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="education_title" name="education_title" placeholder="Highest Education" ng-change="errorMsg = null" required>
-                                <i class="fa fa-user thm-color circular"></i>
-                                <div class="help-block" ng-show="sbtBtn" ng-messages="highesteducForm.education_title.$error">
+                                <input type="text" class="form-control" ng-model="education" name="education"  ng-change="errorMsg = null" required>
+                               
+                                <div class="help-block" ng-show="sbtBtn" ng-messages="highesteducForm.education.$error">
                                     <div ng-message="required">Education title is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!highesteducForm.status.$dirty && highesteducForm.status.$invalid)}">
+                           
+                            <label>Status<span class="sp-err">*</span></label>
+                            <span class="input-icon icon-right">
+                                <select name="status" ng-model="status" class="form-control">
+                                    <option value="">Select status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                                <div class="help-block" ng-show="sbtBtn" ng-messages="highesteducForm.status.$error">
+                                    <div ng-message="required">Status is required</div>
                                 </div>
                             </span>
                         </div>
@@ -83,4 +97,3 @@
         </div>
     </div>
 </div>
-

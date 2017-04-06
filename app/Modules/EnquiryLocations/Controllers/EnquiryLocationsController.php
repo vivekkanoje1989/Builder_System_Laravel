@@ -18,7 +18,6 @@ class EnquiryLocationsController extends Controller {
     public function index() {
         return view("EnquiryLocations::index");
     }
-
     public function enquiryLocation() {
         $getLocation = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
                 ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
@@ -33,7 +32,6 @@ class EnquiryLocationsController extends Controller {
             return json_encode($result);
         }
     }
-
     public function manageStates() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);

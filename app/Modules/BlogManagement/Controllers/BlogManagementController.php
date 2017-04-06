@@ -17,7 +17,6 @@ class BlogManagementController extends Controller {
     public function index() {
         return view("BlogManagement::index");
     }
-
     public function manageBlogs() {
         $getBlogs = WebBlogs::all();
         if (!empty($getBlogs)) {
@@ -28,7 +27,6 @@ class BlogManagementController extends Controller {
             return json_encode($result);
         }
     }
-
     public function createBlogs() {
         return view("BlogManagement::create");
     }

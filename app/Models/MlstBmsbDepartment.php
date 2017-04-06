@@ -7,6 +7,7 @@
 
 namespace App\Models;
 
+use DB;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -31,34 +32,35 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstBmsbDepartment extends Eloquent
-{
-        protected $connection = 'masterdb';
-	protected $casts = [
-		'client_id' => 'int',
-		'vertical_id' => 'int',
-		'created_by' => 'int',
-		'updated_by' => 'int'
-	];
+class MlstBmsbDepartment extends Eloquent {
 
-	protected $dates = [
-		'created_date',
-		'updated_date'
-	];
+    public $timestamps = false;
+    protected $primaryKey = 'id';
+    protected $connection = 'masterdb';
+    protected $casts = [
+        'client_id' => 'int',
+        'vertical_id' => 'int',
+        'created_by' => 'int',
+        'updated_by' => 'int'
+    ];
+    protected $dates = [
+        'created_date',
+        'updated_date'
+    ];
+    protected $fillable = [
+        'client_id',
+        'vertical_id',
+        'department_name',
+        'created_date',
+        'created_by',
+        'created_IP',
+        'created_browser',
+        'created_mac_id',
+        'updated_date',
+        'updated_by',
+        'updated_IP',
+        'updated_browser',
+        'updated_mac_id'
+    ];
 
-	protected $fillable = [
-		'client_id',
-		'vertical_id',
-		'department_name',
-		'created_date',
-		'created_by',
-		'created_IP',
-		'created_browser',
-		'created_mac_id',
-		'updated_date',
-		'updated_by',
-		'updated_IP',
-		'updated_browser',
-		'updated_mac_id'
-	];
 }

@@ -63,34 +63,43 @@ class ManageCityController extends Controller {
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
+         
         $cnt = MlstCities::where(['name' => $request['name']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'City already exists'];
             return json_encode($result);
         } else {
+            
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+            $input['cityData'] = array_merge($request, $create);
+            
+           
+            $result = MlstCities::create($input['cityData']);
+            
             $last3 = MlstCities::latest('id')->first();
-            $input['cityData']['main_record_id'] = $last3->id;
-            $getCountry = MlstCountries::where('id', '=', $request['country_id'])
-                    ->select('name')
-                    ->first();
             $getState = MlstStates::where('id', '=', $request['state_id'])
                     ->select('name')
                     ->first();
-            $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id, 'country_name' => $getCountry->name, 'state_name' => $getState->name];
+            $result = ['success' => true, 'result' => $result,'lastinsertid' => $last3->id,'state_name' => $getState->name];
             return json_encode($result);
         }
     }
-
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getCount = MlstCities::where(['name' => $request['name']])->get()->count();
+        $getCount = MlstCities::where(['name' => $request['name']])
+                        ->where('id', '!=', $id)->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'City already exists'];
             return json_encode($result);
         } else {
-            $result = MlstCities::where('id', $request['id'])->update($request);
+            
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['cityData'] = array_merge($request, $create);
+            $result = MlstCities::where('id', $id)->update($input['cityData']);
             $getState = MlstStates::where('id', '=', $request['state_id'])
                     ->select('name')
                     ->first();
