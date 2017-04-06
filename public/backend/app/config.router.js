@@ -58,17 +58,23 @@ angular.module('app')
                                         description: ''
                                     },
                                     resolve: {
-                                        deps: [
+                                        deps:
+                                        [
                                             '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/js/intlTelInput.js',
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                            function($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function() {
+                                                        return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                        );
+                                                    }
+                                                );
                                             }
                                         ]
                                     }
@@ -82,6 +88,25 @@ angular.module('app')
                                         label: 'Manage Users',
                                         description: ''
                                     },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function() {
+                                                        return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/hrController.js',
+                                                                ]
+                                                            }
+                                                        );
+                                                    }
+                                                );
+                                            }
+                                        ]
+                                    }
                                 })
                                 .state(getUrl + '.userUpdate', {
                                     url: '/user/update/:empId',
@@ -95,17 +120,23 @@ angular.module('app')
                                         description: ''
                                     },
                                     resolve: {
-                                        deps: [
+                                        deps:
+                                        [
                                             '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/js/intlTelInput.js',
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                            function($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function() {
+                                                        return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                        );
+                                                    }
+                                                );
                                             }
                                         ]
                                     }
