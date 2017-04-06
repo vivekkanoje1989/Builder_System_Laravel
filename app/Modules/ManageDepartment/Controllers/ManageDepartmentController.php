@@ -1,24 +1,35 @@
 <?php
-
 namespace App\Modules\ManageDepartment\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\ManageDepartment\Models\MlstBmsbDepartments;
+use App\Modules\ManageDepartment\Models\MlstBmsbDepartment;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
 use Illuminate\Support\Facades\Input;
 
 class ManageDepartmentController extends Controller {
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
     public function index() {
         return view("ManageDepartment::index");
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
     public function manageDepartment() {
-        $getDepartment = MlstBmsbDepartments::leftJoin('mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
+        $getDepartment = MlstBmsbDepartment::leftJoin('mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
+        // print_r($getDepartment); exit;
+//        $getDepartment = DB::table('users')
+//            ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
+//            ->get();
         if (!empty($getDepartment)) {
             $result = ['success' => true, 'records' => $getDepartment];
             return json_encode($result);
@@ -31,7 +42,7 @@ class ManageDepartmentController extends Controller {
     public function getDepartment() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $getDepartment = MlstBmsbDepartments::leftJoin('mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->where('mlst_bmsb_departments.id', $request['id'])->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
+        $getDepartment = MlstBmsbDepartment::leftJoin('mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->where('mlst_bmsb_departments.id', $request['id'])->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
         if (!empty($getDepartment)) {
             $result = ['success' => true, 'records' => $getDepartment];
             return json_encode($result);
@@ -39,13 +50,19 @@ class ManageDepartmentController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
+        
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $cnt = MlstBmsbDepartments::where(['department_name' => $request['department_name']])->get()->count();
+        $cnt = MlstBmsbDepartment::where(['department_name' => $request['department_name']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Department already exists'];
             return json_encode($result);
@@ -53,33 +70,26 @@ class ManageDepartmentController extends Controller {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['departmentData'] = array_merge($request, $create);
-            $result = MlstBmsbDepartments::create($input['departmentData']);
-            $last3 = MlstBmsbDepartments::latest('id')->first();
-
-            $getvertical = DB::connection('masterdb')->table('mlst_bmsb_verticals')->where('id', '=', $request['vertical_id'])
-                    ->select('name')
-                    ->first();
-
+            $result = MlstBmsbDepartment::create($input['departmentData']);
+            $last3 = MlstBmsbDepartment::latest('id')->first();
             $input['departmentData']['main_record_id'] = $last3->id;
-            $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id, 'vertical' => $getvertical->name];
+            $result = ['success' => true, 'result' => $result, 'lastinsertid' => $last3->id];
             return json_encode($result);
         }
     }
 
     public function update($id) {
         $postdata = file_get_contents('php://input');
+        //$request = json_decode($postdata, true);
         $request = Input::all();
-        $getCount = MlstBmsbDepartments::where(['department_name' => $request['department_name']])
-                        ->where('id', '!=', $id)->get()->count();
+       // print_r($request);
+      //  exit;
+        $getCount = MlstBmsbDepartment::where(['department_name' => $request['department_name'], ['id', '<>', $id]])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Department already exists'];
             return json_encode($result);
         } else {
-
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-            $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
-            $input['departmentData'] = array_merge($request, $create);
-            $result = MlstBmsbDepartments::where('id', $request['id'])->update($input['departmentData']);
+            $result = MlstBmsbDepartment::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

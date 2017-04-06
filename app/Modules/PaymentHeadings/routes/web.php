@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'PaymentHeadings', 'namespace' => 'App\Modules\PaymentHeadings\Controllers'), function() {
+Route::group(array('module' => 'PaymentHeadings','middleware' => 'auth:admin', 'namespace' => 'App\Modules\PaymentHeadings\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
    

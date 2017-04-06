@@ -64,6 +64,7 @@ app.controller('contactUsCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toa
         };
 
         $scope.manageLocationRow = function (city_id) {
+          
             Data.post('contact-us/manageLocation',{'city_id':city_id}).then(function (response) {
                 $scope.locationRow = response.records;
             });

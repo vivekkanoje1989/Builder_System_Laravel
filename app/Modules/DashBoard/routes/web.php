@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'DashBoard', 'namespace' => 'App\Modules\DashBoard\Controllers'), function() {
+Route::group(array('module' => 'DashBoard', 'middleware' => 'auth:admin','namespace' => 'App\Modules\DashBoard\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
     Route::resource($getUrl.'/request-leave', 'DashBoardController');
@@ -17,4 +17,6 @@ Route::group(array('module' => 'DashBoard', 'namespace' => 'App\Modules\DashBoar
      Route::post($getUrl.'/my-request/description', 'DashBoardController@description'); 
      
      Route::get($getUrl.'/my-request/getRequestForMe','DashBoardController@getRequestForMe');
+     
+      Route::post($getUrl.'/request-forme/changeStatus', 'DashBoardController@changeStatus'); 
 });	

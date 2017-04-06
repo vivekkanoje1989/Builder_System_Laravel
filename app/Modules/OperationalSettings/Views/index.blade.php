@@ -50,7 +50,7 @@
                                       <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                    
                                     <div class="col-md-12">
-                                        <label>Country</label>
+                                        <label>Country<span class="sp-err">*</span></label>
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!operationalForm.country_id.$dirty && operationalForm.country_id.$invalid)}">
 
                                             <select id="country_id" name="country_id" class="form-control" ng-model="country_id" required ng-options="item.id as item.name for item in countryRow" ng-change="manageStates(country_id)" required>
@@ -62,7 +62,7 @@
                                         </div>  
                                     </div>
                                     <div class="col-md-12">
-                                        <label>State</label>
+                                        <label>State<span class="sp-err">*</span></label>
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!operationalForm.state_id.$dirty && operationalForm.state_id.$invalid)}">
 
                                             <select class="form-control" ng-model="state_id" name="state_id" ng-change="manageCity(state_id)" required>
@@ -76,7 +76,7 @@
                                         </div>  
                                     </div>
                                     <div class="col-md-12">
-                                        <label>City</label>
+                                        <label>City<span class="sp-err">*</span></label>
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!operationalForm.city_id.$dirty && operationalForm.city_id.$invalid)}">
 
                                             <select class="form-control" ng-model="city_id" name="city_id" required  ng-change="manageLocation(city_id)">
@@ -90,7 +90,7 @@
                                         </div>   
                                     </div>
                                     <div class="col-md-12">
-                                        <label>Location</label>
+                                        <label>Location<span class="sp-err">*</span></label>
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!operationalForm.location_id.$dirty && operationalForm.location_id.$invalid)}">
 
                                             <select class="form-control" ng-model="location_id" name="location_id"  required>

@@ -1,8 +1,5 @@
-<div class="row" ng-controller="contactUsCtrl" ng-init="manageContactUs(); manageCountry(); manageLocationRow();">  
-  <div>
-          <flash-message duration="5000"></flash-message>
-  </div>
-    <div class="col-xs-12 col-md-12">
+<div class="row" ng-controller="contactUsCtrl" ng-init="manageContactUs(); manageCountry();">  
+  <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Office Addresses</span>
@@ -12,8 +9,7 @@
                     <a href="" widget-dispose></a>
                 </div>
             </div>
-            <div class="widget-body table-responsive">     
-                      
+            <div class="widget-body table-responsive">   
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -71,8 +67,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal -->
     <div class="modal fade" id="contactUsModal" role="dialog" tabindex="-1" ng-cloak>    
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -82,9 +76,12 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="contactUsForm.$valid && doContactusAction()" name="contactUsForm">
+                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                   
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!contactUsForm.country_id.$dirty && contactUsForm.country_id.$invalid) && (!contactUsForm.state_id.$dirty && contactUsForm.state_id.$invalid) && (!contactUsForm.city_id.$dirty && contactUsForm.city_id.$invalid) && (!contactUsForm.location_id.$dirty && contactUsForm.location_id.$invalid)  && (!contactUsForm.contact_number1.$dirty && contactUsForm.contact_number1.$invalid)  && (!contactUsForm.contact_number2.$dirty && contactUsForm.contact_number2.$invalid)  && (!contactUsForm.contact_number3.$dirty && contactUsForm.contact_number3.$invalid) && (!contactUsForm.address.$dirty && contactUsForm.address.$invalid) && (!contactUsForm.telephone.$dirty && contactUsForm.telephone.$invalid) && (!contactUsForm.email.$dirty && contactUsForm.email.$invalid) && (!contactUsForm.contact_person_name.$dirty && contactUsForm.contact_person_name.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
+                            <label>Country<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 
                                  <select id="country_id" name="country_id" class="form-control" ng-model="country_id" ng-options="item.id as item.name for item in countryRow" ng-change="manageStates()" required>
@@ -95,6 +92,7 @@
                                 </div>
                             </span>
                             <br/><br/>
+                            <label>State<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="state_id" name="state_id" ng-change="manageCity()" required>
                                      <option value="">Select state</option>
@@ -105,8 +103,9 @@
                                 </div>
                             </span>
                             <br/><br/>
+                            <label>City<span class="sp-err">*</span></label>
                              <span class="input-icon icon-right">
-                                <select class="form-control" ng-model="city_id" name="city_id" required>
+                                <select class="form-control" ng-model="city_id" name="city_id" ng-change="manageLocationRow(city_id)" required>
                                      <option value="">Select city</option>
                                     <option  ng-repeat="itemtwo in cityRow" ng-selected="{{ city_id == itemtwo.id}}" value="{{itemtwo.id}}">{{itemtwo.name}}</option>
                                 </select>
@@ -115,8 +114,9 @@
                                 </div>
                             </span>
                             <br/><br/>
+                            <label>Location<span class="sp-err">*</span></label>
                              <span class="input-icon icon-right">
-                                  <select id="country_id" name="location_id" class="form-control" ng-model="location_id" ng-options="itemthree.id as itemthree.location_type for itemthree in locationRow" required>
+                                  <select id="country_id" name="location_id" class="form-control" ng-model="location_id" ng-options="itemthree.id as itemthree.location for itemthree in locationRow" required>
         	                           <option value="">Select location</option>
                                   </select>
                                
@@ -125,7 +125,7 @@
                                 </div>
                             </span>
                             <br/><br/>
-                            
+                            <label>Address<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="address" name="address" placeholder="Address" required>
                          
@@ -135,8 +135,9 @@
                                 <br/>
                             </span>
                              <br/>
+                            <label>Contact number<span class="sp-err">*</span></label> 
                             <span class="input-icon icon-right">
-                                <input type="number" class="form-control" ng-model="contact_number1" name="contact_number1" placeholder="Contact no." ng-maxlength="10" ng-minlength="10" required>
+                                <input type="number" class="form-control" ng-model="contact_number1" name="contact_number1"  ng-maxlength="10" ng-minlength="10" required>
                               
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.contact_number1.$error">
                                     <div ng-message="required">Contact No. is required</div>
@@ -146,8 +147,9 @@
                                 <br/>
                             </span>
                               <br/>
+                            <label>Contact number<span class="sp-err">*</span></label>  
                              <span class="input-icon icon-right">
-                                <input type="number" class="form-control" ng-model="contact_number2" name="contact_number2" placeholder="Contact no." ng-maxlength="10" ng-minlength="10" required>
+                                <input type="number" class="form-control" ng-model="contact_number2" name="contact_number2"  ng-maxlength="10" ng-minlength="10" required>
                         
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.contact_number2.$error">
                                     <div ng-message="required">Contact No. is required</div>
@@ -157,8 +159,9 @@
                                 <br/>
                             </span>
                                <br/><br/>
+                            <label>Contact number<span class="sp-err">*</span></label>   
                              <span class="input-icon icon-right">
-                                <input type="number" class="form-control" ng-model="contact_number3" name="contact_number3" placeholder="Contact no." ng-maxlength="10" ng-minlength="10" required>
+                                <input type="number" class="form-control" ng-model="contact_number3" name="contact_number3" ng-maxlength="10" ng-minlength="10" required>
                                
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.contact_number3.$error">
                                     <div ng-message="required">Contact No. is required</div>
@@ -168,8 +171,9 @@
                                 <br/>
                             </span>
                                 <br/>
+                            <label>Contact person<span class="sp-err">*</span></label>    
                                 <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="contact_person_name" name="contact_person_name" placeholder="Contact personname"  required>
+                                <input type="text" class="form-control" ng-model="contact_person_name" name="contact_person_name"   required>
                                
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.contact_person_name.$error">
                                     <div ng-message="required">Contact person name is required</div>
@@ -177,8 +181,9 @@
                                 <br/>
                             </span>
                               <br/>
-                             <span class="input-icon icon-right">
-                                <input type="number" class="form-control" ng-model="pin_code" name="pin_code" placeholder="Pin code." ng-maxlength="6" ng-minlength="6" required>
+                            <label>Pin code<span class="sp-err">*</span></label>
+                              <span class="input-icon icon-right">
+                                <input type="number" class="form-control" ng-model="pin_code" name="pin_code"  ng-maxlength="6" ng-minlength="6" required>
                             
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.pin_code.$error">
                                     <div ng-message="required">Pin code is required</div>
@@ -188,8 +193,9 @@
                                 <br/>
                             </span>
                               <br/>
+                            <label>Email<span class="sp-err">*</span></label>  
                             <span class="input-icon icon-right">
-                                <input type="email" class="form-control" ng-model="email" name="email" placeholder="Email"  required>
+                                <input type="email" class="form-control" ng-model="email" name="email"  required>
                               
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.email.$error">
                                     <div ng-message="required">Email is required</div>
@@ -198,8 +204,9 @@
                                 <br/>
                             </span>
                                <br/>
+                             <label>Google map url<span class="sp-err">*</span></label>    
                                <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="google_map_url" name="google_map_url"  placeholder="Map url" required>
+                                <input type="text" class="form-control" ng-model="google_map_url" name="google_map_url"  required>
                                 
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.google_map_url.$error">
                                     <div ng-message="required">Map is required</div>

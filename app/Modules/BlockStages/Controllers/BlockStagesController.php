@@ -6,16 +6,16 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Modules\BlockStages\Models\LstDlBlockStages;
-use App\Modules\ManageProjectTypes\Models\MlstProjectTypes;
+use App\Modules\ManageProjectTypes\Models\MlstBmsbProjectTypes;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+
 class BlockStagesController extends Controller {
 
     public function index() {
         return view("BlockStages::index");
     }
-
     public function manageBlockStages() {
         $getBlockstage = LstDlBlockStages::all();
         if (!empty($getBlockstage)) {
@@ -26,10 +26,9 @@ class BlockStagesController extends Controller {
             return json_encode($result);
         }
     }
-
     public function manageProjectTypes() {
 
-        $getTypes = MlstProjectTypes::all();
+        $getTypes = MlstBmsbProjectTypes::all();
         if (!empty($getTypes)) {
             $result = ['success' => true, 'records' => $getTypes];
             return json_encode($result);
@@ -38,8 +37,6 @@ class BlockStagesController extends Controller {
             return json_encode($result);
         }
     }
-
-    
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -59,18 +56,19 @@ class BlockStagesController extends Controller {
             return json_encode($result);
         }
     }
-
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getCount = LstDlBlockStages::where(['block_stage_name' => $request['block_stage_name']])->get()->count();
+        $getCount = LstDlBlockStages::where(['block_stage_name' => $request['block_stage_name']])
+                ->where('id', '!=', $id)->get()
+                ->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Block stage name already exists'];
             return json_encode($result);
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
-            $update = CommonFunctions::insertLogTableRecords($loggedInUserId);
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['blockStagesData'] = array_merge($request, $update);
             $originalValues = LstDlBlockStages::where('id', $request['id'])->get();
             $result = LstDlBlockStages::where('id', $request['id'])->update($input['blockStagesData']);
@@ -83,5 +81,4 @@ class BlockStagesController extends Controller {
         }
     }
 
-  
 }
