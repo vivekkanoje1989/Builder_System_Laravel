@@ -2,6 +2,20 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/PropertyPortals/Views/createPortalAccount.blade.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/ManageDepartment/Views/index.blade.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/public/backend/departmentController.js</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/PropertyPortals/Views/updatePortalAccount.blade.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/public/backend/propertyPortalsController.js</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/ManageDepartment/Controllers/ManageDepartmentController.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Models/MlstBmsbVertical.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/PropertyPortals/routes.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/EmailConfig/Views/createNewAccount.blade.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/PropertyPortals/Controllers/PropertyPortalsController.php</file>
+        </group>
     </open-files>
 </project-private>
