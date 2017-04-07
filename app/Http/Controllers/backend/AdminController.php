@@ -16,7 +16,7 @@ use App\Models\MlstState;
 use App\Models\MlstCity;
 use App\Models\ClientInfo;
 use App\Models\MlstBmsbEnquirySalesSource;
-use App\Models\EnquirySubSource;
+use App\Models\EnquirySalesSubSource;
 use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
@@ -220,7 +220,7 @@ class AdminController extends Controller {
         $getDepartments = MlstBmsbDepartment::all();
         $getEducationList = MlstEducation::all();
         $getEnquirySource = MlstBmsbEnquirySalesSource::all();
-        $getEnquirySubSource = EnquirySubSource::all();
+        $getEnquirySubSource = EnquirySalesSubSource::all();
         $getMlstProfession = MlstProfession::all();
         $getMlstBmsbDesignation = MlstBmsbDesignation::all();
         $getEmployees = Employee::select('id', 'first_name')->get();
@@ -323,7 +323,7 @@ class AdminController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $sourceId = $request['data']['sourceId'];
-        $getsubSource = EnquirySubSource::where('source_id', $sourceId)->get();
+        $getsubSource = EnquirySalesSubSource::where('enquiry_sales_source_id', $sourceId)->get();
         if (!empty($getsubSource)) {
             $result = ['success' => true, 'records' => $getsubSource];
             return json_encode($result);

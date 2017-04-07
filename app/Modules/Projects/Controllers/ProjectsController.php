@@ -79,11 +79,10 @@ class ProjectsController extends Controller {
                 $result = ['success' => false, 'message' => 'Something went wrong.'];
                 echo json_encode($result);
             }
-
-            } catch (\Exception $ex) {
-                $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-                return json_encode($result);
-            }
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+            return json_encode($result);
+        }
     }
 
     /**

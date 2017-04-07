@@ -99,11 +99,22 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                         if(response.customerContactDetails[i].email_id === '' || response.customerContactDetails[i].email_id === 'null')
                             $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
                     }
+                    Data.post('getEnquirySubSource', {
+                        data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response){
+                            $scope.subSourceList = '';
+                            if (!response.success){
+                                $scope.errorMsg = response.message;
+                            } else{
+                                $scope.subSourceList = response.records;
+                            }
+                    });
                     $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
                     $scope.searchData.searchWithMobile = customerMobileNo;
                     $scope.searchData.searchWithEmail = customerEmailId;
                     $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                    $scope.disableText = true; 
+                    $scope.disableText = true;
+                    
+                    
                 }
                 else{
                     $scope.showDiv=true;
@@ -135,15 +146,6 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
         link: link
     }
 });
-//app.directive('copyToUsername', function ($q, Data) {
-//    return {
-//        restrict: 'AE',
-//        require: 'ngModel',
-//        link: function($scope, model) {
-//            $scope.userData.personal_mobile1 = $scope.userData.username;
-//        }
-//    } 
-//});
 app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
     return {
         restrict: 'AE',
@@ -178,20 +180,49 @@ app.directive('intlTel', function(){
   }
 });
 
-app.directive("ngfSelect",function(){
-  return {
-    link: function($scope,el){
-      el.bind("change", function(e){
-        $scope.currentFile = (e.srcElement || e.target).files[0];
-        var reader = new FileReader();
-        reader.onload = function(event) {
-          $scope.image_source = event.target.result;
-          $scope.$apply(function($scope) {
-            $scope.files = e.files;
-          });
+  
+app.directive("ngfSelect", [function () {
+    return {
+        restrict: 'AE',
+        require: 'ngModel',
+        link: function ($scope, el, ngModel) {
+            el.bind("change", function (e) {
+                $scope.currentFile = (e.srcElement || e.target).files[0];
+                if($($(this)[0].files).length > 1){
+                    $scope[ngModel.name] = [];
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                    $($(this)[0].files).each(function () {
+                        var file = $(this);
+                        if (regex.test(file[0].name.toLowerCase())) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                $scope[ngModel.name].push(e.target.result);
+                            }
+                            reader.readAsDataURL(file[0]);
+                        } else {
+                            $scope[ngModel.name+"_err"] = imgName + "is not a valid image file.";
+                            return false;
+                        }
+                    });
+                }
+                else{
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        var imgName = (e.srcElement || e.target).files[0].name;
+                        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                        if (regex.test(imgName.toLowerCase())) {
+                            $scope[ngModel.name] = event.target.result;
+                            $scope.$apply(function ($scope) {
+                                $scope.files = e.files;
+                            });
+                        }else{
+                            $scope[ngModel.name+"_err"] = imgName + "is not a valid image file.";
+                            return false;
+                        }                        
+                    }
+                    reader.readAsDataURL((e.srcElement || e.target).files[0]);
+                }                
+            })
         }
-        reader.readAsDataURL((e.srcElement || e.target).files[0]);
-      })      
-    }    
-  }    
-});
+    }
+}]);

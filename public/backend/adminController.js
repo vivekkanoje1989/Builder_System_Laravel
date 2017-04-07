@@ -291,10 +291,9 @@ app.controller('enquirySourceCtrl', function ($scope, Data) {
             $scope.sourceList = response.records;
         }
     });
-    
-    $scope.onEnquirySourceChange = function (){
+    $scope.onEnquirySourceChange = function (sourceId){
         Data.post('getEnquirySubSource', {
-        data: {sourceId: $("#source_id").val()}}).then(function (response){
+        data: {sourceId: sourceId}}).then(function (response){
             $scope.subSourceList = '';
             if (!response.success){
                 $scope.errorMsg = response.message;
