@@ -33,7 +33,7 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
             alert($scope.id);
             $scope.name = list.name;
             if($scope.id !== 0){
-                alert("dfdf");
+              
                  $scope.manageStates(1,$scope.country_id);
             }
             $scope.state_id = list.state_id;

@@ -35,5 +35,7 @@ return [
         "CustomersData",
         "Projects",
         "EmployeeDevice",
+        "MyStorage",
+        "OperationalSettings"
     ),
 ];

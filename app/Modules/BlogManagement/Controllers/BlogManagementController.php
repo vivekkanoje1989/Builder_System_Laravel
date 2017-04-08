@@ -48,17 +48,15 @@ class BlogManagementController extends Controller {
             return json_encode($result);
         }
     }
-
     public function store() {
         $input = Input::all();
-
         if (!empty($input['blogImages']['blog_banner_images'])) {
 
             $originalName = $input['blogImages']['blog_banner_images']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
                 $fileName = $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
                 $image = ['0' => $input['blogImages']['blog_banner_images']];
-                $s3FolderName = 'blogBannerImages';
+                $s3FolderName = $input['foldername'];
                 $fileName = S3::s3FileUplod($image, $s3FolderName, 1);
                 $banner_images = trim($fileName, ",");
             } else {

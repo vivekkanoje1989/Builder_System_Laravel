@@ -7,6 +7,7 @@ use App\Modules\ManageCountry\Models\MlstCountries;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+
 class ManageCountryController extends Controller {
 	public function index()
 	{
