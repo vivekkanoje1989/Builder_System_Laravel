@@ -2,13 +2,12 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 05 Apr 2017 12:54:18 +0530.
+ * Date: Thu, 06 Apr 2017 13:26:35 +0530.
  */
 
 namespace App\Models;
 
 use DB;
-
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**

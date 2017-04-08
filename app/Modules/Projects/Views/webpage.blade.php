@@ -19,7 +19,7 @@
                     <tab heading="Website Settings">
                         <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/basicinfo' "></div>
                     </tab>
-                    <tab heading="Uploads">
+                    <tab heading="Uploads" class="uploadsTab">
                         <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads' "></div>
                     </tab>
                     <tab heading="Project Inventory">

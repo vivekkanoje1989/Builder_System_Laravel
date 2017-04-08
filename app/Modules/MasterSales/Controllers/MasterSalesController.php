@@ -100,7 +100,6 @@ class MasterSalesController extends Controller {
                             $contacts['landline_calling_code'] = (!empty($landlineNumber[1])) ?  (int) $landlineNumber[0] : "";
                             $contacts['landline_number'] = (!empty($landlineNumber[1])) ? (int) $landlineNumber[1] : "";
                         }
-
                         $contacts = array_merge($contacts,$create);
                         CustomersContact::create($contacts); //insert data into customer_contacts table
                         CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
@@ -297,38 +296,34 @@ class MasterSalesController extends Controller {
         {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            $id = $request['data']['id'];
+            
             $mobileNumber = $request['data']['mobileNumber'];
             if (!empty($mobileNumber)) {
-                $explodeMobileNumber = explode("-", $mobileNumber);                  
+                $explodeMobileNumber = explode("-", $mobileNumber);          
                 $mobileNumber = (int) $explodeMobileNumber[1];
             }
-            $checkMobile = CustomersContact::select('mobile_number')->where([
-                        ['mobile_number', '=', $mobileNumber],
-                        ['customer_id', '<>', $id],
-            ])->get();
-            $checkMobile = json_decode($checkMobile);
-            if (!empty($checkMobile[0]->mobile_number)) {
-                $result = ['success' => false];
+            $checkMobile = CustomersContact::select('mobile_number')->where([['mobile_number', '=', $mobileNumber],['customer_id', '<>', $request['data']['customerId']]])->get();
+            if (empty($checkMobile[0]->mobile_number)) {
+                $result = ['success' => true];
                 return json_encode($result);
             } else {
-                $result = ['success' => true];
+                $result = ['success' => false];
                 return json_encode($result);
             }
         }
 }
 /*************************** EMPLOYEE PHOTO UPLOAD **********************************
-            $imgRules = array(
-                'image_file' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
-            );
-            $validatePhotoUrl = Validator::make($input, $imgRules);
-            if ($validator->fails()) {
-                $result = ['success' => false, 'message' => $validator->messages()];
-                echo json_encode($result);
-                exit;
-            }
-            else{
-                $fileName = time().'.'.$input['image_file']->getClientOriginalExtension();
-                $input['image_file']->move(base_path()."/common/customer_photo/", $fileName);
-            }
-            /*************************** CUSTPMER PHOTO UPLOAD **********************************/
+$imgRules = array(
+    'image_file' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
+);
+$validatePhotoUrl = Validator::make($input, $imgRules);
+if ($validator->fails()) {
+    $result = ['success' => false, 'message' => $validator->messages()];
+    echo json_encode($result);
+    exit;
+}
+else{
+    $fileName = time().'.'.$input['image_file']->getClientOriginalExtension();
+    $input['image_file']->move(base_path()."/common/customer_photo/", $fileName);
+}
+/*************************** CUSTPMER PHOTO UPLOAD **********************************/

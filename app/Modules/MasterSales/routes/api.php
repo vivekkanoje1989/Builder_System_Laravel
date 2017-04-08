@@ -4,4 +4,5 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
 
     Route::post('api/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails');
     Route::post('api/master-sales', 'MasterSalesController@store');
+    Route::post('api/master-sales/checkMobileExist', 'MasterSalesController@checkMobileExist');
 });	

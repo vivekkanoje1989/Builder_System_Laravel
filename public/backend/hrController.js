@@ -143,7 +143,6 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                         $scope.pageHeading = 'Edit User';
                         $scope.buttonLabel = 'Update';
                         $scope.userData = angular.copy(response.records.data[0]);
-                        console.log(response.records.data[0]);
                         $scope.userData.password = '';
                         if($scope.userData.marriage_date == "0000-00-00"){
                             $scope.userData.marriage_date = "";   

@@ -56,5 +56,5 @@
 </ul>
 <!-- /Sidebar Menu -->
 
-<toaster-container toaster-options="{'time-out': 2000,'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
+<toaster-container toaster-options="{'time-out': 2000,'position-class': 'toast-center', 'close-button':true}"></toaster-container>
 

@@ -237,13 +237,15 @@ class MasterHrController extends Controller {
      */
     public function update($id) {
         $originalValues = Employee::where('id', $id)->get();
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        
         $validationMessages = Employee::validationMessages();
         $validationRules = Employee::validationRules();
         $validationRules['personal_email1'] = 'required|email|unique:employees,personal_email1,' . $id . '';
         $validationRules['password'] = '';
 
-        $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
+        
         if (empty($input)) {
             $input = Input::all();
             $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
@@ -259,7 +261,7 @@ class MasterHrController extends Controller {
             unset($input['userData']['login_date_time']);
             unset($input['userData']['departmentid']);
             unset($input['userData']['loggedInUserId']);
-            $empPhoto = $input['userData']['employee_photo_file_name'];
+            $imageName = $input['userData']['employee_photo_file_name'];
             $input['userData']['employee_photo_file_name'] = '';
         }
         
@@ -274,6 +276,7 @@ class MasterHrController extends Controller {
         unset($input['userData']['password_confirmation']);
         unset($input['userData']['passwordOld']);
         unset($input['userData']['password']);
+        echo "<pre>";print_r($input);exit;
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
         if (!empty($input['employee_photo_file_name'])) {
             $originalName = $input['employee_photo_file_name']->getClientOriginalName();
@@ -294,14 +297,17 @@ class MasterHrController extends Controller {
                 $input['userData']['employee_photo_file_name'] = $imageName;
             }
         }
+        else{
+            $input['userData']['employee_photo_file_name'] = $imageName;
+        }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
-        $input['userData']['employee_photo_file_name'] = $empPhoto;
         
+        echo "<pre>";print_r($input);exit;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
         //
         $employeeUpdate = Employee::where('id', $id)->update($input['userData']);
-        echo "<pre>";print_r($employeeUpdate);exit;
+        //echo "<pre>";print_r($employeeUpdate);exit;
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData = $originalValues[0]['attributes']['password'];
         unset($getResult['password']);

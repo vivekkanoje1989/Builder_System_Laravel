@@ -14,7 +14,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property int $id
  * @property int $client_id
- * @property int $source_id
+ * @property int $enquiry_sales_source_id
  * @property string $sub_source
  * @property int $sub_source_status
  * @property int $vertical_id
@@ -33,11 +33,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class EnquirySubSource extends Eloquent
+class EnquirySalesSubSource extends Eloquent
 {
 	protected $casts = [
 		'client_id' => 'int',
-		'source_id' => 'int',
+		'enquiry_sales_source_id' => 'int',
 		'sub_source_status' => 'int',
 		'vertical_id' => 'int',
 		'created_by' => 'int',
@@ -51,7 +51,7 @@ class EnquirySubSource extends Eloquent
 
 	protected $fillable = [
 		'client_id',
-		'source_id',
+		'enquiry_sales_source_id',
 		'sub_source',
 		'sub_source_status',
 		'vertical_id',

@@ -163,15 +163,21 @@ angular.module('app')
                                         description: ''
                                     },
                                     resolve: {
-                                        deps: [
+                                        deps:
+                                        [
                                             '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/app/controllers/accordion.js',
-                                                    ]
-                                                });
+                                            function($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function() {
+                                                        return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/accordion.js',
+                                                                ]
+                                                            }
+                                                        );
+                                                    }
+                                                );
                                             }
                                         ]
                                     }
@@ -188,15 +194,21 @@ angular.module('app')
                                         description: ''
                                     },
                                     resolve: {
-                                        deps: [
+                                        deps:
+                                        [
                                             '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/app/controllers/accordion.js',
-                                                    ]
-                                                });
+                                            function($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function() {
+                                                        return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/accordion.js',
+                                                                ]
+                                                            }
+                                                        );
+                                                    }
+                                                );
                                             }
                                         ]
                                     }
