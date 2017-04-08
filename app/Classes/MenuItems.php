@@ -403,9 +403,9 @@ class MenuItems {
             )),
             12 => array('name' => 'My Storage', 'icon' => 'stor-img menu-icon-sz', 'uiSrefActive' => '', 'url' => '', 'slug' => 'my-storage', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '01201,01202,01203', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu','liClass' => 'open', 'submenu' => array( 
-                1 => array('id' => '01201', 'name' => 'Storage List', 'icon' => '', 'url' => '/'.$getUrl.'/', 'slug' => '', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                2 => array('id' => '01202', 'name' => 'Shared With Me', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                3 => array('id' => '01203', 'name' => 'Recycle Bin', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                1 => array('id' => '01201', 'name' => 'Storage List', 'icon' => '','url' => '/'.$getUrl.'/storagelist/index', 'slug' => '.storageListIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                2 => array('id' => '01202', 'name' => 'Shared With Me', 'icon' => '', 'url' => '/'.$getUrl.'/storagelist/index', 'slug' => '.sharedWithMe', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                3 => array('id' => '01203', 'name' => 'Recycle Bin', 'icon' => '', 'url' => '/'.$getUrl.'/recyclebin/index', 'slug' => '.recycleBin', 'uiSrefActive' => 'active', 'total_submenu' => 1),
             )),
         );
         return $menulist;

@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+<<<<<<< HEAD
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group/>
     </open-files>
+=======
+<<<<<<< HEAD
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/storageController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/allimages.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/S3.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Models/MyStorage.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/recyclebin.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Controllers/MyStorageController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/sharedwithme.blade.php</file>
+        </group>
+    </open-files>
+=======
+>>>>>>> dfe75505d9a985f9afaf67667fb72b132c8d7678
+>>>>>>> 21c65230eee13f5853e29eb0fee10d1956291bc8
 </project-private>

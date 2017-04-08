@@ -1894,8 +1894,123 @@ angular.module('app')
                                             );
                                         }
                                     ]
-                        }
-                    })
+                                }
+                            })
+                                 .state(getUrl + '.storageListIndex', {
+                                    url: '/storage-list/index',
+                                    templateUrl: getUrl + '/storage-list/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Storage',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/storageController.js'
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                .state(getUrl + '.sharedWithMe', {
+                                    url: '/sharedwith-me/index',
+                                    templateUrl: getUrl + '/sharedwith-me/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Storage',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/storageController.js'
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                .state(getUrl + '.recycleBin', {
+                                    url: '/recycle-bin/index',
+                                    templateUrl: getUrl + '/recycle-bin/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Storage',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/storageController.js'
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                
+                                 .state(getUrl + '.allFiles', {
+                                    url: '/storage-list/getAllList/:filename',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/storage-list/' + stateParams.filename+'/allfiles';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Storage',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/storageController.js'
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
 
 
                     /****************************MANOJ*********************************/
