@@ -11,6 +11,9 @@ use App\Modules\Projects\Models\Project;
 use App\Modules\Projects\Models\ProjectWebPage;
 use Auth;
 use App\Classes\CommonFunctions;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Validator;
+use App\Classes\S3;
 
 class ProjectsController extends Controller {
 
@@ -78,6 +81,40 @@ class ProjectsController extends Controller {
             }else{
                 $result = ['success' => false, 'message' => 'Something went wrong.'];
                 echo json_encode($result);
+            }
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+            return json_encode($result);
+        }
+    }
+    public function imagesInfo() {
+        try{
+            $input = Input::all();
+            
+            unset($input['imagesData']['upload']);
+            echo "<pre>";print_r($input);exit;
+            $arr = array();
+            $arr[] = $input; 
+            $imgRules = array(
+                'project_logo' => 'mimes:jpeg,png,jpg,gif,svg',
+                'project_thumbnail' => 'mimes:jpeg,png,jpg,gif,svg',
+                'project_favicon' => 'mimes:jpeg,png,jpg,gif,svg',
+                'project_banner_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
+                'project_background_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
+                'project_broacher.*' => 'mimes:jpeg,png,jpg,gif,svg',
+            );
+            $validator = Validator::make($input, $imgRules);
+            if ($validator->fails()) {
+                $result = ['success' => false, 'message' => $validator->messages()];
+                return json_encode($result);
+            } else {
+                for($i = 0; $i < count($input); $i++){
+                    $folderName = key($arr[$i]);
+                    $imageName = S3::s3FileUplod($arr[$i][$folderName], $folderName, count($arr[$i][$folderName]));
+                    $imageName = trim($imageName, ',');
+                    //$actionProject = ProjectWebPage::where('project_id', $request['imagesData']['projectId'])->update($request['data']['basicData']);
+//                    echo "<pre>";print_r($imageName);
+                }
             }
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];

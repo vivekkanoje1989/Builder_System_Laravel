@@ -44,7 +44,7 @@ var compareTo = function () {
 };
 app.directive("compareTo", compareTo);
 
-app.directive('checkLoginCredentials', function ($timeout, $q, Data) {
+app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
     return {
         restrict: 'AE',
         require: 'ngModel',
@@ -180,48 +180,31 @@ app.directive('intlTel', function(){
   }
 });
 
-  
 app.directive("ngfSelect", [function () {
     return {
         restrict: 'AE',
         require: 'ngModel',
         link: function ($scope, el, ngModel) {
             el.bind("change", function (e) {
-                $scope.currentFile = (e.srcElement || e.target).files[0];
-                if($($(this)[0].files).length > 1){
-                    $scope[ngModel.name] = [];
-                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
-                    $($(this)[0].files).each(function () {
-                        var file = $(this);
-                        if (regex.test(file[0].name.toLowerCase())) {
-                            var reader = new FileReader();
-                            reader.onload = function (e) {
-                                $scope[ngModel.name].push(e.target.result);
-                            }
-                            reader.readAsDataURL(file[0]);
-                        } else {
-                            $scope[ngModel.name+"_err"] = imgName + "is not a valid image file.";
-                            return false;
+                $scope[ngModel.name] = [];
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp|.svg)$/;
+                var fileLength = $($(this)[0].files).length;
+                $($(this)[0].files).each(function () {
+                    var file = $(this);
+                    var imgName = file[0].name;
+                    if (regex.test(file[0].name.toLowerCase())) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $scope[ngModel.name+"_avtar"] = true;
+                            $scope[ngModel.name].push(e.target.result);
                         }
-                    });
-                }
-                else{
-                    var reader = new FileReader();
-                    reader.onload = function (event) {
-                        var imgName = (e.srcElement || e.target).files[0].name;
-                        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
-                        if (regex.test(imgName.toLowerCase())) {
-                            $scope[ngModel.name] = event.target.result;
-                            $scope.$apply(function ($scope) {
-                                $scope.files = e.files;
-                            });
-                        }else{
-                            $scope[ngModel.name+"_err"] = imgName + "is not a valid image file.";
-                            return false;
-                        }                        
+                        reader.readAsDataURL(file[0]);
+                    } else {
+                        $scope[ngModel.name+"_err"] = imgName + "is not a valid image file.";
+                        $scope[ngModel.name] = "";
+                        return false;
                     }
-                    reader.readAsDataURL((e.srcElement || e.target).files[0]);
-                }                
+                });
             })
         }
     }

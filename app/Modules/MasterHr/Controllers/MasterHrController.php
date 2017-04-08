@@ -77,16 +77,6 @@ class MasterHrController extends Controller {
         }
     }
 
-//    public function getRolesList() {
-//        $roles = EmployeeRole::all();
-//        if(!empty($roles)){
-//            $result = ['success' => true, "list" => $roles];
-//            echo json_encode($result);
-//        }else{
-//            $result = ['success' => false, "message" => "No records found"];
-//            echo json_encode($result);
-//        }
-//    }        
     public function changePassword() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -132,7 +122,7 @@ class MasterHrController extends Controller {
                     exit;
                 }
             }
-            /*             * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
+            /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
             if (!empty($input['employee_photo_file_name'])) {
                 $imgRules = array(
                     'employee_photo_file_name' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
@@ -150,7 +140,7 @@ class MasterHrController extends Controller {
                 }
                 $input['userData']['employee_photo_file_name'] = $imageName;
             }
-            /*             * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
+            /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
 
             $input['userData']['password'] = \Hash::make($input['userData']['password']);
             $input['userData']['remember_token'] = str_random(10);
@@ -244,7 +234,6 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRules();
         $validationRules['personal_email1'] = 'required|email|unique:employees,personal_email1,' . $id . '';
         $validationRules['password'] = '';
-
         
         if (empty($input)) {
             $input = Input::all();
@@ -276,8 +265,8 @@ class MasterHrController extends Controller {
         unset($input['userData']['password_confirmation']);
         unset($input['userData']['passwordOld']);
         unset($input['userData']['password']);
-        echo "<pre>";print_r($input);exit;
-        /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
+        
+        /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
         if (!empty($input['employee_photo_file_name'])) {
             $originalName = $input['employee_photo_file_name']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
@@ -286,7 +275,7 @@ class MasterHrController extends Controller {
                 );
                 $validateEmpPhotoUrl = Validator::make($input, $imgRules);
                 if ($validateEmpPhotoUrl->fails()) {
-                    $result = ['success' => false, 'message' => $validator->messages()];
+                    $result = ['success' => false, 'message' => $validateEmpPhotoUrl->messages()];
                     return json_encode($result);
                 } else {
                     $folderName = 'Employee-Photos';
@@ -302,7 +291,7 @@ class MasterHrController extends Controller {
         }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
         
-        echo "<pre>";print_r($input);exit;
+//        echo "<pre>";print_r($input);exit;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
         //

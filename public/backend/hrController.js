@@ -121,7 +121,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
             });
         }, function (response) {
             if (response.status !== 200) {
-                $scope.errorMsg = "Something went wrong. Check your internet connection";
+                $scope.errorMsg = "Something went wrong.";
             }
         }, function (evt, response) {
             //employeePhoto.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
