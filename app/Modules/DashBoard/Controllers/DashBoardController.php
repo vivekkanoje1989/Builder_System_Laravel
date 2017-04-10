@@ -116,11 +116,11 @@ class DashBoardController extends Controller {
     public function description() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $loggedInUserId = Auth::guard('admin')->user()->id;
+       
         $employees = EmployeeRequest::join('employees', 'request.cc', '=', 'employees.id')
                 ->select('employees.first_name', 'employees.last_name')
+                ->where('request.id',$request['id'])
                 ->first();
-
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {
@@ -147,7 +147,6 @@ class DashBoardController extends Controller {
     public function changeStatus() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::where('id', $request['id'])->update($request);
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];

@@ -2011,6 +2011,68 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                
+                                   .state(getUrl + '.allMyFiles', {
+                                    url: '/storage-list/getAllMyList/:filename',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/storage-list/' + stateParams.filename+'/allmyfiles';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Storage',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/storageController.js'
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                
+                                .state(getUrl + '.getAllListToRestore', {
+                                    url: '/storage-list/getAllListToRestore/:filename',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/storage-list/' + stateParams.filename+'/getAllListToRestore';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Storage',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/storageController.js'
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
 
 
                                 /****************************MANOJ*********************************/

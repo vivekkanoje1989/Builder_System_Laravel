@@ -13,10 +13,10 @@
             <div class="widget-body table-responsive">     
                 <div class="row">
                     <div class="col-md-2" ng-repeat="imgs in directories track by $index | unique:'imgs' ">
-                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllList/{{imgs}}">
+                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllList/{{imgs.folder}}">
                         <img src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
                         <br/>
-                        <h5 style="margin-left: 20px;">{{imgs}}</h5></a>
+                        <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
                     </div>
                 </div>
             </div>

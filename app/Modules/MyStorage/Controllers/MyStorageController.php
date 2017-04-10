@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Input;
 use App\Modules\MyStorage\Models\MyStorage;
 use Auth;
 use DB;
+use App\Classes\CommonFunctions;
 
 class MyStorageController extends Controller {
 
@@ -29,14 +30,34 @@ class MyStorageController extends Controller {
         return view("MyStorage::recyclebin");
     }
 
+    public function getAllListToRestore($filename) {
+        return view("MyStorage::listtorestore")->with("filename", $filename);
+    }
+
+    public function allMyFiles($filename) {
+
+        return view("MyStorage::allmyimages")->with("filename", $filename);
+    }
+
     public function store() {
         try {
             $postdata = file_get_contents('php://input');
             $request = json_decode($postdata, true);
-            $result = S3::s3CreateDirectory($request['filename']);
-            $dbresult = MyStorage::create(['folder' => $request['filename']]);
-            $result = ["status" => true, 'result' => $result];
-            return json_encode($result);
+            $count = MyStorage::where('folder', $request['filename'])->get()->count();
+            if ($count > 0) {
+                $result = ['success' => false, 'errorMsg' => 'Folder already exists'];
+                return json_encode($result);
+            } else {
+                $post = ['folder' => $request['filename']];
+                $loggedInUserId = Auth::guard('admin')->user()->id;
+                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                $input['storeData'] = array_merge($post, $create);
+
+                $result = S3::s3CreateDirectory($request['filename']);
+                $dbresult = MyStorage::create($input['storeData']);
+                $result = ["status" => true, 'result' => $dbresult];
+                return json_encode($result);
+            }
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
             return json_encode($result);
@@ -47,7 +68,11 @@ class MyStorageController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $result = MyStorage::where('folder', $request['folder'])->first();
-        $share_with = $result['share_with'] . ',' . $request['share_with'];
+        if ($request['share_with'] !== '') {
+            $share_with = $result['share_with'] . ',' . $request['share_with'];
+        } else {
+            $share_with =  $request['share_with'];
+        }
         $post = ['share_with' => $share_with];
         $update = MyStorage::where('folder', $request['folder'])->update($post);
         return json_encode(['result' => $update, 'status' => true]);
@@ -70,16 +95,19 @@ class MyStorageController extends Controller {
     }
 
     public function getStorage() {
-        $res = S3::s3DirectoryLists();
-        return json_encode(['result' => $res, 'status' => true]);
+        $result = MyStorage::where('deleted_status', '0')->get();
+        return json_encode(['result' => $result, 'status' => true]);
+    }
+
+    public function getRecycleList() {
+        $result = MyStorage::where('deleted_status', '1')->get();
+        return json_encode(['result' => $result, 'status' => true]);
     }
 
     public function getMyStorage() {
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        //$query = MyStorage::whereRaw('FIND_IN_SET($loggedInUserId,share_with)')->get();
-
         $query = MyStorage::whereRaw(
-                        'find_in_set(?, share_with)', $loggedInUserId)->get();
+                        'find_in_set(?, share_with)', $loggedInUserId)->where('deleted_status', '0')->get();
         if (!empty($query)) {
             $result = ['status' => true, 'records' => $query];
         } else {
@@ -91,7 +119,22 @@ class MyStorageController extends Controller {
     public function deleteFolder() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $result = S3::s3FolderDelete($request['foldername']);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['folderData'] = array_merge($request, $create);
+        $result = MyStorage::where('folder', $request['folder'])->update($input['folderData']);
+        return json_encode(['result' => $result, 'status' => true]);
+    }
+
+    public function restoreFolder() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $request['deleted_status'] = '0';
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
+        $input['folderData'] = array_merge($request, $create);
+        $result = MyStorage::where('folder', $request['folder'])->update($input['folderData']);
+
         return json_encode(['result' => $result, 'status' => true]);
     }
 
@@ -104,9 +147,7 @@ class MyStorageController extends Controller {
 
     public function subFolder() {
         $input = Input::all();
-
         if (!empty($input['fileName']['fileName'])) {
-
             $originalName = $input['fileName']['fileName']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
                 $fileName = $input['fileName']['fileName']->getClientOriginalExtension();
@@ -128,6 +169,45 @@ class MyStorageController extends Controller {
         $request = json_decode($postdata, true);
         $result = S3::s3FileDelete($request['filepath']);
         return json_encode(['result' => $result, 'status' => true]);
+    }
+
+    public function folderSharedEmployees() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+
+        $result = MyStorage::where('folder', $request['folder'])->select('share_with')->first();
+        print_r($result);
+        exit();
+        if (!empty($result->share_with)) {
+            $employee_id = explode(',', $result->share_with);
+            $employees = [];
+            for ($i = 0; $i < count($employee_id); $i++) {
+                $result = DB::table('employees')->where('id', $employee_id[$i])->select(['first_name', 'last_name'])->first();
+
+                array_push($employees, ['first_name' => $result->first_name, 'last_name' => $result->last_name, 'employee_id' => $employee_id[$i]]);
+            }
+            return json_encode(['result' => $employees, 'status' => true]);
+        } else {
+            return json_encode(['errormsg' => 'Not shared yet', 'status' => true]);
+        }
+    }
+
+    public function removeEmployees() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+
+        $result = MyStorage::where('folder', $request['folder'])->select('share_with')->first();
+        if ($result->share_with) {
+            $employee_id = explode(',', $result->share_with);
+            $unique = array_unique($employee_id);
+            $pos = array_search($request['employee_id'], $unique);
+            unset($unique[$pos]);
+            $share = implode(',', $unique);
+            $post = ['share_with' => $share];
+            $result = MyStorage::where('folder', $request['folder'])->update($post);
+
+            return json_encode(['result' => $result, 'status' => true]);
+        }
     }
 
 }
