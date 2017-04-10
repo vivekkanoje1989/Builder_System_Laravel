@@ -55,8 +55,11 @@ class ManageProfessionController extends Controller {
           return json_encode($result);
         } else {
 
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['professionData'] = array_merge($request, $update);
             $originalValues = MlstProfessions::where('id', $request['id'])->get();
-            $result = MlstProfessions::where('id', $request['id'])->update($request);
+            $result = MlstProfessions::where('id', $request['id'])->update($input['professionData']);
             $result = ['success' => true, 'result' => $result];
           return json_encode($result);
         }

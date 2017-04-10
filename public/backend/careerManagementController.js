@@ -29,6 +29,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
 
             Data.post('manage-job/deleteJob', {
                 'id': id}).then(function (response) {
+                console.log(response);
                 $scope.careerRow.splice(index, 1);
             });
         }

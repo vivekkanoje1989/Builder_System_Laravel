@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'ContactUs', 'namespace' => 'App\Modules\ContactUs\Controllers'), function() {
+Route::group(array('module' => 'ContactUs', 'middleware' => 'auth:admin','namespace' => 'App\Modules\ContactUs\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
      Route::post($getUrl . '/contact-us/getContactUsRow','ContactUsController@getContactUsRow');

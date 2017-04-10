@@ -33,7 +33,7 @@
                     <tbody>
                         <input type="hidden" ng-model="blogId" name="blogId" id="blogId"  >                 
                          
-                            <tr><td>Title *</td>
+                            <tr><td>Title <span class="sp-err">*</span></td>
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.title.$dirty && blogsForm.title.$invalid) }">
                                     <span class="input-icon icon-right">
@@ -55,7 +55,7 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr><td>Short Description *</td>
+                            <tr><td>Short Description <span class="sp-err">*</span></td>
                                 <td>
                                      <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.shortdescription.$dirty && blogsForm.shortdescription.$invalid) }">
                                     
@@ -65,7 +65,7 @@
                                         <div class="col-lg-12 col-sm-12 col-xs-12">
                                             <div class="widget flat radius-bordered">
                                                 <div class="widget-header bordered-bottom bordered-themeprimary">
-                                                    <span class="widget-caption">TextAngular : A Lightweight, Two-Way-Bound & Totally Awesome Angular.js Text-Editor</span>
+                                                    <span class="widget-caption"></span>
                                                 </div>
                                                 <div class="widget-body no-padding">
                                                     <div ng-controller="TextAngularCtrl">
@@ -83,7 +83,7 @@
                                          </div>
                                 </td>
                             </tr>
-                           <tr><td>Description *</td>
+                           <tr><td>Description <span class="sp-err">*</span></td>
                                 <td>
                                   <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_description.$dirty && blogsForm.blog_description.$invalid) }">
                                    <span class="input-icon icon-right">
@@ -92,7 +92,7 @@
                                         <div class="col-lg-12 col-sm-12 col-xs-12">
                                             <div class="widget flat radius-bordered">
                                                 <div class="widget-header bordered-bottom bordered-themeprimary">
-                                                    <span class="widget-caption">TextAngular : A Lightweight, Two-Way-Bound & Totally Awesome Angular.js Text-Editor</span>
+                                                    <span class="widget-caption"></span>
                                                 </div>
                                                 <div class="widget-body no-padding">
                                                     <div ng-controller="TextAngularCtrl">
@@ -144,7 +144,7 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr><td>Post Publish *</td>
+                            <tr><td>Post Publish <span class="sp-err">*</span></td>
                                 <td>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_publish.$dirty && blogsForm.blog_publish.$invalid) }">
                                   

@@ -33,7 +33,7 @@
                     <tbody>
                         <input type="hidden" ng-model="blogId" name="blogId" id="blogId"  >                 
                          
-                            <tr><td>Title *</td>
+                            <tr><td>Title <span class="sp-err">*</span></td>
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.title.$dirty && blogsForm.title.$invalid) }">
                                     <span class="input-icon icon-right">
@@ -55,7 +55,7 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr><td>Short Description *</td>
+                            <tr><td>Short Description <span class="sp-err">*</span></td>
                                 <td>
                                      <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.shortdescription.$dirty && blogsForm.shortdescription.$invalid) }">
                                     
@@ -83,7 +83,7 @@
                                          </div>
                                 </td>
                             </tr>
-                           <tr><td>Description *</td>
+                           <tr><td>Description <span class="sp-err">*</span></td>
                                 <td>
                                   <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_description.$dirty && blogsForm.blog_description.$invalid) }">
                                    <span class="input-icon icon-right">
@@ -143,7 +143,7 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr><td>Post Publish *</td>
+                            <tr><td>Post Publish <span class="sp-err">*</span></td>
                                 <td>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_publish.$dirty && blogsForm.blog_publish.$invalid) }">
                                   
@@ -179,11 +179,6 @@
                             <tr><td></td>
                                 <td><button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button></td>
                             </tr>
-                        
-
-
-
-                    
                     </tbody>
                 </table>
      </form>

@@ -92,7 +92,6 @@
                                 <select id="country_id" name="country_id" required class="form-control" ng-model="country_id" ng-options="item.id as item.name for item in countryRow" ng-change="manageStates()">
                                     <option value="">Select country</option>
                                 </select>
-                                <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="EnqLocationForm.country_id.$error">
                                     <div ng-message="required">Select country</div>
                                 </div>
@@ -105,7 +104,6 @@
                                     <option value="">Select state</option>
                                     <option  ng-repeat="itemone in statesRow" ng-selected="{{ state_id == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
                                 </select>
-                                <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="EnqLocationForm.state_id.$error">
                                     <div ng-message="required">Select state</div>
                                 </div>
@@ -118,7 +116,6 @@
                                     <option value="">Select city</option>
                                     <option  ng-repeat="itemone in cityRow" ng-selected="{{ city_id == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
                                 </select>
-                                <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="EnqLocationForm.city_id.$error">
                                     <div ng-message="required">Select state</div>
                                 </div>
@@ -128,7 +125,7 @@
                             <label>Location</label>
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="location" name="location" ng-change="errorMsg = null" required>
-                                <i class="fa fa-user thm-color circular"></i>
+                              
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="EnqLocationForm.location.$error">
                                     <div ng-message="required">Location name is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>

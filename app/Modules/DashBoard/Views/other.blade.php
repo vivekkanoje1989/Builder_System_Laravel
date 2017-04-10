@@ -1,7 +1,4 @@
-<div class="row" ng-controller="dashboardCtrl" ng-init="getEmployees()">  
-    <div>
-        <flash-message duration="5000"></flash-message>
-    </div>
+<div class="row" ng-controller="dashboardCtrl" ng-init="getEmployees()"> 
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -16,6 +13,8 @@
 
             <div class="widget-body table-responsive">     
                 <form  ng-submit="requestLeave.$valid && doOtherApprovalAction('2')" name="requestLeave"  novalidate>
+                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                   
                     <table class="table table-hover table-striped table-bordered" at-config="config">
                         <thead class="bord-bot">
                             <tr>
@@ -24,7 +23,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Application To*</td>
+                                <td>Application To<span class="sp-err">*</span></td>
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.application_to.$dirty && requestLeave.application_to.$invalid) }">
                                         <span class="input-icon icon-right">
@@ -42,7 +41,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Application CC:*</td>
+                                <td>Application CC <span class="sp-err">*</span></td>
                                 <td>
                                    <span class="input-icon icon-right">
                                             <select class="form-control" ng-model="application_cc" name="application_cc" >
@@ -53,11 +52,11 @@
                                         </span>
                                 </td>
                             </tr>
-                            <tr><td>Application Description*</td>
+                            <tr><td>Application Description<span class="sp-err">*</span></td>
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.req_desc.$dirty && requestLeave.req_desc.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="req_desc" name="req_desc" cols="50" rows="5" required placeholder="Description"></textarea>
+                                            <textarea ng-model="req_desc" name="req_desc" cols="50" rows="5" required ></textarea>
 
                                         </span>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.req_desc.$error">

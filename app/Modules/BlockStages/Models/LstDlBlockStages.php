@@ -20,8 +20,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class LstDlBlockStages extends Eloquent
 {
 	protected $primaryKey = 'id';
-
-
 	public $timestamps = false;
 	protected $fillable = [
 		'block_stage_name',

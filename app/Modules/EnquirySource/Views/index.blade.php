@@ -1,7 +1,4 @@
 <div class="row" ng-controller="enquirysourceCtrl" ng-init="manageEnquirySource()">  
-  <div>
-          <flash-message duration="5000"></flash-message>
-  </div>
     <div class="col-xs-12 col-md-12">
                 <div class="widget">
                     <div class="widget-header bordered-bottom bordered-blue">
@@ -67,10 +64,13 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="subsourceForm.$valid && dosubsourceAction()" name="subsourceForm">
+                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                   
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!subsourceForm.sub_source.$dirty && subsourceForm.sub_source.$invalid) && (!subsourceForm.sub_source_status.$dirty && subsourceForm.sub_source_status.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="subid" name="subid">
                             <input type="hidden" class="form-control" ng-model="source_id" name="source_id">
+                            <label>Sub source name<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="sub_source" name="sub_source" placeholder="Sub source" ng-change="errorMsg = null" required>
                                 <i class="fa fa-user thm-color circular"></i>
@@ -80,6 +80,7 @@
                                 </div>
                             </span>
                             <br/><br/>
+                            <label>Status<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select ng-model="sub_source_status" name="sub_source_status" class="form-control">
                                     <option value="">Select source status</option>
@@ -112,7 +113,7 @@
                 <form novalidate ng-submit="sourceForm.$valid && dosourceAction()" name="sourceForm">
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!sourceForm.source_name.$dirty && sourceForm.source_name.$invalid) && (!sourceForm.source_status.$dirty && sourceForm.source_status.$invalid)}">
-                           
+                            <label>Source name</label>
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="source_name" name="source_name" placeholder="Source name" ng-change="errorMsg = null" required>
                                 <i class="fa fa-user thm-color circular"></i>
@@ -121,6 +122,7 @@
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>
                             </span><br/><br/>
+                            <label>Status</label>
                             <span class="input-icon icon-right">
                                 <select ng-model="source_status" name="source_status" class="form-control">
                                     <option value="">Select source status</option>

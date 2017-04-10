@@ -1,7 +1,4 @@
 <div class="row" ng-controller="managePaymentHeadingCtrl" ng-init="managePaymentHeading();">  
-    <div>
-        <flash-message duration="5000"></flash-message>
-    </div> 
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -62,104 +59,129 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="paymentheadingForm.$valid && dopaymentheadingAction()" name="paymentheadingForm">
+                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                   
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!paymentheadingForm.payment_heading.$dirty && paymentheadingForm.payment_heading.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
-
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="payment_heading" name="payment_heading" placeholder="payment_heading" required>
-                                <i class="fa fa-user thm-color circular"></i>
+                                <label>Payment heading<span class="sp-err">*</span></label>
+                                <input type="text" class="form-control" ng-model="payment_heading" name="payment_heading"  required>
+
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.payment_heading.$error">
-                                    <div ng-message="required">This field is required</div>
+                                    <div ng-message="required">Payment heading is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>
+                                <br/>
                             </span>
-                            <div class="row">
-                                <div class="col-md-6">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!paymentheadingForm.tax_heading.$dirty && paymentheadingForm.tax_heading.$invalid)}">
+
                                     <span>
 
-                                        <label>Tax Heading</label>
+                                        <label>Tax Heading<span class="sp-err">*</span></label>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="control-group">
                                                     <div class="radio">
                                                         <label>
-                                                            <input name="form-field-radione" type="radio" ng-model="tax_heading" value="1" class="colored-blue" >
+                                                            <input name="tax_heading" type="radio" ng-model="tax_heading" value="1" class="colored-blue" required>
                                                             <span class="text">Yes </span>
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">   
+                                            <div class="col-md-3">   
                                                 <div class="radio">
                                                     <label>
-                                                        <input name="form-field-radioone" type="radio" ng-model="tax_heading" value="0" class="colored-danger">
+                                                        <input name="tax_heading" type="radio" ng-model="tax_heading" value="0" class="colored-danger" required>
                                                         <span class="text"> No  </span>
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.payment_heading.$error">
+                                            <div ng-message="required">Tax heading is required</div>
 
-                                    </span>
-                                </div>
-                                <div class="col-md-6">
-                                    <span>
-                                        <label>Date dependent</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="control-group">
-                                                    <div class="radio">
-                                                        <label>
-                                                            <input name="form-field-radio" type="radio" ng-model="date_dependent_tax" value="1" class="colored-blue">
-                                                            <span class="text">Yes </span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="radio">
-                                                    <label>
-                                                        <input name="form-field-radio" type="radio" ng-model="date_dependent_tax" value="0" class="colored-danger" >
-                                                        <span class="text"> No  </span>
-                                                    </label>
-                                                </div>
-                                            </div>
                                         </div>
                                     </span>
-                                </div>
+                                </div>    
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
+                            <div class="col-md-12">
+                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!paymentheadingForm.date_dependent_tax.$dirty && paymentheadingForm.date_dependent_tax.$invalid)}">
+
                                     <span>
-                                        <label>Tax applicable</label>
+                                        <label>Date dependent<span class="sp-err">*</span></label>
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="control-group">
                                                     <div class="radio">
                                                         <label>
-                                                            <input name="form-field-radiotwo" type="radio" ng-model="tax_applicable" value="1" class="colored-blue">
+                                                            <input name="date_dependent_tax" type="radio" ng-model="date_dependent_tax" value="1" class="colored-blue" required>
                                                             <span class="text">Yes </span>
                                                         </label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="radio">
                                                     <label>
-                                                        <input name="form-field-radiotwo" type="radio" ng-model="tax_applicable" value="0" class="colored-danger" >
+                                                        <input name="date_dependent_tax" type="radio" ng-model="date_dependent_tax" value="0" class="colored-danger" required>
                                                         <span class="text"> No  </span>
                                                     </label>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.date_dependent_tax.$error">
+                                            <div ng-message="required">Date dependants is required</div>
 
+                                        </div>
                                     </span>
-                                </div>
+
+                                </div>    
                             </div>
                         </div>
-                        <div class="modal-footer" align="center">
-                            <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
-                        </div> 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!paymentheadingForm.tax_applicable.$dirty && paymentheadingForm.tax_applicable.$invalid)}">
+
+                                    <span>
+                                        <label>Tax applicable<span class="sp-err">*</span></label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="control-group">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input name="tax_applicable" type="radio" ng-model="tax_applicable" value="1" class="colored-blue" required>
+                                                            <span class="text">Yes </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input name="tax_applicable" type="radio" ng-model="tax_applicable" value="0" class="colored-danger" required>
+                                                        <span class="text"> No  </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.tax_applicable.$error">
+                                            <div ng-message="required">Tax applicable is required</div>
+
+                                        </div>
+                                    </span>
+                                </div>      
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" align="center">
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                    </div> 
                 </form>           
             </div>
         </div>

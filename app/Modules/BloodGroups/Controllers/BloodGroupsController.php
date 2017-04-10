@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Modules\BloodGroups\Controllers;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Modules\BloodGroups\Models\MlstBloodGroups;
 use App\Classes\CommonFunctions;
 use Auth;
+
 class BloodGroupsController extends Controller {
 
     public function index() {
@@ -31,31 +33,33 @@ class BloodGroupsController extends Controller {
         $cnt = MlstBloodGroups::where(['blood_group' => $request['blood_group']])->get()->count();
         if ($cnt > 0) {  //exists blood group
             $result = ['success' => false, 'errormsg' => 'Blood group already exists'];
-          return json_encode($result);
+            return json_encode($result);
         } else {
-             $loggedInUserId = Auth::guard('admin')->user()->id;
-             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-             $input['bloodGroupData'] = array_merge($request,$create);
-             $bloodgroup = MlstBloodGroups::create($input['bloodGroupData']);
-             $last3 = MlstBloodGroups::latest('blood_group_id')->first();
-             $result = ['success' => true, 'result' => $bloodgroup,'lastinsertid'=>$last3->blood_group_id];
-          return json_encode($result);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+            $input['bloodGroupData'] = array_merge($request, $create);
+            $bloodgroup = MlstBloodGroups::create($input['bloodGroupData']);
+            $last3 = MlstBloodGroups::latest('id')->first();
+            $result = ['success' => true, 'result' => $bloodgroup, 'lastinsertid' => $last3->id];
+            return json_encode($result);
         }
     }
 
     public function update() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-       $getCount = MlstBloodGroups::where(['blood_group' => $request['blood_group']])->get()->count();
+        $getCount = MlstBloodGroups::where(['blood_group' => $request['blood_group']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Blood group already exists'];
             return json_encode($result);
         } else {
-            $originalValues = MlstBloodGroups::where('blood_group_id', $request['blood_group_id'])->get();
-            $result = MlstBloodGroups::where('blood_group_id', $request['blood_group_id'])->update($request);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            $input['bloodData'] = array_merge($request, $update);
+            $result = MlstBloodGroups::where('id', $request['id'])->update($input['bloodData']);
             $result = ['success' => true, 'result' => $result];
-           
-         return json_encode($result);
+
+            return json_encode($result);
         }
     }
 

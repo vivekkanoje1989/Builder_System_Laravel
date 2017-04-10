@@ -46,7 +46,14 @@ class DashBoardController extends Controller {
     }
 
     public function getEmployees() {
-        $employees = DB::table('employees')->select("first_name", "last_name", "id", "designation")->get();
+
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
+                ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
+                ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
+                ->where('db2.id', '!=', $loggedInUserId)
+                ->get();
+
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {
@@ -59,8 +66,13 @@ class DashBoardController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $employees = DB::table('employees')->where('id', '!=', $request['id'])->get();
-
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
+                ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
+                ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
+                ->where('db2.id', '!=', $request['id'])
+                ->where('db2.id', '!=', $loggedInUserId)
+                ->get();
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {
@@ -89,7 +101,7 @@ class DashBoardController extends Controller {
     public function getMyRequest() {
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
-                ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name','request.status')
+                ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                 ->where('request.created_by', '=', $loggedInUserId)
                 ->get();
 
@@ -116,15 +128,27 @@ class DashBoardController extends Controller {
         }
         return json_encode($result);
     }
-    
-    public function getRequestForMe()
-    {
+
+    public function getRequestForMe() {
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
-                ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name','request.status')
+                ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                 ->where('request.uid', '=', $loggedInUserId)
                 ->get();
 
+        if (!empty($employees)) {
+            $result = ['status' => true, 'records' => $employees];
+        } else {
+            $result = ['status' => false, 'message' => "No record"];
+        }
+        return json_encode($result);
+    }
+
+    public function changeStatus() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $employees = EmployeeRequest::where('id', $request['id'])->update($request);
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {

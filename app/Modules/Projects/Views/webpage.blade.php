@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Project Web Page</h5>
-        <div class="row">
+        <div class="row" ng-controller="projectCntrl">
             <div class="col-sm-3 col-xs-6">  
-                <div class="form-group" ng-controller="projectCntrl">
+                <div class="form-group">
                     <label>Project<span class="sp-err">*</span></label>
                     <span class="input-icon icon-right">
-                        <select ng-model="project_id" name="project_id" class="form-control" required>
+                        <select ng-model="projectData.project_id" name="project_id" class="form-control" required>
                             <option value="">Select type</option>
                             <option ng-repeat="plist in projectList" value="{{plist.id}}">{{plist.project_name}}</option>
                         </select>
@@ -14,12 +14,12 @@
                     </span>
                 </div>
             </div>
-            <div class="col-lg-12 col-sm-6 col-xs-12">
+            <div class="col-lg-12 col-sm-6 col-xs-12" ng-if='projectData.project_id'>
                 <tabset>
                     <tab heading="Website Settings">
                         <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/basicinfo' "></div>
                     </tab>
-                    <tab heading="Uploads">
+                    <tab heading="Uploads" class="uploadsTab">
                         <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads' "></div>
                     </tab>
                     <tab heading="Project Inventory">

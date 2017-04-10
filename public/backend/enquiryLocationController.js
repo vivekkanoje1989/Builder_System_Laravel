@@ -36,16 +36,16 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', '$rootScope', '$timeout
         };
         $scope.initialModal = function (ids, list, index, index1) {
 
+         console.log(list);
             $scope.heading = 'Enquiry location';
             $scope.country_id = list.country_id;
-
+            $scope.location = list.location;
             $scope.id = ids;
             $scope.name = list.name;
             if (ids !== 0) {
                 $scope.manageStates(1, $scope.country_id);
             }
             $scope.state_id = list.state_id;
-            
             if (ids !== 0) {
                 $scope.manageCity($scope.state_id);
             }
@@ -63,7 +63,7 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', '$rootScope', '$timeout
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                        $scope.enquiryLocationRow.push({'location': $scope.location, 'state_id': $scope.state_id, 'country_id': $scope.country_id, id: response.lastinsertid, 'city_name': response.city});
+                        $scope.enquiryLocationRow.push({'location': $scope.location, 'state_id': $scope.state_id, 'country_id': $scope.country_id, id: response.lastinsertid, 'city_name': $scope.city_name, 'city_id': $scope.city_id });
                         $('#locationModal').modal('toggle');
                         toaster.pop('success', 'Manage enquiry location', 'Record successfully created'); 
                     }

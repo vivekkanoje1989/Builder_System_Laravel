@@ -38,6 +38,7 @@ return [
         "Alerts",
         "CustomAlerts",
         "Marketing",
-        
+        "MyStorage",
+        "OperationalSettings",
     ),
 ];

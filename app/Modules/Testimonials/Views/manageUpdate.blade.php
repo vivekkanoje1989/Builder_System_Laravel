@@ -1,8 +1,4 @@
-
 <div class="row" ng-controller="testimonialsCtrl" >  
-    <div>
-        <flash-message duration="5000"></flash-message>
-    </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -15,33 +11,35 @@
                 </div>
             </div> 
             <div class="widget-body table-responsive">     
-        <form novalidate ng-submit="testimonialsForm.$valid && doTestimonialsAction(photo_src)" name="testimonialsForm" ng-init="getTestimonialData('<?php echo $testimonialId; ?>')">
-                <table class="table table-hover table-striped table-bordered" at-config="config">
-                    <thead class="bord-bot">
-                        <tr>
-                            <td colspan="2">Create Testimonials</td>
-                        <tr>
-                    </thead>
-                    <tbody>
-                    <input type="hidden" class="form-control" ng-model="testimonial_id" name="testimonial_id"  >
-                                       
-                            <tr><td>Person name *</td>
-                                <td>
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.person_name.$dirty && testimonialsForm.person_name.$invalid) }">
+                <form novalidate ng-submit="testimonialsForm.$valid && doTestimonialsAction(photo_src)" name="testimonialsForm" ng-init="getTestimonialData('<?php echo $testimonialId; ?>')">
+                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
+                   
+                    <table class="table table-hover table-striped table-bordered" at-config="config">
+                        <thead class="bord-bot">
+                            <tr>
+                                <td colspan="2">Create Testimonials</td>
+                            <tr>
+                        </thead>
+                        <tbody>
+                        <input type="hidden" class="form-control" ng-model="testimonial_id" name="testimonial_id"  >
+
+                        <tr><td>Person name <span class="sp-err">*</span></td>
+                            <td>
+                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.customer_name.$dirty && testimonialsForm.customer_name.$invalid) }">
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="person_name" name="person_name" placeholder="person name" ng-change="errorMsg = null" required>
-                                        <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.person_name.$error">
-                                            <div ng-message="required">Person name is required</div>
+                                        <input type="text" class="form-control" ng-model="customer_name" name="customer_name" placeholder="person name" ng-change="errorMsg = null" required>
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.customer_name.$error">
+                                            <div ng-message="required">Customer name is required</div>
                                             <div ng-if="errorMsg">{{errorMsg}}</div>
                                         </div>
                                         <br/>
                                     </span>
-                                    </div>
-                                </td>
-                            </tr>
-                             <tr><td>company name *</td>
-                                <td>
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.company_name.$dirty && testimonialsForm.company_name.$invalid) }">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr><td>company name <span class="sp-err">*</span></td>
+                            <td>
+                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.company_name.$dirty && testimonialsForm.company_name.$invalid) }">
                                     <span class="input-icon icon-right">
                                         <input type="text" class="form-control" ng-model="company_name" name="company_name" placeholder="Company name" required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.company_name.$error">
@@ -49,42 +47,35 @@
                                         </div>
                                         <br/>
                                     </span>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                           
-                           <tr><td>Photo</td>
-                                <td>
-                                    <div >
-                                        <img ng-src="{{image_name}}" width="80px" height="80px">
-                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <tr><td>Photo</td>
+                            <td>
+                                <div >
+                                    <img ng-src="{{image_name}}" width="80px" height="80px">
+                                </div>
+                                <br/>
+                                <span class="input-icon icon-right">
+                                    <input type="file" ngf-select  ng-model="photo_url" name="photo_url" id="photo_url" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile">
                                     <br/>
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.photo_src.$dirty && testimonialsForm.photo_src.$invalid) }">
-                                   
+                                </span>
+                            </td>
+                        </tr>
+                        <tr><td>Video url <span class="sp-err">*</span></td>
+                            <td>
+                                <span class="input-icon icon-right">
+                                    <input type="text" class="form-control" ng-model="video_url" name="video_url" placeholder="Video url" >
+                                </span>
+                            </td>
+                        </tr>
+                        <tr><td>Mobile No. <span class="sp-err">*</span></td>
+                            <td>
+                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.mobile_number.$dirty && testimonialsForm.mobile_number.$invalid) }">
                                     <span class="input-icon icon-right">
-                                      <input type="file" ngf-select multiple ng-model="photo_src" name="photo_src" id="photo_src" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile">
-                                        <br/>
-                                        <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.photo_src.$error">
-                                            <div ng-message="required">Photo is required</div>
-                                        </div>
-                                        
-                                    </span>
-                                    </div>  
-                                </td>
-                            </tr>
-                            <tr><td>Video url *</td>
-                                <td>
-                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="video_url" name="video_url" placeholder="Video url" >
-                                     </span>
-                                </td>
-                            </tr>
-                            <tr><td>Mobile No. *</td>
-                                <td>
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.mobile_no.$dirty && testimonialsForm.mobile_no.$invalid) }">
-                                    <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="mobile_no" name="mobile_no" placeholder="Mobile no" ng-maxlength="10" ng-minlength="10" required>
+                                        <input type="text" class="form-control" ng-model="mobile_number" name="mobile_number" placeholder="Mobile no" ng-maxlength="10" ng-minlength="10" required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.mobile_no.$error">
                                             <div ng-message="required">Mobile no is required</div>
                                             <div ng-message="maxlength">Mobile no must be 10 digit</div>
@@ -92,46 +83,46 @@
                                         </div>
                                         <br/>
                                     </span>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr><td>Testimonial</td>
-                                <td>
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.testimonial.$dirty && testimonialsForm.testimonial.$invalid) }">
-                                   
+                                </div>
+                            </td>
+                        </tr>
+                        <tr><td>Description <span class="sp-err">*</span></td>
+                            <td>
+                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.description.$dirty && testimonialsForm.description.$invalid) }">
+
                                     <span class="input-icon icon-right">
-                                        <textarea ng-model="testimonial" name="testimonial" cols="50" rows="5" required></textarea>
-                                       <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.testimonial.$error">
+                                        <textarea ng-model="description" name="description" cols="50" rows="5" required></textarea>
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.description.$error">
                                             <div ng-message="required">Testimonial is required</div>
                                         </div>
                                         <br/>
                                     </span>
-                                   </div>     
-                                </td>
-                            </tr>
-                            <tr><td>Display on Portal</td>
-                                <td>
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.is_shown.$dirty && testimonialsForm.is_shown.$invalid) }">
-                                   <span class="input-icon icon-right">
-                                        <select name="status" ng-model="is_shown" name="is_shown" class="form-control" style="width:30%;">
+                                </div>     
+                            </td>
+                        </tr>
+                        <tr><td>Display on Portal <span class="sp-err">*</span></td>
+                            <td>
+                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.web_status.$dirty && testimonialsForm.web_status.$invalid) }">
+                                    <span class="input-icon icon-right">
+                                        <select name="status" ng-model="web_status" name="web_status" class="form-control" style="width:30%;">
                                             <option value="">Please select status</option> 
                                             <option value="1">Yes</option> 
                                             <option value="0">No</option>
                                         </select>
-                                       <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.is_shown.$error">
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.web_status.$error">
                                             <div ng-message="required">Status is required</div>
                                         </div>
                                         <br/>
                                     </span>
-                                    </div>   
-                                </td>
-                            </tr>
-                            <tr><td></td>
-                                <td><button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button></td>
-                            </tr>
-                    </tbody>
-                </table>
-     </form>
+                                </div>   
+                            </td>
+                        </tr>
+                        <tr><td></td>
+                            <td><button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
             </div>
         </div>
     </div>

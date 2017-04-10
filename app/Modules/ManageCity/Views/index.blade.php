@@ -1,12 +1,9 @@
 <div class="row" ng-controller="citiesCtrl" ng-init="manageCities(); manageCountry();">  
-    <div>
-        <flash-message duration="5000"></flash-message>
-    </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage City</span>
-                <a href="" data-toggle="modal" data-target="#cityModal" ng-click="initialModal(0, '', '', '')" class="btn btn-info">Create New City</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#cityModal" ng-click="initialModal(0,0,'','')" class="btn btn-info">Create New City</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -56,7 +53,7 @@
                             <td>{{ list.state_name}}</td> 
                             <td>{{ list.name}}</td>                          
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#cityModal"><a href="javascript:void(0);" ng-click="initialModal(1,{{list}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#cityModal"><a href="javascript:void(0);" ng-click="initialModal(1,{{list.id}},{{list}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -86,36 +83,40 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="citiesForm.$valid && doCitiesAction()" name="citiesForm">
-                    <div class="modal-body">
-                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!citiesForm.name.$dirty && citiesForm.name.$invalid) && (!citiesForm.country_id.$dirty && citiesForm.country_id.$invalid) && (!citiesForm.state_id.$dirty && citiesForm.state_id.$invalid)}">
-                            <input type="hidden" class="form-control" ng-model="id" name="id">
-                            <span class="input-icon icon-right">
+                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
 
-                                <select id="country_id" name="country_id" class="form-control" ng-model="country_id" ng-options="item.id as item.name for item in countryRow" ng-change="manageStates()">
+                    <div class="modal-body">
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!citiesForm.country_id.$dirty && citiesForm.country_id.$invalid)}">
+                            <input type="hidden" class="form-control" ng-model="id" name="id">
+                            <label>Country<span class="sp-err">*</span></label>
+                            <span class="input-icon icon-right">
+                                <select id="country_id" name="country_id" class="form-control" ng-model="country_id" ng-options="item.id as item.name for item in countryRow" ng-change="manageStates()" required>
                                     <option value="">Select country</option>
                                 </select>
-                                <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="citiesForm.country_id.$error">
-                                    <div ng-message="required">This field is required</div>
+                                    <div ng-message="required">Select Country</div>
                                 </div>
                             </span>
-                            <br/><br/>
+                        </div>    
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!citiesForm.state_id.$dirty && citiesForm.state_id.$invalid)}">
+
+                            <label>State<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select class="form-control" ng-model="state_id" name="state_id" >
-                                          <option value="">Select state</option>
-                                    <option  ng-repeat="itemone in statesRow" ng-selected="{{ state_id == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
+                                <select class="form-control" ng-model="state_id" name="state_id" required>
+                                    <option value="">Select state</option>
+                                    <option  ng-repeat="itemone in statesRow" ng-selected="{{ itemone.id == states }}" value="{{itemone.id}}">{{itemone.name}}</option>
                                 </select>
-                                <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="citiesForm.state_id.$error">
-                                    <div ng-message="required">This field is required</div>
+                                    <div ng-message="required">Select State</div>
                                 </div>
                             </span>
-                            <br/><br/>
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!citiesForm.name.$dirty && citiesForm.name.$invalid)}">
+                            <label>City<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="name" name="name" placeholder="city" ng-change="errorMsg = null" required>
-                                <i class="fa fa-user thm-color circular"></i>
+                                <input type="text" class="form-control" ng-model="name" name="name"  ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="citiesForm.name.$error">
-                                    <div ng-message="required">This field is required</div>
+                                    <div ng-message="required">City name is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                 </div>
                             </span>

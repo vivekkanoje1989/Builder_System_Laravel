@@ -93,7 +93,7 @@
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!designationsForm.designation.$dirty && designationsForm.designation.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
-                            <label>Designation</label>
+                            <label>Designation<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="designation" name="designation"  ng-change="errorMsg = null" required>
 
@@ -105,7 +105,7 @@
                         </div>
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!designationsForm.status.$dirty && designationsForm.status.$invalid)}">
                             
-                            <label>Status</label>
+                            <label>Status<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select name="status" ng-model="status" class="form-control" required>
                                     <option value="">Select status</option>

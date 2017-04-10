@@ -1,7 +1,4 @@
 <div class="row" ng-controller="testimonialsCtrl" ng-init="managedTestimonials()">  
-  <div>
-          <flash-message duration="5000"></flash-message>
-  </div>
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -33,7 +30,7 @@
                               <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                             </a></th>                          
                             <th style="width: 30%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Person name
+                                <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Customer name
                                 <span ng-show="orderByField == 'block_stages'">
                                   <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                 </span>
@@ -47,7 +44,7 @@
                                 </a>
                             </th> 
                             <th style="width: 30%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Testimonial
+                                <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Description
                                 <span ng-show="orderByField == 'block_stages'">
                                   <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                 </span>
@@ -66,9 +63,9 @@
                     <tbody>
                          <tr role="row" dir-paginate="list in ApprovedTestimonialsRow|  filter:search | itemsPerPage:itemsPerPage |orderBy:orderByField:reverseSort">
                              <td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>
-                            <td>{{ list.person_name}}</td>  
-                            <td>{{ list.mobile_no }}</td>  
-                            <td>{{list.testimonial}}</td>
+                            <td>{{ list.customer_name}}</td>  
+                            <td>{{ list.mobile_number }}</td>  
+                            <td>{{list.description}}</td>
                              <td>{{list.created_at}}</td>
                            <td class="fa-div">
                                  <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" ><a href="#/[[config('global.getUrl')]]/testimonial-manage/update/{{ list.testimonial_id }}"><i class="fa fa-pencil"></i></a></div>

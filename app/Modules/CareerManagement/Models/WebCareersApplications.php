@@ -1,4 +1,6 @@
-<?php namespace App\Modules\CareerManagement\Models;
+<?php
+
+namespace App\Modules\CareerManagement\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,13 +10,15 @@ class WebCareersApplications extends Model {
     public $timestamps = false;
     protected $fillable = [
         'id',
-        'career_id',
-        'first_name',
-        'last_name',
-        'mobile_number',
-        'email_id',
-        'resume_file_name',
-        'photo_url',
+        'job_title',
+        'job_eligibility',
+        'job_locations',
+        'job_role',
+        'job_responsibilities',
+        'application_start_date',
+        'application_close_date',
+        'number_of_positions',
+        'approved_by',
         'created_date',
         'created_at',
         'created_by',

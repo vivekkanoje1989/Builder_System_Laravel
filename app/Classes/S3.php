@@ -2,7 +2,7 @@
 
 /*
 
- * Develope By :Uma Shinde(22-03-2017)
+ * Developed By :Uma Shinde(22-03-2017)
  * purpose : Managing images on AWS S3 Buckets
  * 1) s3Configuration() : This function is for s3 configuratio. We can set access key,secret key,region,bucket dynamically from system_configs table.
  * 2) s3FileUplod() : This function will upload image to the s3 bucket with folder name.
@@ -31,10 +31,9 @@ class S3 {
         Config::set('filesystems.disks.s3.driver', 's3');
         Config::set('filesystems.disks.s3.region', $data[0]->region);
     }
-
     public static function s3FileUplod($image, $s3FolderName, $cnt) {
         S3::s3Configuration();
-        $name = '';
+        $name = '';         
         for ($i = 0; $i < $cnt; $i++) {
             $imageFileName = time() . $i . '.' . $image[$i]->getClientOriginalExtension();
             $imagePath = $image[$i]->getPathName();
@@ -47,10 +46,8 @@ class S3 {
             return($name);
         }
     }
-
     public static function s3FileUplodForApp($image, $s3FolderName, $cnt) {
         S3::s3Configuration();
-        //for ($i = 0; $i < $cnt; $i++) {
         $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
         $imageFileName = time() . '.' . $ext;
         $imagePath = $image['tmp_name'];
@@ -58,11 +55,10 @@ class S3 {
         $filePath = '/' . $s3FolderName . '/' . $imageFileName;
         $s3->put($filePath, file_get_contents($imagePath), 'public');
         return $imageFileName;
-   }
-
-    public static function s3FileDelete($image, $s3FolderName) {
+    }
+    public static function s3FileDelete($filepath) {
         S3::s3Configuration();
-        $path = '/' . $s3FolderName . '/' . $image;
+        $path = '/' . $filepath;
         if (\Storage::disk('s3')->exists($path)) {
             \Storage::disk('s3')->delete($path);
             return true;
@@ -70,10 +66,18 @@ class S3 {
             return false;
         }
     }
-
-    public static function s3FileLists($image) {
+    public static function s3FolderDelete($filepath) {
         S3::s3Configuration();
-        $files = \Storage::disk('s3')->allFiles('/Employee-Photos/');
+        $path = '/' . $filepath;
+        if (\Storage::disk('s3')->deleteDirectory($path)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static function s3FileLists($filename) {
+        S3::s3Configuration();
+        $files = \Storage::disk('s3')->allFiles($filename);
         if ($files) {
             $result = ['success' => true, 'files' => $files];
             return json_encode($result);
@@ -114,13 +118,37 @@ class S3 {
     {
         S3::s3Configuration();
         $directories = \Storage::disk('s3')->deleteDirectory($directory);
-        //$directories = \Storage::disk('s3')->allDirectories();
         if ($directories) {
             $result = ['success' => true, 'directory' => $directories];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];
            return json_encode($result);
+        }
+    }
+   
+    public static function s3CreateSubDirectory($foldername, $directory) {
+        S3::s3Configuration();
+        $s3 = \Storage::disk('s3');
+        $filePath = '/' . $foldername . '/' . $directory;
+        $directories = $s3->put($directory, $filePath, 'public');
+        if ($directories) {
+            $result = ['success' => true, 'files' => $directories];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+            return json_encode($result);
+        }
+    }
+    public static function s3DirectoryLists() {
+        S3::s3Configuration();
+        $directories = \Storage::disk('s3')->allDirectories();
+        if ($directories) {
+            $result = ['success' => true, 'directories' => $directories];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+            return json_encode($result);
         }
     }
     
