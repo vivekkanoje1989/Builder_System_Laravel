@@ -1,0 +1,4 @@
+<?php
+ /**
+ *	Alerts Helper  
+ */

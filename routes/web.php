@@ -43,7 +43,7 @@ Route::get($getUrl.'/header', function () {
 });
 Route::get($getUrl.'/getToken', 'backend\Auth\LoginController@getToken');
 
-Route::group(['middleware' =>[ 'web']], function () {
+Route::group(['middleware' =>['web']], function () {
     $getUrl = config('global.getUrl');
     // ADMIN
     Route::get($getUrl.'/session', 'backend\Auth\LoginController@getSession');

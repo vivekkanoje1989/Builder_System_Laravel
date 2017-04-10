@@ -35,7 +35,10 @@ return [
         "CustomersData",
         "Projects",
         "EmployeeDevice",
+        "Alerts",
+        "CustomAlerts",
+        "Marketing",
         "MyStorage",
-        "OperationalSettings"
+        "OperationalSettings",
     ),
 ];

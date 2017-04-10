@@ -76,7 +76,11 @@
         <script src="/backend/app/directives.js"></script>        
         <script src="/backend/adminController.js"></script>
         <script src="/backend/hrController.js"></script>
+        <!--mandar-->
         <script src="/backend/cloudtelephonyController.js"></script>
+        <script src="/backend/promotionalsmsController.js"></script>
+        <script src="/backend/alertsController.js"></script>
+        <script src="/backend/customalertsController.js"></script>
         
         <!-- Layout Related Directives -->
         <script src="/backend/app/directives/loading.js"></script>
@@ -86,6 +90,7 @@
         <script src="/backend/app/directives/navbar.js"></script>
         <script src="/backend/app/directives/chatbar.js"></script>
         <script src="/backend/app/directives/widget.js"></script>
+        
         
     </body>               
 </html>

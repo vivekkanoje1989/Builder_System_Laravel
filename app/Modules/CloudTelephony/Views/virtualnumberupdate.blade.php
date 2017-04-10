@@ -69,8 +69,8 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                         <div class="form-group" ng-class="{ 'has-error' : step1 && (!updatevnoForm.welcome_tune_audio.$dirty && updatevnoForm.welcome_tune_audio.$invalid)}">
                                             <label for="">Upload Welcome Greeting Mp3</label>
                                             <span class="input-icon icon-right">
-                                                <audio controls=""><source type="audio/mpeg"  id="audiourl" src="" /></audio>
-                                                <input type="file" ngf-select ng-model="registrationData.welcome_tune_audio" id="welcome_tune_audio" class="form-control" name="welcome_tune_audio">
+                                                <audio id="welcomeaudio" controls></audio>
+                                                <input type="file" multiple ngf-select ng-model="registrationData.welcome_tune_audio" id="welcome_tune_audio" class="form-control" name="welcome_tune_audio">
                                                 <div ng-show="step1" ng-messages="updatevnoForm.welcome_tune_audio.$error" class="help-block step1">
                                                     <div ng-message="required">This field is required.</div>
                                                 </div>
@@ -115,10 +115,8 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                         <div class="form-group">
                                             <label for="">Upload Hold Tune Mp3</label>
                                             <span class="input-icon icon-right">
-                                                <audio controls>
-                                                    <source type="audio/mpeg" ng-src="https://s3-ap-south-1.amazonaws.com/lms-auto/1/cloud_calling/caller_tune/hold_tune071056.mp3"">
-                                                </audio>
-                                                <input type="file" ngf-select ng-model="registrationData.hold_tune_audio"  id="hold_tune_audio" class="form-control" name="hold_tune_audio" accept="mp3/*">
+                                                <audio id="holdaudio" controls></audio>
+                                                <input type="file" multiple ngf-select ng-model="registrationData.hold_tune_audio"  id="hold_tune_audio" class="form-control" name="hold_tune_audio" accept="mp3/*">
                                                 <div ng-show="step1" ng-messages="updatevnoForm.hold_tune_audio.$error" class="help-block step1">
                                                     <div ng-message="required">This field is required.</div>
                                                 </div>
@@ -220,15 +218,15 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                 </div>  
 
 
-                                <div class="row" ng-controller="enquirySourceCtrl" > 
+                                <div class="row" ng-controller="sourceCtrl" > 
 
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="form-group" ng-class="{ 'has-error' : step1 && (!updatevnoForm.source_id.$dirty && updatevnoForm.source_id.$invalid)}">
                                             <label for="">Source <span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <select ng-model="registrationData.source_id" id="source_id" name="source_id" ng-init="enquirysources()" ng-change="onEnquirySourceChange()" class="form-control" required>
+                                                <select ng-model="registrationData.source_id" name="source_id" ng-init="enquirysources()" ng-change="getsubsource(registrationData.source_id)" class="form-control" required>
                                                     <option value="">Select Source</option>
-                                                    <option ng-repeat="enquirysource in sourceList" value="{{enquirysource.id}}">{{enquirysource.source_name}}</option>
+                                                    <option ng-repeat="enquirysource in enquirysources" value="{{enquirysource.id}}">{{enquirysource.source_name}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="step1" ng-messages="updatevnoForm.source_id.$error" class="help-block step1">
@@ -246,7 +244,7 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                             <span class="input-icon icon-right">
                                                 <select ng-model="registrationData.sub_source_id" name="sub_source_id" class="form-control" required>
                                                     <option value="0">Select Sub Source</option>
-                                                    <option ng-repeat="enquirysubsource in subSourceList" value="{{enquirysubsource.id}}">{{enquirysubsource.sub_source}}</option>
+                                                    <option ng-repeat="enquirysubsource in enquirysubsources" value="{{enquirysubsource.id}}">{{enquirysubsource.sub_source}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="step1" ng-messages="updatevnoForm.sub_source_id.$error" class="help-block step1">
@@ -438,10 +436,8 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                         <div class="form-group">
                                             <label for="">Upload Non-Working Tune as Mp3</label>
                                             <span class="input-icon icon-right">
-                                                <audio controls>
-                                                    <source type="audio/mpeg" ng-src="https://s3-ap-south-1.amazonaws.com/lms-auto/1/cloud_calling/caller_tune/hold_tune071056.mp3">
-                                                </audio>
-                                                <input type="file"  ngf-select ng-model="registrationData.nwh_welcome_tune_audio"  id="nwh_welcome_tune_audio" class="form-control" name="nwh_welcome_tune_audio" accept="mp3/*">
+                                                <audio id="nwhaudio" controls></audio>
+                                                <input type="file"  multiple ngf-select ng-model="registrationData.nwh_welcome_tune_audio"  id="nwh_welcome_tune_audio" class="form-control" name="nwh_welcome_tune_audio" accept="mp3/*">
                                                 <div ng-show="step1" ng-messages="updatevnoForm.nwh_welcome_tune_audio.$error" class="help-block step1">
                                                     <div ng-message="required">This field is required.</div>
                                                 </div>
@@ -467,8 +463,12 @@ $currentPath= Route::getCurrentRoute()->getActionName();
 
                         </div>
                         <div class="row"><br>
-                            <center><button type="submit" class="btn btn-primary" ng-click="step1 = true">Submit</button></center>
-                            <br><center><a class="btn btn-primary" href="#/[[config('global.getUrl')]]/extensionmenu/view/{{registrationData.id}}">Next</a></center>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <center><button type="submit" class="btn btn-primary" ng-click="step1 = true">Save and Continue</button>
+                                    <!--                                &nbsp;&nbsp;&nbsp;<a ng-if="registrationData.menu_status == '1'" class="btn btn-primary" href="#/[[config('global.getUrl')]]/extensionmenu/view/{{registrationData.id}}">Next</a>
+                                <a ng-if="registrationData.menu_status != '1'" class="btn btn-primary" href="#/<?php echo config('global.getUrl');?>/virtualnumber/existingupdate/{{ registrationData.id }}">Next</a>-->
+                                </center>
+                            </div>
                         </div>
 
                     </div>
@@ -500,5 +500,46 @@ $currentPath= Route::getCurrentRoute()->getActionName();
          $("#nwh_welcome_tune_type_id").change(function(){
             $("#nwh_welcome_tune_audio").attr("ng-required","registrationData.nwh_welcome_tune_type_id==3");
         }); 
+        
+        var blob = window.URL || window.webkitURL;
+        if (!blob) {
+            console.log('Your browser does not support Blob URLs :(');
+            return;           
+        }
+
+        document.getElementById('hold_tune_audio').addEventListener('change', function(event){
+
+            //consolePrint('change on input#holffile triggered');
+            var file = this.files[0],
+            fileURL = blob.createObjectURL(file);
+            console.log(file);
+            document.getElementById('holdaudio').src = fileURL;
+            document.getElementById('holdaudio').autoplay = true;
+
+        });
+
+        document.getElementById('welcome_tune_audio').addEventListener('change', function(event){
+
+            //consolePrint('change on input#holffile triggered');
+            var file = this.files[0],
+             fileURL = blob.createObjectURL(file);
+            console.log(file);
+            document.getElementById('welcomeaudio').src = fileURL;
+            document.getElementById('welcomeaudio').autoplay = true;
+
+        });
+
+
+        document.getElementById('nwh_welcome_tune_audio').addEventListener('change', function(event){
+
+            //consolePrint('change on input#holffile triggered');
+            var file = this.files[0],
+             fileURL = blob.createObjectURL(file);
+            console.log(file);
+            document.getElementById('nwhaudio').src = fileURL;
+            document.getElementById('nwhaudio').autoplay = true;
+
+        });
+
     });
 </script>

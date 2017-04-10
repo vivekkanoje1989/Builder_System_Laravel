@@ -1,5 +1,5 @@
 'use strict';
-app.controller('adminController', function ($rootScope, $scope, $location, $http, $state, Data) {
+app.controller('adminController', function ($rootScope, $scope, $state, Data) {
     $scope.registration = {};
     $scope.errorMsg = '';
 

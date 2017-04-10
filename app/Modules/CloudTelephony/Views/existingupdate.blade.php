@@ -90,7 +90,7 @@
                                         <div class="form-group" ng-class="{ 'has-error' : step1 && (!updatevnoForm.welcome_tune_audio.$dirty && updatevnoForm.welcome_tune_audio.$invalid)}">
                                             <label for="">Upload Welcome Greeting Mp3</label>
                                             <span class="input-icon icon-right">
-                                                <audio controls=""><source type="audio/mpeg"  id="audiourl" src="" /></audio>
+                                                <audio id="ecwelcomeaudio" controls></audio>
                                                 <input type="file" ngf-select ng-model="registrationData.welcome_tune_audio" id="welcome_tune_audio" class="form-control" name="welcome_tune_audio">
                                                 <div ng-show="step1" ng-messages="updatevnoForm.welcome_tune_audio.$error" class="help-block step1">
                                                     <div ng-message="required">This field is required.</div>
@@ -133,9 +133,7 @@
                                         <div class="form-group">
                                             <label for="">Upload Hold Tune Mp3</label>
                                             <span class="input-icon icon-right">
-                                                <audio controls>
-                                                    <source type="audio/mpeg" ng-src="https://s3-ap-south-1.amazonaws.com/lms-auto/1/cloud_calling/caller_tune/hold_tune071056.mp3"">
-                                                </audio>
+                                                <audio id="echoldaudio" controls></audio>
                                                 <input type="file" ngf-select ng-model="registrationData.hold_tune_audio"  id="hold_tune_audio" class="form-control" name="hold_tune_audio" accept="mp3/*">
                                                 <div ng-show="step1" ng-messages="updatevnoForm.hold_tune_audio.$error" class="help-block step1">
                                                     <div ng-message="required">This field is required.</div>
@@ -278,3 +276,44 @@
         margin-top: 28px !important;
     }
 </style>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){   
+        /*** Add attribute ***/
+       
+        var blob = window.URL || window.webkitURL;
+        if (!blob) {
+            console.log('Your browser does not support Blob URLs :(');
+            return;           
+        }
+
+        document.getElementById('hold_tune_audio').addEventListener('change', function(event){
+
+            //consolePrint('change on input#holffile triggered');
+            var file = this.files[0],
+             fileURL = blob.createObjectURL(file);
+            console.log(file);
+            console.log('File name: '+file.name);
+            console.log('File type: '+file.type);
+            console.log('File BlobURL: '+ fileURL);
+            document.getElementById('echoldaudio').src = fileURL;
+            document.getElementById('echoldaudio').autoplay = true;
+
+        });
+
+        document.getElementById('welcome_tune_audio').addEventListener('change', function(event){
+
+            //consolePrint('change on input#holffile triggered');
+            var file = this.files[0],
+             fileURL = blob.createObjectURL(file);
+            console.log(file);
+            console.log('File name: '+file.name);
+            console.log('File type: '+file.type);
+            console.log('File BlobURL: '+ fileURL);
+            document.getElementById('ecwelcomeaudio').src = fileURL;
+            document.getElementById('ecwelcomeaudio').autoplay = true;
+
+        });
+    });
+</script>

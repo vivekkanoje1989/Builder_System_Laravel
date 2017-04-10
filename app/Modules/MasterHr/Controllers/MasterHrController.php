@@ -77,16 +77,6 @@ class MasterHrController extends Controller {
         }
     }
 
-//    public function getRolesList() {
-//        $roles = EmployeeRole::all();
-//        if(!empty($roles)){
-//            $result = ['success' => true, "list" => $roles];
-//            echo json_encode($result);
-//        }else{
-//            $result = ['success' => false, "message" => "No records found"];
-//            echo json_encode($result);
-//        }
-//    }        
     public function changePassword() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -132,7 +122,7 @@ class MasterHrController extends Controller {
                     exit;
                 }
             }
-            /*             * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
+            /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
             if (!empty($input['employee_photo_file_name'])) {
                 $imgRules = array(
                     'employee_photo_file_name' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
@@ -150,7 +140,7 @@ class MasterHrController extends Controller {
                 }
                 $input['userData']['employee_photo_file_name'] = $imageName;
             }
-            /*             * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
+            /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
 
             $input['userData']['password'] = \Hash::make($input['userData']['password']);
             $input['userData']['remember_token'] = str_random(10);
@@ -235,7 +225,7 @@ class MasterHrController extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function update($id) {
+  public function update($id) {
         $originalValues = Employee::where('id', $id)->get();
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
@@ -244,7 +234,6 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRules();
         $validationRules['personal_email1'] = 'required|email|unique:employees,personal_email1,' . $id . '';
         $validationRules['password'] = '';
-
         
         if (empty($input)) {
             $input = Input::all();
@@ -276,8 +265,8 @@ class MasterHrController extends Controller {
         unset($input['userData']['password_confirmation']);
         unset($input['userData']['passwordOld']);
         unset($input['userData']['password']);
-        echo "<pre>";print_r($input);exit;
-        /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
+        
+        /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
         if (!empty($input['employee_photo_file_name'])) {
             $originalName = $input['employee_photo_file_name']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
@@ -286,7 +275,7 @@ class MasterHrController extends Controller {
                 );
                 $validateEmpPhotoUrl = Validator::make($input, $imgRules);
                 if ($validateEmpPhotoUrl->fails()) {
-                    $result = ['success' => false, 'message' => $validator->messages()];
+                    $result = ['success' => false, 'message' => $validateEmpPhotoUrl->messages()];
                     return json_encode($result);
                 } else {
                     $folderName = 'Employee-Photos';
@@ -302,7 +291,7 @@ class MasterHrController extends Controller {
         }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
         
-        echo "<pre>";print_r($input);exit;
+//        echo "<pre>";print_r($input);exit;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
         //
@@ -323,17 +312,6 @@ class MasterHrController extends Controller {
         }
         $result = ['success' => true, 'message' => 'Employee Updated Succesfully', 'empId' => $id];
         return json_encode($result);
-    }
-
-    public function getTeamLead($id) {
-        $employee = Employee::select("id", "first_name", "last_name")->where("id", "<>", $id)->with('designationName')->get();
-        if (!empty($employee)) {
-            $result = ['success' => true, 'records' => $employee];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
     }
 
     public function destroy($id) {
@@ -554,7 +532,7 @@ class MasterHrController extends Controller {
         return view("MasterHr::chart");
     }
 
-   public function getChartData() {
+    public function getChartData() {
         $input = Employee::whereIn('employee_status', [1, 2])
                 ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                 ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
@@ -588,24 +566,29 @@ class MasterHrController extends Controller {
 
     public function photoUpload() {
         $folderName = 'Employee-Photos';
-        //print_r($_FILES['file']);exit;
         $imageName = S3::s3FileUplodForApp($_FILES['file'], $folderName, 1);
 //        $imageName = trim($imageName, ',');
 //        if (move_uploaded_file($_FILES['file']['tmp_name'], base_path() . "/common/employee_photo/" . $_FILES['file']['name'])) {
 //            Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
 //            $result = ['success' => true];
 //            return json_encode($result);
-       // echo ''.$imageName;
+        // echo ''.$imageName;
         if (!empty($imageName)) {
-            Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
-            $result = ['success' => true,'message' => 'Image uploaded'];
-            return json_encode($result);
+            $img = Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
+            if($img)
+            {
+                $result = ['success' => true, 'message' => 'Image uploaded'];
+                return json_encode($result);
+            }
+            
         } else {
             $result = ['success' => false, 'message' => 'Image not uploaded'];
             return json_encode($result);
         }
     }
+
     /*     * **************** END (Organization Chart) ******************** */
+
     protected function guard() {
         return Auth::guard('admin');
     }

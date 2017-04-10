@@ -23,18 +23,17 @@ use App\Models\backend\Employee;
 use Auth;
 
 class S3 {
-
     public static function s3Configuration() {
         $data = DB::table('system_configs')->where('id', 1)->get();
         Config::set('filesystems.disks.s3.bucket', $data[0]->aws_bucket_id);
         Config::set('filesystems.disks.s3.secret', $data[0]->aws_secret_key);
         Config::set('filesystems.disks.s3.key', $data[0]->aws_access_key);
         Config::set('filesystems.disks.s3.driver', 's3');
-        Config::set('filesystems.disks.s3.region', 'ap-south-1');
+        Config::set('filesystems.disks.s3.region', $data[0]->region);
     }
     public static function s3FileUplod($image, $s3FolderName, $cnt) {
         S3::s3Configuration();
-        $name = '';
+        $name = '';         
         for ($i = 0; $i < $cnt; $i++) {
             $imageFileName = time() . $i . '.' . $image[$i]->getClientOriginalExtension();
             $imagePath = $image[$i]->getPathName();
@@ -87,21 +86,49 @@ class S3 {
             return json_encode($result);
         }
     }
-    public static function s3CreateDirectory($directory) {
-        S3::s3Configuration();
-        $directories = \Storage::disk('s3')->makeDirectory($directory);
+    
+    public static function s3AllDirectories($path)
+    {
+         S3::s3Configuration();
+        $directories = \Storage::disk('s3')->allDirectories();
         if ($directories) {
-            $result = ['success' => true, 'files' => $directories];
+            $result = ['success' => true, 'directories' => $directories];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];
-            return json_encode($result);
+           return json_encode($result);
         }
     }
-
-    public static function s3SubCreateDirectory($foldername, $directory) {
+    
+     public static function s3CreateDirectory($directory)
+    {
         S3::s3Configuration();
-        //$directories = \Storage::disk('s3')->makeDirectory($directory);
+        $directories = \Storage::disk('s3')->makeDirectory($directory);
+        //$directories = \Storage::disk('s3')->allDirectories();
+        if ($directories) {
+            $result = ['success' => true, 'directory' => $directories];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+           return json_encode($result);
+        }
+    }
+    
+    public static function s3DeleteDirectory($directory)
+    {
+        S3::s3Configuration();
+        $directories = \Storage::disk('s3')->deleteDirectory($directory);
+        if ($directories) {
+            $result = ['success' => true, 'directory' => $directories];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+           return json_encode($result);
+        }
+    }
+   
+    public static function s3CreateSubDirectory($foldername, $directory) {
+        S3::s3Configuration();
         $s3 = \Storage::disk('s3');
         $filePath = '/' . $foldername . '/' . $directory;
         $directories = $s3->put($directory, $filePath, 'public');
@@ -124,5 +151,6 @@ class S3 {
             return json_encode($result);
         }
     }
+    
 
 }

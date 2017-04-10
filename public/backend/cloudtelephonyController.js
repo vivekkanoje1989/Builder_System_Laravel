@@ -99,9 +99,7 @@ $scope.registrationNumber = function (registrationData) {
         console.log(vnumberData);
         console.log(welcomeTuneAudio);
         console.log(holdTuneAudio);
-
         $scope.submitted = true;
-     
             var url = getUrl+'/virtualnumber';
             var data = {vnumberData: vnumberData, welcomeTuneAudio: welcomeTuneAudio, holdTuneAudio:holdTuneAudio};
             welcomeTuneAudio.upload = Upload.upload({
@@ -110,7 +108,11 @@ $scope.registrationNumber = function (registrationData) {
                 data: data
             }).then(function (response,evt) {
                 $timeout(function () {
-                    $state.go(getUrl+'.vnumberUpdate');
+                    if(vnumberData.menu_status == false){
+                        $state.go(getUrl+'.existingUpdate',{'id':vnumberData.id});
+                    }else{
+                        $state.go(getUrl+'.extensionMenu',{'id':vnumberData.id});
+                    }
             });
             
     });
@@ -132,7 +134,8 @@ $scope.registrationNumber = function (registrationData) {
                 data: data
             }).then(function (response,evt) {
                 $timeout(function () {
-                    $state.go(getUrl+'.existingUpdate');
+                    if(response.data.success == true)
+                    $state.go(getUrl+'.virtualnumberslist');    
             });
             
     });
@@ -225,32 +228,49 @@ $scope.registrationNumber = function (registrationData) {
                                 response.records.data[0]['menu_status'] = false;
                             }
                             
-                            var srcurl = "https://s3-ap-south-1.amazonaws.com/lms-auto/1/cloud_calling/caller_tune/";
-                            $scope.audio = "hold_tune071056.mp3";
-                            $("#audiourl").attr("src",srcurl+$scope.audio);
+                            var srcurl = s3Path+"/caller_tunes/";//"https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/caller_tunes/";
                             
                             $scope.registrationData = angular.copy(response.records.data[0]);
-                           
+                            if($scope.registrationData.welcome_tune_type_id == 3){
+                                $scope.welcome_url = srcurl+$scope.registrationData.welcome_tune;
+                                document.getElementById('welcomeaudio').src = $scope.welcome_url;
+                            }
+                            if($scope.registrationData.hold_tune_type_id == 3){
+                                $scope.hold_url = srcurl+$scope.registrationData.hold_tune;
+                                document.getElementById('holdaudio').src = $scope.hold_url;
+                            }
+                            
+                            if($scope.registrationData.nwh_welcome_tune_type_id == 3){
+                                $scope.nwh_url = srcurl+$scope.registrationData.nwh_welcome_tune;
+                                document.getElementById('nwhaudio').src = $scope.nwh_url;
+                            }
                             Data.post('virtualnumber/getEmployeelist',{
                                 ids: response.records.data[0]['employees'],
                             }).then(function (response) {
                                 console.log(response.records);
                                 $scope.registrationData.employees1 = response.records;
-                                //$scope.registrationData.msc_default_employee_id = response.records;
-                                //console.log($scope.registrationData.employees);
                             });
                             Data.post('virtualnumber/getEmployeelist',{
                                 ids: response.records.data[0]['msc_default_employee_id'],
                             }).then(function (response) {
                                 console.log(response.records);
-                                //$scope.registrationData.employees1 = response.records;
                                 $scope.registrationData.msc_default_employee_id = response.records;
-                                //console.log($scope.registrationData.employees);
                             });
                         }, 500);
                     }
                 }else if(action === 'existingedit'){
                     $scope.registrationData = angular.copy(response.records.data[0]);
+                    var srcurl = s3Path+"/caller_tunes/";//"https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/caller_tunes/";
+                            
+                    $scope.registrationData = angular.copy(response.records.data[0]);
+                    if($scope.registrationData.ec_welcome_tune_type_id == 3){
+                        $scope.welcome_url = srcurl+$scope.registrationData.ec_welcome_tune;
+                        document.getElementById('ecwelcomeaudio').src = $scope.welcome_url;
+                    }
+                    if($scope.registrationData.hold_tune_type_id == 3){
+                        $scope.hold_url = srcurl+$scope.registrationData.ec_hold_tune;
+                        document.getElementById('echoldaudio').src = $scope.hold_url;
+                    }
                 }else{
                     $scope.registrationData.id = id;
                 }
@@ -273,8 +293,6 @@ $scope.registrationNumber = function (registrationData) {
                     $scope.virtualno = response.records.virtualno;
                     $scope.currentPage = 1;
                     $scope.itemsPerPage = 10;
-                    //$scope.msc_facility_status = 0;
-                    //$scope.cvn_id = cvn_id;
                     
                 }
             } else {
@@ -292,21 +310,30 @@ $scope.registrationNumber = function (registrationData) {
                 console.log(response);
                 if(action === 'edit'){
                       $scope.extData1 = angular.copy(response.records.data[0]);
+                      
+                      var srcurl = s3Path+"/caller_tunes/";//"https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/caller_tunes/";
+                      if($scope.extData1.welcome_tune_type_id == 3){
+                            $scope.welcome_url = srcurl+$scope.extData1.welcome_tune;
+                            document.getElementById('welcomeaudio').src = $scope.welcome_url;
+                        }
+                        if($scope.extData1.hold_tune_type_id == 3){
+                            $scope.hold_url = srcurl+$scope.extData1.hold_tune;
+                            document.getElementById('holdaudio').src = $scope.hold_url;
+                        }
+
+                        if($scope.extData1.msc_welcome_tune_type_id == 3){
+                            $scope.msc_url = srcurl+$scope.extData1.msc_welcome_tune;
+                            document.getElementById('mscaudio').src = $scope.msc_url;
+                        }
+                            
                       Data.post('extensionmenu/getEmployeelist',{
                             ids: response.records.data[0]['employees'],
                         }).then(function (response) {
                             console.log(response.records);
                             $scope.extData1.employees1 = response.records;
-                            //$scope.registrationData.msc_default_employee_id = response.records;
-                            //console.log($scope.registrationData.employees);
+                            
                         });
-//                    $scope.listNumbers = response.records.data;
-//                    $scope.listNumbersLength = response.records.total;
-//                    $scope.virtualno = response.records.virtualno;
-//                    $scope.currentPage = 1;
-//                    $scope.itemsPerPage = 10;
-                    //$scope.msc_facility_status = 0;
-                    //$scope.cvn_id = cvn_id;
+
                     
                 }
             } else {
