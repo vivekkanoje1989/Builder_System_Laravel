@@ -44,7 +44,7 @@
                                 <div class="form-group">
                                     <label for="">Password</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="portalData.password" name="password" class="form-control" maxlength="50">
+                                        <input type="password" ng-model="portalData.password" name="password" class="form-control" maxlength="50">
                                         <i class="fa fa-lock"></i>
                                     </span>
                                 </div>
@@ -64,16 +64,16 @@
                             <div class="col-sm-3 col-xs-6">
                                 <div class="form-group">
                                     <label for="">Assign Enquiries To  <span class="sp-err">*</span></label>
-                                    <span class="input-icon icon-right" ng-init="portalData.assign_employee =0">
+                                    <span class="input-icon icon-right" ng-init="portalData.enquiry_alocation_types =='0'">
                                         <div class="radio">
                                             <label>
-                                                <input name="assignEmployee" type="radio" ng-model="portalData.assign_employee" name="assign_employee" value="0" checked autocomplete="off">
+                                                <input name="assignEmployee" type="radio" ng-model="portalData.enquiry_alocation_types" name="enquiry_alocation_types" value="0" checked autocomplete="off">
                                                 <span class="text">Common Employee </span>
                                             </label>
                                         </div>
                                         <div class="radio">
                                             <label>
-                                                <input name="assignEmployee" type="radio" ng-model="portalData.assign_employee" name="assign_employee" value="1">
+                                                <input name="assignEmployee" type="radio" ng-model="portalData.enquiry_alocation_types" name="enquiry_alocation_types" value="1">
                                                 <span class="text">Project Specific Employee</span>
                                             </label>
                                         </div>
@@ -81,7 +81,7 @@
 
                                 </div> 
                             </div>
-                            <div class="col-sm-3 col-xs-12" ng-show="portalData.assign_employee == '0'">                            
+                            <div class="col-sm-3 col-xs-12" ng-show="portalData.enquiry_alocation_types == '0'">                            
                                 <div class="form-group multi-sel-div" class="form-control" ng-controller="assignEmployeeCtrl" style="width: 100%;">
                                     <label for="">Select Common Employee <span class="sp-err">*</span></label>	
                                     <ui-select multiple='true' class="form-control" ng-model="portalData.employee_id" name="employee_id" theme="" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalEmployees()" required>
@@ -114,14 +114,14 @@
                                 <div align="right">  <p class="add-btn btn btn-primary" data-toggle="modal" data-target="#projectModal"><i class="fa fa-plus"></i></p></div>
                                 <div class="table-responsive" id="portalaliastable" style="">
                                     <table class="table table-hover table-striped table-bordered" at-config="config">
-                                        <caption class="table-caption" ng-show="portalData.assign_employee == '1'">Project Specific Employees</caption>
-                                        <caption class="table-caption" ng-show="portalData.assign_employee == '0'">Common Employees</caption>
+                                        <caption class="table-caption" ng-show="portalData.enquiry_alocation_types == '1'">Project Specific Employees</caption>
+                                        <caption class="table-caption" ng-show="portalData.enquiry_alocation_types == '0'">Common Employees</caption>
                                         <thead class="bord-bot">
                                             <tr>
                                                 <th style="width:5%">Sr. No.</th>
                                                 <th style="width:30%">Project Name</th>
                                                 <th style="width:30%">Project Alias Name</th>
-                                                <th style="width:30%" ng-if="portalData.assign_employee == '1'">Employee Name</th>
+                                                <th style="width:30%" ng-if="portalData.enquiry_alocation_types == '1'">Employee Name</th>
                                                 <th style="width:5%">Edit</th>
                                             </tr>
                                         </thead>
@@ -129,10 +129,11 @@
                                             <tr ng-repeat="aliasList in aliasLists">
                                                 <td>{{ $index+1 }}</td>
                                                 <td>{{ aliasList.project_id }}</td>
-                                                <td>{{ aliasList.project_alias_name }}</td>
-                                                <td style="display:none;" ng-if="portalData.assign_employee == '1'">{{ aliasList.project_employee_id }}</td>
-                                                <td ng-if="portalData.assign_employee == '1'">{{ aliasList.project_employee_name }}</td>
-                                                <td data-toggle="modal" data-target="#projectModal" ng-click="getUpdatePropertAlias({{aliasList.id}},{{aliasList.property_portal_type_id}},{{aliasList.property_portal_id}})">Edit</td>
+                                                <td>{{ aliasList.project_alias }}</td>
+                                                <td style="display:none;" ng-if="portalData.enquiry_alocation_types == '1'">{{ aliasList.project_employee_id }}</td>
+                                                <td ng-if="portalData.enquiry_alocation_types == '1'">{{ aliasList.project_employee_name }}</td>
+                                                <!--<td data-toggle="modal" data-target="#projectModal" ng-click="getUpdatePropertAlias({{aliasList.id}},{{aliasList.property_portal_id}},{{aliasList.property_portal_config_id}})">Edit</td>-->
+                                                <td data-toggle="modal" data-target="#projectModal" ng-click="addEditProjects({{aliasList}},{{ aliasList.id }})">Edit</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -157,13 +158,13 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">{{ modal_title}}</h4>
                 </div>
-                <form name="updateProjectForm" novalidate ng-submit="updateProjectForm.$valid && addEditProjects(modal)">  
+                <form name="updateProjectForm" novalidate ng-submit="updateProjectForm.$valid && addEditProjects(modal,3)">  
                     <div class="modal-body">               
                         <input type='hidden' id="property_portal_type_id" name="actionModal" ng-model="modal.property_portal_id" value="[[ $portalTypeId ]]">
                         <div class="form-group">                            
                             <span class="input-icon icon-right">
                                Alias Name :
-                                <input type="text" class="form-control" ng-model="modal.project_alias_name" name="reason" placeholder="Alias Name" required="required">                                
+                                <input type="text" class="form-control" ng-model="modal.project_alias" name="reason" placeholder="Alias Name" required="required">                                
                             </span>
                             <label>Project Name :</label>
                             <span class="input-icon icon-right">                                
@@ -175,15 +176,15 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>
-                            <span ng-if="portalData.assign_employee == '1'">
+                            <span ng-if="portalData.enquiry_alocation_types == '1'">
                                 <div class="form-group multi-sel-div" class="form-control" ng-controller="assignEmployeeCtrl"  style="width: 100%;">
                                     <label for="">Select Common Employee <span class="sp-err">*</span></label>	
                                     <ui-select multiple ng-model="modal.employee_id" name="employee_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalAliasEmployees()">
                                         <ui-select-match placeholder="Select Employees">{{$item.first_name}}{{$item.last_name}}</ui-select-match>
-                                        <ui-select-choices repeat="list in employeeList | filter:$select.search ">
+                                        <ui-select-choices repeat="list in lstAllEmployees | filter:$select.search ">
                                             {{list.first_name}} {{list.last_name}}
                                         </ui-select-choices>
-                                    </ui-select>
+                                    </ui-select>                                    
                                     <div ng-show="isEmptyEmployeeId" >
                                         This field is required.
                                     </div>                                    

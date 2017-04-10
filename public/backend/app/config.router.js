@@ -770,6 +770,206 @@ angular.module('app')
                                         ]
                                     }
                                 })
+
+
+                                /*************************** Promotional SMS ****************/
+
+                                .state(getUrl + '.promotionalsms', {
+                                    url: '/promotionalsms/index',
+                                    templateUrl: getUrl + '/promotionalsms/',
+                                    controller: 'promotionalsmsController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Promotional SMS',
+                                        description: ''
+                                    },
+                                })
+
+                                /**************************** Alerts Routing *****************************/
+                                .state(getUrl + '.alertsIndex', {
+                                    url: '/alerts/index',
+                                    templateUrl: getUrl + '/alerts/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Alerts'
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load({
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/alertsController.js',
+                                                    ]
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.alertsUpdate', {
+                                    url: '/alerts/update/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/alerts/' + stateParams.id + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/alertsController.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.customalertsIndex', {
+                                    url: '/customalerts/index',
+                                    templateUrl: getUrl + '/customalerts/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Custome Alters'
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load({
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/customalertsController.js',
+                                                    ]
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.customalertcreate', {
+                                    url: '/customalerts/create',
+                                    templateUrl: getUrl + '/customalerts/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create Custome Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/customalertsController.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.customalertsUpdate', {
+                                    url: '/customalerts/update/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/customalerts/' + stateParams.id + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Custome Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/customalertsController.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.defaultalertsIndex', {
+                                    url: '/defaultalerts/index',
+                                    templateUrl: getUrl + '/defaultalerts/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Custome Alters'
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load({
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/defaultalertsController.js',
+                                                    ]
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.dafaultalertcreate', {
+                                    url: '/dafaultalerts/create',
+                                    templateUrl: getUrl + '/defaultalerts/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create Custome Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/defaultalertsController.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.defaultalertsUpdate', {
+                                    url: '/defaultalerts/update/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/defaultalerts/' + stateParams.id + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Default Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/defaultalertsController.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                /**************************** Alerts Routing *****************************/
+
                                 /****************************MANDAR*********************************/
                                 /****************************MANOJ*********************************/
                                 .state(getUrl + '.bloodGroupsIndex', {

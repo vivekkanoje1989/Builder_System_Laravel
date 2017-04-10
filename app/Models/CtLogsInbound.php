@@ -84,12 +84,12 @@ class CtLogsInbound extends Eloquent
 
 	protected $dates = [
 		'call_date',
-		'call_time',
-		'customer_call_duration',
-		'employee_call_duration',
-		'bridge_call_duration',
+		//'call_time',
+		//'customer_call_duration',
+		//'employee_call_duration',
+		//'bridge_call_duration',
 		'call_push_url_date_time',
-		'total_call_duration'
+		//'total_call_duration'
 	];
 
 	protected $fillable = [

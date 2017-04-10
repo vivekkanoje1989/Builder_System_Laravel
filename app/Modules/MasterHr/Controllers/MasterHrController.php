@@ -7,7 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use App\Models\backend\Employee;
 use App\Models\EmployeesLog;
-use App\Models\MlstBmsbDepartment;
+use App\Modules\ManageDepartment\Models\MlstBmsbDepartment;
 use Illuminate\Support\Facades\Input;
 use DB;
 use Illuminate\Hashing\HashServiceProvider;
@@ -248,33 +248,29 @@ class MasterHrController extends Controller {
         if (empty($input)) {
             $input = Input::all();
         }
-
+            
         $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
         if ($validator->fails()) {
             $result = ['success' => false, 'message' => $validator->messages()];
             return json_encode($result);
         }
-
         $input = Employee::doAction($input);
         $input['userData']['updated_date'] = date('Y-m-d');
         if (!empty($input['userData']['loggedInUserId'])) {
             $loggedInUserId = $input['userData']['loggedInUserId'];
-            unset($input['userData']['department_name']);
-            unset($input['userData']['login_date_time']);
-            unset($input['userData']['departmentid']);
             unset($input['userData']['loggedInUserId']);
+            unset($input['userData']['login_date_time']);
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
+            unset($input['userData']['password_confirmation']);
+            unset($input['userData']['passwordOld']);
         }
         $input['userData']['updated_by'] = $loggedInUserId;
         $input['userData']['updated_IP'] = $_SERVER['REMOTE_ADDR'];
         $input['userData']['updated_browser'] = $_SERVER['HTTP_USER_AGENT'];
         $input['userData']['updated_mac_id'] = CommonFunctions::getMacAddress();
-
-        unset($input['userData']['password_confirmation']);
-        unset($input['userData']['passwordOld']);
         unset($input['userData']['password']);
-
+ print_r($input);exit;   
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
         if (!empty($input['employee_photo_file_name'])) {
             $originalName = $input['employee_photo_file_name']->getClientOriginalName();
@@ -297,6 +293,7 @@ class MasterHrController extends Controller {
         }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+
         $input['userData'] = array_merge($input['userData'], $update);
         $employeeUpdate = Employee::where('id', $id)->update($input['userData']);
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
@@ -544,7 +541,7 @@ class MasterHrController extends Controller {
         return view("MasterHr::chart");
     }
 
-   public function getChartData() {
+    public function getChartData() {
         $input = Employee::whereIn('employee_status', [1, 2])
                 ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                 ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
@@ -578,24 +575,29 @@ class MasterHrController extends Controller {
 
     public function photoUpload() {
         $folderName = 'Employee-Photos';
-        //print_r($_FILES['file']);exit;
         $imageName = S3::s3FileUplodForApp($_FILES['file'], $folderName, 1);
 //        $imageName = trim($imageName, ',');
 //        if (move_uploaded_file($_FILES['file']['tmp_name'], base_path() . "/common/employee_photo/" . $_FILES['file']['name'])) {
 //            Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
 //            $result = ['success' => true];
 //            return json_encode($result);
-       // echo ''.$imageName;
+        // echo ''.$imageName;
         if (!empty($imageName)) {
-            Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
-            $result = ['success' => true,'message' => 'Image uploaded'];
-            return json_encode($result);
+            $img = Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
+            if($img)
+            {
+                $result = ['success' => true, 'message' => 'Image uploaded'];
+                return json_encode($result);
+            }
+            
         } else {
             $result = ['success' => false, 'message' => 'Image not uploaded'];
             return json_encode($result);
         }
     }
+
     /*     * **************** END (Organization Chart) ******************** */
+
     protected function guard() {
         return Auth::guard('admin');
     }
