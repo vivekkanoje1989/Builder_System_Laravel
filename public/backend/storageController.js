@@ -1,30 +1,47 @@
 app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout', function ($scope, Data, $state, Upload, $timeout) {
 
-       
         $scope.dostorageFormAction = function ()
         {
             Data.post('storage-list/', {
                 filename: $scope.filename}).then(function (response) {
-                $scope.directories.push($scope.filename);
-                $("#storageModel").modal('toggle');
+                if (response.status) {
+                    $scope.directories.push({'folder': $scope.filename});
+                    $("#storageModel").modal('toggle');
+                } else {
+                    $scope.errorMsg = response.errorMsg;
+                }
             });
         };
-        $scope.initialModal = function()
+        $scope.initialModal = function ()
         {
-             $scope.sbtBtn = false;
+            $scope.sbtBtn = false;
+            $scope.fileName = '';
         };
         $scope.getEmployees = function () {
             Data.get('getEmployees').then(function (response) {
                 $scope.employeeRow = response.records;
             });
         };
-        
-        $scope.sharedFormWith = function(foldername)
+        $scope.getSharedEmployees = function(foldername)
         {
-             Data.post('storage-list/sharedWith', {
-                folder: foldername,share_with:$scope.share_with}).then(function (response) {
-                if(response.status){
-                     $("#sharedModel").modal('toggle');
+            Data.post('storage-list/folderSharedEmployees', {
+                folder: foldername }).then(function (response) {
+                $scope.folderSharedEmployees = response.result;
+            });
+        };
+        $scope.removeEmployees = function(index,employee_id,folder)
+        {
+            Data.post('storage-list/removeEmployees', {
+                employee_id: employee_id,folder:folder}).then(function (response) {
+                  $scope.folderSharedEmployees.splice(index,1);
+            });
+        }
+        $scope.sharedFormWith = function (foldername)
+        {
+            Data.post('storage-list/sharedWith', {
+                folder: foldername, share_with: $scope.share_with }).then(function (response) {
+                if (response.status) {
+                    $("#sharedModel").modal('toggle');
                 }
             });
         };
@@ -32,24 +49,41 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
         {
             Data.get('storage-list/getStorage', {
                 filename: $scope.filename}).then(function (response) {
-                $scope.result = JSON.parse(response.result);
-                $scope.directories = $scope.result.directories;
+                $scope.directories = response.result;
             });
         };
-        $scope.getmyStorageList = function()
+        $scope.getmyStorageList = function ()
         {
             Data.get('storage-list/getMyStorage', {
                 filename: $scope.filename}).then(function (response) {
-               $scope.directories = response.records;
+                $scope.directories = response.records;
             });
-        }
-        $scope.deleteFolder = function (foldername)
+        };
+        $scope.getRecycleList = function ()
+        {
+            Data.get('storage-list/getRecycle').then(function (response) {
+                $scope.recycleDirectories = response.result;
+            });
+        };
+        $scope.deleteFolder = function (foldername, type)
         {
             Data.post('storage-list/deleteFolder', {
-                foldername: foldername}).then(function (response) {
-                if (response.result)
+                folder: foldername}).then(function (response) {
+                if (response.result && type == '0')
                 {
                     $state.go(getUrl + '.storageListIndex');
+                } else {
+                    $state.go(getUrl + '.sharedWithMe');
+                }
+            });
+        };
+        $scope.restoreFolder = function (foldername)
+        {
+            Data.post('storage-list/restoreFolder', {
+                folder: foldername}).then(function (response) {
+                if (response.result)
+                {
+                    $state.go(getUrl + '.recycleBin');
                 }
             });
         };
@@ -81,7 +115,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 data: data
             });
             fileName.upload.then(function (response) {
-                console.log(response);
                 if (response.data.status)
                 {
                     $scope.folderImages.push(response.data.result)
@@ -92,7 +125,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
 
             });
         };
-
         $scope.changeFileFolder = function ()
         {
             if ($scope.folderorfile == '1') {
@@ -102,7 +134,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 $scope.createFolder = "";
                 $scope.fileName = '0';
             }
-        }
+        };
         $scope.deleteImages = function (index, filename)
         {
             Data.post('storage-list/deleteImages', {
@@ -112,8 +144,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
         };
 
     }]);
-
-
 app.directive('ngConfirmClick', [
     function () {
         return {
@@ -122,9 +152,9 @@ app.directive('ngConfirmClick', [
                 var clickAction = attr.confirmedClick;
                 element.bind('click', function (event) {
                     if (window.confirm(msg)) {
-                        scope.$eval(clickAction)
+                        scope.$eval(clickAction);
                     }
                 });
             }
         };
-    }])
+    }]);

@@ -27,13 +27,13 @@ app.controller('dashboardCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$s
             $scope.req_desc = req_desc;
             $scope.to_name = to_fname + " " + to_lname;
             $scope.id = id;
-            Data.post('my-request/description', {
-                id: $scope.id}).then(function (response) {
-                $scope.cc_name = response.records.first_name + " " + response.records.last_name;
+            Data.post('my-request/description', {id: $scope.id}).then(function (response) {
+                if(response.status){
+                    $scope.cc_name = response.records.first_name + " " + response.records.last_name;
+                }                
             });
-        }
+        };
         $scope.dorequestLeaveAction = function () {
-
             Data.post('request-leave/', {
                 uid: $scope.application_to, cc: $scope.application_cc, from_date: $scope.model.from_date, to_date: $scope.model.to_date, req_desc: $scope.req_desc, request_type: "Leave", status: "1"}).then(function (response) {
                 if (response.status) {
@@ -70,19 +70,19 @@ app.controller('dashboardCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$s
                 if (response.status)
                 {
                     $('#newModal').modal('toggle');
-                    
-                   $scope.myRequest.splice($scope.index, 1);
-                        $scope.myRequest.splice($scope.index, 0, {
-                            status: $scope.status, id: $scope.id,created_date:$scope.created_date,request_type:$scope.request_type,first_name:$scope.first_name,last_name:$scope.last_name,from_date:$scope.from_date,to_date:$scope.to_date, req_desc:$scope.req_desc });
+
+                    $scope.myRequest.splice($scope.index, 1);
+                    $scope.myRequest.splice($scope.index, 0, {
+                        status: $scope.status, id: $scope.id, created_date: $scope.created_date, request_type: $scope.request_type, first_name: $scope.first_name, last_name: $scope.last_name, from_date: $scope.from_date, to_date: $scope.to_date, req_desc: $scope.req_desc});
                 }
             });
         }
-        $scope.statusChange = function (id,created_date ,request_type,from_date,to_date,req_desc,first_name,last_name,index)
+        $scope.statusChange = function (id, created_date, request_type, from_date, to_date, req_desc, first_name, last_name, index)
         {
             $scope.id = id;
             $scope.index = index;
-            $scope.created_date =created_date;
-            $scope.request_type =request_type;
+            $scope.created_date = created_date;
+            $scope.request_type = request_type;
             $scope.first_name = first_name;
             $scope.last_name = last_name;
             $scope.from_date = from_date;

@@ -29,6 +29,7 @@ class S3 {
      */
 
     public static function s3Configuration() {
+
         if (Session::has('bucket')) {
             Config::set('filesystems.disks.s3.bucket', Session::get('bucket'));
             Config::set('filesystems.disks.s3.secret', Session::get('secretKey'));
@@ -47,9 +48,8 @@ class S3 {
             Config::set('filesystems.disks.s3.driver', 's3');
             Config::set('filesystems.disks.s3.region', $data[0]->region);
             // session(['s3Path' => 'https://s3.'.$data[0]->region.'.amazonaws.com/'.$data[0]->aws_bucket_id]);
-        }
     }
-
+    }
     /*
      * s3FileUplod() used for upload file to s3 bucket
      * parameters-

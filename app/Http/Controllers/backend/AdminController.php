@@ -23,6 +23,9 @@ use App\Models\VehicleModel;
 use App\Models\MlstBmsbVertical;
 use App\Models\MlstBmsbDesignation;
 use App\Models\LstEnquiryLocation;
+use App\Models\Project;
+use App\Models\FirmPartner;
+use App\Models\LstStationary;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
@@ -326,6 +329,36 @@ class AdminController extends Controller {
         $getsubSource = EnquirySalesSubSource::where('enquiry_sales_source_id', $sourceId)->get();
         if (!empty($getsubSource)) {
             $result = ['success' => true, 'records' => $getsubSource];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    public function getProjects() {
+        $projectList = Project::select('id','project_name')->get();
+        if (!empty($projectList)) {
+            $result = ['success' => true, 'records' => $projectList];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    public function getFirmPartners() {
+        $firmPartnerList = FirmPartner::select('id','marketing_name')->get();
+        if (!empty($firmPartnerList)) {
+            $result = ['success' => true, 'records' => $firmPartnerList];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    public function getStationary() {
+        $stationaryList = LstStationary::select('id','name')->get();
+        if (!empty($stationaryList)) {
+            $result = ['success' => true, 'records' => $stationaryList];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

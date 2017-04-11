@@ -99,7 +99,12 @@ class DashBoardController extends Controller {
     }
 
     public function getMyRequest() {
-        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        if(!empty($request['loggedInUserID']))
+            $loggedInUserId = $request['loggedInUserID'];
+        else
+            $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
                 ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                 ->where('request.created_by', '=', $loggedInUserId)
@@ -116,11 +121,10 @@ class DashBoardController extends Controller {
     public function description() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::join('employees', 'request.cc', '=', 'employees.id')
                 ->select('employees.first_name', 'employees.last_name')
+                ->where('request.id',$request['id'])
                 ->first();
-
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {
@@ -130,7 +134,12 @@ class DashBoardController extends Controller {
     }
 
     public function getRequestForMe() {
-        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        if(!empty($request['data']['loggedInUserID']))
+            $loggedInUserId = $request['data']['loggedInUserID'];
+        else
+            $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
                 ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                 ->where('request.uid', '=', $loggedInUserId)
@@ -139,7 +148,7 @@ class DashBoardController extends Controller {
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {
-            $result = ['status' => false, 'message' => "No record"];
+            $result = ['status' => false, 'message' => "Something went wrong"];
         }
         return json_encode($result);
     }
@@ -147,12 +156,11 @@ class DashBoardController extends Controller {
     public function changeStatus() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::where('id', $request['id'])->update($request);
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {
-            $result = ['status' => false, 'message' => "No record"];
+            $result = ['status' => false, 'message' => "Record updated already"];
         }
         return json_encode($result);
     }

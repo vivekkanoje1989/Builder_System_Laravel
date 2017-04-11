@@ -54,7 +54,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class Project extends Eloquent
 {
 	protected $casts = [
-		'project_name' => 'int',
 		'project_type_id' => 'int',
 		'project_status' => 'int',
 		'project_head_employee' => 'int',

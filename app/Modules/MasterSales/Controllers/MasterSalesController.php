@@ -302,14 +302,14 @@ class MasterSalesController extends Controller {
                 $explodeMobileNumber = explode("-", $mobileNumber);          
                 $mobileNumber = (int) $explodeMobileNumber[1];
             }
-            $checkMobile = CustomersContact::select('mobile_number')->where([['mobile_number', '=', $mobileNumber],['customer_id', '<>', $request['data']['customerId']]])->get();
-            if (empty($checkMobile[0]->mobile_number)) {
+            $checkMobile = CustomersContact::select('customer_id','mobile_number')->where('mobile_number',$mobileNumber)->first();
+            
+            if (empty($checkMobile) || $checkMobile['customer_id'] == $request['data']['customerId']) {
                 $result = ['success' => true];
-                return json_encode($result);
-            } else {
+            }else if (!empty($checkMobile)) { //Mobile number already exist
                 $result = ['success' => false];
-                return json_encode($result);
             }
+            return json_encode($result);
         }
 }
 /*************************** EMPLOYEE PHOTO UPLOAD **********************************

@@ -40,5 +40,6 @@ return [
         "Marketing",
         "MyStorage",
         "OperationalSettings",
+        "Wings"
     ),
 ];
