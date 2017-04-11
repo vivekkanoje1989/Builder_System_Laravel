@@ -2,11 +2,11 @@
         angular.module('app')
         .run(
         [
-                '$rootScope', '$state', '$stateParams',
-                function ($rootScope, $state, $stateParams) {
-                }
+            '$rootScope', '$state', '$stateParams',
+            function ($rootScope, $state, $stateParams) {
+            }
         ]
-                )
+        )
         .config(
         ['$stateProvider', '$urlRouterProvider',
                 function ($stateProvider, $urlRouterProvider) {
@@ -1147,8 +1147,8 @@
                         })
                         /**************************** Alerts Routing *****************************/
 
-                        /****************************MANDAR*********************************/
-                        /****************************MANOJ*********************************/
+                    /****************************MANDAR*********************************/
+                    /****************************MANOJ*********************************/
                    .state(getUrl + '.bloodGroupsIndex', {
                         url: '/bloodgroups/index',
                         templateUrl: getUrl + '/blood-groups/',
@@ -2256,51 +2256,35 @@
                             ]
                         }
                     })
-                    .state(getUrl + '.designationsIndex', {
-                        url: '/manage-designations/index',
-                        templateUrl: getUrl + '/manage-designations/',
-                        requiredLogin: true,
-                        ncyBreadcrumb: {
-                            label: 'Manage Designations',
-                            description: ''
-                        },
-                        resolve: {
+                    .state(getUrl + '.requestOtherApprovalIndex', {
+                    url: '/request-approval/index',
+                            templateUrl: getUrl + '/request-approval/index',
+                            requiredLogin: true,
+                            ncyBreadcrumb: {
+                            label: 'Request other approval',
+                                    description: ''
+                            },
+                            resolve: {
                             deps:
-                                    [
-                                        '$ocLazyLoad',
-                                        function ($ocLazyLoad) {
-                                            return $ocLazyLoad.load('toaster').then(
-                                                    function () {
-                                })
-                                .state(getUrl + '.requestOtherApprovalIndex', {
-                                url: '/request-approval/index',
-                                        templateUrl: getUrl + '/request-approval/index',
-                                        requiredLogin: true,
-                                        ncyBreadcrumb: {
-                                        label: 'Request other approval',
-                                                description: ''
-                                        },
-                                        resolve: {
-                                        deps:
-                                        [
-                                                '$ocLazyLoad',
-                                                function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster']).then(
-                                                        function () {
-                                                        return $ocLazyLoad.load({
-                                                        serie: true,
-                                                                files: [
-                                                                        '/backend/dashBoardController.js',
-                                                                        '/backend/app/controllers/datepicker.js'
-                                                                ]
-                                                        }
-                                                        );
-                                                        }
-                                                );
-                                                }
-                                        ]
-                                        }
-                                })
+                            [
+                                    '$ocLazyLoad',
+                                    function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['toaster']).then(
+                                            function () {
+                                            return $ocLazyLoad.load({
+                                            serie: true,
+                                                    files: [
+                                                            '/backend/dashBoardController.js',
+                                                            '/backend/app/controllers/datepicker.js'
+                                                    ]
+                                            }
+                                            );
+                                            }
+                                    );
+                                    }
+                            ]
+                            }
+                    })
                                 .state(getUrl + '.requestForMeIndex', {
                                 url: '/request-forme/index',
                                         templateUrl: getUrl + '/request-forme/index',
@@ -2920,7 +2904,7 @@
                                         }
                                 });
                         }
-                        ]).run(function ($rootScope, $location, $state, Data, $http, $window, $stateParams) {
+        ]).run(function ($rootScope, $location, $state, Data, $http, $window, $stateParams) {
                 $rootScope.authenticated = false;
                         $rootScope.$state = $state;
                         $rootScope.$stateParams = $stateParams;
