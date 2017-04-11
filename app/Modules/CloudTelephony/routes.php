@@ -18,11 +18,8 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     Route::post($getUrl.'/extensionmenu/getEmployeelist', 'ExtensionMenuController@getEmployeelist');
     Route::post($getUrl.'/extensionmenu/getSubsources', 'ExtensionMenuController@getSubsources');
     
-    //Route::resource($getUrl.'/cloudcalling', 'CloudCallingController');
     Route::get($getUrl.'/cloudcalling/agentnumbers', 'CloudCallingController@agentnumbers');
-    
-    
-    
+    Route::get($getUrl.'/cloudcallinglogs/index', 'CloudCallingLogsController@index');
     
     Route::get($getUrl.'/extensionmenu/{id}/viewData', 'ExtensionMenuController@viewData');
     Route::get($getUrl.'/virtualnumber/{id}/existingUpdate', 'VirtualNumberController@existingUpdate');

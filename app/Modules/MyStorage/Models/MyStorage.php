@@ -20,9 +20,10 @@ class MyStorage extends Model {
     'created_by',
     'created_by',
     'created_IP',
-    'updated_on',
-    'updated_by',
-    'deleted_on',
-    'deleted_by',    
+    'created_browser',
+    'created_mac_id',
+    'created_date',
+    'updated_at',    
+    'deleted_status',    
     ];
 }

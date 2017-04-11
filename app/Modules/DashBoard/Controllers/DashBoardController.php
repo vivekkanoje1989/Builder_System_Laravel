@@ -125,7 +125,6 @@ class DashBoardController extends Controller {
                 ->select('employees.first_name', 'employees.last_name')
                 ->where('request.id',$request['id'])
                 ->first();
-//echo "<pre>";print_r($employees);exit;
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {

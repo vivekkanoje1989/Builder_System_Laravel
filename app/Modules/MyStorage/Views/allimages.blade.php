@@ -25,14 +25,14 @@
         opacity: 1;
     }
 </style>
-<div class="row" ng-controller="storageCtrl" ng-init="allImages('<?php echo $filename; ?>')">  
+<div class="row" ng-controller="storageCtrl" ng-init="allImages('<?php echo $filename; ?>'); getSharedEmployees('<?php echo $filename; ?>');">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">My Storage</span>
                 <a href="" data-toggle="modal" data-target="#storageModel" ng-click="initialModal()" class="btn btn-info">Upload new file/folder</a>
                 <a href="" data-toggle="modal" data-target="#sharedModel" ng-click="initialModal()" class="btn btn-info">Shared with</a>
-                <button confirmed-click="deleteFolder('<?php echo $filename; ?>');" ng-confirm-click="Are you sure delete folder?" class="btn btn-info">Delete Folder</button>
+                <button confirmed-click="deleteFolder('<?php echo $filename; ?>',0);" ng-confirm-click="Are you sure delete folder?" class="btn btn-info">Delete Folder</button>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -85,26 +85,15 @@
                                 </div>
                             </span>
                         </div> 
-                        <div class="form-group" ng-if="folderorfile == 0"   ng-class="{ 'has-error' : sbtBtn && (!storageForm.fileName.$dirty && storageForm.fileName.$invalid)}">
-
+                        <div class="form-group"    ng-class="{ 'has-error' : sbtBtn && (!storageForm.fileName.$dirty && storageForm.fileName.$invalid)}">
                             <span class="input-icon icon-right" >
                                 <input type="file" ngf-select  ng-model="fileName" name="fileName" required id="fileName" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
-
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="storageForm.fileName.$error">
                                     <div ng-message="required">Filename is required</div>
                                 </div>
                             </span>
                         </div>     
-                        <div class="form-group" ng-if="folderorfile == 1" ng-class="{ 'has-error' : sbtBtn && (!storageForm.createFolder.$dirty && storageForm.createFolder.$invalid)}">
 
-                            <span class="input-icon icon-right">
-                                <input type="text"  ng-model="createFolder" name="createFolder" required  class="form-control" >
-
-                                <div class="help-block" ng-show="sbtBtn" ng-messages="storageForm.createFolder.$error">
-                                    <div ng-message="required">Folder name is required</div>
-                                </div>
-                            </span>
-                        </div>  
                         <div class="modal-footer" align="center">
                             <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
                         </div> 
@@ -120,25 +109,41 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">Sharing History</h4>
                 </div>
+
                 <form  ng-submit="sharedForm.$valid && sharedFormWith('<?php echo $filename; ?>')" name="sharedForm"  novalidate enctype="multipart/form-data">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <div class="modal-body">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Employee Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="Shared in folderSharedEmployees">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{Shared.first_name + ' ' + Shared.last_name}}</td>
+                                    <td><a href="javascript:void(0)" ng-click="removeEmployees($index,Shared.employee_id,'<?php echo $filename; ?>');" class="btn btn-primary">Remove</a></td>
+                                </tr>
+                        </table>
+                        <br/><br/>
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!sharedForm.share_with.$dirty && sharedForm.share_with.$invalid) }">
                             <span class="input-icon icon-right">
-
-                                <select class="form-control" ng-model="share_with" name="share_with" ng-change="getEmployeesCC()" required>
-                                    <option value="">Select User</option>
+                                <select class="form-control" ng-model="share_with" name="share_with" required>
+                                    <option value="">Select Employee</option>
                                     <option  ng-repeat="itemone in employeeRow" ng-selected="{{ share_with == itemone.id}}" value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}}</option>
                                 </select>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="sharedForm.share_with.$error">
-                                    <div ng-message="required">Application To cannot be blank.</div>
+                                    <div ng-message="required">Select employee.</div>
                                 </div>
                                 <br/>
                             </span>
                         </div>
                         <div class="modal-footer" align="center">
                             <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
-                        </div> 
+                        </div>
                     </div>
                 </form>                    
             </div>

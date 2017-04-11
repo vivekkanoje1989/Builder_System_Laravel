@@ -9,6 +9,7 @@ namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 use App\Classes\CommonFunctions;
+use App\Classes\S3;
 
 /**
  * Class CtMenuSetting
@@ -287,9 +288,14 @@ class CtMenuSetting extends Eloquent
                 if($input['msc_facility_status'] == 0){
                     if($input['welcome_tune_type_id'] == 3){
                         if(!empty($input['welcome_tune_audio'])){
-                        $wfileName = 'menu_welcome_tune'.date('Ymd').'.'.$input['welcome_tune_audio']->getClientOriginalExtension();
-                        $input['welcome_tune_audio']->move(base_path()."/common/tunes/", $wfileName);
-                        $welcome_tune = $wfileName;
+                        //$wfileName = 'menu_welcome_tune'.date('Ymd').'.'.$input['welcome_tune_audio']->getClientOriginalExtension();
+                        //$input['welcome_tune_audio']->move(base_path()."/common/tunes/", $wfileName);
+                        //$welcome_tune = $wfileName;
+                        
+                            $s3FolderName ='caller_tunes';  
+                            $name = S3::s3FileUplod($input['welcome_tune_audio'], $s3FolderName,1);
+                            $name = trim($name, ",");
+                            $welcome_tune = $name;
                         }else{
                             $welcome_tune = $input['welcome_tune'];
                         }
@@ -300,9 +306,13 @@ class CtMenuSetting extends Eloquent
                     }
                     if($input['hold_tune_type_id'] == 3){
                         if(!empty($input['hold_tune_audio'])){
-                        $hfileName = 'menu_hold_tune'.date('Ymd').'.'.$input['hold_tune_audio']->getClientOriginalExtension();
-                        $input['hold_tune_audio']->move(base_path()."/common/tunes/", $hfileName);
-                        $hold_tune = $hfileName;
+                        //$hfileName = 'menu_hold_tune'.date('Ymd').'.'.$input['hold_tune_audio']->getClientOriginalExtension();
+                        //$input['hold_tune_audio']->move(base_path()."/common/tunes/", $hfileName);
+                        //$hold_tune = $hfileName;
+                            $s3FolderName ='caller_tunes';  
+                            $name = S3::s3FileUplod($input['hold_tune_audio'], $s3FolderName,1);
+                            $name = trim($name, ",");
+                            $hold_tune = $name;
                         }else{
                             $hold_tune = $input['hold_tune'];
                         }
@@ -314,9 +324,13 @@ class CtMenuSetting extends Eloquent
                 }else{
                     if($input['msc_welcome_tune_type_id'] == 3){
                         if(!empty($input['msc_welcome_tune_audio'])){
-                        $nwhfileName = 'msc_tune'.date('Ymd').'.'.$input['msc_welcome_tune_audio']->getClientOriginalExtension();
-                        $input['msc_welcome_tune_audio']->move(base_path()."/common/tunes/", $nwhfileName);
-                        $msc_welcome_tune = $nwhfileName;
+                        //$nwhfileName = 'msc_tune'.date('Ymd').'.'.$input['msc_welcome_tune_audio']->getClientOriginalExtension();
+                        //$input['msc_welcome_tune_audio']->move(base_path()."/common/tunes/", $nwhfileName);
+                        //$msc_welcome_tune = $nwhfileName;
+                            $s3FolderName ='caller_tunes';  
+                            $name = S3::s3FileUplod($input['msc_welcome_tune_audio'], $s3FolderName,1);
+                            $name = trim($name, ",");
+                            $msc_welcome_tune = $name;
                         }else{
                             $msc_welcome_tune = $input['msc_welcome_tune'];
                         }

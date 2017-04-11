@@ -109,7 +109,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-xs-12">
-                                <div align="right">  <p class="add-btn btn btn-primary" data-toggle="modal" data-target="#projectModal"><i class="fa fa-plus"></i></p></div>
+                                <div align="right">  <p class="add-btn btn btn-primary" data-toggle="modal"  ng-click="clearPopup()" data-target="#projectModal"><i class="fa fa-plus"></i></p></div>
                                 <div class="table-responsive" id="portalaliastable" style="">
                                     <table class="table table-hover table-striped table-bordered" at-config="config">
                                         <caption class="table-caption" ng-show="portalData.enquiry_alocation_types == '1'">Project Specific Employees</caption>
@@ -127,7 +127,7 @@
                                             <tr ng-repeat="aliasList in aliasLists">
                                                 <td>{{ $index+1 }}</td>
                                                 <td>{{ aliasList.project_id }}</td>
-                                                <td>{{ aliasList.project_alias_name }}</td>
+                                                <td>{{ aliasList.project_alias }}</td>
                                                 <td style="display:none;" ng-if="portalData.enquiry_alocation_types == '1'">{{ aliasList.project_employee_id }}</td>
                                                 <td ng-if="portalData.enquiry_alocation_types == '1'">{{ aliasList.project_employee_name }}</td>
                                                 <td>Edit</td>
@@ -161,7 +161,7 @@
                         <div class="form-group">                            
                             <span class="input-icon icon-right">
                                Alias Name :
-                                <input type="text" class="form-control" ng-model="modal.project_alias_name" name="reason" placeholder="Alias Name" required="required">                                
+                                <input type="text" class="form-control" ng-model="modal.project_alias" name="project_alias" placeholder="Alias Name" required="required">                                
                             </span>
                             <label>Project Name :</label>
                             <span class="input-icon icon-right">                                
@@ -178,10 +178,11 @@
                                     <label for="">Select Common Employee <span class="sp-err">*</span></label>	
                                     <ui-select multiple ng-model="modal.employee_id" name="employee_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalAliasEmployees()">
                                         <ui-select-match placeholder="Select Employees">{{$item.first_name}} {{$item.last_name}}</ui-select-match>
-                                        <ui-select-choices repeat="list in employeeList track by $index | filter:$select.search ">
+                                        <ui-select-choices repeat="list in lstAllEmployees | filter:$select.search ">
                                             {{list.first_name}} {{list.last_name}}                                            
                                         </ui-select-choices>
                                     </ui-select>
+                                   
                                     <div ng-show="isEmptyEmployeeId" >
                                         This field is required.
                                     </div>                                    

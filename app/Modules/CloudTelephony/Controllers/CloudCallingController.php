@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Modules\CloudTelephony\Controllers;
-
+use Mail;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\EmployeesDevice;
@@ -23,6 +23,8 @@ use App\Models\LstTitle;
 use App\Models\Enquiry;
 use App\Models\CtLogsInbound;
 use App\Models\ClientInfo;
+use App\Classes\CommonFunctions;
+
 class CloudCallingController extends Controller {
 
     public function __construct() {
@@ -145,7 +147,7 @@ class CloudCallingController extends Controller {
     }
 
     public function agentnumbers() {
-
+        $s3Path = config('global.s3Path');
         if (empty($_GET['virtual_number']))
             $this->_sendResponse(500, 'Error: Parameter <b>virtual_number</b> is missing');
 
@@ -162,10 +164,8 @@ class CloudCallingController extends Controller {
         $arg_client_code = trim($_GET['client_id']);
         $arg_app_access_key = trim($_GET['client_access_key']);
         $arg_caller_number = trim($_GET['caller_number']);
-        $arg_caller_number = substr($arg_caller_number, -10); //ltrim($arg_caller_number,'91');
-        #echo $_GET['caller_number'].'<br>';
-        #echo $arg_caller_number;
-
+        $arg_caller_number = substr($arg_caller_number, -10);
+        
         $action = "agentnumbers"; //exit;
 //            switch ($action) {
 //                // Find respective model
@@ -251,7 +251,7 @@ class CloudCallingController extends Controller {
                         $msg_val .= $virtual_number_row->ec_welcome_tune;
                     }else if ($calling_type_for_non_working_hour == 3) {
                         $msg_key = 'msg';
-                        $msg_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->ec_welcome_tune;
+                        $msg_val = $s3Path .'/caller_tunes/' . $virtual_number_row->ec_welcome_tune;
                     }
                     $agent_numbers = '';
                 }
@@ -307,7 +307,7 @@ class CloudCallingController extends Controller {
                 }
             } else if (!empty($virtual_number_row->ec_welcome_tune_type_id) && $virtual_number_row->ec_welcome_tune_type_id == 3) {
                 if (!empty($virtual_number_row->ec_welcome_tune) && $virtual_number_row->ec_welcome_tune) {
-                    $msg_val .= "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->ec_welcome_tune;
+                    $msg_val .= $s3Path .'/caller_tunes/' . $virtual_number_row->ec_welcome_tune;
                 }
             } else {
                 $msg_val .= 'Kindly wait we are transferring your call';
@@ -341,7 +341,7 @@ class CloudCallingController extends Controller {
                 $msg_hold_val = $virtual_number_row->ec_hold_tune;
                 $msg_hold_key = 'hold_msg';
             } else if ($virtual_number_row->ec_hold_tune_type_id == 3) {
-                $msg_hold_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->ec_hold_tune;
+                $msg_hold_val = $s3Path .'/caller_tunes/' . $virtual_number_row->ec_hold_tune;
                 $msg_hold_key = 'hold_msg';
             } else
                 $msg_hold_val = '';
@@ -389,17 +389,16 @@ class CloudCallingController extends Controller {
                     
                     
                     if ($virtual_number_row->welcome_tune_type_id == 1) {
-                        //$msg='';									
+                        								
                         $msg_key = 'msg';
                         $msg_val = '';
-                        //$msg_hold_key = 'hold_msg';
-                        //$msg_hold_val = '';
+                        
                         if ($virtual_number_row->hold_tune_type_id == 2) {
                             $msg_hold_key = 'hold_msg';
                             $msg_hold_val = $virtual_number_row->hold_tune;
                         } else if ($virtual_number_row->hold_tune_type_id == 3) {
                             $msg_hold_key = 'hold_msg';
-                            $msg_hold_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->hold_tune;
+                            $msg_hold_val = $s3Path .'/caller_tunes/' . $virtual_number_row->hold_tune;
                         } else {
                             $msg_hold_key = 'hold_msg';
                             $msg_hold_val = '';
@@ -415,24 +414,23 @@ class CloudCallingController extends Controller {
                             $msg_hold_val = $virtual_number_row->hold_tune;
                         } else if ($virtual_number_row->hold_tune_type_id == 3) {
                             $msg_hold_key = 'hold_msg';
-                            $msg_hold_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->hold_tune;
+                            $msg_hold_val = $s3Path .'/caller_tunes/' . $virtual_number_row->hold_tune;
                         } else {
                             $msg_hold_key = 'hold_msg';
                             $msg_hold_val = '';
                         }
                     } else if ($virtual_number_row->welcome_tune_type_id == 3) {
 
-                        //$msg=$virtual_number_row->caller_tone;
                         $msg_key = 'msg';
                         if (empty($customer_info))
-                            $msg_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->welcome_tune;
+                            $msg_val = $s3Path .'/caller_tunes/' . $virtual_number_row->welcome_tune;
 
                         if ($virtual_number_row->hold_tune_type_id == 2) {
                             $msg_hold_key = 'hold_msg';
                             $msg_hold_val = $virtual_number_row->hold_tune;
                         } else if ($virtual_number_row->hold_tune_type_id == 3) {
                             $msg_hold_key = 'hold_msg';
-                            $msg_hold_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->hold_tune;
+                            $msg_hold_val = $s3Path .'/caller_tunes/' . $virtual_number_row->hold_tune;
                         } else {
                             $msg_hold_key = 'hold_msg';
                             $msg_hold_val = '';
@@ -456,8 +454,7 @@ class CloudCallingController extends Controller {
                     goto calling_type_2_3;
                 }
             }
-
-            //print_r($agent_numbers);exit;
+           
         } else {
             
             if (!empty($virtual_number_row->employees)) {
@@ -483,8 +480,7 @@ class CloudCallingController extends Controller {
                 } else if ($virtual_number_row->forwarding_type_id == 2) {
                     $agent_numbers = @implode(',', $menu_all_mobile);
                 } else if ($virtual_number_row->forwarding_type_id == 3) {//Start Rouond-robin 
-                    //AND extension=1 AND sub_extension=1
-                   
+                    
                     $last_connected_row = CtLogsInbound::where(array("virtual_number" => $arg_virtual_number,"enquiry_flag" => "1","employee_call_status" => "Connected"))->orderBy('id', 'DESC')->first();
                     
                     $last_connected_no = $last_connected_row->employee_number;
@@ -492,7 +488,6 @@ class CloudCallingController extends Controller {
                     if (!empty($menu_all_mobile) && !empty($last_connected_no))
                         $agent_numbers = $this->roundrobin($menu_all_mobile, $last_connected_no);
 
-                    // $agent_numbers = @implode(',',$agent_numbers);
 
                     if (!empty($agent_numbers))
                         $agent_numbers = @implode(',', $agent_numbers);
@@ -502,13 +497,11 @@ class CloudCallingController extends Controller {
 
                 
                 if ($virtual_number_row->welcome_tune_type_id == 1) {
-                    //$msg='';
                     $msg_key = 'msg';
                     $msg_val = '';
                     $msg_hold_key = 'hold_msg';
                     $msg_hold_val = '';
                 } else if ($virtual_number_row->welcome_tune_type_id == 2) {
-                    //$msg=$virtual_number_row->caller_tone;
                     $msg_key = 'msg';
                     $msg_val = $virtual_number_row->welcome_tune;
 
@@ -517,18 +510,17 @@ class CloudCallingController extends Controller {
                         $msg_hold_val = $virtual_number_row->hold_tune;
                     } else if ($virtual_number_row->hold_tune_type_id == 3) {
                         $msg_hold_key = 'hold_msg';
-                        $msg_hold_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->hold_tune;
+                        $msg_hold_val = $s3Path .'/caller_tunes/' . $virtual_number_row->hold_tune;
                     }
                 } else if ($virtual_number_row->welcome_tune_type_id == 3) {
-                    //$msg=$virtual_number_row->caller_tone;
                     $msg_key = 'msg';
-                    $msg_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->welcome_tune;
+                    $msg_val = $s3Path .'/caller_tunes/' . $virtual_number_row->welcome_tune;
                     if ($virtual_number_row->hold_tune_type_id == 2) {
                         $msg_hold_key = 'hold_msg';
                         $msg_hold_val = $virtual_number_row->hold_tune;
                     } else if ($virtual_number_row->hold_tune_type_id == 3) {
                         $msg_hold_key = 'hold_msg';
-                        $msg_hold_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->hold_tune;
+                        $msg_hold_val = $s3Path .'/caller_tunes/' . $virtual_number_row->hold_tune;
                     }
                 }
                
@@ -568,7 +560,7 @@ class CloudCallingController extends Controller {
                         $calling_type_flag = 2; //for ivr_type flag
                     } else if ($virtual_number_row->welcome_tune_type_id == 3) {
                         $welcome_msg_key = 'welcome_msg';
-                        $welcome_msg_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->welcome_tune;
+                        $welcome_msg_val = $s3Path .'/caller_tunes/' . $virtual_number_row->welcome_tune;
                         $calling_type_flag = 3; //for ivr_type flag
                     }
 
@@ -580,7 +572,7 @@ class CloudCallingController extends Controller {
                         $menu_hold_msg_val = $virtual_number_row->hold_tune;
                     } else if ($virtual_number_row->hold_tune_type_id == 3) {
                         $menu_hold_msg_key = 'hold_msg';
-                        $menu_hold_msg_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->hold_tune;
+                        $menu_hold_msg_val = $s3Path .'/caller_tunes/' . $virtual_number_row->hold_tune;
                     }
                     //start -for missed call setting                   
                     if ($virtual_number_row->msc_facility_status == 1) {
@@ -592,7 +584,7 @@ class CloudCallingController extends Controller {
                             $welcome_msg_val = $virtual_number_row->msc_welcome_tune;
                         } else if ($virtual_number_row->msc_welcome_tune_type_id == 3) {
                             $welcome_msg_key = 'msg';
-                            $welcome_msg_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $virtual_number_row->msc_welcome_tune;
+                            $welcome_msg_val = $s3Path .'/caller_tunes/' . $virtual_number_row->msc_welcome_tune;
                         }
                     }
                    
@@ -615,7 +607,6 @@ class CloudCallingController extends Controller {
                         foreach ($menu_results as $menu_result) {
                             //$count_menu_row++;
                             
-                             
                             if ($menu_result['ccm_status'] == 1) {
                                 //$count_menu_row++;
                                 $regex[] = $menu_result['ccm_extension_no'];
@@ -636,7 +627,7 @@ class CloudCallingController extends Controller {
                                             $ext_welcome_msg_val = $menu_result['ccm_ext_caller_tone'];
                                         } else if ($menu_result['ccm_ext_calling_type'] == 3) {
                                             $ext_welcome_msg_key = 'ext_welcome_msg';
-                                            $ext_welcome_msg_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $menu_result['ccm_ext_caller_tone'];
+                                            $ext_welcome_msg_val = $s3Path .'/caller_tunes/' . $menu_result['ccm_ext_caller_tone'];
                                         } else {
                                             $ext_welcome_msg_key = 'ext_welcome_msg';
                                             $ext_welcome_msg_val = '';
@@ -647,19 +638,18 @@ class CloudCallingController extends Controller {
                                             $ext_welcome_msg_val1[] = $menu_result['ccm_ext_caller_tone'];
                                         } else if ($menu_result['ccm_ext_calling_type'] == 3) {
                                             $ext_welcome_msg_key1[] = 'ext_welcome_msg';
-                                            $ext_welcome_msg_val1[] = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $menu_result['ccm_ext_caller_tone'];
+                                            $ext_welcome_msg_val1[] = $s3Path .'/caller_tunes/' . $menu_result['ccm_ext_caller_tone'];
                                         } else {
                                             $ext_welcome_msg_key1[] = 'ext_welcome_msg';
                                             $ext_welcome_msg_val1[] = '';
                                         }
-
-                                        // print_r($ext_welcome_msg_key);print_r($ext_welcome_msg_val);exit;   
+  
                                         if ($menu_result['ccm_ext_calling_type_waiting'] == 2) {
                                             $ext_hold_msg_key = 'ext_hold';
                                             $ext_hold_msg_val = $menu_result['ccm_ext_waiting_tune'];
                                         } else if ($menu_result['ccm_ext_calling_type_waiting'] == 3) {
                                             $ext_hold_msg_key = 'ext_hold';
-                                            $ext_hold_msg_val = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $menu_result['ccm_ext_waiting_tune'];
+                                            $ext_hold_msg_val = $s3Path .'/caller_tunes/' . $menu_result['ccm_ext_waiting_tune'];
                                         } else {
                                             $ext_hold_msg_key = 'ext_hold';
                                             $ext_hold_msg_val = '';
@@ -670,7 +660,7 @@ class CloudCallingController extends Controller {
                                             $ext_hold_msg_val1[] = $menu_result['ccm_ext_waiting_tune'];
                                         } else if ($menu_result['ccm_ext_calling_type_waiting'] == 3) {
                                             $ext_hold_msg_key1[] = 'ext_hold';
-                                            $ext_hold_msg_val1[] = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $menu_result['ccm_ext_waiting_tune'];
+                                            $ext_hold_msg_val1[] = $s3Path .'/caller_tunes/' . $menu_result['ccm_ext_waiting_tune'];
                                         } else {
                                             $ext_hold_msg_key1[] = 'ext_hold';
                                             $ext_hold_msg_val1[] = '';
@@ -703,24 +693,6 @@ class CloudCallingController extends Controller {
                                         
                                         //Start Rouond-robin 
                                         else if (!empty($menu_result['ccm_forwarding_type']) && $menu_result['ccm_forwarding_type'] == 3) {
-
-                                            //AND extension=1 AND sub_extension=1
-//                                            $last_connected_menu_sql = "SELECT * 
-//									FROM cloud_calling_logs 
-//									WHERE virtual_number=" . $arg_virtual_number . "
-//									AND enquiry_flag=1
-//									AND extension=" . $menu_result['ccm_extension_no'] . "
-//									AND call_status='Connected'
-//									ORDER By id DESC
-//									LIMIT 0,1";
-//
-//                                            $last_connected_menu_row = \common\models\CloudCallingLogsModel::getDb()->createCommand($last_connected_menu_sql)->queryAll();
-//
-//                                            $last_connected_menu_no = $last_connected_menu_row[0]['call_connected_to'];
-//                                            if (!empty($menu_all_mobile) && !empty($last_connected_menu_no))
-//                                                $menu_all_mobile = $this->roundrobin($menu_all_mobile, $last_connected_menu_no);
-//
-//                                            $agent_numbers[] = @implode(',', $menu_all_mobile);
                                             
                                             $last_connected_menu_row = CtLogsInbound::where(array("virtual_number" => $arg_virtual_number,"enquiry_flag" => "1","extension_number" =>$menu_result['ccm_extension_no'] ,"employee_call_status" => "Connected"))->orderBy('id', 'DESC')->first();
                                             if(!empty($last_connected_menu_row))
@@ -757,7 +729,7 @@ class CloudCallingController extends Controller {
 
                                             $thank_you_msg = $menu_result['ccm_msc_welcome_tune'];
                                         } else if ($menu_result['ccm_msc_welcome_tune_type_id'] == 3) {
-                                            $thank_you_msg = "https://s3-ap-south-1.amazonaws.com/lms-auto/" . $virtual_number_row->client_id . '/cloud_calling/caller_tune/' . $menu_result['ccm_msc_welcome_tune'];
+                                            $thank_you_msg = $s3Path .'/caller_tunes/' . $menu_result['ccm_msc_welcome_tune'];
                                         } else {
 
                                             $thank_you_msg = '';
@@ -951,8 +923,6 @@ class CloudCallingController extends Controller {
                         }
                     }
                     if ($virtual_number_row->msc_facility_status == 0 || empty($virtual_number_row->msc_facility_status)) {
-                        
-                        //$marketing_name_model = ClientsModel::find()->where(['id' => clientid])->one();
                         $marketing_name_model = ClientInfo::where("id",1)->first();
                         $welcome_msg = 'Welcome to ' . $marketing_name_model->marketing_name;
 
@@ -1090,6 +1060,24 @@ class CloudCallingController extends Controller {
             }
         }
         return $final_arr;
+    }
+    
+    public function sendSMS(){
+        $smsbody = "LMS sms testing usimg laravel";
+        $mobile = "9096316143";
+        $result = CommonFunctions::sendSMST($smsbody, $mobile);
+        echo $result;
+    }
+    
+    public function sendEmailReminder()
+    {
+        $data = ['foo' => 'bar'];
+        Mail::send('welcome', $data, function($message)
+        {
+            $message->from('rohit@nextedgegroup.co.in', 'Rohit');
+
+            $message->to('mandar@nextedgegroup.co.in')->subject('Welcome!');
+        });
     }
 
 }
