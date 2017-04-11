@@ -36,6 +36,7 @@ return [
         "Projects",
         "EmployeeDevice",
         "MyStorage",
-        "OperationalSettings"
+        "OperationalSettings",
+        "Wings"
     ),
 ];

@@ -17,20 +17,33 @@ app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$ti
         });
     }
 }]);
-app.controller('basicInfoController', ['$scope', '$state', 'Data', 'toaster', '$timeout', function ($scope, Data, toaster) {
-    $scope.basicData = $scope.contactData = $scope.seoData = {};
+app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', function ($scope, Data, toaster, Upload) {
+    $scope.basicData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.imagesData = {};
     $scope.basicData.alias_status = "0";
-    $scope.saveBasicInfo = function(basicData){
-        if(angular.equals(basicData, {}) === false)
+    
+    $scope.saveBasicInfo = function(projectData, projectImages){
+        if(angular.equals(projectData, {}) === false || angular.equals(projectImages, {}) === false)
         {   
-            Data.post('projects/basicInfo',{
-                data: {basicData: basicData, projectId: $scope.projectData.project_id},
-            }).then(function (response) {
-                if (!response.success) {
+            console.log(projectImages);
+            if (typeof projectImages === 'undefined') {
+                projectImages = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
+            }
+            
+            projectImages.upload = Upload.upload({
+                url: getUrl + '/projects/basicInfo',
+                headers: {enctype: 'multipart/form-data'},
+                data: {projectData: projectData, projectImages: projectImages, projectId: $scope.projectData.project_id},
+            });
+            projectImages.upload.then(function (response) { 
+                if (!response.data.success) { 
                     $scope.errorMsg = response.message;
-                } else {
+                } else{
                     toaster.pop('success', 'Project', response.message);
                     angular.element('.btn-next').trigger('click');
+                }
+            }, function (response) {
+                if (response.status !== 200) {
+                    $scope.errorMsg = "Something went wrong.";
                 }
             });
         }
@@ -43,15 +56,15 @@ app.controller('basicInfoController', ['$scope', '$state', 'Data', 'toaster', '$
     }
 }]);
 
-app.controller('imagesController', ['$scope', 'toaster', 'Upload', '$state', function ($scope, toaster, Upload, $state) {
+/*app.controller('imagesController', ['$scope', 'toaster', 'Upload', function ($scope, toaster, Upload) {
     $scope.imagesData = {};
-    $scope.imagesInfo = function(imagesData){
+    $scope.saveImagesInfo = function(imagesData){
         if(angular.equals(imagesData, {}) === false)
         {  
             imagesData.upload = Upload.upload({
                 url: getUrl + '/projects/imagesInfo',
                 headers: {enctype: 'multipart/form-data'},
-                    data: {imagesData: imagesData, projectId: $scope.projectData.project_id},
+                data: {imagesData: imagesData, projectId: $scope.projectData.project_id},
             });
             imagesData.upload.then(function (response) { 
                 if (!response.data.success) { 
@@ -67,6 +80,31 @@ app.controller('imagesController', ['$scope', 'toaster', 'Upload', '$state', fun
         }
     }  
 }]);
+app.controller('mapController', ['$scope', 'toaster', 'Upload', function ($scope, toaster, Upload) {
+    $scope.mapData = {};
+    $scope.saveMapInfo = function(mapData, projectImages){
+        
+        if(angular.equals(mapData, {}) === false || angular.equals(projectImages, {}) === false)
+        {  console.log(mapData);
+            projectImages.upload = Upload.upload({
+                url: getUrl + '/projects/basicInfo',
+                headers: {enctype: 'multipart/form-data'},
+                data: {projectData: mapData, projectImages: projectImages, projectId: $scope.projectData.project_id},
+            });
+            projectImages.upload.then(function (response) { 
+                if (!response.data.success) { 
+                    $scope.errorMsg = response.message;
+                } else{
+                    toaster.pop('success', 'Project', response.message);
+                }
+            }, function (response) {
+                if (response.status !== 200) {
+                    $scope.errorMsg = "Something went wrong.";
+                }
+            });
+        }
+    }  
+}]);*/
 
 app.controller('projectCntrl', function ($scope, Data) {
     Data.get('projects/getProjects').then(function (response) {

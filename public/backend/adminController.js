@@ -86,6 +86,34 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data) {
         }
     }
 });
+app.controller('projectCtrl', function ($scope, Data) {
+    Data.get('getProjects').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            console.log(response.records);
+            $scope.projectList = response.records;
+        }
+    });
+});
+app.controller('companyCtrl', function ($scope, Data) {
+    Data.get('getFirmPartners').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.firmPartnerList = response.records;
+        }
+    });
+});
+app.controller('stationaryCtrl', function ($scope, Data) {
+    Data.get('getStationary').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.stationaryList = response.records;
+        }
+    });
+});
 app.controller('titleCtrl', function ($scope, Data) {
     Data.get('getTitle').then(function (response) {
         if (!response.success) {

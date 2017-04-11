@@ -42,11 +42,11 @@ class ProjectsController extends Controller {
      */
     public function store() {
         $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
+        $input = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-        $request['data'] = array_merge($request['data'],$create);   
-        $createProject = Project::create($request['data']);
+        $input = array_merge($input,$create);   
+        $createProject = Project::create($input);
         if(!empty($createProject)){
             $result = ['success' => true, 'message' => 'Employee registeration successfully'];
             echo json_encode($result);
@@ -59,20 +59,53 @@ class ProjectsController extends Controller {
     public function basicInfo(){
         try{
             $postdata = file_get_contents("php://input");
-            $request = json_decode($postdata, true);      
+            $input = json_decode($postdata, true);  
+            if(empty($input))
+                $input = Input::all();
+            //echo "<Pre>";print_r($input);
             $loggedInUserId = Auth::guard('admin')->user()->id;
-            $isProjectExist = ProjectWebPage::where('project_id', '=',$request['data']['projectId'])->first();
+            $isProjectExist = ProjectWebPage::where('project_id', '=',$input['projectId'])->first();
             if (empty($isProjectExist)) {
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                $request['data']['basicData'] = array_merge($request['data']['basicData'],$create);
-                $request['data']['basicData']['project_id'] = $request['data']['projectId'];
-                $actionProject = ProjectWebPage::create($request['data']['basicData']);
+                $input['projectData'] = array_merge($input['projectData'],$create);
+                $input['projectData']['project_id'] = $input['projectId'];
+                $actionProject = ProjectWebPage::create($input['projectData']);
                 $msg = "Record added successfully";
             }else{
-                $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-                $request['data']['basicData'] = array_merge($request['data']['basicData'],$update);
-                $request['data']['basicData']['project_id'] = $request['data']['projectId'];
-                $actionProject = ProjectWebPage::where('project_id', $request['data']['projectId'])->update($request['data']['basicData']);
+                if(isset($input['projectData'])){
+                    $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                    $input['projectData'] = array_merge($input['projectData'],$update);
+                }
+                if(!empty($input['projectImages'])){
+                    if(count($input['projectImages']) > 1){
+                        unset($input['projectImages']['upload']);
+                        
+                        foreach($input['projectImages'] as $key => $value){                            
+                            $originalName = $input['projectImages'][$key]->getClientOriginalName();
+                            if ($originalName !== 'fileNotSelected') {
+                                $imgRules = array(
+                                    'project_logo' => 'mimes:jpeg,png,jpg,gif,svg',
+                                    'project_thumbnail' => 'mimes:jpeg,png,jpg,gif,svg',
+                                    'project_favicon' => 'mimes:jpeg,png,jpg,gif,svg',
+                                    'project_banner_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
+                                    'project_background_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
+                                    'project_broacher.*' => 'mimes:jpeg,png,jpg,gif,svg',
+                                    'location_map_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
+                                );
+                                $validator = Validator::make($input['projectImages'], $imgRules);
+                                if ($validator->fails()) {
+                                    $result = ['success' => false, 'message' => $validator->messages()];
+                                    return json_encode($result);
+                                } else {
+                                    $input['projectData'][$key] = "aa";
+                                }
+                            }
+                        } 
+                    }
+                }
+                if(isset($input['projectData'])){
+                    $actionProject = ProjectWebPage::where('project_id', $input['projectId'])->update($input['projectData']);
+                }
                 $msg = "Record updated successfully";
             }
             if(!empty($actionProject)){
@@ -92,9 +125,7 @@ class ProjectsController extends Controller {
             $input = Input::all();
             
             unset($input['imagesData']['upload']);
-            echo "<pre>";print_r($input);exit;
-            $arr = array();
-            $arr[] = $input; 
+            $arr[] = $input['imagesData'];             
             $imgRules = array(
                 'project_logo' => 'mimes:jpeg,png,jpg,gif,svg',
                 'project_thumbnail' => 'mimes:jpeg,png,jpg,gif,svg',
@@ -108,13 +139,21 @@ class ProjectsController extends Controller {
                 $result = ['success' => false, 'message' => $validator->messages()];
                 return json_encode($result);
             } else {
-                for($i = 0; $i < count($input); $i++){
+                for($i = 0; $i < count($arr); $i++){
                     $folderName = key($arr[$i]);
+                    echo count($arr[$i][$folderName]);exit;
                     $imageName = S3::s3FileUplod($arr[$i][$folderName], $folderName, count($arr[$i][$folderName]));
-                    $imageName = trim($imageName, ',');
-                    //$actionProject = ProjectWebPage::where('project_id', $request['imagesData']['projectId'])->update($request['data']['basicData']);
+                    if(count($arr[$i][$folderName]) > 1){
+                        $imageName = trim($imageName, ',');
+                    }
+                    echo "<pre>";print_r($input);
+                    $user = ProjectWebPage::where ("project_id",  $input['imagesData']['projectId']);
+                    $user->fill([$arr[$i][$folderName] => $imageName]);
+                    $user->save();
+
+//                    $actionProject = ProjectWebPage::where('project_id', $input['imagesData']['projectId'])->update($input['projectData']);
 //                    echo "<pre>";print_r($imageName);
-                }
+                }exit;
             }
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
@@ -164,16 +203,16 @@ class ProjectsController extends Controller {
     public function webPage() {
         return view("Projects::webpage");
     }    
-    public function getProjects() {
-        $projectList = Project::select('id','project_name')->get();
-        if (!empty($projectList)) {
-            $result = ['success' => true, 'records' => $projectList];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
+//    public function getProjects() {
+//        $projectList = Project::select('id','project_name')->get();
+//        if (!empty($projectList)) {
+//            $result = ['success' => true, 'records' => $projectList];
+//            return json_encode($result);
+//        } else {
+//            $result = ['success' => false, 'message' => 'Something went wrong'];
+//            return json_encode($result);
+//        }
+//    }
     public function projectType() {
         $typeList = MlstBmsbProjectType::all();
         if (!empty($typeList)) {

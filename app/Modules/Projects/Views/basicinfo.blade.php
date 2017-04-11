@@ -16,7 +16,7 @@
     </div>
     <div class="step-content" id="tabbedwizardsteps">
         <div class="step-pane active" id="tabbedwizardstep1">
-            <form role="form" name="basicInfoForm" ng-submit="saveBasicInfo(basicData)">
+            <form role="form" name="basicInfoForm" ng-submit="saveBasicInfo(basicData, projectImages)">
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">

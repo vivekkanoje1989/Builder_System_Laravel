@@ -429,6 +429,7 @@ class ComposerStaticInita4a83323fa74f9ee3390af915b46a8f0
         'CreateSocialWebsitesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_100842_create_social_websites_table.php',
         'CreateTestimonialsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_20_104006_create_testimonials_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
+        'CreateWingsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_120405_create_wings_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',

@@ -34,7 +34,8 @@ class S3 {
     }
     public static function s3FileUplod($image, $s3FolderName, $cnt) {
         S3::s3Configuration();
-        $name = '';         
+        $name = '';  
+        
         for ($i = 0; $i < $cnt; $i++) {
             $imageFileName = time() . $i . '.' . $image[$i]->getClientOriginalExtension();
             $imagePath = $image[$i]->getPathName();

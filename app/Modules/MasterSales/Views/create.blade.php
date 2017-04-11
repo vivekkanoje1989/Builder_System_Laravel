@@ -56,7 +56,7 @@
                                 </div>
                             </div>     
                         </div>
-                         <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
+                        <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
                         <hr class="wide" />
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="form-title">

@@ -8,14 +8,14 @@
         color: #e46f61;
     }
 </style>
-<form role="form" ng-controller="imagesController" name="imagesForm" ng-submit="imagesInfo(imagesData)" >
+<form role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)" >
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label>Logo (Image Size: W 250 X H 250)</label>
                     <span class="input-icon icon-right">
-                        <input type="file" ngf-select ng-model="imagesData.project_logo" name="project_logo" id="project_logo" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_logo)">
+                        <input type="file" ngf-select ng-model="projectImages.project_logo" name="project_logo" id="project_logo" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_logo)">
                     </span> 
                     <span class="help-block">{{project_logo_err}}</span>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label>Thumbnail (Image Size: W 250 X H 250 pixels)</label>
                     <span class="input-icon icon-right">
-                        <input type="file" ngf-select ng-model="imagesData.project_thumbnail" name="project_thumbnail" id="project_thumbnail" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_thumbnail)">
+                        <input type="file" ngf-select ng-model="projectImages.project_thumbnail" name="project_thumbnail" id="project_thumbnail" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_thumbnail)">
                     </span>                                                   
                 </div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <label>Favicon (Image Size: W 250 X H 250 pixels)</label>
                     <span class="input-icon icon-right">
-                        <input type="file" ngf-select ng-model="imagesData.project_favicon" name="project_favicon" id="project_favicon" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_favicon)">
+                        <input type="file" ngf-select ng-model="projectImages.project_favicon" name="project_favicon" id="project_favicon" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_favicon)">
                     </span>                                                   
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 <div class="form-group">
                     <label>Banner Images (Image Size: W 1000 X H 450)</label>
                     <span class="input-icon icon-right">
-                        <input type="file" multiple ngf-select ng-model="imagesData.project_banner_images" name="project_banner_images" id="project_banner_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_banner_images)">
+                        <input type="file" multiple ngf-select ng-model="projectImages.project_banner_images" name="project_banner_images" id="project_banner_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_banner_images)">
                     </span>                                                   
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 <div class="form-group">
                     <label>Background Image</label>
                     <span class="input-icon icon-right">
-                        <input type="file" multiple ngf-select ng-model="imagesData.project_background_images" name="project_background_images" id="project_background_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_background_images)">
+                        <input type="file" multiple ngf-select ng-model="projectImages.project_background_images" name="project_background_images" id="project_background_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_background_images)">
                     </span>                                                   
                 </div>
             </div>
@@ -112,7 +112,7 @@
                 <div class="form-group">
                     <label>Upload Brochure</label>
                     <span class="input-icon icon-right">
-                        <input type="file" multiple ngf-select ng-model="imagesData.project_broacher" name="project_broacher" id="project_broacher" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_broacher)">
+                        <input type="file" multiple ngf-select ng-model="projectImages.project_broacher" name="project_broacher" id="project_broacher" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_broacher)">
                     </span>                                                   
                 </div>
             </div>

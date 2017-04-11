@@ -27,9 +27,10 @@ app.controller('dashboardCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$s
             $scope.req_desc = req_desc;
             $scope.to_name = to_fname + " " + to_lname;
             $scope.id = id;
-            Data.post('my-request/description', {
-                id: $scope.id}).then(function (response) {
-                $scope.cc_name = response.records.first_name + " " + response.records.last_name;
+            Data.post('my-request/description', {id: $scope.id}).then(function (response) {
+                if(response.status){
+                    $scope.cc_name = response.records.first_name + " " + response.records.last_name;
+                }                
             });
         }
         $scope.dorequestLeaveAction = function () {
