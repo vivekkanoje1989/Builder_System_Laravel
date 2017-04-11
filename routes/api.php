@@ -21,5 +21,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::get('/getMasterData', 'backend\AdminController@getMasterData'); 
     Route::post('/authenticate', 'backend\Auth\LoginController@authenticate');
     Route::post('/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials'); 
+    Route::get('/getEmployees','backend\AdminController@getEmployees'); // change by uma
 });
 
