@@ -1,7 +1,7 @@
 <div class="row" ng-controller="basicInfoController">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Project Web Page</h5>
-        <div class="row" ng-controller="projectCntrl">
+        <div class="row" ng-controller="projectCtrl">
             <div class="col-sm-3 col-xs-6">  
                 <div class="form-group">
                     <label>Projects<span class="sp-err">*</span></label>

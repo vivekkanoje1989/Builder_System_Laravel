@@ -291,12 +291,10 @@ class MasterHrController extends Controller {
         }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
         
-//        echo "<pre>";print_r($input);exit;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
         //
         $employeeUpdate = Employee::where('id', $id)->update($input['userData']);
-        //echo "<pre>";print_r($employeeUpdate);exit;
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData = $originalValues[0]['attributes']['password'];
         unset($getResult['password']);
@@ -567,12 +565,6 @@ class MasterHrController extends Controller {
     public function photoUpload() {
         $folderName = 'Employee-Photos';
         $imageName = S3::s3FileUplodForApp($_FILES['file'], $folderName, 1);
-//        $imageName = trim($imageName, ',');
-//        if (move_uploaded_file($_FILES['file']['tmp_name'], base_path() . "/common/employee_photo/" . $_FILES['file']['name'])) {
-//            Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
-//            $result = ['success' => true];
-//            return json_encode($result);
-        // echo ''.$imageName;
         if (!empty($imageName)) {
             $img = Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
             if($img)
@@ -586,8 +578,18 @@ class MasterHrController extends Controller {
             return json_encode($result);
         }
     }
+     public function getTeamLead($id) {
+       $employee = Employee::select("id", "first_name", "last_name")->where("id", "<>", $id)->with('designationName')->get();
+       if (!empty($employee)) {
+           $result = ['success' => true, 'records' => $employee];
+           return json_encode($result);
+       } else {
+           $result = ['success' => false, 'message' => 'Something went wrong'];
+           return json_encode($result);
+       }
+   }
 
-    /*     * **************** END (Organization Chart) ******************** */
+    /***************** END (Organization Chart) ******************** */
 
     protected function guard() {
         return Auth::guard('admin');

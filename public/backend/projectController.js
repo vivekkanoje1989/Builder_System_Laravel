@@ -106,12 +106,21 @@ app.controller('mapController', ['$scope', 'toaster', 'Upload', function ($scope
     }  
 }]);*/
 
-app.controller('projectCntrl', function ($scope, Data) {
-    Data.get('projects/getProjects').then(function (response) {
+app.controller('wingCtrl', function ($scope, Data) {
+    Data.get('projects/getWings').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {
-            $scope.projectList = response.records;
+            $scope.wingList = response.records;
+        }
+    });
+});
+app.controller('blockTypeCtrl', function ($scope, Data) {
+    Data.get('projects/getBlocks').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.blockList = response.records;
         }
     });
 });

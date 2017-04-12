@@ -170,7 +170,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                         else{
                             toaster.pop('success', 'Customer', 'Record successfully updated');}
                         $timeout(function () {
-                            $state.go(getUrl + '.userIndex');
+                            $state.go(getUrl + '.enquiryCreate', { "customerId": response.data.customerId });
                         }, 2000);
                     }
                 });
