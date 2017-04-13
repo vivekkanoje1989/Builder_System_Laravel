@@ -31,8 +31,12 @@ class DashBoardController extends Controller {
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
-        $loggedInUserId = Auth::guard('admin')->user()->id;
+        if(!empty($request["loggedInUserId"])){
+            $loggedInUserId = $request["loggedInUserId"];
+        }else{
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        }
+        
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['employeeData'] = array_merge($request, $create);
         $input['employeeData']['request_type'] = 'Leave';
@@ -84,8 +88,11 @@ class DashBoardController extends Controller {
     public function otherApproval() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
-        $loggedInUserId = Auth::guard('admin')->user()->id;
+        if(!empty($request["loggedInUserId"])){
+            $loggedInUserId = $request["loggedInUserId"];
+        }else{
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        }
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['employeeData'] = array_merge($request, $create);
 
