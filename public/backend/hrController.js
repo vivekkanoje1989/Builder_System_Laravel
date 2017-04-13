@@ -112,8 +112,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                 } else{
                     $scope.disableCreateButton = true;
                     employeePhoto.result = response.data;
-                    toaster.pop('success', 'Employee Details', successMsg);
-                    
+                    toaster.pop('success', 'Employee Details', successMsg);                    
                     $timeout(function () {
                         $state.go(getUrl+'.userIndex');
                     }, 1000);

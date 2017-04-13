@@ -401,35 +401,6 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.wingsUpdate', {
-                                    url: '/wings/update/:id',
-                                    templateUrl: function(setParams)
-                                    {
-                                        return getUrl + '/wings/'+ setParams.id + '/edit';
-                                    },
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Update Wings'
-                                    },
-                                    resolve: {
-                                        deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/wingsController.js'
-                                                                        ]
-                                                                    });
-                                                                }
-                                                        );
-                                                    }
-                                                ]
-                                    }
-                                })
                                 /************************************ UMA ******************************/
                                 .state(getUrl + '.propertyPortalIndex', {
                                     templateUrl: getUrl + '/projects/create',
