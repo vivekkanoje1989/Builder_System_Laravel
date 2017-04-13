@@ -91,7 +91,6 @@ app.controller('projectCtrl', function ($scope, Data) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {
-            console.log(response.records);
             $scope.projectList = response.records;
         }
     });

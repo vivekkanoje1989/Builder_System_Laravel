@@ -9,6 +9,7 @@ use App\Modules\Projects\Models\MlstBmsbProjectStatus;
 use App\Modules\Projects\Models\MlstBmsbProjectType;
 use App\Modules\Projects\Models\Project;
 use App\Modules\Projects\Models\ProjectWebPage;
+use App\Modules\Projects\Models\ProjectWing;
 use Auth;
 use App\Classes\CommonFunctions;
 use Illuminate\Support\Facades\Input;
@@ -203,36 +204,32 @@ class ProjectsController extends Controller {
     public function webPage() {
         return view("Projects::webpage");
     }    
-//    public function getProjects() {
-//        $projectList = Project::select('id','project_name')->get();
-//        if (!empty($projectList)) {
-//            $result = ['success' => true, 'records' => $projectList];
-//            return json_encode($result);
-//        } else {
-//            $result = ['success' => false, 'message' => 'Something went wrong'];
-//            return json_encode($result);
-//        }
-//    }
     public function projectType() {
         $typeList = MlstBmsbProjectType::all();
         if (!empty($typeList)) {
             $result = ['success' => true, 'records' => $typeList];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
     public function projectStatus() {
         $typeStatus = MlstBmsbProjectStatus::all();
         if (!empty($typeStatus)) {
             $result = ['success' => true, 'records' => $typeStatus];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
-    
+    public function getWings(){
+        $projectWing = ProjectWing::select('id','project_id','wing_name')->where('project_id', 1)->get();
+        if (!empty($projectWing)) {
+            $result = ['success' => true, 'records' => $projectWing];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
 
 }

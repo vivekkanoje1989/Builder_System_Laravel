@@ -111,4 +111,9 @@ class Project extends Eloquent
 		'deleted_browser',
 		'deleted_mac_id'
 	];
+        
+        public function wings()
+        {
+             return $this->hasMany('App\Modules\Wings\Models\ProjectWing','project_id');
+        }
 }

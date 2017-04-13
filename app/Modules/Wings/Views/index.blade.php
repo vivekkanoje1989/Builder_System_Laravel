@@ -1,8 +1,9 @@
-<div class="row" ng-controller="wingsController">
+
+<div class="row" ng-controller="wingsController"  ng-init="manageWings([[ $id ]])">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Manage Users</span>
+                <span class="widget-caption">Manage Wings</span>
                 <a href="#/[[config('global.getUrl')]]/wings/create" class="btn btn-info">Create Wings</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
@@ -26,31 +27,45 @@
                     <thead class="bord-bot">
                         <tr>
                             <th style="width:5%">SR No.</th>
-                            <th style="width: 10%">Actions</th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='project_id'; reverseSort = !reverseSort">Project 
+                                    <span ng-show="orderByField == 'project_id'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='wing_name'; reverseSort = !reverseSort">Name 
+                                    <span ng-show="orderByField == 'wing_name'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th> 
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField='comapny_id'; reverseSort = !reverseSort">Company 
+                                    <span ng-show="orderByField == 'comapny_id'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
+                            
+                            <th style="width: 20%">Stationary</th>
+                            <th style="width: 5%">Floors</th>
+                            <th style="width: 5%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th></th>
-                        </tr>
-<!--                        <tr role="row" dir-paginate="listUser in listUsers | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                        <tr role="row" dir-paginate="listWing in listWings | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                             <td>{{ itemsPerPage * (noOfRows-1)+$index+1 }}</td>
-                            <td>{{ listUser.first_name }} {{ listUser.last_name }}</td>
-                            <td>{{ listUser.designation }}</td>
-                            <td>{{ listUser.reporting_to_fname }} {{ listUser.reporting_to_lname }}</td>
-                            <td>{{ listUser.team_lead_fname }} {{ listUser.team_lead_lname }}</td>
-                            <td>{{ listUser.department_id }}</td>
-                            <td>{{ listUser.joining_date | date:'dd-MM-yyyy' }}</td>
-                            <td ng-if="listUser.employee_status == 1">Active</td>
-                            <td ng-if="listUser.employee_status == 2">Temporary Suspended</td>
-                            <td ng-if="listUser.employee_status == 3">Permanent Suspended</td>
-                            <td>{{ listUser.login_date_time | date:'dd-MM-yyyy' }}</td>
-                            <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="#/[[config('global.getUrl')]]/user/permissions/{{ listUser.id }}"><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/[[config('global.getUrl')]]/user/update/{{ listUser.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
-                                <div class="fa-hover" tooltip-html-unsafe="Change Password" style="display: block;" data-toggle="modal" data-target="#myModal"><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id }},'changePassword')"><i class="fa fa-lock"></i></a></div>
+                            <td>{{ listWing.project_id }}</td>
+                            <td>{{ listWing.wing_name }}</td>                            
+                            <td>{{ listWing.firm_partner_id }}</td>
+                            <td>{{ listWing.stationary_id }}</td>
+                            <td>{{ listWing.number_of_floors }}</td>                            
+                            <td class="fa-div">                                
+                                <div class="fa-hover" tooltip-html-unsafe="Edit Wings" style="display: block;"><a href="#/[[config('global.getUrl')]]/wings/update/{{ listWing.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                                
                             </td>
-                        </tr>-->
+                        </tr>
                     </tbody>
                 </table>
                 <div class="DTTTFooter">
