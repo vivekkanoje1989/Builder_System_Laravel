@@ -266,8 +266,4 @@
                         </div>
                     </form>
                 </div>
-            </tab>
-        </tabset>
-        <div class="horizontal-space"></div>
-    </div>
 </div>

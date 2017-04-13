@@ -507,7 +507,7 @@
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.employee_photo_file_name)">
                                     <img ng-src="{{image_source}}" class="thumb photoPreview">
-                                    <img ng-if="imgUrl" src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Employee-Photos/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
+                                    <img ng-if="imgUrl" src="[[ Session::get('s3Path') ]]/Employee-Photos/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
                                     <div ng-show="step3 || invalidImage" ng-messages="userForm.employee_photo_file_name.$error" class="help-block step3">
                                         <div ng-show="invalidImage">{{ invalidImage }}</div>
                                         <div ng-message="required">This field is required.</div>

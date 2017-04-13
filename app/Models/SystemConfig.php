@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 13 Mar 2017 12:46:07 +0530.
+ * Date: Mon, 10 Apr 2017 14:40:20 +0530.
  */
 
 namespace App\Models;
@@ -15,6 +15,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $id
  * @property int $client_id
  * @property string $client_code
+ * @property string $region
  * @property string $app_access_key
  * @property string $aws_bucket_id
  * @property string $aws_db_bucket_id
@@ -30,7 +31,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class SystemConfig extends Eloquent
 {
-	protected $table = 'system_configs';
 	public $timestamps = false;
 
 	protected $casts = [
@@ -45,6 +45,7 @@ class SystemConfig extends Eloquent
 	protected $fillable = [
 		'client_id',
 		'client_code',
+		'region',
 		'app_access_key',
 		'aws_bucket_id',
 		'aws_db_bucket_id',

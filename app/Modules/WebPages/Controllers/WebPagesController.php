@@ -105,13 +105,20 @@ class WebPagesController extends Controller {
 
     public function updateWebPageImage() {
         $input = Input::all();
+       // print_r($input['pageId']);        
+        //print_r($random);
+      //  exit;
         if (array_key_exists('imageData', $input)) {
             $name = implode(",", $input['imageData']);
         } else {
             $name = '';
         }
-        $s3FolderName = 'Banner-Images';
-        $name .= S3::s3FileUplod($input['uploadImage'], $s3FolderName, $input['totalImages']);
+        $s3FolderName = '/website/banner-images';
+        for ($i = 0; $i < $input['totalImages']; $i++) {
+            $imageName = 'website_' . $input['pageId'] .'_'. rand(pow(10, config('global.randomNoDigits')-1), pow(10, config('global.randomNoDigits'))-1).'.' . $input['uploadImage'][$i]->getClientOriginalExtension();
+            S3::s3FileUplod($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
+            $name .= ',' . $imageName;
+        }
         $name = trim($name, ",");
         $updatedata = WebPage::where('id', $input['pageId'])->update(['banner_images' => $name]);
         $result = ['success' => true, 'message' => 'Image updated successfully'];
@@ -122,15 +129,9 @@ class WebPagesController extends Controller {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
         $name = implode(',', $obj['allimg']);
-        $s3FolderName = 'Banner-Images';
-        $msg = S3::s3FileDelete($obj['imageName'], $s3FolderName);
-
-        /* if (file_exists(base_path() . '/public/images/' . $obj['imageName'])) {
-          unlink(base_path() . "/public/images/" . $obj['imageName']);
-          } else {
-
-          }
-         */
+        $s3FolderName = '/website/banner-images/';
+        $path =$s3FolderName.$obj['imageName'];
+        $msg = S3::s3FileDelete($path);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
         } else {

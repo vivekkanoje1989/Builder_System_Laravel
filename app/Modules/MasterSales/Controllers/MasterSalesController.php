@@ -164,6 +164,20 @@ class MasterSalesController extends Controller {
                     }
                 }else{
                     $loggedInUserId = $input['customerData']['loggedInUserId'];
+                }
+                unset($input['customerData']['loggedInUserId']);
+                unset($input['customerData']['id']);
+                
+                $validationRules = Customer::validationRules();
+                $validationMessages = Customer::validationMessages();
+                if(!empty($input['customerData'])){
+                    $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
+                    if ($validator->fails()) {
+                        $result = ['success' => false, 'message' => $validator->messages()];
+                        return json_encode($result,true);
+                    }
+                }else{
+                    $loggedInUserId = $input['customerData']['loggedInUserId'];
                     unset($input['customerData']['loggedInUserId']);
                     unset($input['customerData']['id']);
                 }
@@ -227,7 +241,6 @@ class MasterSalesController extends Controller {
                             CustomersContact::create($contacts); //insert data into customer_contacts table
                         }
                         else{//for existing mobile number
-                            
                             $contacts['updated_date'] =  date('Y-m-d', strtotime($contacts['created_date']));
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                             $contacts = array_merge($contacts,$update);
