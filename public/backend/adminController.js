@@ -86,6 +86,15 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data) {
         }
     }
 });
+app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
+    Data.get('getSalesEnqCategory').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.salesEnqCategoryList = response.records;
+        }
+    });
+});
 app.controller('projectCtrl', function ($scope, Data) {
     Data.get('getProjects').then(function (response) {
         if (!response.success) {
@@ -192,8 +201,45 @@ app.controller('educationListCtrl', function ($scope, Data) {
         }
     });
 });
-app.controller('currentCountryListCtrl', function ($scope, Data) {
+app.controller('blockTypeCtrl', function ($scope, Data) {
+    $scope.blockTypeList = [];
+    $scope.subBlockList = [];
+    Data.get('getBlockTypes').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.blockTypeList = response.records;
+        }
+    });
+    $scope.checkBlockLength = function () { 
+        var blockTypeId = [];
+        angular.forEach($scope.enquiryData.block_id, function(value, key){
+            blockTypeId.push(value.id);
+        });
+        var myJsonString = JSON.stringify(blockTypeId);
+        console.log(myJsonString);
+        if ($scope.enquiryData.block_id.length === 0) {
+            $scope.emptyBlockId = true;
+            $scope.applyClassBlock = 'ng-active';
+         } else {
+            $scope.emptyBlockId = false;
+            $scope.applyClassBlock = 'ng-inactive';
+             
+            Data.post('getSubBlocks/',{
+                data: {myJsonString}
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.subBlockList = response.records;
+                    console.log($scope.subBlockList);
+                }
+            });
+         }
+    }; 
+});
 
+app.controller('currentCountryListCtrl', function ($scope, Data) {
     Data.get('getCountries').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;

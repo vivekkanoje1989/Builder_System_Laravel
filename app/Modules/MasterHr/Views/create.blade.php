@@ -569,7 +569,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.reporting_to_id" name="reporting_to_id" ng-controller="teamLeadCtrl" class="form-control" required>
                                         <option value="">Please Select</option>
-                                        <option ng-repeat="reporting in teamLeads track by $index" value="{{reporting.id}}" ng-selected="{{ userData.reporting_to_id == reporting.id }}">{{reporting.first_name }} {{ reporting.last_name }} ({{ reporting.designation_name.designation }})</option>
+                                        <option ng-repeat="reporting in teamLeads track by $index" value="{{reporting.id}}" ng-selected="{{ userData.reporting_to_id == reporting.id }}">{{reporting.first_name }} {{ reporting.last_name }} ({{ reporting.designation_name }})</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userForm.reporting_to_id.$error" class="help-block step4">
@@ -602,7 +602,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.team_lead_id" name="team_lead_id" ng-controller="teamLeadCtrl" class="form-control" required>
                                         <option value="">Please Select</option>
-                                        <option ng-repeat="teamLead in teamLeads track by $index" value="{{teamLead.id}}" ng-selected="{{ userData.team_lead_id == teamLead.id }}">{{teamLead.first_name }} {{ teamLead.last_name }} ({{ teamLead.designation_name.designation }})</option>
+                                        <option ng-repeat="teamLead in teamLeads track by $index" value="{{teamLead.id}}" ng-selected="{{ userData.team_lead_id == teamLead.id }}">{{teamLead.first_name }} {{ teamLead.last_name }} ({{ teamLead.designation_name }})</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userForm.team_lead_id.$error" class="help-block step4">

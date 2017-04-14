@@ -8,4 +8,7 @@ Route::group(array('module' => 'DashBoard', 'middleware' => ['api'], 'namespace'
     Route::post('api/my-request/description', 'DashBoardController@description');
     Route::post('api/request-forme/changeStatus', 'DashBoardController@changeStatus');
     
+    Route::post('api/request-leave/', 'DashBoardController@store');
+    Route::post('api/request-approval/other', 'DashBoardController@otherApproval');
+    
 });	

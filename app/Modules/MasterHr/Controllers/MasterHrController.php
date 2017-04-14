@@ -14,6 +14,7 @@ use App\Classes\CommonFunctions;
 use App\Classes\MenuItems;
 use App\Classes\S3;
 use App\Modules\MasterHr\Models\EmployeeRole;
+use App\Models\MlstBmsbDesignation;
 use Session;
 class MasterHrController extends Controller {
 
@@ -548,7 +549,6 @@ class MasterHrController extends Controller {
                     $team['employee_photo_file_name'] = 'http://icons.iconarchive.com/icons/alecive/flatwoken/96/Apps-User-Online-icon.png';
                 } else {
                    $team['employee_photo_file_name'] = 'https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/hr/employee-photos/' . $team['employee_photo_file_name'];
-                    //$team['employee_photo_file_name'] = Session::get('s3Path').'/Employee-Photos/' . $team['employee_photo_file_name'];
                 }
                 if ($team['employee_status'] == 2) {
                     $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['employee_photo_file_name'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:red">Temporary Suspended</b></div>';
@@ -567,12 +567,7 @@ class MasterHrController extends Controller {
         $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
         $imageFileName = time() . '.' . $ext;
         $imageName = S3::s3FileUplod($_FILES['file']['tmp_name'], $imageFileName,$folderName);
-//        $imageName = trim($imageName, ',');
-//        if (move_uploaded_file($_FILES['file']['tmp_name'], base_path() . "/common/employee_photo/" . $_FILES['file']['name'])) {
-//            Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
-//            $result = ['success' => true];
-//            return json_encode($result);
-        // echo ''.$imageName;
+
         if ($imageName) {
             $img = Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageFileName));
             if($img)
@@ -587,14 +582,19 @@ class MasterHrController extends Controller {
         }
     }
      public function getTeamLead($id) {
-       $employee = Employee::select("id", "first_name", "last_name")->where("id", "<>", $id)->with('designationName')->get();
-       if (!empty($employee)) {
-           $result = ['success' => true, 'records' => $employee];
-           return json_encode($result);
-       } else {
-           $result = ['success' => false, 'message' => 'Something went wrong'];
-           return json_encode($result);
-       }
+        $designation = MlstBmsbDesignation::with('employeeName')->get();
+        foreach($designation as $desg){
+            if(!empty($desg['employeeName'])){
+                $employee[] = [ 'id' => $desg['employeeName']['id'],'first_name' => $desg['employeeName']['first_name'],'last_name' => $desg['employeeName']['last_name'],'designation_name' => $desg['designation']];
+            }
+        }
+        if (!empty($employee)) {
+            $result = ['success' => true, 'records' => $employee];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
    }
 
     /***************** END (Organization Chart) ******************** */

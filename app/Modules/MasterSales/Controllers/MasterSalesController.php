@@ -109,7 +109,7 @@ class MasterSalesController extends Controller {
                 $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
                 return json_encode($result);
             }
-            $result = ["success" => true];
+            $result = ["success" => true, "customerId" => $createCustomer->id];
             return json_encode($result);        
 	}
 
@@ -152,7 +152,16 @@ class MasterSalesController extends Controller {
 
                 if(empty($input)){
                     $input = Input::all();
-                    $input['customerData']['loggedInUserId'] = Auth::guard('admin')->user()->id;
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                    $validationRules = Customer::validationRules();
+                    $validationMessages = Customer::validationMessages();
+                    if(!empty($input['customerData'])){
+                        $validator = Validator::make($input['customerData'], $validationRules, $validationMessages);
+                        if ($validator->fails()) {
+                            $result = ['success' => false, 'message' => $validator->messages()];
+                            return json_encode($result,true);
+                        }
+                    }
                 }else{
                     $loggedInUserId = $input['customerData']['loggedInUserId'];
                 }
@@ -167,6 +176,10 @@ class MasterSalesController extends Controller {
                         $result = ['success' => false, 'message' => $validator->messages()];
                         return json_encode($result,true);
                     }
+                }else{
+                    $loggedInUserId = $input['customerData']['loggedInUserId'];
+                    unset($input['customerData']['loggedInUserId']);
+                    unset($input['customerData']['id']);
                 }
 
                 $input['customerData']['birth_date'] =  date('Y-m-d', strtotime($input['customerData']['birth_date']));
@@ -174,6 +187,7 @@ class MasterSalesController extends Controller {
                 $input['customerData']['created_date'] =  date('Y-m-d', strtotime($input['customerData']['created_date']));            
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $input['customerData'] = array_merge($input['customerData'],$update);
+                //echo json_encode($input);exit;
                 $updateCustomer = Customer::where('id',$id)->update($input['customerData']); //insert data into employees table
                 
                 $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
@@ -187,9 +201,11 @@ class MasterSalesController extends Controller {
                     $input['customerData']['record_restore_status'] = 1;
 //                    CustomersLog::create($input['customerData']);   
                 }            
+                
                 if(!empty($input['customerContacts'])){
                     $i = 0;
                     foreach($input['customerContacts'] as $contacts){
+                        unset($contacts['$$hashKey']);
                         $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = 
                         $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] =  $contacts['email_optin_status'] = 
                         $contacts['email_verification_status'] = 0;
@@ -201,8 +217,7 @@ class MasterSalesController extends Controller {
                         $contacts['landline_alerts_inactivation_timestamp'] = $contacts['email_verification_timestamp'] = 
                         $contacts['email_alerts_inactivation_timestamp'] = "0000-00-00 00:00:00";
                         
-                        $result = substr($contacts['mobile_number'], 0, 4);
-                        if($result == "+91-")
+                        if (preg_match("/^(\+\d{1,4}-)\d{10}+$/",$contacts['mobile_number']))
                         {
                             if (!empty($contacts['mobile_number'])) {
                                 $mobileNumber = explode("-", $contacts['mobile_number']);
@@ -217,9 +232,7 @@ class MasterSalesController extends Controller {
                                 $contacts['landline_number'] = !empty($landlineNumber[1]) ? (int) $landlineNumber[1] : "";
                             }
                         }
-                        unset($contacts['$hashKey'],$contacts['index']);
                         $checkMobileNumber = CustomersContact::where(['customer_id' => $id,"mobile_number" => $contacts['mobile_number']])->get();
-                        
                         if(empty($checkMobileNumber[0]['mobile_number']))//for new mobile number
                         {
                             $contacts['customer_id'] = $id;
@@ -232,22 +245,23 @@ class MasterSalesController extends Controller {
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                             $contacts = array_merge($contacts,$update);
                             $updateContact = CustomersContact::where('id',$contacts['id'])->update($contacts); //insert data into customer_contacts table
-                        }
-                        if($updateContact == 1){
-                            if(count($checkMobileNumber) == 0)
-                            {
-                                $contacts['record_type'] = 1;
+                       
+                            if($updateContact == 1){
+                                if(count($checkMobileNumber) == 0)
+                                {
+                                    $contacts['record_type'] = 1;
+                                }
+                                else{
+                                    $getResult = array_diff_assoc($originalContactValues[$i]['attributes'], $contacts);
+                                    $contacts['main_record_id'] = $originalContactValues[$i]['attributes']['id'];
+                                    unset($getResult['created_date']);
+                                    $implodeArr =  implode(",",array_keys($getResult));
+                                    $contacts['record_type'] = 2;
+                                    $contacts['column_names'] = $implodeArr;
+                                }                        
+                                $contacts['record_restore_status'] = 1;
+                                CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
                             }
-                            else{
-                                $getResult = array_diff_assoc($originalContactValues[$i]['attributes'], $contacts);
-                                $contacts['main_record_id'] = $originalContactValues[$i]['attributes']['id'];
-                                unset($getResult['created_date']);
-                                $implodeArr =  implode(",",array_keys($getResult));
-                                $contacts['record_type'] = 2;
-                                $contacts['column_names'] = $implodeArr;
-                            }                        
-                            $contacts['record_restore_status'] = 1;
-                            CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
                         }
                         $i++;                     
                     }
@@ -257,7 +271,7 @@ class MasterSalesController extends Controller {
                 $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
                 return json_encode($result);
             }
-            $result = ["success" => true];
+            $result = ["success" => true, "customerId" => $id];
             return json_encode($result);   
             
 	}
@@ -311,19 +325,9 @@ class MasterSalesController extends Controller {
             }
             return json_encode($result);
         }
+        public function showEnquiry($id)
+        {
+            $customer = Customer::select("id","first_name","last_name")->where("id",$id)->get();
+            return view("MasterSales::enquiry")->with(["firstName"=> $customer[0]["first_name"],"lastName"=> $customer[0]["last_name"]]);
+        }
 }
-/*************************** EMPLOYEE PHOTO UPLOAD **********************************
-$imgRules = array(
-    'image_file' => 'required|mimes:jpeg,png,jpg,gif,svg|max:1000',
-);
-$validatePhotoUrl = Validator::make($input, $imgRules);
-if ($validator->fails()) {
-    $result = ['success' => false, 'message' => $validator->messages()];
-    echo json_encode($result);
-    exit;
-}
-else{
-    $fileName = time().'.'.$input['image_file']->getClientOriginalExtension();
-    $input['image_file']->move(base_path()."/common/customer_photo/", $fileName);
-}
-/*************************** CUSTPMER PHOTO UPLOAD **********************************/
