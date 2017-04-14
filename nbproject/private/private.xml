@@ -2,29 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
         <group>
-<<<<<<< HEAD
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/Wings/Controllers/WingsController.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/Wings/Views/create.blade.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/Wings/Models/ProjectWing.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/Wings/routes/web.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/public/backend/wingsController.js</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/public/backend/app/config.router.js</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/Wings/Views/index.blade.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/Projects/Models/Project.php</file>
-=======
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Http/Controllers/backend/Auth/LoginController.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Classes/S3.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/config/filesystems.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/WebPages/Views/updateWebPage.blade.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/WebPages/Controllers/WebPagesController.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
-            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/config/global.php</file>
->>>>>>> 5b49bff3d35c4d3bd02b381e40822ecffc46d61e
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/inventory.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
         </group>
->>>>>>> 79a8ff28ba766b7e413cf1d70d8efc8b6a5812d7
     </open-files>
 </project-private>

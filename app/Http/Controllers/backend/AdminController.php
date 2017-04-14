@@ -28,6 +28,7 @@ use App\Models\ProjectBlock;
 use App\Models\Project;
 use App\Models\FirmPartner;
 use App\Models\LstStationary;
+use App\Models\MlstEnquirySalesCategory;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
@@ -375,7 +376,16 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
-
+    public function getSalesEnqCategory() {
+        $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->get();
+        if (!empty($salesEnqCategoryList)) {
+            $result = ['success' => true, 'records' => $salesEnqCategoryList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    
     /****************************UMA************************************/
     public function getWebPageList() {
         $getpages = WebPage::all();

@@ -45,35 +45,59 @@
                             </div>
                         </div>
                         <div ng-controller="blockTypeCtrl">
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="form-group multi-sel-div">
-                                <label for="">Select Blocks <span class="sp-err">*</span></label>	
-                                <ui-select ng-change="checkBlockLength()" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled" ng-required="true">
-                                    <ui-select-match>{{$item.block_name}}</ui-select-match>
-                                    <ui-select-choices repeat="list in blockTypeList | filter:$select.search">
-                                        {{list.block_name}} 
-                                    </ui-select-choices>
-                                </ui-select>
-                                <div ng-show="emptyBlockId" class="help-block department step4 {{ applyClassBlock }}">
-                                    This field is required.
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="form-group multi-sel-div">
+                                    <label for="">Select Blocks <span class="sp-err">*</span></label>	
+                                    <ui-select ng-change="checkBlockLength()" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled" ng-required="true">
+                                        <ui-select-match>{{$item.block_name}}</ui-select-match>
+                                        <ui-select-choices repeat="list in blockTypeList | filter:$select.search">
+                                            {{list.block_name}} 
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <div ng-show="emptyBlockId" class="help-block department step4 {{ applyClassBlock }}">
+                                        This field is required.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="form-group multi-sel-div">
-                                <label for="">Select Sub Blocks <span class="sp-err">*</span></label>	
-                                <ui-select multiple ng-model="enquiryData.sub_block_id" name="sub_block_id" theme="select2" ng-disabled="disabled" ng-required="true" ng-change="checkSubBlockLength()">
-                                    <ui-select-match>{{$item.block_sub_type}}</ui-select-match>
-                                    <ui-select-choices repeat="list1 in subBlockList | filter:$select.search">
-                                        {{list1.block_sub_type}} 
-                                    </ui-select-choices>
-                                </ui-select>
-                                <div ng-show="emptySubBlockId" class="help-block department step4 {{ applyClassSubBlock }}">
-                                    This field is required.
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="form-group multi-sel-div">
+                                    <label for="">Select Sub Blocks <span class="sp-err">*</span></label>	
+                                    <ui-select multiple ng-model="enquiryData.sub_block_id" name="sub_block_id" theme="select2" ng-disabled="disabled" ng-required="true" ng-change="checkSubBlockLength()">
+                                        <ui-select-match>{{$item.block_sub_type}}</ui-select-match>
+                                        <ui-select-choices repeat="list1 in subBlockList | filter:$select.search">
+                                            {{list1.block_sub_type}} 
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <div ng-show="emptySubBlockId" class="help-block department step4 {{ applyClassSubBlock }}">
+                                        This field is required.
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 5%;">Sr. No.</th>
+                                        <th style="width: 20%;">Project</th>
+                                        <th style="width: 20%;">Blocks</th>
+                                        <th style="width: 35%;">Sub Blocks</th>
+                                        <th style="width: 10%;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1.</td>
+                                        <td>abc</td>
+                                        <td>abc</td>
+                                        <td>abc</td>
+                                        <td>Edit Delete</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="row">    
                         <div class="col-md-12 col-xs-12" align="right">
@@ -88,10 +112,9 @@
                             <div class="form-group">
                                 <label for="">Enquiry Category <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select class="form-control" ng-model="enquiryData.finance_category_id" name="finance_category_id">
-                                        <option value="">Hot</option>                                       
-                                        <option value="">Warm</option>          
-                                        <option value="">Cold</option>          
+                                    <select class="form-control" ng-controller="salesEnqCategoryCtrl" ng-model="enquiryData.sales_category_id" name="sales_category_id">
+                                        <option value="">Please Select</option>                                       
+                                        <option ng-repeat="list in salesEnqCategoryList" value="{{list.id}}">{{list.enquiry_category}}</option>          
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                 </span>
@@ -112,7 +135,6 @@
                                 <span class="input-icon icon-right">
                                     <textarea class="form-control" ng-model="enquiryData.remarks" name="remarks"></textarea>
                                     <i class="fa fa-bullseye"></i>
-
                                 </span>
                             </div>
                         </div>
@@ -135,19 +157,21 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group">
-                                <label for="">Next Followup Time <span class="sp-err">*</span></label>
-                                <span class="input-icon icon-right">
-                                    <input type="text" class="form-control" ng-model="enquiryData.next_follwoup_time" name="next_follwoup_time">      
-                                    <i class="fa fa-clock-o"></i>                                   
-                                </span>
+                            <div ng-controller="TimepickerDemoCtrl">
+                                <timepicker ng-model="enquiryData.next_follwoup_time" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group">
+                            <div class="form-group" ng-controller="employeesCtrl" >
                                 <label for="">Enter colleague name to reassign enquiry <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" class="form-control" ng-model="enquiryData.sub_block_id" name="sub_block_id">      
+                                    <ui-select ng-model="enquiryData.followup_by_employee_id" theme="bootstrap">
+                                        <ui-select-match placeholder="Select employee">{{$select.selected.first_name}}</ui-select-match>
+                                        <ui-select-choices repeat="item in employeeList | filter: $select.search">
+                                            <div ng-bind-html="item.first_name | highlight: $select.search"></div>
+                                            <small ng-bind-html="item.designation | highlight: $select.search"></small>
+                                        </ui-select-choices>
+                                    </ui-select>     
                                     <i class="fa fa-sign-in"></i>                                   
                                 </span>
                             </div>
@@ -190,18 +214,18 @@
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group">
-                                <label for="">No of 2 wheeler parkings required</label>
+                                <label for="">Number of 2 wheeler parkings required</label>
                                 <span class="input-icon icon-right">
-                                    <input class="form-control" type="text" ng-model="enquiryData.2wheeler_parkings_required" name="2wheeler_parkings_required">
+                                    <input class="form-control" type="text" ng-model="enquiryData.two_wheeler_parkings_required" name="two_wheeler_parkings_required">
                                     <i class="fa fa-motorcycle"></i>
                                 </span>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group">
-                                <label for="">No of 4 wheeler parkings required</label>
+                                <label for="">Number of 4 wheeler parkings required</label>
                                 <span class="input-icon icon-right">
-                                    <input class="form-control" type="text" ng-model="enquiryData.4wheeler_parkings_required" name="4wheeler_parkings_required">
+                                    <input class="form-control" type="text" ng-model="enquiryData.four_wheeler_parkings_required" name="four_wheeler_parkings_required">
                                     <i class="fa fa-motorcycle"></i>
                                 </span>
                             </div>

@@ -56,56 +56,6 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', fu
     }
 }]);
 
-/*app.controller('imagesController', ['$scope', 'toaster', 'Upload', function ($scope, toaster, Upload) {
-    $scope.imagesData = {};
-    $scope.saveImagesInfo = function(imagesData){
-        if(angular.equals(imagesData, {}) === false)
-        {  
-            imagesData.upload = Upload.upload({
-                url: getUrl + '/projects/imagesInfo',
-                headers: {enctype: 'multipart/form-data'},
-                data: {imagesData: imagesData, projectId: $scope.projectData.project_id},
-            });
-            imagesData.upload.then(function (response) { 
-                if (!response.data.success) { 
-                    $scope.errorMsg = response.message;
-                } else{
-                    toaster.pop('success', 'Project', response.message);
-                }
-            }, function (response) {
-                if (response.status !== 200) {
-                    $scope.errorMsg = "Something went wrong.";
-                }
-            });
-        }
-    }  
-}]);
-app.controller('mapController', ['$scope', 'toaster', 'Upload', function ($scope, toaster, Upload) {
-    $scope.mapData = {};
-    $scope.saveMapInfo = function(mapData, projectImages){
-        
-        if(angular.equals(mapData, {}) === false || angular.equals(projectImages, {}) === false)
-        {  console.log(mapData);
-            projectImages.upload = Upload.upload({
-                url: getUrl + '/projects/basicInfo',
-                headers: {enctype: 'multipart/form-data'},
-                data: {projectData: mapData, projectImages: projectImages, projectId: $scope.projectData.project_id},
-            });
-            projectImages.upload.then(function (response) { 
-                if (!response.data.success) { 
-                    $scope.errorMsg = response.message;
-                } else{
-                    toaster.pop('success', 'Project', response.message);
-                }
-            }, function (response) {
-                if (response.status !== 200) {
-                    $scope.errorMsg = "Something went wrong.";
-                }
-            });
-        }
-    }  
-}]);*/
-
 app.controller('wingCtrl', function ($scope, Data) {
     Data.get('projects/getWings').then(function (response) {
         if (!response.success) {

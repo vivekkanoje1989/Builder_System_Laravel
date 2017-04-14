@@ -86,6 +86,15 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data) {
         }
     }
 });
+app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
+    Data.get('getSalesEnqCategory').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.salesEnqCategoryList = response.records;
+        }
+    });
+});
 app.controller('projectCtrl', function ($scope, Data) {
     Data.get('getProjects').then(function (response) {
         if (!response.success) {

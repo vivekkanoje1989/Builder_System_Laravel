@@ -79,7 +79,6 @@ class ProjectsController extends Controller {
                 if(!empty($input['projectImages'])){
                     if(count($input['projectImages']) > 1){
                         unset($input['projectImages']['upload']);
-                        
                         foreach($input['projectImages'] as $key => $value){                            
                             $originalName = $input['projectImages'][$key]->getClientOriginalName();
                             if ($originalName !== 'fileNotSelected') {
@@ -93,11 +92,16 @@ class ProjectsController extends Controller {
                                     'location_map_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
                                 );
                                 $validator = Validator::make($input['projectImages'], $imgRules);
+                                
                                 if ($validator->fails()) {
                                     $result = ['success' => false, 'message' => $validator->messages()];
                                     return json_encode($result);
                                 } else {
-                                    $input['projectData'][$key] = "aa";
+                                    //find images name depending on $input['projectImages'][$key]
+                                    for($i=0; $i < count($input['projectImages'][$key]); $i++){
+                                        //upload image
+                                        //$input['projectData'][$key] = "aa";
+                                    }
                                 }
                             }
                         } 
@@ -114,46 +118,6 @@ class ProjectsController extends Controller {
             }else{
                 $result = ['success' => false, 'message' => 'Something went wrong.'];
                 echo json_encode($result);
-            }
-        } catch (\Exception $ex) {
-            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-            return json_encode($result);
-        }
-    }
-    public function imagesInfo() {
-        try{
-            $input = Input::all();
-            
-            unset($input['imagesData']['upload']);
-            $arr[] = $input['imagesData'];             
-            $imgRules = array(
-                'project_logo' => 'mimes:jpeg,png,jpg,gif,svg',
-                'project_thumbnail' => 'mimes:jpeg,png,jpg,gif,svg',
-                'project_favicon' => 'mimes:jpeg,png,jpg,gif,svg',
-                'project_banner_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
-                'project_background_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
-                'project_broacher.*' => 'mimes:jpeg,png,jpg,gif,svg',
-            );
-            $validator = Validator::make($input, $imgRules);
-            if ($validator->fails()) {
-                $result = ['success' => false, 'message' => $validator->messages()];
-                return json_encode($result);
-            } else {
-                for($i = 0; $i < count($arr); $i++){
-                    $folderName = key($arr[$i]);
-                    echo count($arr[$i][$folderName]);exit;
-                    $imageName = S3::s3FileUplod($arr[$i][$folderName], $folderName, count($arr[$i][$folderName]));
-                    if(count($arr[$i][$folderName]) > 1){
-                        $imageName = trim($imageName, ',');
-                    }
-                    echo "<pre>";print_r($input);
-                    $user = ProjectWebPage::where ("project_id",  $input['imagesData']['projectId']);
-                    $user->fill([$arr[$i][$folderName] => $imageName]);
-                    $user->save();
-
-//                    $actionProject = ProjectWebPage::where('project_id', $input['imagesData']['projectId'])->update($input['projectData']);
-//                    echo "<pre>";print_r($imageName);
-                }exit;
             }
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];

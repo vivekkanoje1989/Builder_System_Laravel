@@ -266,4 +266,7 @@
                         </div>
                     </form>
                 </div>
+            </tab>
+        </tabset>
+    </div>
 </div>

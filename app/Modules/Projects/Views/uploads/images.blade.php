@@ -8,7 +8,7 @@
         color: #e46f61;
     }
 </style>
-<form role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)" >
+<form ng-controller="basicInfoController" role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)" >
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="col-sm-6 col-xs-12">
