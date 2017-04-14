@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Wings\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -30,7 +29,10 @@ class WingsController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         if ($input['id'] === -1) {
-            $list = ProjectWing::all();
+            $list = ProjectWing::select("*")->with('projectName','stationaryName','companyName')->get();
+            //print_r($list);exit;
+            
+            
         } else {
             $list = ProjectWing::where('id', $input['id'])->get();
         }

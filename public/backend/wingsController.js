@@ -9,6 +9,7 @@ app.controller('wingsController', ['$scope', '$state', 'Data', 'toaster', '$time
                 if (id < 0)
                 { // For Index
                     $scope.listWings = response.records;
+                    console.log($scope.listWings);
                 }
                 if (id > 0)
                 { // For Update

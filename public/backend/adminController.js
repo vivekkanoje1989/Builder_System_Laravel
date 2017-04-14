@@ -96,7 +96,7 @@ app.controller('projectCtrl', function ($scope, Data) {
     });
 });
 app.controller('companyCtrl', function ($scope, Data) {
-    Data.get('getFirmPartners').then(function (response) {
+    Data.get('getCompany').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {

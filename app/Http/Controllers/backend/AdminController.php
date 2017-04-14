@@ -24,8 +24,8 @@ use App\Models\MlstBmsbVertical;
 use App\Models\MlstBmsbDesignation;
 use App\Models\LstEnquiryLocation;
 use App\Models\Project;
-use App\Models\FirmPartner;
-use App\Models\LstStationary;
+use App\Models\Company;
+use App\Models\CompanyStationary;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
@@ -345,10 +345,10 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-    public function getFirmPartners() {
-        $firmPartnerList = FirmPartner::select('id','marketing_name')->get();
-        if (!empty($firmPartnerList)) {
-            $result = ['success' => true, 'records' => $firmPartnerList];
+    public function getCompany() {
+        $companyList = Company::select('id','legal_name')->get();
+        if (!empty($companyList)) {
+            $result = ['success' => true, 'records' => $companyList];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -356,7 +356,7 @@ class AdminController extends Controller {
         }
     }
     public function getStationary() {
-        $stationaryList = LstStationary::select('id','name')->get();
+        $stationaryList = CompanyStationary::select('id','stationary_set_name')->get();
         if (!empty($stationaryList)) {
             $result = ['success' => true, 'records' => $stationaryList];
             return json_encode($result);

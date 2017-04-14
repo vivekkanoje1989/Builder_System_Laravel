@@ -55,7 +55,7 @@ class S3 {
      * parameters-
      *          1)$image - image file temporary name or pathname
      *          2)$imageFileName -image file name which we want to upload with extention
-     *          3)$s3FolderName  - folderpath (e.g Project/Banner-Images )
+     *          3)$s3FolderName  - folderpath (e.g project/banner-images )
      *          image name is in the form of modulename_id_fourDigitRandomNumber (e.g - website_10_1234.jpg)
      * For App-same as above
      */

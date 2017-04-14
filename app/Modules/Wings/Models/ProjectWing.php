@@ -1,12 +1,9 @@
 <?php
-
 /**
  * Created by Reliese Model.
- * Date: Tue, 11 Apr 2017 17:32:42 +0530.
+ * Date: Fri, 14 Apr 2017 12:13:51 +0530.
  */
-
 namespace App\Modules\Wings\Models;
-
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -14,7 +11,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property int $id
  * @property int $project_id
- * @property int $firm_partner_id
+ * @property int $company_id
  * @property int $stationary_id
  * @property string $wing_name
  * @property int $number_of_floors
@@ -43,63 +40,63 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class ProjectWing extends Eloquent {
+class ProjectWing extends Eloquent
+{
+	protected $casts = [
+		'project_id' => 'int',
+		'company_id' => 'int',
+		'stationary_id' => 'int',
+		'number_of_floors' => 'int',
+		'number_of_floors_below_ground' => 'int',
+		'wing_status' => 'int',
+		'wing_status_for_enquiries' => 'int',
+		'wing_status_for_bookings' => 'int',
+		'created_by' => 'int',
+		'updated_by' => 'int',
+		'deleted_status' => 'int',
+		'deleted_by' => 'int',
+		'deleted_IP' => 'int',
+		'deleted_browser' => 'int',
+		'deleted_mac_id' => 'int'
+	];
 
-    protected $primaryKey = 'id';
-    protected $casts = [
-        'project_id' => 'int',
-        'firm_partner_id' => 'int',
-        'stationary_id' => 'int',
-        'number_of_floors' => 'int',
-        'number_of_floors_below_ground' => 'int',
-        'wing_status' => 'int',
-        'wing_status_for_enquiries' => 'int',
-        'wing_status_for_bookings' => 'int',
-        'created_by' => 'int',
-        'updated_by' => 'int',
-        'deleted_status' => 'int',
-        'deleted_by' => 'int',
-        'deleted_IP' => 'int',
-        'deleted_browser' => 'int',
-        'deleted_mac_id' => 'int'
-    ];
-    protected $dates = [
-        'created_date',
-        'updated_date',
-        'deleted_date'
-    ];
-    protected $fillable = [
-        'project_id',
-        'firm_partner_id',
-        'stationary_id',
-        'wing_name',
-        'number_of_floors',
-        'number_of_floors_below_ground',
-        'wing_status',
-        'wing_status_for_enquiries',
-        'wing_status_for_bookings',
-        'created_date',
-        'created_by',
-        'created_IP',
-        'created_browser',
-        'created_mac_id',
-        'updated_date',
-        'updated_by',
-        'updated_IP',
-        'updated_browser',
-        'updated_mac_id',
-        'deleted_status',
-        'deleted_date',
-        'deleted_by',
-        'deleted_IP',
-        'deleted_browser',
-        'deleted_mac_id'
-    ];
+	protected $dates = [
+		'created_date',
+		'updated_date',
+		'deleted_date'
+	];
 
-    public static function validationMessages() {
+	protected $fillable = [
+		'project_id',
+		'company_id',
+		'stationary_id',
+		'wing_name',
+		'number_of_floors',
+		'number_of_floors_below_ground',
+		'wing_status',
+		'wing_status_for_enquiries',
+		'wing_status_for_bookings',
+		'created_date',
+		'created_by',
+		'created_IP',
+		'created_browser',
+		'created_mac_id',
+		'updated_date',
+		'updated_by',
+		'updated_IP',
+		'updated_browser',
+		'updated_mac_id',
+		'deleted_status',
+		'deleted_date',
+		'deleted_by',
+		'deleted_IP',
+		'deleted_browser',
+		'deleted_mac_id'
+	];
+        public static function validationMessages() {
         $messages = array(
             'project_id.required' => 'Please select project',
-            'firm_partner_id.required' => 'Please select company',
+            'company_id.required' => 'Please select company',
             'stationary_id.required' => 'Please select stationary',
             'number_of_floors' =>'Please enter numeric floors',
             'wing_name.required' => 'Please enter name',
@@ -113,7 +110,7 @@ class ProjectWing extends Eloquent {
     public static function validationRules() {
         $rules = array(
             'project_id' => 'required',
-            'firm_partner_id' => 'required',
+            'company_id' => 'required',
             'stationary_id' => 'required',
             'number_of_floors'=>'required|numeric',
             'wing_name' => 'required',
@@ -123,8 +120,16 @@ class ProjectWing extends Eloquent {
         );
         return $rules;
     }
-     public function project()
-        {
-             return $this->belongsTo('App\Modules\Projects\Models\Project','id');
-        }
+     public function projectName()
+    {
+        return $this->belongsTo('App\Modules\Projects\Models\Project', 'project_id'); //(Project model name, foreign key of ProjectWing model) 
+    }
+    public function stationaryName()
+    {
+        return $this->belongsTo('App\Models\CompanyStationary', 'stationary_id'); //(stationary model name, foreign key of ProjectWing model) 
+    }
+    public function companyName()
+    {
+        return $this->belongsTo('App\Models\Company', 'company_id'); //(Company model name, foreign key of ProjectWing model) 
+    }
 }
