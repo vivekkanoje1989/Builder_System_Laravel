@@ -35,7 +35,6 @@ class MlstBmsbDepartment extends Eloquent {
 
     public $timestamps = false;
     protected $primaryKey = 'id';
-    protected $connection = 'masterdb';
     protected $casts = [
         'client_id' => 'int',
         'vertical_id' => 'int',
@@ -59,7 +58,7 @@ class MlstBmsbDepartment extends Eloquent {
         'updated_by',
         'updated_IP',
         'updated_browser',
-        'updated_mac_id'
+        'updated_mac_id',
     ];
 
 }

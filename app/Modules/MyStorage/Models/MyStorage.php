@@ -12,9 +12,9 @@ class MyStorage extends Model {
     protected $fillable = [
     'folder',
     'id',
-    'folder_id',
-    'phonecode',
+    'sub_folder',    
     'share_with',
+    'sub_folder_status',
     'file',    
     'created_on',
     'created_by',
@@ -25,5 +25,6 @@ class MyStorage extends Model {
     'created_date',
     'updated_at',    
     'deleted_status',    
+    'sub_folder_status',   
     ];
 }

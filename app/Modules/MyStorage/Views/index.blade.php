@@ -1,9 +1,9 @@
-<div class="row" ng-controller="storageCtrl" ng-init="getStorageList()">  
+<div class="row" ng-controller="storageCtrl" ng-init="getSynchedFolderList(); getStorageList()">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">My Storage</span>
-                <a href="" data-toggle="modal" data-target="#storageModel"  class="btn btn-info">Upload new</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#storageModel"  class="btn btn-info">Upload new</a> &nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -13,10 +13,10 @@
             <div class="widget-body table-responsive">     
                 <div class="row">
                     <div class="col-md-2" ng-repeat="imgs in directories track by $index | unique:'imgs' ">
-                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllList/{{imgs.folder}}">
-                        <img src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
-                        <br/>
-                        <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
+                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllList/{{imgs.id}}">
+                            <img src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
+                            <br/>
+                            <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
                     </div>
                 </div>
             </div>

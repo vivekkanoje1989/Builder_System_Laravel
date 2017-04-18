@@ -1,4 +1,5 @@
 <?php
+
 return [
     'enable' => array(
         "MasterHr",
@@ -40,5 +41,8 @@ return [
         "Marketing",
         "MyStorage",
         "OperationalSettings",
+        "UserDocuments",
+        "EmployeeDocuments",
+        "companies",
     ),
 ];

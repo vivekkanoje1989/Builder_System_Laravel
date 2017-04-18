@@ -25,11 +25,8 @@ class ManageDepartmentController extends Controller {
      * @return Response
      */
     public function manageDepartment() {
-        $getDepartment = MlstBmsbDepartment::leftJoin('mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
-        // print_r($getDepartment); exit;
-//        $getDepartment = DB::table('users')
-//            ->leftJoin('posts', 'users.id', '=', 'posts.user_id')
-//            ->get();
+        $getDepartment = MlstBmsbDepartment::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_verticals as mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
+      
         if (!empty($getDepartment)) {
             $result = ['success' => true, 'records' => $getDepartment];
             return json_encode($result);
