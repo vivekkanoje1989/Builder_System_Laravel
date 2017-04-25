@@ -29,6 +29,7 @@ use App\Models\Project;
 use App\Models\FirmPartner;
 use App\Models\LstStationary;
 use App\Models\MlstEnquirySalesCategory;
+use App\Models\MlstBmsbAmenity;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
@@ -380,6 +381,15 @@ class AdminController extends Controller {
         $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->get();
         if (!empty($salesEnqCategoryList)) {
             $result = ['success' => true, 'records' => $salesEnqCategoryList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    public function getAmenitiesList() {
+        $amenitiesList = MlstBmsbAmenity::select('id','name_of_amenity')->get();
+        if (!empty($amenitiesList)) {
+            $result = ['success' => true, 'records' => $amenitiesList];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

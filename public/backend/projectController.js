@@ -1,5 +1,6 @@
 app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$timeout', function ($scope, $state, Data, toaster, $timeout) {
     $scope.pageHeading = "Create Project";
+    $scope.projectDetails = false;
     $scope.projectData = {};
     $scope.createProject = function(projectData){
         Data.post('projects/',{
@@ -17,14 +18,69 @@ app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$ti
         });
     }
 }]);
-app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', function ($scope, Data, toaster, Upload) {
-    $scope.basicData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.imagesData = {};
-    $scope.basicData.alias_status = "0";
+app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$timeout', function ($scope, Data, toaster, Upload, $timeout) {
+    $scope.projectData = {};
+    $scope.inventoryData = {};
+    $scope.inventoryData.block_availablity = "1";
+    //$scope.basicData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.imagesData = {};
+    $scope.projectData.alias_status = "0";
+    $scope.projectData.project_country = $scope.projectData.project_state = $scope.projectData.project_city = "";
+    $scope.getProjectDetails = function(projectId){
+        Data.post('projects/showProjectDetails',{
+            data: {projectId: projectId},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                Data.post('getStates', {
+                    data: {countryId: response.details.project_country},
+                }).then(function (responseState) {
+                    if (!responseState.success) {
+                        $scope.errorMsg = responseState.message;
+                    } else {
+                        $scope.stateList = responseState.records;     
+                        Data.post('getCities', {
+                            data: {stateId: response.details.project_state},
+                        }).then(function (responseCity) {
+                            if (!responseCity.success) {
+                                $scope.errorMsg = responseCity.message;
+                            } else {
+                                $scope.cityList = responseCity.records;
+                                Data.post('getLocations', {
+                                   data: {countryId: response.details.project_country,stateId: response.details.project_state,cityId: response.details.project_city},
+                                }).then(function (response) {
+                                    if (!response.success) {
+                                        $scope.errorMsg = response.message;
+                                    } else {
+                                        $scope.locationList = response.records;
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+                Data.post('projects/getAmenitiesListOnEdit',{
+                    data: response.details.project_amenities_list,
+                    async:false,
+                }).then(function (responseAList) {
+                    if (!responseAList.success) {
+                        $scope.errorMsg = responseAList.message;
+                    } else {       
+                        $scope.projectData = angular.copy(response.details);
+                        $scope.projectData.project_amenities_list = angular.copy(responseAList.records);
+                    }
+                });
+                
+                $scope.projectDetails = true;
+            }
+        });
+    }    
+    
     
     $scope.saveBasicInfo = function(projectData, projectImages){
+        
         if(angular.equals(projectData, {}) === false || angular.equals(projectImages, {}) === false)
         {   
-            console.log(projectImages);
             if (typeof projectImages === 'undefined') {
                 projectImages = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
             }
@@ -48,12 +104,26 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', fu
             });
         }
     }
-    $scope.saveContactInfo = function(contactData){
-        $scope.saveBasicInfo(contactData);
+//    $scope.saveContactInfo = function(contactData){
+//        $scope.saveBasicInfo(contactData);
+//    }
+//    $scope.saveSeoInfo = function(seoData){
+//        $scope.saveBasicInfo(seoData);
+//    }
+    $scope.saveInventoryInfo = function(wingId,inventoryData){
+        
+        inventoryData.wing_id = wingId;
+        Data.post('projects/basicInfo',{
+            data: {inventoryData: inventoryData, projectId: $scope.projectData.project_id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {       
+                toaster.pop('success', 'Project', response.message);
+            }
+        });
     }
-    $scope.saveSeoInfo = function(seoData){
-        $scope.saveBasicInfo(seoData);
-    }
+    
 }]);
 
 app.controller('wingCtrl', function ($scope, Data) {
@@ -63,6 +133,13 @@ app.controller('wingCtrl', function ($scope, Data) {
         } else {
             $scope.wingList = response.records;
         }
+    Data.get('projects/getBlocks').then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.blockList = response.records;
+            }
+        });
     });
 });
 app.controller('blockTypeCtrl', function ($scope, Data) {

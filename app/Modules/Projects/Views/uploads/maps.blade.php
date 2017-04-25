@@ -1,5 +1,5 @@
 <div class="row">
-    <form role="form" name="mapForm" ng-controller="basicInfoController" ng-submit="saveBasicInfo(mapData, projectImages)">
+    <form role="form" name="mapForm" ng-submit="saveBasicInfo(projectData, projectImages)">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div id="horizontal-form">
                 <div class="col-sm-3 col-xs-6">
@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <label>Google Map Iframe</label>
                         <span class="input-icon icon-right">
-                            <textarea class="form-control" ng-model="mapData.google_map_iframe" name="google_map_iframe"></textarea>
+                            <textarea class="form-control" ng-model="projectData.google_map_iframe" name="google_map_iframe"></textarea>
                         </span>                                                   
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label>Google Map URL</label>
                         <span class="input-icon icon-right">
-                            <textarea class="form-control" ng-model="mapData.google_map_short_url" name="google_map_short_url"></textarea>
+                            <textarea class="form-control" ng-model="projectData.google_map_short_url" name="google_map_short_url"></textarea>
                         </span>                                                   
                     </div>
                 </div>

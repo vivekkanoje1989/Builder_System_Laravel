@@ -6,7 +6,7 @@
         padding: 10px;
     }
 </style>
-<div ng-controller="basicInfoController">
+<div>
     <div id="tabbedwizard" class="wizard wizard-tabbed" data-target="#tabbedwizardsteps" ui-jq="wizard">
         <ul class="steps">
             <li data-target="#tabbedwizardstep1" class="active"><span class="step">1</span>Project Basic Information<span class="chevron"></span></li>
@@ -16,12 +16,12 @@
     </div>
     <div class="step-content" id="tabbedwizardsteps">
         <div class="step-pane active" id="tabbedwizardstep1">
-            <form role="form" name="basicInfoForm" ng-submit="saveBasicInfo(basicData, projectImages)">
+            <form role="form" name="basicInfoForm" ng-submit="saveBasicInfo(projectData, projectImages)">
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Project Alias</label>
-                            <input type="text" class="form-control" ng-model="basicData.project_alias" name="project_alias" maxlength="200" />
+                            <input type="text" class="form-control" ng-model="projectData.project_alias" name="project_alias" id="projectAlias" maxlength="200" />
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">
@@ -29,11 +29,11 @@
                             <label>Alias Status</label>
                             <div class="radio">
                                 <label>
-                                    <input name="form-field-radio" type="radio" ng-model="basicData.alias_status" ng-selected="1" name="alias_status" value="1" class="colored-blue" />
+                                    <input name="form-field-radio" type="radio" ng-model="projectData.alias_status" ng-selected="1" name="alias_status" value="1" class="colored-blue" />
                                     <span class="text">Active</span>
                                 </label> &nbsp;&nbsp;
                                 <label>
-                                    <input name="form-field-radio" type="radio" ng-model="basicData.alias_status" name="alias_status" value="0" class="colored-danger" />
+                                    <input name="form-field-radio" type="radio" ng-model="projectData.alias_status" name="alias_status" value="0" class="colored-danger" />
                                     <span class="text">Inactive</span>
                                 </label>
                             </div>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="widget-body no-padding">
                                 <div ng-controller="TextAngularCtrl">
-                                    <div text-angular ng-model="basicData.short_description" name="short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                    <div text-angular ng-model="projectData.short_description" name="short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                             </div>
                             <div class="widget-body no-padding">
                                 <div ng-controller="TextAngularCtrl">
-                                    <div text-angular ng-model="basicData.brief_description" name="brief_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                    <div text-angular ng-model="projectData.brief_description" name="brief_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
                                 </div>
                             </div>
                         </div>
@@ -78,13 +78,13 @@
             </form>
         </div>
         <div class="step-pane" id="tabbedwizardstep2">
-            <form role="form" name="contactInfoForm" ng-submit="saveContactInfo(contactData)">
+            <form role="form" name="contactInfoForm" ng-submit="saveContactInfo(projectData)">
                 <div class="row" ng-controller="currentCountryListCtrl">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Country</label>
                             <span class="input-icon icon-right">
-                                <select ng-change="onCountryChange()" ng-model="contactData.project_country" name="project_country" id="current_country_id" class="form-control">
+                                <select ng-change="onCountryChange()" ng-model="projectData.project_country" name="project_country" id="current_country_id" class="form-control">
                                     <option value="">Select Country</option>
                                     <option ng-repeat="country in countryList" value="{{country.id}}">{{country.name}}</option>
                                 </select>
@@ -96,9 +96,9 @@
                         <div class="form-group">
                             <label>State</label>
                             <span class="input-icon icon-right">
-                                <select ng-change="onStateChange()" ng-model="contactData.project_state" name="project_state" id="current_state_id" class="form-control">
+                                <select ng-change="onStateChange()" ng-model="projectData.project_state" name="project_state" id="current_state_id" class="form-control">
                                     <option value="">Select State</option>
-                                    <option ng-repeat="state in stateList" value="{{state.id}}">{{state.name}}</option>
+                                    <option ng-repeat="state in stateList track by $index" value="{{state.id}}">{{state.name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>
@@ -108,9 +108,9 @@
                         <div class="form-group">
                             <label>City</label>
                             <span class="input-icon icon-right">
-                                <select ng-change="onCityChange()" ng-model="contactData.project_city" name="project_city" id="current_city_id" class="form-control">
+                                <select ng-change="onCityChange()" ng-model="projectData.project_city" name="project_city" id="current_city_id" class="form-control">
                                     <option value="">Select City</option>
-                                    <option ng-repeat="city in cityList" value="{{city.id}}">{{city.name}}</option>
+                                    <option ng-repeat="city in cityList track by $index" value="{{city.id}}">{{city.name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>
@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <label>Location</label>
                             <span class="input-icon icon-right">
-                                <select ng-model="contactData.project_location" name="project_location" id="current_location_id" class="form-control">
+                                <select ng-model="projectData.project_location" name="project_location" id="current_location_id" class="form-control">
                                     <option value="">Select Location</option>
                                     <option ng-repeat="llist in locationList" value="{{llist.id}}">{{llist.location}}</option>
                                 </select>
@@ -133,13 +133,13 @@
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Address</label>
-                            <textarea class="form-control" ng-model="contactData.project_address" name="project_address"></textarea>
+                            <textarea class="form-control" ng-model="projectData.project_address" name="project_address"></textarea>
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Contact Numbers</label>
-                            <textarea class="form-control" ng-model="contactData.project_contact_numbers" name="project_contact_numbers"></textarea>
+                            <textarea class="form-control" ng-model="projectData.project_contact_numbers" name="project_contact_numbers"></textarea>
                         </div>
                     </div>
                 </div>
@@ -153,30 +153,30 @@
             </form>
         </div>
         <div class="step-pane" id="tabbedwizardstep3">
-            <form role="form" name="seoInfoForm" ng-submit="saveSeoInfo(seoData)">
+            <form role="form" name="seoInfoForm" ng-submit="saveSeoInfo(projectData)">
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Page Title</label>
-                            <input type="text" class="form-control" ng-model="seoData.page_title" name="page_title" />
+                            <input type="text" class="form-control" ng-model="projectData.page_title" name="page_title" />
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Seo Url</label>
-                            <input type="text" class="form-control" ng-model="seoData.seo_url" name="seo_url" />
+                            <input type="text" class="form-control" ng-model="projectData.seo_url" name="seo_url" />
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Meta Description</label>
-                            <input type="text" class="form-control" ng-model="seoData.meta_description" name="meta_description" />
+                            <input type="text" class="form-control" ng-model="projectData.meta_description" name="meta_description" />
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Meta Keywords</label>
-                            <input type="text" class="form-control" ng-model="seoData.meta_keywords" name="meta_keywords" />
+                            <input type="text" class="form-control" ng-model="projectData.meta_keywords" name="meta_keywords" />
                         </div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Canonical Tag</label>
-                            <input type="text" class="form-control" ng-model="seoData.canonical_tag" name="canonical_tag" />
+                            <input type="text" class="form-control" ng-model="projectData.canonical_tag" name="canonical_tag" />
                         </div>
                     </div>
                 </div>                    

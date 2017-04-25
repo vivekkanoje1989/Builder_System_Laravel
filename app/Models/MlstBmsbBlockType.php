@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Thu, 13 Apr 2017 11:37:36 +0530.
+ * Date: Sat, 22 Apr 2017 18:28:34 +0530.
  */
 
 namespace App\Models;
@@ -32,8 +32,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class MlstBmsbBlockType extends Eloquent
 {
-        protected $connection = 'masterdb';
-	protected $casts = [
+    protected $connection = "masterdb";
+    protected $casts = [
 		'project_type_id' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int'

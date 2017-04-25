@@ -201,11 +201,11 @@ class MasterSalesController extends Controller {
                     $input['customerData']['record_restore_status'] = 1;
 //                    CustomersLog::create($input['customerData']);   
                 }            
-                
                 if(!empty($input['customerContacts'])){
                     $i = 0;
                     foreach($input['customerContacts'] as $contacts){
-                        unset($contacts['$$hashKey']);
+                        
+                        unset($contacts['$hashKey']);
                         $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = 
                         $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] =  $contacts['email_optin_status'] = 
                         $contacts['email_verification_status'] = 0;
@@ -232,19 +232,13 @@ class MasterSalesController extends Controller {
                                 $contacts['landline_number'] = !empty($landlineNumber[1]) ? (int) $landlineNumber[1] : "";
                             }
                         }
-                        $checkMobileNumber = CustomersContact::where(['customer_id' => $id,"mobile_number" => $contacts['mobile_number']])->get();
-                        if(empty($checkMobileNumber[0]['mobile_number']))//for new mobile number
-                        {
-                            $contacts['customer_id'] = $id;
-                            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                            $contacts = array_merge($contacts,$create);
-                            CustomersContact::create($contacts); //insert data into customer_contacts table
-                        }
-                        else{//for existing mobile number
+                        
+                        if(!empty($contacts['id']))//for existing mobile number
+                        { 
                             $contacts['updated_date'] =  date('Y-m-d', strtotime($contacts['created_date']));
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                             $contacts = array_merge($contacts,$update);
-                            $updateContact = CustomersContact::where('id',$contacts['id'])->update($contacts); //insert data into customer_contacts table
+//                            $updateContact = CustomersContact::where('id',$contacts['id'])->update($contacts); //insert data into customer_contacts table
                        
                             if($updateContact == 1){
                                 if(count($checkMobileNumber) == 0)
@@ -262,6 +256,12 @@ class MasterSalesController extends Controller {
                                 $contacts['record_restore_status'] = 1;
                                 CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
                             }
+                        }
+                        else{//for new mobile number
+                            $contacts['customer_id'] = $id;
+                            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                            $contacts = array_merge($contacts,$create);
+//                            CustomersContact::create($contacts); //insert data into customer_contacts table
                         }
                         $i++;                     
                     }
