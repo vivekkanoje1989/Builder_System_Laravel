@@ -9,7 +9,7 @@
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
-                    <form novalidate role="form" name="wingForm" ng-submit="wingForm.$valid && saveWingsInfo(wingData, [[ $id ]])">
+                    <form novalidate role="form" name="wingForm" ng-submit="wingForm.$error && saveWingsInfo(wingData, [[ $id ]])">
                         <div class="col-lg-12 col-sm-12 col-xs-12">
                             <div class="row">
                                 <div class="col-sm-4 col-xs-6">  
@@ -60,12 +60,12 @@
                                     <div class="form-group">
                                         <label for="">Company<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-model="wingData.firm_partner_id" ng-controller="companyCtrl" name="firm_partner_id" class="form-control" required>
+                                            <select ng-model="wingData.company_id" ng-controller="companyCtrl" name="company_id" class="form-control" required>
                                                 <option value="">Select company</option>
-                                                <option ng-repeat="list in firmPartnerList" value="{{list.id}}" ng-selected="wingData.firm_partner_id == list.id">{{list.marketing_name}}</option>
-                                            </select>
+                                                <option ng-repeat="list in firmPartnerList" value="{{list.id}}" ng-selected="wingData.company_id == list.id">{{list.legal_name}}</option>
+                                            </select>{{ firmPartnerList }}
                                             <i class="fa fa-sort-desc"></i>
-                                            <div ng-show="savebtn" ng-messages="wingForm.firm_partner_id.$error" class="help-block errMsg">
+                                            <div ng-show="savebtn" ng-messages="wingForm.company_id.$error" class="help-block errMsg">
                                                 <div ng-message="required">Please select project</div>
                                             </div>
                                         </span>
@@ -77,7 +77,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="wingData.stationary_id" ng-controller="stationaryCtrl" name="stationary_id" class="form-control" required>
                                                 <option value="">Select stationary</option>
-                                                <option ng-repeat="list in stationaryList" value="{{list.id}}" ng-selected="wingData.stationary_id == list.id">{{list.name}}</option>
+                                                <option ng-repeat="list in stationaryList" value="{{list.id}}" ng-selected="wingData.stationary_id == list.id">{{list.stationary_set_name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
                                             <div ng-show="savebtn" ng-messages="wingForm.stationary_id.$error" class="help-block errMsg">
@@ -155,7 +155,7 @@
                         <div class="col-lg-12 col-sm-12 col-xs-12">
                             <div class="row">
                                 <div class="col-sm-3 col-sx-6">
-                                    <button type="submit" class="btn btn-primary" ng-click="savebtn = true">{{ savebtn}}</button>
+                                    <button type="submit" class="btn btn-primary" ng-click="savebtn == true">{{ savebtn}}</button>
                                 </div>
                             </div>
                         </div>

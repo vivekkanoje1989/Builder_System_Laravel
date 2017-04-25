@@ -415,7 +415,7 @@ app.controller('teamLeadCtrl', function ($scope, Data) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {
-            $scope.teamLeads = response.records;
+            $scope.teamLeads = response.records;           
         }
     });
 });    

@@ -395,6 +395,7 @@ class ComposerStaticInita4a83323fa74f9ee3390af915b46a8f0
     );
 
     public static $classMap = array (
+        'CreateArchanasTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_17_164240_create_archanas_table.php',
         'CreateAssignWebEnquiriesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_112854_create_assign_web_enquiries_table.php',
         'CreateBlockStagesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_16_104439_create_block_stages_table.php',
         'CreateBlogManagementsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_104247_create_blog_managements_table.php',

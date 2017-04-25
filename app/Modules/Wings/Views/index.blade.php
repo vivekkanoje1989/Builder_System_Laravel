@@ -28,8 +28,8 @@
                         <tr>
                             <th style="width:5%">SR No.</th>
                             <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='project_id'; reverseSort = !reverseSort">Project 
-                                    <span ng-show="orderByField == 'project_id'">
+                                <a href="javascript:void(0);" ng-click="orderByField='project_name.project_name'; reverseSort = !reverseSort">Project 
+                                    <span ng-show="orderByField == 'project_name.project_name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
                                 </a>
@@ -42,8 +42,8 @@
                                 </a>
                             </th> 
                             <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='comapny_id'; reverseSort = !reverseSort">Company 
-                                    <span ng-show="orderByField == 'comapny_id'">
+                                <a href="javascript:void(0);" ng-click="orderByField='company_name.legal_name'; reverseSort = !reverseSort">Company 
+                                    <span ng-show="orderByField == 'company_name.legal_name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
                                 </a>
@@ -57,10 +57,10 @@
                     <tbody>
                         <tr role="row" dir-paginate="listWing in listWings | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                             <td>{{ itemsPerPage * (noOfRows-1)+$index+1 }}</td>
-                            <td>{{ listWing.project_id }}</td>
+                            <td>{{ listWing.project_name.project_name }}</td>
                             <td>{{ listWing.wing_name }}</td>                            
-                            <td>{{ listWing.firm_partner_id }}</td>
-                            <td>{{ listWing.stationary_id }}</td>
+                            <td>{{ listWing.company_name.legal_name }}</td>
+                            <td>{{ listWing.stationary_name.stationary_set_name }}</td>
                             <td>{{ listWing.number_of_floors }}</td>                            
                             <td class="fa-div">                                
                                 <div class="fa-hover" tooltip-html-unsafe="Edit Wings" style="display: block;"><a href="#/[[config('global.getUrl')]]/wings/update/{{ listWing.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                                

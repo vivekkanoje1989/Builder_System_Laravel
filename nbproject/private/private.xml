@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>app/Modules/MasterSales/Views/index.blade.php</url>
+            <bookmark id="1">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Controllers/ProjectsController.php</file>
@@ -11,6 +21,22 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/basicinfo.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Models/MlstBmsbBlockType.php</file>
+=======
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Models/MlstEnquirySalesChannel.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Models/MlstEnquirySalesCategory.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/MasterSales/Models/EnquiryDetail.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Models/Project.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Models/ProjectBlock.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiry.blade.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/public/backend/app/directives.js</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/MasterSales/Models/Enquiry.php</file>
+            <file>file:/opt/lampp/htdocs/Builder_System_Laravel/app/Modules/MasterSales/Views/create.blade.php</file>
+>>>>>>> cf6708f6d9abfd913712bdbb7e050760ca0beb12
         </group>
     </open-files>
 </project-private>
