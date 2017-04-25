@@ -92,7 +92,8 @@ Route::group(['middleware' =>['auth:admin']], function () {
     Route::get($getUrl.'/getCountries', 'backend\AdminController@getCountries');
     Route::get($getUrl.'/getWebPageList', 'backend\AdminController@getWebPageList'); //uma 
     Route::get($getUrl.'/getPropertyPortalType', 'backend\AdminController@getPropertyPortalType'); //uma 
-    Route::get($getUrl.'/getVerticals', 'backend\AdminController@getVerticals'); //uma
+    Route::get($getUrl.'/getVerticals', 'backend\AdminController@getVerticals'); //uma  
+    Route::get($getUrl.'/getFinanceTieupAgency', 'backend\AdminController@getFinanceTieupAgency'); //uma
     Route::get($getUrl.'/getDesignations', 'backend\AdminController@getDesignations'); //geeta
     Route::get($getUrl.'/getProjects', 'backend\AdminController@getProjects'); //geeta
     Route::get($getUrl.'/getCompany', 'backend\AdminController@getCompany'); //geeta

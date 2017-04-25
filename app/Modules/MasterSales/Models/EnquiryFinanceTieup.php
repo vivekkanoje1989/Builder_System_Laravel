@@ -2,18 +2,30 @@
 
 /**
  * Created by Reliese Model.
- * Date: Sat, 22 Apr 2017 12:37:56 +0530.
+ * Date: Wed, 19 Apr 2017 18:12:36 +0530.
  */
 
-namespace App\Models;
+namespace App\Modules\MasterSales\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class MlstEnquirySalesCategory
+ * Class EnquiryFinanceTieup
  * 
  * @property int $id
- * @property string $enquiry_category
+ * @property int $title_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property int $mobile1
+ * @property int $mobile2
+ * @property string $email1
+ * @property string $email2
+ * @property string $designation
+ * @property string $bank_name
+ * @property string $bank_branch
+ * @property string $bank_address
+ * @property string $bank_email
+ * @property string $bank_ifsc
  * @property int $status
  * @property \Carbon\Carbon $created_date
  * @property \Carbon\Carbon $created_at
@@ -36,14 +48,15 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstEnquirySalesCategory extends Eloquent
+class EnquiryFinanceTieup extends Eloquent
 {
-        protected $primaryKey = 'id';
-        protected $connection = 'masterdb';
-        public $incrementing = false;
-	public $timestamps = false;
+	public $incrementing = false;
 
 	protected $casts = [
+		'id' => 'int',
+		'title_id' => 'int',
+		'mobile1' => 'int',
+		'mobile2' => 'int',
 		'status' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int',
@@ -61,7 +74,20 @@ class MlstEnquirySalesCategory extends Eloquent
 	];
 
 	protected $fillable = [
-		'enquiry_category',
+		'id',
+		'title_id',
+		'first_name',
+		'last_name',
+		'mobile1',
+		'mobile2',
+		'email1',
+		'email2',
+		'designation',
+		'bank_name',
+		'bank_branch',
+		'bank_address',
+		'bank_email',
+		'bank_ifsc',
 		'status',
 		'created_date',
 		'created_by',

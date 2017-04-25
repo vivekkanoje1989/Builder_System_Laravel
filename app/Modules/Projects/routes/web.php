@@ -31,4 +31,5 @@ Route::group(array('module' => 'Projects', 'middleware' => ['web'], 'namespace' 
     Route::resource($getUrl. '/projects', 'ProjectsController');
     Route::post($getUrl. '/projects/basicInfo', 'ProjectsController@basicInfo'); //save basic info
     Route::post($getUrl. '/projects/imagesInfo', 'ProjectsController@imagesInfo'); //save images info
+    Route::post($getUrl.'/projects/getProjectInfo','ProjectsController@getProjectInfo');
 });	

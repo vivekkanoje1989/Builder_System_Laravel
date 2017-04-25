@@ -8,7 +8,7 @@
         color: #e46f61;
     }
 </style>
-<form ng-controller="basicInfoController" role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)" >
+<form ng-controller="basicInfoController" role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)" enctype="multipart/form-data">
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="col-sm-6 col-xs-12">
@@ -20,6 +20,12 @@
                     <span class="help-block">{{project_logo_err}}</span>
                 </div>
             </div>
+<!--            <div class="col-sm-12 col-xs-12" ng-if="project_logo !==''">
+                <div class="img-div2" data-title="name"> 
+                    <i class="fa fa-times rem-icon" title=""></i>
+                    <img  ng-if="project_logo !== ''" ng-src="[[ Session::get('s3Path') ]]project/upload/{{project_logo}}" class="thumb photoPreview">
+                </div>
+            </div>-->
             <div class="col-sm-12 col-xs-12" ng-if="project_logo">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_logo"> 
                     <i class="fa fa-times rem-icon" title=""></i>
