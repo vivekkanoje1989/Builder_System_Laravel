@@ -1,11 +1,11 @@
 <div class="row">
-    <form role="form" name="galleryForm" ng-submit="saveBasicInfo(projectData, projectImages)">
+    <form role="form" name="galleryForm" ng-submit="saveBasicInfo(galleryData, projectImages)">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label>Video Link</label>
                     <span class="input-icon icon-right">
-                        <input type="text" class="form-control" ng-model="projectData.video_link" name="video_link" />
+                        <input type="text" class="form-control" ng-model="galleryData.video_link" name="video_link" />
 
                     </span>                                                   
                 </div>
@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label>Video Short Link</label>
                     <span class="input-icon icon-right">
-                       <input type="text" class="form-control" ng-model="projectData.video_short_link" name="video_short_link" />
+                       <input type="text" class="form-control" ng-model="galleryData.video_short_link" name="video_short_link" />
                     </span>                                                   
                 </div>
             </div>

@@ -2173,22 +2173,22 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/enquiryLocationController.js'
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/enquiryLocationController.js'
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
 

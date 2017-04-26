@@ -239,7 +239,7 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRules();
         $validationRules['personal_email1'] = 'required|email|unique:employees,personal_email1,' . $id . '';
         $validationRules['password'] = '';
-        //print_r($input);exit;
+        
         if (empty($input)) {
             $input = Input::all();
             $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
@@ -254,10 +254,9 @@ class MasterHrController extends Controller {
             unset($input['userData']['login_date_time']);
             unset($input['userData']['departmentid']);
             unset($input['userData']['loggedInUserId']);
-            $imageName = $input['userData']['employee_photo_file_name'];
             $input['userData']['employee_photo_file_name'] = '';
         }
-
+        //echo "<pre>";print_r($input); exit;
         $input = Employee::doAction($input);
         $input['userData']['updated_date'] = date('Y-m-d');
 
@@ -289,7 +288,7 @@ class MasterHrController extends Controller {
                 $input['userData']['employee_photo_file_name'] = $imageName;
             }
         } else {
-            $input['userData']['employee_photo_file_name'] = $imageName;
+            $input['userData']['employee_photo_file_name'] = "a.jpg";
         }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
 

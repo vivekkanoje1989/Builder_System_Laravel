@@ -40,6 +40,7 @@ return [
         "Marketing",
         "MyStorage",
         "OperationalSettings",
-        "Wings"
+        "Wings",
+        "EnquiryLocations",
     ),
 ];
