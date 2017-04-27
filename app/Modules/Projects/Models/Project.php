@@ -111,4 +111,6 @@ class Project extends Eloquent
 		'deleted_browser',
 		'deleted_mac_id'
 	];
+        
+       
 }

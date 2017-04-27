@@ -161,7 +161,7 @@
                                 </select>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="sharedForm.share_with.$error">
                                     <div ng-message="required">Select employee.</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                                 <br/>
                             </span>
@@ -240,7 +240,7 @@
                                 </select>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="sharedImage.share_with.$error">
                                     <div ng-message="required">Select employee.</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                                 <br/>
                             </span>

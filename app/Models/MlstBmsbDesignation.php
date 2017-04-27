@@ -1,14 +1,12 @@
 <?php
-
 /**
  * Created by Reliese Model.
  * Date: Tue, 04 Apr 2017 12:54:42 +0530.
  */
 
 namespace App\Models;
-
 use Reliese\Database\Eloquent\Model as Eloquent;
-
+use Auth;
 /**
  * Class MlstBmsbDesignation
  * 
@@ -41,6 +39,7 @@ class MlstBmsbDesignation extends Eloquent {
     protected $connection = 'masterdb';
     protected $table = 'mlst_bmsb_designations';
     protected $casts = [
+        'id' => 'int',
         'status' => 'int',
         'created_by' => 'int',
         'updated_by' => 'int',
@@ -75,5 +74,7 @@ class MlstBmsbDesignation extends Eloquent {
         'deleted_browser',
         'deleted_mac_id'
     ];
-
+    public function employeeName(){
+        return $this->hasOne('App\Models\backend\Employee', 'designation_id')->where("employees.id", "<>", Auth::guard('admin')->user()->id); //(designation model name, primary of designation model) 
+    }
 }

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Modules\MasterHr\Controllers;
-
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -16,7 +14,8 @@ use App\Classes\CommonFunctions;
 use App\Classes\MenuItems;
 use App\Classes\S3;
 use App\Modules\MasterHr\Models\EmployeeRole;
-
+use App\Models\MlstBmsbDesignation;
+use Session;
 class MasterHrController extends Controller {
 
     public function __construct() {
@@ -291,12 +290,10 @@ class MasterHrController extends Controller {
         }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
         
-//        echo "<pre>";print_r($input);exit;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
         //
         $employeeUpdate = Employee::where('id', $id)->update($input['userData']);
-        //echo "<pre>";print_r($employeeUpdate);exit;
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData = $originalValues[0]['attributes']['password'];
         unset($getResult['password']);
@@ -533,6 +530,7 @@ class MasterHrController extends Controller {
     }
 
     public function getChartData() {
+       
         $input = Employee::whereIn('employee_status', [1, 2])
                 ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
                 ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
@@ -550,7 +548,7 @@ class MasterHrController extends Controller {
                 if (empty($team['employee_photo_file_name'])) {
                     $team['employee_photo_file_name'] = 'http://icons.iconarchive.com/icons/alecive/flatwoken/96/Apps-User-Online-icon.png';
                 } else {
-                    $team['employee_photo_file_name'] = 'https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Employee-Photos/' . $team['employee_photo_file_name'];
+                   $team['employee_photo_file_name'] = 'https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/hr/employee-photos/' . $team['employee_photo_file_name'];
                 }
                 if ($team['employee_status'] == 2) {
                     $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['employee_photo_file_name'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:red">Temporary Suspended</b></div>';
@@ -565,16 +563,13 @@ class MasterHrController extends Controller {
     }
 
     public function photoUpload() {
-        $folderName = 'Employee-Photos';
-        $imageName = S3::s3FileUplodForApp($_FILES['file'], $folderName, 1);
-//        $imageName = trim($imageName, ',');
-//        if (move_uploaded_file($_FILES['file']['tmp_name'], base_path() . "/common/employee_photo/" . $_FILES['file']['name'])) {
-//            Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
-//            $result = ['success' => true];
-//            return json_encode($result);
-        // echo ''.$imageName;
-        if (!empty($imageName)) {
-            $img = Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
+        $folderName = 'hr/employee-photos';
+        $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
+        $imageFileName = time() . '.' . $ext;
+        $imageName = S3::s3FileUplod($_FILES['file']['tmp_name'], $imageFileName,$folderName);
+
+        if ($imageName) {
+            $img = Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageFileName));
             if($img)
             {
                 $result = ['success' => true, 'message' => 'Image uploaded'];
@@ -586,8 +581,23 @@ class MasterHrController extends Controller {
             return json_encode($result);
         }
     }
+     public function getTeamLead($id) {
+        $designation = MlstBmsbDesignation::with('employeeName')->get();
+        foreach($designation as $desg){
+            if(!empty($desg['employeeName'])){
+                $employee[] = [ 'id' => $desg['employeeName']['id'],'first_name' => $desg['employeeName']['first_name'],'last_name' => $desg['employeeName']['last_name'],'designation_name' => $desg['designation']];
+            }
+        }
+        if (!empty($employee)) {
+            $result = ['success' => true, 'records' => $employee];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+   }
 
-    /*     * **************** END (Organization Chart) ******************** */
+    /***************** END (Organization Chart) ******************** */
 
     protected function guard() {
         return Auth::guard('admin');

@@ -1,4 +1,4 @@
-app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout', function ($scope, Data, $state, Upload, $timeout) {
+app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout','toaster', function ($scope, Data, $state, Upload, $timeout,toaster) {
 
 
         $scope.dostorageFormAction = function ()
@@ -6,6 +6,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             Data.post('storage-list/', {
                 filename: $scope.filename}).then(function (response) {
                 if (response.status) {
+                    toaster.pop('success', 'My storage', 'Record successfully created');
                     $scope.directories.push({'folder': $scope.filename, 'id': response.result.id});
                     $("#storageModel").modal('toggle');
                 } else {
@@ -17,9 +18,9 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
         {
             Data.post('storage-list/folderStorage', {
                 folder: folder, folderName: $scope.folderName}).then(function (response) {
-
                 if (response.status)
                 {
+                    toaster.pop('success', 'My storage', 'Record successfully created');
                     $scope.subDirectories.push({'folder': $scope.folderName, 'id': response.id});
                     $("#folderModel").modal('toggle');
                 } else {
@@ -31,12 +32,13 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
         {
             Data.post('storage-list/getSubDirectory', {
                 id: id}).then(function (response) {
-              
+               // console.log(response);
                 if (response.status)
                 {
                     $scope.subDirectories = response.result;
                 } else {
                     $scope.subDirectories = [];
+                    $scope.errorMsg = response.errorMsg;
                 }
             });
         };
@@ -63,6 +65,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             Data.post('storage-list/removeEmployees', {
                 employee_id: employee_id, id: id}).then(function (response) {
                 //console.log(response);
+                 toaster.pop('success', 'My storage', 'Employee removed successfully');
                 $scope.folderSharedEmployees.splice(index, 1);
             });
         };
@@ -71,6 +74,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             Data.post('storage-list/removeImageSharedEmp', {
                 employee_id: employee_id, folder: folder, 'image_id': $scope.image_id}).then(function (response) {
                 $scope.imageSharedEmployees.splice(index, 1);
+                 toaster.pop('success', 'My storage', 'Employee removed successfully');
             });
         };
         $scope.getSharedImagesEmployees = function (id)
@@ -124,10 +128,12 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 id: id}).then(function (response) {
                 if (response.result && type == 0)
                 {
+                    toaster.pop('success', 'My storage', 'Record successfully deleted');
                     $state.go(getUrl + '.storageListIndex');
                 } else
                 if (response.result && type == 2)
                 {
+                    toaster.pop('success', 'My storage', 'Record successfully deleted');
                     $state.go(getUrl + '.sharedWithMe');
                 } else if (response.result && type == 1) {
                     $state.go(getUrl + '.sharedWithMe');
@@ -140,6 +146,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 id: id}).then(function (response) {
                 if (response.result)
                 {
+                    toaster.pop('success', 'My storage', 'Record successfully restored');
                     $state.go(getUrl + '.recycleBin');
                 }
             });
@@ -149,7 +156,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             $scope.folderName = filename;
             Data.post('storage-list/allFolderImages', {
                 id: filename}).then(function (response) {
-                // console.log(response)
+                 console.log(response)
                 $scope.folderImages = response.records;
                 if ($scope.folderImages == undefined)
                 {
@@ -174,6 +181,9 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 data: data
             });
             fileName.upload.then(function (response) {
+                
+                console.log(response);
+                 toaster.pop('success', 'My storage', 'Record successfully created');
                 var post = response.data.result;
                 if ($scope.folderImages !== undefined)
                 {
@@ -206,6 +216,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             });
             fileName.upload.then(function (response) {
                 // console.log(response);
+                 toaster.pop('success', 'My storage', 'Record successfully created');
                 var post = response.data.result;
                 if ($scope.folderImages !== undefined)
                 {
@@ -303,16 +314,16 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                         $scope.subFolder.push(street);
                     }
                 }
-                 syncSubFolder = $scope.subFolder.filter(function (x) {
+                syncSubFolder = $scope.subFolder.filter(function (x) {
                     return response.oldFolder.indexOf(x) < 0
                 });
-                $scope.syncSubFolderCreate(syncSubFolder,folder,response.subId);
+                $scope.syncSubFolderCreate(syncSubFolder, folder, response.subId);
             });
         };
-        $scope.syncSubFolderCreate = function(syncSubFolder,folder,subId){
+        $scope.syncSubFolderCreate = function (syncSubFolder, folder, subId) {
             Data.post('storage-list/syncSubFolderCreate', {
-                'syncSubFolder': syncSubFolder,'id':folder,'subId':subId}).then(function (response) {
-             
+                'syncSubFolder': syncSubFolder, 'id': folder, 'subId': subId}).then(function (response) {
+
             });
         }
     }]);

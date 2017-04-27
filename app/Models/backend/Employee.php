@@ -285,7 +285,7 @@ class Employee extends Authenticatable {
     
     public function designationName()
     {
-        return $this->belongsTo('App\Models\MlstBmsbDesignation', 'id'); //(designation model name, primary of designation model) 
+        return $this->belongsTo('App\Models\MlstBmsbDesignation', 'id')->where("employees.designation_id", 'id'); //(designation model name, primary of designation model) 
     }
     
     public static function doAction($input) {

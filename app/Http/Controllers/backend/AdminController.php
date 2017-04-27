@@ -23,6 +23,12 @@ use App\Models\VehicleModel;
 use App\Models\MlstBmsbVertical;
 use App\Models\MlstBmsbDesignation;
 use App\Models\LstEnquiryLocation;
+use App\Models\MlstBmsbBlockType;
+use App\Models\ProjectBlock;
+use App\Models\Project;
+use App\Models\Company;
+use App\Models\CompanyStationary;
+use App\Models\MlstEnquirySalesCategory;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
@@ -174,43 +180,61 @@ class AdminController extends Controller {
         $getBloodGroup = MlstBmsbDesignation::all();
         if (!empty($getBloodGroup)) {
             $result = ['success' => true, 'records' => $getBloodGroup];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
     public function getDepartments() {
         $getDepartments = MlstBmsbDepartment::all();
         if (!empty($getDepartments)) {
             $result = ['success' => true, 'records' => $getDepartments];
-            return $result;
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getEducationList() {
         $getEducationList = MlstEducation::all();
         if (!empty($getEducationList)) {
             $result = ['success' => true, 'records' => $getEducationList];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getProfessionList() {
         $getProfessionList = MlstProfession::all();
         if (!empty($getProfessionList)) {
             $result = ['success' => true, 'records' => $getProfessionList];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
+    }
+    
+    public function getBlockTypes() {
+        $blockTypeList = MlstBmsbBlockType::all();
+        if (!empty($blockTypeList)) {
+            $result = ['success' => true, 'records' => $blockTypeList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    public function getSubBlocks() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        $subBlocksList = ProjectBlock::select("id","block_sub_type")->whereIn("block_type_id",json_decode($request['data']['myJsonString']))->get();
+        if (!empty($subBlocksList)) {
+            $result = ['success' => true, 'records' => $subBlocksList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
     }
 
     public function getMasterData() {
@@ -237,11 +261,10 @@ class AdminController extends Controller {
         $getCountires = MlstCountry::all();
         if (!empty($getCountires)) {
             $result = ['success' => true, 'records' => $getCountires];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getStates(Request $request) {
@@ -251,11 +274,10 @@ class AdminController extends Controller {
         $getStates = MlstState::where("country_id", $countryId)->get();
         if (!empty($getStates)) {
             $result = ['success' => true, 'records' => $getStates];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getCities() {
@@ -265,11 +287,10 @@ class AdminController extends Controller {
         $getCities = MlstCity::where("state_id", $stateId)->get();
         if (!empty($getCities)) {
             $result = ['success' => true, 'records' => $getCities];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
     public function getLocations() {
         $postdata = file_get_contents("php://input");
@@ -280,11 +301,10 @@ class AdminController extends Controller {
         $getLocations = LstEnquiryLocation::where(['country_id'=> $countryId,'state_id'=> $stateId,'city_id'=> $cityId])->get();
         if (!empty($getLocations)) {
             $result = ['success' => true, 'records' => $getLocations];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
     public function checkUniqueEmail() {
         $postdata = file_get_contents("php://input");
@@ -301,22 +321,20 @@ class AdminController extends Controller {
         }
         if (empty($checkEmail[0]->personal_email1)) {
             $result = ['success' => true];
-            return json_encode($result);
         } else {
             $result = ['success' => false];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getEnquirySource() {
         $getSource = MlstBmsbEnquirySalesSource::all();
         if (!empty($getSource)) {
             $result = ['success' => true, 'records' => $getSource];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getEnquirySubSource() {
@@ -326,44 +344,77 @@ class AdminController extends Controller {
         $getsubSource = EnquirySalesSubSource::where('enquiry_sales_source_id', $sourceId)->get();
         if (!empty($getsubSource)) {
             $result = ['success' => true, 'records' => $getsubSource];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
+    }
+    public function getProjects() {
+        $projectList = Project::select('id','project_name')->get();
+        if (!empty($projectList)) {
+            $result = ['success' => true, 'records' => $projectList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
     }
 
+    public function getCompany() {
+        $companyList = Company::select('id','legal_name')->get();
+        if (!empty($companyList)) {
+            $result = ['success' => true, 'records' => $companyList];            
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    public function getStationary() {
+        $stationaryList = CompanyStationary::select('id','stationary_set_name')->get();
+        if (!empty($stationaryList)) {
+            $result = ['success' => true, 'records' => $stationaryList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    public function getSalesEnqCategory() {
+        $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->get();
+        if (!empty($salesEnqCategoryList)) {
+            $result = ['success' => true, 'records' => $salesEnqCategoryList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    
     /****************************UMA************************************/
     public function getWebPageList() {
         $getpages = WebPage::all();
         if (!empty($getpages)) {
             $result = ['success' => true, 'records' => $getpages];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getPropertyPortalType() {
         $getPropertyPortal = MlstBmsbPropertyPortal::all();
         if (!empty($getPropertyPortal)) {
             $result = ['success' => true, 'records' => $getPropertyPortal];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
     public function getVerticals() {
         $getVerticals = MlstBmsbVertical::all();
         if (!empty($getVerticals)) {
             $result = ['success' => true, 'records' => $getVerticals];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
    /****************************UMA************************************/
     /***************************MANDAR*********************************/
@@ -372,44 +423,40 @@ class AdminController extends Controller {
         $getEmployees = Employee::select('id', 'first_name','last_name','designation_id')->where("client_id", 1)->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
-            return $result;
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getClient() {
         $getclient = ClientInfo::all();
         if (!empty($getclient)) {
             $result = ['success' => true, 'records' => $getclient];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getVehiclebrands() {
         $getVehiclebrands = VehicleBrand::all();
         if (!empty($getVehiclebrands)) {
             $result = ['success' => true, 'records' => $getVehiclebrands];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getVehiclemodels() {
         $getVehiclemodels = VehicleModel::select('*')->where("brand_id", 1)->get();
         if (!empty($getVehiclemodels)) {
             $result = ['success' => true, 'records' => $getVehiclemodels];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     /***************************MANDAR*********************************/

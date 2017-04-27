@@ -43,6 +43,8 @@ return [
         "OperationalSettings",
         "UserDocuments",
         "EmployeeDocuments",
-        "companies",
+        "Companies",
+        "Wings",
+        "BankAccounts",
     ),
 ];

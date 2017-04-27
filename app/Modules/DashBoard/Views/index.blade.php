@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="widget-body table-responsive">     
-                <form  ng-submit="requestLeave.$valid && dorequestLeaveAction('1')" name="requestLeave"  novalidate>
+                <form  ng-submit="requestLeave.$valid && dorequestLeaveAction(request,'1')" name="requestLeave"  novalidate>
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                     <table class="table table-hover table-striped table-bordered" at-config="config">
                         <thead class="bord-bot">
@@ -27,7 +27,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.application_to.$dirty && requestLeave.application_to.$invalid) }">
                                         <span class="input-icon icon-right">
 
-                                            <select class="form-control" ng-model="application_to" name="application_to" ng-change="getEmployeesCC()" required>
+                                            <select class="form-control" ng-model="request.application_to" name="application_to" ng-change="getEmployeesCC()" required>
                                                 <option value="">Select User</option>
                                                 <option  ng-repeat="itemone in employeeRow" ng-selected="{{ application_to == itemone.id}}" value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + "("+ itemone.designation + ")"}}</option>
                                             </select>
@@ -43,7 +43,7 @@
                                 <td>Application CC<span class="sp-err">*</span></td>
                                 <td>
                                     <span class="input-icon icon-right">
-                                        <select class="form-control" ng-model="application_cc" name="application_cc" >
+                                        <select class="form-control" ng-model="request.application_cc" name="application_cc" >
                                             <option value="">Select User</option>
                                             <option  ng-repeat="itemone in employeeRowCC" ng-selected="{{ application_cc == itemone.id}}" value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + "("+ itemone.designation + ")"}}</option>
                                         </select>
@@ -53,15 +53,15 @@
                             </tr>
                             <tr><td>Application Start Date<span class="sp-err">*</span></td>
                                 <td>
-                                    <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.from.$dirty || requestLeave.from.$invalid)}">
+                                    <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.from_date.$dirty || requestLeave.from_date.$invalid)}">
                                         <p class="input-group">
-                                            <input type="text" ng-model="model.from_date" name="from" id="from_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                            <input type="text" ng-model="request.from_date" name="from_date" id="from_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                             <span class="input-group-btn" >
                                                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
                                         </p>
-                                        <div  class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.from.$error">
-                                            <div ng-message="required">From cannot be blank..</div>
+                                        <div  class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.from_date.$error">
+                                            <div ng-message="required">Start date is required.</div>
                                         </div>
                                     </div>
                                 </td>          
@@ -70,13 +70,13 @@
                                 <td>
                                     <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.to.$dirty || requestLeave.to.$invalid)}">
                                         <p class="input-group">
-                                            <input type="text" ng-model="model.to_date"  min-date="model.to" name="to" id="to_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                            <input type="text" ng-model="request.to_date"  min-date="model.to" name="to" id="to_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
                                         </p>
                                         <div  class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.to.$error">
-                                            <div ng-message="required">To cannot be blank.</div>
+                                            <div ng-message="required">Closing date is required.</div>
                                         </div>
                                     </div>
                                 </td>          
@@ -85,7 +85,7 @@
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.req_desc.$dirty && requestLeave.req_desc.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="req_desc" name="req_desc" cols="50" rows="5" required ></textarea>
+                                            <textarea ng-model="request.req_desc" name="req_desc" cols="50" rows="5" required ></textarea>
 
                                         </span>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.req_desc.$error">

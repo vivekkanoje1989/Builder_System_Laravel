@@ -12,9 +12,9 @@
             </div>
 
             <div class="widget-body table-responsive">     
-                <form  ng-submit="requestLeave.$valid && doOtherApprovalAction('2')" name="requestLeave"  novalidate>
-                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
+                <form  ng-submit="requestLeave.$valid && doOtherApprovalAction(request,'2')" name="requestLeave"  novalidate>
+                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+
                     <table class="table table-hover table-striped table-bordered" at-config="config">
                         <thead class="bord-bot">
                             <tr>
@@ -28,7 +28,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.application_to.$dirty && requestLeave.application_to.$invalid) }">
                                         <span class="input-icon icon-right">
 
-                                            <select class="form-control" ng-model="application_to" name="application_to" ng-change="getEmployeesCC()" required>
+                                            <select class="form-control" ng-model="request.application_to" name="application_to" ng-change="getEmployeesCC()" required>
                                                 <option value="">Select User</option>
                                                 <option  ng-repeat="itemone in employeeRow" ng-selected="{{ application_to == itemone.id}}" value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + (itemone.designation)}}</option>
                                             </select>
@@ -43,25 +43,25 @@
                             <tr>
                                 <td>Application CC <span class="sp-err">*</span></td>
                                 <td>
-                                   <span class="input-icon icon-right">
-                                            <select class="form-control" ng-model="application_cc" name="application_cc" >
-                                                <option value="">Select User</option>
-                                                <option  ng-repeat="itemone in employeeRowCC" ng-selected="{{ application_cc == itemone.id}}" value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + (itemone.designation)}}</option>
-                                            </select>
-                                            <br/>
-                                        </span>
+                                    <span class="input-icon icon-right">
+                                        <select class="form-control" ng-model="request.application_cc" name="application_cc" >
+                                            <option value="">Select User</option>
+                                            <option  ng-repeat="itemone in employeeRowCC" ng-selected="{{ application_cc == itemone.id}}" value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + (itemone.designation)}}</option>
+                                        </select>
+                                        <br/>
+                                    </span>
                                 </td>
                             </tr>
                             <tr><td>Application Description<span class="sp-err">*</span></td>
                                 <td>
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.req_desc.$dirty && requestLeave.req_desc.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="req_desc" name="req_desc" cols="50" rows="5" required ></textarea>
+                                            <textarea ng-model="request.req_desc" name="req_desc" cols="50" rows="5" required ></textarea>
 
                                         </span>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.req_desc.$error">
                                             <div ng-message="required">	
-Application Description cannot be blank.</div>
+                                                Application Description cannot be blank.</div>
                                         </div>
                                         <br/>
                                     </div>    

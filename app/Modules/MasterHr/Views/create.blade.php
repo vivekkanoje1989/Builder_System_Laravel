@@ -507,7 +507,7 @@
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.employee_photo_file_name)">
                                     <img ng-src="{{image_source}}" class="thumb photoPreview">
-                                    <img ng-if="imgUrl" src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Employee-Photos/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
+                                    <img ng-if="imgUrl" src="[[ Session::get('s3Path') ]]/Employee-Photos/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
                                     <div ng-show="step3 || invalidImage" ng-messages="userForm.employee_photo_file_name.$error" class="help-block step3">
                                         <div ng-show="invalidImage">{{ invalidImage }}</div>
                                         <div ng-message="required">This field is required.</div>
@@ -569,7 +569,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.reporting_to_id" name="reporting_to_id" ng-controller="teamLeadCtrl" class="form-control" required>
                                         <option value="">Please Select</option>
-                                        <option ng-repeat="reporting in teamLeads track by $index" value="{{reporting.id}}" ng-selected="{{ userData.reporting_to_id == reporting.id }}">{{reporting.first_name }} {{ reporting.last_name }} ({{ reporting.designation_name.designation }})</option>
+                                        <option ng-repeat="reporting in teamLeads track by $index" value="{{reporting.id}}" ng-selected="{{ userData.reporting_to_id == reporting.id }}">{{reporting.first_name }} {{ reporting.last_name }} ({{ reporting.designation_name }})</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userForm.reporting_to_id.$error" class="help-block step4">
@@ -602,7 +602,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userData.team_lead_id" name="team_lead_id" ng-controller="teamLeadCtrl" class="form-control" required>
                                         <option value="">Please Select</option>
-                                        <option ng-repeat="teamLead in teamLeads track by $index" value="{{teamLead.id}}" ng-selected="{{ userData.team_lead_id == teamLead.id }}">{{teamLead.first_name }} {{ teamLead.last_name }} ({{ teamLead.designation_name.designation }})</option>
+                                        <option ng-repeat="teamLead in teamLeads track by $index" value="{{teamLead.id}}" ng-selected="{{ userData.team_lead_id == teamLead.id }}">{{teamLead.first_name }} {{ teamLead.last_name }} ({{ teamLead.designation_name }})</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userForm.team_lead_id.$error" class="help-block step4">

@@ -62,7 +62,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -71,10 +71,8 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/select.js',
                                                                         ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                                                    });
+                                                                });
                                                     }
                                                 ]
                                     }
@@ -100,10 +98,8 @@ angular.module('app')
                                                                         files: [
                                                                             '/backend/hrController.js',
                                                                         ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                                                    });
+                                                                });
                                                     }
                                                 ]
                                     }
@@ -124,7 +120,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -133,10 +129,8 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/select.js',
                                                                         ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                                                    });
+                                                                });
                                                     }
                                                 ]
                                     }
@@ -174,8 +168,7 @@ angular.module('app')
                                                                         files: [
                                                                             '/backend/app/controllers/accordion.js',
                                                                         ]
-                                                                    }
-                                                                    );
+                                                                    });
                                                                 }
                                                         );
                                                     }
@@ -205,8 +198,7 @@ angular.module('app')
                                                                         files: [
                                                                             '/backend/app/controllers/accordion.js',
                                                                         ]
-                                                                    }
-                                                                    );
+                                                                    });
                                                                 }
                                                         );
                                                     }
@@ -234,10 +226,39 @@ angular.module('app')
                                                                             '/js/intlTelInput.js',
                                                                             '/backend/customerController.js',
                                                                             '/backend/app/controllers/datepicker.js',
-                                                                            '/backend/app/directives.js',
                                                                         ]
-                                                                    }
-                                                                    );
+                                                                    });
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                .state(getUrl + '.enquiryCreate', {
+                                    url: '/sales/createEnquiry/:customerId',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/master-sales/showEnquiry/' + stateParams.customerId;
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create New Enquiry'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/enquiryController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                        ]
+                                                                    });
                                                                 }
                                                         );
                                                     }
@@ -245,11 +266,32 @@ angular.module('app')
                                     }
                                 })
                                 .state(getUrl + '.salesIndex', {
-                                    url: '/sales/index',
-                                    templateUrl: getUrl + '/master-sales/',
+                                    templateUrl: getUrl + '/master-sales/create',
+                                    controller: 'customerController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Enquiries'
+                                        label: 'Customer Details'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customerController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
                                     }
                                 })
                                 .state(getUrl + '.userChart', {
@@ -295,10 +337,8 @@ angular.module('app')
                                                                             '/backend/projectController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                         ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                                                    });
+                                                                });
                                                     }
                                                 ]
                                     }
@@ -324,8 +364,89 @@ angular.module('app')
                                                                             '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                             '/backend/app/controllers/textangular.js',
                                                                         ]
-                                                                    }
-                                                                    );
+                                                                    });
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                .state(getUrl + '.wingsIndex', {
+                                    url: '/wings/index',
+                                    templateUrl: getUrl + '/wings/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Wings'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/wingsController.js'
+                                                                        ]
+                                                                    });
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                .state(getUrl + '.wingsCreate', {
+                                    url: '/wings/create',
+                                    templateUrl: getUrl + '/wings/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create Wings'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/wingsController.js'
+                                                                        ]
+                                                                    });
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+
+                                .state(getUrl + '.wingsUpdate', {
+                                    url: '/wings/update/:id',
+                                    templateUrl: function (setParams)
+                                    {
+                                        return getUrl + '/wings/' + setParams.id + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Update Wings'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/wingsController.js'
+                                                                        ]
+                                                                    });
                                                                 }
                                                         );
                                                     }
@@ -334,25 +455,31 @@ angular.module('app')
                                 })
                                 /************************************ UMA ******************************/
                                 .state(getUrl + '.propertyPortalIndex', {
-                                    url: '/propertyportals/index',
-                                    templateUrl: getUrl + '/propertyportals/',
-                                    controller: 'propertyPortalsController',
+                                    templateUrl: getUrl + '/projects/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Property Portals'
+                                        label: 'Create Project'
                                     },
                                     resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/propertyPortalsController.js',
-                                                    ]
-                                                });
-                                            }
-                                        ]
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/projectController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
                                     }
                                 })
                                 .state(getUrl + '.propertyPortalAccounts', {
@@ -598,7 +725,6 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-
                                 .state(getUrl + '.employeeDeviceCreate', {
                                     url: '/employeeDevice/create',
                                     templateUrl: getUrl + '/employee-device/create',
@@ -658,7 +784,392 @@ angular.module('app')
                                     }
                                 })
                                 /****************************UMA************************************/
+                                /****************************MANDAR*********************************/
+                                .state(getUrl + '.cloudtelephony', {
+                                    url: '/cloudtelephony/create',
+                                    templateUrl: getUrl + '/cloudtelephony/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Virtual Number Registration',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/cloudtelephonyController.js',
+                                                            '/backend/app/controllers/datepicker.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+
+                                .state(getUrl + '.virtualnumberslist', {
+                                    url: '/virtualnumber/index',
+                                    templateUrl: getUrl + '/virtualnumber/',
+                                    controller: 'cloudtelephonyController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Virtual Numbers',
+                                        description: ''
+                                    },
+                                })
+
+
+                                .state(getUrl + '.numbersIndex', {
+                                    url: '/cloudtelephony/index',
+                                    templateUrl: getUrl + '/cloudtelephony/',
+                                    controller: 'cloudtelephonyController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Virtual Numbers',
+                                        description: ''
+                                    },
+                                })
+
+
+                                .state(getUrl + '.recordUpdate', {
+                                    url: '/cloudtelephony/update/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/cloudtelephony/' + stateParams.id + '/edit';
+                                    },
+                                    controller: 'cloudtelephonyController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Number',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load([{
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/app/controllers/datepicker.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.vnumberUpdate', {
+                                    url: '/virtualnumber/update/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/virtualnumber/' + stateParams.id + '/edit';
+                                    },
+                                    controller: 'cloudtelephonyController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Virtual Number',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/app/controllers/datepicker.js',
+                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.extensionMenu', {
+                                    url: '/extensionmenu/view/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/extensionmenu/' + stateParams.id + '/viewData';
+                                    },
+                                    controller: 'cloudtelephonyController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Extension Settings',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/app/controllers/datepicker.js',
+                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.existingUpdate', {
+                                    url: '/virtualnumber/existingupdate/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/virtualnumber/' + stateParams.id + '/existingUpdate';
+                                    },
+                                    controller: 'cloudtelephonyController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Existing Customer Settings',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/app/controllers/datepicker.js',
+                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+
+
+                                /*************************** Promotional SMS ****************/
+
+                                .state(getUrl + '.promotionalsms', {
+                                    url: '/promotionalsms/index',
+                                    templateUrl: getUrl + '/promotionalsms/',
+                                    controller: 'promotionalsmsController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Promotional SMS',
+                                        description: ''
+                                    },
+                                })
+
+                                /**************************** Alerts Routing *****************************/
+                                .state(getUrl + '.alertsIndex', {
+                                    url: '/alerts/index',
+                                    templateUrl: getUrl + '/alerts/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Alerts'
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load({
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/alertsController.js',
+                                                    ]
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.alertsUpdate', {
+                                    url: '/alerts/update/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/alerts/' + stateParams.id + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/alertsController.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.customalertsIndex', {
+                                    url: '/customalerts/index',
+                                    templateUrl: getUrl + '/customalerts/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Custome Alters'
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load({
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/customalertsController.js',
+                                                    ]
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.customalertcreate', {
+                                    url: '/customalerts/create',
+                                    templateUrl: getUrl + '/customalerts/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create Custome Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/customalertsController.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.customalertsUpdate', {
+                                    url: '/customalerts/update/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/customalerts/' + stateParams.id + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Custome Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/customalertsController.js',
+                                                            '/backend/app/controllers/select.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.defaultalertsIndex', {
+                                    url: '/defaultalerts/index',
+                                    templateUrl: getUrl + '/defaultalerts/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Custome Alters'
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load({
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/defaultalertsController.js',
+                                                    ]
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.dafaultalertcreate', {
+                                    url: '/dafaultalerts/create',
+                                    templateUrl: getUrl + '/defaultalerts/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create Custome Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/defaultalertsController.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.defaultalertsUpdate', {
+                                    url: '/defaultalerts/update/:id',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/defaultalerts/' + stateParams.id + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Default Alert',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/defaultalertsController.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                /**************************** Alerts Routing *****************************/
+
+                                /****************************MANDAR*********************************/
                                 /****************************MANOJ*********************************/
+                                .state(getUrl + '.bloodGroupsIndex', {
+                                    url: '/bloodgroups/index',
+                                    templateUrl: getUrl + '/blood-groups/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create blood groups',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/bloodGroupsController.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
                                 .state(getUrl + '.countryIndex', {
                                     url: '/country/index',
                                     templateUrl: getUrl + '/manage-country/',
@@ -1330,394 +1841,6 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                /****************************MANOJ*********************************/
-                                /****************************MANDAR*********************************/
-                                .state(getUrl + '.cloudtelephony', {
-                                    url: '/cloudtelephony/create',
-                                    templateUrl: getUrl + '/cloudtelephony/create',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Virtual Number Registration',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/cloudtelephonyController.js',
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-
-                                .state(getUrl + '.virtualnumberslist', {
-                                    url: '/virtualnumber/index',
-                                    templateUrl: getUrl + '/virtualnumber/',
-                                    controller: 'cloudtelephonyController',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Manage Virtual Numbers',
-                                        description: ''
-                                    },
-                                })
-
-
-                                .state(getUrl + '.numbersIndex', {
-                                    url: '/cloudtelephony/index',
-                                    templateUrl: getUrl + '/cloudtelephony/',
-                                    controller: 'cloudtelephonyController',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Manage Virtual Numbers',
-                                        description: ''
-                                    },
-                                })
-
-
-                                .state(getUrl + '.recordUpdate', {
-                                    url: '/cloudtelephony/update/:id',
-                                    templateUrl: function (stateParams) {
-                                        return getUrl + '/cloudtelephony/' + stateParams.id + '/edit';
-                                    },
-                                    controller: 'cloudtelephonyController',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Edit Number',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load([{
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.vnumberUpdate', {
-                                    url: '/virtualnumber/update/:id',
-                                    templateUrl: function (stateParams) {
-                                        return getUrl + '/virtualnumber/' + stateParams.id + '/edit';
-                                    },
-                                    controller: 'cloudtelephonyController',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Edit Virtual Number',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.extensionMenu', {
-                                    url: '/extensionmenu/view/:id',
-                                    templateUrl: function (stateParams) {
-                                        return getUrl + '/extensionmenu/' + stateParams.id + '/viewData';
-                                    },
-                                    controller: 'cloudtelephonyController',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Extension Settings',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.existingUpdate', {
-                                    url: '/virtualnumber/existingupdate/:id',
-                                    templateUrl: function (stateParams) {
-                                        return getUrl + '/virtualnumber/' + stateParams.id + '/existingUpdate';
-                                    },
-                                    controller: 'cloudtelephonyController',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Existing Customer Settings',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-
-
-                                /*************************** Promotional SMS ****************/
-
-                                .state(getUrl + '.promotionalsms', {
-                                    url: '/promotionalsms/index',
-                                    templateUrl: getUrl + '/promotionalsms/',
-                                    controller: 'promotionalsmsController',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Promotional SMS',
-                                        description: ''
-                                    },
-                                })
-
-                                /**************************** Alerts Routing *****************************/
-                                .state(getUrl + '.alertsIndex', {
-                                    url: '/alerts/index',
-                                    templateUrl: getUrl + '/alerts/',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Alerts'
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/alertsController.js',
-                                                    ]
-                                                });
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.alertsUpdate', {
-                                    url: '/alerts/update/:id',
-                                    templateUrl: function (stateParams) {
-                                        return getUrl + '/alerts/' + stateParams.id + '/edit';
-                                    },
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Edit Alert',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/alertsController.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.customalertsIndex', {
-                                    url: '/customalerts/index',
-                                    templateUrl: getUrl + '/customalerts/',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Custome Alters'
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/customalertsController.js',
-                                                    ]
-                                                });
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.customalertcreate', {
-                                    url: '/customalerts/create',
-                                    templateUrl: getUrl + '/customalerts/create',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Create Custome Alert',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/customalertsController.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.customalertsUpdate', {
-                                    url: '/customalerts/update/:id',
-                                    templateUrl: function (stateParams) {
-                                        return getUrl + '/customalerts/' + stateParams.id + '/edit';
-                                    },
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Edit Custome Alert',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/customalertsController.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.defaultalertsIndex', {
-                                    url: '/defaultalerts/index',
-                                    templateUrl: getUrl + '/defaultalerts/',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Custome Alters'
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/defaultalertsController.js',
-                                                    ]
-                                                });
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.dafaultalertcreate', {
-                                    url: '/dafaultalerts/create',
-                                    templateUrl: getUrl + '/defaultalerts/create',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Create Custome Alert',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/defaultalertsController.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-                                .state(getUrl + '.defaultalertsUpdate', {
-                                    url: '/defaultalerts/update/:id',
-                                    templateUrl: function (stateParams) {
-                                        return getUrl + '/defaultalerts/' + stateParams.id + '/edit';
-                                    },
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Edit Default Alert',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/defaultalertsController.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
-                                    }
-                                })
-                                /**************************** Alerts Routing *****************************/
-
-                                /****************************MANDAR*********************************/
-                                /****************************MANOJ*********************************/
-                                .state(getUrl + '.bloodGroupsIndex', {
-                                    url: '/bloodgroups/index',
-                                    templateUrl: getUrl + '/blood-groups/',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Create blood groups',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/bloodGroupsController.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
-                                    }
-                                })
-
                                 .state(getUrl + '.testimonialsCreate', {
                                     url: '/testimonials/create',
                                     templateUrl: getUrl + '/testimonials-create/',
@@ -2368,6 +2491,7 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+
                                 .state(getUrl + '.userDocument', {
                                     url: '/user-document/index',
                                     templateUrl: getUrl + '/user-document/',
@@ -2396,7 +2520,7 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                
+
                                 .state(getUrl + '.documentIndex', {
                                     url: '/employee-document/index',
                                     templateUrl: getUrl + '/employee-document/',
@@ -2425,14 +2549,14 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                
-                                
-                                .state(getUrl + '.firmsPartners', {
+
+
+                                .state(getUrl + '.companiesIndex', {
                                     url: '/manage-company/index',
-                                    templateUrl: getUrl + '/manage-company/',
+                                    templateUrl: getUrl + '/manage-companies/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Firms & partners',
+                                        label: 'Manage company',
                                         description: ''
                                     },
                                     resolve: {
@@ -2455,10 +2579,95 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                
-                                
-                                
-                                
+                                .state(getUrl + '.companiesCreate', {
+                                    url: '/manage-companies/create',
+                                    templateUrl: getUrl + '/manage-companies/create',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage company',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/FirmsAndPartnersController.js',
+                                                                            '/backend/app/controllers/select.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+                                .state(getUrl + '.companiesUpdate', {
+                                    url: '/manage-companies/edit/:companyId',
+                                    templateUrl: function (stateParams) {
+
+                                        return getUrl + '/manage-companies/' + stateParams.companyId + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage company',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/FirmsAndPartnersController.js',
+                                                                            '/backend/app/controllers/select.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+                                .state(getUrl + '.bankAccountsIndex', {
+                                    url: '/bank-accounts/index',
+                                    templateUrl: getUrl + '/bank-accounts/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage bank Accounts',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/BankAccountsController.js',
+                                                                            '/backend/app/controllers/select.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
                                 /****************************MANOJ*********************************/
                                 .state('persian', {
                                     abstract: true,
@@ -2823,4 +3032,3 @@ angular.module('app')
 
     });
 });
-

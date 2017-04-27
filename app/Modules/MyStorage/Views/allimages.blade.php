@@ -45,8 +45,11 @@
         opacity: 1;
 
     }
+   
 </style>
-<div class="row" ng-controller="storageCtrl" ng-init="allImages('<?php echo $folderId; ?>'); getSharedEmployees('<?php echo $folderId; ?>'); subDirectoryAdd('<?php echo $folderId; ?>'); getSubDirectory('<?php echo $folderId; ?>');" >  
+<div class="row" ng-controller="storageCtrl" ng-init="allImages('<?php echo $folderId; ?>'); getSharedEmployees('<?php echo $folderId; ?>'); getSubDirectory('<?php echo $folderId; ?>');" >  
+
+<!--    subDirectoryAdd('<?php echo $folderId; ?>');-->
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -77,6 +80,11 @@
                             <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
                     </div>
                 </div>
+                <div class="row" ng-if="subDirectories.length == 0">
+                    <div class="col-md-12">
+                        <h3 >Sub folders not availble</h3>
+                    </div>
+                </div>
                 Images
                 <hr/>
                 <div class="row">
@@ -90,9 +98,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" ng-if="noResult">
+                <div class="row" ng-if="folderImages.length == 0">
                     <div class="col-md-12">
-                        <h3>{{noResult}}</h3>
+                        <h3 >Images not availble</h3>
                     </div>
                 </div>
             </div>
@@ -187,9 +195,10 @@
                         <label>Sub folder name </label>
                         <div class="form-group"    ng-class="{ 'has-error' : sbtBtn && (!folderForm.folderName.$dirty && folderForm.folderName.$invalid)}">
                             <span class="input-icon icon-right" >
-                                <input type="text"   ng-model="folderName" name="folderName"  class="form-control" required>
+                                <input type="text"   ng-model="folderName" name="folderName"  class="form-control" required ng-change="errorMsg == null">
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="folderForm.folderName.$error">
                                     <div ng-message="required">Folder name is required</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>     
@@ -240,7 +249,7 @@
                                 </select>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="sharedImage.share_with.$error">
                                     <div ng-message="required">Select employee.</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                                 <br/>
                             </span>

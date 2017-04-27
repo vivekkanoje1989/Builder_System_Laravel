@@ -112,8 +112,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                 } else{
                     $scope.disableCreateButton = true;
                     employeePhoto.result = response.data;
-                    toaster.pop('success', 'Employee Details', successMsg);
-                    
+                    toaster.pop('success', 'Employee Details', successMsg);                    
                     $timeout(function () {
                         $state.go(getUrl+'.userIndex');
                     }, 1000);
@@ -202,6 +201,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                             data: {deptId: deptId},
                             async:false,
                         }).then(function (response) {
+                            console.log(response);
                             if (!response.success) {
                                 $scope.errorMsg = response.message;
                             } else {
@@ -392,7 +392,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                 data: {},
                 async: false,
             }).then(function (response) {
-               // console.log(response);
+                console.log(response);
                 var arr = new Array();
                 var datalength = Object.keys(response).length;
                 for (var i = 0; i < datalength; i++)
@@ -409,17 +409,6 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
         }
     }
     /****************** Organization Chart *********************/
-    /*$scope.uploadedFile = function(element) {
-        $scope.currentFile = element.files[0];
-        var reader = new FileReader();
-        reader.onload = function(event) {
-          $scope.image_source = event.target.result;
-          $scope.$apply(function($scope) {
-            $scope.files = element.files;
-          });
-        }
-        reader.readAsDataURL(element.files[0]);
-    }*/
 }]);
 
 app.controller('teamLeadCtrl', function ($scope, Data) {
@@ -427,7 +416,7 @@ app.controller('teamLeadCtrl', function ($scope, Data) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {
-            $scope.teamLeads = response.records;
+            $scope.teamLeads = response.records;           
         }
     });
 });    

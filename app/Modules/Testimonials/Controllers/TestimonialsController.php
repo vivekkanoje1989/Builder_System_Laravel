@@ -11,6 +11,7 @@ use App\Classes\CommonFunctions;
 use Illuminate\Support\Facades\Input;
 use App\Classes\S3;
 use Auth;
+
 class TestimonialsController extends Controller {
 
     public function index() {
@@ -67,12 +68,9 @@ class TestimonialsController extends Controller {
 
     public function store() {
         $input = Input::all();
-        
-        $s3FolderName = 'Testimonial';
-        
-        $image = ['0' => $input['photo_url']['photo_url']];
-        $fileName = S3::s3FileUplod($image, $s3FolderName, 1);
-        $fileName = trim($fileName, ",");
+        $s3FolderName = "Testimonial";
+        $fileName = 'testimonial_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photo_url']['photo_url']->getClientOriginalExtension();
+        S3::s3FileUplod($input['photo_url']['photo_url']->getPathName(), $fileName, $s3FolderName);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['testimonialsData'] = array_merge($input, $create);

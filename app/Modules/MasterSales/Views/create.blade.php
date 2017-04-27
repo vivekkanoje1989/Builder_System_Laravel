@@ -56,7 +56,7 @@
                                 </div>
                             </div>     
                         </div>
-                         <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
+                        <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
                         <hr class="wide" />
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="form-title">
@@ -127,7 +127,7 @@
                                             <span class="input-icon icon-right">
                                                 <select ng-model="customerData.gender_id" name="gender_id" ng-controller="genderCtrl" class="form-control" required>
                                                     <option value="">Select Gender</option>
-                                                    <option ng-repeat="genderList in genders track by $index" value="{{genderList.gender_id}}" ng-selected="{{ genderList.gender_id == customerData.gender}}">{{genderList.gender_title}}</option>
+                                                    <option ng-repeat="genderList in genders track by $index" value="{{genderList.id}}" ng-selected="{{ genderList.id == customerData.gender}}">{{genderList.gender}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                                 <div ng-show="formButton" ng-messages="customerForm.gender_id.$error" class="help-block errMsg">

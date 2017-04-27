@@ -1,4 +1,4 @@
-<div class="row" ng-controller="storageCtrl" ng-init="getSynchedFolderList(); getStorageList()">  
+<div class="row" ng-controller="storageCtrl" ng-init="getStorageList()">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -38,7 +38,7 @@
                                 <input type="text" class="form-control" ng-model="filename" name="filename"  ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="storageForm.filename.$error">
                                     <div ng-message="required">Filename is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>

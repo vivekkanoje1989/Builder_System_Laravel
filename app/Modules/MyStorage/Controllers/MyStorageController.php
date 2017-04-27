@@ -210,16 +210,17 @@ class MyStorageController extends Controller {
         if (!empty($input['fileName']['fileName'])) {
             $originalName = $input['fileName']['fileName']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
-                $fileName = $input['fileName']['fileName']->getClientOriginalExtension();
-                $image = ['0' => $input['fileName']['fileName']];
                 $res = MyStorage::where('id', $input['id'])->select('folder')->first();
                 $s3FolderName = $res->folder;
-                $fileName = S3::s3FileUplod($image, $s3FolderName, 1);
-                $FileName = trim($fileName, ",");
+                $imageName = 'storage_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['fileName']['fileName']->getClientOriginalExtension();
+                S3::s3FileUplod($input['fileName']['fileName']->getPathName(), $imageName, $s3FolderName);
+                $FileName = $imageName;
+
                 $post = ['file_name' => $FileName, 'storage_id' => $input['id'], 'file_url' => $s3FolderName . '/' . $FileName];
                 $loggedInUserId = Auth::guard('admin')->user()->id;
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                 $input['fileData'] = array_merge($post, $create);
+
                 $result = StorageFiles::create($input['fileData']);
                 $lastId = MyStorage::latest('id')->first();
                 return json_encode(['result' => $res->folder . '/' . $FileName, 'lastId' => $lastId->id, 'status' => true]);
@@ -236,16 +237,14 @@ class MyStorageController extends Controller {
         if (!empty($input['fileName']['fileName'])) {
             $originalName = $input['fileName']['fileName']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
-                $fileName = $input['fileName']['fileName']->getClientOriginalExtension();
-                $image = ['0' => $input['fileName']['fileName']];
                 $res = MyStorage::where('id', $input['id'])->select('folder')->first();
-
                 $query = MyStorage::whereRaw(
                                 'find_in_set(?, sub_folder)', $input['id'])->where('deleted_status', '0')->first();
                 if (!empty($query->folder)) {
                     $s3FolderName = $query->folder . "/" . $res->folder;
-                    $fileName = S3::s3FileUplod($image, $s3FolderName, 1);
-                    $FileName = trim($fileName, ",");
+                    $imageName = 'storage_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['fileName']['fileName']->getClientOriginalExtension();
+                    S3::s3FileUplod($input['fileName']['fileName']->getPathName(), $imageName, $s3FolderName);
+                    $FileName = $imageName;
                     $post = ['file_name' => $FileName, 'storage_id' => $input['id'], 'file_url' => $s3FolderName . '/' . $FileName];
                     $loggedInUserId = Auth::guard('admin')->user()->id;
                     $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
@@ -307,20 +306,20 @@ class MyStorageController extends Controller {
     public function getSubDirectory() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
+
         $result = MyStorage::where('id', $request['id'])->first();
-         if (!empty($result->sub_folder)) {
-           
+
+        if (!empty($result->sub_folder)) {
+
             $sub_bucket = explode(',', $result->sub_folder);
             $subBuckets = [];
             for ($i = 0; $i < count($sub_bucket); $i++) {
                 $result = MyStorage::where('id', '=', $sub_bucket[$i])->first();
-              
-                        array_push($subBuckets, ['id' => $result->id, 'folder' => $result->folder]);
-                   
+                array_push($subBuckets, ['id' => $result->id, 'folder' => $result->folder]);
             }
             return json_encode(['result' => $subBuckets, 'status' => true]);
         } else {
-            return json_encode(['errorMsg' => 'No sub folder found', 'status' => false]);
+            return json_encode(['errorMsg' => 'Sub folders not availble', 'status' => false]);
         }
     }
 
@@ -444,9 +443,9 @@ class MyStorageController extends Controller {
             $input['storeData']['sub_folder_status'] = '1';
             $result = MyStorage::create($input['storeData']);
             $lastId = MyStorage::latest('id')->first();
-            $getData = ['folder'=>$request['syncSubFolder'][$i],'id'=>$lastId->id];
-            array_push($allResult,$getData);
-            if(!empty($request['subId'])) {
+            $getData = ['folder' => $request['syncSubFolder'][$i], 'id' => $lastId->id];
+            array_push($allResult, $getData);
+            if (!empty($request['subId'])) {
                 $updateFolder .= $lastId->id;
             } else {
                 $updateFolder .= ',';

@@ -43,7 +43,5 @@ app.controller('lostReasonsController', ['$rootScope', '$scope', '$state', 'Data
                 });
             }
         }
-        $scope.success = function(message) {
-               Flash.create('success', message);
-           };
+       
     }]);
