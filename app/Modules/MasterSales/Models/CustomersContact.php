@@ -190,4 +190,5 @@ class CustomersContact extends Eloquent
 		'updated_browser',
 		'updated_mac_id'
 	];
+        
 }

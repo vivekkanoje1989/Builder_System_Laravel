@@ -96,18 +96,18 @@
                                         </thead>
                                         <tbody>
                                             <tr  id="projectBody"><td colspan="5"><center>No Records Found</center></td>
-                                            </tr>
-                                            <tr  ng-repeat='list in projectsDetails'>
-                                                <td>{{ $index + 1}}</td>
-                                                <td>{{ list.project_name}}</td>
-                                                <td>{{ list.blocks}}</td>
-                                                <td>{{ list.subblocks}}</td>                                               
-                                                <td><div class="fa-hover" tooltip-html-unsafe="Project enquiry" style="display: block;">
-                                                        <!--<a href data-toggle="modal" data-target="#projectDataModal" ng-click="initContactModal()"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;-->
-                                                        <a href ng-click="removeRow($index)"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
-                                                    </div>
-                                                </td>
-                                            </tr>                                            
+                                        </tr>
+                                        <tr  ng-repeat='list in projectsDetails'>
+                                            <td>{{ $index + 1}}</td>
+                                            <td>{{ list.project_name}}</td>
+                                            <td>{{ list.blocks}}</td>
+                                            <td>{{ list.subblocks}}</td>                                               
+                                            <td><div class="fa-hover" tooltip-html-unsafe="Project enquiry" style="display: block;">
+                                                    <!--<a href data-toggle="modal" data-target="#projectDataModal" ng-click="initContactModal()"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;-->
+                                                    <a href ng-click="removeRow({{ $index}})"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
+                                                </div>
+                                            </td>
+                                        </tr>                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -116,7 +116,7 @@
                     </div>
                     <div class="row">    
                         <div class="col-md-12 col-xs-12" align="right">
-                            <button type="button" class="btn btn-primary btn-nxt1" ng-click="step1 = true &&  projectsDetails != [] ">Next</button>
+                            <button type="button" class="btn btn-primary btn-nxt1" ng-click="step1 = true && projectsDetails != []">Next</button>
                         </div>
                     </div>
                 </div>	
@@ -138,42 +138,43 @@
                                 </span>
                             </div>
                         </div>
-                        <!-- <div class="col-sm-3 col-xs-6">
-                            <div class="form-group">
-                                <label for="">Other Requirements</label>
-                                <span class="input-icon icon-right">
-                                    <textarea class="form-control" ng-model="enquiryData.other_requirement" name="other_requirement"></textarea>
-                                    <i class="fa fa-bullseye"></i>
-                                </span>
-                            </div>               
-                        </div>-->
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group">
-                                <label for="">Remarks</label>
+                            <div class="form-group" ng-class="{ 'has-error' : step2 && (!enquiryForm.remarks.$dirty && enquiryForm.remarks.$invalid)}"> 
+                                <label for="">Remarks<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <textarea class="form-control" ng-model="enquiryData.remarks" name="remarks"></textarea>
+                                    <textarea class="form-control" ng-model="enquiryData.remarks" name="remarks" required></textarea>
                                     <i class="fa fa-bullseye"></i>
                                 </span>
+                                <div ng-show="step2" ng-messages="enquiryForm.remarks.$error" class="help-block step2">
+                                    <div ng-message="required">Please enter remarks</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group">
-                                <label for="">Enter colleague name to reassign enquiry <span class="sp-err">*</span></label>
+                            <div class="form-group" ng-class="{ 'has-error' : step2 && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
+                                <!--<label for="">Enter colleague name to reassign enquiry <span class="sp-err">*</span></label>-->
+                                <label for="">Followup By Employee <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id" required>
                                         <option ng-repeat="list in employeeList" value="{{list.id}}">{{list.first_name}} {{list.last_name}}</option>                                              
                                     </select>
                                     <i class="fa fa-sort-desc"></i>                                 
                                 </span>
+                                <div ng-show="step2" ng-messages="enquiryForm.followup_by_employee_id.$error" class="help-block step2">
+                                    <div ng-message="required">Please select Employee</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group">
-                                <label for="">Max Budget</label>
+                            <div class="form-group"  ng-class="{ 'has-error' : step2 && (!enquiryForm.max_budget.$dirty && enquiryForm.max_budget.$invalid)}">
+                                <label for="">Max Budget<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input class="form-control" type="text" maxlength="7" ng-model="enquiryData.max_budget"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget">
+                                    <input class="form-control" type="text" maxlength="7" ng-model="enquiryData.max_budget"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget" required>
                                     <i class="fa fa-motorcycle"></i>
                                 </span>
+                                <div ng-show="step2" ng-messages="enquiryForm.max_budget.$error" class="help-block step2">
+                                    <div ng-message="required">Please Enter Budget</div>
+                                </div>
                             </div>
                         </div>                        
                     </div>
@@ -197,9 +198,9 @@
                         <div class="col-sm-3 col-xs-6">                            
                             <div ng-controller="TimepickerDemoCtrl">
                                 <label for="">Next Followup Time <span class="sp-err">*</span></label>
-                                <timepicker ng-model="enquiryData.next_follwoup_time" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                <timepicker ng-model="enquiryData.next_follwoup_time" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="true"></timepicker>
                             </div>
-                        </div>                       
+                        </div> {{ enquiryData.next_follwoup_time}}                     
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
@@ -294,11 +295,6 @@
                                 </span>
                             </div>
                         </div>                         
-                        <!--
-                        if Finance will be taken care by = 1 then show label = Select finance department colleague (foreign key of employee id)
-                        if Finance will be taken care by = 2 then show label = Select finance tie up agency (foreign key of enquiry_finance_tieup)
-                        if Finance will be taken care by = 3 then hide this field
-                        -->
                         <div class="col-sm-3 col-xs-6" ng-if="enquiryData.finance_required_from == 1">
                             <div class="form-group">
                                 <label for="">Select finance department colleague</label>
@@ -327,24 +323,26 @@
                     <div class="form-title">Preferences</div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group">
+                            <div class="form-group" ng-controller="enquiryCityCtrl" >
                                 <label for="">Preferred City <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select class="form-control" ng-model="enquiryData.city_id" name="city_id">
-                                        <option value="1">Pune</option>                                       
-                                        <option value="2">Mumbai</option>                                       
+                                    <select class="form-control" ng-model="enquiryData.city_id" name="city_id" ng-change="changeLocations(enquiryData.city_id)">
+                                        <option>Select Preferred city</option>     
+                                        <option ng-repeat="list in cityList" value="{{list.city_id}}">{{ list.get_city_name.name}}</option>                                                                                                                
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                 </span>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group">
+                            <div class="form-group multi-sel-div" ng-class="{ 'has-error' : step3 && (!enquiryForm.enquiry_locations.$dirty && enquiryForm.enquiry_locations.$invalid)}">
                                 <label for="">Preferred Area's<span class="sp-err">*</span></label>
-                                <span class="input-icon icon-right">
-                                    <textarea class="form-control" ng-model="enquiryData.enquiry_locations" name="enquiry_locations"></textarea>
-                                    <i class="fa fa-map-marker"></i>
-                                </span>
+                                <ui-select multiple ng-model="enquiryData.enquiry_locations"  name="enquiry_locations" theme="select2" ng-disabled="disabled">
+                                    <ui-select-match placeholder='Select Locations'>{{$item.location}}</ui-select-match>
+                                    <ui-select-choices repeat="list in locations | filter:$select.search">
+                                        {{list.location}} 
+                                    </ui-select-choices>
+                                </ui-select>                                    
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
@@ -363,7 +361,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6" ng-if="enquiryData.property_possession_type == 0">
-                            <div class="form-group">
+                            <div class="form-group"  ng-class="{ 'has-error' : step3 && (!enquiryForm.property_possession_date.$dirty && enquiryForm.property_possession_date.$invalid)}">
                                 <label for="">Tentative Possession Date</label>
                                 <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                     <p class="input-group">
@@ -371,7 +369,7 @@
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </span>
-                                    <div ng-show="step3" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block step3">
+                                    <div ng-show="step3" ng-messages="enquiryForm.property_possession_date.$error" class="help-block step3">
                                         <div ng-message="required">Please select tentative possession date</div>
                                     </div>
                                     </p>

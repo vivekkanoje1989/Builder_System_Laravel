@@ -18,6 +18,7 @@ use DB;
 use Auth;
 use App\Classes\CommonFunctions;
 use App\Modules\MasterSales\Models\Enquiry;
+use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 
 class MasterSalesController extends Controller {
 
@@ -316,7 +317,6 @@ class MasterSalesController extends Controller {
     public function saveEnquiryData() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        // print_r($request);exit;        
         if (empty($request)) {
             $request = Input::all();
         }
@@ -346,7 +346,6 @@ class MasterSalesController extends Controller {
         unset($request['enquiryData']['csrfToken']);
         unset($request['enquiryData']['next_followup_date']);
         //print_r($request['followupDetails']);
-        //exit;
         /*  insert enquiry  */
         $request['enquiryData'] = array_merge($request['enquiryData'], $create);
         $request['enquiryData']['customer_id'] = $request['customer_id'];
@@ -358,6 +357,13 @@ class MasterSalesController extends Controller {
         $request['enquiryData']['sales_enquiry_date'] = date('Y-m-d', strtotime($request['enquiryData']['sales_enquiry_date']));
         if (!empty($request['enquiryData']['property_possession_date'])) {
             $request['enquiryData']['property_possession_date'] = date('Y-m-d', strtotime($request['enquiryData']['property_possession_date']));
+        }
+        if (!empty($request['enquiryData']['enquiry_locations'])) {
+            //  $request['enquiryData']['enquiry_locations'] = $request['enquiryData']['enquiry_locations'];
+            //} else {
+            $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
+                        return $el['id'];
+                    }, $request['enquiryData']['enquiry_locations']));
         }
         //print_r($request['enquiryData']);exit;
         $insertEnquiry = Enquiry::create($request['enquiryData']);
@@ -376,7 +382,7 @@ class MasterSalesController extends Controller {
             $request['followupDetails'] = array_merge($request['followupDetails'], $create);
             $request['followupDetails']['enquiry_id'] = $insertEnquiry->id;
             $createFollowup = EnquiryFollowup ::create($request['followupDetails']);
-            $result = ['success' => true, 'message' => 'Employee Created Successfully.'];
+            $result = ['success' => true, 'message' => 'Enquiry Inserted Successfully.'];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -400,6 +406,46 @@ class MasterSalesController extends Controller {
             $result = ['success' => true, 'records' => $getEmployees];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function getEnquiryCity() {
+        $getcity = lstEnquiryLocations::select('*')->with('getCityName')->groupBy('city_id')->get();
+        // print_r($getcity);exit;  id":13,"country_id":2,"state_id":22,"city_id":2763,"location":
+        if (!empty($getcity)) {
+            $result = ['success' => true, 'records' => $getcity];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function getAllLocations() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $getlocations = lstEnquiryLocations::where('city_id', $request['city_id'])->select('id', 'country_id', 'state_id', 'city_id', 'location')->get();
+        if (!empty($getlocations)) {
+            $result = ['success' => true, 'records' => $getlocations];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function totalEnquiries() {
+        //echo "HII";
+        return view("MasterSales::totalEnquiries");
+       // return view('MasterSales::index');
+    }
+
+    public function getAllEnquiries() {
+        $getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 2]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName','customerDetails','customerContacts')->get();
+        //  echo json_encode($getCustomerEnquiryDetails);exit;
+        if (count($getCustomerEnquiryDetails)) {
+            $result = ['success' => true, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails];
+        } else {
+            $result = ['success' => true, 'CustomerEnquiryDetails' => 'No Records Found'];
         }
         return json_encode($result);
     }

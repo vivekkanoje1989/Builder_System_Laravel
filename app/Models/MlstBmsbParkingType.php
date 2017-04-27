@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 25 Apr 2017 12:26:36 +0530.
+ * Date: Wed, 26 Apr 2017 13:12:08 +0530.
  */
 
 namespace App\Models;
@@ -10,13 +10,11 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class LstEnquiryLocation
+ * Class MlstBmsbParkingType
  * 
  * @property int $id
- * @property int $country_id
- * @property int $state_id
- * @property int $city_id
- * @property string $location
+ * @property string $parking_type
+ * @property int $status
  * @property \Carbon\Carbon $created_date
  * @property \Carbon\Carbon $created_at
  * @property int $created_by
@@ -38,12 +36,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class LstEnquiryLocation extends Eloquent
+class MlstBmsbParkingType extends Eloquent
 {
 	protected $casts = [
-		'country_id' => 'int',
-		'state_id' => 'int',
-		'city_id' => 'int',
+		'status' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int',
 		'deleted_status' => 'int',
@@ -60,10 +56,8 @@ class LstEnquiryLocation extends Eloquent
 	];
 
 	protected $fillable = [
-		'country_id',
-		'state_id',
-		'city_id',
-		'location',
+		'parking_type',
+		'status',
 		'created_date',
 		'created_by',
 		'created_IP',

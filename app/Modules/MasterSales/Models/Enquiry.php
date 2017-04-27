@@ -71,131 +71,136 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class Enquiry extends Eloquent
-{
-        protected $primaryKey = 'id';
-	protected $casts = [
-                'id'=>'int',
-		'client_id' => 'int',
-		'customer_id' => 'int',
-		'sales_employee_id' => 'int',
-		'sales_channel_id' => 'int',
-		'sales_source_id' => 'int',
-		'sales_subsource_id' => 'int',
-		'sales_status_id' => 'int',
-		'sales_substatus_id' => 'int',
-		'sales_category_id' => 'int',
-		'sales_subcategory_id' => 'int',
-		'sales_enquiry_form_status' => 'int',
-		'property_possession_type' => 'int',
-		'max_budget' => 'int',
-		'payment_mode' => 'int',
-		'payment_instalments' => 'int',
-		'parking_required' => 'int',
-		'parking_type' => 'int',
-		'two_wheeler_parkings_required' => 'int',
-		'four_wheeler_parkings_required' => 'int',
-		'finance_required' => 'int',
-		'finance_required_from' => 'int',
-		'finance_employee_id' => 'int',
-		'finance_tieup_id' => 'int',
-		'finance_source_id' => 'int',
-		'finance_subsource_id' => 'int',
-		'finance_source_discription' => 'int',
-		'finance_status_id' => 'int',
-		'finance_substatus_id' => 'int',
-		'finance_category_id' => 'int',
-		'finance_subcategory_id' => 'int',
-		'finance_enquiry_form_status' => 'int',
-		'created_by' => 'int',
-		'updated_by' => 'int',
-		'deleted_status' => 'int',
-		'deleted_by' => 'int',
-		'deleted_IP' => 'int',
-		'deleted_browser' => 'int',
-		'deleted_mac_id' => 'int'
-	];
+class Enquiry extends Eloquent {
 
-	protected $dates = [
-		'sales_enquiry_date',
-		'property_possession_date',
-		'finance_enquiry_date',
-		'created_date',
-		'updated_date',
-		'deleted_date'
-	];
+    protected $primaryKey = 'id';
+    protected $casts = [
+        'id' => 'int',
+        'client_id' => 'int',
+        'customer_id' => 'int',
+        'sales_employee_id' => 'int',
+        'sales_channel_id' => 'int',
+        'sales_source_id' => 'int',
+        'sales_subsource_id' => 'int',
+        'sales_status_id' => 'int',
+        'sales_substatus_id' => 'int',
+        'sales_category_id' => 'int',
+        'sales_subcategory_id' => 'int',
+        'sales_enquiry_form_status' => 'int',
+        'property_possession_type' => 'int',
+        'max_budget' => 'int',
+        'payment_mode' => 'int',
+        'payment_instalments' => 'int',
+        'parking_required' => 'int',
+        'parking_type' => 'int',
+        'two_wheeler_parkings_required' => 'int',
+        'four_wheeler_parkings_required' => 'int',
+        'finance_required' => 'int',
+        'finance_required_from' => 'int',
+        'finance_employee_id' => 'int',
+        'finance_tieup_id' => 'int',
+        'finance_source_id' => 'int',
+        'finance_subsource_id' => 'int',
+        'finance_source_discription' => 'int',
+        'finance_status_id' => 'int',
+        'finance_substatus_id' => 'int',
+        'finance_category_id' => 'int',
+        'finance_subcategory_id' => 'int',
+        'finance_enquiry_form_status' => 'int',
+        'created_by' => 'int',
+        'updated_by' => 'int',
+        'deleted_status' => 'int',
+        'deleted_by' => 'int',
+        'deleted_IP' => 'int',
+        'deleted_browser' => 'int',
+        'deleted_mac_id' => 'int'
+    ];
+    protected $dates = [
+        'sales_enquiry_date',
+        'property_possession_date',
+        'finance_enquiry_date',
+        'created_date',
+        'updated_date',
+        'deleted_date'
+    ];
+    protected $fillable = [
+        'client_id',
+        'customer_id',
+        'sales_enquiry_date',
+        'sales_employee_id',
+        'sales_channel_id',
+        'sales_channel_info',
+        'sales_source_id',
+        'sales_subsource_id',
+        'sales_source_description',
+        'sales_status_id',
+        'sales_substatus_id',
+        'sales_category_id',
+        'sales_subcategory_id',
+        'sales_enquiry_form_status',
+        'enquiry_locations',
+        'property_possession_type',
+        'property_possession_date',
+        'max_budget',
+        'payment_mode',
+        'payment_instalments',
+        'parking_required',
+        'parking_type',
+        'two_wheeler_parkings_required',
+        'four_wheeler_parkings_required',
+        'finance_required',
+        'finance_required_from',
+        'finance_enquiry_date',
+        'finance_employee_id',
+        'finance_tieup_id',
+        'finance_source_id',
+        'finance_subsource_id',
+        'finance_source_discription',
+        'finance_status_id',
+        'finance_substatus_id',
+        'finance_category_id',
+        'finance_subcategory_id',
+        'finance_enquiry_form_status',
+        'created_date',
+        'created_by',
+        'created_IP',
+        'created_browser',
+        'created_mac_id',
+        'updated_date',
+        'updated_by',
+        'updated_IP',
+        'updated_browser',
+        'updated_mac_id',
+        'deleted_status',
+        'deleted_date',
+        'deleted_by',
+        'deleted_IP',
+        'deleted_browser',
+        'deleted_mac_id'
+    ];
 
-	protected $fillable = [
-		'client_id',
-		'customer_id',
-		'sales_enquiry_date',
-		'sales_employee_id',
-		'sales_channel_id',
-		'sales_channel_info',
-		'sales_source_id',
-		'sales_subsource_id',
-		'sales_source_description',
-		'sales_status_id',
-		'sales_substatus_id',
-		'sales_category_id',
-		'sales_subcategory_id',
-		'sales_enquiry_form_status',
-		'enquiry_locations',
-		'property_possession_type',
-		'property_possession_date',
-		'max_budget',
-		'payment_mode',
-		'payment_instalments',
-		'parking_required',
-		'parking_type',
-		'two_wheeler_parkings_required',
-		'four_wheeler_parkings_required',
-		'finance_required',
-		'finance_required_from',
-		'finance_enquiry_date',
-		'finance_employee_id',
-		'finance_tieup_id',
-		'finance_source_id',
-		'finance_subsource_id',
-		'finance_source_discription',
-		'finance_status_id',
-		'finance_substatus_id',
-		'finance_category_id',
-		'finance_subcategory_id',
-		'finance_enquiry_form_status',
-		'created_date',
-		'created_by',
-		'created_IP',
-		'created_browser',
-		'created_mac_id',
-		'updated_date',
-		'updated_by',
-		'updated_IP',
-		'updated_browser',
-		'updated_mac_id',
-		'deleted_status',
-		'deleted_date',
-		'deleted_by',
-		'deleted_IP',
-		'deleted_browser',
-		'deleted_mac_id'
-	];
-        
-        public function getEnquiryCategoryName()
-        {
-            return $this->belongsTo('App\Models\MlstEnquirySalesCategory','sales_category_id');
-        }
-        
-        public function getEnquiryDetails()
-        {
-            return $this->belongsTo('App\Modules\MasterSales\Models\EnquiryDetail','id','enquiry_id')->with('getProjectName','getBlock');
-        }
-        public function getFollowupDetails()
-        {
-            return $this->belongsTo('App\Modules\MasterSales\Models\EnquiryFollowup','id','enquiry_id');
-        }
-        public function channelName()
-        {
-              return $this->belongsTo('App\Models\MlstEnquirySalesChannel','sales_channel_id');
-        }
+    public function getEnquiryCategoryName() {
+        return $this->belongsTo('App\Models\MlstEnquirySalesCategory', 'sales_category_id');
+    }
+
+    public function getEnquiryDetails() {
+        return $this->belongsTo('App\Modules\MasterSales\Models\EnquiryDetail', 'id', 'enquiry_id')->with('getProjectName', 'getBlock');
+    }
+
+    public function getFollowupDetails() {
+        return $this->belongsTo('App\Modules\MasterSales\Models\EnquiryFollowup', 'id', 'enquiry_id');
+    }
+
+    public function channelName() {
+        return $this->belongsTo('App\Models\MlstEnquirySalesChannel', 'sales_channel_id');
+    }
+
+    public function customerDetails() {
+        return $this->belongsTo('App\Modules\MasterSales\Models\Customer', 'customer_id');
+    }
+
+    public function customerContacts() {
+        return $this->belongsTo('App\Modules\MasterSales\Models\CustomersContact', 'customer_id');
+    }
+
 }

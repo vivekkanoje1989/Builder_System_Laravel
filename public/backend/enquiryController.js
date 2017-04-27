@@ -1,7 +1,12 @@
 app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$timeout', 'toaster', '$stateParams', function ($scope, $state, Data, Upload, $timeout, toaster, $stateParams) {
         $scope.projectsDetails = [];
+        $scope.locations = [];
+        $scope.currentPage = $scope.itemsPerPage = 4;
+        $scope.noOfRows = 1;
+
         $scope.saveEnquiryData = function (enquiryData, customer_id)
         {
+            alert($scope.enquiryData.next_follwoup_time);
             Data.post('master-sales/saveEnquiryData', {
                 enquiryData: enquiryData, customer_id: customer_id, projectEnquiryDetails: $scope.projectsDetails,
             }).then(function (response) {
@@ -49,20 +54,46 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
             }
         }
 
-        $scope.removeRow = function(name){				
-		var index = -1;		
-		var comArr = eval( $scope.projectsDetails );
-		for(var i = 0; i < comArr.length; i++ ) {
-			if( comArr[i].name === name ) {
-				index = i;
-				break;
-			}
-		}
-		if( index === -1 ) {
-			alert("Something gone wrong" );
-		}
-		$scope.projectsDetails.splice( index, 1 );		
-	}
+        $scope.removeRow = function (id) {
+            var index = -1;
+            var comArr = eval($scope.projectsDetails);
+            for (var i = 0; i < comArr.length; i++) {
+                if (comArr[i].name === id) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index === -1) {
+                alert("Something gone wrong");
+            }
+            $scope.projectsDetails.splice(index, 1);
+        }
+        $scope.changeLocations = function (cityId)
+        {
+            Data.post('master-sales/getAllLocations', {
+                city_id: cityId,
+            }).then(function (response) {
+                $scope.enquiryData.enquiry_locations = [];
+                $scope.locations = response.records;
+            });
+        }
+        $scope.showallEnquiries = function ()
+        {
+            Data.get('master-sales/getAllEnquiries').then(function (response) {
+                if (response.success)
+                {
+                    $scope.listsIndex = response;
+                }
+            });
+        }
+        $scope.customerDetails = function(mobNo)
+        {
+            alert("hi"+mobNo);
+            $state.go(getUrl +'.salesCreate');
+            alert($scope.searchData.searchWithMobile);
+            //$scope.searchData.searchWithMobile = mobNo;
+        }
+        
     }]);
 
 app.controller('getEmployeesCtrl', function ($scope, Data) {
@@ -89,6 +120,15 @@ app.controller('agencyTieupCtrl', function ($scope, Data) {
             $scope.errorMsg = response.message;
         } else {
             $scope.agencyTieupList = response.records;
+        }
+    });
+});
+app.controller('enquiryCityCtrl', function ($scope, Data) {
+    Data.get('master-sales/getEnquiryCity').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.cityList = response.records;
         }
     });
 });

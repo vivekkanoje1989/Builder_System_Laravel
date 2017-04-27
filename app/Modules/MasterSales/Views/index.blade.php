@@ -83,7 +83,7 @@
                                                     <!--{{ listsIndex.customerContactDetails.email_id }}-->
                                                 </div><hr/>
                                                 <div>
-                                                    <a href="">C1233456A1</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="">customer Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                     Total Enquiries : {{ listsIndex.CustomerEnquiryDetails.length}}&nbsp;&nbsp;
                                                     Booked :0
                                                 </div><hr>
@@ -94,7 +94,7 @@
                                                 {{ list.get_enquiry_details.get_block.block_sub_type}}<br>
 
                                                 <div>
-                                                    <a href="">EQ20170304133</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a href="">Enquiry Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                     {{ list.get_enquiry_category_name.enquiry_category}}
                                                 </div>
                                                 No.of Followups : 6
@@ -104,7 +104,9 @@
                                                 No Parking Required
                                             </td>
                                             <td>
-                                                Followups : {{ list.get_followup_details.followup_date_time}}
+                                                Followups : {{ list.get_followup_details.followup_date_time | date:'dd M, yyyy'}}<hr>
+                                                {{ list.get_followup_details.remarks}}
+                                                Call Duration : 00:00:00
                                             </td>
                                             <td>Open</td>
                                             <td>

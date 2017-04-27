@@ -12,6 +12,7 @@ use App\Models\MlstEducation;
 use App\Models\MlstCountry;
 use App\Models\MlstState;
 use App\Models\MlstCity;
+use App\Modules\ManageCity\Models\MlstCities;
 use App\Models\ClientInfo;
 use App\Models\MlstBmsbEnquirySalesSource;
 use App\Models\EnquirySalesSubSource;
@@ -32,6 +33,7 @@ use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
 use App\Modules\WebPages\Models\WebPage;
 use App\Modules\MasterSales\Models\EnquiryFinanceTieup;
+use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 class AdminController extends Controller {
 
     /**
@@ -250,16 +252,17 @@ class AdminController extends Controller {
         $projectList = Project::select('id','project_name')->get();
         $subBlocksList = ProjectBlock::select("id","block_type_id","block_sub_type")->get();
         $enquiryFinanceTieup = EnquiryFinanceTieup::all(); 
+        $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id','=',101)->get();
+        //echo json_encode($indiaCities);exit;
+        //$getEnquiryCity = lstEnquiryLocations::where('country_id',101)->get();
         if (!empty($getTitle)) {
-            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,"blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup];
+            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,"blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup,'enquiryLocation'=>$getEnquiryLocation];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
-    }
-
-   
+    }   
     
     public function getCountries() {
         $getCountires = MlstCountry::all();
@@ -435,7 +438,6 @@ class AdminController extends Controller {
 
     public function getEmployees() {
         $getEmployees = Employee::select('id', 'first_name','last_name','designation_id')->where("client_id", 1)->get();
-        print_r($getEmployees);exit;
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
         } else {

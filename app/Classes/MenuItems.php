@@ -212,9 +212,9 @@ class MenuItems {
                     2 => array('id' => '040102', 'name' => 'My Today\'s Followups', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     3 => array('id' => '040103', 'name' => 'My Pending Followups', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     4 => array('id' => '040104', 'name' => 'My Previous Followups', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    5 => array('id' => '040105', 'name' => 'My Total Enquiries', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    6 => array('id' => '040106', 'name' => 'My Lost Enquiries', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    7 => array('id' => '040107', 'name' => 'My Closed Enquiries', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    5 => array('id' => '040105', 'name' => 'My Total Enquiries', 'icon' => '', 'url' => '/'.$getUrl.'/sales/enquiries', 'slug' => '.enquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    6 => array('id' => '040106', 'name' => 'My Lost Enquiries', 'icon' => '', 'url' => '/'.$getUrl.'/sales/lostEnquiries', 'slug' => '.lostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    7 => array('id' => '040107', 'name' => 'My Closed Enquiries', 'icon' => '', 'url' => '/'.$getUrl.'/sales/closeEnquiries', 'slug' => '.closeenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     8 => array('id' => '040108', 'name' => 'My Reassigned Enquiries', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     9 => array('id' => '040109', 'name' => 'Team\'s Enquiries', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
                         'submenu_ids' => '04010901,04010902,04010903,04010904,04010905,04010906', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
