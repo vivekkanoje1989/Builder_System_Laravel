@@ -5,8 +5,7 @@
                 <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/images' "></div>
             </tab>
             <tab heading="Status">
-                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
-                <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid.</p>
+                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/status' "></div>
             </tab>
             <tab heading="Layout">
                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/layouts' "></div>
@@ -18,16 +17,10 @@
                 <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/amenities' "></div>
             </tab>
             <tab heading="Specification">
-                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
-                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
+                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/specification' "></div>
             </tab>
             <tab heading="Gallery">
-                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
-                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
-            </tab>
-            <tab heading="Events">
-                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
-                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade.</p>
+                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/gallery' "></div>
             </tab>
         </tabset>
         <div class="horizontal-space"></div>

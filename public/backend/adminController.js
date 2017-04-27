@@ -86,6 +86,17 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data) {
         }
     }
 });
+app.controller('amenitiesCtrl', function ($scope, Data) {
+    $scope.amenitiesList = [];
+    Data.get('getAmenitiesList').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.amenitiesList = response.records;
+        }
+    });
+});
+
 app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
     Data.get('getSalesEnqCategory').then(function (response) {
         if (!response.success) {
@@ -95,6 +106,7 @@ app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
         }
     });
 });
+
 app.controller('projectCtrl', function ($scope, Data) {
     Data.get('getProjects').then(function (response) {
         if (!response.success) {
@@ -211,16 +223,17 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
             $scope.blockTypeList = response.records;
         }
     });
-    $scope.checkBlockLength = function () { 
+    $scope.checkBlockLength = function () {
         var blockTypeId = [];
         angular.forEach($scope.enquiryData.block_id, function(value, key){
             blockTypeId.push(value.id);
         });
         var myJsonString = JSON.stringify(blockTypeId);
-        console.log(myJsonString);
+        //console.log(myJsonString);
         if ($scope.enquiryData.block_id.length === 0) {
             $scope.emptyBlockId = true;
             $scope.applyClassBlock = 'ng-active';
+            $scope.subBlockList = [];
          } else {
             $scope.emptyBlockId = false;
             $scope.applyClassBlock = 'ng-inactive';
@@ -232,7 +245,7 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.subBlockList = response.records;
-                    console.log($scope.subBlockList);
+                   // console.log($scope.subBlockList);
                 }
             });
          }
@@ -399,7 +412,7 @@ app.controller('verticalCtrl', function ($scope, Data) {
 /****************************UMA************************************/
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {
-    $scope.employeeList = [];
+    $scope.employeeList = [];    
     Data.get('getEmployees').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;

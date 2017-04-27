@@ -92,13 +92,15 @@ Route::group(['middleware' =>['auth:admin']], function () {
     Route::get($getUrl.'/getCountries', 'backend\AdminController@getCountries');
     Route::get($getUrl.'/getWebPageList', 'backend\AdminController@getWebPageList'); //uma 
     Route::get($getUrl.'/getPropertyPortalType', 'backend\AdminController@getPropertyPortalType'); //uma 
-    Route::get($getUrl.'/getVerticals', 'backend\AdminController@getVerticals'); //uma
+    Route::get($getUrl.'/getVerticals', 'backend\AdminController@getVerticals'); //uma  
+    Route::get($getUrl.'/getFinanceTieupAgency', 'backend\AdminController@getFinanceTieupAgency'); //uma
     Route::get($getUrl.'/getDesignations', 'backend\AdminController@getDesignations'); //geeta
     Route::get($getUrl.'/getProjects', 'backend\AdminController@getProjects'); //geeta
     Route::get($getUrl.'/getCompany', 'backend\AdminController@getCompany'); //geeta
     Route::get($getUrl.'/getStationary', 'backend\AdminController@getStationary'); //geeta
     Route::get($getUrl.'/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
     Route::get($getUrl.'/getSalesEnqCategory', 'backend\AdminController@getSalesEnqCategory'); //geeta
+    Route::get($getUrl.'/getAmenitiesList', 'backend\AdminController@getAmenitiesList'); //geeta
     Route::post($getUrl.'/getSubBlocks', 'backend\AdminController@getSubBlocks'); //geeta
     Route::post($getUrl.'/getStates', 'backend\AdminController@getStates');
     Route::post($getUrl.'/getCities', 'backend\AdminController@getCities');

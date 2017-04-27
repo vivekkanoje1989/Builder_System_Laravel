@@ -1,5 +1,5 @@
 <div class="row">
-    <form role="form" name="mapForm" ng-controller="basicInfoController" ng-submit="saveBasicInfo(mapData, projectImages)">
+    <form role="form" name="mapForm" ng-submit="saveBasicInfo(mapData, projectImages)">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div id="horizontal-form">
                 <div class="col-sm-3 col-xs-6">

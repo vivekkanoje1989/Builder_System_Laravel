@@ -46,5 +46,7 @@ return [
         "Companies",
         "Wings",
         "BankAccounts",
+        "Wings",
+        "EnquiryLocations",
     ),
 ];

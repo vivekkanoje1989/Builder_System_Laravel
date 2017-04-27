@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Fri, 14 Apr 2017 15:50:14 +0530.
+ * Date: Sat, 22 Apr 2017 12:37:56 +0530.
  */
 
 namespace App\Models;
@@ -38,8 +38,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class MlstEnquirySalesCategory extends Eloquent
 {
-    protected $connection = "masterdb";
-    protected $casts = [
+        protected $primaryKey = 'id';
+        protected $connection = 'masterdb';
+        public $incrementing = false;
+	public $timestamps = false;
+
+	protected $casts = [
 		'status' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int',

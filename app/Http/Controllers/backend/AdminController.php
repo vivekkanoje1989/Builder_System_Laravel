@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\backend;
-
 use Auth;
 use App\Http\Controllers\Controller;
 use App\Classes\MenuItems;
@@ -29,11 +27,12 @@ use App\Models\Project;
 use App\Models\Company;
 use App\Models\CompanyStationary;
 use App\Models\MlstEnquirySalesCategory;
+use App\Models\MlstBmsbAmenity;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
 use App\Modules\WebPages\Models\WebPage;
-
+use App\Modules\MasterSales\Models\EnquiryFinanceTieup;
 class AdminController extends Controller {
 
     /**
@@ -139,9 +138,8 @@ class AdminController extends Controller {
         }
         $collection = collect(['mainMenu' => $menuItem]);
         $merged = $collection->merge(['actions' => $accessToActions]);
-        $mergedMmenu = $merged->all();
+        $mergedMmenu = $merged->all();        
         return json_encode($mergedMmenu);
-        exit;
     }
     
     public function getTitle() {
@@ -216,7 +214,7 @@ class AdminController extends Controller {
     }
     
     public function getBlockTypes() {
-        $blockTypeList = MlstBmsbBlockType::all();
+        $blockTypeList = MlstBmsbBlockType::select()->get();
         if (!empty($blockTypeList)) {
             $result = ['success' => true, 'records' => $blockTypeList];
         } else {
@@ -226,8 +224,7 @@ class AdminController extends Controller {
     }
     public function getSubBlocks() {
         $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        
+        $request = json_decode($postdata, true);        
         $subBlocksList = ProjectBlock::select("id","block_sub_type")->whereIn("block_type_id",json_decode($request['data']['myJsonString']))->get();
         if (!empty($subBlocksList)) {
             $result = ['success' => true, 'records' => $subBlocksList];
@@ -247,9 +244,14 @@ class AdminController extends Controller {
         $getEnquirySubSource = EnquirySalesSubSource::all();
         $getMlstProfession = MlstProfession::all();
         $getMlstBmsbDesignation = MlstBmsbDesignation::all();
-        $getEmployees = Employee::select('id', 'first_name')->get();
+        $getStates=  MlstState::where('country_id',101)->get();
+        $getEmployees = Employee::select('id', 'first_name','department_id')->get();
+        $blockTypeList = MlstBmsbBlockType::select("id","project_type_id","block_name")->get();
+        $projectList = Project::select('id','project_name')->get();
+        $subBlocksList = ProjectBlock::select("id","block_type_id","block_sub_type")->get();
+        $enquiryFinanceTieup = EnquiryFinanceTieup::all(); 
         if (!empty($getTitle)) {
-            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation];
+            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,"blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -257,6 +259,8 @@ class AdminController extends Controller {
         }
     }
 
+   
+    
     public function getCountries() {
         $getCountires = MlstCountry::all();
         if (!empty($getCountires)) {
@@ -270,6 +274,7 @@ class AdminController extends Controller {
     public function getStates(Request $request) {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+         echo "<pre>";print_r($request);exit;
         $countryId = $request['data']['countryId'];
         $getStates = MlstState::where("country_id", $countryId)->get();
         if (!empty($getStates)) {
@@ -386,6 +391,15 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+    public function getAmenitiesList() {
+        $amenitiesList = MlstBmsbAmenity::select('id','name_of_amenity')->get();
+        if (!empty($amenitiesList)) {
+            $result = ['success' => true, 'records' => $amenitiesList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
     
     /****************************UMA************************************/
     public function getWebPageList() {
@@ -416,11 +430,22 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+     public function getFinanceTieupAgency() {
+        $enquiryFinanceTieup = EnquiryFinanceTieup::all();        
+        if (!empty($enquiryFinanceTieup)) {
+            $result = ['success' => true, 'records' => $enquiryFinanceTieup];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    
    /****************************UMA************************************/
     /***************************MANDAR*********************************/
 
     public function getEmployees() {
         $getEmployees = Employee::select('id', 'first_name','last_name','designation_id')->where("client_id", 1)->get();
+        print_r($getEmployees);exit;
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
         } else {
