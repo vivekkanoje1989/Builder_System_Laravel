@@ -201,6 +201,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                             data: {deptId: deptId},
                             async:false,
                         }).then(function (response) {
+                            console.log(response);
                             if (!response.success) {
                                 $scope.errorMsg = response.message;
                             } else {

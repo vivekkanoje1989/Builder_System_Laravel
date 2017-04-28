@@ -26,6 +26,8 @@
                                     <span ng-show="orderByField == 'blog_title'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>
+                                
+                                
 
                             <th style="width: 5%">Actions</th>
                         </tr>

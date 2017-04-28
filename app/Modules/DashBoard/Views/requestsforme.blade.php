@@ -31,8 +31,8 @@
                                         <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>                          
                             <th style="width:15%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'created_at'; reverseSort = !reverseSort">Date
-                                    <span ng-show="orderByField == 'created_at'">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'in_date'; reverseSort = !reverseSort">Date
+                                    <span ng-show="orderByField == 'in_date'">
                                         <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>
                             <th style="width:15%">
@@ -70,13 +70,13 @@
                     <tbody>
                         <tr role="row" dir-paginate="list in myRequest| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
                             <td>{{$index + 1}}</td>
-                            <td>{{list.created_at}}</td> 
+                            <td>{{list.in_date}}</td> 
                             <td> {{list.request_type}}</td>
                             <td>{{list.first_name + " " + list.last_name}}</td>
                             <td>{{list.from_date}}</td> 
                             <td>{{list.to_date}}</td>
-                            <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-info" ng-click="view_description({{list.id}},'{{list.created_date}}','{{list.request_type}}','{{list.from_date}}','{{list.to_date}}','{{list.req_desc}}','{{list.first_name}}','{{list.last_name}}')">View Description</a></td>
-                            <td><a href="" data-toggle="modal" data-target="#newModal" class="btn btn-info" ng-click="statusChange({{list.id}},'{{list.created_date}}','{{list.request_type}}','{{list.from_date}}','{{list.to_date}}','{{list.req_desc}}','{{list.first_name}}','{{list.last_name}}',$index);" >Select status</a></td>
+                            <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-info" ng-click="view_description({{list}})">View Description</a></td>
+                            <td><a href="" data-toggle="modal" data-target="#newModal" class="btn btn-info" ng-click="statusChange({{list}},$index);" >Select status</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -103,11 +103,12 @@
                     <h4 class="modal-title" align="center">Requests (Request Description)</h4>
                 </div>
                 <table class="table table-stripped table-bordered" style="margin:20px 20px 20px 20px; width:90%;">
-                    <tr><td>Date</td><td>{{created_date}}</td></tr>
+                    <tr><td>Date</td><td>{{in_date}}</td></tr>
                     <tr><td>Request Type</td><td>{{request_type}}</td></tr>
                     <tr><td>To</td><td>{{to_name}}</td></tr>
                     <tr><td>CC</td><td>{{cc_name}}</td></tr>
                     <tr><td>Description</td><td>{{req_desc}}</td></tr>
+                    <tr><td>Status</td><td>{{status == 1 ? "Requested" : status == 2 ? "Rejected" :"Accepted" }}</td></tr>
                 </table>
                 <br/>
             </div>

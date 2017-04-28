@@ -26,7 +26,6 @@ use Illuminate\Hashing\HashServiceProvider;
  * @property int $password_changed
  * @property string $mobile_remember_token
  * @property string $remember_token
- * @property string $usertype
  * @property int $team_lead_id
  * @property string $designation_id
  * @property string $department_id
@@ -148,7 +147,6 @@ class Employee extends Authenticatable {
         'high_security_password',
         'password_changed',
         'remember_token',
-        'usertype',
         'team_lead_id',
         'designation_id',
         'department_id',

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'enable' => array(
         "MasterHr",
@@ -40,6 +41,12 @@ return [
         "Marketing",
         "MyStorage",
         "OperationalSettings",
-        "Wings"
+        "UserDocuments",
+        "EmployeeDocuments",
+        "Companies",
+        "Wings",
+        "BankAccounts",
+        "Wings",
+        "EnquiryLocations",
     ),
 ];
