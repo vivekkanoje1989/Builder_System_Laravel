@@ -31,7 +31,6 @@ class ManageCityController extends Controller {
             return json_encode($result);
         }
     }
-
     public function manageStates() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -47,7 +46,6 @@ class ManageCityController extends Controller {
             return json_encode($result);
         }
     }
-
     public function manageCountry() {
         $getCountry = MlstCountries::all();
 

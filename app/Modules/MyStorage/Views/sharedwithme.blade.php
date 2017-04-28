@@ -1,4 +1,52 @@
-<div class="row" ng-controller="storageCtrl" ng-init="getmyStorageList()">  
+<style>
+    .img-wrap {
+        position: relative;
+        display: inline-block;
+
+        font-size: 0;
+    }
+    .img-wrap .close{
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        z-index: 100;
+        background-color: #FFF;
+        padding: 5px 2px 2px;
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+        opacity: .2;
+        text-align: center;
+        font-size: 22px;
+        line-height: 10px;
+        border-radius: 50%;
+    }
+    .img-wrap .share{
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        z-index: 100;
+        background-iamge: red;
+        padding: 2px 2px 2px -2px;
+        color: #000;
+        font-weight: bold;
+        cursor: pointer;
+        opacity: .2;
+        text-align: center;
+        font-size: 22px;
+        line-height: 10px;
+        width:16px;
+        border-radius: 50%;
+    }
+    .img-wrap:hover .close {
+        opacity: 1;
+    }
+    .img-wrap:hover .share {
+        opacity: 1;
+
+    }
+</style>
+<div class="row" ng-controller="storageCtrl" ng-init="getmyStorageList(); getMySharedImages();">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -9,13 +57,29 @@
                     <a href="" widget-dispose></a>
                 </div>
             </div>
+            
             <div class="widget-body table-responsive">     
+                <label>Folders</label>
+                <hr/>
                 <div class="row">
                     <div class="col-md-2" ng-repeat="imgs in directories track by $index | unique:'imgs' ">
-                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllMyList/{{imgs.folder}}">
+                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllMyList/{{imgs.id}}">
                             <img src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
                             <br/>
                             <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
+                    </div>
+                </div>
+                <label>Images</label>
+                <hr/>
+                <div class="row">
+                    <div class="col-md-2" ng-repeat="imgs in myImageStore track by $index | unique:'imgs' " style="margin:0 0 25px 0;">
+                        <div class="img-wrap"> 
+                            <a  data-reveal-id="sharing_files" ng-click="imageShared(imgs.id); getSharedImagesEmployees(imgs.id)"  data-toggle="modal" data-target="#imageModel" >
+                                <img title="Share " src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
+                            </a>
+                            <span class="close" ng-click="deleteImages($index, imgs.id)">&times;</span>
+                            <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" target="_blank"> <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" height="100px;" width="100px;"></a>
+                        </div>
                     </div>
                 </div>
             </div>

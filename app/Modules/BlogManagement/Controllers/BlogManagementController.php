@@ -17,6 +17,7 @@ class BlogManagementController extends Controller {
     public function index() {
         return view("BlogManagement::index");
     }
+
     public function manageBlogs() {
         $getBlogs = WebBlogs::all();
         if (!empty($getBlogs)) {
@@ -27,6 +28,7 @@ class BlogManagementController extends Controller {
             return json_encode($result);
         }
     }
+
     public function createBlogs() {
         return view("BlogManagement::create");
     }
@@ -48,30 +50,35 @@ class BlogManagementController extends Controller {
             return json_encode($result);
         }
     }
+
     public function store() {
         $input = Input::all();
+
         if (!empty($input['blogImages']['blog_banner_images'])) {
 
             $originalName = $input['blogImages']['blog_banner_images']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
-                $fileName = $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
-                $image = ['0' => $input['blogImages']['blog_banner_images']];
-                $s3FolderName = $input['foldername'];
-                $fileName = S3::s3FileUplod($image, $s3FolderName, 1);
-                $banner_images = trim($fileName, ",");
+
+                $s3FolderName = "Blog/blog_banner_images";
+                $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
+                S3::s3FileUplod($input['blogImages']['blog_banner_images']->getPathName(), $imageName, $s3FolderName);
+                $banner_images = $imageName;
             } else {
                 unset($input['blog_banner_images']);
                 $banner_images = '';
             }
         }
-
         if (!empty($input['galleryImage']['galleryImage'])) {
             $imgCount = count($input['galleryImage']['galleryImage']);
             if ($imgCount > 0) {
-
-                $s3FolderName = 'galleryImages';
-                $fileName = S3::s3FileUplod($input['galleryImage']['galleryImage'], $s3FolderName, $imgCount);
-                $allfile = trim($fileName, ",");
+                $name = '';
+                $s3FolderName = "Blog/gallery_image";
+                for ($i = 0; $i < $imgCount; $i++) {
+                    $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['galleryImage']['galleryImage'][$i]->getClientOriginalExtension();
+                    S3::s3FileUplod($input['galleryImage']['galleryImage'][$i]->getPathName(), $imageName, $s3FolderName);
+                    $name .= ',' . $imageName;
+                }
+                $allfile = trim($name, ",");
             }
         } else {
             $allfile = '';
@@ -100,11 +107,10 @@ class BlogManagementController extends Controller {
 
             $originalName = $input['blogImages']['blog_banner_images']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
-                $fileName = $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
-                $image = ['0' => $input['blogImages']['blog_banner_images']];
-                $s3FolderName = 'blogBannerImages';
-                $fileName = S3::s3FileUplod($image, $s3FolderName, 1);
-                $banner_images = trim($fileName, ",");
+                $s3FolderName = "Blog/blog_banner_images";
+                $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
+                S3::s3FileUplod($input['blogImages']['blog_banner_images']->getPathName(), $imageName, $s3FolderName);
+                $banner_images = $imageName;
             } else {
                 unset($input['blog_banner_images']);
                 $banner_images = $input['allbanner'];
@@ -113,12 +119,14 @@ class BlogManagementController extends Controller {
         if (!empty($input['galleryImage']['galleryImage'])) {
             $imgCount = count($input['galleryImage']['galleryImage']);
             if ($imgCount > 0) {
-
-                $s3FolderName = 'galleryImages';
-                $fileName = S3::s3FileUplod($input['galleryImage']['galleryImage'], $s3FolderName, $imgCount);
-                $allfile = trim($fileName, ",");
-                $allfile .= ",";
-                $allfile .= implode(',', $input['allgallery']);
+                $name = '';
+                $s3FolderName = "Blog/gallery_image";
+                for ($i = 0; $i < $imgCount; $i++) {
+                    $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['galleryImage']['galleryImage'][$i]->getClientOriginalExtension();
+                    S3::s3FileUplod($input['galleryImage']['galleryImage'][$i]->getPathName(), $imageName, $s3FolderName);
+                    $name .= ',' . $imageName;
+                }
+                $allfile = trim($name, ",");
             }
         } else {
             $allfile = '';

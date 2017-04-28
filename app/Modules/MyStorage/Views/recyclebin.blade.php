@@ -13,7 +13,7 @@
             <div class="widget-body table-responsive">     
                 <div class="row">
                     <div class="col-md-2" ng-repeat="imgs in recycleDirectories track by $index | unique:'imgs' ">
-                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllListToRestore/{{imgs.folder}}">
+                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllListToRestore/{{imgs.id}}">
                             <img src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
                             <br/>
                             <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
@@ -24,7 +24,6 @@
                         <h3>Recycle bin is empty</h3>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

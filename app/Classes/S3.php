@@ -23,6 +23,9 @@ use App\Models\StorageFiles;
 use Auth;
 use App\Http\Requests;
 use Session;
+use App\Modules\MyStorage\Models\MyStorage;
+use App\Modules\MyStorage\Models\StorageFiles;
+use App\Classes\CommonFunctions;
 
 class S3 {
     /*
@@ -50,8 +53,9 @@ class S3 {
             Config::set('filesystems.disks.s3.driver', 's3');
             Config::set('filesystems.disks.s3.region', $data[0]->region);
             // session(['s3Path' => 'https://s3.'.$data[0]->region.'.amazonaws.com/'.$data[0]->aws_bucket_id]);
+        }
     }
-    }
+
     /*
      * s3FileUplod() used for upload file to s3 bucket
      * parameters-
@@ -76,10 +80,12 @@ class S3 {
             return json_encode($result);
         }
     }
-   /*
-    * s3FileDelete() used for delete file from perticular path
-    * return 1 if existed file is delete otherwise return 0
-    */ 
+
+    /*
+     * s3FileDelete() used for delete file from perticular path
+     * return 1 if existed file is delete otherwise return 0
+     */
+
     public static function s3FileDelete($path) {
         S3::s3Configuration();
         if (\Storage::disk('s3')->exists($path)) {
@@ -93,6 +99,7 @@ class S3 {
     /*
      * 
      */
+
     public static function s3FolderDelete($filepath) {
         S3::s3Configuration();
         $path = '/' . $filepath;
@@ -115,7 +122,19 @@ class S3 {
         }
     }
 
-    public static function s3AllDirectories($path) {
+    public static function s3AllDirectories() {
+        S3::s3Configuration();
+        $directories = \Storage::disk('s3')->Directories();
+        if ($directories) {
+            $result = ['success' => true, 'directories' => $directories];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public static function s3Directories() {
         S3::s3Configuration();
         $directories = \Storage::disk('s3')->allDirectories();
         if ($directories) {

@@ -105,9 +105,7 @@ class WebPagesController extends Controller {
 
     public function updateWebPageImage() {
         $input = Input::all();
-       // print_r($input['pageId']);        
-        //print_r($random);
-      //  exit;
+
         if (array_key_exists('imageData', $input)) {
             $name = implode(",", $input['imageData']);
         } else {

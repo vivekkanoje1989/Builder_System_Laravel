@@ -20022,3 +20022,7 @@ a.fc-more:hover {
     border-right: 6px solid transparent;
     border-bottom: 6px solid #d73d32
 }
+
+ .err{
+        color:red;
+    }

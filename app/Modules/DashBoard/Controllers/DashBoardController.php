@@ -40,6 +40,7 @@ class DashBoardController extends Controller {
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['employeeData'] = array_merge($request, $create);
         $input['employeeData']['request_type'] = 'Leave';
+        $input['employeeData']['in_date'] = date("Y-m-d")." ".date("h-i-s");
         $employee_request = EmployeeRequest::create($input['employeeData']);
         if (!empty($employee_request)) {
             $result = ['status' => true, 'records' => $employee_request];
@@ -95,6 +96,7 @@ class DashBoardController extends Controller {
         }
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['employeeData'] = array_merge($request, $create);
+        $input['employeeData']['in_date'] = date("Y-m-d")." ".date("h-i-s");
 
         $employee_request = EmployeeRequest::create($input['employeeData']);
         if (!empty($employee_request)) {
@@ -113,7 +115,7 @@ class DashBoardController extends Controller {
         else
             $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
-                ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
+                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                 ->where('request.created_by', '=', $loggedInUserId)
                 ->get();
 
@@ -148,7 +150,7 @@ class DashBoardController extends Controller {
         else
             $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
-                ->select('request.id', 'request.created_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
+                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                 ->where('request.uid', '=', $loggedInUserId)
                 ->get();
 
@@ -163,6 +165,8 @@ class DashBoardController extends Controller {
     public function changeStatus() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
+        $request['reply_date'] = date("Y-m-d")." ".date("h-i-s");
+        $request['reply_by'] = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::where('id', $request['id'])->update($request);
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
