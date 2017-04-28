@@ -23,15 +23,19 @@
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label>Project Gallery (Image Size: W 250 X H 250)</label>
+                    <label>Project Gallery (Size: W 250 X H 250)</label>
                     <span class="input-icon icon-right">
-                        <input type="file" ngf-select ng-model="projectImages.project_gallery" name="project_gallery" id="project_gallery" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_thumbnail)">
+                        <input type="file" ngf-select multiple ng-model="projectImages.project_gallery" name="project_gallery" id="project_gallery" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_thumbnail)">
                     </span>                                                   
                 </div>
             </div>
             <div class="col-sm-12 col-xs-12" ng-if="project_gallery">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_gallery">    
-                    <i class="fa fa-times rem-icon"  title=""></i>
+                    <i class="fa fa-times rem-icon" title=""></i>
+                    <img src="[[ Session::get('s3Path') ]]project/project_gallery/{{list}}" class="thumb photoPreview">
+                </div>
+                <div class="img-div2" data-title="name" ng-repeat="list in project_gallery_preview">    
+                    <i class="fa fa-times rem-icon" title=""></i>
                     <img ng-src="{{list}}" class="thumb photoPreview">
                 </div>
             </div>            

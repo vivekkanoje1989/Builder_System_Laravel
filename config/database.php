@@ -67,16 +67,16 @@ return [
         ],*/
         'masterdb' => [
             'read' => [
-                'host' => 'localhost',
+                'host' => '192.168.0.150',
             ],
             'write' => [
-                'host' => 'localhost'
+                'host' => '192.168.0.150'
             ],
             'driver' => 'mysql',
             'port' => 3306,
             'database' => 'laravel_developement_master_edynamics',
-            'username' => 'root',
-            'password' => 'root',
+            'username' => 'bmsbuilder',
+            'password' => 'bms123',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
@@ -86,16 +86,16 @@ return [
         
         'mysql' => [
             'read' => [
-                'host' => 'localhost',
+                'host' => '192.168.0.150',
             ],
             'write' => [
-                'host' => 'localhost'
+                'host' => '192.168.0.150'
             ],
             'driver' => 'mysql',
             'port' => 3306,
             'database' => 'laravel_developement_builder_client',
-            'username' => 'root',
-            'password' => 'root',
+            'username' => 'bmsbuilder',
+            'password' => 'bms123',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',

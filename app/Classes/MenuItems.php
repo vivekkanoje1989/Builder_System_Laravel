@@ -36,7 +36,9 @@ class MenuItems {
                 )),
                     
                 2 => array('id' => '0202', 'name' => 'BMS Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 10,
-                    'submenu_ids' => '020201,020202,020203,020204,020205,020206,020207,020208,020209,0202010', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(       
+                    'submenu_ids' => '020201,020202,020203,020204,020205,020206,020207,020208,020209,0202010', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 
+                    'api_submenu_ids' => '02020101,02020102,02020103,02020201,02020202,02020203,02020204,02020205,02020206,02020207,02020208,02020209,02020210,02020211,02020212,02020213,02020214,02020215,02020216,02020217,02020218,02020219,02020301,02020401,02020501,02020601,02020701,02020702,02020801,02020901,02020902,020201001,020301,020302,020303',
+                    'submenu' => array(       
                     1 => array('id' => '020201', 'name' => 'SMS & Email Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                     'submenu_ids' => '02020101,02020102,02020103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
                         1 => array('id' => '02020101', 'name' => 'Default Templates & Settings', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),

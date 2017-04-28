@@ -20,7 +20,9 @@ app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$ti
 app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$timeout', function ($scope, Data, toaster, Upload, $timeout) {
     $scope.projectData = $scope.inventoryData = $scope.amenityData = $scope.specificationData = {};
     $scope.statusRow = [];
-    $scope.inventoryData.block_availablity = "1";
+    $scope.statusImages = [];
+    $scope.specificationTitle = [];
+    
     $scope.projectData.project_country = $scope.projectData.project_state = $scope.projectData.project_city = "";
    
     $scope.getProjectDetails = function(projectId){ //get project details
@@ -66,9 +68,19 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                     if (!responseAList.success) {
                         $scope.errorMsg = responseAList.message;
                     } else {       
-                        $scope.projectData = $scope.mapData = $scope.amenityData = $scope.galleryData = angular.copy(response.details);
+                        $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
+                        $scope.projectData = $scope.mapData = $scope.amenityData = $scope.galleryData = $scope.specificationData = angular.copy(response.details);
+                        $scope.location_map_images = (response.details.location_map_images !== "null") ? response.details.location_map_images.split(',') : [];
+                        $scope.amenities_images = (response.details.amenities_images !== "null") ? response.details.amenities_images.split(',') : [];
+                        $scope.project_gallery = (response.details.project_gallery !== "null") ? response.details.project_gallery.split(',') : [];
                         $scope.amenityData.project_amenities_list = angular.copy(responseAList.records);
+                       
+                        $scope.specificationTitle = response.specificationTitle;
                         $scope.statusRow = response.projectStatusRecords;
+                        for (var i = 0; i < response.projectStatusRecords.length; i++) { 
+                            var array = response.projectStatusRecords[i].images.split(',');
+                            $scope.statusImages.push(array);
+                        }
                     }
                 });
                 $scope.wings();
@@ -92,11 +104,11 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                 if (!response.data.success) { 
                     $scope.errorMsg = response.message;
                 } else{
-                    toaster.pop('success', 'Project', response.message);
+                    toaster.pop('success', 'Project', response.data.message);
                     angular.element('.btn-next').trigger('click');
                 }
             }, function (response) {
-                if (response.status !== 200) {
+                if (response.data.status !== 200) {
                     $scope.errorMsg = "Something went wrong.";
                 }
             });
@@ -124,17 +136,23 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
         });
         statusImages.upload.then(function (response) { 
             if (!response.data.success) { 
-                $scope.errorMsg = response.message;
+                $scope.errorMsg = response.data.message;
             } else{
-                toaster.pop('success', 'Project', response.message);
-                $scope.statusRow = response.records;
+                toaster.pop('success', 'Project', response.data.message);
+                $scope.statusImages = [];
+                $scope.statusRow = response.data.records;
+                for (var i = 0; i < response.data.records.length; i++) { 
+                    var array = response.data.records[i].images.split(',');
+                    $scope.statusImages.push(array);
+                }
             }
         }, function (response) {
-            if (response.status !== 200) {
+            if (response.data.status !== 200) {
                 $scope.errorMsg = "Something went wrong.";
             }
         });
     }
+    /*********************************Specification Code Start***************************************/
     $scope.wingList = $scope.floorList = $scope.popupData = [];
     $scope.wings = function(){
         Data.post('projects/getWings',{data: {projectId: $scope.projectData.project_id}}).then(function (response) {
@@ -153,8 +171,8 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                 for (var j = 1; j <= $scope.wingList[i].number_of_floors; j++) { 
                     var obj = { 
                         id: j,
-                        wingId: wingId,
-                        floor_name: "floor " + j
+                        floorName: "floor " + j,
+                        wingId: wingId
                     };
                     $scope.floorList.push(obj);
                 }
@@ -162,7 +180,8 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
         }
     }
     $scope.resetSpecificationDetails = function(){
-        $scope.modalData = $scope.modalProjectImages = {};
+        $scope.modalData = {};
+        $scope.specification_images = {};
     }
     $scope.specicationRow = function(modalData,modalImages){
         if (typeof modalImages === 'undefined') {
@@ -171,24 +190,26 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
         modalImages.upload = Upload.upload({
             url: getUrl + '/projects/basicInfo',
             headers: {enctype: 'multipart/form-data'},
-            data: {project_id:  $scope.projectData.project_id, statusData: modalData, projectImages: modalImages},
+            data: {project_id:  $scope.projectData.project_id, specificationData: {modalData:modalData}, projectImages: modalImages},
         });
         modalImages.upload.then(function (response) { 
+            
             if (!response.data.success) { 
                 $scope.errorMsg = response.message;
             } else{
-                toaster.pop('success', 'Project', response.message);
-                $scope.statusRow = response.records;
+                $scope.specificationTitle.push(response.data.specificationTitle);
+                toaster.pop('success', 'Project', response.data.message);
+                $scope.specification_images = {};
+                $('#specificationDataModal').modal('toggle');
             }
         }, function (response) {
             if (response.status !== 200) {
                 $scope.errorMsg = "Something went wrong.";
             }
         });
-//        $scope.popupData.push(modalData);
-//        console.log($scope.popupData);
         
     }
+    /*********************************Specification Code End***************************************/
 }]);
 
 app.controller('wingCtrl', function ($scope, Data) {
