@@ -61,28 +61,6 @@ class ProjectsController extends Controller {
             echo json_encode($result);
         }
     }
-    
-    /*public function basicInfo(){
-        try{
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-            $isProjectExist = ProjectWebPage::where('project_id', '=',$input['projectId'])->first();
-            if (empty($isProjectExist)) {
-                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                $input['projectData'] = array_merge($input['projectData'],$create);
-                $input['projectData']['project_id'] = $input['projectId'];
-                $actionProject = ProjectWebPage::create($input['projectData']);
-                $msg = "Record added successfully";
-            }
-            if(!empty($actionProject)){
-                $result = ['success' => true, 'message' => $msg];
-            }else{
-                $result = ['success' => false, 'message' => 'Something went wrong.'];
-            }
-        } catch (Exception $ex) {
-            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-        }
-        return json_encode($result);
-    }*/
         
     public function basicInfo(){
         try{
@@ -122,25 +100,37 @@ class ProjectsController extends Controller {
                                 return json_encode($result);
                             } else {
                                 $s3FolderName = '/project/'.$key;
+//                                $implodeName = array();
                                 if ($isMultipleArr) {
+                                    $prImageName = explode(",", $isProjectExist[$key]);
                                     for ($i = 0; $i < count($input['projectImages'][$key]); $i++) {
                                         $imageName = 'project_' . $projectId . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['projectImages'][$key][$i]->getClientOriginalExtension();
                                         S3::s3FileUplod($input['projectImages'][$key][$i]->getPathName(), $imageName, $s3FolderName);
-                                        $implodeName[] = $imageName;
+                                        $prImageName[] = $imageName;
                                     }
                                 } else {
+                                    /****************delete single image from s3 bucket start*****************/
+                                    if(!empty($input['projectImages'][$key])){
+                                        if($isProjectExist[$key] !== $input['projectImages'][$key]){
+                                            $path = $s3FolderName.$isProjectExist[$key];
+                                            S3::s3FileDelete($path);
+                                        }
+                                    }
+                                    /****************delete single image from s3 bucket end*****************/
+                                
                                     $imageName = 'project_' . $projectId . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['projectImages'][$key]->getClientOriginalExtension();
                                     S3::s3FileUplod($input['projectImages'][$key]->getPathName(), $imageName, $s3FolderName);
-                                    $implodeName[] = $imageName;
+                                    $prImageName[] = $imageName;
                                 }
-                                $implodeName = implode(",", $implodeName);
+                                $prImageName = array_filter($prImageName);
+                                $implodeImgName = implode(",", $prImageName);
                                 if(isset($input['statusData'])){
-                                    $input['statusData'][$key] = $implodeName;
+                                    $input['statusData'][$key] = $implodeImgName;
                                 }elseif(isset($input['specificationData'])){
-                                    $input['specificationData'][$key] = $implodeName;
+                                    $input['specificationData'][$key] = $implodeImgName;
                                 }
                                 else{
-                                    $input['projectData'][$key] = $implodeName;
+                                    $input['projectData'][$key] = $implodeImgName;
                                 }
                                 
                             }
@@ -148,7 +138,7 @@ class ProjectsController extends Controller {
                     } 
                 }
             }
-            
+//            echo "<pre>";print_r($input['projectData']);exit;
             if(isset($input['projectData'])){
                 if (!empty($input['projectData']['project_amenities_list'])) {
 //                    $input['projectData']['project_amenities_list'] = $input['projectData']['project_amenities_list'];
@@ -166,6 +156,7 @@ class ProjectsController extends Controller {
                 }else{
                     $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                     $input['projectData'] = array_merge($input['projectData'],$update);
+                    
                     $actionProject = ProjectWebPage::where('project_id', $projectId)->update($input['projectData']);
                     $msg = "Record updated successfully";
                 }
@@ -208,7 +199,7 @@ class ProjectsController extends Controller {
                         $floorArr[] = $floor;
                     }                  
                     sort($floorId);
-                    $input['specificationData']['modalData']['specification_images'] = $implodeName;
+                    $input['specificationData']['modalData']['specification_images'] = $implodeImgName;
                     $input['specificationData']['modalData']['floors'] = $floorId;
 
                     if(!empty($isProjectExist->specification_images)){
@@ -218,7 +209,7 @@ class ProjectsController extends Controller {
                     
                     $input['specificationData']['specification_images'] = json_encode($mergeOldSpecification);
                     unset($input['specificationData']['modalData']); 
-                    $specificationTitle = ["image" => $implodeName,"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $floorId)];
+                    $specificationTitle = ["image" => $implodeImgName,"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $floorId)];
                     if (empty($isProjectExist)) {
                         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                         $input['specificationData'] = array_merge($input['specificationData'],$create);                
@@ -253,7 +244,7 @@ class ProjectsController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         $getProjectDetails = ProjectWebPage::where("project_id","=",$input['data']['projectId'])->get();
-        $getProjectStatusRecords = ProjectStatus::select('images', 'status', 'short_description')->get();
+        $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->get();
         
         /**************getSpecifiction**************/
         $specificationTitle = array();

@@ -2,19 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
-<<<<<<< HEAD
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/storageController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/allimages.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Controllers/MyStorageController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/Gupshup.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
         </group>
-=======
-        <group/>
->>>>>>> 69edadffbfc88e4f3f57bd55da487a136f10bc20
->>>>>>> 9ed55a0a848b37f33be44a7d03cc1339a2db1cc6
     </open-files>
 </project-private>

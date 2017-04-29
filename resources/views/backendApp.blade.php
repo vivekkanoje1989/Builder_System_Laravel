@@ -73,7 +73,7 @@
         <script src="/backend/app/beyond.js"></script>
         <script src="/backend/app/data.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
-       <!-- <script src="/backend/app/directives.js"></script>   -->     
+        <script src="/backend/app/directives.js"></script>        
         <script src="/backend/adminController.js"></script>
         <script src="/backend/hrController.js"></script>
         <!--mandar-->

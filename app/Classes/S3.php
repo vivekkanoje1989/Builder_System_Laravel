@@ -18,8 +18,6 @@ use Illuminate\Contracts\Filesystem\Filesystem;
 use Config;
 use DB;
 use App\Models\backend\Employee;
-use App\Models\MyStorage;
-use App\Models\StorageFiles;
 use Auth;
 use App\Http\Requests;
 use Session;

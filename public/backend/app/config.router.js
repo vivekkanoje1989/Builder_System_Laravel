@@ -245,41 +245,24 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-<<<<<<< HEAD
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/enquiryController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                            '/backend/app/controllers/select.js',
-                                                                            '/backend/app/controllers/timepicker.js',
-                                                                        ]
-                                                                    });
-                                                                }
-                                                        );
-=======
                                         [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select','toaster']).then(
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                     function () {
                                                         return $ocLazyLoad.load({
                                                             serie: true,
                                                             files: [
                                                                 '/backend/enquiryController.js',
                                                                 '/backend/app/controllers/datepicker.js',
+                                                                '/backend/app/controllers/select.js',
                                                                 '/backend/app/controllers/timepicker.js',
-                                                                '/backend/app/controllers/select2.js'
                                                             ]
                                                         });
->>>>>>> 69edadffbfc88e4f3f57bd55da487a136f10bc20
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state(getUrl + '.salesIndex', {

@@ -18,7 +18,7 @@
                         <td ng-if="slist.status == 1">Yes</td>
                         <td ng-if="slist.status == 0">No</td>
                         <td>{{slist.short_description}}</td>
-                        <td><a href ng-click="deleteRecord({{ slist.id }})">Delete</a></td>
+                        <td><a href ng-click="delStatusRecord({{ slist.id }})">Delete</a></td>
                     </tr>
                 </tbody>
             </table>
