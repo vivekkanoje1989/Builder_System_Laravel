@@ -16,6 +16,7 @@ return array(
     'CreateCareerManagementsTable' => $baseDir . '/database/migrations/2017_03_24_120812_create_career_managements_table.php',
     'CreateCompaniesTable' => $baseDir . '/database/migrations/2017_04_18_181039_create_companies_table.php',
     'CreateContactUsesTable' => $baseDir . '/database/migrations/2017_03_17_184202_create_contact_uses_table.php',
+    'CreateCustomerDatasTable' => $baseDir . '/database/migrations/2017_04_29_123526_create_customer_datas_table.php',
     'CreateCustomersDatasTable' => $baseDir . '/database/migrations/2017_03_29_115611_create_customers_datas_table.php',
     'CreateDashBoardsTable' => $baseDir . '/database/migrations/2017_03_25_133535_create_dash_boards_table.php',
     'CreateDesignationsTable' => $baseDir . '/database/migrations/2017_04_04_112925_create_designations_table.php',

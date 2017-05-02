@@ -67,7 +67,9 @@ class S3 {
     public static function s3FileUplod($image, $imageFileName, $s3FolderName) {
         S3::s3Configuration();
         $s3 = \Storage::disk('s3');
+        S3::SaveImageStorage($imageFileName, $s3FolderName);
         $filePath = '' . $s3FolderName . '/' . $imageFileName;
+        
         $val = $s3->put($filePath, file_get_contents($image), 'public');
         if ($val) {
             $result = ['success' => true, 'message' => 'File Uploaded Successfully'];
@@ -243,10 +245,10 @@ class S3 {
             'file_url' => $folderName . "/" . $filename,
             'storage_id' => $getId->id,
         ];
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
-        $allData = array_merge($common, $post);
-        $create = StorageFiles::create($allData);
+//        $loggedInUserId = Auth::guard('admin')->user()->id;
+//        $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
+//        $allData = array_merge($common, $post);
+//        $create = StorageFiles::create($allData);
     }
 
 }

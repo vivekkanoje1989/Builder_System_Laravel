@@ -75,7 +75,7 @@
                                 <input type="text" class="form-control" ng-model="departmentData.department_name" id="department_name" name="department_name"  ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="departmentForm.department_name.$error">
                                     <div ng-message="required">Department is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span> 
                         </div>

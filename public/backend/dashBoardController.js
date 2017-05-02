@@ -38,7 +38,6 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$filter', '$state
             $scope.from_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             var date = new Date(request.to_date);
             $scope.to_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-
             Data.post('request-leave/', {
                 uid: $scope.request.application_to, cc: $scope.request.application_cc, from_date: $scope.from_date, to_date: $scope.to_date, req_desc: request.req_desc, request_type: "Leave", status: "1"}).then(function (response) {
                 if (response.status) {

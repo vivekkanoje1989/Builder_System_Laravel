@@ -76,7 +76,7 @@
                                 
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="professionForm.profession_name.$error">
                                     <div ng-message="required">Profession is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>

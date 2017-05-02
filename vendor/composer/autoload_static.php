@@ -405,6 +405,7 @@ class ComposerStaticInita4a83323fa74f9ee3390af915b46a8f0
         'CreateCareerManagementsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_24_120812_create_career_managements_table.php',
         'CreateCompaniesTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_18_181039_create_companies_table.php',
         'CreateContactUsesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_17_184202_create_contact_uses_table.php',
+        'CreateCustomerDatasTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_29_123526_create_customer_datas_table.php',
         'CreateCustomersDatasTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_29_115611_create_customers_datas_table.php',
         'CreateDashBoardsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_25_133535_create_dash_boards_table.php',
         'CreateDesignationsTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_04_112925_create_designations_table.php',

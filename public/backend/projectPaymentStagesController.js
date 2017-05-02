@@ -32,6 +32,8 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$tim
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
+                        
+                        toaster.pop('success', 'Manage project payment stages', "record created successfully");
                         $('#projectpaymentModal').modal('toggle');
                         $scope.ProjectPaymentStagesRow.push({'stage_name': $scope.stage_name, 'id': response.lastinsertid, 'status': $scope.status,'project_type_id':$scope.project_type_id,fix_stage:$scope.fix_stage});
                        
@@ -47,6 +49,7 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope','$tim
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
+                        toaster.pop('success', 'Manage project payment stages', "record updated successfully");
                         $scope.ProjectPaymentStagesRow.splice($scope.index, 1);
                         $scope.ProjectPaymentStagesRow.splice($scope.index, 0, {
                             stage_name: $scope.stage_name, id: $scope.id,'project_type_id':$scope.project_type_id,fix_stage:$scope.fix_stage});

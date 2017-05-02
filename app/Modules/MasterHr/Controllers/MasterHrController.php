@@ -13,6 +13,7 @@ use DB;
 use Illuminate\Hashing\HashServiceProvider;
 use Auth;
 use App\Classes\CommonFunctions;
+use App\Classes\Gupshup;
 use App\Classes\MenuItems;
 use App\Classes\S3;
 use App\Modules\MasterHr\Models\EmployeeRole;
@@ -82,16 +83,48 @@ class MasterHrController extends Controller {
     public function changePassword() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         if (!empty($request['empId'])) {
             //send mail code
             //send email code
-            $strRandomNo = str_random(6);
+            $strRandomNo = str_random(4);
             $changedPassword = \Hash::make($strRandomNo);
-            echo $strRandomNo;
             DB::table('employees')
                     ->where('id', $request['empId'])
                     ->update(['password' => $changedPassword]);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $post = [
+                'client_id' => $loggedInUserId,
+                'employee_id' => $request['empId'],
+                'password' => $strRandomNo,
+                'status' => '1',
+                'username' => $request['username'],
+            ];
+            DB::table('employee_password_history')->where('employee_id', $request['empId'])->update(['status' => '0']);
+            $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
+            $create = array_merge($common, $post);
+            $result = DB::table('employee_password_history')->insert($create);
+            if ($result > 0) {
+                $select = DB::table('employees')->where('id', $request['empId'])->select('personal_email1')->first();
+                if (!empty($select->personal_email1)) {
+                    $userName = "support@edynamics.co.in";
+                    $password = "edsupport@2016#";
+                    $mailBody = "your account password is" . " " . $strRandomNo . "<br><br>" . "Thank You!";
+                    $companyName = config('global.companyName');
+                    $subject = "Mail subject";
+                    $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => $select->personal_email1, "cc" => "umabshinde@gmail.com"];
+                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
+                }
+            }
+            $smsBody = "your account password is" . " " . $strRandomNo . "<br><br>" . "Thank You!";
+            //$mobileNo = 917709026395; //9970844335;
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $customer = "No";
+            $customerId = $request['empId'];
+            $isInternational = 0; //0 OR 1
+            $sendingType = 0; //always 0 for T_SMS
+            $smsType = "T_SMS";
+            $result = Gupshup::sendSMS($smsBody, $request['username'], $loggedInUserId, $customer, $customerId, $isInternational, $sendingType, $smsType);
+            $decodeResult = json_decode($result, true);
 
             $result = ['success' => true, "successMsg" => "Password has been changed as well as Mail and sms has been sent to selected user."];
             echo json_encode($result);
@@ -239,7 +272,7 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRules();
         $validationRules['personal_email1'] = 'required|email|unique:employees,personal_email1,' . $id . '';
         $validationRules['password'] = '';
-        
+
         if (empty($input)) {
             $input = Input::all();
             $validator = Validator::make($input['userData'], $validationRules, $validationMessages);

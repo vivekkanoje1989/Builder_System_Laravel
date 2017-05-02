@@ -23,6 +23,7 @@ app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$time
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
+                        
                         $('#projecttypesModal').modal('toggle');
                         $scope.ProjectTypesRow.push({'project_type': $scope.project_type, 'id': response.lastinsertid});
                         toaster.pop('success', 'Manage project types', 'Record successfully created');

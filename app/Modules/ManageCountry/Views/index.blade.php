@@ -84,7 +84,7 @@
                                 <input type="text" class="form-control" ng-model="name" name="name"  ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="countryForm.name.$error">
                                     <div ng-message="required">Country name is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>
@@ -95,7 +95,7 @@
                                 <input type="text" class="form-control" ng-model="phonecode" name="phonecode"  ng-pattern="/^[0-9]/"  required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="countryForm.phonecode.$error">
                                     <div ng-message="required">Phone code is required</div>
-                                    <div ng-message="pattern">Phone code must be numerical</div>
+                                    <div ng-message="pattern" class="err">Phone code must be numerical</div>
                                 </div>
                             </span>
                         </div>

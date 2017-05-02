@@ -1,5 +1,25 @@
 
 /* vkm custome */
+
+
+.foldr-main{
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    width: 175px;
+}
+.foldr-icon-div{
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    font-size: 18px !important;
+    line-height: 25px !important;
+}
+.folder-img{
+    max-width: 100%;
+    height: auto;
+    width: 65px;
+}
 .img-div2{
        position: relative;
        float:left !important;
@@ -760,7 +780,7 @@
 }
 
 .bg-darkorange {
-    background-color: #ed4e2a !important
+    background-color: #e8e8e8 !important;
 }
 
 .bg-red {
@@ -3641,7 +3661,12 @@ a:active {
 .page-sidebar.menu-compact .sidebar-menu>li>.submenu>li>a:before {
     display: none
 }
-
+@media only screen and (max-width:1400px) {
+    .foldr-main{
+        width: 155px;
+    }
+    
+}
 @media only screen and (max-width:880px) {
     .page-sidebar:before {
         display: none
@@ -4473,7 +4498,6 @@ a:active {
     height: 65px;
     padding: 0;
     font-size: 0;
-    margin-bottom: 30px;
     vertical-align: top;
     min-width: 130px
 }
@@ -5234,13 +5258,22 @@ a:active {
 }
 
 .databox.databox-vertical.databox-lg {
-    height: 150px;
-    width: 100%
+    height: auto;
+    width: 100%;  
+}
+
+
+
+.databox.databox-vertical.databoxone {
+    height: auto;
+    width: 100%;
+    margin-left:30px;    
 }
 
 .databox.databox-vertical.databox-lg .databox-number {
-    font-size: 17px;
-    margin: 2px
+    font-size: 15px;
+    margin: 2px;
+    line-height: 20px;
 }
 
 .databox.databox-vertical.databox-lg .databox-icon>.fa:before,
@@ -5292,7 +5325,7 @@ a:active {
 }
 
 .databox.databox-vertical.databox-lg.databox-halved .databox-bottom {
-    height: 75px
+    height: auto;
 }
 
 .databox.databox-vertical.databox-xlg {

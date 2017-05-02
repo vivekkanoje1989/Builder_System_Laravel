@@ -83,7 +83,7 @@
                              
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="projectpaymentForm.stage_name.$error">
                                     <div ng-message="required">Payment stage is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                             <br/> <br/>

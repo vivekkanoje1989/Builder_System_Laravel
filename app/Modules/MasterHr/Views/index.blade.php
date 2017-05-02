@@ -147,7 +147,7 @@
                 </form>
             </div>
             <div class="modal-footer" align="center">
-                <button type="button" class="btn btn-sub" ng-click="changePassword(modal.empId)">Submit</button>
+                <button type="button" class="btn btn-sub" ng-click="changePassword(modal.empId,modal.userName)">Submit</button>
             </div>
         </div>
     </div>

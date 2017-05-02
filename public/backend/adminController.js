@@ -3,6 +3,8 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data) {
     $scope.registration = {};
     $scope.errorMsg = '';
 
+
+
     $scope.checkUsername = function (usernameData) {
         Data.post('checkUsername', {
             username: usernameData.mobile,
@@ -96,7 +98,6 @@ app.controller('amenitiesCtrl', function ($scope, Data) {
         }
     });
 });
-
 app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
     Data.get('getSalesEnqCategory').then(function (response) {
         if (!response.success) {
@@ -106,7 +107,6 @@ app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
         }
     });
 });
-
 app.controller('projectCtrl', function ($scope, Data) {
     Data.get('getProjects').then(function (response) {
         if (!response.success) {
@@ -151,7 +151,7 @@ app.controller('genderCtrl', function ($scope, Data) {
             $scope.genders = response.records;
         }
     });
-}); 
+});
 app.controller('bloodGroupCtrl', function ($scope, Data) {
     Data.get('getBloodGroup').then(function (response) {
         if (!response.success) {
@@ -194,7 +194,6 @@ app.controller('departmentCtrl', function ($scope, Data, $timeout) {
         }, 3000);
     }
 });
-
 app.controller('designationCtrl', function ($scope, Data) {
     Data.get('getDesignations').then(function (response) {
         if (!response.success) {
@@ -225,7 +224,7 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
     });
     $scope.checkBlockLength = function () {
         var blockTypeId = [];
-        angular.forEach($scope.enquiryData.block_id, function(value, key){
+        angular.forEach($scope.enquiryData.block_id, function (value, key) {
             blockTypeId.push(value.id);
         });
         var myJsonString = JSON.stringify(blockTypeId);
@@ -234,24 +233,22 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
             $scope.emptyBlockId = true;
             $scope.applyClassBlock = 'ng-active';
             $scope.subBlockList = [];
-         } else {
+        } else {
             $scope.emptyBlockId = false;
             $scope.applyClassBlock = 'ng-inactive';
-             
-            Data.post('getSubBlocks/',{
+            Data.post('getSubBlocks/', {
                 data: {myJsonString}
             }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.subBlockList = response.records;
-                   // console.log($scope.subBlockList);
+                    // console.log($scope.subBlockList);
                 }
             });
-         }
-    }; 
+        }
+    };
 });
-
 app.controller('currentCountryListCtrl', function ($scope, Data) {
     Data.get('getCountries').then(function (response) {
         if (!response.success) {
@@ -287,7 +284,7 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
     $scope.onCityChange = function () { //for location list
         $scope.locationList = "";
         Data.post('getLocations', {
-            data: {countryId: $("#current_country_id").val(),stateId: $("#current_state_id").val(),cityId: $("#current_city_id").val()},
+            data: {countryId: $("#current_country_id").val(), stateId: $("#current_state_id").val(), cityId: $("#current_city_id").val()},
         }).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
@@ -297,7 +294,6 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
         });
     };
 });
-
 app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
     Data.get('getCountries').then(function (response) {
         if (!response.success) {
@@ -306,7 +302,6 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
             $scope.countryList = response.records;
         }
     });
-
     $scope.onPCountryChange = function () {
         $scope.stateList = "";
         Data.post('getStates', {
@@ -331,13 +326,11 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
             }
         });
     };
-
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
             $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
             $scope.userData.permenent_country_id = angular.copy($scope.userData.current_country_id);
             $scope.userData.permenent_pin = angular.copy($scope.userData.current_pin);
-
             Data.post('getStates', {
                 data: {countryId: $scope.userData.current_country_id},
             }).then(function (response) {
@@ -367,9 +360,12 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
         }
     };
 });
-
 app.controller('enquirySourceCtrl', function ($scope, Data) {
-    Data.get('getEnquirySource').then(function (response){
+
+    $scope.$on("myEvent", function (event, args) {
+        $scope.onEnquirySourceChange(args.source_id);
+    });
+    Data.get('getEnquirySource').then(function (response) {
         $scope.sourceList = '';
         if (!response.success) {
             $scope.errorMsg = response.message;
@@ -377,28 +373,28 @@ app.controller('enquirySourceCtrl', function ($scope, Data) {
             $scope.sourceList = response.records;
         }
     });
-    $scope.onEnquirySourceChange = function (sourceId){
+    $scope.onEnquirySourceChange = function (sourceId) {
+
         Data.post('getEnquirySubSource', {
-        data: {sourceId: sourceId}}).then(function (response){
+            data: {sourceId: sourceId}}).then(function (response) {
             $scope.subSourceList = '';
-            if (!response.success){
+            if (!response.success) {
                 $scope.errorMsg = response.message;
-            } else{
+            } else {
                 $scope.subSourceList = response.records;
             }
         });
     };
 });
-
 /****************************UMA************************************/
 app.controller('webPageListCtrl', function ($scope, Data) {
-   Data.get('getWebPageList').then(function (response) {
-       if (!response.success) {
-           $scope.errorMsg = response.message;
-       } else {
-           $scope.listPages = response.records;
-       }
-   });
+    Data.get('getWebPageList').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.listPages = response.records;
+        }
+    });
 });
 app.controller('verticalCtrl', function ($scope, Data) {
     Data.get('getVerticals').then(function (response) {
@@ -408,11 +404,11 @@ app.controller('verticalCtrl', function ($scope, Data) {
             $scope.verticals = response.records;
         }
     });
-}); 
+});
 /****************************UMA************************************/
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {
-    $scope.employeeList = [];    
+    $scope.employeeList = [];
     Data.get('getEmployees').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;
@@ -421,7 +417,6 @@ app.controller('employeesCtrl', function ($scope, Data) {
         }
     });
 });
-
 app.controller('clientCtrl', function ($scope, Data) {
     Data.get('getClient').then(function (response) {
         if (!response.success) {
@@ -431,7 +426,6 @@ app.controller('clientCtrl', function ($scope, Data) {
         }
     });
 });
-
 app.controller('vehiclebrandCtrl', function ($scope, Data) {
     Data.get('getVehiclebrands').then(function (response) {
         if (!response.success) {
@@ -441,7 +435,6 @@ app.controller('vehiclebrandCtrl', function ($scope, Data) {
         }
     });
 });
-
 app.controller('vehiclemodelCtrl', function ($scope, Data) {
     Data.get('getVehiclemodels').then(function (response) {
         if (!response.success) {

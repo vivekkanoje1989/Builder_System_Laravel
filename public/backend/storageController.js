@@ -1,4 +1,4 @@
-app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout','toaster', function ($scope, Data, $state, Upload, $timeout,toaster) {
+app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout', 'toaster', function ($scope, Data, $state, Upload, $timeout, toaster) {
 
 
         $scope.dostorageFormAction = function ()
@@ -14,6 +14,14 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 }
             });
         };
+
+        $scope.share = function (shareId)
+        {
+            $scope.id = shareId;
+            $scope.subDirectories;
+            $scope.getSharedEmployees(shareId)
+
+        }
         $scope.dofolderstorageAction = function (folder)
         {
             Data.post('storage-list/folderStorage', {
@@ -32,7 +40,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
         {
             Data.post('storage-list/getSubDirectory', {
                 id: id}).then(function (response) {
-               // console.log(response);
+                // console.log(response);
                 if (response.status)
                 {
                     $scope.subDirectories = response.result;
@@ -58,6 +66,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             Data.post('storage-list/folderSharedEmployees', {
                 id: id}).then(function (response) {
                 $scope.folderSharedEmployees = response.result;
+                console.log($scope.folderSharedEmployees);
             });
         };
         $scope.removeEmployees = function (index, employee_id, id)
@@ -65,18 +74,19 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             Data.post('storage-list/removeEmployees', {
                 employee_id: employee_id, id: id}).then(function (response) {
                 //console.log(response);
-                 toaster.pop('success', 'My storage', 'Employee removed successfully');
+                toaster.pop('success', 'My storage', 'Employee removed successfully');
                 $scope.folderSharedEmployees.splice(index, 1);
             });
         };
-        $scope.removeImageSharedEmp = function (index, employee_id, folder)
+        $scope.removeImageSharedEmp = function (index, employee_id)
         {
             Data.post('storage-list/removeImageSharedEmp', {
-                employee_id: employee_id, folder: folder, 'image_id': $scope.image_id}).then(function (response) {
+                employee_id: employee_id, 'image_id': $scope.id}).then(function (response) {
                 $scope.imageSharedEmployees.splice(index, 1);
-                 toaster.pop('success', 'My storage', 'Employee removed successfully');
+                toaster.pop('success', 'My storage', 'Employee removed successfully');
             });
         };
+
         $scope.getSharedImagesEmployees = function (id)
         {
             Data.post('storage-list/getSharedImagesEmployees', {
@@ -122,21 +132,23 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 $scope.recycleDirectories = response.result;
             });
         };
-        $scope.deleteFolder = function (id, type)
+        $scope.deleteFolder = function (id, index, type)
         {
+
             Data.post('storage-list/deleteFolder', {
                 id: id}).then(function (response) {
-                if (response.result && type == 0)
+                console.log(response);
+                if (response.result)
                 {
-                    toaster.pop('success', 'My storage', 'Record successfully deleted');
-                    $state.go(getUrl + '.storageListIndex');
-                } else
-                if (response.result && type == 2)
-                {
-                    toaster.pop('success', 'My storage', 'Record successfully deleted');
-                    $state.go(getUrl + '.sharedWithMe');
-                } else if (response.result && type == 1) {
-                    $state.go(getUrl + '.sharedWithMe');
+                    if (type == 1)
+                    {
+                        $scope.directories.splice(index, 1);
+                        toaster.pop('success', 'My storage', 'Record successfully deleted');
+                    } else {
+                        $scope.subDirectories.splice(index, 1);
+                        toaster.pop('success', 'My storage', 'Record successfully deleted');
+                    }
+
                 }
             });
         };
@@ -156,7 +168,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             $scope.folderName = filename;
             Data.post('storage-list/allFolderImages', {
                 id: filename}).then(function (response) {
-                 console.log(response)
                 $scope.folderImages = response.records;
                 if ($scope.folderImages == undefined)
                 {
@@ -181,9 +192,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 data: data
             });
             fileName.upload.then(function (response) {
-                
-                console.log(response);
-                 toaster.pop('success', 'My storage', 'Record successfully created');
+                toaster.pop('success', 'My storage', 'Record successfully created');
                 var post = response.data.result;
                 if ($scope.folderImages !== undefined)
                 {
@@ -216,7 +225,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             });
             fileName.upload.then(function (response) {
                 // console.log(response);
-                 toaster.pop('success', 'My storage', 'Record successfully created');
+                toaster.pop('success', 'My storage', 'Record successfully created');
                 var post = response.data.result;
                 if ($scope.folderImages !== undefined)
                 {
@@ -236,33 +245,30 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 $scope.myImageStore = response.records
             });
         }
-        $scope.sharedImageWith = function (folderName)
+        $scope.sharedImageWith = function (id)
         {
             Data.post('storage-list/sharedImageWith', {
-                folder: folderName, 'image_id': $scope.image_id, 'share_with': $scope.share_with}).then(function (response) {
+                'id': $scope.id, 'share_with': $scope.share_with}).then(function (response) {
                 if (response.status) {
                     if ($scope.imageSharedEmployees == undefined)
                     {
                         $scope.imageSharedEmployees = [];
-                        $scope.imageSharedEmployees.push({'first_name': response.empl.first_name, 'last_name': response.empl.last_name, 'folder': folderName, 'employee_id': $scope.share_with});
+                        $scope.imageSharedEmployees.push({'first_name': response.empl.first_name, 'last_name': response.empl.last_name, 'employee_id': $scope.share_with});
 
                     } else {
-                        $scope.imageSharedEmployees.push({'first_name': response.empl.first_name, 'last_name': response.empl.last_name, 'folder': folderName, 'employee_id': $scope.share_with});
+                        $scope.imageSharedEmployees.push({'first_name': response.empl.first_name, 'last_name': response.empl.last_name, 'employee_id': $scope.share_with});
                     }
                 } else {
                     $scope.errorMsg = 'Image already shared with employee';
                 }
             });
         };
-        $scope.imageShared = function (file)
+        $scope.imageShared = function (id)
         {
-            $scope.image_id = file;
+            $scope.id = id;
             $scope.sbtBtn = false;
         };
-        $scope.getAllImages = function (id)
-        {
-            alert(id);
-        }
+
         $scope.deleteImages = function (index, imageId)
         {
             Data.post('storage-list/deleteImages', {

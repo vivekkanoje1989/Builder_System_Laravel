@@ -29,9 +29,10 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
+                        toaster.pop('success', 'Manage block types', "record created successfully");
                         $('#blocktypesModal').modal('toggle');
                         $scope.BlockTypesRow.push({'block_name': $scope.block_name, 'id': response.lastinsertid,'project_id': $scope.project_type_id});
-                        toaster.pop('success', 'Block types', 'Record successfully created');
+                       
                     }
                 });
             } else { //for update
@@ -41,11 +42,12 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope','$timeout
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
+                        toaster.pop('success', 'Manage block types', "Record updated successfully");
                         $scope.BlockTypesRow.splice($scope.index, 1);
                         $scope.BlockTypesRow.splice($scope.index, 0, {
                             'block_name': $scope.block_name, 'id': $scope.id,'project_id': $scope.project_type_id});
                         $('#blocktypesModal').modal('toggle');
-                       toaster.pop('success', 'Block types', 'Record successfully updated');
+                      
                     }
                 });
             }

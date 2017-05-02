@@ -61,7 +61,7 @@ class CompaniesController extends Controller {
             $name = $imageName;
             $name = trim($name, ",");
             $firm_logo = $name;
-            S3::SaveImageStorage($firm_logo, $s3FolderName);
+            
             $post['punch_line'] = $input['punch_line'];
             $post['legal_name'] = $input['legal_name'];
             $post['firm_logo'] = $firm_logo;
@@ -96,8 +96,6 @@ class CompaniesController extends Controller {
                         $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['estimate_letterhead_file']->getClientOriginalExtension();
                         S3::s3FileUplod($input['stationary'][$i]['estimate_letterhead_file']->getPathName(), $imageName, $s3FolderName);
                         $letterhead = $imageName;
-                        $res = S3::SaveImageStorage($letterhead, $s3FolderName);
-                        
                     } else {
                         $letterhead = '';
                     }
@@ -106,7 +104,6 @@ class CompaniesController extends Controller {
                         $imageName1 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['receipt_letterhead_file']->getClientOriginalExtension();
                         S3::s3FileUplod($input['stationary'][$i]['receipt_letterhead_file']->getPathName(), $imageName1, $s3FolderName1);
                         $receiptname = $imageName1;
-                        $res = S3::SaveImageStorage($receiptname, $s3FolderName1);
                     } else {
                         $receiptname = '';
                     }
@@ -115,7 +112,6 @@ class CompaniesController extends Controller {
                         $imageName2 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['rubber_stamp_file']->getClientOriginalExtension();
                         S3::s3FileUplod($input['stationary'][$i]['rubber_stamp_file']->getPathName(), $imageName2, $s3FolderName2);
                         $stampname = $imageName2;
-                        S3::SaveImageStorage($stampname, $s3FolderName2);
                     } else {
                         $stampname = '';
                     }
@@ -124,7 +120,6 @@ class CompaniesController extends Controller {
                         $imageName3 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['estimate_logo_file']->getClientOriginalExtension();
                         S3::s3FileUplod($input['stationary'][$i]['estimate_logo_file']->getPathName(), $imageName3, $s3FolderName3);
                         $estLogoFile = $imageName3;
-                        S3::SaveImageStorage($estLogoFile, $s3FolderName3);
                     } else {
                         $estLogoFile = '';
                     }
@@ -134,7 +129,6 @@ class CompaniesController extends Controller {
                         $imageName4 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['demandletter_letterhead_file']->getClientOriginalExtension();
                         S3::s3FileUplod($input['stationary'][$i]['demandletter_letterhead_file']->getPathName(), $imageName4, $s3FolderName4);
                         $demandLetter = $imageName4;
-                        S3::SaveImageStorage($demandLetter, $s3FolderName4);
                     } else {
                         $demandLetter = '';
                     }
@@ -144,7 +138,6 @@ class CompaniesController extends Controller {
                         $imageName5 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['demandletter_logo_file']->getClientOriginalExtension();
                         S3::s3FileUplod($input['stationary'][$i]['demandletter_logo_file']->getPathName(), $imageName5, $s3FolderName5);
                         $demandLogoFile = $imageName5;
-                        S3::SaveImageStorage($demandLogoFile, $s3FolderName5);
                     } else {
                         $demandLogoFile = '';
                     }
@@ -154,7 +147,6 @@ class CompaniesController extends Controller {
                         $imageName6 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['receipt_logo_file']->getClientOriginalExtension();
                         S3::s3FileUplod($input['stationary'][$i]['receipt_logo_file']->getPathName(), $imageName6, $s3FolderName6);
                         $receiptLogoFile = $imageName6;
-                        $resss = S3::SaveImageStorage($receiptLogoFile, $s3FolderName6);
                     } else {
                         $receiptLogoFile = '';
                     }
@@ -191,7 +183,6 @@ class CompaniesController extends Controller {
                         $imageName = 'company_doc' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['documents'][$i]['document_file']->getClientOriginalExtension();
                         S3::s3FileUplod($input['documents'][$i]['document_file']->getPathName(), $imageName, $s3FolderName);
                         $document_file = $imageName;
-                        S3::SaveImageStorage($document_file, $s3FolderName);
                     } else {
                         $document_file = '';
                     }
@@ -239,7 +230,6 @@ class CompaniesController extends Controller {
             $name = $imageName;
             $name = trim($name, ",");
             $firm_logo = $name;
-            S3::SaveImageStorage($firm_logo, $s3FolderName);
             if (!empty($input['FirmLogo']['FirmLogo']->getClientOriginalExtension())) {
                 $post['firm_logo'] = $firm_logo;
             }
@@ -283,7 +273,6 @@ class CompaniesController extends Controller {
                                 $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['estimate_letterhead_file']->getClientOriginalExtension();
                                 S3::s3FileUplod($input['stationary'][$i]['estimate_letterhead_file']->getPathName(), $imageName, $s3FolderName);
                                 $letterhead = $imageName;
-                                S3::SaveImageStorage($letterhead, $s3FolderName);
                                 array_push($post, ["estimate_letterhead_file" => $letterhead]);
                             }
                         } else {
@@ -299,7 +288,6 @@ class CompaniesController extends Controller {
                                 $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['estimate_logo_file']->getClientOriginalExtension();
                                 S3::s3FileUplod($input['stationary'][$i]['estimate_logo_file']->getPathName(), $imageName, $s3FolderName);
 
-                                S3::SaveImageStorage($imageName, $s3FolderName);
                                 array_push($post, ["estimate_logo_file" => $imageName]);
                             }
                         } else {
@@ -315,7 +303,7 @@ class CompaniesController extends Controller {
                                 $s3FolderName = 'Company/demandletterFile';
                                 $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['demandletter_letterhead_file']->getClientOriginalExtension();
                                 S3::s3FileUplod($input['stationary'][$i]['demandletter_letterhead_file']->getPathName(), $imageName, $s3FolderName);
-                                S3::SaveImageStorage($imageName, $s3FolderName);
+                          
                                 array_push($post, ["demandletter_letterhead_file" => $imageName]);
                             }
                         } else {
@@ -331,7 +319,7 @@ class CompaniesController extends Controller {
                                 $s3FolderName = 'Company/demandletterLogoFile';
                                 $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['demandletter_logo_file']->getClientOriginalExtension();
                                 S3::s3FileUplod($input['stationary'][$i]['demandletter_logo_file']->getPathName(), $imageName, $s3FolderName);
-                                S3::SaveImageStorage($imageName, $s3FolderName);
+                        
                                 array_push($post, ["demandletter_logo_file" => $imageName]);
                             }
                         } else {
@@ -347,7 +335,7 @@ class CompaniesController extends Controller {
                                 $s3FolderName = 'Company/receiptLogoFile';
                                 $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['receipt_logo_file']->getClientOriginalExtension();
                                 S3::s3FileUplod($input['stationary'][$i]['receipt_logo_file']->getPathName(), $imageName, $s3FolderName);
-                                S3::SaveImageStorage($imageName, $s3FolderName);
+     
                                 array_push($post, ["receipt_logo_file" => $imageName]);
                             } else {
                                 array_push($post, ["receipt_logo_file" => $input['stationary'][$i]['receiptLogoFile']]);
@@ -362,7 +350,7 @@ class CompaniesController extends Controller {
                                 $s3FolderName = 'Company/receiptLetterhead';
                                 $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['receipt_letterhead_file']->getClientOriginalExtension();
                                 S3::s3FileUplod($input['stationary'][$i]['receipt_letterhead_file']->getPathName(), $imageName, $s3FolderName);
-                                S3::SaveImageStorage($imageName, $s3FolderName);
+                    
                                 array_push($post, ["receipt_letterhead_file" => $imageName]);
                             }
                         } else {
@@ -376,7 +364,7 @@ class CompaniesController extends Controller {
                                 $s3FolderName = 'Company/rubberStampFile';
                                 $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['rubber_stamp_file']->getClientOriginalExtension();
                                 S3::s3FileUplod($input['stationary'][$i]['rubber_stamp_file']->getPathName(), $imageName, $s3FolderName);
-                                S3::SaveImageStorage($imageName, $s3FolderName);
+                               
                                 array_push($post, ["rubber_stamp_file" => $imageName]);
                             }
                         } else {
@@ -412,7 +400,6 @@ class CompaniesController extends Controller {
                         $imageName = 'company_doc' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['documents'][$i]['document_file']->getClientOriginalExtension();
                         S3::s3FileUplod($input['documents'][$i]['document_file']->getPathName(), $imageName, $s3FolderName);
                         $document_file = $imageName;
-                        S3::SaveImageStorage($document_file, $s3FolderName);
                         array_push($post2, ["document_file" => $document_file]);
                     }
                 } else {

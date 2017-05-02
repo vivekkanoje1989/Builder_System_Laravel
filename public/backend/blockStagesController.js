@@ -1,4 +1,4 @@
-app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
+app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaster', function ($scope, Data, $rootScope, $timeout,toaster) {
 
         $scope.blockStages = function () {
             Data.post('block-stages/manageBlockStages').then(function (response) {
@@ -30,6 +30,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', f
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
+                        toaster.pop('success','Manage block stages',"record created successfully");
                         $('#blockstagesModal').modal('toggle');
                         $scope.BlockStageRow.push({'block_stage_name': $scope.block_stages, 'id': response.lastinsertid, 'project_type_id': $scope.project_type_id});
                     }
@@ -41,6 +42,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', f
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
+                        toaster.pop('success','Manage block stages',"record updated successfully");
                         $scope.BlockStageRow.splice($scope.index, 1);
                         $scope.BlockStageRow.splice($scope.index, 0, {
                             block_stage_name: $scope.block_stages, id: $scope.id, 'project_type_id': $scope.project_type_id});

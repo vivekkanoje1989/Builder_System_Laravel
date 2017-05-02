@@ -1,4 +1,4 @@
-app.controller('lostReasonsController', ['$rootScope', '$scope', '$state', 'Data', '$timeout', '$parse',function ($rootScope, $scope, $state, Data, $timeout, $parse) {
+app.controller('lostReasonsController', ['$rootScope', '$scope', '$state', 'Data', '$timeout', '$parse', function ($rootScope, $scope, $state, Data, $timeout, $parse) {
         $scope.heading = 'Create Lost Reason';
         $scope.manageLostReasons = function () {
             $scope.modal = {};
@@ -21,27 +21,32 @@ app.controller('lostReasonsController', ['$rootScope', '$scope', '$state', 'Data
                 Data.post('lost-reasons/', {
                     reason: $scope.reason, lost_reason_status: $scope.lost_reason_status
                 }).then(function (response) {
-                  
+
                     if (response.success) {
-                        $scope.listLostReasons.push({'id': response.lastinsertid,'reason': $scope.reason, lost_reason_status: $scope.lost_reason_status});
+
+                        toaster.pop('success', 'Manage lost reason', "record updated successfully");
+                        $scope.listLostReasons.push({'id': response.lastinsertid, 'reason': $scope.reason, lost_reason_status: $scope.lost_reason_status});
                         $('#lostReasonModal').modal('toggle');
-                       // $scope.success("Lost reason details created successfully"); 
+                        // $scope.success("Lost reason details created successfully"); 
                     }
                 });
             } else
             { //update
-                Data.put('lost-reasons/'+ $scope.actionModal, {
+                Data.put('lost-reasons/' + $scope.actionModal, {
                     reason: $scope.reason, lost_reason_status: $scope.lost_reason_status, id: $scope.actionModal
                 }).then(function (response) {
-                    
-                         $('#lostReasonModal').modal('toggle');
+
+                    if (response.success) {
+                        toaster.pop('success', 'Manage lost reason', "record updated successfully");
+                        $('#lostReasonModal').modal('toggle');
                         $scope.listLostReasons.splice($scope.index, 1);
                         $scope.listLostReasons.splice($scope.index, 0, {
                             reason: $scope.reason, lost_reason_status: $scope.lost_reason_status, id: $scope.actionModal});
                         //$scope.success("Lost reason details updated successfully"); 
+                    }
 
                 });
             }
         }
-       
+
     }]);

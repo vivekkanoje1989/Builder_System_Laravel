@@ -82,7 +82,7 @@
                             
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blocktypesForm.block_name.$error">
                                     <div ng-message="required">Block type is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                             

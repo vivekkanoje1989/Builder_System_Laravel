@@ -117,7 +117,7 @@
                                 <input type="text" class="form-control" ng-model="name" name="name"  ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="citiesForm.name.$error">
                                     <div ng-message="required">City name is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>

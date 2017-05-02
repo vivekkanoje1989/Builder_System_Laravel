@@ -35,6 +35,7 @@ app.controller('managePaymentHeadingCtrl', ['$scope', 'Data','toaster', function
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
+                        toaster.pop('success','Manage project payment heading',"record created successfully");
                         $('#paymentheadingModal').modal('toggle');
                         $scope.PaymentHeadingRow.push({'payment_heading': $scope.payment_heading, 'id':response.lastinsertid,'project_type_id': $scope.project_type_id,'tax_heading':$scope.tax_heading,'date_dependent_tax':$scope.date_dependent_tax,tax_applicable:$scope.tax_applicable});
                         toaster.pop('success', 'Manage project payment heading', 'Record successfully created');
@@ -47,6 +48,7 @@ app.controller('managePaymentHeadingCtrl', ['$scope', 'Data','toaster', function
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
+                        toaster.pop('success','Manage project payment heading',"record updated successfully");
                         $scope.PaymentHeadingRow.splice($scope.index, 1);
                         $scope.PaymentHeadingRow.splice($scope.index, 0, {
                             'payment_heading': $scope.payment_heading, 'id': $scope.id,'tax_heading':$scope.tax_heading,'date_dependent_tax':$scope.date_dependent_tax,tax_applicable:$scope.tax_applicable});

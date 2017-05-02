@@ -232,23 +232,24 @@
                                 <img src="/backend/assets/img/avatars/adam-jansen.jpg">
                             </div>
                             <section>
-                                <h2><span class="profile"><span>David Stevman</span></span></h2>
+                                <h2><span class="profile"><span>[[Auth::guard('admin')->user()->first_name;]] [[Auth::guard('admin')->user()->last_name;]]</span></span></h2>
                             </section>
                         </a>
                         <!--Login Area Dropdown-->
                         <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
-                            <li class="username"><a>David Stevenson</a></li>
-                            <li class="email"><a>David.Stevenson@live.com</a></li>
+                            <li class="username"><a>[[Auth::guard('admin')->user()->first_name;]]</a></li>
+                            <li class="email"><a>[[Auth::guard('admin')->user()->personal_email1;]]</a></li>
                             <!--Avatar Area-->
-                            <li>
+<!--                            <li>
                                 <div class="avatar-area">
                                     <img src="/backend/assets/img/avatars/adam-jansen.jpg" class="avatar">
                                     <span class="caption">Change Photo</span>
                                 </div>
-                            </li>
+                            </li>-->
                             <!--Avatar Area-->
                             <li class="edit">
-                                <a href="profile.html" class="pull-left">Profile</a>
+<!--                                <a href="profile.html" class="pull-left">Profile</a>-->
+                                <a href="#/[[config('global.getUrl')]]/user/update/[[Auth::guard('admin')->user()->id;]]">Profile</a>
                                 <a href="#" class="pull-right">Setting</a>
                             </li>
                             <!--Theme Selector Area-->

@@ -62,8 +62,8 @@
                             <td>{{list.last_name}}</td> 
                             <td>{{list.mobile_number}}</td> 
                             <td>{{list.email_id}}</td> 
-                            <td>
-                                <a href="/download/{{list.resume_file_name}}" class="btn btn-primary">Download</a></td>
+                            <td><span ng-if="list.resume_file_name">
+                                    <a href="/download/{{list.resume_file_name}}" target="_blank" class="btn btn-primary">Download</a></span></td>
 
                         </tr>
                     </tbody>

@@ -102,7 +102,7 @@
                               
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="statesForm.name.$error">
                                     <div ng-message="required">State name is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>

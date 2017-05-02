@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>app/Modules/BlogManagement/Views/create.blade.php</url>
+            <bookmark id="1">
+                <name/>
+                <line>6</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/storageController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/allimages.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Controllers/MyStorageController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Controllers/ProjectsController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Models/Project.php</file>
         </group>
-=======
-        <group/>
->>>>>>> 69edadffbfc88e4f3f57bd55da487a136f10bc20
     </open-files>
 </project-private>

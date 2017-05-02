@@ -9,6 +9,7 @@
 namespace App\Classes;
 
 class MenuItems {
+
     public static function getMenuItems() {
         $getUrl = config('global.getUrl');
         $menulist = array(
@@ -71,8 +72,7 @@ class MenuItems {
                             4 => array('id' => '020204', 'name' => 'Firms & Partners', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                                 'submenu_ids' => '02020401', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020401', 'name' => 'Manage Companies', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                               
-                                    )),
+                                )),
                             5 => array('id' => '020205', 'name' => 'Operational Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'has_submenu' => true, 'total_submenu' => 1,
                                 'submenu_ids' => '02020501', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020501', 'name' => 'Manage', 'icon' => '', 'url' => '/' . $getUrl . '/operationalSetting/index', 'slug' => '.operationalSettingIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -99,7 +99,6 @@ class MenuItems {
                                 'submenu_ids' => '020201001', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '020201001', 'name' => 'Manage', 'icon' => '', 'url' => '/' . $getUrl . '/employeeDevice/index', 'slug' => '.employeeDeviceIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                            
                         )),
                     3 => array('id' => '0203', 'name' => 'BMS Consumption', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                         'submenu_ids' => '020301,020302,020303', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -153,62 +152,8 @@ class MenuItems {
                             4 => array('id' => '020204', 'name' => 'Firms & Partners', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                                 'submenu_ids' => '02020401', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020401', 'name' => 'Manage Companies', 'icon' => '', 'url' => '/' . $getUrl . '/manage/company', 'slug' => '.companiesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                              )),
+                                )),
                             5 => array('id' => '020205', 'name' => 'Operational Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'has_submenu' => true, 'total_submenu' => 1,
-
-
-                1 => array('id' => '0201', 'name' => 'Website Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 7,
-                    'submenu_ids' => '020101,020102,020103,020104,020105,020106,020107', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                    1 => array('id' => '020101', 'name' => 'Image Management', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    2 => array('id' => '020102', 'name' => 'Content Management', 'icon' => '', 'url' => '/'.$getUrl.'/website_settings/contentpages', 'slug' => '.webPagesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),  
-                    3 => array('id' => '020103', 'name' => 'Contact Us', 'icon' => '',  'url' => '/'.$getUrl.'/contactUs/index',  'slug' => '.contactusIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    4 => array('id' => '020104', 'name' => 'Website Changing Module', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    5 => array('id' => '020105', 'name' => 'Webpage Management', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    6 => array('id' => '020106', 'name' => 'Social Websites Management', 'icon' => '', 'url' => '/'.$getUrl.'/bms_lists/social',  'slug' => '.socialwebIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    7 => array('id' => '020107', 'name' => 'Blogs Management', 'icon' => '', 'url' => '/'.$getUrl.'/manageblog/index',  'slug' => '.manageblogIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                )),
-                    
-                2 => array('id' => '0202', 'name' => 'BMS Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 10,
-                    'submenu_ids' => '020201,020202,020203,020204,020205,020206,020207,020208,020209,0202010', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(       
-                    1 => array('id' => '020201', 'name' => 'SMS & Email Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
-                    'submenu_ids' => '02020101,02020102,02020103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
-                        1 => array('id' => '02020101', 'name' => 'Default Templates & Settings', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        2 => array('id' => '02020102', 'name' => 'Custom Templates', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        3 => array('id' => '02020103', 'name' => 'SMS Templates', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    )),
-                    2 => array('id' => '020202', 'name' => 'BMS Lists Management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 19,
-                            'submenu_ids' => '02020201,02020202,02020203,02020204,02020205,02020206,02020207,02020208,02020209,02020210,02020211,02020212,02020213,02020214,02020215,02020216,02020217,02020218,02020219',
-                            'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                                1 => array('id' => '02020201', 'name' => 'Manage Blood Groups', 'icon' => '', 'url' => '/' . $getUrl . '/bloodgroups/index', 'slug' => '.bloodGroupsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                2 => array('id' => '02020202', 'name' => 'Manage Highest Education', 'icon' => '', 'url' => '/' . $getUrl . '/highesteducation/index', 'slug' => '.highesteducationIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                3 => array('id' => '02020203', 'name' => 'Manage Departments', 'icon' => '', 'url' => '/' . $getUrl . '/department/index', 'slug' => '.departmentIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                4 => array('id' => '02020204', 'name' => 'Manage Profession', 'icon' => '', 'url' => '/' . $getUrl . '/profession/index', 'slug' => '.professionIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                5 => array('id' => '02020205', 'name' => 'Manage Enquiry Source', 'icon' => '', 'url' => '/' . $getUrl . '/enquirysource/index', 'slug' => '.enquirySourceIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                6 => array('id' => '02020206', 'name' => 'Manage Lost Reasons', 'icon' => '', 'url' => '/' . $getUrl . '/lostreason/index', 'slug' => '.lostreasonsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                7 => array('id' => '02020207', 'name' => 'Manage Project Types', 'icon' => '', 'url' => '/' . $getUrl . '/projecttypes/index', 'slug' => '.projecttypesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                8 => array('id' => '02020208', 'name' => 'Manage Project Payment Stages', 'icon' => '', 'url' => '/' . $getUrl . '/projectstages/index', 'slug' => '.projectstagesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                9 => array('id' => '02020209', 'name' => 'Manage Block Types', 'icon' => '', 'url' => '/' . $getUrl . '/blockTypes/index', 'slug' => '.blocktypesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                10 => array('id' => '02020210', 'name' => 'Manage Block Stages', 'icon' => '', 'url' => '/' . $getUrl . '/blockstages/index', 'slug' => '.blockStagesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                11 => array('id' => '02020211', 'name' => 'Manage Payment Headings', 'icon' => '', 'url' => '/' . $getUrl . '/paymentheading/index', 'slug' => '.paymentheadingIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                12 => array('id' => '02020212', 'name' => 'Manage Country', 'icon' => '', 'url' => '/' . $getUrl . '/country/index', 'slug' => '.countryIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                13 => array('id' => '02020213', 'name' => 'Manage States', 'icon' => '', 'url' => '/' . $getUrl . '/states/index', 'slug' => '.statesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                14 => array('id' => '02020214', 'name' => 'Manage Cities', 'icon' => '', 'url' => '/' . $getUrl . '/city/index', 'slug' => '.cityIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                15 => array('id' => '02020215', 'name' => 'Manage Locations', 'icon' => '', 'url' => '/'.$getUrl.'/location/index', 'slug' => '.locationIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                16 => array('id' => '02020216', 'name' => 'Manage Discount Headings', 'icon' => '', 'url' => '/'.$getUrl.'/discountheading/index', 'slug' => '.discountheadingIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                17 => array('id' => '02020217', 'name' => 'Manage Enquiry Location', 'icon' => '', 'url' => '/' . $getUrl . '/enquirylocation/index', 'slug' => '.enquirylocationIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                18 => array('id' => '02020218', 'name' => 'Manage Designations', 'icon' => '', 'url' => '/' . $getUrl . '/designations/index', 'slug' => '.designationsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                19 => array('id' => '02020219', 'name' => 'Manage Docs', 'icon' => '', 'url' => '/' . $getUrl . '/designations/index', 'slug' => '.designationsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    )),
-                    3 => array('id' => '020203', 'name' => 'Auto Assign Web Enquires', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
-                    'submenu_ids' => '02020301', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
-                        1 => array('id' => '02020301', 'name' => 'Manage', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    )),
-                    4 => array('id' => '020204', 'name' => 'Firms & Partners', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
-                    'submenu_ids' => '02020401', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
-                        1 => array('id' => '02020401', 'name' => 'Manage Companies', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    )),
-                     5 => array('id' => '020205', 'name' => 'Operational Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'has_submenu' => true, 'total_submenu' => 1,
->>>>>>> 69edadffbfc88e4f3f57bd55da487a136f10bc20
                                 'submenu_ids' => '02020501', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020501', 'name' => 'Manage', 'icon' => '', 'url' => '/' . $getUrl . '/operationalSetting/index', 'slug' => '.operationalSettingIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
@@ -234,11 +179,10 @@ class MenuItems {
                                 'submenu_ids' => '020201001', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '020201001', 'name' => 'Manage', 'icon' => '', 'url' => '/' . $getUrl . '/employeeDevice/index', 'slug' => '.employeeDeviceIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                             11 => array('id' => '0202011', 'name' => 'Bank Accounts', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
+                            11 => array('id' => '0202011', 'name' => 'Bank Accounts', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                                 'submenu_ids' => '020201101', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '020201101', 'name' => 'Manage Bank Accounts', 'icon' => '', 'url' => '/' . $getUrl . '/bankAccounts/index', 'slug' => '.bankAccountsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                               
-                                    )),
+                                )),
                         )),
                     3 => array('id' => '0203', 'name' => 'BMS Consumption', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                         'submenu_ids' => '020301,020302,020303', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -247,7 +191,7 @@ class MenuItems {
                             3 => array('id' => '020303', 'name' => 'Email Consumption', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                 )),
-             3 => array('name' => 'HR', 'icon' => 'hr-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'hr', 'has_submenu' => true, 'total_submenu' => 3,
+            3 => array('name' => 'HR', 'icon' => 'hr-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'hr', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '0301,0302', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '0301', 'name' => 'User Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
                         'submenu_ids' => '030101,030102,030103,030104,030105,030106', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -320,7 +264,7 @@ class MenuItems {
                 'submenu_ids' => '0501,0502,0503,0504', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '0501', 'name' => 'Projects Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
                         'submenu_ids' => '050101,050102,050103,050104', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '050101', 'name' => 'Manage Projects', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '050101', 'name' => 'Manage Projects', 'icon' => '', 'url' => '/' . $getUrl . '/project/manage', 'slug' => '.manageProjectIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             2 => array('id' => '050102', 'name' => 'New Project', 'icon' => '', 'url' => '/' . $getUrl . '/project/create', 'slug' => '.projectCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             3 => array('id' => '050103', 'name' => 'Project Webpage', 'icon' => '', 'url' => '/' . $getUrl . '/project/webpage', 'slug' => '.projectWebPage', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             4 => array('id' => '050104', 'name' => 'Project Availability', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -471,5 +415,3 @@ class MenuItems {
     }
 
 }
-
-//["0101","0102","0103","0104","0105","0106","0107","0201","020101","020102","020103","020104","020105","020106","020107","0202","020201","02020101","02020102","02020103","020202","02020201","02020202","02020203","02020204","02020205","02020206","02020207","02020208","02020209","02020210","02020211","02020212","02020213","02020214","02020215","020203","02020301","020204","02020401","020205","02020501","020206","02020601","020207","02020701","02020702","020208","02020801","020209","02020901","02020902","0203","020301","020302","020303","0301","030101","030102","030103","030104","0302","030201","0401","040101","040102","040103","040104","040105","040106","040107","040108","040109","0402","040201","040202","040203","040204","0403","040301","040302","040303","040304","040305","0404","040401","040402","0501","050101","050101","050101","050101","0502","0503","050301","0504","050401","050402","0601","060101","0602","060201","0603","060301","060302","060303","0604","060401","0701","070101","070102","070103","0702","070201","070202","070203","070204","0703","070301","070302","070303","0801","080101","0802","080201","080202","080203","0803","080301","080302","080303","080304","080305","0804","080401","0901","090101","09010101","09010102","09010103","090102","0902","090201","090202","090203","0903","090301","09030101","09030102","09030103","090302","01001","01002","01101","0110101","0110102","0110103","01102","0110201","0110202","0110203","0110204","01103","0110301","01201","01202","01203"]

@@ -227,11 +227,14 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
         $scope.currentPage = num * $scope.itemsPerPage;
     };
 
-    $scope.changePassword = function (id) {
+    $scope.changePassword = function (id,username) {
+      
         Data.post('master-hr/changePassword', {
-            empId: id,
+            empId: id,username:username
         }).then(function (response) {
-            if (response.success) {
+            console.log(response);
+           if (response.success) {
+               $("#myModal").modal("toggle");
                 $scope.successMsg = response.message;
             } else {
                 $scope.errorMsg = response.message;
