@@ -22,6 +22,8 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
     $scope.statusRow = [];
     $scope.statusImages = [];
     $scope.specificationTitle = [];
+    $scope.floorTitle = [];
+    $scope.layoutTitle = [];
     
     $scope.projectData.project_country = $scope.projectData.project_state = $scope.projectData.project_city = "";
    
@@ -67,21 +69,23 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                 }).then(function (responseAList) {
                     if (!responseAList.success) {
                         $scope.errorMsg = responseAList.message;
-                    } else {       
-                        $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images =  $scope.project_background_images = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
+                    } else {
+                        $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images =  $scope.project_background_images = $scope.project_broacher = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
                         $scope.projectData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.amenityData = $scope.galleryData = $scope.specificationData = angular.copy(response.details);
-                        $scope.project_logo = (response.details.project_logo !== "null") ? response.details.project_logo.split(',') : [];
-                        $scope.project_thumbnail = (response.details.project_logo !== "null") ? response.details.project_thumbnail.split(',') : [];
-                        $scope.project_favicon = (response.details.project_favicon !== "null") ? response.details.project_favicon.split(',') : [];
-                        $scope.project_banner_images = (response.details.project_banner_images !== "null") ? response.details.project_banner_images.split(',') : [];
-                        $scope.project_background_images = (response.details.project_background_images !== "null") ? response.details.project_background_images.split(',') : [];
-                        $scope.project_broacher = (response.details.project_broacher !== "null") ? response.details.project_broacher.split(',') : [];
-                        $scope.location_map_images = (response.details.location_map_images !== "null") ? response.details.location_map_images.split(',') : [];
-                        $scope.amenities_images = (response.details.amenities_images !== "null") ? response.details.amenities_images.split(',') : [];
-                        $scope.project_gallery = (response.details.project_gallery !== "null") ? response.details.project_gallery.split(',') : [];
+                        $scope.project_logo = (response.details.project_logo !== null && response.details.project_logo !== "null") ? response.details.project_logo.split(',') : [];
+                        $scope.project_thumbnail = (response.details.project_thumbnail !== null && response.details.project_thumbnail !== "null") ? response.details.project_thumbnail.split(',') : [];
+                        $scope.project_favicon = (response.details.project_favicon !== null && response.details.project_favicon !== "null") ? response.details.project_favicon.split(',') : [];
+                        $scope.project_banner_images = (response.details.project_banner_images !== null && response.details.project_banner_images !== "null") ? response.details.project_banner_images.split(',') : [];
+                        $scope.project_background_images = (response.details.project_background_images !== null && response.details.project_background_images !== "null") ? response.details.project_background_images.split(',') : [];
+                        $scope.project_broacher = (response.details.project_broacher !== null && response.details.project_broacher !== "null") ? response.details.project_broacher.split(',') : [];
+                        $scope.location_map_images = (response.details.location_map_images !== null && response.details.location_map_images !== "null") ? response.details.location_map_images.split(',') : [];
+                        $scope.amenities_images = (response.details.amenities_images !== null && response.details.amenities_images !== "null") ? response.details.amenities_images.split(',') : [];
+                        $scope.project_gallery = (response.details.project_gallery !== null && response.details.project_gallery !== "null") ? response.details.project_gallery.split(',') : [];
                         $scope.amenityData.project_amenities_list = angular.copy(responseAList.records);
                        
                         $scope.specificationTitle = response.specificationTitle;
+                        $scope.floorTitle = response.floorTitle;
+                        $scope.layoutTitle = response.layoutTitle;
                         $scope.statusRow = response.projectStatusRecords;
                         for (var i = 0; i < response.projectStatusRecords.length; i++) { 
                             var array = response.projectStatusRecords[i].images.split(',');
@@ -158,10 +162,16 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
             }
         });
     }
-    $scope.delStatusRecord = function(statusData, statusImages){
-        
+    $scope.delStatusRecord = function(statusId){
+        Data.post('projects/deleteStatus',{data: {statusId: statusId}}).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $("tr#del_"+statusId).remove();
+            }
+        });
     }
-    /*********************************Specification Code Start***************************************/
+    /*********************************Specification & floor plan Code Start***************************************/
     $scope.wingList = $scope.floorList = $scope.popupData = [];
     $scope.wings = function(){
         Data.post('projects/getWings',{data: {projectId: $scope.projectData.project_id}}).then(function (response) {
@@ -173,7 +183,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
         });
     }
     $scope.selectFloor = function(wingId){
-        $scope.modalData.floors = {};
+       // $scope.modalData.floors = {};
         $scope.floorList = [];
         for (var i = 0; i < $scope.wingList.length; i++) { 
             if($scope.wingList[i].id == wingId){
@@ -191,25 +201,39 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
     $scope.resetSpecificationDetails = function(){
         $scope.modalData = {};
         $scope.specification_images = {};
+        $scope.floor_plan_images = {};
+        $scope.layout_plan_images = {};
     }
-    $scope.specicationRow = function(modalData,modalImages){
+    $scope.specicationRow = function(modalData,modalImages,objName){ //specificationData
         if (typeof modalImages === 'undefined') {
             modalImages = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
+        }
+        if(objName === "specificationData"){
+            var customData = {project_id:  $scope.projectData.project_id, specificationData: {modalData:modalData}, projectImages: modalImages, objName: objName};
+        }else if(objName === "floorData"){
+            var customData = {project_id:  $scope.projectData.project_id, floorData: {modalData:modalData}, projectImages: modalImages, objName: objName};
         }
         modalImages.upload = Upload.upload({
             url: getUrl + '/projects/basicInfo',
             headers: {enctype: 'multipart/form-data'},
-            data: {project_id:  $scope.projectData.project_id, specificationData: {modalData:modalData}, projectImages: modalImages},
+            data: customData,
         });
         modalImages.upload.then(function (response) { 
             
             if (!response.data.success) { 
                 $scope.errorMsg = response.message;
             } else{
-                $scope.specificationTitle.push(response.data.specificationTitle);
-                toaster.pop('success', 'Project', response.data.message);
-                $scope.specification_images = {};
-                $('#specificationDataModal').modal('toggle');
+                if(objName === "specificationData"){
+                    $scope.specificationTitle.push(response.data.specificationTitle);
+                    $scope.specification_images = {};
+                    $('#specificationDataModal').modal('toggle');
+                }
+                if(objName === "floorData"){
+                    $scope.floorTitle.push(response.data.specificationTitle);
+                    $scope.floor_plan_images = {};
+                    $('#floorDataModal').modal('toggle');
+                }
+                toaster.pop('success', 'Project', response.data.message);                
             }
         }, function (response) {
             if (response.status !== 200) {
@@ -218,7 +242,34 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
         });
         
     }
-    /*********************************Specification Code End***************************************/
+    /*********************************Specification & floor plan Code End***************************************/
+    
+    $scope.layoutRow = function(modalData,modalImages){ //specificationData
+        if (typeof modalImages === 'undefined') {
+            modalImages = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
+        }
+        modalImages.upload = Upload.upload({
+            url: getUrl + '/projects/basicInfo',
+            headers: {enctype: 'multipart/form-data'},
+            data: {project_id:  $scope.projectData.project_id, layoutData: {modalData:modalData}, projectImages: modalImages},
+        });
+        modalImages.upload.then(function (response) { 
+            
+            if (!response.data.success) { 
+                $scope.errorMsg = response.message;
+            } else{
+                $scope.layoutTitle.push(response.data.layoutTitle);
+                $scope.layout_plan_images = {};
+                $('#layoutDataModal').modal('toggle');
+                toaster.pop('success', 'Project', response.data.message);                
+            }
+        }, function (response) {
+            if (response.status !== 200) {
+                $scope.errorMsg = "Something went wrong.";
+            }
+        });
+        
+    }
 }]);
 
 app.controller('wingCtrl', function ($scope, Data) {
@@ -270,3 +321,17 @@ app.controller('projectStatusCntrl', function ($scope, Data) {
     });
 });
 
+app.directive('ngConfirmClick', [
+    function(){
+        return {
+            link: function (scope, element, attr) {
+                var msg = attr.ngConfirmClick || "Are you sure?";
+                var clickAction = attr.confirmedClick;
+                element.bind('click',function (event) {
+                    if ( window.confirm(msg) ) {
+                        scope.$eval(clickAction)
+                    }
+                });
+            }
+        };
+}])

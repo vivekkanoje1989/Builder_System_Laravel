@@ -46,5 +46,6 @@ Route::group(array('module' => 'Projects', 'middleware' => ['web'], 'namespace' 
 //    Route::post($getUrl. '/projects/getAmenitiesList', 'ProjectsController@getAmenitiesList'); //get ameniti list
     Route::post($getUrl. '/projects/getAmenitiesListOnEdit', 'ProjectsController@getAmenitiesListOnEdit'); //get ameniti list on edit
     Route::post($getUrl. '/projects/getWings', 'ProjectsController@getWings'); //show page
+    Route::post($getUrl. '/projects/deleteStatus', 'ProjectsController@deleteStatus'); //show page
     
 });	

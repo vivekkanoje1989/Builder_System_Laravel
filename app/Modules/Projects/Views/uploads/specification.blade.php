@@ -68,12 +68,12 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Specification Details</h4>
             </div>
-            <form novalidate name="modalForm" ng-submit="specicationRow(modalData,modalImages)">
+            <form novalidate name="modalForm" ng-submit="specicationRow(modalData,modalImages,'specificationData')">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="row" ng-init="wings()">
                             <div class="col-sm-12">
-                                <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.title_id.$dirty && userForm.title_id.$invalid)}">
+                                <div class="form-group" ng-class="{ 'has-error' : modalSbtBtn && (!modalForm.wing.$dirty && modalForm.wing.$invalid)}">
                                     <label for="">Wing<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
                                         <select ng-model="modalData.wing" name="wing" class="form-control" ng-change="selectFloor(modalData.wing)" required>
@@ -86,7 +86,7 @@
                             </div>
                         
                             <div class="col-sm-12">
-                                <div class="form-group multi-sel-div" ng-class="{ 'has-error' : step1 && (!userForm.title_id.$dirty && userForm.title_id.$invalid)}">
+                                <div class="form-group multi-sel-div" ng-class="{ 'has-error' : modalSbtBtn && (!modalForm.floors.$dirty && modalForm.floors.$invalid)}">
                                     <label for="">Floors<span class="sp-err">*</span></label>	
                                     <ui-select multiple ng-model="modalData.floors" name="floors" theme="select2" ng-required="required">
                                         <ui-select-match>{{$item.floorName}}</ui-select-match>
@@ -99,19 +99,15 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12 col-xs-12">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : modalSbtBtn && (!modalForm.specification_images.$dirty && modalForm.specification_images.$invalid)}">
                                     <label>Specification Images (Size: W 250 X H 250)<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="file" ngf-select ng-model="modalImages.specification_images" name="specification_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(modalImages.specification_images)" required>
+                                        <input type="file" ngf-select ng-model="modalImages.specification_images" name="specification_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" required>
                                     </span>    
                                     <span class="help-block">{{specification_images_err}}</span>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-xs-12" ng-if="specification_images">
-                                <div class="img-div2" data-title="name" ng-repeat="list in specification_images">    
-                                    <i class="fa fa-times rem-icon"  title=""></i>
-                                    <img src="{{list}}" class="thumb photoPreview">
-                                </div>
+                            <div class="col-sm-12 col-xs-12">
                                 <div class="img-div2" data-title="name" ng-repeat="list in specification_images_preview">    
                                     <i class="fa fa-times rem-icon"  title=""></i>
                                     <img ng-src="{{list}}" class="thumb photoPreview">
@@ -122,7 +118,8 @@
                 <div class="modal-footer" align="left">
                     <button type="submit" class="btn btn-primary" ng-click="modalSbtBtn=true">Add</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
+</div>
 </div>

@@ -12,13 +12,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="slist in statusRow">
+                    <tr ng-repeat="slist in statusRow" id="del_{{ slist.id }}">
                         <td>{{$index + 1}}</td>
                         <td><div ng-repeat="imgList in statusImages[(1 + $index) - 1]" style="float: left;"><img src="[[ Session::get('s3Path') ]]project/images/{{ imgList }}" style="width: 50px;height: 50px;"></div>
                         <td ng-if="slist.status == 1">Yes</td>
                         <td ng-if="slist.status == 0">No</td>
                         <td>{{slist.short_description}}</td>
-                        <td><a href ng-click="delStatusRecord({{ slist.id }})">Delete</a></td>
+                        <td><button class="btn btn-sm btn-danger" ng-confirm-click="Are you sure to delete this record ?" confirmed-click="delStatusRecord({{ slist.id }})">Delete</button></td>
                     </tr>
                 </tbody>
             </table>

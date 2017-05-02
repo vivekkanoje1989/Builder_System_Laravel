@@ -126,8 +126,12 @@ class ProjectsController extends Controller {
                                 $implodeImgName = implode(",", $prImageName);
                                 if(isset($input['statusData'])){
                                     $input['statusData'][$key] = $implodeImgName;
-                                }elseif(isset($input['specificationData'])){
-                                    $input['specificationData'][$key] = $implodeImgName;
+                                }elseif(isset($input['specificationData']) || isset($input['floorData'])){
+                                    $objName = $input['objName'];
+                                    $input[$objName][$key] = $implodeImgName;
+                                }
+                                elseif(isset($input['layoutData'])){
+                                    $input['layoutData'][$key] = $implodeImgName;
                                 }
                                 else{
                                     $input['projectData'][$key] = $implodeImgName;
@@ -188,46 +192,90 @@ class ProjectsController extends Controller {
                 $result = ['success' => true, 'message' => $msg, 'records' => $getProjectStatusRecords];
                 return json_encode($result);
             }
-            if(isset($input['specificationData'])){
+            if(isset($input['specificationData']) || isset($input['floorData'])){
+                $objName = $input['objName'];
                 $result = [];
-                if(!empty($input['specificationData']['modalData']['floors'])){
-                    $projectWingName = ProjectWing::select('wing_name')->where('id', $input['specificationData']['modalData']['wing'])->get();
+                if(!empty($input[$objName]['modalData']['floors'])){
+                    $projectWingName = ProjectWing::select('wing_name')->where('id', $input[$objName]['modalData']['wing'])->get();
                     $floorArr = array();
-                    foreach($input['specificationData']['modalData']['floors'] as $key => $floor){
+                    foreach($input[$objName]['modalData']['floors'] as $key => $floor){
                         unset($floor['$hashKey'],$floor['wingId']);
                         $floorId[] = $floor['id'];
                         $floorArr[] = $floor;
                     }                  
                     sort($floorId);
-                    $input['specificationData']['modalData']['specification_images'] = $implodeImgName;
-                    $input['specificationData']['modalData']['floors'] = $floorId;
+                    $input[$objName]['modalData']['floors'] = $floorId;
 
-                    if(!empty($isProjectExist->specification_images)){
-                        $mergeOldSpecification = json_decode($isProjectExist->specification_images,true);
-                    }
-                    $mergeOldSpecification[] = $input['specificationData']['modalData'];
-                    
-                    $input['specificationData']['specification_images'] = json_encode($mergeOldSpecification);
-                    unset($input['specificationData']['modalData']); 
-                    $specificationTitle = ["image" => $implodeImgName,"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $floorId)];
+                    if(isset($input['specificationData'])){
+                        $input[$objName]['modalData']['specification_images'] = $implodeImgName;
+                        if(!empty($isProjectExist->specification_images)){
+                            $mergeOldValue = json_decode($isProjectExist->specification_images,true);
+                        }
+                        $mergeOldValue[] = $input[$objName]['modalData'];
+                        $input[$objName]['specification_images'] = json_encode($mergeOldValue);
+                        $specificationTitle = ["image" => $implodeImgName,"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $floorId)];
+                    }else if(isset($input['floorData'])){
+                        $input[$objName]['modalData']['floor_plan_images'] = $implodeImgName;
+                        if(!empty($isProjectExist->floor_plan_images)){
+                            $mergeOldValue = json_decode($isProjectExist->floor_plan_images,true);
+                        }
+                        $mergeOldValue[] = $input[$objName]['modalData'];
+                        $input[$objName]['floor_plan_images'] = json_encode($mergeOldValue);
+                        $specificationTitle = ["image" => $implodeImgName,"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $floorId)];
+                    }                    
+                    unset($input[$objName]['modalData']);
                     if (empty($isProjectExist)) {
                         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                        $input['specificationData'] = array_merge($input['specificationData'],$create);                
-                        $actionProject = ProjectWebPage::create($input['specificationData']);
+                        $input[$objName] = array_merge($input[$objName],$create);                
+                        $actionProject = ProjectWebPage::create($input[$objName]);
                         $msg = "Record added successfully";
                         
                         $result = ['success' => true, 'message' => $msg, 'specificationTitle' => $specificationTitle];
                         return json_encode($result);
                     }else{
                         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-                        $input['specificationData'] = array_merge($input['specificationData'],$update);
-                        $actionProject = ProjectWebPage::where('project_id', $projectId)->update($input['specificationData']);
+                        $input[$objName] = array_merge($input[$objName],$update);
+                        $actionProject = ProjectWebPage::where('project_id', $projectId)->update($input[$objName]);
                         
                         $msg = "Record updated successfully";
                         $result = ['success' => true, 'message' => $msg, 'specificationTitle' => $specificationTitle];
                         return json_encode($result);
                     }
                 }                
+            }
+            if(isset($input['layoutData'])){
+                $result = [];
+                if(!empty($input['layoutData']['modalData'])){
+                    $projectWingName = ProjectWing::select('wing_name')->where('id', $input['layoutData']['modalData']['wing'])->get();
+                               
+                    if(isset($input['layoutData'])){
+                        $input['layoutData']['modalData']['layout_plan_images'] = $implodeImgName;
+                        if(!empty($isProjectExist->layout_plan_images)){
+                            $mergeOldValue = json_decode($isProjectExist->layout_plan_images,true);
+                        }
+                        $mergeOldValue[] = $input['layoutData']['modalData'];
+                        $input['layoutData']['layout_plan_images'] = json_encode($mergeOldValue);
+                        $layoutTitle = ["image" => $implodeImgName,"title" => $projectWingName[0]->wing_name];
+                    }                 
+                    unset($input['layoutData']['modalData']);
+                    if (empty($isProjectExist)) {
+                        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                        $input['layoutData'] = array_merge($input['layoutData'],$create);                
+                        $actionProject = ProjectWebPage::create($input['layoutData']);
+                        $msg = "Record added successfully";
+                        
+                        $result = ['success' => true, 'message' => $msg, 'layoutTitle' => $layoutTitle];
+                        return json_encode($result);
+                    }else{
+                        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                        $input['layoutData'] = array_merge($input['layoutData'],$update);
+                        $actionProject = ProjectWebPage::where('project_id', $projectId)->update($input['layoutData']);
+                        
+                        $msg = "Record updated successfully";
+                        $result = ['success' => true, 'message' => $msg, 'layoutTitle' => $layoutTitle];
+                        return json_encode($result);
+                    }
+                }  
             }
             if(!empty($actionProject)){
                 $result = ['success' => true, 'message' => $msg];
@@ -244,28 +292,36 @@ class ProjectsController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         $getProjectDetails = ProjectWebPage::where("project_id","=",$input['data']['projectId'])->get();
-        $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->get();
+        $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->where("project_id","=",$input['data']['projectId'])->get();
         
         /**************getSpecifiction**************/
         $specificationTitle = array();
         if(!empty($getProjectDetails[0]->specification_images)){
             $decodeSpecificationDetails = json_decode($getProjectDetails[0]->specification_images,true);
             foreach($decodeSpecificationDetails as $key => $val){
-                
                 $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
-                
                 $specificationTitle[$key] = ["image" => $val['specification_images'],"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $val['floors'])];
             }
         }
-//        echo "<pre>";print_r($specificationTitle);exit;
-//        $specificationTitle = ["image" => $decodeSpecificationDetails['specification_images'],"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $decodeSpecificationDetails['floors'])];
+        $floorTitle = array();
+        if(!empty($getProjectDetails[0]->floor_plan_images)){
+            $decodeFloorDetails = json_decode($getProjectDetails[0]->floor_plan_images,true);
+            foreach($decodeFloorDetails as $key => $val){
+                $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
+                $floorTitle[$key] = ["image" => $val['floor_plan_images'],"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $val['floors'])];
+            }
+        }
+        $layoutTitle = array();
+        if(!empty($getProjectDetails[0]->layout_plan_images)){
+            $decodeLayoutDetails = json_decode($getProjectDetails[0]->layout_plan_images,true);
+            foreach($decodeLayoutDetails as $key => $val){
+                $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
+                $layoutTitle[$key] = ["image" => $val['layout_plan_images'],"title" => $projectWingName[0]->wing_name];
+            }
+        }
         /**************getSpecifiction**************/
         if(!empty($getProjectDetails[0])){
-//            $arr = explode(",", $getProjectDetails[0]['project_amenities_list']);
-//            $getAmenities = MlstBmsbAmenity::select('id','name_of_amenity')->whereIn('id', $arr)->get();
-//            $getProjectDetails[0]['project_amenities_list'] = json_encode($getAmenities);
-
-            $result = ['success' => true, 'details' => $getProjectDetails[0], 'projectStatusRecords' => $getProjectStatusRecords, 'specificationTitle' => $specificationTitle];
+            $result = ['success' => true, 'details' => $getProjectDetails[0], 'projectStatusRecords' => $getProjectStatusRecords, 'specificationTitle' => $specificationTitle, 'floorTitle' => $floorTitle, 'layoutTitle' => $layoutTitle];
         }else{
             $result = ['success' => false, 'message' => 'Record not exist.'];
         }
@@ -296,6 +352,16 @@ class ProjectsController extends Controller {
         return json_encode($result);        
     }
     
+    public function deleteStatus(){
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $statusId = $request['data']['statusId'];
+        ProjectStatus::where('id', $statusId)->delete();
+        $msg = "Record has been deleted successfully";
+        $getProjectStatusRecords = ProjectStatus::select('id', 'images', 'status', 'short_description')->get();
+        $result = ['success' => true, 'message' => $msg, 'records' => $getProjectStatusRecords];
+        return json_encode($result);
+    }
     /**
      * Display the specified resource.
      *
