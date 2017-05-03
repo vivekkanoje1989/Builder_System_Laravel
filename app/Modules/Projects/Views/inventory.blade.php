@@ -1,7 +1,7 @@
-<div class="row" ng-controller="wingCtrl">
+<div class="row" >
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <tabset class="tabs-left" >
-            <tab ng-repeat="wlist in wingList" heading="{{wlist.wing_name}}" class="themeprimary">
+            <tab ng-repeat="wlist in wingList" heading="{{wlist.wing_name}}" ng-click="getInventoryDetails({{wlist.id}})" class="themeprimary">
                 <div class="row">
                     <form role="form" name="inventoryInfoForm" ng-submit="saveInventoryInfo(wlist.id,inventoryData)" novalidate>
                         <div class="row">

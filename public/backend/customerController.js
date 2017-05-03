@@ -162,13 +162,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                         $('.errMsg').text('');
                         $window.sessionStorage.setItem("sessionContactData", "");
                         $scope.disableCreateButton = true;
-//                        if($scope.searchData.customerId === 0 || $scope.searchData.customerId === ''){
-//                            toaster.pop('success', 'Customer', 'Record successfully created');}
-//                        else{
-//                            toaster.pop('success', 'Customer', 'Record successfully updated');}
-//                        $timeout(function () {
                         $state.go(getUrl + '.enquiryCreate', {"customerId": response.data.customerId});
-//                        }, 2000);
                     }
                 });
             }, function (response) {

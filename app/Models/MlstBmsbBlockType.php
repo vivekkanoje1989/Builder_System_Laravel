@@ -33,6 +33,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class MlstBmsbBlockType extends Eloquent
 {
     protected $connection = "masterdb";
+    protected $primaryKey = "id";
     protected $casts = [
 		'project_type_id' => 'int',
 		'created_by' => 'int',
@@ -58,4 +59,8 @@ class MlstBmsbBlockType extends Eloquent
 		'updated_browser',
 		'updated_mac_id'
 	];
+        /*public function getBlocks()
+        {
+            return $this->belongsTo('App\Models\ProjectBlock','id','block_type_id');
+        }*/
 }

@@ -196,6 +196,6 @@ class Enquiry extends Eloquent
         }
         public function channelName()
         {
-              return $this->belongsTo('App\Models\MlstEnquirySalesChannel','sales_channel_id');
+            return $this->belongsTo('App\Models\MlstEnquirySalesChannel','sales_channel_id');
         }
 }

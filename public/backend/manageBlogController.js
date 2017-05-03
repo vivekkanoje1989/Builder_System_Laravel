@@ -96,16 +96,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                     $scope.imgs.splice(indeximg, 1);
                     Data.post('manage-blog/removeBlogImage', {
                         blogId: blogId, imageName: imgname, allimg: $scope.imgs,
-                    }).then(function (response) {
-
-                        if (!response.success)
-                        {
-
-                        } else
-                        {
-                            // $state.go(getUrl+'.contentPagesIndex');
-                        }
-                    });
+                    }).then(function (response) {});
                 }
             }
         }

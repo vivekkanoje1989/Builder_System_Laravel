@@ -372,6 +372,54 @@ angular.module('app')
                                         ]
                                     }
                                 })
+                                /*.state(getUrl + '.projectWebPageId', {
+                                    url: '/project/webpage/:projectId',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/projects/getProjectDetails/' + stateParams.projectId;
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Project Configurations'
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load({
+                                                    serie: true,
+                                                    files: [
+                                                    ]
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })*/
+                                .state(getUrl + '.manageProjectIndex', {
+                                   url: '/project/index',
+                                   templateUrl: getUrl + '/projects/',
+                                   requiredLogin: true,
+                                   ncyBreadcrumb: {
+                                       label: 'Manage project',
+                                       description: ''
+                                   },
+                                   resolve: {
+                                       deps:
+                                        [
+                                             '$ocLazyLoad',
+                                             function ($ocLazyLoad) {
+                                                 return $ocLazyLoad.load(['toaster']).then(
+                                                 function () {
+                                                     return $ocLazyLoad.load({
+                                                         serie: true,
+                                                         files: [
+                                                             '/backend/projectController.js',
+                                                         ]
+                                                     });
+                                                 });
+                                            }
+                                        ]
+                                   }
+                               })
                                 .state(getUrl + '.wingsIndex', {
                                     url: '/wings/index',
                                     templateUrl: getUrl + '/wings/',
@@ -1143,6 +1191,7 @@ angular.module('app')
 
                                 /****************************MANDAR*********************************/
                                 /****************************MANOJ*********************************/
+                                
                                 .state(getUrl + '.bloodGroupsIndex', {
                                     url: '/bloodgroups/index',
                                     templateUrl: getUrl + '/blood-groups/',

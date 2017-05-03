@@ -30,7 +30,19 @@ class ProjectsController extends Controller {
     public function index() {
         return view("Projects::index");
     }
+    public function manageProjects() {
+         $getProjects = Project::join('employees','projects.created_by','=','employees.id')
+                    ->join('laravel_developement_master_edynamics.mlst_bmsb_project_types as mlst_bmsb_project_types','projects.project_type_id','=','mlst_bmsb_project_types.id')
+                    ->join('laravel_developement_master_edynamics.mlst_bmsb_project_status as mlst_bmsb_project_status','projects.project_status','=','mlst_bmsb_project_status.id')                  
+                    ->select(['projects.id','projects.created_at','projects.project_name','employees.first_name','employees.last_name','mlst_bmsb_project_types.project_type','mlst_bmsb_project_status.project_status as pro_status','projects.project_status as b ','mlst_bmsb_project_status.id as c'])->get();
 
+       if (!empty($getProjects)) {
+           $result = ['success' => true, 'records' => $getProjects];
+       } else {
+           $result = ['success' => false, 'message' => 'Something went wrong'];
+       }
+       return json_encode($result);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -188,7 +200,7 @@ class ProjectsController extends Controller {
                 $input['statusData'] = array_merge($input['statusData'],$create);                
                 $actionProjectStatus = ProjectStatus::create($input['statusData']);
                 $msg = "Record added successfully";
-                $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->get();
+                $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->where("project_id","=",$projectId)->get();
                 $result = ['success' => true, 'message' => $msg, 'records' => $getProjectStatusRecords];
                 return json_encode($result);
             }
@@ -288,12 +300,16 @@ class ProjectsController extends Controller {
         return json_encode($result);
     }
 
-    public function showProjectDetails() {
-        $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
-        $getProjectDetails = ProjectWebPage::where("project_id","=",$input['data']['projectId'])->get();
-        $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->where("project_id","=",$input['data']['projectId'])->get();
+    public function webPage() {
+        return view("Projects::webpage");
+    }  
+    public function getProjectDetails($id) {        
+        $getProjectDetails = $getProjectStatusRecords = $getProjectInventory = array();
+        $getProjectDetails = ProjectWebPage::where("project_id","=",$id)->get();
+        $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->where("project_id","=",$id)->get();
         
+        $getWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $id)->orderBy('id', 'ASC')->first();
+        $getProjectInventory = ProjectBlock::where([['wing_id','=',$getWing->id],['project_id','=',$id]])->orderBy('wing_id', 'ASC')->get();
         /**************getSpecifiction**************/
         $specificationTitle = array();
         if(!empty($getProjectDetails[0]->specification_images)){
@@ -321,11 +337,11 @@ class ProjectsController extends Controller {
         }
         /**************getSpecifiction**************/
         if(!empty($getProjectDetails[0])){
-            $result = ['success' => true, 'details' => $getProjectDetails[0], 'projectStatusRecords' => $getProjectStatusRecords, 'specificationTitle' => $specificationTitle, 'floorTitle' => $floorTitle, 'layoutTitle' => $layoutTitle];
+            $result = ['success' => true, 'details' => $getProjectDetails[0], 'projectStatusRecords' => $getProjectStatusRecords, 'specificationTitle' => $specificationTitle, 'floorTitle' => $floorTitle, 'layoutTitle' => $layoutTitle, 'getProjectInventory' => $getProjectInventory ];
         }else{
-            $result = ['success' => false, 'message' => 'Record not exist.'];
+            $result = ['success' => false, 'details' => array(), 'projectStatusRecords' => array(), 'specificationTitle' => array(), 'floorTitle' => array(), 'layoutTitle' => array(), 'getProjectInventory' => array()];
         }
-        echo json_encode($result);
+        return json_encode($result);
     }
 
     public function getAmenitiesListOnEdit() {
@@ -343,7 +359,21 @@ class ProjectsController extends Controller {
     }
     
     public function getBlocks() {
-        $getBlockList = MlstBmsbBlockType::select('id','block_name')->get();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $projectId = $request['data']['projectId'];
+//        $getBlockList = ProjectBlock::with('getBlockType')->get();
+        /*$getBlocks = array();
+        foreach($getBlockList as $key=>$value){
+          // echo "<pre>";  print_r($value);
+            if($value['project_id'] != $projectId){
+               unset($getBlockList[$key]);
+            }
+        }
+        echo "<pre>";print_r($getBlocks);exit;*/
+        $getBlockList = MlstBmsbBlockType::join('laravel_developement_builder_client.project_blocks','laravel_developement_builder_client.project_blocks.block_type_id','=','mlst_bmsb_block_types.id')
+                    ->select(['mlst_bmsb_block_types.id','mlst_bmsb_block_types.block_name'])->where('laravel_developement_builder_client.project_blocks.project_id', $projectId)->get();
+
         if (!empty($getBlockList)) {
             $result = ['success' => true, 'records' => $getBlockList];
         } else {
@@ -351,7 +381,23 @@ class ProjectsController extends Controller {
         }
         return json_encode($result);        
     }
-    
+    public function getInventoryDetails() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $projectId = $request['data']['projectId'];
+        if ($request['data']['wingId'] == 0) {
+            $projectWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $projectId)->orderBy('id', 'ASC')->first();
+            $projectData = ProjectBlock::where([['wing_id','=',$projectWing->id],['project_id','=',$projectId]])->orderBy('wing_id', 'ASC')->get();
+        } else {
+           $projectData = ProjectBlock::where([['wing_id','=',$request['data']['wingId']],['project_id','=',$projectId]])->get(); 
+        }
+        if (!empty($projectData)) {
+            $result = ['success' => true, 'records' => $projectData];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
     public function deleteStatus(){
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -401,9 +447,7 @@ class ProjectsController extends Controller {
     public function destroy($id) {
         //
     }
-    public function webPage() {
-        return view("Projects::webpage");
-    }    
+      
     public function projectType() {
         $typeList = MlstBmsbProjectType::all();
         if (!empty($typeList)) {
