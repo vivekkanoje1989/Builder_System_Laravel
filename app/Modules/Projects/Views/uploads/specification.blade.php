@@ -26,9 +26,9 @@
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label></label>
-                    <div class="card card-4 img-div2" ng-if="specificationTitle" ng-repeat="t in specificationTitle">
-                        <i class="fa fa-times rem-icon" title=""></i>
-                        <img src="[[ Session::get('s3Path') ]]project/specification_images/{{t.image}}" class="thumb photoPreview">
+                    <div class="card card-4 img-div2" ng-if="specificationTitle" ng-repeat="t in specificationTitle" id="del_specification_images_{{$index}}}">
+                        <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{specificationTitle}},'{{t}}', {{$index}}, {{projectData.project_id}}, 'project/specification_images/', 'specification_images')"></i>
+                        <img src="[[ Session::get('s3Path') ]]project/specification_images/{{t.specification_images}}" class="thumb photoPreview">
                         <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
                     </div>
                     <span class="input-icon icon-right">

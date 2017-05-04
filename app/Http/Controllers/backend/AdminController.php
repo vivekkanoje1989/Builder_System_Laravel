@@ -34,6 +34,8 @@ use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
 use App\Modules\WebPages\Models\WebPage;
 use App\Modules\MasterSales\Models\EnquiryFinanceTieup;
 use App\Models\SystemConfig;
+use App\Classes\S3;
+
 class AdminController extends Controller {
 
     /**
@@ -151,38 +153,35 @@ class AdminController extends Controller {
         $mergedMmenu = $merged->all();        
         return json_encode($mergedMmenu);
     }
-    
+
     public function getTitle() {
         $getTitle = MlstTitle::all();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'records' => $getTitle];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getGender() {
         $getGender = MlstGender::all();
         if (!empty($getGender)) {
             $result = ['success' => true, 'records' => $getGender];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getBloodGroup() {
         $getBloodGroup = MlstBloodGroup::all();
         if (!empty($getBloodGroup)) {
             $result = ['success' => true, 'records' => $getBloodGroup];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
     public function getDesignations() {
         $getBloodGroup = MlstBmsbDesignation::all();
@@ -262,15 +261,12 @@ class AdminController extends Controller {
         $enquiryFinanceTieup = EnquiryFinanceTieup::all(); 
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,"blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
-   
-    
     public function getCountries() {
         $getCountires = MlstCountry::all();
         if (!empty($getCountires)) {

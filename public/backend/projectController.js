@@ -41,6 +41,8 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                 $scope.statusRow = $scope.statusImages = $scope.specificationTitle = $scope.floorTitle = $scope.layoutTitle = [];
                 $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images =  $scope.project_background_images = $scope.project_broacher = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
                 $scope.projectData.project_id = projectId;
+                $scope.wingList = $scope.floorList = [];
+                $scope.notFound = true;
             } else {
                 Data.post('getStates', {
                     data: {countryId: response.details.project_country},
@@ -179,8 +181,8 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
             }
         });
     }
-    $scope.delStatusRecord = function(statusId){
-        Data.post('projects/deleteStatus',{data: {statusId: statusId}}).then(function (response) {
+    $scope.delStatusRecord = function(statusId, selectedImages){
+        Data.post('projects/deleteStatus',{data: {statusId: statusId, selectedImages:selectedImages}}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
@@ -189,19 +191,20 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
         });
     }
     /*********************************Specification & floor plan Code Start***************************************/
-    $scope.wingList = $scope.floorList = $scope.popupData = [];
+    $scope.wingList = $scope.floorList = [];
     $scope.getWings = function(){
         Data.post('projects/getWings',{data: {projectId: $scope.projectData.project_id}}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
                 $scope.wingList = response.records;
+                $scope.notFound = false;
             }
         });
     }
     $scope.getBlocks = function(){
         $scope.blockList = {};
-        Data.get('projects/getBlocks',{data: {projectId: $scope.projectData.project_id}}).then(function (response) {
+        Data.post('projects/getBlocks',{data: {projectId: $scope.projectData.project_id}}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
@@ -210,7 +213,6 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
         });
     }
     $scope.selectFloor = function(wingId){
-       // $scope.modalData.floors = {};
         $scope.floorList = [];
         for (var i = 0; i < $scope.wingList.length; i++) { 
             if($scope.wingList[i].id == wingId){
@@ -295,56 +297,40 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                 $scope.errorMsg = "Something went wrong.";
             }
         });
-        
     }
     
     $scope.getInventoryDetails = function(id)
     {
-//        Data.post('projects/getWings',{data: {projectId: $scope.projectData.project_id}}).then(function (response) {
-//            if (!response.success) {
-//                $scope.errorMsg = response.message;
-//            } else {
-//                $scope.wingList = response.records;
-//                Data.get('projects/getBlocks').then(function (response) {
-//                    if (!response.success) {
-//                        $scope.errorMsg = response.message;
-//                    } else {
-//                        $scope.blockList = response.records;
-                        Data.post('projects/getInventoryDetails',{data: {projectId: $scope.projectData.project_id,wingId:id}}).then(function (response) {
-                            if (!response.success) {
-                               $scope.errorMsg = response.message;
-                            } else {
-                                $scope.inventoryData = angular.copy(response.records[0]);
-                            }
-                        });
-//                    }
-//                });
-//            }
-//        });
+        Data.post('projects/getInventoryDetails',{data: {projectId: $scope.projectData.project_id,wingId:id}}).then(function (response) {
+            if (!response.success) {
+               $scope.errorMsg = response.message;
+            } else {
+                $scope.inventoryData = angular.copy(response.records[0]);
+            }
+        });
+    } 
+    
+    $scope.deleteImage = function (selectedImg, delImgName, index, tblRowId, folderName, tblFieldName)
+    {
+        if (window.confirm("Are you sure want to remove this image?"))
+        {
+            if (index > -1) {
+                selectedImg.splice(index, 1);
+                Data.post('projects/deleteImage', {
+                    selectedImg: selectedImg, tblRowId: tblRowId, delImgName: delImgName, folderName:folderName, tblFieldName:tblFieldName,
+                }).then(function (response) {
+                    if (!response.success) {
+                        $scope.errorMsg = response.message;
+                    } else {
+                        $("#del_"+tblFieldName+"_"+index).remove();
+                    }
+                });
+            }
+        }
     }
 }]);
 
-app.controller('wingCtrl', function ($scope, Data) {
-    $scope.wingList = [];
-    /*$scope.getWings = function(){
-        Data.post('projects/getWings',{data: {projectId: $scope.projectData.project_id}}).then(function (response) {
-            if (!response.success) {
-                $scope.errorMsg = response.message;
-            } else {
-                $scope.wingList = response.records;
-            }
-        Data.get('projects/getBlocks').then(function (response) {
-                if (!response.success) {
-                    $scope.errorMsg = response.message;
-                } else {
-                    $scope.blockList = response.records;
-                }
-            });
-        });
-    }*/
-    
-    
-});
+
 app.controller('blockTypeCtrl', function ($scope, Data) {
     Data.get('projects/getBlocks').then(function (response) {
         if (!response.success) {

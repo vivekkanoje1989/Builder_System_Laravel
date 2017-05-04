@@ -127,6 +127,6 @@ class ProjectBlock extends Eloquent
 	];
         public function getBlockType()
         {
-            return $this->hasMany('App\Models\MlstBmsbBlockType','id','block_type_id');
+            return $this->hasMany('App\Models\MlstBmsbBlockType','id','block_type_id')->select("id","block_name");
         }
 }

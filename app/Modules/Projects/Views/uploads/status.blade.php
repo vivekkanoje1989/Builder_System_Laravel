@@ -18,7 +18,7 @@
                         <td ng-if="slist.status == 1">Yes</td>
                         <td ng-if="slist.status == 0">No</td>
                         <td>{{slist.short_description}}</td>
-                        <td><button class="btn btn-sm btn-danger" ng-confirm-click="Are you sure to delete this record ?" confirmed-click="delStatusRecord({{ slist.id }})">Delete</button></td>
+                        <td><button class="btn btn-sm btn-danger" ng-confirm-click="Are you sure to delete this record ?" confirmed-click="delStatusRecord({{ slist.id }},{{statusImages[(1 + $index) - 1]}})">Delete</button></td>
                     </tr>
                 </tbody>
             </table>

@@ -59,8 +59,4 @@ class MlstBmsbBlockType extends Eloquent
 		'updated_browser',
 		'updated_mac_id'
 	];
-        /*public function getBlocks()
-        {
-            return $this->belongsTo('App\Models\ProjectBlock','id','block_type_id');
-        }*/
 }
