@@ -8,4 +8,6 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['api'], 'namespace' 
     Route::put('api/master-hr/{id}', 'MasterHrController@update');
     Route::post('api/master-hr/photoUpload', 'MasterHrController@photoUpload');
     Route::post('api/master-hr/getMenuLists', 'MasterHrController@getMenuLists');
+    Route::post('api/master-hr/appAccessControl', 'MasterHrController@appAccessControl');
+    
 });	

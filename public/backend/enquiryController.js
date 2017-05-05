@@ -3,10 +3,10 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
         $scope.locations = [];
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
-
+        $scope.historyList = {};
         $scope.saveEnquiryData = function (enquiryData, customer_id)
         {
-            alert($scope.enquiryData.next_follwoup_time);
+            console.log($scope.enquiryData);
             Data.post('master-sales/saveEnquiryData', {
                 enquiryData: enquiryData, customer_id: customer_id, projectEnquiryDetails: $scope.projectsDetails,
             }).then(function (response) {
@@ -14,9 +14,9 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
             });
         }
 
+//        (enquiries[0].customer_id)
         $scope.addProjectRow = function (id)
         {
-            console.log($scope.projectsDetails);
             if (typeof $scope.enquiryData.project_id !== 'undefined' && typeof $scope.enquiryData.block_id !== 'undefined' && typeof $scope.enquiryData.sub_block_id !== 'undefined')
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
@@ -77,23 +77,60 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 $scope.locations = response.records;
             });
         }
-        $scope.showallEnquiries = function ()
+        $scope.showAllEnquiries = function ()
         {
             Data.get('master-sales/getAllEnquiries').then(function (response) {
-                if (response.success)
-                {
+                if (response.success) {
                     $scope.listsIndex = response;
+                } else {
+                    document.getElementById("tblTotalEnquiry").innerHTML = response.CustomerEnquiryDetails;
                 }
             });
         }
-        $scope.customerDetails = function(mobNo)
+        $scope.showallLostEnquiries = function ()
         {
-            alert("hi"+mobNo);
-            $state.go(getUrl +'.salesCreate');
+            Data.get('master-sales/getLostEnquiries').then(function (response) {
+                if (response.success)
+                {
+                    $scope.listsIndex = response;
+                } else
+                {
+                    document.getElementById("tblTotalEnquiry").innerHTML = response.CustomerEnquiryDetails;
+                }
+            });
+        }
+        $scope.showallCloseEnquiries = function ()
+        {
+            Data.get('master-sales/getCloseEnquiries').then(function (response) {
+                if (response.success)
+                {
+                    $scope.listsIndex = response;
+                } else
+                {
+                    document.getElementById("tblTotalEnquiry").innerHTML = response.CustomerEnquiryDetails;
+                }
+            });
+        }
+        $scope.customerDetails = function (mobNo)
+        {
+            alert("hi" + mobNo);
+            $state.go(getUrl + '.salesCreate');
             alert($scope.searchData.searchWithMobile);
             //$scope.searchData.searchWithMobile = mobNo;
         }
-        
+
+        $scope.initHistoryDataModal = function (enquiry_id) {
+           // alert("hii i am here !!!!!!"+enquiry_id);
+            //alert($scope.historyList);
+            Data.post('master-sales/getEnquiryHistory', {
+                enquiryId: enquiry_id,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.historyList = angular.copy(response.records);                    
+                }
+            });            
+        }
+
     }]);
 
 app.controller('getEmployeesCtrl', function ($scope, Data) {

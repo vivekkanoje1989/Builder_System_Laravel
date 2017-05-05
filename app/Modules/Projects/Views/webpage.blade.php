@@ -6,24 +6,24 @@
                 <div class="form-group">
                     <label>Projects<span class="sp-err">*</span></label>
                     <span class="input-icon icon-right">
-                        <select ng-model="projectData.project_id" name="project_id" class="form-control" required ng-change="FetchProjectData(projectData.project_id)">
+                        <select ng-model="projectData.project_id" name="project_id" class="form-control" required ng-change="getProjectDetails(projectData.project_id)">
                             <option value="">Select type</option>
                             <option ng-repeat="plist in projectList" value="{{plist.id}}">{{plist.project_name}}</option>
-                        </select>                        
+                        </select>
                         <i class="fa fa-sort-desc"></i>
                     </span>
                 </div>
             </div>
-            <div class="col-lg-12 col-sm-6 col-xs-12" ng-if='projectData.project_id'>
+            <div class="col-lg-12 col-sm-6 col-xs-12" ng-if="projectDetails">
                 <tabset>
                     <tab heading="Website Settings">
-                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/basicinfo'"></div>
+                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/basicinfo' "></div>
                     </tab>
                     <tab heading="Uploads" class="uploadsTab">
-                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads'"></div>
+                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads' "></div>
                     </tab>
-                    <tab heading="Project Inventory">
-                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/inventory'"></div>
+                    <tab heading="Project Inventory" ng-click="getProjectInventory(0)">
+                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/inventory' "></div>
                     </tab>
                     <tab heading="Floor Inventory">
                         <p>Floor Inventory</p>

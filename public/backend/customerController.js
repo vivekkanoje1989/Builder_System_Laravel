@@ -110,6 +110,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
+            //console.log($window.sessionStorage.getItem("sessionContactData"));
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -161,13 +162,15 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                     } else {
                         $('.errMsg').text('');
                         $window.sessionStorage.setItem("sessionContactData", "");
-                        $scope.disableCreateButton = true;
+                        //$scope.disableCreateButton = true;
+                        document.getElementById("enquiryDiv").style.display = 'block';
+                        // $scope.enquiry_div = ($scope.tabs.length + 1);
 //                        if($scope.searchData.customerId === 0 || $scope.searchData.customerId === ''){
 //                            toaster.pop('success', 'Customer', 'Record successfully created');}
 //                        else{
 //                            toaster.pop('success', 'Customer', 'Record successfully updated');}
 //                        $timeout(function () {
-                        $state.go(getUrl + '.enquiryCreate', {"customerId": response.data.customerId});
+                        //$state.go(getUrl + '.enquiryCreate', {"customerId": response.data.customerId});
 //                        }, 2000);
                     }
                 });
@@ -220,12 +223,19 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                     }
                 });
                 $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
-                $scope.searchData.searchWithMobile =  $scope.searchData.searchWithMobile;
-                $scope.searchData.searchWithEmail =  $scope.searchData.searchWithEmail;
+                $scope.searchData.searchWithMobile = $scope.searchData.searchWithMobile;
+                $scope.searchData.searchWithEmail = $scope.searchData.searchWithEmail;
                 $scope.searchData.customerId = response.customerPersonalDetails[0].id;
                 $scope.disableText = true;
             });
         }
+
+        $scope.createNewEnquiry = function ()
+        {
+            $state.go(getUrl + '.salesCreate', {}, {reload: true});
+        }
+
+
     }]);
 
 app.directive('checkMobileExist', function ($timeout, $q, Data) {

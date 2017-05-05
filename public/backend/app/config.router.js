@@ -218,7 +218,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -226,6 +226,9 @@ angular.module('app')
                                                                             '/js/intlTelInput.js',
                                                                             '/backend/customerController.js',
                                                                             '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/enquiryController.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -233,7 +236,7 @@ angular.module('app')
                                                     }
                                                 ]
                                     }
-                                })  
+                                })
                                 .state(getUrl + '.enquiryCreate', {
                                     url: '/sales/createEnquiry/:customerId',
                                     templateUrl: function (stateParams) {
@@ -261,12 +264,13 @@ angular.module('app')
                                                                     });
                                                                 }
                                                         );
+
                                                     }
                                                 ]
                                     }
                                 })
-                                
-                               
+
+
                                 .state(getUrl + '.salesIndex', {
                                     templateUrl: getUrl + '/master-sales/create',
                                     controller: 'customerController',
@@ -357,11 +361,12 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['textAngular', 'toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'textAngular', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
+                                                                            '/backend/app/controllers/select.js',
                                                                             '/backend/projectController.js',
                                                                             '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                             '/backend/app/controllers/textangular.js',
@@ -816,10 +821,10 @@ angular.module('app')
                                     }
                                 })
 
-                                 .state(getUrl + '.lostenquiries', {
-                                    url: '/sales/lostEnquiries/:status',
+                                .state(getUrl + '.lostenquiries', {
+                                    url: '/sales/lostEnquiries',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/showEnquiry/4';
+                                        return getUrl + '/master-sales/showLostEnquiry';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -830,7 +835,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load( 'toaster').then(
+                                                        return $ocLazyLoad.load('toaster').then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -846,6 +851,37 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                .state(getUrl + '.closeenquiries', {
+                                    url: '/sales/closeEnquiries',
+                                    templateUrl: function () {
+                                        return getUrl + '/master-sales/showCloseEnquiry';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Closed Enquiry'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/enquiryController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                        ]
+                                                                    });
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                
 
                                 /****************************UMA************************************/
                                 /****************************MANDAR*********************************/

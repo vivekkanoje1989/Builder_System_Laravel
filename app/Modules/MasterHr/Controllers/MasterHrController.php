@@ -239,7 +239,7 @@ class MasterHrController extends Controller {
         $validationRules = Employee::validationRules();
         $validationRules['personal_email1'] = 'required|email|unique:employees,personal_email1,' . $id . '';
         $validationRules['password'] = '';
-        //print_r($input);exit;
+
         if (empty($input)) {
             $input = Input::all();
             $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
@@ -254,10 +254,9 @@ class MasterHrController extends Controller {
             unset($input['userData']['login_date_time']);
             unset($input['userData']['departmentid']);
             unset($input['userData']['loggedInUserId']);
-            $imageName = $input['userData']['employee_photo_file_name'];
             $input['userData']['employee_photo_file_name'] = '';
         }
-
+        //echo "<pre>";print_r($input); exit;
         $input = Employee::doAction($input);
         $input['userData']['updated_date'] = date('Y-m-d');
 
@@ -289,7 +288,7 @@ class MasterHrController extends Controller {
                 $input['userData']['employee_photo_file_name'] = $imageName;
             }
         } else {
-            $input['userData']['employee_photo_file_name'] = $imageName;
+            $input['userData']['employee_photo_file_name'] = "a.jpg";
         }
         /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
 
@@ -524,6 +523,40 @@ class MasterHrController extends Controller {
                 $result = ['success' => true];
                 return json_encode($result);
             }
+        }
+    }
+
+    public function appAccessControl() {
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        if ($input['data']['isChecked'] == true) {//checkbox checked
+            //{"data":{"empId":2,"submenuId":[107],"isChecked":true,"moduleType":"employee"}}
+            if ($input['data']['moduleType'] === 'roles') {
+                $getSubMenus = EmployeeRole::select('employee_submenus')->where('id', $input['data']['empId'])->get();
+            } else {
+                $getSubMenus = Employee::select('employee_submenus')->where('id', $input['data']['empId'])->get();
+            }
+            $getMenuItem = [];
+            if ($getSubMenus[0]['employee_submenus'] != '') {
+                $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'], true);
+            }
+           
+            if (!empty($getMenuItem)) {
+                $menuArr = array_unique(array_merge($input['data']['submenuId'], $getMenuItem)); //merge elements
+            } else {
+                $menuArr = $input['data']['submenuId'];
+            }
+           ///print_r($menuArr);exit;
+            asort($menuArr);
+            $jsonArr = json_encode($menuArr, true);
+            // $jsonArr = json_encode($input['data']['submenuId'], true);
+            if ($input['data']['moduleType'] === 'roles') {
+                EmployeeRole::where('id', $input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+            } else {
+                Employee::where('id', $input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+            }
+            $result = ['success' => true];
+            return json_encode($result);
         }
     }
 

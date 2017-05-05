@@ -8,7 +8,7 @@
         color: #e46f61;
     }
 </style>
-<form ng-controller="basicInfoController" role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)" enctype="multipart/form-data">
+<form role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)">
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="col-sm-6 col-xs-12">
@@ -20,12 +20,6 @@
                     <span class="help-block">{{project_logo_err}}</span>
                 </div>
             </div>
-<!--            <div class="col-sm-12 col-xs-12" ng-if="project_logo !==''">
-                <div class="img-div2" data-title="name"> 
-                    <i class="fa fa-times rem-icon" title=""></i>
-                    <img  ng-if="project_logo !== ''" ng-src="[[ Session::get('s3Path') ]]project/upload/{{project_logo}}" class="thumb photoPreview">
-                </div>
-            </div>-->
             <div class="col-sm-12 col-xs-12" ng-if="project_logo">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_logo"> 
                     <i class="fa fa-times rem-icon" title=""></i>
@@ -37,7 +31,7 @@
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label>Thumbnail (Image Size: W 250 X H 250 pixels)</label>
+                    <label>Thumbnail (Image Size: W 250 X H 250)</label>
                     <span class="input-icon icon-right">
                         <input type="file" ngf-select ng-model="projectImages.project_thumbnail" name="project_thumbnail" id="project_thumbnail" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_thumbnail)">
                     </span>                                                   
@@ -56,7 +50,7 @@
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label>Favicon (Image Size: W 250 X H 250 pixels)</label>
+                    <label>Favicon (Image Size: W 250 X H 250)</label>
                     <span class="input-icon icon-right">
                         <input type="file" ngf-select ng-model="projectImages.project_favicon" name="project_favicon" id="project_favicon" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_favicon)">
                     </span>                                                   
@@ -99,12 +93,6 @@
                     </span>                                                   
                 </div>
             </div>
-<!--            <div class="col-sm-12 col-xs-12" ng-hide="project_background_images_avtar">
-                <div class="img-div2" data-title="name">   
-                    <i class="fa fa-times rem-icon"  title=""></i>
-                    <img ng-src="" class="thumb photoPreview">
-                </div>
-            </div>-->
             <div class="col-sm-12 col-xs-12">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_background_images">   
                     <i class="fa fa-times rem-icon"  title=""></i>
