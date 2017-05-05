@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use App\Classes\S3;
 use Illuminate\Support\Facades\Route;
+
 class ProjectsController extends Controller {
 
     /**
@@ -112,7 +113,6 @@ class ProjectsController extends Controller {
                                 return json_encode($result);
                             } else {
                                 $s3FolderName = '/project/'.$key;
-//                                $implodeName = array();
                                 if ($isMultipleArr) {
                                     $prImageName = explode(",", $isProjectExist[$key]);
                                     for ($i = 0; $i < count($input['projectImages'][$key]); $i++) {
@@ -129,7 +129,6 @@ class ProjectsController extends Controller {
                                         }
                                     }
                                     /****************delete single image from s3 bucket end*****************/
-                                
                                     $imageName = 'project_' . $projectId . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['projectImages'][$key]->getClientOriginalExtension();
                                     S3::s3FileUplod($input['projectImages'][$key]->getPathName(), $imageName, $s3FolderName);
                                     $prImageName[] = $imageName;
@@ -303,7 +302,54 @@ class ProjectsController extends Controller {
     public function webPage() {
         return view("Projects::webpage");
     }  
-    public function getProjectDetails($id) {        
+    public function getProjectDetails($id) {  
+        
+        /* connect to gmail */
+$hostname = '{imap.gmail.com:993/imap/ssl}INBOX';
+$username = 'geeta@nextedgegroup.co.in';
+$password = 'geeta@next7';
+
+/* try to connect */
+$inbox = imap_open($hostname,$username,$password) or die('Cannot connect to Gmail: ' . imap_last_error());
+
+/* grab emails */
+$emails = imap_search($inbox,'ALL');
+
+/* if emails are returned, cycle through each... */
+if($emails) {
+	
+	/* begin output var */
+	$output = '';
+	
+	/* put the newest emails on top */
+	rsort($emails);
+	
+	/* for every email... */
+	foreach($emails as $email_number) {
+		
+		/* get information specific to this email */
+		$overview = imap_fetch_overview($inbox,$email_number,0);
+		$message = imap_fetchbody($inbox,$email_number,2);
+		
+		/* output the email header information */
+		$output.= '<div class="toggler '.($overview[0]->seen ? 'read' : 'unread').'">';
+		$output.= '<span class="subject">'.$overview[0]->subject.'</span> ';
+		$output.= '<span class="from">'.$overview[0]->from.'</span>';
+		$output.= '<span class="date">on '.$overview[0]->date.'</span>';
+		$output.= '</div>';
+		
+		/* output the email body */
+		$output.= '<div class="body">'.$message.'</div>';
+	}
+	
+	echo $output;
+} 
+
+/* close the connection */
+imap_close($inbox);
+        exit;
+        
+        
         $getProjectDetails = $getProjectStatusRecords = $getProjectInventory = array();
         $getProjectDetails = ProjectWebPage::where("project_id","=",$id)->get();
         $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->where("project_id","=",$id)->get();

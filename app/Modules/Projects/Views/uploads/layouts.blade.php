@@ -42,7 +42,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
             <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
             <div class="form-group" align="center">
-                <button type="submit" class="btn btn-primary">Save & Continue</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div> 
         </div>    
     </form>
@@ -58,6 +58,7 @@
                 <h4 class="modal-title" align="center">Layout Details</h4>
             </div>
             <form novalidate name="lmodalForm" ng-submit="lmodalForm.$valid && layoutRow(lmodalData,lmodalImages)">
+                <input type="hidden" ng-model="lmodalForm.csrfToken" name="csrftoken" ng-init="lmodalForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div id="horizontal-form" class="row">
@@ -114,6 +115,7 @@
                 <h4 class="modal-title" align="center">Floor Details</h4>
             </div>
             <form novalidate name="fmodalForm" ng-submit="fmodalForm.$valid && specicationRow(fmodalData,fmodalImages,'floorData')">
+                <input type="hidden" ng-model="fmodalForm.csrfToken" name="csrftoken" ng-init="fmodalForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div id="horizontal-form" class="row" ng-init="wings()">

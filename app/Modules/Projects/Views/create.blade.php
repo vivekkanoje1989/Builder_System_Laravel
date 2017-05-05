@@ -5,6 +5,7 @@
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
                     <form novalidate name="projectForm" ng-submit="projectForm.$valid && createProject(projectData)">
+                        <input type="hidden" ng-model="projectForm.csrfToken" name="csrftoken" ng-init="projectForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                         <div class="row">
                             <div class="col-sm-3 col-xs-6">  
                                 <div class="form-group" ng-class="{ 'has-error' : formButton && (!projectForm.project_name.$dirty  && projectForm.project_name.$invalid)}">

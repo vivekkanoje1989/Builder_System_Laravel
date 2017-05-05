@@ -5,6 +5,7 @@
             <tab ng-repeat="wlist in wingList" heading="{{wlist.wing_name}}" ng-click="getInventoryDetails({{wlist.id}})" class="themeprimary">
                 <div class="row">
                     <form role="form" name="inventoryInfoForm" ng-submit="saveInventoryInfo(wlist.id,inventoryData)" novalidate>
+                        <input type="hidden" ng-model="inventoryInfoForm.csrfToken" name="csrftoken" ng-init="inventoryInfoForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-sm-3 col-sx-6">

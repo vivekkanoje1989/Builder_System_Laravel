@@ -50,7 +50,8 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                     if (!responseState.success) {
                         $scope.errorMsg = responseState.message;
                     } else {
-                        $scope.stateList = responseState.records;     
+                        $scope.stateList = responseState.records;    
+                        $scope.contactData.project_state = angular.copy(response.details.project_state);
                         Data.post('getCities', {
                             data: {stateId: response.details.project_state},
                         }).then(function (responseCity) {
@@ -135,7 +136,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                     $scope.errorMsg = response.message;
                 } else{
                     toaster.pop('success', 'Project', response.data.message);
-                    angular.element('.btn-next').trigger('click');
+//                    angular.element('.btn-next').trigger('click');
                 }
             }, function (response) {
                 if (response.data.status !== 200) {

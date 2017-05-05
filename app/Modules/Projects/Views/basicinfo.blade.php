@@ -17,6 +17,7 @@
     <div class="step-content" id="tabbedwizardsteps">
         <div class="step-pane active" id="tabbedwizardstep1">
             <form role="form" name="basicInfoForm" ng-submit="saveBasicInfo(projectData, projectImages)">
+                <input type="hidden" ng-model="basicInfoForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="basicInfoForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
@@ -71,7 +72,7 @@
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save & Continue</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>
@@ -86,7 +87,7 @@
                             <span class="input-icon icon-right">
                                 <select ng-change="onCountryChange()" ng-model="contactData.project_country" name="project_country" id="current_country_id" class="form-control">
                                     <option value="">Select Country</option>
-                                    <option ng-repeat="country in countryList" value="{{country.id}}">{{country.name}}</option>
+                                    <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == contactData.project_country}}">{{country.name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>
@@ -98,7 +99,7 @@
                             <span class="input-icon icon-right">
                                 <select ng-change="onStateChange()" ng-model="contactData.project_state" name="project_state" id="current_state_id" class="form-control">
                                     <option value="">Select State</option>
-                                    <option ng-repeat="state in stateList track by $index" value="{{state.id}}">{{state.name}}</option>
+                                    <option ng-repeat="state in stateList track by $index" value="{{state.id}}" ng-selected="{{ state.id == contactData.project_state}}">{{state.name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>
@@ -110,7 +111,7 @@
                             <span class="input-icon icon-right">
                                 <select ng-change="onCityChange()" ng-model="contactData.project_city" name="project_city" id="current_city_id" class="form-control">
                                     <option value="">Select City</option>
-                                    <option ng-repeat="city in cityList track by $index" value="{{city.id}}">{{city.name}}</option>
+                                    <option ng-repeat="city in cityList track by $index" value="{{city.id}}" ng-selected="{{ city.id == contactData.project_city}}">{{city.name}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>
@@ -122,7 +123,7 @@
                             <span class="input-icon icon-right">
                                 <select ng-model="contactData.project_location" name="project_location" id="current_location_id" class="form-control">
                                     <option value="">Select Location</option>
-                                    <option ng-repeat="llist in locationList" value="{{llist.id}}">{{llist.location}}</option>
+                                    <option ng-repeat="llist in locationList" value="{{llist.id}}" ng-selected="{{ llist.id == contactData.project_location}}">{{llist.location}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>

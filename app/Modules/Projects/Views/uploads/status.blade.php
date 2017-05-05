@@ -1,5 +1,6 @@
 <div class="row">
     <form role="form" name="statusForm" ng-submit="saveStatusInfo(statusData, stProjectImages)" enctype="multipart/form-data">
+        <input type="hidden" ng-model="statusForm.csrfToken" name="csrftoken" ng-init="statusForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table table-bordered table-responsive">
                 <thead>
