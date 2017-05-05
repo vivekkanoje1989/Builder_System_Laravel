@@ -202,5 +202,4 @@ class Enquiry extends Eloquent {
     public function customerContacts() {
         return $this->belongsTo('App\Modules\MasterSales\Models\CustomersContact', 'customer_id');
     }
-
 }

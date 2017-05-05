@@ -1,4 +1,4 @@
-app.controller('testimonialsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload', '$state','toaster', function ($scope, Data, $rootScope, $timeout, Upload, $state,toaster) {
+app.controller('testimonialsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'Upload', '$state', 'toaster', function ($scope, Data, $rootScope, $timeout, Upload, $state, toaster) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -40,12 +40,13 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
                 data: data
             });
             photo_url.upload.then(function (response) {
+
                 $timeout(function () {
-                  if ($scope.testimonial_id == 0) {  
-                     toaster.pop('success', 'Testimonials', 'Record successfully created');
-                 }else{
-                      toaster.pop('success', 'Testimonials', 'Record successfully updated');
-                 }
+                    if ($scope.testimonial_id == 0) {
+                        toaster.pop('success', 'Testimonials', 'Record successfully created');
+                    } else {
+                        toaster.pop('success', 'Testimonials', 'Record successfully updated');
+                    }
                     $state.go(getUrl + '.testimonialsIndex');
                 });
             }, function (response) {

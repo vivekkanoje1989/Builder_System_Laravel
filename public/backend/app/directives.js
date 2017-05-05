@@ -198,7 +198,7 @@ app.directive("ngfSelect", [function () {
         require: 'ngModel',
         link: function ($scope, el, ngModel) {
             el.bind("change", function (e) {
-                $scope[ngModel.name] = [];
+                $scope[ngModel.name + "_preview"] = [];
                 var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp|.svg)$/;
                 var fileLength = $($(this)[0].files).length;
                 $($(this)[0].files).each(function () {
@@ -209,12 +209,12 @@ app.directive("ngfSelect", [function () {
                         var reader = new FileReader();
                         reader.onload = function (e) {
                             $scope[ngModel.name + "_avtar"] = true;
-                            $scope[ngModel.name].push(e.target.result);
+                            $scope[ngModel.name + "_preview"].push(e.target.result);
                         }
                         reader.readAsDataURL(file[0]);
                     } else {
                         $scope[ngModel.name + "_err"] = imgName + "is not a valid image file.";
-                        $scope[ngModel.name] = "";
+                        $scope[ngModel.name + "_preview"] = "";
                         return false;
                     }
                 });

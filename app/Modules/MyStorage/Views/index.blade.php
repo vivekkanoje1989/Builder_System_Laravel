@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">My Storage</span>
-                <a href="" data-toggle="modal" data-target="#storageModel"  class="btn btn-info">Upload new</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#storageModel"  class="btn btn-info">Upload new</a> &nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -13,10 +13,10 @@
             <div class="widget-body table-responsive">     
                 <div class="row">
                     <div class="col-md-2" ng-repeat="imgs in directories track by $index | unique:'imgs' ">
-                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllList/{{imgs.folder}}">
-                        <img src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
-                        <br/>
-                        <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
+                        <a  href="#/[[config('global.getUrl')]]/storage-list/getAllList/{{imgs.id}}">
+                            <img src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
+                            <br/>
+                            <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                                 <input type="text" class="form-control" ng-model="filename" name="filename"  ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="storageForm.filename.$error">
                                     <div ng-message="required">Filename is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>

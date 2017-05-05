@@ -78,13 +78,13 @@
             </form>
         </div>
         <div class="step-pane" id="tabbedwizardstep2">
-            <form role="form" name="contactInfoForm" ng-submit="saveContactInfo(projectData)">
+            <form role="form" name="contactInfoForm" ng-submit="saveBasicInfo(contactData)">
                 <div class="row" ng-controller="currentCountryListCtrl">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Country</label>
                             <span class="input-icon icon-right">
-                                <select ng-change="onCountryChange()" ng-model="projectData.project_country" name="project_country" id="current_country_id" class="form-control">
+                                <select ng-change="onCountryChange()" ng-model="contactData.project_country" name="project_country" id="current_country_id" class="form-control">
                                     <option value="">Select Country</option>
                                     <option ng-repeat="country in countryList" value="{{country.id}}">{{country.name}}</option>
                                 </select>
@@ -96,7 +96,7 @@
                         <div class="form-group">
                             <label>State</label>
                             <span class="input-icon icon-right">
-                                <select ng-change="onStateChange()" ng-model="projectData.project_state" name="project_state" id="current_state_id" class="form-control">
+                                <select ng-change="onStateChange()" ng-model="contactData.project_state" name="project_state" id="current_state_id" class="form-control">
                                     <option value="">Select State</option>
                                     <option ng-repeat="state in stateList track by $index" value="{{state.id}}">{{state.name}}</option>
                                 </select>
@@ -108,7 +108,7 @@
                         <div class="form-group">
                             <label>City</label>
                             <span class="input-icon icon-right">
-                                <select ng-change="onCityChange()" ng-model="projectData.project_city" name="project_city" id="current_city_id" class="form-control">
+                                <select ng-change="onCityChange()" ng-model="contactData.project_city" name="project_city" id="current_city_id" class="form-control">
                                     <option value="">Select City</option>
                                     <option ng-repeat="city in cityList track by $index" value="{{city.id}}">{{city.name}}</option>
                                 </select>
@@ -120,7 +120,7 @@
                         <div class="form-group">
                             <label>Location</label>
                             <span class="input-icon icon-right">
-                                <select ng-model="projectData.project_location" name="project_location" id="current_location_id" class="form-control">
+                                <select ng-model="contactData.project_location" name="project_location" id="current_location_id" class="form-control">
                                     <option value="">Select Location</option>
                                     <option ng-repeat="llist in locationList" value="{{llist.id}}">{{llist.location}}</option>
                                 </select>
@@ -133,50 +133,50 @@
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Address</label>
-                            <textarea class="form-control" ng-model="projectData.project_address" name="project_address"></textarea>
+                            <textarea class="form-control" ng-model="contactData.project_address" name="project_address"></textarea>
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Contact Numbers</label>
-                            <textarea class="form-control" ng-model="projectData.project_contact_numbers" name="project_contact_numbers"></textarea>
+                            <textarea class="form-control" ng-model="contactData.project_contact_numbers" name="project_contact_numbers"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save & Continue</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
         <div class="step-pane" id="tabbedwizardstep3">
-            <form role="form" name="seoInfoForm" ng-submit="saveSeoInfo(projectData)">
+            <form role="form" name="seoInfoForm" ng-submit="saveBasicInfo(seoData)">
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Page Title</label>
-                            <input type="text" class="form-control" ng-model="projectData.page_title" name="page_title" />
+                            <input type="text" class="form-control" ng-model="seoData.page_title" name="page_title" />
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Seo Url</label>
-                            <input type="text" class="form-control" ng-model="projectData.seo_url" name="seo_url" />
+                            <input type="text" class="form-control" ng-model="seoData.seo_url" name="seo_url" />
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Meta Description</label>
-                            <input type="text" class="form-control" ng-model="projectData.meta_description" name="meta_description" />
+                            <input type="text" class="form-control" ng-model="seoData.meta_description" name="meta_description" />
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Meta Keywords</label>
-                            <input type="text" class="form-control" ng-model="projectData.meta_keywords" name="meta_keywords" />
+                            <input type="text" class="form-control" ng-model="seoData.meta_keywords" name="meta_keywords" />
                         </div>
                     </div>
                 </div>
@@ -184,10 +184,16 @@
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
                             <label>Canonical Tag</label>
-                            <input type="text" class="form-control" ng-model="projectData.canonical_tag" name="canonical_tag" />
+                            <input type="text" class="form-control" ng-model="seoData.canonical_tag" name="canonical_tag" />
                         </div>
                     </div>
-                </div>                    
+                    <div class="col-sm-3 col-xs-12">
+                        <div class="form-group">
+                            <label>Project Website</label>
+                            <input type="text" class="form-control" ng-model="seoData.project_website" name="project_website">
+                        </div>
+                    </div>
+                </div>              
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">

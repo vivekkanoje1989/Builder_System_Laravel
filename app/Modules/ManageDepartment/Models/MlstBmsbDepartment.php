@@ -58,7 +58,7 @@ class MlstBmsbDepartment extends Eloquent {
         'updated_by',
         'updated_IP',
         'updated_browser',
-        'updated_mac_id'
+        'updated_mac_id',
     ];
 
 }

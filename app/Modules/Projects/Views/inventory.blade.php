@@ -1,7 +1,8 @@
-<div class="row" ng-controller="wingCtrl">
+<div class="row" >
     <div class="col-lg-12 col-sm-12 col-xs-12">
-        <tabset class="tabs-left" >
-            <tab ng-repeat="wlist in wingList" heading="{{wlist.wing_name}}" class="themeprimary" ng-click="getProjectInventory({{wlist.id}})">
+        <div ng-if="notFound">No wings found</div>
+        <tabset class="tabs-left" ng-show="wingList">
+            <tab ng-repeat="wlist in wingList" heading="{{wlist.wing_name}}" ng-click="getInventoryDetails({{wlist.id}})" class="themeprimary">
                 <div class="row">
                     <form role="form" name="inventoryInfoForm" ng-submit="saveInventoryInfo(wlist.id,inventoryData)" novalidate>
                         <div class="row">
@@ -12,7 +13,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="inventoryData.block_type_id" name="block_type_id" class="form-control" required>
                                                 <option value="">Select block type</option>
-                                                <option ng-repeat="t in blockList track by $index" value="{{t.id}}" ng-selected="{{ t.id == inventoryData.block_name}}">{{t.block_name}}</option>
+                                                <option ng-repeat="t in blockList track by $index" value="{{t.get_block_type[0].id}}" ng-selected="{{ t.get_block_type[0].id == inventoryData.block_name}}">{{t.get_block_type[0].block_name}}</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i> 
                                             <div ng-show="sbtBtn" ng-messages="inventoryInfoForm.block_type_id.$error" class="help-block">

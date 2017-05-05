@@ -6,9 +6,12 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
 
             });
         };
-        $scope.initialModal = function (id) {
+        $scope.initialModal = function (id,list,index) {
             $scope.heading = 'Departments';
             $scope.id = id;
+            $scope.index = index;
+            console.log(list);
+            $scope.departmentData.department_name = list.department_name;
             if (id === 0)
             {
                 $scope.departmentData = {};

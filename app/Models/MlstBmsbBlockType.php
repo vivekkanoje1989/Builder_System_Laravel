@@ -33,6 +33,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class MlstBmsbBlockType extends Eloquent
 {
     protected $connection = "masterdb";
+    protected $primaryKey = "id";
     protected $casts = [
 		'project_type_id' => 'int',
 		'created_by' => 'int',

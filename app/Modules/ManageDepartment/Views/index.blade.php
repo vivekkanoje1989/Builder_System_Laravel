@@ -51,7 +51,7 @@
                             <td>{{ list.department_name}}</td>                          
                             <td>{{ list.name}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit department" style="display: block;" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit department" style="display: block;" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},{{list}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td> 
                         </tr>
                     </tbody>
@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="departmentModal" role="dialog" tabindex="-1" ng-init="">
+    <div class="modal fade" id="departmentModal" role="dialog" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">                
                 <div class="modal-header">
@@ -72,8 +72,7 @@
                         <div class="form-group">
                             <label>Department Name<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="departmentData.department_name" id="department_name" name="department_name" placeholder="Department" ng-change="errorMsg = null" required>
-                                <i class="fa fa-user thm-color circular"></i>
+                                <input type="text" class="form-control" ng-model="departmentData.department_name" id="department_name" name="department_name"  ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="departmentForm.department_name.$error">
                                     <div ng-message="required">Department is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
@@ -83,7 +82,7 @@
                         <div class="form-group">
                             <label>Select Vertical<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select ng-model="departmentData.vertical_id" name="vertical_id" id="vertical_id" class="form-control" ng-controller="verticalCtrl" ng-change="errorMsg = null" placeholder="Select Vertical" required>
+                                <select ng-model="departmentData.vertical_id" name="vertical_id" id="vertical_id" class="form-control" ng-controller="verticalCtrl" ng-change="errorMsg = null"  required>
                                     <option ng-repeat="v in verticals track by $index" value="{{v.id}}"  ng-selected="{{ v.id == departmentData.vertical_id }}">{{v.name}}</option>                                    
                                 </select>
                                 <i class="fa fa-sort-desc"></i>

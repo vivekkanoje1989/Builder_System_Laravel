@@ -115,7 +115,7 @@
                                 <div class="col-sm-9 col-xs-6" ng-show="imgs">
                                     <div  class="img-div2" data-title="name" ng-repeat="img in imgs track by $index" ng-model="allimages">   
                                         <i class="fa fa-times rem-icon"  title="{{img}}" ng-click="removeImg('{{img}}',{{$index}},{{blogId}})"></i>
-                                        <img src="[[config('global.s3Path')]]galleryImages/{{img}}" style="width: 60px;height: 60px;">
+                                        <img src="[[ Session::get('s3Path') ]]Blog/gallery_image/{{img}}" style="width: 60px;height: 60px;">
                                     </div>
                                 </div>
                                 <span class="input-icon icon-right">

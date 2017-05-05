@@ -122,4 +122,8 @@ class ProjectBlock extends Eloquent
 		'deleted_browser',
 		'deleted_mac_id'
 	];
+        public function getBlockType()
+        {
+            return $this->hasMany('App\Models\MlstBmsbBlockType','id','block_type_id')->select("id","block_name");
+        }
 }

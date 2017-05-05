@@ -194,7 +194,7 @@ class MasterSalesController extends Controller {
             if (!empty($input['customerContacts'])) {
                 $i = 0;
                 foreach ($input['customerContacts'] as $contacts) {
-                    unset($contacts['$hashKey']);
+                    unset($contacts['$$hashKey']);
                     unset($contacts['index']);
                     $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] = $contacts['email_optin_status'] = $contacts['email_verification_status'] = 0;
                     $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] = $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
@@ -275,6 +275,7 @@ class MasterSalesController extends Controller {
                unset($getCustomerPersonalDetails[0]['aadhar_number']);
                unset($getCustomerPersonalDetails[0]['image_file']);
             // $getCustomerEnquiryDetails = Enquiry::where('customer_id', '=', $getCustomerContacts[0]->customer_id)->orderBy('id', 'desc')->first();
+
             $getCustomerEnquiryDetails = Enquiry::where([['customer_id', '=', $getCustomerContacts[0]->customer_id], ['sales_status_id', '=', 2]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName')->get();
             if (count($getCustomerEnquiryDetails) == 0 || isset($request['data']['showCustomer'])) {
                 $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'flag' => 0];

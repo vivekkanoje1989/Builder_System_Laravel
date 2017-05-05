@@ -68,7 +68,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 $scope.blog_banner_images = response.records.blog_banner_images;
                 $scope.blog_short_description = response.records.blog_short_description;
                 $scope.bannerImg = response.records.blog_banner_images;
-                $scope.blog_banner_images = "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/blogBannerImages/" + response.records.blog_banner_images;
+                $scope.blog_banner_images = "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Blog/blog_banner_images/" + response.records.blog_banner_images;
 
                 var arraydata = response.records.blog_images.split(',');
                 $scope.imgs = arraydata;
@@ -96,16 +96,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                     $scope.imgs.splice(indeximg, 1);
                     Data.post('manage-blog/removeBlogImage', {
                         blogId: blogId, imageName: imgname, allimg: $scope.imgs,
-                    }).then(function (response) {
-
-                        if (!response.success)
-                        {
-
-                        } else
-                        {
-                            // $state.go(getUrl+'.contentPagesIndex');
-                        }
-                    });
+                    }).then(function (response) {});
                 }
             }
         }

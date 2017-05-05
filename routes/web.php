@@ -107,7 +107,7 @@ Route::group(['middleware' =>['auth:admin']], function () {
     Route::post($getUrl.'/getLocations', 'backend\AdminController@getLocations');
     Route::post($getUrl.'/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
     Route::get($getUrl.'/getEnquirySource', 'backend\AdminController@getEnquirySource');
-    Route::post($getUrl.'/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');
+    Route::post($getUrl.'/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');    
     
     /***********************************MANDAR************************************/
     Route::get($getUrl.'/getClient', 'backend\AdminController@getClient');

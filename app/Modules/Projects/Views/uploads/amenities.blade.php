@@ -3,14 +3,18 @@
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
-                    <label>Amenities Images (Image Size: W 250 X H 250)</label>
+                    <label>Amenities Images (Size: W 250 X H 250)</label>
                     <span class="input-icon icon-right">
-                        <input type="file" ngf-select ng-model="projectImages.amenities_images" name="amenities_images" id="amenities_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_thumbnail)">
+                        <input type="file" ngf-select multiple ng-model="projectImages.amenities_images" name="amenities_images" id="amenities_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(imagesData.project_thumbnail)">
                     </span>                                                   
                 </div>
             </div>
             <div class="col-sm-12 col-xs-12" ng-if="amenities_images">
-                <div class="img-div2" data-title="name" ng-repeat="list in amenities_images">    
+                <div class="img-div2" data-title="name" ng-repeat="list in amenities_images" id="del_amenities_images_{{$index}}">    
+                    <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{amenities_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/amenities_images/', 'amenities_images')"></i>
+                    <img src="[[ Session::get('s3Path') ]]project/amenities_images/{{list}}" class="thumb photoPreview">
+                </div>
+                <div class="img-div2" data-title="name" ng-repeat="list in amenities_images_preview">    
                     <i class="fa fa-times rem-icon"  title=""></i>
                     <img ng-src="{{list}}" class="thumb photoPreview">
                 </div>
@@ -27,7 +31,6 @@
                     </ui-select> 
                 </div>
             </div>
-            
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-sm-3 col-xs-6 col-lg-6">  

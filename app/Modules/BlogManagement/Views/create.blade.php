@@ -33,7 +33,7 @@
                             <td>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.title.$dirty && blogsForm.title.$invalid) }">
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="title" name="title"  ng-change="errormsg = null" required>
+                                        <input type="text" class="form-control" ng-model="title" name="title"  ng-change="errormsg = null"  required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.title.$error">
                                             <div ng-message="required">Title is required</div>
                                             <div ng-if="errormsg">{{errormsg}}</div>
@@ -43,10 +43,10 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr><td>Url<span class="sp-err">*</span></td>
+                        <tr><td>Url</td>
                             <td>
                                 <span class="input-icon icon-right">
-                                    <input type="text" class="form-control" ng-model="blog_seo_url" name="blog_seo_url"  required>
+                                    <input type="text" class="form-control" ng-model="blog_seo_url" name="blog_seo_url"  >
                                     <br/>
                                 </span>
                             </td>

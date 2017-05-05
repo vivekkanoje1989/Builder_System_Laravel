@@ -84,8 +84,9 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data) {
             class: type,
             messages: $rootScope.message
         }
-    }
+    }    
 });
+
 app.controller('amenitiesCtrl', function ($scope, Data) {
     $scope.amenitiesList = [];
     Data.get('getAmenitiesList').then(function (response) {

@@ -86,7 +86,7 @@ class MasterHrController extends Controller {
         if (!empty($request['empId'])) {
             //send mail code
             //send email code
-            $strRandomNo = str_random(6);
+            $strRandomNo = str_random(4);
             $changedPassword = \Hash::make($strRandomNo);
             echo $strRandomNo;
             DB::table('employees')
@@ -256,7 +256,6 @@ class MasterHrController extends Controller {
             unset($input['userData']['loggedInUserId']);
             $input['userData']['employee_photo_file_name'] = '';
         }
-        //echo "<pre>";print_r($input); exit;
         $input = Employee::doAction($input);
         $input['userData']['updated_date'] = date('Y-m-d');
 
@@ -467,7 +466,6 @@ class MasterHrController extends Controller {
     public function accessControl() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-        //print_r($input);exit;
         if (!empty($input)) {//checkbox checked
             if ($input['data']['moduleType'] === 'roles') {
                 $getSubMenus = EmployeeRole::select('employee_submenus')->where('id', $input['data']['empId'])->get();
@@ -524,6 +522,41 @@ class MasterHrController extends Controller {
                 return json_encode($result);
             }
         }
+    }
+    public function appAccessControl() {
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        
+        //{"data":{"empId":2,"submenuId":[107],"isChecked":true,"moduleType":"employee"}}
+            
+        foreach($input['data'] as $key => $value){
+            if ($value['moduleType'] === 'roles') {
+                $getSubMenus = EmployeeRole::select('employee_submenus')->where('id', $value['empId'])->get();
+            } else {
+                $getSubMenus = Employee::select('employee_submenus')->where('id', $value['empId'])->get();
+            }
+            $getMenuItem = [];
+            if ($getSubMenus[0]['employee_submenus'] != '') {
+                $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'], true);
+            }
+            if ($value['isChecked'] == true) { 
+                $menuArr = array_unique(array_merge($value['submenuId'], $getMenuItem)); //merge elements
+                
+            }else{
+                $menuArrDiff = array_diff($getMenuItem, $value['submenuId']); //removes elements
+                $menuArr = array_unique($menuArrDiff); //merge elements
+            }
+            
+            asort($menuArr);
+            $jsonArr = json_encode($menuArr, true);
+            if ($value['moduleType'] === 'roles') {
+                EmployeeRole::where('id', $value['empId'])->update(array('employee_submenus' => $jsonArr));
+            } else {
+                Employee::where('id', $value['empId'])->update(array('employee_submenus' => $jsonArr));
+            }                
+        }
+        $result = ['success' => true];
+        return json_encode($result);
     }
 
     public function appAccessControl() {

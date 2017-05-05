@@ -76,9 +76,9 @@
                             </tr>
                             <tr><td>Mobile No. <span class="sp-err">*</span></td>
                                 <td>
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.mobile_number.$dirty && testimonialsForm.mobile_number.$invalid) }">
+                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.mobile_number.$dirty && testimonialsForm.mobile_number.$invalid) }" >
                                         <span class="input-icon icon-right">
-                                            <input type="number" class="form-control" ng-model="mobile_number" name="mobile_number"  ng-maxlength="10" ng-minlength="10" required>
+                                            <input type="text" class="form-control" ng-model="mobile_number" name="mobile_number"  ng-maxlength="10" ng-minlength="10" required oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.mobile_number.$error">
                                                 <div ng-message="required">Mobile no is required</div>
                                                 <div ng-message="maxlength">Mobile no must be 10 digit</div>
