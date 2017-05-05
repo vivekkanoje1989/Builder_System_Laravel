@@ -7,8 +7,8 @@
                     <div class="col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label></label>
-                            <div class="card card-4 img-div2" ng-if="layoutTitle" ng-repeat="t in layoutTitle" style="height: 82px !important;" id="del_layout_plan_images_{{$index}}">
-                                <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{layoutTitle}},'{{t}}', {{$index}}, {{projectData.project_id}}, 'project/layout_plan_images/', 'layout_plan_images')"></i>
+                            <div class="card card-4 img-div2" ng-if="layoutTitle" ng-repeat="t in layoutTitle" style="height: 82px !important;">
+                                <i class="fa fa-times rem-icon" title=""></i>
                                 <img src="[[ Session::get('s3Path') ]]project/layout_plan_images/{{t.image}}" class="thumb photoPreview">
                                 <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
                             </div>
@@ -26,8 +26,8 @@
                     <div class="col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label></label>
-                            <div class="card card-4 img-div2" ng-if="floorTitle" ng-repeat="t in floorTitle" id="del_floor_plan_images_{{$index}}">
-                                <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{floorTitle}},'{{t}}', {{$index}}, {{projectData.project_id}}, 'project/floor_plan_images/', 'floor_plan_images')"></i>
+                            <div class="card card-4 img-div2" ng-if="floorTitle" ng-repeat="t in floorTitle">
+                                <i class="fa fa-times rem-icon" title=""></i>
                                 <img src="[[ Session::get('s3Path') ]]project/floor_plan_images/{{t.image}}" class="thumb photoPreview">
                                 <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
                             </div>
@@ -89,6 +89,7 @@
                             </div>
                             <div class="col-sm-12 col-xs-12">
                                 <div class="img-div2" data-title="name" ng-repeat="list in layout_plan_images_preview">    
+                                    <i class="fa fa-times rem-icon"  title=""></i>
                                     <img ng-src="{{list}}" class="thumb photoPreview">
                                 </div>
                             </div>
@@ -161,6 +162,7 @@
                             </div>
                             <div class="col-sm-12 col-xs-12">
                                 <div class="img-div2" data-title="name" ng-repeat="list in floor_plan_images_preview">    
+                                    <i class="fa fa-times rem-icon"  title=""></i>
                                     <img ng-src="{{list}}" class="thumb photoPreview">
                                 </div>
                             </div>

@@ -225,7 +225,7 @@ class ProjectsController extends Controller {
                         }
                         $mergeOldValue[] = $input[$objName]['modalData'];
                         $input[$objName]['specification_images'] = json_encode($mergeOldValue);
-                        $specificationTitle = ["image" => $implodeImgName,"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $floorId)];
+                        $specificationTitle = ["specification_images" => $implodeImgName,"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $floorId)];
                     }else if(isset($input['floorData'])){
                         $input[$objName]['modalData']['floor_plan_images'] = $implodeImgName;
                         if(!empty($isProjectExist->floor_plan_images)){
@@ -233,7 +233,7 @@ class ProjectsController extends Controller {
                         }
                         $mergeOldValue[] = $input[$objName]['modalData'];
                         $input[$objName]['floor_plan_images'] = json_encode($mergeOldValue);
-                        $specificationTitle = ["image" => $implodeImgName,"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $floorId)];
+                        $specificationTitle = ["floor_plan_images" => $implodeImgName,"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $floorId)];
                     }                    
                     unset($input[$objName]['modalData']);
                     if (empty($isProjectExist)) {
@@ -267,7 +267,7 @@ class ProjectsController extends Controller {
                         }
                         $mergeOldValue[] = $input['layoutData']['modalData'];
                         $input['layoutData']['layout_plan_images'] = json_encode($mergeOldValue);
-                        $layoutTitle = ["image" => $implodeImgName,"title" => $projectWingName[0]->wing_name];
+                        $layoutTitle = ["layout_plan_images" => $implodeImgName,"title" => $projectWingName[0]->wing_name];
                     }                 
                     unset($input['layoutData']['modalData']);
                     if (empty($isProjectExist)) {
@@ -312,6 +312,7 @@ class ProjectsController extends Controller {
         $getProjectInventory = ProjectBlock::where([['wing_id','=',$getWing->id],['project_id','=',$id]])->orderBy('wing_id', 'ASC')->get();
         /**************getSpecifiction**************/
         $specificationTitle = array();
+//        echo "<pre>";print_r($getProjectDetails[0]->specification_images);exit;
         if(!empty($getProjectDetails[0]->specification_images) && ($getProjectDetails[0]->specification_images !== 'null')){
             $decodeSpecificationDetails = json_decode($getProjectDetails[0]->specification_images,true);
             foreach($decodeSpecificationDetails as $key => $val){
@@ -407,39 +408,11 @@ class ProjectsController extends Controller {
     public function deleteImage(){
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true); 
-        if($request['tblFieldName'] == "specification_images" || $request['tblFieldName'] == "layout_plan_images" || $request['tblFieldName'] == "floor_plan_images"){
-            $getImage = ProjectWebPage::select($request['tblFieldName'])->where('id', $request['tblRowId'])->get();
-            
-            if($request['tblFieldName'] == "specification_images"){
-                $getImgArr = json_decode($getImage[0]['specification_images'],true);
-                $delImg = json_decode($request['delImgName'],true);
-                foreach($getImgArr as $key => $img){
-                    if($img['specification_images'] == $delImg['image']){
-                        unset($getImgArr[$key]);
-                    }
-                }
-            }
-            if($request['tblFieldName'] == "layout_plan_images"){
-                $getImgArr = json_decode($getImage[0]['layout_plan_images'],true);
-                $delImg = json_decode($request['delImgName'],true);
-                foreach($getImgArr as $key => $img){
-                    if($img['layout_plan_images'] == $delImg['image']){
-                        unset($getImgArr[$key]);
-                    }
-                }
-            }
-            if($request['tblFieldName'] == "floor_plan_images"){
-                $getImgArr = json_decode($getImage[0]['floor_plan_images'],true);
-                $delImg = json_decode($request['delImgName'],true);
-                foreach($getImgArr as $key => $img){
-                    if($img['floor_plan_images'] == $delImg['image']){
-                        unset($getImgArr[$key]);
-                    }
-                }
-            }
-            $path = $request['folderName'].$delImg['image'];
+        if($request['tblFieldName'] == "specification_images"){
+            $selectedImgs = json_encode($request['selectedImg']);
+            $decodeValue = json_decode($request['delImgName']);
+            $path = $request['folderName'].$decodeValue->image;
             $deleteImg = S3::s3FileDelete($path);
-            $selectedImgs = json_encode(array_values($getImgArr));
         }else{
             $selectedImgs = implode(',', $request['selectedImg']);
             $path = $request['folderName'].$request['delImgName'];
@@ -450,7 +423,8 @@ class ProjectsController extends Controller {
            $result = ['success' => true, 'message' => "Image deleted successfully"];
         } else {
             $result = ['success' => false, 'message' => "Something went wrong. Please check internet connection"];
-        }        
+        }
+        
         return json_encode($result);
     }
     

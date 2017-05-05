@@ -322,7 +322,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                     if (!response.success) {
                         $scope.errorMsg = response.message;
                     } else {
-                        $("#del_"+tblFieldName+"_"+index).remove();
+                        $("div#del_"+tblFieldName+"_"+index).remove();
                     }
                 });
             }
