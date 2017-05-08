@@ -26,13 +26,13 @@ class CheckAdmin
 //            if (!$data[0]->id  && $data[0]->usertype != 'admin')
             if (!$data[0]->id)
             {
-                return redirect()->intended('admin/login/')->with('status', 'You do not have access to admin side');
+                return redirect()->intended('office/login/')->with('status', 'You do not have access to admin side');
             }
             return $next($request);
         }
         else 
         {
-            return redirect()->intended('admin/login/')->with('status', 'Please Login to access admin area');
+            return redirect()->intended('office/login/')->with('status', 'Please Login to access admin area');
         }         
     }  
 }

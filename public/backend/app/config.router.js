@@ -3150,32 +3150,5 @@ angular.module('app')
             event.preventDefault();
             return false;
         }
-
-        /*else {
-         var nextUrl = $location.path();
-         if (!toState.requiredLogin) {
-         if (nextUrl === '/' + getUrl + '/register' || nextUrl === '/' + getUrl + '/login' || nextUrl === '/' + getUrl + '/forgotPassword' || nextUrl === '/' + getUrl + '/resetPassword') {
-         $state.go('admin.dashboard');
-         $state.reload();
-         return false;
-         }
-         } else {
-         var flag;
-         console.log($rootScope.getMenu.actions + "====" + nextUrl);
-         angular.forEach($rootScope.getMenu.actions, function (value, key) {
-         if (value === nextUrl) {
-         flag = true;
-         } else {
-         flag = false;
-         }
-         });
-         if (flag === true) {
-         alert("access");
-         } else {
-         alert("noaccess");
-         }
-         }
-         }*/
-
     });
 });

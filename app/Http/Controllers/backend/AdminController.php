@@ -59,7 +59,7 @@ class AdminController extends Controller {
     }
 
     public function dashboard() {
-        
+
         /*$rootPath = config('global.rootPath'); 
         $data = ["filePath" => $rootPath."/bulkMobileNumbers1.xls","fileName" => "bulkMobileNumbers1.xls", "sendingType" => 1, "textSmsBody" => "send msg in bulk", "smsType" => "bulk_sms"];
         $result = Gupshup::sendBulkSMS($data);
@@ -88,18 +88,20 @@ class AdminController extends Controller {
 //        echo "<pre>";print_r(Auth::guard('admin')->user());exit;
         $fullName = Auth::guard('admin')->user()->first_name . " " . Auth::guard('admin')->user()->last_name;
         return view('layouts.backend.dashboard')->with('id', $fullName);
+        
     }
 
     public function getMenuItems() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        if(!empty($request['data']['loggedInUserId'])){
+        if(!empty($request['data']['loggedInUserId'])){ //for mobile app
             $employeeSubmenus = Employee::select("employee_submenus")->where("id",json_decode($request['data']['loggedInUserId']))->get();
             $permission = json_decode($employeeSubmenus[0]->employee_submenus,true);
-        }else{
+        }else{//for web app
             $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
             $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get();            
             session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
+            session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
         }
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
@@ -152,7 +154,7 @@ class AdminController extends Controller {
         }
         $collection = collect(['mainMenu' => $menuItem]);
         $merged = $collection->merge(['actions' => $accessToActions]);
-        $mergedMmenu = $merged->all();        
+        $mergedMmenu = $merged->all();   
         return json_encode($mergedMmenu);
     }
 

@@ -1,5 +1,9 @@
-<div class="row" ng-controller="hrController" ng-init="manageUsers('','index')">
-    <div class="col-xs-12 col-md-12">
+
+<div ng-if="pageErr" class="row">{{ pageErr }}</div>
+
+<div ng-if="!pageErr" class="row" ng-controller="hrController" ng-init="manageUsers('','index')">
+    
+    <div  class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Users</span>
@@ -113,7 +117,6 @@
             </div>
         </div>
     </div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">

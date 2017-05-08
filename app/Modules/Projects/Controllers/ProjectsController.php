@@ -9,6 +9,7 @@ use App\Modules\Projects\Models\MlstBmsbProjectStatus;
 use App\Modules\Projects\Models\MlstBmsbProjectType;
 use App\Modules\Projects\Models\Project;
 use App\Modules\Projects\Models\ProjectWebPage;
+use App\Modules\Projects\Models\ProjectWebPagesLogs;
 use App\Modules\Projects\Models\ProjectWing;
 use App\Models\MlstBmsbAmenity;
 use App\Models\MlstBmsbBlockType;
@@ -167,6 +168,12 @@ class ProjectsController extends Controller {
                     $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                     $input['projectData'] = array_merge($input['projectData'],$create);                
                     $actionProject = ProjectWebPage::create($input['projectData']);
+//                    echo "<pre>";print_r($input);exit;
+//                    unset($input['projectData']['updated_at']);
+//                    $input['projectData']['main_table_record'] = 1;
+//                    $input['projectData']['record_type'] = 1;
+//                    $input['projectData']['record_restore_status'] = 1;
+//                    $insertLog = ProjectWebPagesLogs::create($input['projectData']);exit;
                     $msg = "Record added successfully";
                 }else{
                     $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -302,54 +309,7 @@ class ProjectsController extends Controller {
     public function webPage() {
         return view("Projects::webpage");
     }  
-    public function getProjectDetails($id) {  
-        
-        /* connect to gmail */
-$hostname = '{imap.gmail.com:993/imap/ssl}INBOX';
-$username = 'geeta@nextedgegroup.co.in';
-$password = 'geeta@next7';
-
-/* try to connect */
-$inbox = imap_open($hostname,$username,$password) or die('Cannot connect to Gmail: ' . imap_last_error());
-
-/* grab emails */
-$emails = imap_search($inbox,'ALL');
-
-/* if emails are returned, cycle through each... */
-if($emails) {
-	
-	/* begin output var */
-	$output = '';
-	
-	/* put the newest emails on top */
-	rsort($emails);
-	
-	/* for every email... */
-	foreach($emails as $email_number) {
-		
-		/* get information specific to this email */
-		$overview = imap_fetch_overview($inbox,$email_number,0);
-		$message = imap_fetchbody($inbox,$email_number,2);
-		
-		/* output the email header information */
-		$output.= '<div class="toggler '.($overview[0]->seen ? 'read' : 'unread').'">';
-		$output.= '<span class="subject">'.$overview[0]->subject.'</span> ';
-		$output.= '<span class="from">'.$overview[0]->from.'</span>';
-		$output.= '<span class="date">on '.$overview[0]->date.'</span>';
-		$output.= '</div>';
-		
-		/* output the email body */
-		$output.= '<div class="body">'.$message.'</div>';
-	}
-	
-	echo $output;
-} 
-
-/* close the connection */
-imap_close($inbox);
-        exit;
-        
-        
+    public function getProjectDetails($id) {          
         $getProjectDetails = $getProjectStatusRecords = $getProjectInventory = array();
         $getProjectDetails = ProjectWebPage::where("project_id","=",$id)->get();
         $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->where("project_id","=",$id)->get();

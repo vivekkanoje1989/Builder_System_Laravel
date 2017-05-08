@@ -8,7 +8,8 @@
         color: #e46f61;
     }
 </style>
-<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.employee_photo_file_name,[[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
+<div ng-if="pageErr">{{ pageErr }}</div>
+<form ng-if="!pageErr"  name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.employee_photo_file_name,[[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
     <input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
     <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-init="userForm.id = '[[ $empId ]]'" value="[[ $empId ]]" class="form-control">
     <div class="row">
@@ -23,7 +24,7 @@
                     <li class="wiredstep5"><span class="step">5</span><span class="title">Step 5</span> <span class="chevron"></span></li>
                 </ul>
             </div>
-            <div class="step-content" id="WiredWizardsteps">
+            <div class="step-content" id="WiredWizardsteps" ng-if="!pageErr">
                 <div class="step-pane active" id="wiredstep1">
                     <div class="form-title">Personal Information</div>
                     <div class="row">
@@ -506,10 +507,12 @@
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.employee_photo_file_name)">
-                                    <img ng-src="{{image_source}}" class="thumb photoPreview">
-                                    <img ng-if="imgUrl" src="[[ Session::get('s3Path') ]]/Employee-Photos/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
-                                    <div ng-show="step3 || invalidImage" ng-messages="userForm.employee_photo_file_name.$error" class="help-block step3">
-                                        <div ng-show="invalidImage">{{ invalidImage }}</div>
+                                    <img ng-if="!employee_photo_file_name_preview"src="[[ Session::get('s3Path') ]]hr/employee-photos/{{imgUrl}}" class="thumb photoPreview">
+                                    <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
+                                        <img ng-src="{{list}}" class="thumb photoPreview">
+                                    </div>
+                                    <div ng-show="step3 || employee_photo_file_name_err" ng-messages="userForm.employee_photo_file_name.$error" class="help-block step3">
+                                        <span class="help-block" ng-show="employee_photo_file_name_err">{{employee_photo_file_name_err}}</span>
                                         <div ng-message="required">This field is required.</div>
                                         <i ng-show="userForm.employee_photo_file_name.$error.maxSize">File too large {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
                                     </div>
@@ -739,7 +742,6 @@
                             <span class="progress" ng-show="userData.employee_photo_file_name.progress >= 0">
                                 <div style="width:{{userData.employee_photo_file_name.progress}}%" ng-bind="userData.employee_photo_file_name.progress + '%'"></div>
                             </span>
-                            <span ng-show="userData.employee_photo_file_name.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5">Prev</button>
                             <button type="submit" class="btn btn-primary btn-submit-last" ng-disabled="disableCreateButton" ng-click="step5=true">{{buttonLabel}}</button>
                         </div>

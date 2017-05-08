@@ -129,9 +129,11 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
     
     $scope.manageUsers = function (id,action) { //edit/index action
         $scope.modal = {};
+        
         Data.post('master-hr/manageUsers',{
             empId: id,
         }).then(function (response) {
+            console.log(response);
             if (response.success) {
                 if(action === 'index'){
                     $scope.listUsers = response.records.data;
@@ -218,6 +220,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                 }
             } else {
                 $scope.errorMsg = response.message;
+                $scope.pageErr = response;
             }
         });
     };
