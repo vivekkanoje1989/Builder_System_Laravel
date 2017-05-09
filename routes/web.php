@@ -77,6 +77,8 @@ Route::group(['middleware' =>['auth:admin']], function () {
     $getUrl = config('global.getUrl');
     /*************************** Admin Dashboard ****************************/
     Route::get($getUrl.'/dashboard', 'backend\AdminController@dashboard');
+    Route::get($getUrl.'/sessiontimeout', 'backend\AdminController@sessiontimeout');
+//    Route::get($getUrl.'/sessionlogout', 'backend\AdminController@sessionlogout');
     
     /***************************** Admin Logout **********************************/
     Route::post($getUrl.'/logout', 'backend\Auth\LoginController@getLogout');   

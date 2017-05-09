@@ -22,21 +22,10 @@ use Session;
 class MasterHrController extends Controller {
 
     public function __construct() {
-        
-        /*$routeName = \Route::getCurrentRoute()->getActionName();
-        $actionName = substr($routeName, strpos($routeName, "@") + 1);    
-        $actionArr = ["create" => "030102", "store" => "030102","edit" => "030102", "update" => "030102", 'index' => '030101', 'manageUsers' => '030101',
-            'orgchart' => '030104','getChartData' => '030104','manageRolesPermission' => '030101','getRoles' => '030101', 'getDepartmentsToEdit' => '030102','editDepartments' => '030102',
-            'userPermissions' => '030101','getMenuLists'=>'030101','accessControl' => '030101','updatePermissions' => '030101',
-            'rolePermissions' => '030101','changePassword' => '030101'];
-        if(!empty($actionArr[$actionName])){
-            $this->middleware('check-permission',['only' => $actionArr[$actionName]]);
-//          $this->middleware('check-permission:'.$actionArr[$actionName]);
-        }*/
-        
+        $this->middleware('web');
     }
 
-    public function index() {        
+    public function index() {
         return view("MasterHr::index")->with("loggedInUserId", Auth::guard('admin')->user()->id);
     }
 
@@ -169,7 +158,7 @@ class MasterHrController extends Controller {
             $input = Employee::doAction($input);
             $employee = Employee::create($input['userData']); //insert data into employees table     
 
-            $input['userData']['main_record_id'] = $employee->id;
+            $input['userData']['main_record_id'] = $loggedInUserId;
             $input['userData']['record_type'] = 1;
             $input['userData']['record_restore_status'] = 1;
             EmployeesLog::create($input['userData']);   //insert data into employees_logs table
@@ -313,7 +302,7 @@ class MasterHrController extends Controller {
 
         if ($employeeUpdate == 1) {
             $input['userData']['password'] = $pwdData;
-            $input['userData']['main_record_id'] = $id;
+            $input['userData']['main_record_id'] = $loggedInUserId;
             $input['userData']['record_type'] = 2;
             $input['userData']['column_names'] = $implodeArr;
             $input['userData']['record_restore_status'] = 1;
@@ -534,8 +523,7 @@ class MasterHrController extends Controller {
             }
         }
     }
-
-    public function appAccessControl() {
+       public function appAccessControl() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         if ($input['data']['isChecked'] == true) {//checkbox checked

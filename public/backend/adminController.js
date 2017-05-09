@@ -1,8 +1,10 @@
 'use strict';
-app.controller('adminController', function ($rootScope, $scope, $state, Data) {
+app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams) {
     $scope.registration = {};
     $scope.errorMsg = '';
-
+    $scope.sessiontimeout = function (event) {
+        $scope.logout("logout");
+    }
     $scope.checkUsername = function (usernameData) {
         Data.post('checkUsername', {
             username: usernameData.mobile,

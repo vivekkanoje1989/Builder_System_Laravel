@@ -8,8 +8,7 @@
         color: #e46f61;
     }
 </style>
-<div ng-if="pageErr">{{ pageErr }}</div>
-<form ng-if="!pageErr"  name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.employee_photo_file_name,[[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
+<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.employee_photo_file_name,[[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
     <input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
     <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-init="userForm.id = '[[ $empId ]]'" value="[[ $empId ]]" class="form-control">
     <div class="row">
@@ -24,7 +23,7 @@
                     <li class="wiredstep5"><span class="step">5</span><span class="title">Step 5</span> <span class="chevron"></span></li>
                 </ul>
             </div>
-            <div class="step-content" id="WiredWizardsteps" ng-if="!pageErr">
+            <div class="step-content" id="WiredWizardsteps">
                 <div class="step-pane active" id="wiredstep1">
                     <div class="form-title">Personal Information</div>
                     <div class="row">

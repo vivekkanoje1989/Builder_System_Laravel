@@ -23,7 +23,11 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::get($getUrl . '/master-sales/getFinanceEmployees', 'MasterSalesController@getFinanceEmployees'); // get employees whose deparment is finance
     Route::get($getUrl . '/master-sales/showEnquiry/{id}', 'MasterSalesController@showEnquiry'); //show enquiry page
     Route::post($getUrl . '/master-sales/saveEnquiryData', 'MasterSalesController@saveEnquiryData'); //saveEnquiryData
-    Route::resource($getUrl . '/master-sales', 'MasterSalesController');
+//    Route::resource($getUrl . '/master-sales', 'MasterSalesController');
+    
+    Route::get($getUrl . '/master-sales/create', ['middleware'=>'check-permission:040101', 'uses' => 'MasterSalesController@create']);
+    Route::post($getUrl . '/master-sales/', ['middleware'=>'check-permission:040101', 'uses' => 'MasterSalesController@store']);
+    
     Route::post($getUrl . '/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails');
     Route::post($getUrl . '/master-sales/checkMobileExist', 'MasterSalesController@checkMobileExist');
     Route::post($getUrl . '/master-sales/getEnquiryHistory','MasterSalesController@getEnquiryHistory');

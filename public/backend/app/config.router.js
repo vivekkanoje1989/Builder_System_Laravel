@@ -307,17 +307,24 @@ angular.module('app')
                                         description: ''
                                     },
                                     resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/app/controllers/chartloader.js',
-                                                    ]
-                                                });
-                                            }
-                                        ]
+                                        deps: 
+                                        [
+                                           '$ocLazyLoad',
+                                           function ($ocLazyLoad) {
+                                               return $ocLazyLoad.load('toaster').then(
+                                                       function () {
+                                                           return $ocLazyLoad.load({
+                                                               serie: true,
+                                                               files: [
+                                                                     '/backend/app/controllers/chartloader.js',
+                                                               ]
+                                                           }
+                                                           );
+                                                       }
+                                               );
+                                           }
+                                       ]
+                                            
                                     }
                                 })
                                 .state(getUrl + '.projectCreate', {
@@ -3036,12 +3043,12 @@ angular.module('app')
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/assets/css/login.css'
-                                                            ]
-                                                        });
+                                                {
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/assets/css/login.css'
+                                                    ]
+                                                });
                                             }
                                         ]
                                     }
@@ -3109,7 +3116,7 @@ angular.module('app')
     $rootScope.getMenu = {};
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, next, current) {
         var nextUrl = $location.path();
-        if ((toState.requiredLogin && $rootScope.authenticated === false) || (!toState.requiredLogin && $rootScope.authenticated === false)) { // true && false
+        if ((toState.requiredLogin && $rootScope.authenticated === false) || (!toState.requiredLogin && $rootScope.authenticated === false)) { // (true && false) || (false && false)
             Data.get('session').then(function (results) {
                 if (results.success === true) {
                     $rootScope.authenticated = true;

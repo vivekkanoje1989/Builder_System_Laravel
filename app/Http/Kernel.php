@@ -15,7 +15,7 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        \Illuminate\Session\Middleware\StartSession::class,        
+        \Illuminate\Session\Middleware\StartSession::class,  
     ];
 
     /**
@@ -49,10 +49,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'check-permission' => \App\Http\Middleware\CheckPermission::class,
+        
         'admin' => \App\Http\Middleware\CheckAdmin::class,
-       
-
 //        'user' => \App\Http\Middleware\CheckUser::class,
         
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
@@ -61,7 +59,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        
-         
+        'check-permission' => \App\Http\Middleware\CheckPermission::class,
     ];
 }

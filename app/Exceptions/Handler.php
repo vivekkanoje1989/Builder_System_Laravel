@@ -65,15 +65,9 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+            return redirect('office/sessiontimeout');
+//            return response()->json(['error' => 'Unauthenticated.'], 401);
         }
-//        $authUser = Auth()->guard('admin')->user();
-//        echo $authUser."<br>";
-//        echo "<pre>";print_r(\Illuminate\Support\Facades\Session::all());exit;
-        //$getUrl = config('global.getUrl');
-        Auth()->guard('admin')->logout();
-        
-//        Auth()->guard('admin')->logout();
-        return redirect()->guest('office/login');
+        return redirect('office/sessiontimeout');
     }
 }
