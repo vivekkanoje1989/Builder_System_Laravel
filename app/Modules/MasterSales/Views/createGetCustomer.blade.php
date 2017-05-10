@@ -111,11 +111,7 @@
                         </div>
                     </div>
                 </div>
-            </div> 
-
-
-
-
+            </div>
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="row">
                     <div class="col-sm-3 col-md-3 col-xs-12">
@@ -255,7 +251,7 @@
                                 <td>{{list.email_id}}</td>
                                 <td>{{list.pin}}</td>
                                 <td><div class="fa-hover" tooltip-html-unsafe="Edit Customer Contact" style="display: block;">
-                                        <a href data-toggle="modal" data-target="#contactDataModal" ng-click="editContactDetails({{$index}})"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
+                                        <a href data-toggle="modal  " data-target="#contactDataModal" ng-click="editContactDetails({{$index}})"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
                                     </div>
                                 </td>
                             </tr>                                            
@@ -269,4 +265,4 @@
             <button type="submit" class="btn btn-primary" ng-show="showDivCustomer" ng-disabled="disableCreateButton" ng-click="formButton = true">Save & Continue</button>
         </div>
     </form>
-</div>  
+</div>

@@ -19,6 +19,7 @@ use Auth;
 use App\Classes\CommonFunctions;
 use App\Modules\MasterSales\Models\Enquiry;
 use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
+use App\Models\LstEnquiryLocation;
 
 class MasterSalesController extends Controller {
 
@@ -159,6 +160,7 @@ class MasterSalesController extends Controller {
             }
             unset($input['customerData']['loggedInUserId']);
             unset($input['customerData']['id']);
+            
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             if (!empty($input['customerData'])) {
@@ -188,13 +190,13 @@ class MasterSalesController extends Controller {
                 $input['customerData']['record_type'] = 2;
                 $input['customerData']['column_names'] = $implodeArr;
                 $input['customerData']['record_restore_status'] = 1;
-                CustomersLog::create($input['customerData']);   
+                CustomersLog::create($input['customerData']);
             }
 
             if (!empty($input['customerContacts'])) {
                 $i = 0;
                 foreach ($input['customerContacts'] as $contacts) {
-                    unset($contacts['$$hashKey']);
+                    unset($contacts['$hashKey']);
                     unset($contacts['index']);
                     $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] = $contacts['email_optin_status'] = $contacts['email_verification_status'] = 0;
                     $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] = $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
@@ -271,9 +273,9 @@ class MasterSalesController extends Controller {
         $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '")');
         if (count($getCustomerContacts) > 0) {
             $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
-               unset($getCustomerPersonalDetails[0]['pan_number']);
-               unset($getCustomerPersonalDetails[0]['aadhar_number']);
-               unset($getCustomerPersonalDetails[0]['image_file']);
+            unset($getCustomerPersonalDetails[0]['pan_number']);
+            unset($getCustomerPersonalDetails[0]['aadhar_number']);
+            unset($getCustomerPersonalDetails[0]['image_file']);
             // $getCustomerEnquiryDetails = Enquiry::where('customer_id', '=', $getCustomerContacts[0]->customer_id)->orderBy('id', 'desc')->first();
 
             $getCustomerEnquiryDetails = Enquiry::where([['customer_id', '=', $getCustomerContacts[0]->customer_id], ['sales_status_id', '=', 2]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName')->get();
@@ -283,6 +285,21 @@ class MasterSalesController extends Controller {
                 $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts[0], 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails, 'flag' => 1];
             }
 
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, "message" => "No record found"];
+            return json_encode($result);
+        }
+    }
+
+    public function getCustomerDataWithId() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $data = Customer::where('id', $request['data']['customerId'])->get();
+        $data['get_customer_contacts'] = CustomersContact::where('customer_id', $request['data']['customerId'])->get();
+        //print_r($data);exit;
+        if (count($data) > 0) {
+            $result = ['success' => true, 'customerPersonalDetails' => $data];
             return json_encode($result);
         } else {
             $result = ['success' => false, "message" => "No record found"];
@@ -321,21 +338,25 @@ class MasterSalesController extends Controller {
         if (empty($request)) {
             $request = Input::all();
         }
+
         if (empty($request['enquiryData']['loggedInUserId'])) {
             $loggedInUserId = Auth::guard('admin')->user()->id;
         } else {
             $loggedInUserId = $request['enquiryData']['loggedInUserId'];
         }
-       
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-       print_r($request);exit;  
+        //print_r($request);exit;  
         /* fill  follow up details */
         $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
         $request['followupDetails']['next_followup_date'] = date('Y-m-d', strtotime($request['enquiryData']['next_followup_date']));
-        $request['followupDetails']['followup_by_employee_id'] = 1;
+        if (isset($request['enquiryData']['next_follwoup_time'])) {
+            $request['followupDetails']['next_follwoup_time'] = date('H:m:s', strtotime($request['enquiryData']['next_follwoup_time']));
+        } else {
+            $request['followupDetails']['next_follwoup_time'] = date('H:m:s');
+        }
+        $request['followupDetails']['followup_by_employee_id'] = $request['enquiryData']['followup_by_employee_id'];
         $request['followupDetails']['enquiry_id'] = $request['enquiryData']['remarks'];
-        //$request['followupDetails']['enquiry_category_id'] = $request['enquiryData']['enquiry_category_id'];
-        $request['followupDetails']['enquiry_category_id'] = 1;
+        $request['followupDetails']['enquiry_category_id'] = $request['enquiryData']['enquiry_category_id'];
         $request['followupDetails']['finance_category_id'] = 0;
         $request['followupDetails']['client_id'] = 1;
         $request['followupDetails']['followup_channel_id'] = 3;
@@ -348,7 +369,8 @@ class MasterSalesController extends Controller {
         unset($request['enquiryData']['city_id']);
         unset($request['enquiryData']['csrfToken']);
         unset($request['enquiryData']['next_followup_date']);
-        //print_r($request['followupDetails']);
+        unset($request['enquiryData']['next_follwoup_time']);
+
         /*  insert enquiry  */
         $request['enquiryData'] = array_merge($request['enquiryData'], $create);
         $request['enquiryData']['customer_id'] = $request['customer_id'];
@@ -356,20 +378,18 @@ class MasterSalesController extends Controller {
         $request['enquiryData']['sales_employee_id'] = 1;
         $request['enquiryData']['sales_channel_id'] = 3;
         $request['enquiryData']['sales_source_id'] = 1;
-        
+
         // $request['enquiryData']['max_budget'] = 1;
         $request['enquiryData']['sales_enquiry_date'] = date('Y-m-d', strtotime($request['enquiryData']['sales_enquiry_date']));
         if (!empty($request['enquiryData']['property_possession_date'])) {
             $request['enquiryData']['property_possession_date'] = date('Y-m-d', strtotime($request['enquiryData']['property_possession_date']));
         }
         if (!empty($request['enquiryData']['enquiry_locations'])) {
-            //  $request['enquiryData']['enquiry_locations'] = $request['enquiryData']['enquiry_locations'];
-            //} else {
             $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
                         return $el['id'];
                     }, $request['enquiryData']['enquiry_locations']));
         }
-        //print_r($request['enquiryData']);exit;
+        //print_r($request['enquiryData']['enquiry_locations']);exit;
         $insertEnquiry = Enquiry::create($request['enquiryData']);
         if ($insertEnquiry) {
             /* insert enquiry details */
@@ -395,6 +415,7 @@ class MasterSalesController extends Controller {
     }
 
     /* get all listing controler data */
+
     public function getEmployees() {
         $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->get();
         if (!empty($getEmployees)) {
@@ -437,16 +458,28 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
+
     /* End // get all listing controler data */
-    
+
     public function totalEnquiries() {
         return view("MasterSales::totalEnquiries");
     }
 
     // get all enquiries
     public function getAllEnquiries() {
-        $getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 2]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName','customerDetails','customerContacts')->get();
-        // echo json_encode($getCustomerEnquiryDetails);exit;
+        $getCustomerEnquiryDetails = Enquiry::whereIn('sales_status_id', [1, 2])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
+        foreach ($getCustomerEnquiryDetails as $enqDetails) {
+            $getLocationName = array();
+            $arr = (explode(",", $enqDetails->enquiry_locations));
+            $loc = LstEnquiryLocation::select('location')->whereIn("id", $arr)->get();
+            //print_r($loc);
+            for ($i = 0; $i < count($loc); $i++) {
+                $getLocationName[] = $loc[$i]->location;
+            }
+            $implodeLoc = implode(",", $getLocationName);
+            $enqDetails['enquiry_locations'] = $implodeLoc;
+        }
+        //echo json_encode($getCustomerEnquiryDetails);exit;
         if (count($getCustomerEnquiryDetails)) {
             $result = ['success' => true, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails];
         } else {
@@ -454,56 +487,70 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-    
-    public function showLostEnquiry()
-    {
+
+    public function showLostEnquiry() {
         return view("MasterSales::lostEnquiries");
     }
 
     // get all lost enquiries
-    public function getLostEnquiries()
-    {
-        $getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 4]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName','customerDetails','customerContacts')->get();
-         if (count($getCustomerEnquiryDetails)) {
+    public function getLostEnquiries() {
+        $getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 4]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
+        if (count($getCustomerEnquiryDetails)) {
             $result = ['success' => true, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails];
         } else {
             $result = ['success' => false, 'CustomerEnquiryDetails' => 'No Records Found'];
         }
         return json_encode($result);
     }
-    
-    public function showCloseEnquiry()
-    {
+
+    public function showCloseEnquiry() {
         return view("MasterSales::closeEnquiries");
     }
+
     // get all close enquiries
-    public function getCloseEnquiries()
-    {
-        $getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 3]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName','customerDetails','customerContacts')->get();
-         if (count($getCustomerEnquiryDetails)) {
+    public function getCloseEnquiries() {
+        $getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 3]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
+        if (count($getCustomerEnquiryDetails)) {
             $result = ['success' => true, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails];
         } else {
             $result = ['success' => false, 'CustomerEnquiryDetails' => 'No Records Found'];
         }
         return json_encode($result);
     }
-    
-    public function getEnquiryHistory()
-    {
+
+    public function getEnquiryHistory() {
         $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);  
+        $request = json_decode($postdata, true);
         $getFollowupDetails = EnquiryFollowup::where([['enquiry_id', '=', $request['enquiryId']]])->get();
         //print_r($getFollowupDetails);exit;
-        if($getFollowupDetails)
-        {
+        if ($getFollowupDetails) {
             $result = ['success' => true, 'records' => $getFollowupDetails];
-        }
-        else
-        {
+        } else {
             $result = ['success' => true, 'records' => 'No record Found'];
         }
         return json_encode($result);
     }
-    
+
+    // Follow ups //
+    public function getTodaysFollowup() {
+        $date = date('Y-m-d');
+        $empId = implode(',', array(1, 3));
+        $salesStatusId = implode(",", array(1, 2));
+        $getCustomerEnquiryDetails = EnquiryFollowup::where('next_followup_date', '=', $date)->with(['getEnquiryFromFollowup' => function($q) use ($salesStatusId, $empId) {
+                        $q->whereIn('sales_status_id', [$salesStatusId]);
+                        $q->whereIn('sales_employee_id', [$empId]);
+                    }])->get();
+        if ($getCustomerEnquiryDetails) {
+            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
+        } else {
+            $result = ['success' => true, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
+    }
+
+    public function updateCustomer($id) {
+        return view('MasterSales::updateCustomer')->with('id', $id);
+        //return view("MasterSales::index");
+    }
 
 }

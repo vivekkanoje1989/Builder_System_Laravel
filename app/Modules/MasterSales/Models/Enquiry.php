@@ -72,7 +72,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @package App\Models
  */
 class Enquiry extends Eloquent {
-
     protected $primaryKey = 'id';
     protected $casts = [
         'id' => 'int',
@@ -188,6 +187,8 @@ class Enquiry extends Eloquent {
     }
 
     public function getFollowupDetails() {
+        $date = date('Y-m-d');
+        //return $this->belongsTo('App\Modules\MasterSales\Models\EnquiryFollowup', 'id', 'enquiry_id')->where('next_followup_date','=',$date);
         return $this->belongsTo('App\Modules\MasterSales\Models\EnquiryFollowup', 'id', 'enquiry_id');
     }
 
@@ -201,5 +202,9 @@ class Enquiry extends Eloquent {
 
     public function customerContacts() {
         return $this->belongsTo('App\Modules\MasterSales\Models\CustomersContact', 'customer_id');
+    }
+    public function getEnquiryLocation()
+    {
+            return $this->belongsTo('App\Models\LstEnquiryLocation','enquiry_locations');
     }
 }

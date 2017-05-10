@@ -1,5 +1,8 @@
 
 /* vkm custome */
+table th, td{
+    text-align: center;
+}
 .img-div2{
        position: relative;
        float:left !important;

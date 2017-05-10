@@ -3,7 +3,7 @@
         text-align: center;
     }    
 </style>
-<div class="widget flat radius-bordered " ng-controller="enquiryController" ng-init="showAllEnquiries('')">
+<div class="widget flat radius-bordered " ng-controller="enquiryController" ng-init="showAllEnquiries()">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header ">
@@ -25,6 +25,7 @@
                         <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
                     </div>
                 </div><br>
+                <?php  $i=0; ?>
                 <table class="table table-hover table-striped table-bordered">
                     <thead>
                     <th>Sr.No.</th>
@@ -34,17 +35,18 @@
                     <th>Next Followup Date Time</th>
                     <th>Enquiry</th>
                     <th>Enquiry History</th>
-                    </thead>                                 
+                    </thead>   
                     <tbody id="tblTotalEnquiry">
-                        <tr role="row" dir-paginate="list in listsIndex.CustomerEnquiryDetails | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                            <td>{{ $index + 1}}</td>
+                        <tr role="row" dir-paginate="list in listsIndex.CustomerEnquiryDetails | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" ng-if="listsIndex.CustomerEnquiryDetails[<?php echo $i; ?>].get_followup_details !='' ">
+                           <td>{{ $index + 1}}</td>
                             <td>
                                 <div>
                                     {{ list.customer_details.first_name}} {{ list.customer_details.last_name}} <br>
                                     {{ list.customer_contacts.mobile_number}}
                                 </div><hr/>
                                 <div>
-                                    <a href="" ng-click="customerDetails('{{ list.customer_contacts.mobile_number}}')">customer Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<!--                                    <a href="" ng-click="customerDetails('{{ list.customer_contacts.mobile_number}}')">customer Details</a>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                                         <a href="#/[[config('global.getUrl')]]/sales/updateCustomer/{{ list.customer_contacts.id }}">customer Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                     Total Enquiries : {{ listsIndex.CustomerEnquiryDetails.length}}&nbsp;&nbsp;                                   
                                 </div><hr>
                                 Source: {{ list.channel_name.channel_name}}
@@ -54,10 +56,10 @@
                                 {{ list.get_enquiry_details.get_block.block_sub_type}}<br>
 
                                 <div>
-                                    <a href="">Enquiry Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="" ng-click="updateEnquiryDetails('{{list.customer_contacts.mobile_number }}','{{ list.customer_contacts.email}}')">Enquiry Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                     Enquiry Type: {{ list.get_enquiry_category_name.enquiry_category}}
                                 </div>
-                                Location :{{ list.enquiry_locations}}
+                                Location :{{ list.enquiry_locations }}
 
                             </td>
                             <td>
@@ -75,6 +77,7 @@
                             <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ list.id}})">View History</button>
                             </td>
+                            <?php $i++; ?>
                         </tr>                                       
                     </tbody>
                 </table>

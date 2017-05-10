@@ -1,12 +1,12 @@
-app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$timeout', 'toaster', '$stateParams', function ($scope, $state, Data, Upload, $timeout, toaster, $stateParams) {
+app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$timeout', 'toaster', '$stateParams','$filter', function ($scope, $state, Data, Upload, $timeout, toaster, $stateParams,$filter) {
         $scope.projectsDetails = [];
         $scope.locations = [];
+        $scope.searchData ={};
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.historyList = {};
         $scope.saveEnquiryData = function (enquiryData, customer_id)
-        {
-            console.log($scope.enquiryData);
+        {      
             Data.post('master-sales/saveEnquiryData', {
                 enquiryData: enquiryData, customer_id: customer_id, projectEnquiryDetails: $scope.projectsDetails,
             }).then(function (response) {
@@ -111,17 +111,8 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 }
             });
         }
-        $scope.customerDetails = function (mobNo)
-        {
-            alert("hi" + mobNo);
-            $state.go(getUrl + '.salesCreate');
-            alert($scope.searchData.searchWithMobile);
-            //$scope.searchData.searchWithMobile = mobNo;
-        }
-
+       
         $scope.initHistoryDataModal = function (enquiry_id) {
-           // alert("hii i am here !!!!!!"+enquiry_id);
-            //alert($scope.historyList);
             Data.post('master-sales/getEnquiryHistory', {
                 enquiryId: enquiry_id,
             }).then(function (response) {
@@ -130,7 +121,22 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 }
             });            
         }
-
+        $scope.showTodaysFollowups = function()
+        {
+            Data.get('master-sales/getTodaysFollowup').then(function (response) {
+                if (response.success) {
+                    $scope.listsIndex = angular.copy(response.records);                    
+                }
+            });
+        }
+        $scope.updateEnquiryDetails  = function(mobNo,email)
+        {
+            alert("hi"+mobNo+":"+email);
+            $state.go(getUrl + '.salesCreate', {"mobNo": mobNo , "email":email});
+            $scope.searchData.searchWithMobile= mobNo;
+            $scope.searchData.searchWithEmail =email;
+            
+        }
     }]);
 
 app.controller('getEmployeesCtrl', function ($scope, Data) {

@@ -7,7 +7,7 @@
                     <label>Projects<span class="sp-err">*</span></label>
                     <span class="input-icon icon-right">
                         <select ng-model="projectData.project_id" name="project_id" id="project_id" class="form-control" required ng-change="getProjectDetails(projectData.project_id)">
-                            <option value="">Select type</option>
+                            <option value="">Select Project</option>
                             <option ng-repeat="plist in projectList" value="{{plist.id}}">{{plist.project_name}}</option>
                         </select>
                         <i class="fa fa-sort-desc"></i>

@@ -539,7 +539,7 @@
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (step4 && (!userForm.department_id.$dirty && userForm.department_id.$invalid)) && emptyDepartmentId}" ng-controller="departmentCtrl">
                                 <label for="">Select Departments <span class="sp-err">*</span></label>	
-                                <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required="true"  ng-change="checkDepartment()">
+                                <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required="true" ng-change="checkDepartment()">
                                     <ui-select-match>{{$item.department_name}}</ui-select-match>
                                     <ui-select-choices repeat="list in departments | filter:$select.search">
                                         {{list.department_name}} 

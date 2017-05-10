@@ -27,7 +27,7 @@
         margin: 0 30px;
     }
 </style>
-<div class="row">
+<div class="row"> 
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <label for="">Mobile Number</label>
                                         <span class="input-icon icon-right">                                    
-                                            <input type="text" class="form-control" ng-model="searchData.searchWithMobile" get-customer-details-directive ng-disabled="disableText" minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)">
+                                            <input type="text" class="form-control" ng-model="searchData.searchWithMobile" get-customer-details-directive ng-disabled="disableText" minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
                                             <i class="glyphicon glyphicon-phone"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
                                                 <div ng-message="minlength">Invalid mobile no.</div>
@@ -64,8 +64,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>     
-
+                        </div>
                         <br><br>
                     </div>
                     <tabset ng-if="showDivCustomer" class="demo-tab row">
@@ -111,7 +110,7 @@
                                         {{ list.get_followup_details.actual_followup_date_time | date:'dd M, yyyy'}}                                        
                                     </td>                                    
                                     <td>
-                                        {{ list.get_followup_details.next_followup_date | date:'dd M, yyyy'}}
+                                        {{ list.get_followup_details.next_followup_date | date:'dd M, yyyy'}} At 
                                         {{ list.get_followup_details.next_follwoup_time | date:'dd M, yyyy'}}
                                     </td>
                                     <!--Owner: [[ Auth::guard('admin')->user()->first_name ]] [[ Auth::guard('admin')->user()->last_name ]]-->                                    
@@ -123,10 +122,10 @@
                         </table>
                         <div class="DTTTFooter" align="center">
                             <div class="col-sm-4 col-xs-12">
-                                <a class="btn btn-primary" ng-click="createNewEnquiry()" style="margin-top:20px;float: right;">Create New Enquiry</a>
+                                <a class="btn btn-primary" ng-click="createEnquiry()" style="margin-top:20px;float: right;">Create New Enquiry</a>
                             </div>
                             <div class="col-sm-4 col-xs-12">
-                                <a ng-click="createEnquiry()" class="btn btn-primary" style="margin-top:20px;float: left;">Create Customer And New Enquiry</a>
+                                <a ng-click="createNewEnquiry()" class="btn btn-primary" style="margin-top:20px;float: left;">Create Customer And New Enquiry</a>
                             </div>
                         </div>
                     </div>
@@ -141,7 +140,7 @@
                                 <h4 class="modal-title" align="center">Contact Details</h4>
                             </div>
                             <form novalidate name="modalForm" ng-submit="modalForm.$valid && addRow(contactData)">
-                                <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
+                                <input type="text" ng-model="contactData.index" name="index" value="{{contactData.index}}">
                                 <div class="modal-body">
                                     <div class="col-lg-6 col-sm-6 col-xs-12">
                                         <div class="row">

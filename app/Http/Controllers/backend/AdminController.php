@@ -59,6 +59,7 @@ class AdminController extends Controller {
     }
 
     public function dashboard() {
+        
         /*$rootPath = config('global.rootPath'); 
         $data = ["filePath" => $rootPath."/bulkMobileNumbers1.xls","fileName" => "bulkMobileNumbers1.xls", "sendingType" => 1, "textSmsBody" => "send msg in bulk", "smsType" => "bulk_sms"];
         $result = Gupshup::sendBulkSMS($data);

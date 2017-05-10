@@ -215,26 +215,26 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/customerController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                            '/backend/enquiryController.js',
-                                                                            '/backend/app/controllers/timepicker.js',
-                                                                            '/backend/app/controllers/select.js',
-                                                                        ]
-                                                                    });
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/customerController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/timepicker.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state(getUrl + '.enquiryCreate', {
@@ -682,7 +682,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/email-config/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Configure Email Accounts'
+                                        label: 'Email Account Configuration'
                                     },
                                     resolve: {
                                         deps:
@@ -712,21 +712,21 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Update Email Account'
+                                        label: 'Email Account Configuration'
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load('toaster').then(
-                                                        function () {
-                                                            return $ocLazyLoad.load(['ui.select', {
-                                                                    serie: true,
-                                                                    files: [
-                                                                        '/backend/emailConfigController.js',
-                                                                    ]
-                                                                }]);
-                                                        });
+                                                function () {
+                                                    return $ocLazyLoad.load(['ui.select', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/emailConfigController.js',
+                                                        ]
+                                                    }]);
+                                                });
                                             }
                                         ]
                                     }
@@ -736,26 +736,26 @@ angular.module('app')
                                     templateUrl: getUrl + '/email-config/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create New Account'
+                                        label: 'Email Account Configuration'
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load(['ui.select', {
-                                                                            serie: true,
-                                                                            files: [
-                                                                                '/backend/emailConfigController.js',
-                                                                            ]
-                                                                        }]
-                                                                            );
-                                                                }
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load(['ui.select', {
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/emailConfigController.js',
+                                                                ]
+                                                            }]
                                                         );
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state(getUrl + '.employeeDeviceIndex', {
@@ -767,22 +767,22 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load(['ui.select', {
-                                                                            serie: true,
-                                                                            files: [
-                                                                                '/backend/employeeDeviceController.js',
-                                                                            ]
-                                                                        }]
-                                                                            );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/employeeDeviceController.js',
+                                                                    ]
+                                                                }]
+                                                            );
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state(getUrl + '.employeeDeviceCreate', {
@@ -794,22 +794,22 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load(['ui.select', {
-                                                                            serie: true,
-                                                                            files: [
-                                                                                '/backend/employeeDeviceController.js',
-                                                                            ]
-                                                                        }]
-                                                                            );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/employeeDeviceController.js',
+                                                                    ]
+                                                                }]
+                                                                    );
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
 
@@ -825,22 +825,22 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load(['ui.select', {
-                                                                            serie: true,
-                                                                            files: [
-                                                                                '/backend/employeeDeviceController.js',
-                                                                            ]
-                                                                        }]
-                                                                            );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/employeeDeviceController.js',
+                                                                    ]
+                                                                }]
+                                                                    );
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
 
@@ -853,24 +853,24 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/enquiryController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
 
@@ -885,23 +885,23 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/enquiryController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    });
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state(getUrl + '.closeenquiries', {
@@ -915,26 +915,87 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/enquiryController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    });
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
-                                
+                                .state(getUrl + '.todaysfollowup', {
+                                    url: '/sales/todaysfollowup',
+                                    templateUrl: function () {
+                                        return getUrl + '/master-sales/showtodaysfollowup';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Todays Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.customerUpdate', {
+                                    url: '/sales/updateCustomer/:id',
+                                    templateUrl: function (setParams) {
+                                        return getUrl + '/master-sales/updateCustomer/'+ setParams.id ;
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Update Customer'
+
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/customerController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+
 
                                 /****************************UMA************************************/
                                 /****************************MANDAR*********************************/
@@ -2170,7 +2231,7 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.requestLeaveIndex', {
+                               .state(getUrl + '.requestLeaveIndex', {
                                     url: '/request-leave/index',
                                     templateUrl: getUrl + '/request-leave/',
                                     requiredLogin: true,

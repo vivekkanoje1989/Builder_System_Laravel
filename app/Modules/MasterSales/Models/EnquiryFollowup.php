@@ -52,7 +52,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class EnquiryFollowup extends Eloquent
 {
-	protected $casts = [
+                protected $primaryKey = 'id';
+                protected $casts = [
 		'client_id' => 'int',
 		'ct_logs_inbounds_id' => 'int',
 		'enquiry_id' => 'int',
@@ -115,4 +116,9 @@ class EnquiryFollowup extends Eloquent
 		'deleted_browser',
 		'deleted_mac_id'
 	];
+        
+        public function getEnquiryFromFollowup()
+        {
+            return $this->belongsTo('App\Modules\MasterSales\Models\Enquiry', 'enquiry_id')->with('customerDetails','customerContacts','channelName','getEnquiryDetails','getEnquiryCategoryName');
+        }
 }

@@ -47,9 +47,9 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 }
             }
         };
-        $scope.editContactDetails = function (index) {
-            $scope.contactData = $scope.contacts[index];
+        $scope.editContactDetails = function (index) {alert(index);
             $scope.contactData.index = index;
+            $scope.contactData = $scope.contacts[index];
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
         }
         $scope.addRow = function (contactData) {
@@ -162,16 +162,19 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                     } else {
                         $('.errMsg').text('');
                         $window.sessionStorage.setItem("sessionContactData", "");
-                        //$scope.disableCreateButton = true;
-                        document.getElementById("enquiryDiv").style.display = 'block';
+                        $scope.disableCreateButton = true;
+                        var myEle = document.getElementById("enquiryDiv");
+                        if(myEle === null){ $window.history.back();}
+                        else{ document.getElementById("enquiryDiv").style.display = 'block';}                          
                         // $scope.enquiry_div = ($scope.tabs.length + 1);
-//                        if($scope.searchData.customerId === 0 || $scope.searchData.customerId === ''){
-//                            toaster.pop('success', 'Customer', 'Record successfully created');}
-//                        else{
-//                            toaster.pop('success', 'Customer', 'Record successfully updated');}
-//                        $timeout(function () {
-                        //$state.go(getUrl + '.enquiryCreate', {"customerId": response.data.customerId});
-//                        }, 2000);
+                        if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
+                            toaster.pop('success', 'Customer', 'Record successfully created');
+                        } else {
+                            toaster.pop('success', 'Customer', 'Record successfully updated');
+                        }
+                        $timeout(function () {
+                            //$state.go(getUrl + '.enquiryCreate', {"customerId": response.data.customerId});
+                        }, 2000);
                     }
                 });
             }, function (response) {
@@ -229,12 +232,53 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 $scope.disableText = true;
             });
         }
-
         $scope.createNewEnquiry = function ()
         {
             $state.go(getUrl + '.salesCreate', {}, {reload: true});
         }
+        $scope.getCustomerDataWithId = function (id)
+        {
+//            $scope.contactData = {};
+            Data.post('master-sales/getCustomerDataWithId', {
+                data: {customerId: id},
+            }).then(function (response) {
+                $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
+                $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
+                $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
+                
+                for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
+                    if (response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === '') {
+                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+                    } else {
+                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_number);
+                    }
+                    if (response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === '' || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === null) {
+                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+                    } else {
+                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
+                    }
+                    if (response.customerPersonalDetails.get_customer_contacts[i].pin === 0)
+                        $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
+                    if (response.customerPersonalDetails.get_customer_contacts[i].email_id === '' || response.customerPersonalDetails.get_customer_contacts[i].email_id === 'null')
+                        $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
+                }
+                Data.post('getEnquirySubSource', {
+                    data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {
+                    $scope.subSourceList = '';
+                    if (!response.success) {
+                        $scope.errorMsg = response.message;
+                    } else {
+                        $scope.subSourceList = response.records;
+                    }
+                });
+                $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
+                $scope.searchData.searchWithMobile = $scope.searchData.searchWithMobile;
+                $scope.searchData.searchWithEmail = $scope.searchData.searchWithEmail;
+                $scope.searchData.customerId = response.customerPersonalDetails[0].id;
+                $scope.disableText = true;
 
+            })
+        }
 
     }]);
 
