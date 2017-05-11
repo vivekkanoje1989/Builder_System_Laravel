@@ -1,8 +1,3 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 'use strict';
 app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $window, toaster) {
         $scope.pageHeading = 'Create Customer';
@@ -47,12 +42,13 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 }
             }
         };
-        $scope.editContactDetails = function (index) {alert(index);
+        $scope.editContactDetails = function (index) {
             $scope.contactData.index = index;
             $scope.contactData = $scope.contacts[index];
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
+            $scope.contactData.index = index;
         }
-        $scope.addRow = function (contactData) {
+        $scope.addRow = function (contactData) {alert($scope.contactData.index);
             if ($scope.contactData.index === "" || typeof $scope.contactData.index === "undefined") {
                 $('#errContactDetails').text("");
                 $scope.contacts.push({
@@ -93,15 +89,15 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             $('#contactDataModal').modal('toggle');
         };
         function resetContactDetails() {
-            $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
-                    $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
-            $scope.contactData.email_id = $scope.contactData.house_number =
-                    $scope.contactData.building_house_name = $scope.contactData.wing_name =
-                    $scope.contactData.area_name = $scope.contactData.lane_name =
-                    $scope.contactData.landmark = $scope.contactData.country_id =
-                    $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
-                    $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
-            $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
+                $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
+                $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
+                $scope.contactData.email_id = $scope.contactData.house_number =
+                $scope.contactData.building_house_name = $scope.contactData.wing_name =
+                $scope.contactData.area_name = $scope.contactData.lane_name =
+                $scope.contactData.landmark = $scope.contactData.country_id =
+                $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
+                $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
+                $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
         }
         $scope.initContactModal = function () {
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
@@ -137,7 +133,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 data: data,
             });
             customerPhoto.upload.then(function (response) {
-                $timeout(function () {
+                    $timeout(function () {
                     if (!response.data.success) {
                         var obj = response.data.message;
                         var selector = [];
@@ -164,17 +160,19 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                         $window.sessionStorage.setItem("sessionContactData", "");
                         $scope.disableCreateButton = true;
                         var myEle = document.getElementById("enquiryDiv");
-                        if(myEle === null){ $window.history.back();}
-                        else{ document.getElementById("enquiryDiv").style.display = 'block';}                          
+                        if (myEle === null) {
+                            $state.go(".salesCreate");
+//                            $window.history.back();
+                        } else {
+                            document.getElementById("enquiryDiv").style.display = 'block';
+                        }
+                        $scope.customer_id = response.data.customerId;
                         // $scope.enquiry_div = ($scope.tabs.length + 1);
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
                             toaster.pop('success', 'Customer', 'Record successfully created');
                         } else {
                             toaster.pop('success', 'Customer', 'Record successfully updated');
                         }
-                        $timeout(function () {
-                            //$state.go(getUrl + '.enquiryCreate', {"customerId": response.data.customerId});
-                        }, 2000);
                     }
                 });
             }, function (response) {
@@ -188,13 +186,12 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             $scope.modal = {};
         }
         $scope.createEnquiry = function () {
-            //alert($scope.searchData.searchWithMobile);
             Data.post('master-sales/getCustomerDetails', {
                 data: {customerMobileNo: $scope.searchData.searchWithMobile, customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
             }).then(function (response) {
-                console.log(response);
                 $scope.showDiv = false;
                 $scope.showDivCustomer = true;
+                $scope.disableSource = true;               
                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                 $scope.contacts = angular.copy(response.customerContactDetails);
                 $scope.contactData = angular.copy(response.customerContactDetails);
@@ -245,7 +242,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                 $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                 $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
-                
+
                 for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
                     if (response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === '') {
                         $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
@@ -261,6 +258,8 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                         $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
                     if (response.customerPersonalDetails.get_customer_contacts[i].email_id === '' || response.customerPersonalDetails.get_customer_contacts[i].email_id === 'null')
                         $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
+                    
+                    $scope.contactData.index = i;
                 }
                 Data.post('getEnquirySubSource', {
                     data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {

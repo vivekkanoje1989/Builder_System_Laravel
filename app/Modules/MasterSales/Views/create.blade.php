@@ -339,7 +339,7 @@
                             <h4 class="modal-title" align="center">Contact Details</h4>
                         </div>
                         <form novalidate name="modalForm" ng-submit="modalForm.$valid && addRow(contactData)">
-                            <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
+                            <input type="hidden" ng-model="contactData.index" name="index" ng-value="{{contactData.index}}">
                             <div class="modal-body">
                                 <div class="col-lg-6 col-sm-6 col-xs-12">
                                     <div class="row">

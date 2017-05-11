@@ -5,15 +5,15 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.historyList = {};
-        $scope.saveEnquiryData = function (enquiryData, customer_id)
-        {      
-            Data.post('master-sales/saveEnquiryData', {
-                enquiryData: enquiryData, customer_id: customer_id, projectEnquiryDetails: $scope.projectsDetails,
+        $scope.saveEnquiryData = function (enquiryData)
+        {   
+           Data.post('master-sales/saveEnquiryData', {
+                enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
             }).then(function (response) {
-                //console.log(response);
+                    toaster.pop('success', 'Enquiry', 'Enquiry successfully created');
+                    $scope.disableFinishButton = true;
             });
         }
-
 //        (enquiries[0].customer_id)
         $scope.addProjectRow = function (id)
         {
@@ -82,7 +82,7 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
             Data.get('master-sales/getAllEnquiries').then(function (response) {
                 if (response.success) {
                     $scope.listsIndex = response;
-                } else {
+                } else {                    
                     document.getElementById("tblTotalEnquiry").innerHTML = response.CustomerEnquiryDetails;
                 }
             });
@@ -129,9 +129,25 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 }
             });
         }
+        $scope.showPendingsFollowups = function()
+        {
+            Data.get('master-sales/getPendingFollowup').then(function (response) {
+                if (response.success) {
+                    $scope.listsIndex = angular.copy(response.records);                    
+                }
+            });
+        }
+        $scope.showPreviousFollowups = function()
+        {
+            Data.get('master-sales/getPreviousFollowup').then(function (response) {
+                if (response.success) {
+                    $scope.listsIndex = angular.copy(response.records);                    
+                }
+            });
+        }
+        
         $scope.updateEnquiryDetails  = function(mobNo,email)
         {
-            alert("hi"+mobNo+":"+email);
             $state.go(getUrl + '.salesCreate', {"mobNo": mobNo , "email":email});
             $scope.searchData.searchWithMobile= mobNo;
             $scope.searchData.searchWithEmail =email;

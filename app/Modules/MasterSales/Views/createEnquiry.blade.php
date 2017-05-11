@@ -1,4 +1,4 @@
-<form name="enquiryForm" role="form" ng-controller="enquiryController" novalidate ng-submit="enquiryForm.$valid && saveEnquiryData(enquiryData, 0)">
+<form name="enquiryForm" role="form" ng-controller="enquiryController" novalidate ng-submit="enquiryForm.$valid && saveEnquiryData(enquiryData)">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
@@ -364,7 +364,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 col-xs-12" align="center">
-                    <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true">Finish</button>
+                    <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true" ng-disabled="disableFinishButton" >Finish</button>
                 </div>
             </div>
         </div>

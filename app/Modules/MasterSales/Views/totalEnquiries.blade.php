@@ -31,7 +31,7 @@
                     <th>Sr.No.</th>
                     <th>Customer Details</th>
                     <th>Enquiry Details</th>
-                    <th>Last Followup</th>
+                    <th style="width: 25%;">Last Followup</th>
                     <th>Next Followup Date Time</th>
                     <th>Enquiry</th>
                     <th>Enquiry History</th>

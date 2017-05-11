@@ -119,6 +119,6 @@ class EnquiryFollowup extends Eloquent
         
         public function getEnquiryFromFollowup()
         {
-            return $this->belongsTo('App\Modules\MasterSales\Models\Enquiry', 'enquiry_id')->with('customerDetails','customerContacts','channelName','getEnquiryDetails','getEnquiryCategoryName');
+            return $this->belongsTo('App\Modules\MasterSales\Models\Enquiry', 'enquiry_id')->with('customerDetails','customerContacts','channelName','getEnquiryDetails','getEnquiryCategoryName','getEnquiryLocation');
         }
 }

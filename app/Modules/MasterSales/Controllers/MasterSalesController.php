@@ -11,6 +11,7 @@ use App\Modules\MasterSales\Models\CustomersLog;
 use App\Modules\MasterSales\Models\CustomersContact;
 use App\Modules\MasterSales\Models\CustomersContactsLog;
 use App\Models\backend\Employee;
+use App\Models\MlstBmsbBlockType;
 use App\Modules\MasterSales\Models\EnquiryDetail;
 use App\Modules\MasterSales\Models\EnquiryFollowup;
 use Validator;
@@ -160,7 +161,7 @@ class MasterSalesController extends Controller {
             }
             unset($input['customerData']['loggedInUserId']);
             unset($input['customerData']['id']);
-            
+
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             if (!empty($input['customerData'])) {
@@ -218,6 +219,7 @@ class MasterSalesController extends Controller {
                         }
                     }
                     $checkMobileNumber = CustomersContact::where(['customer_id' => $id, "mobile_number" => $contacts['mobile_number']])->get();
+                    
                     if (!empty($contacts['id'])) {//for existing mobile number
                         $contacts['updated_date'] = date('Y-m-d', strtotime($contacts['created_date']));
                         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -276,20 +278,43 @@ class MasterSalesController extends Controller {
             unset($getCustomerPersonalDetails[0]['pan_number']);
             unset($getCustomerPersonalDetails[0]['aadhar_number']);
             unset($getCustomerPersonalDetails[0]['image_file']);
-            // $getCustomerEnquiryDetails = Enquiry::where('customer_id', '=', $getCustomerContacts[0]->customer_id)->orderBy('id', 'desc')->first();
-
-            $getCustomerEnquiryDetails = Enquiry::where([['customer_id', '=', $getCustomerContacts[0]->customer_id], ['sales_status_id', '=', 2]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName')->get();
+            
+            $getCustomerEnquiryDetails = DB::select('CALL proc_customer_open_enquiry(' . $getCustomerContacts[0]->customer_id .')');
+            $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+            //echo "<pre>";print_r($getCustomerEnquiryDetails);exit;
+//            $getCustomerEnquiryDetails = Enquiry::where([['customer_id', '=', $getCustomerContacts[0]->customer_id]])
+//                    ->whereIn('sales_status_id',[1,2])
+//                    ->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName')->get();
+            $i = 0;
+            if(!empty($getCustomerEnquiryDetails)){
+                foreach ($getCustomerEnquiryDetails as $enqDetails) {  
+                    $getLocationName = array();
+                    $implodeLoc = "";
+                    $arr = explode(",", $enqDetails['enquiry_locations']);
+                    if(!empty($arr[0])){ 
+                        $loc = LstEnquiryLocation::select('location')->whereIn("id", $arr)->get();
+                        if(isset($loc[0])){ 
+                            for ($i = 0; $i < count($loc); $i++) {
+                                $getLocationName[] = $loc[$i]['location'];
+                            }
+                            $implodeLoc = implode(",", $getLocationName);
+                            $getCustomerEnquiryDetails[$i]['enquiry_locations'] = $implodeLoc;
+                        } 
+                    } 
+                    $enqDetails['max_budget'] = !empty($enqDetails['max_budget']) ? $enqDetails['max_budget'] : "Budget not defined"; 
+                    $i++;
+                }
+            }//exit;
+//            echo "<pre>";print_r($getCustomerEnquiryDetails);exit;
             if (count($getCustomerEnquiryDetails) == 0 || isset($request['data']['showCustomer'])) {
                 $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'flag' => 0];
             } else {
                 $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts[0], 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails, 'flag' => 1];
             }
-
-            return json_encode($result);
         } else {
             $result = ['success' => false, "message" => "No record found"];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getCustomerDataWithId() {
@@ -297,7 +322,6 @@ class MasterSalesController extends Controller {
         $request = json_decode($postdata, true);
         $data = Customer::where('id', $request['data']['customerId'])->get();
         $data['get_customer_contacts'] = CustomersContact::where('customer_id', $request['data']['customerId'])->get();
-        //print_r($data);exit;
         if (count($data) > 0) {
             $result = ['success' => true, 'customerPersonalDetails' => $data];
             return json_encode($result);
@@ -332,7 +356,6 @@ class MasterSalesController extends Controller {
 
     // insert new enquiry 
     public function saveEnquiryData() {
-        //echo 'Hi priti';exit;
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         if (empty($request)) {
@@ -345,7 +368,8 @@ class MasterSalesController extends Controller {
             $loggedInUserId = $request['enquiryData']['loggedInUserId'];
         }
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-        //print_r($request);exit;  
+        $customerInfo = Customer::where('id', $request['customer_id'])->get();
+
         /* fill  follow up details */
         $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
         $request['followupDetails']['next_followup_date'] = date('Y-m-d', strtotime($request['enquiryData']['next_followup_date']));
@@ -377,9 +401,9 @@ class MasterSalesController extends Controller {
         $request['enquiryData']['client_id'] = 1;
         $request['enquiryData']['sales_employee_id'] = 1;
         $request['enquiryData']['sales_channel_id'] = 3;
-        $request['enquiryData']['sales_source_id'] = 1;
-
-        // $request['enquiryData']['max_budget'] = 1;
+        $request['enquiryData']['sales_source_id'] = $customerInfo[0]['source_id'];
+        $request['enquiryData']['sales_subsource_id'] = $customerInfo[0]['subsource_id'];
+        $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
         $request['enquiryData']['sales_enquiry_date'] = date('Y-m-d', strtotime($request['enquiryData']['sales_enquiry_date']));
         if (!empty($request['enquiryData']['property_possession_date'])) {
             $request['enquiryData']['property_possession_date'] = date('Y-m-d', strtotime($request['enquiryData']['property_possession_date']));
@@ -389,7 +413,6 @@ class MasterSalesController extends Controller {
                         return $el['id'];
                     }, $request['enquiryData']['enquiry_locations']));
         }
-        //print_r($request['enquiryData']['enquiry_locations']);exit;
         $insertEnquiry = Enquiry::create($request['enquiryData']);
         if ($insertEnquiry) {
             /* insert enquiry details */
@@ -427,7 +450,9 @@ class MasterSalesController extends Controller {
     }
 
     public function getFinanceEmployees() {
-        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->whereIn("department_id", [11])->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->where("department_id", 'like', '%,11%')
+                        ->orWhere("department_id", 'like', '%11%')
+                        ->orWhere("department_id", 'like', '%11,%')->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
         } else {
@@ -438,7 +463,6 @@ class MasterSalesController extends Controller {
 
     public function getEnquiryCity() {
         $getcity = lstEnquiryLocations::select('*')->with('getCityName')->groupBy('city_id')->get();
-        // print_r($getcity);exit;  id":13,"country_id":2,"state_id":22,"city_id":2763,"location":
         if (!empty($getcity)) {
             $result = ['success' => true, 'records' => $getcity];
         } else {
@@ -472,14 +496,12 @@ class MasterSalesController extends Controller {
             $getLocationName = array();
             $arr = (explode(",", $enqDetails->enquiry_locations));
             $loc = LstEnquiryLocation::select('location')->whereIn("id", $arr)->get();
-            //print_r($loc);
             for ($i = 0; $i < count($loc); $i++) {
                 $getLocationName[] = $loc[$i]->location;
             }
             $implodeLoc = implode(",", $getLocationName);
             $enqDetails['enquiry_locations'] = $implodeLoc;
         }
-        //echo json_encode($getCustomerEnquiryDetails);exit;
         if (count($getCustomerEnquiryDetails)) {
             $result = ['success' => true, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails];
         } else {
@@ -534,12 +556,55 @@ class MasterSalesController extends Controller {
     // Follow ups //
     public function getTodaysFollowup() {
         $date = date('Y-m-d');
-        $empId = implode(',', array(1, 3));
+        $empId = Auth::guard('admin')->user()->id;
         $salesStatusId = implode(",", array(1, 2));
-        $getCustomerEnquiryDetails = EnquiryFollowup::where('next_followup_date', '=', $date)->with(['getEnquiryFromFollowup' => function($q) use ($salesStatusId, $empId) {
+        $getCustomerEnquiryDetails = EnquiryFollowup::select("*", DB::raw('MAX(id) AS id'))->where('next_followup_date', '=', $date)->with(['getEnquiryFromFollowup' => function($q) use ($salesStatusId, $empId) {
                         $q->whereIn('sales_status_id', [$salesStatusId]);
                         $q->whereIn('sales_employee_id', [$empId]);
-                    }])->get();
+                    }])->groupBy("enquiry_id")->get();                
+//        foreach ($getCustomerEnquiryDetails as $enqDetails) {
+//            $getLocationName = array();
+//            $arr = (explode(",", $enqDetails->enquiry_locations));
+//            $loc = LstEnquiryLocation::select('location')->whereIn("id", $arr)->get();
+//            //print_r($loc);
+//            for ($i = 0; $i < count($loc); $i++) {
+//                $getLocationName[] = $loc[$i]->location;
+//            }
+//            $implodeLoc = implode(",", $getLocationName);
+//            $enqDetails['enquiry_locations'] = $implodeLoc;
+//        }
+
+        if ($getCustomerEnquiryDetails) {
+            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
+        } else {
+            $result = ['success' => true, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
+    }
+
+    public function getPreviousFollowup() {
+        $date = date('Y-m-d');
+        //$empId = implode(',', array(1, 3));
+        $empId = Auth::guard('admin')->user()->id;
+        $getCustomerEnquiryDetails = EnquiryFollowup::select("*", DB::raw('MAX(id) AS id'))->whereDate('followup_date_time', '=', $date)->with(['getEnquiryFromFollowup' => function($q) use ($empId) {
+                        $q->whereIn('sales_employee_id', [$empId]);
+                    }])->groupBy("enquiry_id")->get();
+        if ($getCustomerEnquiryDetails) {
+            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
+        } else {
+            $result = ['success' => true, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
+    }
+
+    public function getPendingFollowup() {
+        $date = date('Y-m-d');
+        $empId = Auth::guard('admin')->user()->id;
+        $salesStatusId = implode(",", array(1, 2));
+        $getCustomerEnquiryDetails = EnquiryFollowup::select("*", DB::raw('MAX(id) AS id'))->where('next_followup_date', '<', $date)->with(['getEnquiryFromFollowup' => function($q) use ($salesStatusId, $empId) {
+                        $q->whereIn('sales_status_id', [$salesStatusId]);
+                        $q->whereIn('sales_employee_id', [$empId]);
+                    }])->groupBy("enquiry_id")->get();
         if ($getCustomerEnquiryDetails) {
             $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
         } else {

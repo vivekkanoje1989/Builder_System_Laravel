@@ -1,4 +1,4 @@
-<div class="widget"  ng-controller="customerController" ng-init="getCustomerDataWithId([[ $id ]])">
+<div class="widget" ng-controller="customerController" ng-init="getCustomerDataWithId([[ $id ]])">
     <div class="widget-header ">
         <span class="widget-caption">Update Customer</span>
         <div class="widget-buttons">
@@ -191,7 +191,7 @@
                                 <div class="form-group">
                                     <label for="">Source</label>
                                     <span class="input-icon icon-right">
-                                        <select ng-change="onEnquirySourceChange(customerData.source_id)" class="form-control" ng-model="customerData.source_id" name="source_id"  id="source_id" required>
+                                        <select ng-change="onEnquirySourceChange(customerData.source_id)" class="form-control" ng-model="customerData.source_id" name="source_id"  id="source_id"  disabled required>
                                             <option value="">Select Source</option>
                                             <option ng-repeat="source in sourceList" value="{{source.id}}" ng-selected="{{source.id == customerData.source_id}}">{{source.sales_source_name}}</option>
                                         </select>
@@ -207,7 +207,7 @@
                                 <div class="form-group">
                                     <label for="">Sub Source</label>
                                     <span class="input-icon icon-right">
-                                        <select class="form-control" ng-model="customerData.subsource_id" name="subsource_id" id="subsource_id">
+                                        <select class="form-control" ng-model="customerData.subsource_id" name="subsource_id" id="subsource_id" disabled>
                                             <option value="">Select SubSource</option>
                                             <option ng-repeat="subSource in subSourceList" value="{{subSource.id}}" ng-selected="{{subSource.id == customerData.subsource_id}}">{{subSource.sub_source}}</option>
                                         </select>   
@@ -220,7 +220,7 @@
                                 <div class="form-group">
                                     <label for="">Source Description</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" required>
+                                        <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" disabled required>
                                         <i class="fa fa fa-align-left"></i>
                                         <div ng-show="formButton" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
                                             <div ng-message="required">Please enter source description</div>

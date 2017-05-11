@@ -31,13 +31,13 @@
                     <th>Sr.No.</th>
                     <th>Customer Details</th>
                     <th>Enquiry Details</th>
-                    <th>Last Followup</th>
+                    <th style="width: 25%;">Last Followup</th>
                     <th>Next Followup Date Time</th>
                     <th>Enquiry</th>
                     <th>Enquiry History</th>
-                    </thead>   {{ listsIndex[0].get_enquiry_from_followup.customer_details.first_name }}
+                    </thead>
                     <tbody id="tblTotalEnquiry">                        
-                        <tr role="row" dir-paginate="list in listsIndex | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                        <tr role="row" dir-paginate="list in listsIndex | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" ng-if="list.get_enquiry_from_followup !== null">
                            <td>{{ $index + 1}}</td>
                             <td>
                                 <div>
@@ -45,7 +45,8 @@
                                     {{ list.get_enquiry_from_followup.customer_contacts.mobile_number}}
                                 </div><hr/>
                                 <div>
-                                    <a href="" ng-click="customerDetails('{{ list.get_enquiry_from_followup.customer_contacts.mobile_number}}')">customer Details</a>&nbsp;&nbsp;&nbsp;&nbsp;                                   
+                                    <!--<a href="" ng-click="customerDetails('{{ list.get_enquiry_from_followup.customer_contacts.mobile_number}}')">customer Details</a>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                                    <a href="#/[[config('global.getUrl')]]/sales/updateCustomer/{{ list.get_enquiry_from_followup.customer_id }}" >customer Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                 </div><hr>
                                 Source: {{ list.get_enquiry_from_followup.channel_name.channel_name}}
                             </td>
@@ -56,12 +57,11 @@
                                     <a href="">Enquiry Details</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                     Enquiry Type: {{ list.get_enquiry_from_followup.get_enquiry_category_name.enquiry_category}}
                                 </div>
-                                Location :{{ list.get_enquiry_from_followup.customer_details.enquiry_locations}}
+                                Location :{{ list.get_enquiry_from_followup.customer_details.enquiry_locations }}
                             </td>
                             <td>
                                 Followups : {{ list.followup_date_time | date:'dd M, yyyy'}}<hr>
                                 {{ list.remarks}}
-                                Call Duration : 00:00:00
                             </td>
                             <td>
                                 {{ list.next_followup_date | date:'dd M, yyyy'}} At {{ list.next_followup_time }}<hr>

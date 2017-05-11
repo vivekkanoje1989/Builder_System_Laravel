@@ -10,8 +10,14 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::get($getUrl.'/MasterSales/enquiryHistory', function () {
        return View::make('MasterSales::enquiryHistory');
    });
-    Route::get($getUrl.'/master-sales/showtodaysfollowup', function () {
+    Route::get($getUrl.'/master-sales/showTodaysFollowup', function () {
        return view('MasterSales::todaysFollowups');
+   });
+    Route::get($getUrl.'/master-sales/showPendingFollowup', function () {
+       return view('MasterSales::pendingFollowup');
+   });   
+    Route::get($getUrl.'/master-sales/showPreviousFollowup', function () {
+       return view('MasterSales::previousFollowup');
    });
     Route::get($getUrl .'/master-sales/updateCustomer/{id}','MasterSalesController@updateCustomer');
     Route::get($getUrl . '/master-sales/getEmployees', 'MasterSalesController@getEmployees');  // get all employees
@@ -23,6 +29,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::get($getUrl . '/master-sales/getCloseEnquiries', 'MasterSalesController@getCloseEnquiries');// getCloseEnquiries
     Route::get($getUrl . '/master-sales/getEnquiryCity', 'MasterSalesController@getEnquiryCity'); // get enquiry city from table 
     Route::get($getUrl . '/master-sales/getTodaysFollowup', 'MasterSalesController@getTodaysFollowup'); // get TodaysFollowup
+    Route::get($getUrl . '/master-sales/getPendingFollowup', 'MasterSalesController@getPendingFollowup');// get all getPendingFollowup
+    Route::get($getUrl . '/master-sales/getPreviousFollowup', 'MasterSalesController@getPreviousFollowup');// get getPreviousFollowup
     Route::post($getUrl . '/master-sales/getAllLocations', 'MasterSalesController@getAllLocations'); //get all locations of perticular city id
     Route::get($getUrl . '/master-sales/getFinanceEmployees', 'MasterSalesController@getFinanceEmployees'); // get employees whose deparment is finance
     Route::get($getUrl . '/master-sales/showEnquiry/{id}', 'MasterSalesController@showEnquiry'); //show enquiry page

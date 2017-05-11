@@ -26,6 +26,9 @@
         display: inline-flex;
         margin: 0 30px;
     }
+    .floatLeft{
+        float: left;
+    }
 </style>
 <div class="row"> 
     <div class="widget flat radius-bordered ">
@@ -62,6 +65,7 @@
                                             <i class="glyphicon glyphicon-envelope"></i>
                                         </span>
                                     </div>
+                                    <input type="hidden" ng-model="customer_id" name="customer_id">
                                 </div>
                             </div>
                         </div>
@@ -76,10 +80,7 @@
                         </tab>
                     </tabset>
                 </div>
-
-
                 <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
-                    <hr class="wide" />
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="form-title">
                             Previous Open Enquiries
@@ -88,46 +89,70 @@
                     <div class="widget-body table-responsive" style="box-shadow:none;">
                         <table class="table table-hover table-striped table-bordered">
                             <thead>
-                            <th>Sr.No.</th>
-                            <th>Customer Details</th>
-                            <th>Enquiry Date</th>
-                            <th>Last Followup Date & Time</th>
-                            <th>Next FollowUp Date & Time </th>
-                            <th>Enquiry History </th>
-                            </thead>                                 
+                                <tr>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Sr. No.</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Customer Details</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Enquiry Details</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Last Followup</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Enquiry Status</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Enquiry </th>
+                                </tr>
+                            </thead>
                             <tbody>
-                                <tr ng-repeat="list in listsIndex.CustomerEnquiryDetails">
-                                    <td>{{ $index + 1}}</td>
-                                    <td>
-                                        <div ng-repeat="cust in listsIndex.customerPersonalDetails">
-                                            {{ cust.first_name}} {{ cust.last_name}} <br>
-                                        </div>                                           
+                                <tr ng-repeat="list in listsIndex.CustomerEnquiryDetails">  
+                                    <td align="center">{{ $index + 1}}</td>
+                                    <td align="center">
+                                        <div > 
+                                            {{list.customer_fname}} {{list.customer_lname}} <br> {{ list.mobile_number}}</div>
+                                        <hr>
+                                        <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/updateCustomer/{{ list.customer_id }}">Customer Details</a></div> 
+                                        <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ listsIndex.CustomerEnquiryDetails.length}}</b></div><div class="floatLeft" style="width:40%;max-width: 30%;word-wrap: break-word;"><b>Booked : 0</b></div>                    
+                                        <div  class="floatLeft" style="width:100%;"><hr></div>
+                                        <div>
+                                        <span style="margin:5px"><strong>Source: </strong>{{ list.sales_source_name}}<br></span>
+                                        <span style="margin:5px"><b>Budget</b>: {{list.max_budget}}</span>    
+                                        </div>
                                     </td>
                                     <td>
-                                        {{ list.sales_enquiry_date | date:'dd M, yyyy'}} <br>
+                                        <div>{{list.project_block_name}} - {{list.block_name}} </div>
+                                        <hr>
+                                        <div class="floatLeft">
+                                            <i class="fa fa-desktop" aria-hidden="true"></i><!-- BMS WEB -->
+                                        </div>
+                                        <div class="floatLeft" style="width:41%">
+                                           <a href="">Enquiry Details</a>
+                                        </div>
+                                        <div class="floatLeft" style="width:50%">
+                                            <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category != 'New Enquiry'">&nbsp;</span>
+                                            <span style="float: left;margin-left: 5px;">{{ list.enquiry_category}}</span>              
+                                        </div> 
+                                        <div class="floatLeft" style="width:100%;"><hr></div>
+                                        <div class="floatLeft">
+                                            <span style="float:left;"><b>No.of Followups : 7</b></span><br/>
+                                            <span style="float:left;"><b>No.of site visits : 1</b></span><br/>
+                                            <span style="float:left;"><b>Location</b> : {{ list.enquiry_locations }}</span><br/>
+                                            <span style="float:left;" ng-show="list.parking_required == 1">Parking Required</span>
+                                            <span style="float:left;" ng-show="list.parking_required == 0">No Parking Required</span>
+                                        </div>
                                     </td>
-                                    <td>
-                                        {{ list.get_followup_details.actual_followup_date_time | date:'dd M, yyyy'}}                                        
-                                    </td>                                    
-                                    <td>
-                                        {{ list.get_followup_details.next_followup_date | date:'dd M, yyyy'}} At 
-                                        {{ list.get_followup_details.next_follwoup_time | date:'dd M, yyyy'}}
+                                    <td align="center" width="30%">
+                                        <span>{{ list.get_followup_details.followup_date_time | date:'dd M, yyyy'}} By {{list.owner_fname}} {{list.owner_lname}}</span><hr>
+                                        <span style="width: 100%;word-break: break-all;">{{ list.get_followup_details.remarks}}</span>
                                     </td>
-                                    <!--Owner: [[ Auth::guard('admin')->user()->first_name ]] [[ Auth::guard('admin')->user()->last_name ]]-->                                    
-                                    <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ list.id}})">View History</button>
+                                    <td align="center" style="vertical-align: middle;">Open</td>
+                                    <hr/>
+                                    <td align="left">
+                                        <div>Owner: {{list.followup_fname}} {{list.followup_lname}}</div><hr>
+                                        <a href="javascript:void(0);" id="enq_id" onclick="get_history(133,1)" data-reveal-id="history">Show Enquiry History</a>                                        
                                     </td>
-                                </tr>                                       
-                            </tbody>
+                                </tr>
+                            </tbody> 
                         </table>
-                        <div class="DTTTFooter" align="center">
-                            <div class="col-sm-4 col-xs-12">
-                                <a class="btn btn-primary" ng-click="createEnquiry()" style="margin-top:20px;float: right;">Create New Enquiry</a>
-                            </div>
-                            <div class="col-sm-4 col-xs-12">
-                                <a ng-click="createNewEnquiry()" class="btn btn-primary" style="margin-top:20px;float: left;">Create Customer And New Enquiry</a>
-                            </div>
-                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
+                            <div class="form-group" align="center">
+                                <button type="submit" class="btn btn-primary" ng-click="createEnquiry()">Insert New Enquiry</button>
+                            </div> 
+                        </div> 
                     </div>
                 </div>                
                 <!--  Modal   --> 
