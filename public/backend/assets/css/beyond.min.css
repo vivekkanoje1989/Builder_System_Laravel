@@ -1,5 +1,8 @@
 
 /* vkm custome */
+.floatLeft{
+    float: left;
+}
 table th, td{
     text-align: center;
 }

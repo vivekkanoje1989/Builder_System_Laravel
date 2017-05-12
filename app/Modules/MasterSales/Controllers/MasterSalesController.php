@@ -24,6 +24,7 @@ use App\Models\LstEnquiryLocation;
 
 class MasterSalesController extends Controller {
 
+    public $allusers;
     /**
      * Display a listing of the resource.
      *
@@ -279,33 +280,9 @@ class MasterSalesController extends Controller {
             unset($getCustomerPersonalDetails[0]['aadhar_number']);
             unset($getCustomerPersonalDetails[0]['image_file']);
             
-            $getCustomerEnquiryDetails = DB::select('CALL proc_customer_open_enquiry(' . $getCustomerContacts[0]->customer_id .')');
+            $getCustomerEnquiryDetails = DB::select('CALL proc_get_customer_open_enquiries(' . $getCustomerContacts[0]->customer_id .')');
             $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
-            //echo "<pre>";print_r($getCustomerEnquiryDetails);exit;
-//            $getCustomerEnquiryDetails = Enquiry::where([['customer_id', '=', $getCustomerContacts[0]->customer_id]])
-//                    ->whereIn('sales_status_id',[1,2])
-//                    ->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName')->get();
-            $i = 0;
-            if(!empty($getCustomerEnquiryDetails)){
-                foreach ($getCustomerEnquiryDetails as $enqDetails) {  
-                    $getLocationName = array();
-                    $implodeLoc = "";
-                    $arr = explode(",", $enqDetails['enquiry_locations']);
-                    if(!empty($arr[0])){ 
-                        $loc = LstEnquiryLocation::select('location')->whereIn("id", $arr)->get();
-                        if(isset($loc[0])){ 
-                            for ($i = 0; $i < count($loc); $i++) {
-                                $getLocationName[] = $loc[$i]['location'];
-                            }
-                            $implodeLoc = implode(",", $getLocationName);
-                            $getCustomerEnquiryDetails[$i]['enquiry_locations'] = $implodeLoc;
-                        } 
-                    } 
-                    $enqDetails['max_budget'] = !empty($enqDetails['max_budget']) ? $enqDetails['max_budget'] : "Budget not defined"; 
-                    $i++;
-                }
-            }//exit;
-//            echo "<pre>";print_r($getCustomerEnquiryDetails);exit;
+           
             if (count($getCustomerEnquiryDetails) == 0 || isset($request['data']['showCustomer'])) {
                 $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'flag' => 0];
             } else {
@@ -482,16 +459,35 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-
-    /* End // get all listing controler data */
-
-    public function totalEnquiries() {
-        return view("MasterSales::totalEnquiries");
+    
+    public function getEnquiryHistory() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $getFollowupDetails = EnquiryFollowup::where([['enquiry_id', '=', $request['enquiryId']]])->get();
+        //print_r($getFollowupDetails);exit;
+        if ($getFollowupDetails) {
+            $result = ['success' => true, 'records' => $getFollowupDetails];
+        } else {
+            $result = ['success' => false, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
     }
 
-    // get all enquiries
-    public function getAllEnquiries() {
-        $getCustomerEnquiryDetails = Enquiry::whereIn('sales_status_id', [1, 2])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
+    /*********************** ENQUIRY LISTING *************************/
+    
+    public function getTotalEnquiries() { // get all enquiries
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+        
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_total_enquiries('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+            
+        /*$getCustomerEnquiryDetails = Enquiry::whereIn('sales_status_id', [1, 2])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
         foreach ($getCustomerEnquiryDetails as $enqDetails) {
             $getLocationName = array();
             $arr = (explode(",", $enqDetails->enquiry_locations));
@@ -501,121 +497,294 @@ class MasterSalesController extends Controller {
             }
             $implodeLoc = implode(",", $getLocationName);
             $enqDetails['enquiry_locations'] = $implodeLoc;
-        }
-        if (count($getCustomerEnquiryDetails)) {
-            $result = ['success' => true, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails];
+        }*/
+        if (count($getCustomerEnquiryDetails) != 0) {
+            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
         } else {
-            $result = ['success' => false, 'CustomerEnquiryDetails' => 'No Records Found'];
+            $result = ['success' => false, 'records' => 'No Records Found'];
         }
         return json_encode($result);
     }
 
-    public function showLostEnquiry() {
-        return view("MasterSales::lostEnquiries");
-    }
-
-    // get all lost enquiries
-    public function getLostEnquiries() {
-        $getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 4]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
-        if (count($getCustomerEnquiryDetails)) {
-            $result = ['success' => true, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails];
-        } else {
-            $result = ['success' => false, 'CustomerEnquiryDetails' => 'No Records Found'];
-        }
-        return json_encode($result);
-    }
-
-    public function showCloseEnquiry() {
-        return view("MasterSales::closeEnquiries");
-    }
-
-    // get all close enquiries
-    public function getCloseEnquiries() {
-        $getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 3]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
-        if (count($getCustomerEnquiryDetails)) {
-            $result = ['success' => true, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails];
-        } else {
-            $result = ['success' => false, 'CustomerEnquiryDetails' => 'No Records Found'];
-        }
-        return json_encode($result);
-    }
-
-    public function getEnquiryHistory() {
+    public function getLostEnquiries() {// get lost enquiries
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $getFollowupDetails = EnquiryFollowup::where([['enquiry_id', '=', $request['enquiryId']]])->get();
-        //print_r($getFollowupDetails);exit;
-        if ($getFollowupDetails) {
-            $result = ['success' => true, 'records' => $getFollowupDetails];
+        
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+        
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_lost_enquiries('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+        
+        //$getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 4]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
+        if (count($getCustomerEnquiryDetails) != 0) {
+            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
         } else {
-            $result = ['success' => true, 'records' => 'No record Found'];
+            $result = ['success' => false, 'records' => 'No Records Found'];
         }
         return json_encode($result);
     }
 
-    // Follow ups //
-    public function getTodaysFollowup() {
-        $date = date('Y-m-d');
+    public function getClosedEnquiries() {// get booked enquiries
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+        
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_closed_enquiries('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+        
+        //$getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 3]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
+        if (count($getCustomerEnquiryDetails) != 0) {
+            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
+        } else {
+            $result = ['success' => false, 'records' => 'No Records Found'];
+        }
+        return json_encode($result);
+    }
+
+    public function getTodaysFollowups() {// Todays Followups 
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+        
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_today_followups('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+        /*$date = date('Y-m-d');
         $empId = Auth::guard('admin')->user()->id;
         $salesStatusId = implode(",", array(1, 2));
         $getCustomerEnquiryDetails = EnquiryFollowup::select("*", DB::raw('MAX(id) AS id'))->where('next_followup_date', '=', $date)->with(['getEnquiryFromFollowup' => function($q) use ($salesStatusId, $empId) {
                         $q->whereIn('sales_status_id', [$salesStatusId]);
                         $q->whereIn('sales_employee_id', [$empId]);
-                    }])->groupBy("enquiry_id")->get();                
-//        foreach ($getCustomerEnquiryDetails as $enqDetails) {
-//            $getLocationName = array();
-//            $arr = (explode(",", $enqDetails->enquiry_locations));
-//            $loc = LstEnquiryLocation::select('location')->whereIn("id", $arr)->get();
-//            //print_r($loc);
-//            for ($i = 0; $i < count($loc); $i++) {
-//                $getLocationName[] = $loc[$i]->location;
-//            }
-//            $implodeLoc = implode(",", $getLocationName);
-//            $enqDetails['enquiry_locations'] = $implodeLoc;
-//        }
+                    }])->groupBy("enquiry_id")->get();   */        
 
-        if ($getCustomerEnquiryDetails) {
+        if (count($getCustomerEnquiryDetails) != 0) {
             $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
         } else {
-            $result = ['success' => true, 'records' => 'No record Found'];
+            $result = ['success' => false, 'records' => 'No record Found'];
         }
         return json_encode($result);
     }
-
-    public function getPreviousFollowup() {
-        $date = date('Y-m-d');
-        //$empId = implode(',', array(1, 3));
+    
+    public function getPreviousFollowups() {// Previous Followups 
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+        
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+        
+        /*$date = date('Y-m-d');
         $empId = Auth::guard('admin')->user()->id;
         $getCustomerEnquiryDetails = EnquiryFollowup::select("*", DB::raw('MAX(id) AS id'))->whereDate('followup_date_time', '=', $date)->with(['getEnquiryFromFollowup' => function($q) use ($empId) {
                         $q->whereIn('sales_employee_id', [$empId]);
-                    }])->groupBy("enquiry_id")->get();
-        if ($getCustomerEnquiryDetails) {
+                    }])->groupBy("enquiry_id")->get();*/
+        if (count($getCustomerEnquiryDetails) != 0) {
             $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
         } else {
-            $result = ['success' => true, 'records' => 'No record Found'];
+            $result = ['success' => false, 'records' => 'No record Found'];
         }
         return json_encode($result);
     }
-
-    public function getPendingFollowup() {
-        $date = date('Y-m-d');
+        
+    public function getPendingFollowups() {// Pending Followups 
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+        
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_pending_followups('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+        
+        /*$date = date('Y-m-d');
         $empId = Auth::guard('admin')->user()->id;
         $salesStatusId = implode(",", array(1, 2));
         $getCustomerEnquiryDetails = EnquiryFollowup::select("*", DB::raw('MAX(id) AS id'))->where('next_followup_date', '<', $date)->with(['getEnquiryFromFollowup' => function($q) use ($salesStatusId, $empId) {
                         $q->whereIn('sales_status_id', [$salesStatusId]);
                         $q->whereIn('sales_employee_id', [$empId]);
-                    }])->groupBy("enquiry_id")->get();
-        if ($getCustomerEnquiryDetails) {
+                    }])->groupBy("enquiry_id")->get();*/
+        if (count($getCustomerEnquiryDetails) != 0) {
             $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
         } else {
-            $result = ['success' => true, 'records' => 'No record Found'];
+            $result = ['success' => false, 'records' => 'No record Found'];
         }
         return json_encode($result);
     }
+    
+    /********************** TEAM ENQUIRIES *****************************/
+    public function getTeamIds($id) {
+        $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
+        if (!empty($admin)) {
+            foreach ($admin as $item) {
+                $this->allusers[$item->id] = $item->id;
+                $this->getTeamIds($item->id);
+            }
+        } else {
+            return;
+        }
+    }
+    
+    public function getTeamTotalEnquiries() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
 
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+
+        $this->allusers = array();
+        $this->getTeamIds($loggedInUserId);
+        $alluser = $this->allusers;
+        $empTeamIds = implode(',', $alluser);
+       
+        $enquiries = DB::select('CALL proc_get_total_enquiries("' . $empTeamIds . '")');
+
+        if (count($enquiries) != 0) {
+            $result = ['success' => true, 'records' => $enquiries];
+        } else {
+            $result = ['success' => false, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
+    }
+    
+    public function getTeamlostEnquiries() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+
+        $this->allusers = array();
+        $this->getTeamIds($loggedInUserId);
+        $alluser = $this->allusers;
+        $empTeamIds = implode(',', $alluser);
+      
+        $enquiries = DB::select('CALL proc_get_lost_enquiries("' . $empTeamIds . '")');
+
+        if (count($enquiries) != 0) {
+            $result = ['success' => true, 'records' => $enquiries];
+        } else {
+            $result = ['success' => false, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
+    }
+    
+    public function getTeamClosedEnquiries() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+
+        $this->allusers = array();
+        $this->getTeamIds($loggedInUserId);
+        $alluser = $this->allusers;
+        $empTeamIds = implode(',', $alluser);
+
+        $enquiries = DB::select('CALL proc_get_closed_enquiries("' . $empTeamIds . '")');
+
+        if (count($enquiries) != 0) {
+            $result = ['success' => true, 'records' => $enquiries];
+        } else {
+            $result = ['success' => false, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
+    }
+    
+    public function getTeamTodayFollowups() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+
+        $this->allusers = array();
+        $this->getTeamIds($loggedInUserId);
+        $alluser = $this->allusers;
+        $empTeamIds = implode(',', $alluser);
+
+        $enquiries = DB::select('CALL proc_get_today_followups("'.$empTeamIds.'")');
+
+        if (count($enquiries) != 0) {
+            $result = ['success' => true, 'records' => $enquiries];
+        } else {
+            $result = ['success' => false, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
+    }
+    
+    public function getTeamPendingFollowups() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+
+        $this->allusers = array();
+        $this->getTeamIds($loggedInUserId);
+        $alluser = $this->allusers;
+        $empTeamIds = implode(',', $alluser);
+        
+        $enquiries = DB::select('CALL proc_get_pending_followups("' . $empTeamIds . '")');
+        
+        if (count($enquiries) != 0) {
+            $result = ['success' => true, 'records' => $enquiries];
+        } else {
+            $result = ['success' => false, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
+    }
+    
+    public function getTeamPreviousFollowups() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+
+        $this->allusers = array();
+        $this->getTeamIds($loggedInUserId);
+        $alluser = $this->allusers;
+        $empTeamIds = implode(',', $alluser);
+        
+        $enquiries = DB::select('CALL proc_get_previous_followups("' . $empTeamIds . '")');
+
+        if (count($enquiries) != 0) {
+            $result = ['success' => true, 'records' => $enquiries];
+        } else {
+            $result = ['success' => false, 'records' => 'No record Found'];
+        }
+        return json_encode($result);
+    }
+    
     public function updateCustomer($id) {
         return view('MasterSales::updateCustomer')->with('id', $id);
-        //return view("MasterSales::index");
     }
-
 }

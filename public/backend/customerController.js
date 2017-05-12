@@ -4,6 +4,8 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         $scope.customerData = {};
         $scope.contactData = {};
         $scope.searchData = {};
+        $scope.currentPage = $scope.itemsPerPage = 4;
+        $scope.noOfRows = 1;
         $scope.customerData.sms_privacy_status = 1;
         $scope.customerData.email_privacy_status = 1;
         $scope.contacts = [];
@@ -20,6 +22,10 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 $scope.showDivCustomer = false;
             }
         }
+        $scope.pageChangeHandler = function(num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
         $scope.validateMobileNumber = function (value) {
             var regex = /^(\+\d{1,4}-)\d{10}$/;
             if (!regex.test(value)) {
@@ -235,7 +241,6 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
         }
         $scope.getCustomerDataWithId = function (id)
         {
-//            $scope.contactData = {};
             Data.post('master-sales/getCustomerDataWithId', {
                 data: {customerId: id},
             }).then(function (response) {

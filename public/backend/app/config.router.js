@@ -843,9 +843,39 @@ angular.module('app')
                                         ]
                                     }
                                 })
+                                .state(getUrl + '.customerUpdate', {
+                                    url: '/sales/updateCustomer/:id',
+                                    templateUrl: function (setParams) {
+                                        return getUrl + '/master-sales/updateCustomer/'+ setParams.id ;
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Update Customer'
 
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/customerController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
                                 .state(getUrl + '.enquiries', {
-                                    url: '/sales/enquiries',
+                                    url: '/sales/totalenquiries',
                                     templateUrl: getUrl + '/master-sales/totalEnquiries',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -875,13 +905,13 @@ angular.module('app')
                                 })
 
                                 .state(getUrl + '.lostenquiries', {
-                                    url: '/sales/lostEnquiries',
+                                    url: '/sales/lostenquiries',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/showLostEnquiry';
+                                        return getUrl + '/master-sales/lostEnquiries';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Lost Enquiry'
+                                        label: 'Lost Enquiries'
                                     },
                                     resolve: {
                                         deps:
@@ -904,10 +934,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.closeenquiries', {
-                                    url: '/sales/closeEnquiries',
+                                .state(getUrl + '.closedenquiries', {
+                                    url: '/sales/closedenquiries',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/showCloseEnquiry';
+                                        return getUrl + '/master-sales/closeEnquiries';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -934,10 +964,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.todaysfollowup', {
-                                    url: '/sales/todaysfollowup',
+                                .state(getUrl + '.todaysfollowups', {
+                                    url: '/sales/todaysfollowups',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/showtodaysfollowup';
+                                        return getUrl + '/master-sales/showTodaysFollowups';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -964,15 +994,14 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.customerUpdate', {
-                                    url: '/sales/updateCustomer/:id',
-                                    templateUrl: function (setParams) {
-                                        return getUrl + '/master-sales/updateCustomer/'+ setParams.id ;
+                                .state(getUrl + '.pendingfollowups', {
+                                    url: '/sales/pendingfollowups',
+                                    templateUrl: function () {
+                                        return getUrl + '/master-sales/showPendingFollowups';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Update Customer'
-
+                                        label: 'Pending Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -985,7 +1014,217 @@ angular.module('app')
                                                                 serie: true,
                                                                 files: [
                                                                     '/js/intlTelInput.js',
-                                                                    '/backend/customerController.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.previousfollowups', {
+                                    url: '/sales/previousfollowups',
+                                    templateUrl: function () {
+                                        return getUrl + '/master-sales/showPreviousFollowups';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Previous Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.teamtotalenquiries', {
+                                    url: '/sales/teamtotalenquiries',
+                                    templateUrl: getUrl + '/master-sales/teamTotalEnquiries',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team Total Enquiries'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+
+                                .state(getUrl + '.teamlostenquiries', {
+                                    url: '/sales/teamlostenquiries',
+                                    templateUrl: function () {
+                                        return getUrl + '/master-sales/teamLostEnquiries';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team Lost Enquiries'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.teamclosedenquiries', {
+                                    url: '/sales/teamclosedenquiries',
+                                    templateUrl: function () {
+                                        return getUrl + '/master-sales/teamClosedEnquiries';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team Closed Enquiry'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.teamtodayfollowups', {
+                                    url: '/sales/teamtodayfollowups',
+                                    templateUrl: function () {
+                                        return getUrl + '/master-sales/teamTodayFollowups';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team Todays Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.teampendingfollowups', {
+                                    url: '/sales/teampendingfollowups',
+                                    templateUrl: function () {
+                                        return getUrl + '/master-sales/teamPendingFollowups';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team Pending Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.teampreviousfollowups', {
+                                    url: '/sales/teampreviousfollowups',
+                                    templateUrl: function () {
+                                        return getUrl + '/master-sales/teamPreviousFollowups';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team Previous Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
                                                                 ]
                                                             });

@@ -1,8 +1,8 @@
-<div class="widget flat radius-bordered " ng-controller="enquiryController" ng-init="getClosedEnquiries()">
+<div class="widget flat radius-bordered " ng-controller="enquiryController" ng-init="getTeamClosedEnquiries()">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Closed Enquiries</span>
+                <span class="widget-caption">Team Closed Enquiries</span>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>

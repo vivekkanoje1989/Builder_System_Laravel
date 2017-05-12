@@ -1,17 +1,23 @@
-app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$timeout', 'toaster', '$stateParams','$filter', function ($scope, $state, Data, Upload, $timeout, toaster, $stateParams,$filter) {
+app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$timeout', 'toaster', '$stateParams', '$filter', function ($scope, $state, Data, Upload, $timeout, toaster, $stateParams, $filter) {
         $scope.projectsDetails = [];
         $scope.locations = [];
-        $scope.searchData ={};
+        $scope.searchData = {};
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.historyList = {};
+
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
+
         $scope.saveEnquiryData = function (enquiryData)
-        {   
-           Data.post('master-sales/saveEnquiryData', {
+        {
+            Data.post('master-sales/saveEnquiryData', {
                 enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
             }).then(function (response) {
-                    toaster.pop('success', 'Enquiry', 'Enquiry successfully created');
-                    $scope.disableFinishButton = true;
+                toaster.pop('success', 'Enquiry', 'Enquiry successfully created');
+                $scope.disableFinishButton = true;
             });
         }
 //        (enquiries[0].customer_id)
@@ -77,81 +83,102 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 $scope.locations = response.records;
             });
         }
-        $scope.showAllEnquiries = function ()
-        {
-            Data.get('master-sales/getAllEnquiries').then(function (response) {
-                if (response.success) {
-                    $scope.listsIndex = response;
-                } else {                    
-                    document.getElementById("tblTotalEnquiry").innerHTML = response.CustomerEnquiryDetails;
-                }
-            });
-        }
-        $scope.showallLostEnquiries = function ()
-        {
-            Data.get('master-sales/getLostEnquiries').then(function (response) {
-                if (response.success)
-                {
-                    $scope.listsIndex = response;
-                } else
-                {
-                    document.getElementById("tblTotalEnquiry").innerHTML = response.CustomerEnquiryDetails;
-                }
-            });
-        }
-        $scope.showallCloseEnquiries = function ()
-        {
-            Data.get('master-sales/getCloseEnquiries').then(function (response) {
-                if (response.success)
-                {
-                    $scope.listsIndex = response;
-                } else
-                {
-                    document.getElementById("tblTotalEnquiry").innerHTML = response.CustomerEnquiryDetails;
-                }
-            });
-        }
-       
         $scope.initHistoryDataModal = function (enquiry_id) {
             Data.post('master-sales/getEnquiryHistory', {
                 enquiryId: enquiry_id,
             }).then(function (response) {
                 if (response.success) {
-                    $scope.historyList = angular.copy(response.records);                    
-                }
-            });            
-        }
-        $scope.showTodaysFollowups = function()
-        {
-            Data.get('master-sales/getTodaysFollowup').then(function (response) {
-                if (response.success) {
-                    $scope.listsIndex = angular.copy(response.records);                    
-                }
-            });
-        }
-        $scope.showPendingsFollowups = function()
-        {
-            Data.get('master-sales/getPendingFollowup').then(function (response) {
-                if (response.success) {
-                    $scope.listsIndex = angular.copy(response.records);                    
-                }
-            });
-        }
-        $scope.showPreviousFollowups = function()
-        {
-            Data.get('master-sales/getPreviousFollowup').then(function (response) {
-                if (response.success) {
-                    $scope.listsIndex = angular.copy(response.records);                    
+                    $scope.historyList = angular.copy(response.records);
                 }
             });
         }
         
-        $scope.updateEnquiryDetails  = function(mobNo,email)
+        /****************************ENQUIRIES****************************/
+        $scope.getTotalEnquiries = function ()
         {
-            $state.go(getUrl + '.salesCreate', {"mobNo": mobNo , "email":email});
-            $scope.searchData.searchWithMobile= mobNo;
-            $scope.searchData.searchWithEmail =email;
-            
+            Data.post('master-sales/getTotalEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getLostEnquiries = function ()
+        {
+            Data.post('master-sales/getLostEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getClosedEnquiries = function ()
+        {
+            Data.post('master-sales/getClosedEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        /****************************ENQUIRIES****************************/
+        
+        /****************************FOLLOWUPS****************************/
+        $scope.showTodaysFollowups = function ()
+        {
+            Data.post('master-sales/getTodaysFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.showPendingsFollowups = function ()
+        {
+            Data.post('master-sales/getPendingFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.showPreviousFollowups = function ()
+        {
+            Data.post('master-sales/getPreviousFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        /****************************FOLLOWUPS****************************/
+        
+        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+        $scope.getTeamTotalEnquiries = function ()
+        {
+            Data.post('master-sales/getTeamTotalEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamLostEnquiries = function ()
+        {
+            Data.post('master-sales/getTeamLostEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamClosedEnquiries = function ()
+        {
+            Data.post('master-sales/getTeamClosedEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamTodayFollowups = function ()
+        {
+            Data.post('master-sales/getTeamTodayFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamPendingFollowups = function ()
+        {
+            Data.post('master-sales/getTeamPendingFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamPreviousFollowups = function ()
+        {
+            Data.post('master-sales/getTeamPreviousFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+        
+        $scope.updateEnquiryDetails = function (mobNo, email)
+        {
+            $state.go(getUrl + '.salesCreate', {"mobNo": mobNo, "email": email});
+            $scope.searchData.searchWithMobile = mobNo;
+            $scope.searchData.searchWithEmail = email;
         }
     }]);
 
