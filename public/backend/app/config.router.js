@@ -158,21 +158,21 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/app/controllers/accordion.js',
-                                                                        ]
-                                                                    });
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/accordion.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state(getUrl + '.rolePermissions', {
@@ -206,7 +206,7 @@ angular.module('app')
                                     }
                                 })
                                 .state(getUrl + '.salesCreate', {
-                                    url: '/sales/create',
+                                    url: '/sales/enquiry',
                                     templateUrl: getUrl + '/master-sales/create',
                                     controller: 'customerController',
                                     requiredLogin: true,
@@ -267,9 +267,7 @@ angular.module('app')
                                         ]    
                                     }
                                 })
-
-
-                                .state(getUrl + '.salesIndex', {
+                                /*.state(getUrl + '.salesIndex', {
                                     templateUrl: getUrl + '/master-sales/create',
                                     controller: 'customerController',
                                     requiredLogin: true,
@@ -278,24 +276,56 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/customerController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/js/intlTelInput.js',
+                                                                '/backend/customerController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                            ]
+                                                        });
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })*/
+                                .state(getUrl + '.salesUpdateEnquiry', {
+                                    url: '/sales/updateenquiry/:enquiryId',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/master-sales/' + stateParams.enquiryId + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Update Enquiry'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/js/intlTelInput.js',
+                                                                '/backend/customerController.js',
+                                                                '/backend/enquiryController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                                '/backend/app/controllers/select.js',
+                                                                '/backend/app/controllers/timepicker.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state(getUrl + '.userChart', {

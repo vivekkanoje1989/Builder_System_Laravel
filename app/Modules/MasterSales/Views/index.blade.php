@@ -29,7 +29,7 @@
 </style>
 <div class="row"> 
     <div class="widget flat radius-bordered ">
-        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController">
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController" ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]])"><!-- ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]])" manageForm(customerID,enquiryId) -->
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12" style="box-shadow:none;">
                 <div id="customer-form">                    
@@ -70,7 +70,7 @@
                     </div>
                     <tabset ng-if="showDivCustomer" class="demo-tab row">
                         <tab heading="Customer Information"  id="custDiv">
-                            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/createGetCustomer'"></div>
+                            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/createCustomer'"></div>
                         </tab>
                         <tab heading="Enquiry Information" active="enquiry_div" id="enquiryDiv" style="display: none;">
                             <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/createEnquiry'" ></div>
@@ -107,7 +107,7 @@
                                         <div > 
                                             {{list.customer_fname}} {{list.customer_lname}} <br> {{ list.mobile_number}}</div>
                                         <hr>
-                                        <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/updateCustomer/{{ list.customer_id }}">Customer Details</a></div> 
+                                        <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/create/{{ list.customer_id }}">Customer Details</a></div> 
                                         <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ listsIndex.CustomerEnquiryDetails.length }}</b></div>
                                         <div class="floatLeft" style="width:40%;max-width: 30%;word-wrap: break-word;"><b>Booked : 0</b></div>                    
                                         <div  class="floatLeft" style="width:100%;"><hr></div>
@@ -119,8 +119,9 @@
                                     <td>
                                         <div>{{list.project_block_name}} - {{list.block_name}} </div>
                                         <hr>
+                                        <!--#/[[config('global.getUrl')]]/sales/updateenquiry/{{ list.id }}   ng-click="getEnquiryDetails({{ list.id }})"-->
                                         <div class="floatLeft"><i class="fa fa-desktop" aria-hidden="true"></i></div>
-                                        <div class="floatLeft" style="width:41%"><a href="">Enquiry Details</a></div>
+                                        <div class="floatLeft" style="width:41%"><a href="#/[[config('global.getUrl')]]/sales/updateenquiry/{{ list.id }}" >Enquiry Details</a></div>
                                         <div class="floatLeft" style="width:50%">
                                             <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category != 'New Enquiry'">&nbsp;</span>
                                             <span style="float: left;margin-left: 5px;">{{ list.enquiry_category}}</span>              
@@ -138,7 +139,6 @@
                                         <span style="width: 100%;word-break: break-all;">{{ list.remarks}}</span>
                                     </td>
                                     <td align="center" style="vertical-align: middle;">Open</td>
-                                    <hr/>
                                     <td align="left">
                                         <div>Owner: {{list.owner_fname}} {{list.owner_lname}}</div><hr>
                                         <a href="javascript:void(0);" id="enq_id" onclick="get_history(133,1)" data-reveal-id="history">Show Enquiry History</a>                                        

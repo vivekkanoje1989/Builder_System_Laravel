@@ -14,7 +14,7 @@ app.controller('TimepickerDemoCtrl', function ($scope, $log) {
         $scope.ismeridian = !$scope.ismeridian;
     };
 
-    $scope.update = function () {
+    $scope.update = function () {alert("dd");
         var d = new Date();
         d.setHours(14);
         d.setMinutes(0);
@@ -22,9 +22,12 @@ app.controller('TimepickerDemoCtrl', function ($scope, $log) {
     };
 
     $scope.changed = function () {
+        var d = new Date();
+        d.setHours(14);
+        d.setMinutes(15);
+        $scope.mytime = d;
         $log.log('Time changed to: ' + $scope.mytime);
     };
-
     $scope.clear = function () {
         $scope.mytime = null;
     };

@@ -1,4 +1,4 @@
-<form name="enquiryForm" role="form" ng-controller="enquiryController" novalidate ng-submit="enquiryForm.$valid && saveEnquiryData(enquiryData)">
+<form name="enquiryForm" role="form" novalidate ng-submit="enquiryForm.$valid && saveEnquiryData(enquiryData)">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
@@ -21,15 +21,15 @@
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-6">
-                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.enquiry_category_id.$dirty && enquiryForm.enquiry_category_id.$invalid)}">
+                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.sales_category_id.$dirty && enquiryForm.sales_category_id.$invalid)}">
                             <label for="">Enquiry Category <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select class="form-control" ng-controller="salesEnqCategoryCtrl" ng-model="enquiryData.enquiry_category_id" name="enquiry_category_id" required>
+                                <select class="form-control" ng-controller="salesEnqCategoryCtrl" ng-model="enquiryData.sales_category_id" name="sales_category_id" required>
                                     <option value="">Please Select Category</option>                                       
-                                    <option ng-repeat="list in salesEnqCategoryList" value="{{list.id}}">{{list.enquiry_category}}</option>          
+                                    <option ng-repeat="list in salesEnqCategoryList" value="{{list.id}}" ng-selected="{{ list.id == enquiryData.sales_category_id}}">{{list.enquiry_category}}</option>          
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
-                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.enquiry_category_id.$error" class="help-block enqFormBtn">
+                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_category_id.$error" class="help-block enqFormBtn">
                                     <div ng-message="required">Please select enquiry category</div>
                                 </div>
                             </span>
@@ -40,7 +40,6 @@
                             <label for="">Remark <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <textarea class="form-control" ng-model="enquiryData.remarks" name="remarks" required></textarea>
-                                <i class="fa fa-bullseye"></i>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.remarks.$error" class="help-block enqFormBtn">
                                     <div ng-message="required">Please enter remarks</div>
                                 </div>
@@ -79,7 +78,7 @@
                     </div>                        
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.next_followup_date.$dirty && enquiryForm.next_followup_date.$invalid)}">
-                            <label for="">Next Followup Date <span class="sp-err">*</span></label>
+                            <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
                                     <input type="text" ng-model="enquiryData.next_followup_date" name="next_followup_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required />
@@ -95,124 +94,126 @@
                     </div>
                     <div class="col-sm-3 col-xs-6">                            
                         <div ng-controller="TimepickerDemoCtrl">
-                            <label for="">Next Followup Time <span class="sp-err">*</span></label>
-                                <timepicker ng-model="enquiryData.next_follwoup_time" ng-change="changed()" hour-step="hstep" format="HH:mm" minute-step="mstep" show-meridian="ismeridian" value="{{ enquiryData.next_follwoup_time | date:'HH:mm:ss' }}"></timepicker>                                                            
+                            <!--<label for="">Next Followup Time <span class="sp-err">*</span></label>-->
+                            <timepicker ng-model="enquiryData.next_followup_time" ng-change="changed()" hour-step="hstep" format="HH:mm" minute-step="mstep" show-meridian="ismeridian" value="{{ enquiryData.next_followup_time | date:'HH:mm:ss' }}" style="margin: -1.5% 0 0 -5%;" id="timepicker"></timepicker>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="form-title">Requirement Details</div>
-                <div class="col-sm-3 col-xs-6">
-                    <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.parking_required.$dirty && enquiryForm.parking_required.$invalid)}">
-                        <label for="">Parking Required <span class="sp-err">*</span></label>
-                        <div class="control-group">
-                            <div class="radio">
-                                <label>
-                                    <input name="parking_required" type="radio" ng-model="enquiryData.parking_required" value="1" class="colored-success">
-                                    <span class="text">Yes </span>
-                                </label>&nbsp;&nbsp;
-                                <label>
-                                    <input name="parking_required" type="radio" ng-model="enquiryData.parking_required" value="0" class="colored-danger"  ng-checked="true">
-                                    <span class="text"> No </span>
-                                </label>
+                <div class="col-lg-12 col-sm-12 col-xs-12">  
+                    <div class="form-title">Requirement Details</div>
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.parking_required.$dirty && enquiryForm.parking_required.$invalid)}">
+                            <label for="">Parking Required <span class="sp-err">*</span></label>
+                            <div class="control-group">
+                                <div class="radio">
+                                    <label>
+                                        <input name="parking_required" type="radio" ng-model="enquiryData.parking_required" value="1" class="colored-success">
+                                        <span class="text">Yes </span>
+                                    </label>&nbsp;&nbsp;
+                                    <label>
+                                        <input name="parking_required" type="radio" ng-model="enquiryData.parking_required" value="0" class="colored-danger">
+                                        <span class="text"> No </span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
-                    <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.parking_type.$dirty && enquiryForm.parking_type.$invalid)}">
-                        <label for="">Parking Type <span class="sp-err">*</span></label>
-                        <span class="input-icon icon-right">
-                            <select class="form-control" ng-model="enquiryData.parking_type" name="parking_type">
-                                <option value="1">Common Parking</option>                                       
-                                <option value="2">Private Parking</option>                                       
-                            </select>
-                            <i class="fa fa-sort-desc"></i>
-                            <div ng-show="enqFormBtn" ng-messages="enquiryForm.parking_type.$error" class="help-block">
-                                <div ng-message="required">Please select parking type</div>
-                            </div>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
-                    <div class="form-group">
-                        <label for="">Number of 2 wheeler parkings required</label>
-                        <span class="input-icon icon-right">
-                            <input class="form-control" type="text" ng-model="enquiryData.two_wheeler_parkings_required"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="two_wheeler_parkings_required">
-                            <i class="fa fa-motorcycle"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
-                    <div class="form-group">
-                        <label for="">Number of 4 wheeler parkings required</label>
-                        <span class="input-icon icon-right">
-                            <input class="form-control" type="text" ng-model="enquiryData.four_wheeler_parkings_required" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="four_wheeler_parkings_required">
-                            <i class="fa fa-motorcycle"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-sm-3 col-xs-6">
-                    <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.finance_required.$dirty && enquiryForm.finance_required.$invalid)}">
-                        <label for="">Finance Required <span class="sp-err">*</span></label>                                
-                        <div class="control-group">
-                            <div class="radio">
-                                <label>
-                                    <input name="finance_required" type="radio" ng-model="enquiryData.finance_required" value="1" class="colored-success">
-                                    <span class="text">Yes </span>
-                                </label>&nbsp;&nbsp;
-                                <label>
-                                    <input name="finance_required" type="radio" ng-model="enquiryData.finance_required" value="0" class="colored-danger"  ng-checked="true">
-                                    <span class="text"> No </span>
-                                </label>
-                            </div>
+                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
+                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.parking_type.$dirty && enquiryForm.parking_type.$invalid)}">
+                            <label for="">Parking Type <span class="sp-err">*</span></label>
+                            <span class="input-icon icon-right">
+                                <select class="form-control" ng-model="enquiryData.parking_type" name="parking_type">
+                                    <option value="1">Common Parking</option>                                       
+                                    <option value="2">Private Parking</option>                                       
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.parking_type.$error" class="help-block">
+                                    <div ng-message="required">Please select parking type</div>
+                                </div>
+                            </span>
                         </div>
-                        <div ng-show="enqFormBtn" ng-messages="enquiryForm.finance_required.$error" class="help-block">
-                            <div ng-message="required">Please select finance required</div>
-                        </div>                                
                     </div>
-                </div>
-                <div class="col-sm-3 col-xs-6" ng-if="enquiryData.finance_required == 1">
-                    <div class="form-group">
-                        <label for="">Finance will be taken care by</label>
-                        <span class="input-icon icon-right">
-                            <select class="form-control" ng-model="enquiryData.finance_required_from" name="finance_required_from">
-                                <option value="1">In house finance department</option>                                       
-                                <option value="2">Finance tieup agency</option>                                       
-                                <option value="3">Customer himself</option>                                       
-                            </select>
-                            <i class="fa fa-sort-desc"></i>
-                        </span>
+                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
+                        <div class="form-group">
+                            <label for="">Number of 2 wheeler parkings required</label>
+                            <span class="input-icon icon-right">
+                                <input class="form-control" type="text" ng-model="enquiryData.two_wheeler_parkings_required"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="two_wheeler_parkings_required">
+                                <i class="fa fa-motorcycle"></i>
+                            </span>
+                        </div>
                     </div>
-                </div>                         
-                <!--
-                if Finance will be taken care by = 1 then show label = Select finance department colleague (foreign key of employee id)
-                if Finance will be taken care by = 2 then show label = Select finance tie up agency (foreign key of enquiry_finance_tieup)
-                if Finance will be taken care by = 3 then hide this field
-                -->
-                <div class="col-sm-3 col-xs-6" ng-if="enquiryData.finance_required_from == 1 && enquiryData.finance_required == 1">
-                    <div class="form-group">
-                        <label for="">Select finance department colleague</label>
-                        <span class="input-icon icon-right">
-                            <select ng-controller="financeEmployees" ng-model="enquiryData.finance_employee_id" name="finance_employee_id" class="form-control" required>
-                                <option value="">Select Employee</option>
-                                <option ng-repeat="list in financeEmpList" value="{{list.id}}">{{list.first_name}} {{list.last_name}}</option>
-                            </select>
-                            <i class="fa fa-sort-desc"></i>
-                        </span>
+                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.parking_required == 1">
+                        <div class="form-group">
+                            <label for="">Number of 4 wheeler parkings required</label>
+                            <span class="input-icon icon-right">
+                                <input class="form-control" type="text" ng-model="enquiryData.four_wheeler_parkings_required" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="four_wheeler_parkings_required">
+                                <i class="fa fa-motorcycle"></i>
+                            </span>
+                        </div>
                     </div>
-                </div> 
-                <div class="col-sm-3 col-xs-6" ng-if="enquiryData.finance_required_from == 2">
-                    <div class="form-group">
-                        <label for="">Select finance tie up agency</label>
-                        <span class="input-icon icon-right">
-                            <select ng-controller="agencyTieupCtrl" ng-model="enquiryData.finance_tieup_id" name="finance_tieup_id" class="form-control" required>
-                                <option value="">Select Finance Agency</option>
-                                <option ng-repeat="list in agencyTieupList" value="{{list.id}}">{{list.first_name}} {{list.last_name}}</option>
-                            </select>
-                            <i class="fa fa-sort-desc"></i>
-                        </span>
+                    <div class="col-sm-3 col-xs-6">
+                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.finance_required.$dirty && enquiryForm.finance_required.$invalid)}">
+                            <label for="">Finance Required <span class="sp-err">*</span></label>                                
+                            <div class="control-group">
+                                <div class="radio">
+                                    <label>
+                                        <input name="finance_required" type="radio" ng-model="enquiryData.finance_required" value="1" class="colored-success">
+                                        <span class="text">Yes </span>
+                                    </label>&nbsp;&nbsp;
+                                    <label>
+                                        <input name="finance_required" type="radio" ng-model="enquiryData.finance_required" value="0" class="colored-danger">
+                                        <span class="text"> No </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div ng-show="enqFormBtn" ng-messages="enquiryForm.finance_required.$error" class="help-block">
+                                <div ng-message="required">Please select finance required</div>
+                            </div>                                
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.finance_required == 1">
+                        <div class="form-group">
+                            <label for="">Finance will be taken care by</label>
+                            <span class="input-icon icon-right">
+                                <select class="form-control" ng-model="enquiryData.finance_required_from" name="finance_required_from">
+                                    <option value="1">In house finance department</option>                                       
+                                    <option value="2">Finance tieup agency</option>                                       
+                                    <option value="3">Customer himself</option>                                       
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                            </span>
+                        </div>
+                    </div>                         
+                    <!--
+                    if Finance will be taken care by = 1 then show label = Select finance department colleague (foreign key of employee id)
+                    if Finance will be taken care by = 2 then show label = Select finance tie up agency (foreign key of enquiry_finance_tieup)
+                    if Finance will be taken care by = 3 then hide this field
+                    -->
+                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.finance_required_from == 1 && enquiryData.finance_required == 1">
+                        <div class="form-group">
+                            <label for="">Select finance department colleague</label>
+                            <span class="input-icon icon-right">
+                                <select ng-controller="financeEmployees" ng-model="enquiryData.finance_employee_id" name="finance_employee_id" class="form-control" required>
+                                    <option value="">Select Employee</option>
+                                    <option ng-repeat="list in financeEmpList" value="{{list.id}}" ng-selected="{{ list.id == enquiryData.finance_employee_id }}">{{list.first_name}} {{list.last_name}}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                            </span>
+                        </div>
+                    </div> 
+                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.finance_required_from == 2">
+                        <div class="form-group">
+                            <label for="">Select finance tie up agency</label>
+                            <span class="input-icon icon-right">
+                                <select ng-controller="agencyTieupCtrl" ng-model="enquiryData.finance_tieup_id" name="finance_tieup_id" class="form-control" required>
+                                    <option value="">Select Finance Agency</option>
+                                    <option ng-repeat="list in agencyTieupList" value="{{list.id}}" ng-selected="{{ list.id == enquiryData.finance_tieup_id }}">{{list.first_name}} {{list.last_name}}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -225,7 +226,7 @@
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="enquiryData.city_id" name="city_id" ng-change="changeLocations(enquiryData.city_id)">
                                     <option>Select Preferred city</option>     
-                                    <option ng-repeat="list in cityList" value="{{list.city_id}}">{{ list.get_city_name.name}}</option>                                                                                                                
+                                    <option ng-repeat="list in cityList" value="{{list.city_id}}" ng-selected="{{ list.city_id == enquiryData.city_id }}">{{ list.get_city_name.name}}</option>                                                                                                                
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                             </span>
@@ -234,7 +235,7 @@
                     <div class="col-sm-3 col-md-3 col-xs-12">
                         <div class="form-group multi-sel-div" ng-class="{ 'has-error' : step && (!enquiryForm.enquiry_locations.$dirty && enquiryForm.enquiry_locations.$invalid)}">
                             <label for="">Preferred Area's<span class="sp-err">*</span></label>
-                            <ui-select multiple ng-model="enquiryData.enquiry_locations"  name="enquiry_locations" theme="select2" ng-disabled="disabled">
+                            <ui-select multiple ng-model="enquiryData.enquiry_locations" name="enquiry_locations" theme="select2" ng-disabled="disabled">
                                 <ui-select-match placeholder='Select Locations'>{{$item.location}}</ui-select-match>
                                 <ui-select-choices repeat="list in locations | filter:$select.search">
                                     {{list.location}} 
@@ -243,6 +244,8 @@
                             <div ng-show="step" ng-messages="enquiryForm.enquiry_locations.$error" class="help-block step">
                                 <div ng-message="required">Please select location</div>
                             </div>
+                            {{enquiryData.enquiry_locations}}
+                            {{locations}}
                         </div>
                     </div>                    
                     <div class="col-sm-3 col-xs-6">
@@ -250,11 +253,11 @@
                             <label for="">Interested In</label>
                             <div class="radio" style="margin-top: 0px;">
                                 <label>
-                                    <input type="radio" class="inverted" ng-model="enquiryData.property_possession_type" name="property_possession_type" value="1" ng-checked="true">
+                                    <input type="radio" class="inverted" ng-model="enquiryData.property_possession_type" name="property_possession_type" value="1">
                                     <span class="text">Ready Possession </span>
                                 </label>&nbsp;&nbsp;
                                 <label>
-                                    <input type="radio" class="inverted" checked="checked" ng-model="enquiryData.property_possession_type" name="property_possession_type" value="0">
+                                    <input type="radio" class="inverted" ng-model="enquiryData.property_possession_type" name="property_possession_type" value="0">
                                     <span class="text">Under Construction</span>
                                 </label>
                             </div>
@@ -331,7 +334,7 @@
                             <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Project List <span id="errContactDetails" class="errMsg"></span></span>
                             <button type="button" class="btn btn-primary" ng-click="addProjectRow( {{enquiryData.project_id}} )">Add Above Project</button> 
                         </div>
-                        <div class="widget-body table-responsive">
+                        <div class="widget-body table-responsive">{{projectsDetails}}
                             <table class="table table-hover table-striped table-bordered" at-config="config">
                                 <thead class="bord-bot">
                                     <tr>
@@ -345,11 +348,15 @@
                                 <tbody>
                                     <tr  id="projectBody"><td colspan="5"><center>No Records Found</center></td>
                                 </tr>
-                                <tr  ng-repeat='list in projectsDetails'>
+                                <tr ng-repeat='list in projectsDetails'>
                                     <td>{{ $index + 1}}</td>
-                                    <td>{{ list.project_name}}</td>
+                                    <td>{{ list.project_id}}</td>
+                                    <td>{{ list.block_id}}</td>
+                                    <td>{{ list.sub_block_id}}</td>
+                                    
+<!--                                    <td>{{ list.project_name}}</td>
                                     <td>{{ list.blocks}}</td>
-                                    <td>{{ list.subblocks}}</td>                                               
+                                    <td>{{ list.subblocks}}</td>                                               -->
                                     <td><div class="fa-hover" tooltip-html-unsafe="Project enquiry" style="display: block;">
                                             <!--<a href data-toggle="modal" data-target="#projectDataModal" ng-click="initContactModal()"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;-->
                                             <a href ng-click="removeRow($index)"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
@@ -369,7 +376,6 @@
             </div>
         </div>
     </div>
-</div>
 </form>
 
 <div class="modal fade" id="projectDataModal" role="dialog" tabindex='-1'>

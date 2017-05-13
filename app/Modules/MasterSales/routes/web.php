@@ -5,8 +5,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::get($getUrl . '/MasterSales/createEnquiry', function () {
         return View::make('MasterSales::createEnquiry');
     });
-    Route::get($getUrl . '/MasterSales/createGetCustomer', function () {
-        return View::make('MasterSales::createGetCustomer');
+    Route::get($getUrl . '/MasterSales/createCustomer', function () {
+        return View::make('MasterSales::createCustomer');
     });
     Route::get($getUrl . '/MasterSales/enquiryHistory', function () {
         return View::make('MasterSales::enquiryHistory');
@@ -68,7 +68,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::get($getUrl . '/master-sales/showEnquiry/{id}', 'MasterSalesController@showEnquiry'); //show enquiry page
     Route::post($getUrl . '/master-sales/saveEnquiryData', 'MasterSalesController@saveEnquiryData'); //saveEnquiryData
     Route::resource($getUrl . '/master-sales', 'MasterSalesController');
-    Route::post($getUrl . '/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails');
+    Route::post($getUrl . '/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails'); //get customer details
+    Route::post($getUrl . '/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details
     Route::post($getUrl . '/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // getCustomerDataWithId
     Route::post($getUrl . '/master-sales/checkMobileExist', 'MasterSalesController@checkMobileExist');
     Route::post($getUrl . '/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');

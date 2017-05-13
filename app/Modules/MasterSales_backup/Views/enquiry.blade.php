@@ -198,9 +198,9 @@
                         <div class="col-sm-3 col-xs-6">                            
                             <div ng-controller="TimepickerDemoCtrl">
                                 <label for="">Next Followup Time <span class="sp-err">*</span></label>
-                                <timepicker ng-model="enquiryData.next_follwoup_time" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="true"></timepicker>
+                                <timepicker ng-model="enquiryData.next_followup_time" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="true"></timepicker>
                             </div>
-                        </div> {{ enquiryData.next_follwoup_time}}                     
+                        </div> {{ enquiryData.next_followup_time}}                     
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">

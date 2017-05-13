@@ -112,7 +112,7 @@
                                     </td>                                    
                                     <td>
                                         {{ list.get_followup_details.next_followup_date | date:'dd M, yyyy'}}
-                                        {{ list.get_followup_details.next_follwoup_time | date:'dd M, yyyy'}}
+                                        {{ list.get_followup_details.next_followup_time | date:'dd M, yyyy'}}
                                     </td>
                                     <!--Owner: [[ Auth::guard('admin')->user()->first_name ]] [[ Auth::guard('admin')->user()->last_name ]]-->                                    
                                     <td>

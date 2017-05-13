@@ -21,6 +21,7 @@ use App\Classes\CommonFunctions;
 use App\Modules\MasterSales\Models\Enquiry;
 use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\LstEnquiryLocation;
+use Illuminate\Support\Facades\Session;
 
 class MasterSalesController extends Controller {
 
@@ -130,7 +131,7 @@ class MasterSalesController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        //
+        return view("MasterSales::index")->with(["editCustomerId" => 0,"editEnquiryId" => $id]);
     }
 
     /**
@@ -273,6 +274,8 @@ class MasterSalesController extends Controller {
         $request = json_decode($postdata, true);
         $customerMobileNo = !empty($request['data']['customerMobileNo']) ? $request['data']['customerMobileNo'] : "0";
         $customerEmailId = !empty($request['data']['customerEmailId']) ? $request['data']['customerEmailId'] : "0";
+        $searchData = !empty($customerMobileNo) ? $customerMobileNo : $customerEmailId;
+
         $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '")');
         if (count($getCustomerContacts) > 0) {
             $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
@@ -293,7 +296,38 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-
+    public function getEnquiryDetails() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $enquiryID = !empty($request['data']['enquiryId']) ? $request['data']['enquiryId'] : "0";
+        $getEnquiryDetails = DB::select('CALL proc_get_enquiry_details(' . $enquiryID . ')');
+        $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails),true);
+        
+        $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();
+//        $getEnquiryDetails[0]['city_id'] = $getCityID[0]["city_id"];
+                
+        $getCustomerPersonalDetails = Customer::where('id', '=', $getEnquiryDetails[0]['customer_id'])->get();
+        $getCustomerContacts = CustomersContact::where('customer_id', '=', $getEnquiryDetails[0]['customer_id'])->get();
+        
+//        echo "<pre>";print_r($getCityID);exit;
+        if (count($getCustomerContacts) > 0) {
+            
+            unset($getCustomerPersonalDetails[0]['pan_number']);
+            unset($getCustomerPersonalDetails[0]['aadhar_number']);
+            unset($getCustomerPersonalDetails[0]['image_file']);
+        }
+        
+        if (count($getEnquiryDetails) != 0) {
+            $projectDetails = array();
+            for($i=0; $i < count($getEnquiryDetails); $i++){
+                $projectDetails[$i]['project_id'] = $getEnquiryDetails[$i]['project_id'];
+                $projectDetails[$i]['block_id'] = $getEnquiryDetails[$i]['block_id'];
+                $projectDetails[$i]['sub_block_id'] = $getEnquiryDetails[$i]['sub_block_id'];
+            }
+            $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, "enquiryDetails" => $getEnquiryDetails, "projectDetails" => $projectDetails, "city_id" => $getCityID[0]["city_id"]];
+        }
+        return json_encode($result);
+    }
     public function getCustomerDataWithId() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -326,10 +360,10 @@ class MasterSalesController extends Controller {
         return json_encode($result);
     }
 
-    public function showEnquiry($id) {
-        $customer = Customer::select("id", "first_name", "last_name")->where("id", $id)->get();
-        return view("MasterSales::enquiry")->with(["firstName" => $customer[0]["first_name"], "lastName" => $customer[0]["last_name"], "customerId" => $id]);
-    }
+//    public function showEnquiry($id) {
+//        $customer = Customer::select("id", "first_name", "last_name")->where("id", $id)->get();
+//        return view("MasterSales::enquiry")->with(["firstName" => $customer[0]["first_name"], "lastName" => $customer[0]["last_name"], "customerId" => $id]);
+//    }
 
     // insert new enquiry 
     public function saveEnquiryData() {
@@ -350,10 +384,10 @@ class MasterSalesController extends Controller {
         /* fill  follow up details */
         $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
         $request['followupDetails']['next_followup_date'] = date('Y-m-d', strtotime($request['enquiryData']['next_followup_date']));
-        if (isset($request['enquiryData']['next_follwoup_time'])) {
-            $request['followupDetails']['next_follwoup_time'] = date('H:m:s', strtotime($request['enquiryData']['next_follwoup_time']));
+        if (isset($request['enquiryData']['next_followup_time'])) {
+            $request['followupDetails']['next_followup_time'] = date('H:m:s', strtotime($request['enquiryData']['next_followup_time']));
         } else {
-            $request['followupDetails']['next_follwoup_time'] = date('H:m:s');
+            $request['followupDetails']['next_followup_time'] = date('H:m:s');
         }
         $request['followupDetails']['followup_by_employee_id'] = $request['enquiryData']['followup_by_employee_id'];
         $request['followupDetails']['enquiry_id'] = $request['enquiryData']['remarks'];
@@ -370,7 +404,7 @@ class MasterSalesController extends Controller {
         unset($request['enquiryData']['city_id']);
         unset($request['enquiryData']['csrfToken']);
         unset($request['enquiryData']['next_followup_date']);
-        unset($request['enquiryData']['next_follwoup_time']);
+        unset($request['enquiryData']['next_followup_time']);
 
         /*  insert enquiry  */
         $request['enquiryData'] = array_merge($request['enquiryData'], $create);

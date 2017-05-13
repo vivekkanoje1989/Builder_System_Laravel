@@ -25,7 +25,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $recording_log_type
  * @property int $recording_id
  * @property \Carbon\Carbon $next_followup_date
- * @property string $next_follwoup_time
+ * @property string $next_followup_time
  * @property \Carbon\Carbon $actual_followup_date_time
  * @property int $finance_category_id
  * @property int $enquiry_category_id
@@ -94,7 +94,7 @@ class EnquiryFollowup extends Eloquent
 		'recording_log_type',
 		'recording_id',
 		'next_followup_date',
-		'next_follwoup_time',
+		'next_followup_time',
 		'actual_followup_date_time',
 		'finance_category_id',
 		'enquiry_category_id',
