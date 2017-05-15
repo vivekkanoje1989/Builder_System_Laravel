@@ -84,6 +84,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     {
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
+                        $scope.btnLabelC = "Update";
                         $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                         $scope.contacts = angular.copy(response.customerContactDetails);
                         $scope.contactData = angular.copy(response.customerContactDetails);
@@ -122,12 +123,10 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     } else
                     {
                         $scope.showDiv = true;
-                        $scope.showDivCustomer = false;
+                        //$scope.enquiryList = true;
+//                        $scope.showDivCustomer = false;
                         $scope.listsIndex = response;
                     }
-                    /*
-                     
-                     */
                 } else {
                     $scope.showDiv = false;
                     $scope.showDivCustomer = true;

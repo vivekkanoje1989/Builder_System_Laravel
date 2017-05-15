@@ -234,7 +234,20 @@ class AdminController extends Controller {
     }
     
     public function getBlockTypes() {
-        $blockTypeList = MlstBmsbBlockType::select()->get();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true); 
+        
+        $blockList = ProjectBlock::select('id','block_type_id','block_sub_type')->where('project_id', $request['projectId'])->get();
+        
+        $getBlockTypeId = array();
+        if(!empty($blockList)){
+            foreach($blockList as $key => $value){
+                $getBlockTypeId[] = $value['id']; 
+            }
+        }
+        $blockTypeId = implode(",", $getBlockTypeId);         
+        $blockTypeList = MlstBmsbBlockType::select('id','block_name')->whereIn('id', $getBlockTypeId)->get();
+        
         if (!empty($blockTypeList)) {
             $result = ['success' => true, 'records' => $blockTypeList];
         } else {

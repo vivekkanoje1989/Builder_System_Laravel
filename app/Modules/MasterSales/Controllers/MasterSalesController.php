@@ -296,6 +296,7 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
+    
     public function getEnquiryDetails() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -303,15 +304,11 @@ class MasterSalesController extends Controller {
         $getEnquiryDetails = DB::select('CALL proc_get_enquiry_details(' . $enquiryID . ')');
         $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails),true);
         
-        $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();
-//        $getEnquiryDetails[0]['city_id'] = $getCityID[0]["city_id"];
-                
+        $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();                
         $getCustomerPersonalDetails = Customer::where('id', '=', $getEnquiryDetails[0]['customer_id'])->get();
         $getCustomerContacts = CustomersContact::where('customer_id', '=', $getEnquiryDetails[0]['customer_id'])->get();
         
-//        echo "<pre>";print_r($getCityID);exit;
         if (count($getCustomerContacts) > 0) {
-            
             unset($getCustomerPersonalDetails[0]['pan_number']);
             unset($getCustomerPersonalDetails[0]['aadhar_number']);
             unset($getCustomerPersonalDetails[0]['image_file']);
@@ -323,6 +320,9 @@ class MasterSalesController extends Controller {
                 $projectDetails[$i]['project_id'] = $getEnquiryDetails[$i]['project_id'];
                 $projectDetails[$i]['block_id'] = $getEnquiryDetails[$i]['block_id'];
                 $projectDetails[$i]['sub_block_id'] = $getEnquiryDetails[$i]['sub_block_id'];
+                $projectDetails[$i]['project_name'] = $getEnquiryDetails[$i]['project_name'];
+                $projectDetails[$i]['blocks'] = $getEnquiryDetails[$i]['block_name'];
+                $projectDetails[$i]['subblocks'] = $getEnquiryDetails[$i]['block_sub_type'];
             }
             $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, "enquiryDetails" => $getEnquiryDetails, "projectDetails" => $projectDetails, "city_id" => $getCityID[0]["city_id"]];
         }

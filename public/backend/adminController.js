@@ -219,13 +219,16 @@ app.controller('educationListCtrl', function ($scope, Data) {
 app.controller('blockTypeCtrl', function ($scope, Data) {
     $scope.blockTypeList = [];
     $scope.subBlockList = [];
-    Data.get('getBlockTypes').then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $scope.blockTypeList = response.records;
-        }
-    });
+    $scope.getBlockTypes = function(projectId){
+        alert(projectId);
+        Data.post('getBlockTypes',{projectId:projectId}).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.blockTypeList = response.records;
+            }
+        });
+    }
     $scope.checkBlockLength = function () {
         var blockTypeId = [];
         angular.forEach($scope.enquiryData.block_id, function(value, key){

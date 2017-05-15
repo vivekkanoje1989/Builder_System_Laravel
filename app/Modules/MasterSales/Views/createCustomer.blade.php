@@ -261,7 +261,14 @@
         </div>
         <hr class="wide col-lg-12 col-xs-12 col-md-12" ng-if="showDivCustomer"/>
         <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-            <button type="submit" class="btn btn-primary" ng-show="showDivCustomer" ng-disabled="disableCreateButton" ng-click="formButton = true">Save & Continue</button>
+            <button type="submit" class="btn btn-primary" id="custSubmitBtn" ng-show="showDivCustomer" ng-disabled="disableCreateButton" ng-click="formButton = true">{{btnLabelC}}</button>
         </div>
     </form>
 </div>
+<script>
+$(document).ready(function(){
+    $("#custSubmitBtn").click(function(){
+        $("li#enquiryDiv a.ng-binding").trigger("click"); 
+    })
+})
+</script>

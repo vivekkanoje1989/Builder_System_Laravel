@@ -2,6 +2,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+            <input type="hidden" ng-model="enquiryData.id" name="id"  value="{{enquiryData.id}}">
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">                    
                     <div class="col-sm-3 col-xs-6">
@@ -244,8 +245,6 @@
                             <div ng-show="step" ng-messages="enquiryForm.enquiry_locations.$error" class="help-block step">
                                 <div ng-message="required">Please select location</div>
                             </div>
-                            {{enquiryData.enquiry_locations}}
-                            {{locations}}
                         </div>
                     </div>                    
                     <div class="col-sm-3 col-xs-6">
@@ -282,59 +281,63 @@
                 </div>
             </div>
             <div class="form-title">Interested Projects</div>
-            <div class="row">
+            <div class="row" ng-controller="blockTypeCtrl">
                 <div class="col-sm-3 col-xs-6">
-                    <!--<div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.project_id.$dirty && enquiryForm.project_id.$invalid)}">-->
-                    <div class="form-group"  ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.project_id.$dirty && enquiryForm.project_id.$invalid)}">
-                        <label for="">Project <span class="sp-err">*</span></label>
+                    <div class="form-group" ng-class="{ 'has-error' : !enquiryData.project_id && emptyProjectId}">
+                        <label for="">Project</label>
                         <span class="input-icon icon-right">
-                            <select ng-controller="projectCtrl" ng-model="enquiryData.project_id" name="project_id" class="form-control" ng-required="{{ projectsDetails.length > 0}}">
+                            <select ng-controller="projectCtrl" ng-model="enquiryData.project_id" name="project_id" class="form-control" ng-change="getBlockTypes(enquiryData.project_id)">
                                 <option value="">Select type</option>
                                 <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}">{{plist.project_name}}</option>
                             </select>
                             <i class="fa fa-sort-desc"></i>
-                            <div ng-show="enqFormBtn" ng-messages="enquiryForm.project_id.$error" class="help-block">
-                                <div ng-message="required">Please select Project</div>
-                            </div>
+                            <div ng-if="!enquiryData.project_id" ng-show="emptyProjectId" class="help-block">Please select Project </div>
                         </span>
                     </div>
                 </div>
-                <div ng-controller="blockTypeCtrl">
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="form-group multi-sel-div">
-                            <label for="">Select Blocks <span class="sp-err">*</span></label>	
-                            <ui-select ng-change="checkBlockLength()" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled">
-                                <ui-select-match placeholder='Select blocks'>{{$item.block_name}}</ui-select-match>
-                                <ui-select-choices repeat="list in blockTypeList | filter:$select.search">
-                                    {{list.block_name}} 
-                                </ui-select-choices>
-                            </ui-select>                                    
+                <div class="col-sm-3 col-xs-6">
+                    <div class="form-group multi-sel-div">
+                        <label for="">Select Blocks</label>	
+                        <ui-select ng-change="checkBlockLength()" multiple ng-model="enquiryData.block_id"  name="block_id" theme="select2" ng-disabled="disabled">
+                            <ui-select-match placeholder='Select blocks'>{{$item.block_name}}</ui-select-match>
+                            <ui-select-choices repeat="list in blockTypeList | filter:$select.search">
+                                {{list.block_name}} 
+                            </ui-select-choices>
+                        </ui-select>     
+                        <div ng-if="!enquiryData.block_id"  ng-show="emptyBlockId" class="help-block {{ applyClassBlock }}">
+                            This field is required.
+                        </div>                               
+                    </div>
+                </div>
+                <div class="col-sm-3 col-xs-6">
+                    <div class="form-group multi-sel-div">
+                        <label for="">Select Sub Blocks</label>	
+                        <ui-select multiple ng-model="enquiryData.sub_block_id" name="sub_block_id" theme="select2" ng-disabled="disabled" ng-change="checkSubBlockLength()" >
+                            <ui-select-match placeholder='Select sub blocks'>{{ $item.block_sub_type}}</ui-select-match>
+                            <ui-select-choices repeat="list1 in subBlockList | filter:$select.search">
+                                {{list1.block_sub_type}} 
+                            </ui-select-choices>
+                        </ui-select>
+                        <div ng-if="!enquiryData.sub_block_id" ng-show="emptySubBlockId" class="help-block {{ applyClassSubBlock }}">
+                            This field is required.
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6">
-                        <div class="form-group multi-sel-div">
-                            <label for="">Select Sub Blocks <span class="sp-err">*</span></label>	
-                            <ui-select multiple ng-model="enquiryData.sub_block_id" name="sub_block_id" theme="select2" ng-disabled="disabled" ng-required="true" ng-change="checkSubBlockLength()">
-                                <ui-select-match placeholder='Select sub blocks'>{{ $item.block_sub_type}}</ui-select-match>
-                                <ui-select-choices repeat="list1 in subBlockList | filter:$select.search">
-                                    {{list1.block_sub_type}} 
-                                </ui-select-choices>
-                            </ui-select>
-                            <div ng-show="emptySubBlockId" class="help-block {{ applyClassSubBlock}}">
-                                This field is required.
-                            </div>
-                        </div>
+                </div>
+                <div class="col-sm-3 col-xs-6">
+                    <div class="form-group"><label for=""></label>
+                        <span class="input-icon icon-right">
+                            <button type="button" class="btn btn-primary" ng-click="addProjectRow('{{enquiryData.project_id}}','{{enquiryData.block_id}}','{{enquiryData.block_sub_type}}')">Add Project</button>
+                        </span> 
                     </div>
-                </div>                        
+                </div>                   
             </div>
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="widget">
                         <div class="widget-header">
                             <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Project List <span id="errContactDetails" class="errMsg"></span></span>
-                            <button type="button" class="btn btn-primary" ng-click="addProjectRow( {{enquiryData.project_id}} )">Add Above Project</button> 
                         </div>
-                        <div class="widget-body table-responsive">{{projectsDetails}}
+                        <div class="widget-body table-responsive">
                             <table class="table table-hover table-striped table-bordered" at-config="config">
                                 <thead class="bord-bot">
                                     <tr>
@@ -346,20 +349,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr  id="projectBody"><td colspan="5"><center>No Records Found</center></td>
+                                    <tr ng-if="!projectsDetails" id="projectBody"><td colspan="5"><center>No Records Found</center></td>
                                 </tr>
                                 <tr ng-repeat='list in projectsDetails'>
-                                    <td>{{ $index + 1}}</td>
-                                    <td>{{ list.project_id}}</td>
-                                    <td>{{ list.block_id}}</td>
-                                    <td>{{ list.sub_block_id}}</td>
-                                    
-<!--                                    <td>{{ list.project_name}}</td>
+                                    <td>{{ $index + 1}}</td>                                    
+                                    <td>{{ list.project_name}}</td>
                                     <td>{{ list.blocks}}</td>
-                                    <td>{{ list.subblocks}}</td>                                               -->
+                                    <td>{{ list.subblocks}}</td>                                               
                                     <td><div class="fa-hover" tooltip-html-unsafe="Project enquiry" style="display: block;">
                                             <!--<a href data-toggle="modal" data-target="#projectDataModal" ng-click="initContactModal()"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;-->
-                                            <a href ng-click="removeRow($index)"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
+                                            <a href ng-click="removeRow({{ $index}})"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
                                         </div>
                                     </td>
                                 </tr>                                            
@@ -371,27 +370,9 @@
             </div>
             <div class="row">
                 <div class="col-md-12 col-xs-12" align="center">
-                    <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true" ng-disabled="disableFinishButton" >Finish</button>
+                    <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true" ng-disabled="disableFinishButton">{{btnLabelE}}</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
-
-<div class="modal fade" id="projectDataModal" role="dialog" tabindex='-1'>
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" align="center">Project Details</h4>
-            </div>
-            <form novalidate name="modalForm" ng-submit="modalForm.$valid && addRow(projectEnquiryData)">
-                <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
-                <div class="modal-body">
-
-                </div>
-            </form>
-        </div>
-    </div>
-</div>

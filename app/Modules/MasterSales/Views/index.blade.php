@@ -69,7 +69,7 @@
                         <br><br>
                     </div>
                     <tabset ng-if="showDivCustomer" class="demo-tab row">
-                        <tab heading="Customer Information"  id="custDiv">
+                        <tab heading="Customer Information" id="custDiv">
                             <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/createCustomer'"></div>
                         </tab>
                         <tab heading="Enquiry Information" active="enquiry_div" id="enquiryDiv" style="display: none;">
@@ -77,7 +77,7 @@
                         </tab>
                     </tabset>
                 </div>
-                <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
+                <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv && !enquiryList">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="form-title">
                             Previous Open Enquiries
@@ -121,7 +121,7 @@
                                         <hr>
                                         <!--#/[[config('global.getUrl')]]/sales/updateenquiry/{{ list.id }}   ng-click="getEnquiryDetails({{ list.id }})"-->
                                         <div class="floatLeft"><i class="fa fa-desktop" aria-hidden="true"></i></div>
-                                        <div class="floatLeft" style="width:41%"><a href="#/[[config('global.getUrl')]]/sales/updateenquiry/{{ list.id }}" >Enquiry Details</a></div>
+                                        <div class="floatLeft" style="width:41%"><a href="#/[[config('global.getUrl')]]/sales/update/{{ list.id }}" >Enquiry Details</a></div>
                                         <div class="floatLeft" style="width:50%">
                                             <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category != 'New Enquiry'">&nbsp;</span>
                                             <span style="float: left;margin-left: 5px;">{{ list.enquiry_category}}</span>              

@@ -211,7 +211,7 @@ angular.module('app')
                                     controller: 'customerController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Customer Details'
+                                        label: 'New Enquiry'
                                     },
                                     resolve: {
                                         deps:
@@ -226,7 +226,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/customerController.js',
                                                                     '/backend/app/controllers/datepicker.js',
-                                                                    '/backend/enquiryController.js',
+                                                                    //'/backend/enquiryController.js',
                                                                     '/backend/app/controllers/timepicker.js',
                                                                     '/backend/app/controllers/select.js',
                                                                 ]
@@ -296,7 +296,7 @@ angular.module('app')
                                     }
                                 })*/
                                 .state(getUrl + '.salesUpdateEnquiry', {
-                                    url: '/sales/updateenquiry/:enquiryId',
+                                    url: '/sales/update/:enquiryId',
                                     templateUrl: function (stateParams) {
                                         return getUrl + '/master-sales/' + stateParams.enquiryId + '/edit';
                                     },
