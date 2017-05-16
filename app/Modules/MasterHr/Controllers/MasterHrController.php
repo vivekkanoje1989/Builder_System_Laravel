@@ -539,7 +539,7 @@ class MasterHrController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         if ($input['data']['isChecked'] == true) {//checkbox checked
-            //{"data":{"empId":2,"submenuId":[107],"isChecked":true,"moduleType":"employee"}}
+            //{"data":{"empId":2,"submenuId":[0307],"isChecked":true,"moduleType":"employee"},{"empId":2,"submenuId":[0107,0108,0201],"isChecked":false,"moduleType":"employee"}}
             if ($input['data']['moduleType'] === 'roles') {
                 $getSubMenus = EmployeeRole::select('employee_submenus')->where('id', $input['data']['empId'])->get();
             } else {
@@ -555,10 +555,8 @@ class MasterHrController extends Controller {
             } else {
                 $menuArr = $input['data']['submenuId'];
             }
-           ///print_r($menuArr);exit;
             asort($menuArr);
             $jsonArr = json_encode($menuArr, true);
-            // $jsonArr = json_encode($input['data']['submenuId'], true);
             if ($input['data']['moduleType'] === 'roles') {
                 EmployeeRole::where('id', $input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
             } else {

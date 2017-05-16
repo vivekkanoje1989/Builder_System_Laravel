@@ -66,7 +66,11 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::post($getUrl . '/master-sales/getAllLocations', 'MasterSalesController@getAllLocations'); //get all locations of perticular city id
     Route::get($getUrl . '/master-sales/getFinanceEmployees', 'MasterSalesController@getFinanceEmployees'); // get employees whose deparment is finance
     Route::get($getUrl . '/master-sales/showEnquiry/{id}', 'MasterSalesController@showEnquiry'); //show enquiry page
-    Route::post($getUrl . '/master-sales/saveEnquiryData', 'MasterSalesController@saveEnquiryData'); //saveEnquiryData
+    Route::post($getUrl . '/master-sales/saveEnquiry', 'MasterSalesController@saveEnquiry'); //saveEnquiry
+    
+    Route::get($getUrl . '/master-sales/editCustomer/cid/{cid}', 'MasterSalesController@editCustomer'); //updateCustomer
+    Route::get($getUrl . '/master-sales/editEnquiry/cid/{cid}/eid/{eid}', 'MasterSalesController@editEnquiry'); //updateEnquiry
+    Route::put($getUrl . '/master-sales/updateEnquiry/{id}', 'MasterSalesController@updateEnquiry'); //updateEnquiry
     Route::resource($getUrl . '/master-sales', 'MasterSalesController');
     Route::post($getUrl . '/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails'); //get customer details
     Route::post($getUrl . '/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details

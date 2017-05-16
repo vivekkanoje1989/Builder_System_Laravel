@@ -1,5 +1,5 @@
 'use strict';
-app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster) {
+app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$location', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $location) {
         $scope.pageHeading = 'New Enquiry';
         $scope.customerData = {};
         $scope.contactData = {};
@@ -19,6 +19,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.enquiryList = false;
         $scope.showDivCustomer = false;
         $scope.searchData.customerId = 0;
+        $scope.hstep = 1;$scope.mstep = 15;        
         var sessionContactData = $scope.contactData.index = "";
         $window.sessionStorage.setItem("sessionContactData", "");
         $scope.checkValue = function () {
@@ -59,7 +60,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
             $scope.contactData.index = index;
         }
-        $scope.addRow = function (contactData) {alert($scope.contactData.index);
+        $scope.addRow = function (contactData) {
             if ($scope.contactData.index === "" || typeof $scope.contactData.index === "undefined") {
                 $('#errContactDetails').text("");
                 $scope.contacts.push({
@@ -116,8 +117,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.modalSbtBtn = false;
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
-        $scope.createCustomer = function (enteredData, customerPhoto) {
-            //console.log($window.sessionStorage.getItem("sessionContactData"));
+        $scope.createCustomer = function (enteredData, customerPhoto) {            
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -167,18 +167,25 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 $("." + sessionAttribute[key]).show();
                         }
                     } else {
-                        $('.errMsg').text('');
-                        $window.sessionStorage.setItem("sessionContactData", "");
-                        $scope.disableCreateButton = true;
-                        var myEle = document.getElementById("enquiryDiv");
-                        if (myEle === null) {
-                            $state.go(".salesCreate");
-//                            $window.history.back();
-                        } else {
-                            document.getElementById("enquiryDiv").style.display = 'block';
+                        var url = $location.path();
+                        if(url === "/office/sales/enquiry"){
+                            $('.errMsg').text('');
+                            $window.sessionStorage.setItem("sessionContactData", "");
+                            $scope.disableCreateButton = true;
+                            var myEle = document.getElementById("enquiryDiv");
+                            if (myEle === null) {
+                                $state.go(".salesCreate");
+                            } else {
+                                document.getElementById("enquiryDiv").style.display = 'block';
+                                $("li#enquiryDiv a.ng-binding").trigger("click"); 
+                            }
                         }
+//                        else{ 
+//                            $scope.showDiv = true;
+//                            $scope.enquiryList = false;
+//                            $scope.showDivCustomer = false;
+//                        }
                         $scope.customer_id = response.data.customerId;
-                        // $scope.enquiry_div = ($scope.tabs.length + 1);
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
                             toaster.pop('success', 'Customer', 'Record successfully created');
                         } else {
@@ -192,22 +199,78 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             }, function (evt, response) {});
         };
-
+        $scope.backToListing = function(mobileNo,emailId){
+            $state.go(getUrl + ".salesCreate");
+            $timeout(function () {
+                if(mobileNo !== ''){
+                    $("input[name='searchWithMobile']").val(mobileNo);
+                    $("input[name='searchWithMobile']").trigger("change");
+                }else{
+                    $("input[name='searchWithEmail']").val(emailId);
+                    $("input[name='searchWithEmail']").trigger("change");
+                }
+            },500);
+        }
         $scope.addContactDetails = function () {
             $scope.modal = {};
         }
-        $scope.manageForm = function (customerID,enquiryId){ 
-        
-            if(customerID !== 0 || enquiryId !== 0){
+        $scope.manageForm = function (customerId,enquiryId){ 
+            if(customerId !== 0 && enquiryId === 0){
+                Data.post('master-sales/getCustomerDataWithId', {
+                data: {customerId: customerId},
+                }).then(function (response) {
+                    $scope.pageHeading = 'Edit Customer';
+                    $scope.btnLabelC = "Update";
+                    $scope.showDivCustomer = true;
+                    $scope.enquiryList = true;
+                    $scope.disableDataOnEnqUpdate = true;
+                    $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
+                    $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
+                    $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
+                    $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
+                    for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
+                        if (response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === '') {
+                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+                        } else {
+                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_number);
+                        }
+                        if (response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === '' || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === null) {
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+                        } else {
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
+                        }
+                        if (response.customerPersonalDetails.get_customer_contacts[i].pin === 0)
+                            $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
+                        if (response.customerPersonalDetails.get_customer_contacts[i].email_id === '' || response.customerPersonalDetails.get_customer_contacts[i].email_id === 'null')
+                            $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
+
+                        $scope.contactData.index = i;
+                    }
+                    Data.post('getEnquirySubSource', {
+                        data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {
+                        $scope.subSourceList = '';
+                        if (!response.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+                            $scope.subSourceList = response.records;
+                        }
+                    });
+                    $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
+                    $scope.searchData.customerId = response.customerPersonalDetails[0].id;
+                    $scope.disableText = true;
+                });
+            }
+            if(customerId !== 0 && enquiryId !== 0){
                 $scope.pageHeading = 'Edit Enquiry';
                 $scope.btnLabelC = $scope.btnLabelE = "Update";
                 Data.post('master-sales/getEnquiryDetails', {
-                    data: {enquiryId: enquiryId}}).then(function (response) {
+                    data: {customerId: customerId,enquiryId: enquiryId}}).then(function (response) {
                     if (!response.success) {
-                        $scope.errorMsg = response.message;
+                        $scope.enquiryList = false;
+                        $scope.showDivCustomer = false;
                     } else {
-                        
                         $scope.disableSource = true;  
+                        $scope.disableDataOnEnqUpdate = true;  
                         $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
                         var setTime = response.enquiryDetails[0].next_followup_time.split(":");
                         var location = response.enquiryDetails[0].enquiry_locations;
@@ -216,7 +279,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         d.setMinutes(setTime[1]);
                         $scope.enquiryData.next_followup_time = d;
                         $scope.enquiryData.project_id = "";
-                        $scope.enquiryData.block_id = $scope.enquiryData.sub_block_id = [];                        
+                        $scope.enquiryData.block_id = $scope.enquiryData.sub_block_id = []; 
+                        $scope.hstep = 0;$scope.mstep = 0;  
                         $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                         $scope.contacts = angular.copy(response.customerContactDetails);
                         $scope.contactData = angular.copy(response.customerContactDetails);
@@ -253,6 +317,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.disableText = true; //disable mobile and email text box 
                         
                         $timeout(function () {
+                            $scope.hstep = $scope.mstep = 0;
                             $scope.projectsDetails = response.projectDetails;
                             $("li#enquiryDiv").css("display","block");
                             $("li#enquiryDiv a.ng-binding").trigger("click"); 
@@ -287,7 +352,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                 $scope.contacts = angular.copy(response.customerContactDetails);
                 $scope.contactData = angular.copy(response.customerContactDetails);
-                //$scope.customerData.marriage_date = $scope.customerData.birth_date = (new Date(), 'yyyy-MM-dd');
                 for (var i = 0; i < 1; i++) {
                     if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {
                         $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
@@ -318,78 +382,15 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.disableText = true; //disable mobile and email text box 
             });
         }
-        /*$scope.getEnquiryDetails = function (enquiryId){
-            $scope.enquiryData = {};
-            $scope.projectsDetails = {};
-            $scope.createEnquiry();
-            Data.post('master-sales/getEnquiryDetails', {
-                data: {enquiryId: enquiryId}}).then(function (response) {
-                if (!response.success) {
-                    $scope.errorMsg = response.message;
-                } else {
-                    console.log(response);
-                    $scope.enquiryData = response.enquiryDetails[0];
-                    $scope.projectsDetails = response.projectDetails;
-                    $("li#enquiryDiv").css("display","block");
-                    $timeout(function () {
-                        $("li#enquiryDiv a.ng-binding").trigger("click"); 
-                    }, 1000);
-                }
-            });
-        }*/
         
         $scope.createNewEnquiry = function ()
         {
             $state.go(getUrl + '.salesCreate', {}, {reload: true});
         }
-        $scope.getCustomerDataWithId = function (id)
-        {
-            Data.post('master-sales/getCustomerDataWithId', {
-                data: {customerId: id},
-            }).then(function (response) {
-                $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
-                $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
-                $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
-
-                for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
-                    if (response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === '') {
-                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
-                    } else {
-                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_number);
-                    }
-                    if (response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === '' || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === null) {
-                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
-                    } else {
-                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
-                    }
-                    if (response.customerPersonalDetails.get_customer_contacts[i].pin === 0)
-                        $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
-                    if (response.customerPersonalDetails.get_customer_contacts[i].email_id === '' || response.customerPersonalDetails.get_customer_contacts[i].email_id === 'null')
-                        $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
-                    
-                    $scope.contactData.index = i;
-                }
-                Data.post('getEnquirySubSource', {
-                    data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {
-                    $scope.subSourceList = '';
-                    if (!response.success) {
-                        $scope.errorMsg = response.message;
-                    } else {
-                        $scope.subSourceList = response.records;
-                    }
-                });
-                $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
-                $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                $scope.disableText = true;
-
-            })
-        }
-        
         
         /****************************************Enquiry Controller*********************************************/
 
         $scope.historyList = {};
-//        $scope.enquiryData.id = '0';
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
@@ -398,15 +399,20 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.saveEnquiryData = function (enquiryData)
         {
             if($scope.enquiryData.id === 0){
-                Data.post('master-sales/saveEnquiryData', {
+                Data.post('master-sales/saveEnquiry', {
                     enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
                 }).then(function (response) {
-                    toaster.pop('success', 'Enquiry', 'Enquiry successfully created');
+                    toaster.pop('success', 'Enquiry', response.message);
                     $scope.disableFinishButton = true;
                 });
             }
             else{
-                
+                Data.put('master-sales/updateEnquiry/' + $scope.enquiryData.id, {
+                    enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
+                }).then(function (response) {
+                    toaster.pop('success', 'Enquiry', response.message);
+                    $scope.disableFinishButton = true;
+                });
             }
         }
         $scope.addProjectRow = function (projectId, blockId, subBlockId)

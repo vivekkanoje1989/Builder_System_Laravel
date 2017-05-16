@@ -131,16 +131,21 @@ class MasterSalesController extends Controller {
      * @return Response
      */
     public function edit($id) {
-        return view("MasterSales::index")->with(["editCustomerId" => 0,"editEnquiryId" => $id]);
+       
     }
-
+    public function editCustomer($cid) {
+        return view("MasterSales::index")->with(["editCustomerId" => $cid]);
+    }
+    public function editEnquiry($cid,$eid) {
+        return view("MasterSales::index")->with(["editCustomerId" => $cid,"editEnquiryId" => $eid]);
+    }
     /**
      * Update the specified resource in storage.
      *
      * @param  int  $id
      * @return Response
      */
-    public function update($id) {
+    public function update($id) { //customer update
         try {
             $originalValues = Customer::where('id', $id)->get();
             $originalContactValues = CustomersContact::where('customer_id', $id)->get();
@@ -182,7 +187,7 @@ class MasterSalesController extends Controller {
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
-            //echo json_encode($input);exit;
+            
             $updateCustomer = Customer::where('id', $id)->update($input['customerData']); //insert data into employees table
             $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
             $implodeArr = implode(",", array_keys($getResult));
@@ -300,31 +305,36 @@ class MasterSalesController extends Controller {
     public function getEnquiryDetails() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $enquiryID = !empty($request['data']['enquiryId']) ? $request['data']['enquiryId'] : "0";
-        $getEnquiryDetails = DB::select('CALL proc_get_enquiry_details(' . $enquiryID . ')');
-        $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails),true);
-        
-        $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();                
-        $getCustomerPersonalDetails = Customer::where('id', '=', $getEnquiryDetails[0]['customer_id'])->get();
-        $getCustomerContacts = CustomersContact::where('customer_id', '=', $getEnquiryDetails[0]['customer_id'])->get();
-        
-        if (count($getCustomerContacts) > 0) {
-            unset($getCustomerPersonalDetails[0]['pan_number']);
-            unset($getCustomerPersonalDetails[0]['aadhar_number']);
-            unset($getCustomerPersonalDetails[0]['image_file']);
-        }
-        
-        if (count($getEnquiryDetails) != 0) {
-            $projectDetails = array();
-            for($i=0; $i < count($getEnquiryDetails); $i++){
-                $projectDetails[$i]['project_id'] = $getEnquiryDetails[$i]['project_id'];
-                $projectDetails[$i]['block_id'] = $getEnquiryDetails[$i]['block_id'];
-                $projectDetails[$i]['sub_block_id'] = $getEnquiryDetails[$i]['sub_block_id'];
-                $projectDetails[$i]['project_name'] = $getEnquiryDetails[$i]['project_name'];
-                $projectDetails[$i]['blocks'] = $getEnquiryDetails[$i]['block_name'];
-                $projectDetails[$i]['subblocks'] = $getEnquiryDetails[$i]['block_sub_type'];
+        $enquiryId = !empty($request['data']['enquiryId']) ? $request['data']['enquiryId'] : "0";
+        $customerId = !empty($request['data']['customerId']) ? $request['data']['customerId'] : "0";
+        $getEnquiryDetails = DB::select('CALL proc_get_enquiry_details(' . $customerId . ',' . $enquiryId . ')');
+        if(count($getEnquiryDetails) > 0){
+            $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails),true);
+            $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();                
+            $getCustomerPersonalDetails = Customer::where('id', '=', $getEnquiryDetails[0]['customer_id'])->get();
+            $getCustomerContacts = CustomersContact::where('customer_id', '=', $getEnquiryDetails[0]['customer_id'])->get();
+
+            if (count($getCustomerContacts) > 0) {
+                unset($getCustomerPersonalDetails[0]['pan_number']);
+                unset($getCustomerPersonalDetails[0]['aadhar_number']);
+                unset($getCustomerPersonalDetails[0]['image_file']);
             }
-            $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, "enquiryDetails" => $getEnquiryDetails, "projectDetails" => $projectDetails, "city_id" => $getCityID[0]["city_id"]];
+
+            if (count($getEnquiryDetails) != 0) {
+                $projectDetails = array();
+                for($i=0; $i < count($getEnquiryDetails); $i++){
+                    $projectDetails[$i]['id'] = $getEnquiryDetails[$i]['enqdetails_id'];
+                    $projectDetails[$i]['project_id'] = $getEnquiryDetails[$i]['project_id'];
+                    $projectDetails[$i]['block_id'] = $getEnquiryDetails[$i]['block_id'];
+                    $projectDetails[$i]['sub_block_id'] = $getEnquiryDetails[$i]['sub_block_id'];
+                    $projectDetails[$i]['project_name'] = $getEnquiryDetails[$i]['project_name'];
+                    $projectDetails[$i]['blocks'] = $getEnquiryDetails[$i]['block_name'];
+                    $projectDetails[$i]['subblocks'] = $getEnquiryDetails[$i]['block_sub_type'];
+                }
+                $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, "enquiryDetails" => $getEnquiryDetails, "projectDetails" => $projectDetails, "city_id" => $getCityID[0]["city_id"]];
+            }
+        }else{
+            $result = ['success' => false];
         }
         return json_encode($result);
     }
@@ -366,12 +376,12 @@ class MasterSalesController extends Controller {
 //    }
 
     // insert new enquiry 
-    public function saveEnquiryData() {
+    public function saveEnquiry() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        if (empty($request)) {
-            $request = Input::all();
-        }
+//        if (empty($request)) {
+//            $request = Input::all();
+//        }
 
         if (empty($request['enquiryData']['loggedInUserId'])) {
             $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -379,7 +389,7 @@ class MasterSalesController extends Controller {
             $loggedInUserId = $request['enquiryData']['loggedInUserId'];
         }
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-        $customerInfo = Customer::where('id', $request['customer_id'])->get();
+        $customerInfo = Customer::select('source_id','subsource_id','source_description')->where('id', $request['customer_id'])->get();
 
         /* fill  follow up details */
         $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
@@ -394,24 +404,23 @@ class MasterSalesController extends Controller {
         $request['followupDetails']['enquiry_category_id'] = $request['enquiryData']['enquiry_category_id'];
         $request['followupDetails']['finance_category_id'] = 0;
         $request['followupDetails']['client_id'] = 1;
-        $request['followupDetails']['followup_channel_id'] = 3;
-        /* fill  follow up details */
-        unset($request['enquiryData']['project_id']);
-        unset($request['enquiryData']['block_id']);
-        unset($request['enquiryData']['sub_block_id']);
-        unset($request['enquiryData']['enquiry_category_id']);
-        //unset($request['enquiryData']['other_requirement']);
-        unset($request['enquiryData']['city_id']);
-        unset($request['enquiryData']['csrfToken']);
-        unset($request['enquiryData']['next_followup_date']);
-        unset($request['enquiryData']['next_followup_time']);
+        if (!empty($request['enquiryData']['followup_channel_id'])) {
+            $request['followupDetails']['followup_channel_id'] = $request['enquiryData']['followup_channel_id'];
+        }else {
+            $request['followupDetails']['followup_channel_id'] = 3;
+        }
+        unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],$request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],$request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time']);
 
         /*  insert enquiry  */
         $request['enquiryData'] = array_merge($request['enquiryData'], $create);
         $request['enquiryData']['customer_id'] = $request['customer_id'];
         $request['enquiryData']['client_id'] = 1;
-        $request['enquiryData']['sales_employee_id'] = 1;
-        $request['enquiryData']['sales_channel_id'] = 3;
+        $request['enquiryData']['sales_employee_id'] = $loggedInUserId;
+        if (!empty($request['enquiryData']['sales_channel_id'])) {
+            $request['followupDetails']['sales_channel_id'] = $request['enquiryData']['sales_channel_id'];
+        }else {
+            $request['followupDetails']['sales_channel_id'] = 3;
+        }
         $request['enquiryData']['sales_source_id'] = $customerInfo[0]['source_id'];
         $request['enquiryData']['sales_subsource_id'] = $customerInfo[0]['subsource_id'];
         $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
@@ -433,14 +442,79 @@ class MasterSalesController extends Controller {
                     $projectDetail['enquiry_id'] = $insertEnquiry->id;
                     $createEnquiryDetail = EnquiryDetail::create($projectDetail);
                 }
-            } else {
-                
-            }
+            } 
             /* insert follow up details */
             $request['followupDetails'] = array_merge($request['followupDetails'], $create);
             $request['followupDetails']['enquiry_id'] = $insertEnquiry->id;
             $createFollowup = EnquiryFollowup ::create($request['followupDetails']);
-            $result = ['success' => true, 'message' => 'Enquiry Inserted Successfully.'];
+            $result = ['success' => true, 'message' => 'Record Inserted Successfully.'];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    public function updateEnquiry() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        if (empty($request['enquiryData']['loggedInUserId'])) {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        } else {
+            $loggedInUserId = $request['enquiryData']['loggedInUserId'];
+        }
+        
+        unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],
+                $request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],
+                $request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time'],
+                $request['enquiryData']['project_name'],$request['enquiryData']['block_name'],$request['enquiryData']['block_sub_type'],
+                $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks']);
+        /*  update followup  */
+        if (!empty($request['enquiryData']['followup_channel_id'])) {
+            $request['followupDetails']['followup_channel_id'] = $request['enquiryData']['followup_channel_id'];
+        }else {
+            $request['followupDetails']['followup_channel_id'] = 3;
+        }
+        
+        /*  update enquiry  */
+        if (!empty($request['enquiryData']['sales_channel_id'])) {
+            $request['enquiryData']['sales_channel_id'] = $request['enquiryData']['sales_channel_id'];
+        }else {
+            $request['enquiryData']['sales_channel_id'] = 3;
+        }
+        if (!empty($request['enquiryData']['property_possession_date'])) {
+            $request['enquiryData']['property_possession_date'] = date('Y-m-d', strtotime($request['enquiryData']['property_possession_date']));
+        }
+        if (!empty($request['enquiryData']['enquiry_locations'])) {
+            $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
+                        return $el['id'];
+                    }, $request['enquiryData']['enquiry_locations']));
+        }
+        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+        $request['enquiryData'] = array_merge($request['enquiryData'], $update);
+        
+        $insertEnquiry = Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
+        if ($insertEnquiry) {
+            /* update enquiry details */
+            if (!empty($request['projectEnquiryDetails'])) {
+                foreach ($request['projectEnquiryDetails'] as $projectDetail) {
+                    if(isset($projectDetail['id'])){
+                        $projectDetail = array_merge($projectDetail, $update);
+                        unset($projectDetail['project_name'],$projectDetail['blocks'],$projectDetail['subblocks']);
+                        EnquiryDetail::where('id', $projectDetail['id'])->update($projectDetail);
+                    }else{
+                        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                        $projectDetail = array_merge($projectDetail, $create);
+                        $projectDetail['enquiry_id'] = $request['enquiryData']['id'];
+                        unset($projectDetail['project_name'],$projectDetail['blocks'],$projectDetail['subblocks']);
+                        EnquiryDetail::create($projectDetail);
+                    }
+                }
+            } 
+            /* update follow up details */
+            $request['followupDetails'] = array_merge($request['followupDetails'], $update);
+            EnquiryFollowup ::where('enquiry_id', $request['enquiryData']['id'])->update($request['followupDetails']);
+            $result = ['success' => true, 'message' => 'Record updated Successfully.'];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

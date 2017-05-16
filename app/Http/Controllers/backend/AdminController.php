@@ -242,7 +242,7 @@ class AdminController extends Controller {
         $getBlockTypeId = array();
         if(!empty($blockList)){
             foreach($blockList as $key => $value){
-                $getBlockTypeId[] = $value['id']; 
+                $getBlockTypeId[] = $value['block_type_id']; 
             }
         }
         $blockTypeId = implode(",", $getBlockTypeId);         

@@ -237,7 +237,7 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.enquiryCreate', {
+                                /*.state(getUrl + '.enquiryCreate', {
                                     url: '/sales/createEnquiry/:customerId',
                                     templateUrl: function (stateParams) {
                                         return getUrl + '/master-sales/showEnquiry/' + stateParams.customerId;
@@ -266,7 +266,7 @@ angular.module('app')
                                             }   
                                         ]    
                                     }
-                                })
+                                })*/
                                 /*.state(getUrl + '.salesIndex', {
                                     templateUrl: getUrl + '/master-sales/create',
                                     controller: 'customerController',
@@ -295,14 +295,47 @@ angular.module('app')
                                         ]
                                     }
                                 })*/
-                                .state(getUrl + '.salesUpdateEnquiry', {
-                                    url: '/sales/update/:enquiryId',
+                                .state(getUrl + '.salesUpdateCustomer', {
+                                    url: '/sales/update/cid/:customerId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/master-sales/' + stateParams.enquiryId + '/edit';
+                                        return getUrl + '/master-sales/editCustomer/cid/' + stateParams.customerId;
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Update Enquiry'
+                                        label: 'Edit Customer'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/js/intlTelInput.js',
+                                                                '/backend/customerController.js',
+                                                                '/backend/enquiryController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                                '/backend/app/controllers/select.js',
+                                                                '/backend/app/controllers/timepicker.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state(getUrl + '.salesUpdateEnquiry', {
+                                    url: '/sales/update/cid/:customerId/eid/:enquiryId',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/master-sales/editEnquiry/cid/' + stateParams.customerId + '/eid/'+ stateParams.enquiryId;
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Enquiry'
                                     },
                                     resolve: {
                                         deps:

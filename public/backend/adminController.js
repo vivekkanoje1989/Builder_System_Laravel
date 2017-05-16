@@ -220,7 +220,7 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
     $scope.blockTypeList = [];
     $scope.subBlockList = [];
     $scope.getBlockTypes = function(projectId){
-        alert(projectId);
+        projectId = $scope.enquiryData.project_id.split('_')[0];
         Data.post('getBlockTypes',{projectId:projectId}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;

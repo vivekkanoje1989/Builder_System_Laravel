@@ -249,8 +249,9 @@
                                 <td>{{list.landline_number}}</td>
                                 <td>{{list.email_id}}</td>
                                 <td>{{list.pin}}</td>
-                                <td><div class="fa-hover" tooltip-html-unsafe="Edit Customer Contact" style="display: block;">
-                                        <a href data-toggle="modal  " data-target="#contactDataModal" ng-click="editContactDetails({{$index}})"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
+                                <td>
+                                    <div class="fa-hover" tooltip-html-unsafe="Edit Contact" style="display: block;">
+                                        <a href="javascript:void(0)" data-toggle="modal" data-target="#contactDataModal" ng-click="editContactDetails({{$index}})"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
                                     </div>
                                 </td>
                             </tr>                                            
@@ -259,16 +260,16 @@
                 </div>
             </div>
         </div>
-        <hr class="wide col-lg-12 col-xs-12 col-md-12" ng-if="showDivCustomer"/>
-        <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-            <button type="submit" class="btn btn-primary" id="custSubmitBtn" ng-show="showDivCustomer" ng-disabled="disableCreateButton" ng-click="formButton = true">{{btnLabelC}}</button>
+        <div class="col-lg-12 col-xs-12 col-md-12" align="center" ng-show="showDivCustomer" ng-disabled="disableCreateButton">
+            <button type="submit" class="btn btn-primary" id="custSubmitBtn" ng-click="formButton = true">{{btnLabelC}}</button>
+            <button type="submit" class="btn btn-primary" id="custSubmitBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')"><< Back</button>
         </div>
     </form>
 </div>
 <script>
-$(document).ready(function(){
-    $("#custSubmitBtn").click(function(){
-        $("li#enquiryDiv a.ng-binding").trigger("click"); 
-    })
-})
+//$(document).ready(function(){
+//    $("#custSubmitBtn").click(function(){
+//        $("li#enquiryDiv a.ng-binding").trigger("click"); 
+//    })
+//})
 </script>
