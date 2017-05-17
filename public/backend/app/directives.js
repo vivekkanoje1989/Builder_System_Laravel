@@ -119,7 +119,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                         $scope.searchData.searchWithMobile = customerMobileNo;
                         $scope.searchData.searchWithEmail = customerEmailId;
                         $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                        $scope.disableText = true;
+//                        $scope.disableText = true;
 
                     } else{ //enquiry list of customer
                         $scope.showDiv = true;

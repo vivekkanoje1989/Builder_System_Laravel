@@ -215,6 +215,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.modal = {};
         }
         $scope.manageForm = function (customerId,enquiryId){ 
+            var date = new Date();
+            $scope.enquiryData.sales_enquiry_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+            $scope.enquiryData.sales_category_id = $scope.enquiryData.property_possession_type = "1";
+            $scope.enquiryData.city_id = $scope.enquiryData.followup_by_employee_id = "";            
+            $scope.enquiryData.parking_required = $scope.enquiryData.finance_required = "0";
+            date.setHours("10");
+            date.setMinutes("00");
+            $scope.enquiryData.next_followup_time = date;
             if(customerId !== 0 && enquiryId === 0){
                 Data.post('master-sales/getCustomerDataWithId', {
                 data: {customerId: customerId},
@@ -257,7 +265,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     });
                     $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
                     $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                    $scope.disableText = true;
+//                    $scope.disableText = true;
                 });
             }
             if(customerId !== 0 && enquiryId !== 0){
@@ -314,7 +322,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         });
                         $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
                         $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                        $scope.disableText = true; //disable mobile and email text box 
+//                        $scope.disableText = true; //disable mobile and email text box 
                         
                         $timeout(function () {
                             $scope.hstep = $scope.mstep = 0;
@@ -346,7 +354,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.showDiv = false;
                 $scope.showDivCustomer = true;
                 $scope.disableSource = true;  
-                $scope.btnLabelC = "Update";
+                $scope.btnLabelC = "Update & Insert enquiry";
                 $scope.btnLabelE = "Save";
                 $scope.pageHeading = 'Update Customer';
                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
@@ -379,7 +387,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 });
                 $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
                 $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                $scope.disableText = true; //disable mobile and email text box 
+//                $scope.disableText = true; //disable mobile and email text box 
             });
         }
         
@@ -395,10 +403,13 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
+        
         $scope.saveEnquiryData = function (enquiryData)
         {
-            if($scope.enquiryData.id === 0){
+            var date = new Date($scope.enquiryData.next_followup_date);
+            $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+            
+            if(typeof $scope.enquiryData.id === 'undefined'){
                 Data.post('master-sales/saveEnquiry', {
                     enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
                 }).then(function (response) {
@@ -411,13 +422,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
                 }).then(function (response) {
                     toaster.pop('success', 'Enquiry', response.message);
-                    $scope.disableFinishButton = true;
                 });
             }
         }
-        $scope.addProjectRow = function (projectId, blockId, subBlockId)
+        $scope.addProjectRow = function (projectId)
         {
-            if ((projectId !== "") && (blockId !== "") && (subBlockId !== ""))
+            if ((projectId !== ""))
             {
                 var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
                 var totalBlocks = $scope.enquiryData.block_id.length;
@@ -435,14 +445,33 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     $scope.blockname.push($scope.enquiryData.block_id[j].block_name);
                     $scope.block_id.push($scope.enquiryData.block_id[j].id);
                 }
-                $scope.projectsDetails.push({
-                    'project_id': $scope.enquiryData.project_id.split('_')[0],
-                    'project_name': $scope.enquiryData.project_id.split('_')[1],
-                    'blocks': $scope.blockname.toString(),
-                    'block_id': $scope.block_id.toString(),
-                    'sub_block_id': $scope.sub_block_id.toString(),
-                    'subblocks': $scope.subblockname.toString(),
-                });
+                if($scope.enquiryData.id === 'undefined'){
+                    Data.post('master-sales/addEnquiryDetailRow',{
+                        enquiry_id: $scope.enquiryData.id,
+                        project_id: $scope.enquiryData.project_id.split('_')[0],
+                        block_id: $scope.block_id.toString(),
+                        sub_block_id: $scope.sub_block_id.toString()
+                    }).then(function(response){
+                        $scope.projectsDetails.push({
+                            'id': response.enqId,
+                            'project_id': $scope.enquiryData.project_id.split('_')[0],
+                            'project_name': $scope.enquiryData.project_id.split('_')[1],
+                            'blocks': $scope.blockname.toString(),
+                            'block_id': $scope.block_id.toString(),
+                            'sub_block_id': $scope.sub_block_id.toString(),
+                            'subblocks': $scope.subblockname.toString(),
+                        })
+                    });
+                }else{
+                    $scope.projectsDetails.push({
+                        'project_id': $scope.enquiryData.project_id.split('_')[0],
+                        'project_name': $scope.enquiryData.project_id.split('_')[1],
+                        'blocks': $scope.blockname.toString(),
+                        'block_id': $scope.block_id.toString(),
+                        'sub_block_id': $scope.sub_block_id.toString(),
+                        'subblocks': $scope.subblockname.toString(),
+                    });
+                }
                 $("#projectBody").hide();
                 $scope.enquiryData.block_id = {};
                 $scope.enquiryData.sub_block_id = {};
@@ -459,16 +488,22 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             }
         }
-        $scope.removeRow = function (id) {
+        $scope.removeRow = function (rowId,enquiryDetailId) {
+            if(enquiryDetailId !== ''){
+                Data.post('master-sales/delEnquiryDetailRow', {
+                    enquiryDetailId: enquiryDetailId,
+                }).then(function(){});
+            }
             var index = -1;
             var comArr = eval($scope.projectsDetails);
             for (var i = 0; i < comArr.length; i++) {
-                if (comArr[i].name === id) {
+                if (comArr[i].name === rowId) {
                     index = i;
                     break;
                 }
             }
             $scope.projectsDetails.splice(index, 1);
+            
         }
         $scope.changeLocations = function (cityId)
         {

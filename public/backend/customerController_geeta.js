@@ -226,7 +226,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 $scope.searchData.searchWithMobile = $scope.searchData.searchWithMobile;
                 $scope.searchData.searchWithEmail = $scope.searchData.searchWithEmail;
                 $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                $scope.disableText = true;
+//                $scope.disableText = true;
             });
         }
 

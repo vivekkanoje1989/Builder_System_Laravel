@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <label for="">Mobile Number</label>
                                         <span class="input-icon icon-right">                                    
-                                            <input type="text" class="form-control" ng-model="searchData.searchWithMobile" get-customer-details-directive ng-disabled="disableText" minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
+                                            <input type="text" class="form-control" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
                                             <i class="glyphicon glyphicon-phone"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
                                                 <div ng-message="minlength">Invalid mobile no.</div>
@@ -58,7 +58,7 @@
                                     <div class="form-group">
                                         <label for="">Email ID</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" class="form-control" get-customer-details-directive ng-model="searchData.searchWithEmail" ng-disabled="disableText" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkValue(customerData.searchWithEmail)">
+                                            <input type="email" class="form-control" get-customer-details-directive ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkValue(customerData.searchWithEmail)">
                                             <i class="glyphicon glyphicon-envelope"></i>
                                         </span>
                                     </div>
@@ -73,7 +73,7 @@
                             <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/createCustomer'"></div>
                         </tab>
                         <tab heading="Enquiry Information" active="enquiry_div" id="enquiryDiv" style="display: none;">
-                            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/createEnquiry'" ></div>
+                            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/createEnquiry'"></div>
                         </tab>
                     </tabset>
                 </div>
@@ -141,7 +141,7 @@
                                     <td align="center" style="vertical-align: middle;">Open</td>
                                     <td align="left">
                                         <div>Owner: {{list.owner_fname}} {{list.owner_lname}}</div><hr>
-                                        <a href="javascript:void(0);" id="enq_id" onclick="get_history(133,1)" data-reveal-id="history">Show Enquiry History</a>                                        
+                                        <button type="button" class="btn btn-primary ng-click-active" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ list.id }})">View History</button>                                     
                                     </td>
                                 </tr>
                             </tbody> 
@@ -415,6 +415,12 @@
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+            <!-- Enquiry History Modal -->
+            <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-lg">
+                    <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
                 </div>
             </div>
         </div>

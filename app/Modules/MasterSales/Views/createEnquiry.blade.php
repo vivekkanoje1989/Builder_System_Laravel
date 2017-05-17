@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <input type="hidden" ng-model="enquiryData.csrfToken" name="csrftoken" id="csrftoken" ng-init="enquiryData.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-            <input type="hidden" ng-model="enquiryData.id" name="id"  value="{{enquiryData.id}}">
+            <input type="hidden" ng-model="enquiryData.id" name="id" value="{{enquiryData.id}}">
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">                    
                     <div class="col-sm-3 col-xs-6">
@@ -41,7 +41,7 @@
                             <label for="">Max Budget <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <input class="form-control" type="text" maxlength="7" ng-model="enquiryData.max_budget" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="max_budget" required>
-                                <i class="fa fa-motorcycle"></i>
+                                <i class="fa fa-money"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.max_budget.$error" class="help-block enqFormBtn">
                                 <div ng-message="required">Please enter max budget</div>
@@ -64,10 +64,11 @@
             <div class="row">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6">
-                        <div class="form-group">
-                            <label for="">Enter colleague name to reassign enquiry <span class="sp-err">*</span></label>
+                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
+                            <label for="">Colleague name to reassign enquiry <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id" required>
+                                    <option value="">Select Employee</option>
                                     <option ng-repeat="list in employeeList" value="{{list.id}}">{{list.first_name}} {{list.last_name}}</option>                                              
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
@@ -149,7 +150,7 @@
                             <label for="">Number of 4 wheeler parkings required</label>
                             <span class="input-icon icon-right">
                                 <input class="form-control" type="text" ng-model="enquiryData.four_wheeler_parkings_required" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="four_wheeler_parkings_required">
-                                <i class="fa fa-motorcycle"></i>
+                                <i class="fa fa-car"></i>
                             </span>
                         </div>
                     </div>
@@ -229,7 +230,7 @@
                             <label for="">Preferred City <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="enquiryData.city_id" name="city_id" ng-change="changeLocations(enquiryData.city_id)">
-                                    <option>Select Preferred city</option>     
+                                    <option value="">Select Preferred city</option>     
                                     <option ng-repeat="list in cityList" value="{{list.city_id}}" ng-selected="{{ list.city_id == enquiryData.city_id}}">{{ list.get_city_name.name}}</option>                                                                                                                
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
@@ -255,11 +256,11 @@
                             <label for="">Interested In</label>
                             <div class="radio" style="margin-top: 0px;">
                                 <label>
-                                    <input type="radio" class="inverted" ng-model="enquiryData.property_possession_type" name="property_possession_type" value="1">
+                                    <input type="radio" class="" ng-model="enquiryData.property_possession_type" name="property_possession_type" value="1">
                                     <span class="text">Ready Possession </span>
                                 </label>&nbsp;&nbsp;
                                 <label>
-                                    <input type="radio" class="inverted" ng-model="enquiryData.property_possession_type" name="property_possession_type" value="0">
+                                    <input type="radio" class="" ng-model="enquiryData.property_possession_type" name="property_possession_type" value="0">
                                     <span class="text">Under Construction</span>
                                 </label>
                             </div>
@@ -290,11 +291,11 @@
                         <label for="">Project</label>
                         <span class="input-icon icon-right">
                             <select ng-controller="projectCtrl" ng-model="enquiryData.project_id" name="project_id" class="form-control" ng-change="getBlockTypes(enquiryData.project_id)">
-                                <option value="">Select type</option>
+                                <option value="">Select Project</option>
                                 <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}">{{plist.project_name}}</option>
                             </select>
                             <i class="fa fa-sort-desc"></i>
-                            <div ng-if="!enquiryData.project_id" ng-show="emptyProjectId" class="help-block">Please select Project </div>
+                            <div ng-if="(!enquiryData.project_id) || (projectsDetails.length == 0)" ng-show="emptyProjectId" class="help-block">Please select Project </div>
                         </span>
                     </div>
                 </div>
@@ -331,7 +332,6 @@
                         <span class="input-icon icon-right">
                             <button type="button" class="btn btn-primary" ng-click="addProjectRow({{enquiryData.project_id}})">Add Project</button>
                         </span> 
-                        <!--,'{{enquiryData.block_id}}','{{enquiryData.block_sub_type}}'-->
                     </div>
                 </div>                   
             </div>
@@ -361,8 +361,7 @@
                                     <td>{{ list.blocks}}</td>
                                     <td>{{ list.subblocks}}</td>                                               
                                     <td><div class="fa-hover" tooltip-html-unsafe="Project enquiry" style="display: block;">
-                                            <!--<a href data-toggle="modal" data-target="#projectDataModal" ng-click="initContactModal()"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;-->
-                                            <a href ng-click="removeRow({{ index }},{{ list.id }})"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
+                                            <a href ng-click="removeRow('{{ $index }}','{{ list.id }}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
                                         </div>
                                     </td>
                                 </tr>                                            

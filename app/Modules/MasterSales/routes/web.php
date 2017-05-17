@@ -14,6 +14,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::get($getUrl . '/MasterSales/listingTable', function () {
         return View::make('MasterSales::listingTable');
     });
+    Route::get($getUrl . '/MasterSales/enquiryHistory', function () {
+        return View::make('MasterSales::enquiryHistory');
+    });
     /****************************ENQUIRIES****************************/
     Route::get($getUrl . '/master-sales/totalEnquiries', function () {
         return view('MasterSales::totalEnquiries');
@@ -76,6 +79,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::post($getUrl . '/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details
     Route::post($getUrl . '/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // getCustomerDataWithId
     Route::post($getUrl . '/master-sales/checkMobileExist', 'MasterSalesController@checkMobileExist');
+    Route::post($getUrl . '/master-sales/delEnquiryDetailRow', 'MasterSalesController@delEnquiryDetailRow');
+    Route::post($getUrl . '/master-sales/addEnquiryDetailRow', 'MasterSalesController@addEnquiryDetailRow');
+    Route::post($getUrl . '/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');
     Route::post($getUrl . '/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');
     
     /****************************ENQUIRIES****************************/

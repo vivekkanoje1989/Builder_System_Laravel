@@ -72,6 +72,21 @@ class MasterHrController extends Controller {
         }
     }
 
+    public function appProfile(){
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        $getProfileDetails = Employee::select('title_id','first_name','last_name','date_of_birth',
+                'gender_id','personal_mobile1','personal_mobile1','department_id','designation_id','team_lead_id', 'joining_date'
+                ,'employee_photo_file_name')->where('id', $request['id'])->get();
+        if (!empty($getProfileDetails)) {
+            $result = ['success' => true, "records" => $getProfileDetails];
+        } else {
+            $result = ['success' => false, "records" => "No records found"];
+        }
+        echo json_encode($result);
+        
+    }
     public function manageRolesPermission() {
         if (Auth::guard('admin')->user()->id == 1) {
             $roles = EmployeeRole::all();
@@ -83,11 +98,10 @@ class MasterHrController extends Controller {
         $roles = EmployeeRole::all();
         if (!empty($roles)) {
             $result = ['success' => true, "list" => $roles];
-            echo json_encode($result);
         } else {
             $result = ['success' => false, "message" => "No records found"];
-            echo json_encode($result);
         }
+        echo json_encode($result);
     }
 
     public function changePassword() {
