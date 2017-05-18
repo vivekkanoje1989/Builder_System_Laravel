@@ -10,7 +10,10 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Models/WebPage.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/frontend/UserController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Theme32/header.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/webPageController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Views/updateWebPage.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Theme32/footer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Controllers/WebPagesController.php</file>
         </group>
     </open-files>
 </project-private>

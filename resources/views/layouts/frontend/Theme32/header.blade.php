@@ -48,24 +48,19 @@
                             BMS BUILDER
                         </a>
                     </div>
-
                     <nav class="nav-main" ng-init="getMenus()">
-
                         <ul>
-                            <li ng-repeat="menu in getMenus | orderBy:'parent_page_position'" class="nav-main-item"  ng-class="{'active':$first}">
-                                <a class="nav-main-link" href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/index">{{menu.page_name}}</a>
+                            <li ng-repeat="menu in getMenus| orderBy:'parent_page_position'" class="nav-main-item"  ng-class="{'active':$first}">
+                                <a class="nav-main-link" href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/{{menu.page_name}}">{{menu.page_name}}</a>
                                 <ul>
                                     <li    ng-repeat="subMenu in menu.menu_list">
                                         <a  href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/{{subMenu.page_name}}">{{subMenu.page_name}}</a>
                                     </li>
                                 </ul>
                             </li>
-                            
                         </ul>
                     </nav>
-
                     <button class="btn-nav"></button>
-
                 </div>
 
             </header>
