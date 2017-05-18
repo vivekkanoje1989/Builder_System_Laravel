@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
+        <file>
+            <url>app/Modules/MasterSales/Views/index.blade.php</url>
+            <bookmark id="1">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Theme39/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Theme39/header.blade.php</file>
@@ -9,5 +19,8 @@
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/theme31/about.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/theme31/index.blade.php</file>
         </group>
+=======
+        <group/>
+>>>>>>> 68e051dec948c3fb4c2becf903fb86d6c5e5ca19
     </open-files>
 </project-private>

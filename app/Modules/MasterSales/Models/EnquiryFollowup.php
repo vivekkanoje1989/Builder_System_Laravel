@@ -25,7 +25,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $recording_log_type
  * @property int $recording_id
  * @property \Carbon\Carbon $next_followup_date
- * @property string $next_follwoup_time
+ * @property string $next_followup_time
  * @property \Carbon\Carbon $actual_followup_date_time
  * @property int $finance_category_id
  * @property int $enquiry_category_id
@@ -52,17 +52,20 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class EnquiryFollowup extends Eloquent
 {
+        protected $primaryKey = 'id';
 	protected $casts = [
-		'client_id' => 'int',
-		'ct_logs_inbounds_id' => 'int',
 		'enquiry_id' => 'int',
-		'followup_channel_id' => 'int',
-		'followup_by_vertical_id' => 'int',
 		'followup_by_employee_id' => 'int',
-		'recording_log_type' => 'int',
-		'recording_id' => 'int',
+		'followup_entered_through' => 'int',
+		'call_recording_log_type' => 'int',
+		'sales_category_id' => 'int',
+		'sales_subcategory_id' => 'int',
+		'sales_status_id' => 'int',
+		'sales_substatus_id' => 'int',
 		'finance_category_id' => 'int',
-		'enquiry_category_id' => 'int',
+		'finance_subcategory_id' => 'int',
+		'finance_status_id' => 'int',
+		'finance_substatus_id' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int',
 		'deleted_status' => 'int',
@@ -75,6 +78,7 @@ class EnquiryFollowup extends Eloquent
 	protected $dates = [
 		'followup_date_time',
 		'next_followup_date',
+//		'next_followup_time',
 		'actual_followup_date_time',
 		'created_date',
 		'updated_date',
@@ -82,37 +86,44 @@ class EnquiryFollowup extends Eloquent
 	];
 
 	protected $fillable = [
-		'client_id',
-		'ct_logs_inbounds_id',
 		'enquiry_id',
-		'followup_channel_id',
-		'channel_info',
 		'followup_date_time',
-		'followup_by_vertical_id',
 		'followup_by_employee_id',
+		'followup_entered_through',
 		'remarks',
-		'recording_log_type',
-		'recording_id',
+		'call_recording_log_type',
+		'call_recording_id',
 		'next_followup_date',
-		'next_follwoup_time',
+		'next_followup_time',
 		'actual_followup_date_time',
+		'sales_category_id',
+		'sales_subcategory_id',
+		'sales_status_id',
+		'sales_substatus_id',
 		'finance_category_id',
-		'enquiry_category_id',
+		'finance_subcategory_id',
+		'finance_status_id',
+		'finance_substatus_id',
 		'created_date',
 		'created_by',
 		'created_IP',
 		'created_browser',
 		'created_mac_id',
-		'updated_date',
-		'updated_by',
-		'updated_IP',
-		'updated_browser',
-		'updated_mac_id',
-		'deleted_status',
-		'deleted_date',
-		'deleted_by',
-		'deleted_IP',
-		'deleted_browser',
-		'deleted_mac_id'
+//		'updated_date',
+//		'updated_by',
+//		'updated_IP',
+//		'updated_browser',
+//		'updated_mac_id',
+//		'deleted_status',
+//		'deleted_date',
+//		'deleted_by',
+//		'deleted_IP',
+//		'deleted_browser',
+//		'deleted_mac_id'
 	];
+        
+        public function getEnquiryFromFollowup()
+        {
+            return $this->belongsTo('App\Modules\MasterSales\Models\Enquiry', 'enquiry_id')->with('customerDetails','customerContacts','channelName','getEnquiryDetails','getEnquiryCategoryName','getEnquiryLocation');
+        }
 }

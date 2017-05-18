@@ -132,4 +132,8 @@ class Customer extends Model
         );
         return $rules;
     }
+    public function getCustomerContacts()
+    {
+       return $this->belongsTo('App\Modules\MasterSales\Models\CustomersContact','id');
+    }
 }

@@ -1,5 +1,6 @@
 <div class="row">
     <form role="form" name="amenitiesForm" ng-submit="saveBasicInfo(amenityData, projectImages)">
+        <input type="hidden" ng-model="amenitiesForm.csrfToken" name="csrftoken" ng-init="amenitiesForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
@@ -10,8 +11,8 @@
                 </div>
             </div>
             <div class="col-sm-12 col-xs-12" ng-if="amenities_images">
-                <div class="img-div2" data-title="name" ng-repeat="list in amenities_images">    
-                    <i class="fa fa-times rem-icon"  title=""></i>
+                <div class="img-div2" data-title="name" ng-repeat="list in amenities_images" id="del_amenities_images_{{$index}}">    
+                    <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{amenities_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/amenities_images/', 'amenities_images')"></i>
                     <img src="[[ Session::get('s3Path') ]]project/amenities_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in amenities_images_preview">    
@@ -49,7 +50,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
             <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
             <div class="form-group" align="center">
-                <button type="submit" class="btn btn-primary">Save & Continue</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </div> 
         </div>
     </form>

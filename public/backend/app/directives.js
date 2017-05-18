@@ -79,11 +79,13 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
             return Data.post('master-sales/getCustomerDetails', {
                 data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId},
             }).then(function (response) {
-                if (response.success) {
-                    if (response.flag === 0)
+                if (response.success) { //response true
+                    if (response.flag === 0)//if customer exist
                     {
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
+                        $scope.btnLabelC = "Update";
+                        $scope.disableSource = true;  
                         $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                         $scope.contacts = angular.copy(response.customerContactDetails);
                         $scope.contactData = angular.copy(response.customerContactDetails);
@@ -117,18 +119,15 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                         $scope.searchData.searchWithMobile = customerMobileNo;
                         $scope.searchData.searchWithEmail = customerEmailId;
                         $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                        $scope.disableText = true;
+//                        $scope.disableText = true;
 
-                    } else
-                    {
+                    } else{ //enquiry list of customer
                         $scope.showDiv = true;
-                        $scope.showDivCustomer = false;
+                        //$scope.enquiryList = true;
+//                        $scope.showDivCustomer = false;
                         $scope.listsIndex = response;
                     }
-                    /*
-                     
-                     */
-                } else {
+                } else {//response false
                     $scope.showDiv = false;
                     $scope.showDivCustomer = true;
                     if ($scope.searchData.searchWithMobile === undefined) {

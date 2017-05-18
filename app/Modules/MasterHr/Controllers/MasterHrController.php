@@ -23,10 +23,21 @@ use Session;
 class MasterHrController extends Controller {
 
     public function __construct() {
-        $this->middleware('web');
+        
+        /*$routeName = \Route::getCurrentRoute()->getActionName();
+        $actionName = substr($routeName, strpos($routeName, "@") + 1);    
+        $actionArr = ["create" => "030102", "store" => "030102","edit" => "030102", "update" => "030102", 'index' => '030101', 'manageUsers' => '030101',
+            'orgchart' => '030104','getChartData' => '030104','manageRolesPermission' => '030101','getRoles' => '030101', 'getDepartmentsToEdit' => '030102','editDepartments' => '030102',
+            'userPermissions' => '030101','getMenuLists'=>'030101','accessControl' => '030101','updatePermissions' => '030101',
+            'rolePermissions' => '030101','changePassword' => '030101'];
+        if(!empty($actionArr[$actionName])){
+            $this->middleware('check-permission',['only' => $actionArr[$actionName]]);
+//          $this->middleware('check-permission:'.$actionArr[$actionName]);
+        }*/
+        
     }
 
-    public function index() {
+    public function index() {        
         return view("MasterHr::index")->with("loggedInUserId", Auth::guard('admin')->user()->id);
     }
 
@@ -62,6 +73,21 @@ class MasterHrController extends Controller {
         }
     }
 
+    public function appProfile(){
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        $getProfileDetails = Employee::select('title_id','first_name','last_name','date_of_birth',
+                'gender_id','personal_mobile1','personal_mobile1','department_id','designation_id','team_lead_id', 'joining_date'
+                ,'employee_photo_file_name')->where('id', $request['id'])->get();
+        if (!empty($getProfileDetails)) {
+            $result = ['success' => true, "records" => $getProfileDetails];
+        } else {
+            $result = ['success' => false, "records" => "No records found"];
+        }
+        echo json_encode($result);
+        
+    }
     public function manageRolesPermission() {
         if (Auth::guard('admin')->user()->id == 1) {
             $roles = EmployeeRole::all();
@@ -73,11 +99,10 @@ class MasterHrController extends Controller {
         $roles = EmployeeRole::all();
         if (!empty($roles)) {
             $result = ['success' => true, "list" => $roles];
-            echo json_encode($result);
         } else {
             $result = ['success' => false, "message" => "No records found"];
-            echo json_encode($result);
         }
+        echo json_encode($result);
     }
 
     public function changePassword() {
@@ -191,7 +216,7 @@ class MasterHrController extends Controller {
             $input = Employee::doAction($input);
             $employee = Employee::create($input['userData']); //insert data into employees table     
 
-            $input['userData']['main_record_id'] = $loggedInUserId;
+            $input['userData']['main_record_id'] = $employee->id;
             $input['userData']['record_type'] = 1;
             $input['userData']['record_restore_status'] = 1;
             EmployeesLog::create($input['userData']);   //insert data into employees_logs table
@@ -335,7 +360,7 @@ class MasterHrController extends Controller {
 
         if ($employeeUpdate == 1) {
             $input['userData']['password'] = $pwdData;
-            $input['userData']['main_record_id'] = $loggedInUserId;
+            $input['userData']['main_record_id'] = $id;
             $input['userData']['record_type'] = 2;
             $input['userData']['column_names'] = $implodeArr;
             $input['userData']['record_restore_status'] = 1;
@@ -556,12 +581,12 @@ class MasterHrController extends Controller {
             }
         }
     }
+
     public function appAccessControl() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         if ($input['data']['isChecked'] == true) {//checkbox checked
-            //{"data":{"empId":2,"submenuId":[107],"isChecked":true,"moduleType":"employee"}}
-            
+            //{"data":{"empId":2,"submenuId":[0307],"isChecked":true,"moduleType":"employee"},{"empId":2,"submenuId":[0107,0108,0201],"isChecked":false,"moduleType":"employee"}}
             if ($input['data']['moduleType'] === 'roles') {
                 $getSubMenus = EmployeeRole::select('employee_submenus')->where('id', $input['data']['empId'])->get();
             } else {
@@ -571,16 +596,14 @@ class MasterHrController extends Controller {
             if ($getSubMenus[0]['employee_submenus'] != '') {
                 $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'], true);
             }
-            $submenuId = array();
-            $submenuId = array_map(function($el) {
-                return '0' . $el;
-            }, $input['data']['submenuId']);
-
+           
             if (!empty($getMenuItem)) {
-                $menuArr = array_unique(array_merge($submenuId, $getMenuItem)); //merge elements
+                $menuArr = array_unique(array_merge($input['data']['submenuId'], $getMenuItem)); //merge elements
+            } else {
+                $menuArr = $input['data']['submenuId'];
             }
             asort($menuArr);
-            $jsonArr = json_encode($input['data']['submenuId'], true);
+            $jsonArr = json_encode($menuArr, true);
             if ($input['data']['moduleType'] === 'roles') {
                 EmployeeRole::where('id', $input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
             } else {

@@ -14,385 +14,155 @@
     }
     .errMsg{
         color:red;
+    }    
+    .demo-tab .tab-content{
+        display: inline-block !important;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: 1px 0 10px 1px rgba(0, 0, 0, .3);
+        box-shadow: none;
+        border: 1px solid #e5e5e5;
+    }
+    .demo-tab .nav-tabs{
+        display: inline-flex;
+        margin: 0 30px;
     }
 </style>
-<div class="row">
+<div class="row"> 
     <div class="widget flat radius-bordered ">
-        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController">
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController" ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]])"><!-- ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]])" manageForm(customerID,enquiryId) -->
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
-            <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
-                <div id="customer-form">
-                    <form novalidate role="form" name="customerForm" ng-submit="customerForm.$valid && createCustomer(customerData, customerData.image_file, contactData)">
-                        <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'">
-                        <input type="hidden" ng-model="searchData.customerId" name="customerId" id="custId" value="{{searchData.customerId}}">
-                        <div class="row col-lg-12 col-sm-12 col-xs-12">
-                            <div class="col-lg-6 col-sm-6 col-xs-12">
-                                <div class="form-title">
-                                    Customer Details  
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Mobile Number</label>
-                                            <span class="input-icon icon-right">                                    
-                                                <input type="text" class="form-control" ng-model="searchData.searchWithMobile" get-customer-details-directive ng-disabled="disableText" minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)">
-                                                <i class="glyphicon glyphicon-phone"></i>
-                                                <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
-                                                    <div ng-message="minlength">Invalid mobile no.</div>
-                                                    <div ng-message="customerInputs">Mobile number does not exist!</div>
-                                                </div> 
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Email ID</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="email" class="form-control" get-customer-details-directive ng-model="searchData.searchWithEmail" ng-disabled="disableText" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkValue(customerData.searchWithEmail)">
-                                                <i class="glyphicon glyphicon-envelope"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>     
-                        </div>
-                        <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
-                            <hr class="wide" />
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <div class="form-title">
-                                    Previous Open Enquiries
-                                </div>
+            <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12" style="box-shadow:none;">
+                <div id="customer-form">                    
+                    <input type="hidden" ng-model="customerData.csrfToken" name="csrftoken" id="csrftoken" ng-init="customerData.csrfToken = '[[ csrf_token() ]]'">
+                    <input type="hidden" ng-model="searchData.customerId" name="customerId" id="custId" value="{{searchData.customerId}}">
+                    <div class="row col-lg-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="form-title">
+                                Customer Details  
                             </div>
-                            <div class="widget-body table-responsive">
-                                <table class="table table-hover table-striped table-bordered">
-                                    <thead>
-                                    <th>Sr.No.</th>
-                                    <th>Customer Details</th>
-                                    <th>Enquiry Details</th>
-                                    <th>Last Followup</th>
-                                    <th>Enquiry Status</th>
-                                    <th>Enquiry</th>
-                                    </thead>                                 
-                                    <tbody>
-                                        <tr ng-repeat="list in listsIndex.CustomerEnquiryDetails">
-                                            <td>{{ $index + 1}}</td>
-                                            <td>
-                                                <div ng-repeat="cust in listsIndex.customerPersonalDetails">
-                                                    {{ cust.first_name}} {{ cust.last_name}} <br>
-                                                    {{ listsIndex.customerContactDetails.mobile_number}}
-                                                    <!--{{ listsIndex.customerContactDetails.email_id }}-->
-                                                </div><hr/>
-                                                <div>
-                                                    <a href="">C1233456A1</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    Total Enquiries : {{ listsIndex.CustomerEnquiryDetails.length}}&nbsp;&nbsp;
-                                                    Booked :0
-                                                </div><hr>
-                                                Source: {{ list.channel_name.channel_name}}
-                                            </td>
-                                            <td>
-                                                {{ list.get_enquiry_details.get_project_name.project_name}} <br>
-                                                {{ list.get_enquiry_details.get_block.block_sub_type}}<br>
-
-                                                <div>
-                                                    <a href="">EQ20170304133</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    {{ list.get_enquiry_category_name.enquiry_category}}
-                                                </div>
-                                                No.of Followups : 6
-                                                No.of site visits : 1<br>
-                                                Location :{{ list.enquiry_locations}}
-                                                Other :N/A
-                                                No Parking Required
-                                            </td>
-                                            <td>
-                                                Followups : {{ list.get_followup_details.followup_date_time}}
-                                            </td>
-                                            <td>Open</td>
-                                            <td>
-                                                Owner: [[ Auth::guard('admin')->user()->first_name ]] [[ Auth::guard('admin')->user()->last_name ]]
-                                            </td>
-                                        </tr>                                       
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
-                            <center><a class="btn btn-primary" ng-click="createEnquiry()">INSERT NEW ENQUIRY</a></center>
-                            <!-- href="#/[[ config('global.getUrl')]]/sales/createEnquiry/{{ listsIndex.customerContactDetails.id }}" -->
-                        </div>
-
-
-
-                        <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDivCustomer">
-                            <hr class="wide" />
-                            <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <div class="form-title">
-                                    Personal Details
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-6 col-xs-12">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Title</label>
-                                            <span class="input-icon icon-right">
-                                                <select ng-model="customerData.title_id" ng-controller="titleCtrl" name="title_id" class="form-control" required>
-                                                    <option value="">Select Title</option>
-                                                    <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.title_id}}">{{t.title}}</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i> 
-                                                <div ng-show="formButton" ng-messages="customerForm.title_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required">This field is required</div>
-                                                </div>
-                                                <div ng-if="title_id" class="errMsg title_id">{{title_id}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">First Name</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
-                                                <i class="fa fa-user"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.first_name.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter first name</div>
-                                                </div>
-                                                <div ng-if="first_name" class="errMsg first_name">{{first_name}}</div>
-                                            </span>
-                                        </div>
+                            <div class="row">
+                                <div class="col-sm-3 col-md-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="">Mobile Number</label>
+                                        <span class="input-icon icon-right">                                    
+                                            <input type="text" class="form-control" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
+                                            <i class="glyphicon glyphicon-phone"></i>
+                                            <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
+                                                <div ng-message="minlength">Invalid mobile no.</div>
+                                                <div ng-message="customerInputs">Mobile number does not exist!</div>
+                                            </div> 
+                                        </span>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Middle Name</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.middle_name" name="middle_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="17">
-                                                <i class="fa fa-user"></i>
-                                                <div ng-if="middle_name" class="errMsg middle_name">{{middle_name}}</div>
-                                            </span>
-                                        </div>
+                                <div class="col-sm-3 col-md-3 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="">Email ID</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="email" class="form-control" get-customer-details-directive ng-model="searchData.searchWithEmail" name="searchWithEmail" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{allowInvalid: true, debounce: 500}" ng-change="checkValue(customerData.searchWithEmail)">
+                                            <i class="glyphicon glyphicon-envelope"></i>
+                                        </span>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Last Name</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="customerData.last_name" name="last_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
-                                                <i class="fa fa-user"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.last_name.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter last name</div>
-                                                </div>
-                                                <div ng-if="last_name" class="errMsg last_name">{{last_name}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Gender</label>
-                                            <span class="input-icon icon-right">
-                                                <select ng-model="customerData.gender_id" name="gender_id" ng-controller="genderCtrl" class="form-control" required>
-                                                    <option value="">Select Gender</option>
-                                                    <option ng-repeat="genderList in genders track by $index" value="{{genderList.id}}" ng-selected="{{ genderList.id == customerData.gender}}">{{genderList.gender}}</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.gender_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter gender</div>
-                                                </div>
-                                                <div ng-if="gender_id" class="errMsg gender_id">{{gender_id}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Birth Date</label>
-                                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
-                                                <p class="input-group">
-                                                    <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
-                                                    <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                                    </span>
-                                                <div ng-show="formButton" ng-messages="customerForm.birth_date.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please select birth date</div>
-                                                </div>
-                                                <div ng-if="birth_date"class="errMsg birth_date">{{birth_date}}</div>
-                                                </p>
-                                            </div>                                           
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Marriage Date</label>
-                                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
-                                                <p class="input-group">
-                                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
-                                                    <span class="input-group-btn">
-                                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> 
-                            <div class="col-lg-6 col-sm-6 col-xs-12">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Profession</label>
-                                            <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="customerData.profession_id" name="profession_id" ng-controller="professionCtrl" required>
-                                                    <option value="">Select Profession</option>
-                                                    <option ng-repeat="t in professions track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.profession}}">{{t.profession}}</option>
-                                                </select>                
-                                                <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.profession_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter profession</div>
-                                                </div>
-                                                <div ng-if="profession_id" class="errMsg profession_id">{{profession_id}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Monthly Income</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
-                                                <i class="fa fa-money"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.monthly_income.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter monthly income</div>
-                                                </div>
-                                                <div ng-if="monthly_income" class="errMsg monthly_income">{{monthly_income}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">SMS Privacy Status</label>
-                                            <span class="input-icon icon-right">
-                                                <select ng-model="customerData.sms_privacy_status" name="sms_privacy_status" class="form-control" required>
-                                                    <option value="0">In active</option>
-                                                    <option value="1">Active</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.sms_privacy_status.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter SMS privacy status</div>
-                                                </div>
-                                                <div ng-if="sms_privacy_status" class="errMsg sms_privacy_status">{{sms_privacy_status}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Email Privacy Status</label>
-                                            <span class="input-icon icon-right">                                                
-                                                <select ng-model="customerData.email_privacy_status" name="email_privacy_status" class="form-control" required>
-                                                    <option value="0">In active</option>
-                                                    <option value="1">Active</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.email_privacy_status.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter email privacy status</div>
-                                                </div>
-                                                <div ng-if="email_privacy_status" class="errMsg email_privacy_status">{{email_privacy_status}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row" ng-controller="enquirySourceCtrl">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Source</label>
-                                            <span class="input-icon icon-right">
-                                                <select ng-change="onEnquirySourceChange(customerData.source_id)" class="form-control" ng-model="customerData.source_id" name="source_id"  id="source_id" required>
-                                                    <option value="">Select Source</option>
-                                                    <option ng-repeat="source in sourceList" value="{{source.id}}" ng-selected="{{source.id == customerData.source_id}}">{{source.sales_source_name}}</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.source_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please select source</div>
-                                                </div>
-                                                <div ng-if="source_id" class="errMsg source_id">{{source_id}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Sub Source</label>
-                                            <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="customerData.subsource_id" name="subsource_id" id="subsource_id">
-                                                    <option value="">Select SubSource</option>
-                                                    <option ng-repeat="subSource in subSourceList" value="{{subSource.id}}" ng-selected="{{subSource.id == customerData.subsource_id}}">{{subSource.sub_source}}</option>
-                                                </select>   
-                                                <i class="fa fa-sort-desc"></i>
-                                                <div ng-if="subsource_id" class="errMsg subsource_id">{{subsource_id}}</div>
-                                            </span>                                            
-                                        </div>
-                                    </div>
-                                </div>                                
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label for="">Source Description</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" required>
-                                                <i class="fa fa fa-align-left"></i>
-                                                <div ng-show="formButton" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter source description</div>
-                                                </div>
-                                                <div ng-if="source_description" class="errMsg source_description">{{source_description}}</div>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>                                
-                            </div> 
-                            <hr class="wide col-md-12" />   
-                        </div> 
-                        <div class="col-xs-12 col-md-12" ng-if="showDivCustomer">
-                            <div class="widget">                                
-                                <div class="widget-header">
-                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Contact List <span id="errContactDetails" class="errMsg"></span></span>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#contactDataModal" ng-click="initContactModal()">Add new contact</button> 
-                                </div>
-                                <div class="widget-body table-responsive">
-                                    <table class="table table-hover table-striped table-bordered" at-config="config">
-                                        <thead class="bord-bot">
-                                            <tr>
-                                                <th>Sr. No. </th>
-                                                <th>Mobile Number</th>
-                                                <th>Landline Number</th>
-                                                <th>Email ID</th>
-                                                <th>Pin</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="list in contacts">
-                                                <td>{{$index + 1}}</td>
-                                                <td>{{list.mobile_number}}</td>
-                                                <td>{{list.landline_number}}</td>
-                                                <td>{{list.email_id}}</td>
-                                                <td>{{list.pin}}</td>
-                                                <td><div class="fa-hover" tooltip-html-unsafe="Edit Customer Contact" style="display: block;">
-                                                        <a href data-toggle="modal" data-target="#contactDataModal" ng-click="editContactDetails({{$index}})"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;
-                                                    </div>
-                                                </td>
-                                            </tr>                                            
-                                        </tbody>
-                                    </table>
+                                    <input type="hidden" ng-model="customer_id" name="customer_id">
                                 </div>
                             </div>
                         </div>
-                        <hr class="wide col-lg-12 col-xs-12 col-md-12" ng-if="showDivCustomer"/>
-                        <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-                            <button type="submit" class="btn btn-primary" ng-show="showDivCustomer" ng-disabled="disableCreateButton" ng-click="formButton = true">Save & Continue</button>
-                        </div>
-                    </form>
+                        <br><br>
+                    </div>
+                    <tabset ng-if="showDivCustomer" class="demo-tab row">
+                        <tab heading="Customer Information" id="custDiv">
+                            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/createCustomer'"></div>
+                        </tab>
+                        <tab heading="Enquiry Information" active="enquiry_div" id="enquiryDiv" style="display: none;">
+                            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/createEnquiry'"></div>
+                        </tab>
+                    </tabset>
                 </div>
+                <div class="col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv && !enquiryList">
+                    <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <div class="form-title">
+                            Previous Open Enquiries
+                        </div>
+                    </div>
+                    <div class="widget-body table-responsive" style="box-shadow:none;">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Sr. No.</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Customer Details</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Enquiry Details</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Last Followup</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Enquiry Status</th>
+                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Enquiry </th>
+                                </tr>
+                            </thead>
+                            <tbody ng-if="!listsIndex.success">
+                                <tr>
+                                    <td colspan="6">{{listsIndex.CustomerEnquiryDetails}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody ng-if="listsIndex.success">
+                                <tr dir-paginate="list in listsIndex.CustomerEnquiryDetails | filter:search | itemsPerPage:itemsPerPage">  
+                                    <td align="center">{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
+                                    <td align="center">
+                                        <div > 
+                                            {{list.customer_fname}} {{list.customer_lname}} {{ list.mobile_number}}</div>
+                                        <hr>
+                                        <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}">Customer Details</a></div> 
+                                        <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ listsIndex.CustomerEnquiryDetails.length }}</b></div>
+                                        <div class="floatLeft" style="width:40%;max-width: 30%;word-wrap: break-word;"><b>Booked : 0</b></div>                    
+                                        <div  class="floatLeft" style="width:100%;"><hr></div>
+                                        <div>
+                                        <span style="margin:5px"><strong>Source: </strong>{{ list.sales_source_name}}<br></span>
+                                        <span style="margin:5px"><b>Budget</b>: {{list.max_budget}}</span>    
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>{{list.project_block_name}} - {{list.block_name}} </div>
+                                        <hr>
+                                        <!--#/[[config('global.getUrl')]]/sales/updateenquiry/{{ list.id }}   ng-click="getEnquiryDetails({{ list.id }})"-->
+                                        <div class="floatLeft"><i class="fa fa-desktop" aria-hidden="true"></i></div>
+                                        <div class="floatLeft" style="width:41%"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}/eid/{{ list.id }}" >Enquiry Details</a></div>
+                                        <div class="floatLeft" style="width:50%">
+                                            <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category != 'New Enquiry'">&nbsp;</span>
+                                            <span style="float: left;margin-left: 5px;">{{ list.enquiry_category}}</span>              
+                                        </div> 
+                                        <div class="floatLeft" style="width:100%;"><hr></div>
+                                        <div class="floatLeft">
+                                            <span style="float:left;"><b>No.of Followups : {{list.total_followups}}</b></span><br/>
+                                            <span style="float:left;"><b>Location</b> : {{ list.location_name }}</span><br/>
+                                            <span style="float:left;" ng-show="list.parking_required == 1">Parking Required</span>
+                                            <span style="float:left;" ng-show="list.parking_required == 0">No Parking Required</span>
+                                        </div>
+                                    </td>
+                                    <td align="center" width="30%">
+                                        <span>{{ list.last_followup_date | date:'dd M, yyyy'}} By {{list.followup_fname}} {{list.followup_lname}}</span><hr>
+                                        <span style="width: 100%;word-break: break-all;">{{ list.remarks}}</span>
+                                    </td>
+                                    <td align="center" style="vertical-align: middle;">Open</td>
+                                    <td align="left">
+                                        <div>Owner: {{list.owner_fname}} {{list.owner_lname}}</div><hr>
+                                        <button type="button" class="btn btn-primary ng-click-active" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ list.id }})">View History</button>                                     
+                                    </td>
+                                </tr>
+                            </tbody> 
+                        </table>
+                        <div class="DTTTFooter">
+                            <div class="col-sm-6">
+                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                                    <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
+                            <div class="form-group" align="center">
+                                <button type="submit" class="btn btn-primary" ng-click="createEnquiry()">Insert New Enquiry</button>
+                            </div> 
+                        </div> 
+                    </div>
+                </div>            
             </div>
             <!--  Modal   --> 
             <div class="modal fade" id="contactDataModal" role="dialog" tabindex='-1'>
@@ -645,6 +415,12 @@
                             </div>
                         </form>
                     </div>
+                </div>
+            </div>
+            <!-- Enquiry History Modal -->
+            <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-lg">
+                    <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
                 </div>
             </div>
         </div>

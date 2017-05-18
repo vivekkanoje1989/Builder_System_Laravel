@@ -28,4 +28,8 @@ class lstEnquiryLocations extends Model {
         'updated_mac_id',
     ];
 
+    public function getCityName()
+    {
+        return $this->belongsTo('App\Modules\ManageCity\Models\MlstCities','city_id');
+    }
 }

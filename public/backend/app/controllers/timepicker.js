@@ -1,8 +1,8 @@
-﻿app.controller('TimepickerDemoCtrl', function ($scope, $log) {
-    $scope.mytime = new Date();
-
-    $scope.hstep = 1;
-    $scope.mstep = 15;
+app.controller('TimepickerDemoCtrl', function ($scope, $log) {
+    //$scope.mytime = new Date();
+                
+//    $scope.hstep = 1;
+//    $scope.mstep = 15;
 
     $scope.options = {
         hstep: [1, 2, 3],
@@ -22,9 +22,12 @@
     };
 
     $scope.changed = function () {
+        var d = new Date();
+        d.setHours(14);
+        d.setMinutes(15);
+        $scope.mytime = d;
         $log.log('Time changed to: ' + $scope.mytime);
     };
-
     $scope.clear = function () {
         $scope.mytime = null;
     };

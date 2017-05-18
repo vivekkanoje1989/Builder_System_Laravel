@@ -6,8 +6,8 @@
                 <div class="form-group">
                     <label>Projects<span class="sp-err">*</span></label>
                     <span class="input-icon icon-right">
-                        <select ng-model="projectData.project_id" name="project_id" class="form-control" required ng-change="getProjectDetails(projectData.project_id)">
-                            <option value="">Select type</option>
+                        <select ng-model="projectData.project_id" name="project_id" id="project_id" class="form-control" required ng-change="getProjectDetails(projectData.project_id)">
+                            <option value="">Select Project</option>
                             <option ng-repeat="plist in projectList" value="{{plist.id}}">{{plist.project_name}}</option>
                         </select>
                         <i class="fa fa-sort-desc"></i>
@@ -22,7 +22,7 @@
                     <tab heading="Uploads" class="uploadsTab">
                         <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads' "></div>
                     </tab>
-                    <tab heading="Project Inventory">
+                    <tab heading="Project Inventory" ng-click="getProjectInventory(0)">
                         <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/inventory' "></div>
                     </tab>
                     <tab heading="Floor Inventory">

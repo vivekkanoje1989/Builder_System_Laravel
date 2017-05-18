@@ -506,10 +506,12 @@
                                 <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.employee_photo_file_name)">
-                                    <img ng-src="{{image_source}}" class="thumb photoPreview">
-                                    <img ng-if="imgUrl" src="[[ Session::get('s3Path') ]]/Employee-Photos/{{ imgUrl }}" alt="{{ altName }}" class="thumb photoPreview"/>
-                                    <div ng-show="step3 || invalidImage" ng-messages="userForm.employee_photo_file_name.$error" class="help-block step3">
-                                        <div ng-show="invalidImage">{{ invalidImage }}</div>
+                                    <img ng-if="!employee_photo_file_name_preview"src="[[ Session::get('s3Path') ]]hr/employee-photos/{{imgUrl}}" class="thumb photoPreview">
+                                    <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
+                                        <img ng-src="{{list}}" class="thumb photoPreview">
+                                    </div>
+                                    <div ng-show="step3 || employee_photo_file_name_err" ng-messages="userForm.employee_photo_file_name.$error" class="help-block step3">
+                                        <span class="help-block" ng-show="employee_photo_file_name_err">{{employee_photo_file_name_err}}</span>
                                         <div ng-message="required">This field is required.</div>
                                         <i ng-show="userForm.employee_photo_file_name.$error.maxSize">File too large {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
                                     </div>
@@ -537,7 +539,7 @@
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (step4 && (!userForm.department_id.$dirty && userForm.department_id.$invalid)) && emptyDepartmentId}" ng-controller="departmentCtrl">
                                 <label for="">Select Departments <span class="sp-err">*</span></label>	
-                                <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required="true"  ng-change="checkDepartment()">
+                                <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required="true" ng-change="checkDepartment()">
                                     <ui-select-match>{{$item.department_name}}</ui-select-match>
                                     <ui-select-choices repeat="list in departments | filter:$select.search">
                                         {{list.department_name}} 
@@ -739,7 +741,6 @@
                             <span class="progress" ng-show="userData.employee_photo_file_name.progress >= 0">
                                 <div style="width:{{userData.employee_photo_file_name.progress}}%" ng-bind="userData.employee_photo_file_name.progress + '%'"></div>
                             </span>
-                            <span ng-show="userData.employee_photo_file_name.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5">Prev</button>
                             <button type="submit" class="btn btn-primary btn-submit-last" ng-disabled="disableCreateButton" ng-click="step5=true">{{buttonLabel}}</button>
                         </div>

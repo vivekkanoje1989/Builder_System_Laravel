@@ -1,10 +1,12 @@
 'use strict';
-app.controller('adminController', function ($rootScope, $scope, $state, Data) {
+app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams) {
     $scope.registration = {};
     $scope.errorMsg = '';
 
-
-
+    $scope.sessiontimeout = function (event) {
+        $scope.logout("logout");
+    }
+    
     $scope.checkUsername = function (usernameData) {
         Data.post('checkUsername', {
             username: usernameData.mobile,
@@ -86,8 +88,9 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data) {
             class: type,
             messages: $rootScope.message
         }
-    }
+    }    
 });
+
 app.controller('amenitiesCtrl', function ($scope, Data) {
     $scope.amenitiesList = [];
     Data.get('getAmenitiesList').then(function (response) {
@@ -215,13 +218,16 @@ app.controller('educationListCtrl', function ($scope, Data) {
 app.controller('blockTypeCtrl', function ($scope, Data) {
     $scope.blockTypeList = [];
     $scope.subBlockList = [];
-    Data.get('getBlockTypes').then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $scope.blockTypeList = response.records;
-        }
-    });
+    $scope.getBlockTypes = function(projectId){
+        projectId = $scope.enquiryData.project_id.split('_')[0];
+        Data.post('getBlockTypes',{projectId:projectId}).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.blockTypeList = response.records;
+            }
+        });
+    }
     $scope.checkBlockLength = function () {
         var blockTypeId = [];
         angular.forEach($scope.enquiryData.block_id, function (value, key) {

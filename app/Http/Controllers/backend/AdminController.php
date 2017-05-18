@@ -12,6 +12,7 @@ use App\Models\MlstEducation;
 use App\Models\MlstCountry;
 use App\Models\MlstState;
 use App\Models\MlstCity;
+use App\Modules\ManageCity\Models\MlstCities;
 use App\Models\ClientInfo;
 use App\Models\MlstBmsbEnquirySalesSource;
 use App\Models\EnquirySalesSubSource;
@@ -33,7 +34,10 @@ use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
 use App\Modules\WebPages\Models\WebPage;
 use App\Modules\MasterSales\Models\EnquiryFinanceTieup;
+use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\SystemConfig;
+use App\Classes\S3;
+
 class AdminController extends Controller {
 
     /**
@@ -84,18 +88,27 @@ class AdminController extends Controller {
 //        echo "<pre>";print_r(Auth::guard('admin')->user());exit;
         $fullName = Auth::guard('admin')->user()->first_name . " " . Auth::guard('admin')->user()->last_name;
         return view('layouts.backend.dashboard')->with('id', $fullName);
+        
     }
-
+    public function sessiontimeout(){
+        return view('backend.sessiontimeout');
+    }
+//    public function sessionlogout(){
+//        Auth()->guard('admin')->logout();
+//        $result = ['success' => true, 'message' => 'Successfully logged out'];
+//        echo json_encode($result);
+//    }
     public function getMenuItems() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        if(!empty($request['data']['loggedInUserId'])){
+        if(!empty($request['data']['loggedInUserId'])){ //for mobile app
             $employeeSubmenus = Employee::select("employee_submenus")->where("id",json_decode($request['data']['loggedInUserId']))->get();
             $permission = json_decode($employeeSubmenus[0]->employee_submenus,true);
-        }else{
+        }else{//for web app
             $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
             $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get();            
             session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
+            session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
         }
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
@@ -148,41 +161,38 @@ class AdminController extends Controller {
         }
         $collection = collect(['mainMenu' => $menuItem]);
         $merged = $collection->merge(['actions' => $accessToActions]);
-        $mergedMmenu = $merged->all();        
+        $mergedMmenu = $merged->all();   
         return json_encode($mergedMmenu);
     }
-    
+
     public function getTitle() {
         $getTitle = MlstTitle::all();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'records' => $getTitle];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getGender() {
         $getGender = MlstGender::all();
         if (!empty($getGender)) {
             $result = ['success' => true, 'records' => $getGender];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getBloodGroup() {
         $getBloodGroup = MlstBloodGroup::all();
         if (!empty($getBloodGroup)) {
             $result = ['success' => true, 'records' => $getBloodGroup];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
     public function getDesignations() {
         $getBloodGroup = MlstBmsbDesignation::all();
@@ -224,7 +234,20 @@ class AdminController extends Controller {
     }
     
     public function getBlockTypes() {
-        $blockTypeList = MlstBmsbBlockType::select()->get();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true); 
+        
+        $blockList = ProjectBlock::select('id','block_type_id','block_sub_type')->where('project_id', $request['projectId'])->get();
+        
+        $getBlockTypeId = array();
+        if(!empty($blockList)){
+            foreach($blockList as $key => $value){
+                $getBlockTypeId[] = $value['block_type_id']; 
+            }
+        }
+        $blockTypeId = implode(",", $getBlockTypeId);         
+        $blockTypeList = MlstBmsbBlockType::select('id','block_name')->whereIn('id', $getBlockTypeId)->get();
+        
         if (!empty($blockTypeList)) {
             $result = ['success' => true, 'records' => $blockTypeList];
         } else {
@@ -260,17 +283,18 @@ class AdminController extends Controller {
         $projectList = Project::select('id','project_name')->get();
         $subBlocksList = ProjectBlock::select("id","block_type_id","block_sub_type")->get();
         $enquiryFinanceTieup = EnquiryFinanceTieup::all(); 
+        $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id','=',101)->get();
+        //echo json_encode($indiaCities);exit;
+        //$getEnquiryCity = lstEnquiryLocations::where('country_id',101)->get();
         if (!empty($getTitle)) {
-            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,"blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup];
+            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,"blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup,'enquiryLocation'=>$getEnquiryLocation];
             return json_encode($result);
+
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
+        }   
+        return json_encode($result);
     }
-
-   
-    
     public function getCountries() {
         $getCountires = MlstCountry::all();
         if (!empty($getCountires)) {
@@ -454,7 +478,6 @@ class AdminController extends Controller {
 
     public function getEmployees() {
         $getEmployees = Employee::select('id', 'first_name','last_name','designation_id')->where("client_id", 1)->get();
-        print_r($getEmployees);exit;
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
         } else {

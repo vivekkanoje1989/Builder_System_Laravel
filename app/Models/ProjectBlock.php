@@ -1,12 +1,9 @@
 <?php
-
 /**
  * Created by Reliese Model.
- * Date: Thu, 13 Apr 2017 12:31:37 +0530.
+ * Date: Thu, 27 Apr 2017 14:14:35 +0530.
  */
-
 namespace App\Models;
-
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -125,4 +122,8 @@ class ProjectBlock extends Eloquent
 		'deleted_browser',
 		'deleted_mac_id'
 	];
+        public function getBlockType()
+        {
+            return $this->hasMany('App\Models\MlstBmsbBlockType','id','block_type_id')->select("id","block_name");
+        }
 }

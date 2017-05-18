@@ -9,6 +9,7 @@
     }
 </style>
 <form role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)">
+    <input type="hidden" ng-model="imagesForm.csrfToken" name="csrftoken" ng-init="imagesForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="col-sm-6 col-xs-12">
@@ -77,8 +78,8 @@
                 </div>
             </div>
             <div class="col-sm-12 col-xs-12">
-                <div class="img-div2" data-title="name" ng-repeat="list in project_banner_images">   
-                    <i class="fa fa-times rem-icon"  title=""></i>
+                <div class="img-div2" data-title="name" ng-repeat="list in project_banner_images" id="del_project_banner_images_{{$index}}">   
+                    <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_banner_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_banner_images/', 'project_banner_images')"></i>
                     <img ng-src="[[ Session::get('s3Path') ]]project/project_banner_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_banner_images_preview">    
@@ -100,8 +101,8 @@
                 </div>
             </div>
             <div class="col-sm-12 col-xs-12">
-                <div class="img-div2" data-title="name" ng-repeat="list in project_background_images">   
-                    <i class="fa fa-times rem-icon"  title=""></i>
+                <div class="img-div2" data-title="name" ng-repeat="list in project_background_images" id="del_project_background_images_{{$index}}">   
+                    <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_background_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_background_images/', 'project_background_images')"></i>
                     <img ng-src="[[ Session::get('s3Path') ]]project/project_background_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_background_images_preview">    
@@ -120,8 +121,8 @@
                 </div>
             </div>
             <div class="col-sm-12 col-xs-12">
-                <div class="img-div2" data-title="name" ng-repeat="list in project_broacher">   
-                    <i class="fa fa-times rem-icon"  title=""></i>
+                <div class="img-div2" data-title="name" ng-repeat="list in project_broacher" id="del_project_broacher_{{$index}}">   
+                    <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_broacher}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_broacher/', 'project_broacher')"></i>
                     <img ng-src="[[ Session::get('s3Path') ]]project/project_broacher/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_broacher_preview">    
@@ -134,7 +135,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
         <div class=""><hr></div>
         <div class="form-group" align="center">
-            <button type="submit" class="btn btn-primary">Save & Continue</button>
+            <button type="submit" class="btn btn-primary">Save</button>
         </div> 
     </div>  
 </form>

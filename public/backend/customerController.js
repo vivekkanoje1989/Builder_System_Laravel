@@ -1,22 +1,25 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 'use strict';
-app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $window, toaster) {
-        $scope.pageHeading = 'Create Customer';
+app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$location', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $location) {
+        $scope.pageHeading = 'New Enquiry';
         $scope.customerData = {};
         $scope.contactData = {};
-        $scope.searchData = {};
+        $scope.searchData = {};    
+        $scope.enquiryData = {};
+        $scope.btnLabelC = $scope.btnLabelE = "Save";
+        $scope.projectsDetails = [];
+        $scope.locations = [];
+        $scope.currentPage = $scope.itemsPerPage = 4;
+        $scope.noOfRows = 1;
         $scope.customerData.sms_privacy_status = 1;
         $scope.customerData.email_privacy_status = 1;
         $scope.contacts = [];
         resetContactDetails();
         $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
         $scope.showDiv = false;
+        $scope.enquiryList = false;
         $scope.showDivCustomer = false;
         $scope.searchData.customerId = 0;
+        $scope.hstep = 1;$scope.mstep = 15;        
         var sessionContactData = $scope.contactData.index = "";
         $window.sessionStorage.setItem("sessionContactData", "");
         $scope.checkValue = function () {
@@ -25,6 +28,10 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 $scope.showDivCustomer = false;
             }
         }
+        $scope.pageChangeHandler = function(num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
         $scope.validateMobileNumber = function (value) {
             var regex = /^(\+\d{1,4}-)\d{10}$/;
             if (!regex.test(value)) {
@@ -48,9 +55,10 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             }
         };
         $scope.editContactDetails = function (index) {
-            $scope.contactData = $scope.contacts[index];
             $scope.contactData.index = index;
+            $scope.contactData = $scope.contacts[index];
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
+            $scope.contactData.index = index;
         }
         $scope.addRow = function (contactData) {
             if ($scope.contactData.index === "" || typeof $scope.contactData.index === "undefined") {
@@ -93,15 +101,15 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             $('#contactDataModal').modal('toggle');
         };
         function resetContactDetails() {
-            $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
-                    $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
-            $scope.contactData.email_id = $scope.contactData.house_number =
-                    $scope.contactData.building_house_name = $scope.contactData.wing_name =
-                    $scope.contactData.area_name = $scope.contactData.lane_name =
-                    $scope.contactData.landmark = $scope.contactData.country_id =
-                    $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
-                    $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
-            $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
+                $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
+                $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
+                $scope.contactData.email_id = $scope.contactData.house_number =
+                $scope.contactData.building_house_name = $scope.contactData.wing_name =
+                $scope.contactData.area_name = $scope.contactData.lane_name =
+                $scope.contactData.landmark = $scope.contactData.country_id =
+                $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
+                $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
+                $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
         }
         $scope.initContactModal = function () {
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
@@ -109,7 +117,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
             $scope.modalSbtBtn = false;
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
-        $scope.createCustomer = function (enteredData, customerPhoto) {
+        $scope.createCustomer = function (enteredData, customerPhoto) {            
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -136,7 +144,7 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 data: data,
             });
             customerPhoto.upload.then(function (response) {
-                $timeout(function () {
+                    $timeout(function () {
                     if (!response.data.success) {
                         var obj = response.data.message;
                         var selector = [];
@@ -159,16 +167,30 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                                 $("." + sessionAttribute[key]).show();
                         }
                     } else {
-                        $('.errMsg').text('');
-                        $window.sessionStorage.setItem("sessionContactData", "");
-                        $scope.disableCreateButton = true;
-//                        if($scope.searchData.customerId === 0 || $scope.searchData.customerId === ''){
-//                            toaster.pop('success', 'Customer', 'Record successfully created');}
-//                        else{
-//                            toaster.pop('success', 'Customer', 'Record successfully updated');}
-//                        $timeout(function () {
-                        $state.go(getUrl + '.enquiryCreate', {"customerId": response.data.customerId});
-//                        }, 2000);
+                        var url = $location.path();
+                        if(url === "/office/sales/enquiry"){
+                            $('.errMsg').text('');
+                            $window.sessionStorage.setItem("sessionContactData", "");
+                            $scope.disableCreateButton = true;
+                            var myEle = document.getElementById("enquiryDiv");
+                            if (myEle === null) {
+                                $state.go(".salesCreate");
+                            } else {
+                                document.getElementById("enquiryDiv").style.display = 'block';
+                                $("li#enquiryDiv a.ng-binding").trigger("click"); 
+                            }
+                        }
+//                        else{ 
+//                            $scope.showDiv = true;
+//                            $scope.enquiryList = false;
+//                            $scope.showDivCustomer = false;
+//                        }
+                        $scope.customer_id = response.data.customerId;
+                        if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
+                            toaster.pop('success', 'Customer', 'Record successfully created');
+                        } else {
+                            toaster.pop('success', 'Customer', 'Record successfully updated');
+                        }
                     }
                 });
             }, function (response) {
@@ -177,23 +199,167 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                 }
             }, function (evt, response) {});
         };
-
+        $scope.backToListing = function(mobileNo,emailId){
+            $state.go(getUrl + ".salesCreate");
+            $timeout(function () {
+                if(mobileNo !== ''){
+                    $("input[name='searchWithMobile']").val(mobileNo);
+                    $("input[name='searchWithMobile']").trigger("change");
+                }else{
+                    $("input[name='searchWithEmail']").val(emailId);
+                    $("input[name='searchWithEmail']").trigger("change");
+                }
+            },500);
+        }
         $scope.addContactDetails = function () {
             $scope.modal = {};
         }
+        $scope.manageForm = function (customerId,enquiryId){ 
+            var date = new Date();
+            $scope.enquiryData.sales_enquiry_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+            $scope.enquiryData.sales_category_id = $scope.enquiryData.property_possession_type = "1";
+            $scope.enquiryData.city_id = $scope.enquiryData.followup_by_employee_id = "";            
+            $scope.enquiryData.parking_required = $scope.enquiryData.finance_required = "0";
+            date.setHours("10");
+            date.setMinutes("00");
+            $scope.enquiryData.next_followup_time = date;
+            if(customerId !== 0 && enquiryId === 0){
+                Data.post('master-sales/getCustomerDataWithId', {
+                data: {customerId: customerId},
+                }).then(function (response) {
+                    $scope.pageHeading = 'Edit Customer';
+                    $scope.btnLabelC = "Update";
+                    $scope.showDivCustomer = true;
+                    $scope.enquiryList = true;
+                    $scope.disableDataOnEnqUpdate = true;
+                    $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
+                    $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
+                    $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
+                    $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
+                    for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
+                        if (response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === '') {
+                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+                        } else {
+                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_number);
+                        }
+                        if (response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === '' || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === null) {
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+                        } else {
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
+                        }
+                        if (response.customerPersonalDetails.get_customer_contacts[i].pin === 0)
+                            $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
+                        if (response.customerPersonalDetails.get_customer_contacts[i].email_id === '' || response.customerPersonalDetails.get_customer_contacts[i].email_id === 'null')
+                            $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
+
+                        $scope.contactData.index = i;
+                    }
+                    Data.post('getEnquirySubSource', {
+                        data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {
+                        $scope.subSourceList = '';
+                        if (!response.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+                            $scope.subSourceList = response.records;
+                        }
+                    });
+                    $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
+                    $scope.searchData.customerId = response.customerPersonalDetails[0].id;
+//                    $scope.disableText = true;
+                });
+            }
+            if(customerId !== 0 && enquiryId !== 0){
+                $scope.pageHeading = 'Edit Enquiry';
+                $scope.btnLabelC = $scope.btnLabelE = "Update";
+                Data.post('master-sales/getEnquiryDetails', {
+                    data: {customerId: customerId,enquiryId: enquiryId}}).then(function (response) {
+                    if (!response.success) {
+                        $scope.enquiryList = false;
+                        $scope.showDivCustomer = false;
+                    } else {
+                        $scope.disableSource = true;  
+                        $scope.disableDataOnEnqUpdate = true;  
+                        $scope.enquiryData = angular.copy(response.enquiryDetails[0]);
+                        var setTime = response.enquiryDetails[0].next_followup_time.split(":");
+                        var location = response.enquiryDetails[0].enquiry_locations;
+                        var d = new Date();
+                        d.setHours(setTime[0]);
+                        d.setMinutes(setTime[1]);
+                        $scope.enquiryData.next_followup_time = d;
+                        $scope.enquiryData.project_id = "";
+                        $scope.enquiryData.block_id = $scope.enquiryData.sub_block_id = []; 
+                        $scope.hstep = 0;$scope.mstep = 0;  
+                        $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
+                        $scope.contacts = angular.copy(response.customerContactDetails);
+                        $scope.contactData = angular.copy(response.customerContactDetails);
+                        $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
+                        $scope.enquiryList = true;
+                        $scope.showDivCustomer = true;
+                        for (var i = 0; i < 1; i++) {
+                            if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {
+                                $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+                            } else {
+                                $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code) + '-' + parseInt(response.customerContactDetails[i].mobile_number);
+                            }
+                            if (response.customerContactDetails[i].landline_calling_code === parseInt(0) || response.customerContactDetails[i].landline_calling_code === '' || response.customerContactDetails[i].landline_calling_code === null) {
+                                $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+                            } else {
+                                $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerContactDetails[i].landline_calling_code) + '-' + parseInt(response.customerContactDetails[i].landline_number);
+                            }
+                            if (response.customerContactDetails[i].pin === 0)
+                                $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
+                            if (response.customerContactDetails[i].email_id === '' || response.customerContactDetails[i].email_id === 'null')
+                                $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
+                        }
+                        Data.post('getEnquirySubSource', {
+                            data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {
+                            $scope.subSourceList = '';
+                            if (!response.success) {
+                                $scope.errorMsg = response.message;
+                            } else {
+                                $scope.subSourceList = response.records;
+                            }
+                        });
+                        $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
+                        $scope.searchData.customerId = response.customerPersonalDetails[0].id;
+//                        $scope.disableText = true; //disable mobile and email text box 
+                        
+                        $timeout(function () {
+                            $scope.hstep = $scope.mstep = 0;
+                            $scope.projectsDetails = response.projectDetails;
+                            $("li#enquiryDiv").css("display","block");
+                            $("li#enquiryDiv a.ng-binding").trigger("click"); 
+                            $scope.enquiryData.city_id = angular.copy(response.city_id);
+                            var selectedLocations = [];
+                            Data.post('master-sales/getAllLocations', {
+                                city_id: response.city_id,
+                            }).then(function (response) {
+                                $scope.locations = response.records;                                
+                                for (var i=0; i < $scope.locations.length; i++){
+                                    if ($scope.locations[i]['id'] == location){
+                                        selectedLocations.push($scope.locations[i]);
+                                        $scope.enquiryData.enquiry_locations = selectedLocations;
+                                    }
+                                }
+                            });
+                        }, 1000);
+                    }
+                });                
+            }
+        }
         $scope.createEnquiry = function () {
-            //alert($scope.searchData.searchWithMobile);
             Data.post('master-sales/getCustomerDetails', {
                 data: {customerMobileNo: $scope.searchData.searchWithMobile, customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
             }).then(function (response) {
-                console.log(response);
                 $scope.showDiv = false;
                 $scope.showDivCustomer = true;
+                $scope.disableSource = true;  
+                $scope.btnLabelC = "Update & Insert enquiry";
+                $scope.btnLabelE = "Save";
+                $scope.pageHeading = 'Update Customer';
                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                 $scope.contacts = angular.copy(response.customerContactDetails);
                 $scope.contactData = angular.copy(response.customerContactDetails);
-                //console.log(response.customerContactDetails.length);
-                //$scope.customerData.marriage_date = $scope.customerData.birth_date = (new Date(), 'yyyy-MM-dd');
                 for (var i = 0; i < 1; i++) {
                     if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {
                         $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
@@ -220,12 +386,233 @@ app.controller('customerController', ['$rootScope', '$scope', '$state', 'Data', 
                     }
                 });
                 $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
-                $scope.searchData.searchWithMobile =  $scope.searchData.searchWithMobile;
-                $scope.searchData.searchWithEmail =  $scope.searchData.searchWithEmail;
                 $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-                $scope.disableText = true;
+//                $scope.disableText = true; //disable mobile and email text box 
             });
         }
+        
+        $scope.createNewEnquiry = function ()
+        {
+            $state.go(getUrl + '.salesCreate', {}, {reload: true});
+        }
+        
+        /****************************************Enquiry Controller*********************************************/
+
+        $scope.historyList = {};
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
+        
+        $scope.saveEnquiryData = function (enquiryData)
+        {
+            var date = new Date($scope.enquiryData.next_followup_date);
+            $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+            
+            if(typeof $scope.enquiryData.id === 'undefined'){
+                Data.post('master-sales/saveEnquiry', {
+                    enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
+                }).then(function (response) {
+                    toaster.pop('success', 'Enquiry', response.message);
+                    $scope.disableFinishButton = true;
+                });
+            }
+            else{
+                Data.put('master-sales/updateEnquiry/' + $scope.enquiryData.id, {
+                    enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
+                }).then(function (response) {
+                    toaster.pop('success', 'Enquiry', response.message);
+                });
+            }
+        }
+        $scope.addProjectRow = function (projectId)
+        {
+            if ((projectId !== ""))
+            {
+                var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
+                var totalBlocks = $scope.enquiryData.block_id.length;
+                $scope.subblockname = [];
+                $scope.sub_block_id = [];
+                $scope.blockname = [];
+                $scope.block_id = [];
+                for (var i = 0; i < totalSubBlocks; i++)
+                {
+                    $scope.subblockname.push($scope.enquiryData.sub_block_id[i].block_sub_type);
+                    $scope.sub_block_id.push($scope.enquiryData.sub_block_id[i].id);
+                }
+                for (var j = 0; j < totalBlocks; j++)
+                {
+                    $scope.blockname.push($scope.enquiryData.block_id[j].block_name);
+                    $scope.block_id.push($scope.enquiryData.block_id[j].id);
+                }
+                if($scope.enquiryData.id === 'undefined'){
+                    Data.post('master-sales/addEnquiryDetailRow',{
+                        enquiry_id: $scope.enquiryData.id,
+                        project_id: $scope.enquiryData.project_id.split('_')[0],
+                        block_id: $scope.block_id.toString(),
+                        sub_block_id: $scope.sub_block_id.toString()
+                    }).then(function(response){
+                        $scope.projectsDetails.push({
+                            'id': response.enqId,
+                            'project_id': $scope.enquiryData.project_id.split('_')[0],
+                            'project_name': $scope.enquiryData.project_id.split('_')[1],
+                            'blocks': $scope.blockname.toString(),
+                            'block_id': $scope.block_id.toString(),
+                            'sub_block_id': $scope.sub_block_id.toString(),
+                            'subblocks': $scope.subblockname.toString(),
+                        })
+                    });
+                }else{
+                    $scope.projectsDetails.push({
+                        'project_id': $scope.enquiryData.project_id.split('_')[0],
+                        'project_name': $scope.enquiryData.project_id.split('_')[1],
+                        'blocks': $scope.blockname.toString(),
+                        'block_id': $scope.block_id.toString(),
+                        'sub_block_id': $scope.sub_block_id.toString(),
+                        'subblocks': $scope.subblockname.toString(),
+                    });
+                }
+                $("#projectBody").hide();
+                $scope.enquiryData.block_id = {};
+                $scope.enquiryData.sub_block_id = {};
+                $scope.enquiryData.project_id = '';
+            } else{
+                if(projectId == ""){
+                    $scope.emptyProjectId = true;
+                } 
+                if (blockId == ""){
+                    $scope.emptyBlockId = true;
+                }
+                if (subBlockId == ""){
+                    $scope.emptySubBlockId = true;
+                }
+            }
+        }
+        $scope.removeRow = function (rowId,enquiryDetailId) {
+            if(enquiryDetailId !== ''){
+                Data.post('master-sales/delEnquiryDetailRow', {
+                    enquiryDetailId: enquiryDetailId,
+                }).then(function(){});
+            }
+            var index = -1;
+            var comArr = eval($scope.projectsDetails);
+            for (var i = 0; i < comArr.length; i++) {
+                if (comArr[i].name === rowId) {
+                    index = i;
+                    break;
+                }
+            }
+            $scope.projectsDetails.splice(index, 1);
+            
+        }
+        $scope.changeLocations = function (cityId)
+        {
+            Data.post('master-sales/getAllLocations', {
+                city_id: cityId,
+            }).then(function (response) {
+                $scope.enquiryData.enquiry_locations = [];
+                $scope.locations = response.records;
+            });
+        }
+        $scope.initHistoryDataModal = function (enquiry_id) {
+            Data.post('master-sales/getEnquiryHistory', {
+                enquiryId: enquiry_id,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.historyList = angular.copy(response.records);
+                }
+            });
+        }
+        
+        /****************************ENQUIRIES****************************/
+        $scope.getTotalEnquiries = function ()
+        {
+            Data.post('master-sales/getTotalEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getLostEnquiries = function ()
+        {
+            Data.post('master-sales/getLostEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getClosedEnquiries = function ()
+        {
+            Data.post('master-sales/getClosedEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        /****************************ENQUIRIES****************************/
+        
+        /****************************FOLLOWUPS****************************/
+        $scope.showTodaysFollowups = function ()
+        {
+            Data.post('master-sales/getTodaysFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.showPendingsFollowups = function ()
+        {
+            Data.post('master-sales/getPendingFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.showPreviousFollowups = function ()
+        {
+            Data.post('master-sales/getPreviousFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        /****************************FOLLOWUPS****************************/
+        
+        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+        $scope.getTeamTotalEnquiries = function ()
+        {
+            Data.post('master-sales/getTeamTotalEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamLostEnquiries = function ()
+        {
+            Data.post('master-sales/getTeamLostEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamClosedEnquiries = function ()
+        {
+            Data.post('master-sales/getTeamClosedEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamTodayFollowups = function ()
+        {
+            Data.post('master-sales/getTeamTodayFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamPendingFollowups = function ()
+        {
+            Data.post('master-sales/getTeamPendingFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamPreviousFollowups = function ()
+        {
+            Data.post('master-sales/getTeamPreviousFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+        
+        $scope.updateEnquiryDetails = function (mobNo, email)
+        {
+            $state.go(getUrl + '.salesCreate', {"mobNo": mobNo, "email": email});
+            $scope.searchData.searchWithMobile = mobNo;
+            $scope.searchData.searchWithEmail = email;
+        }
+        /****************************************Enquiry Controller*********************************************/
+
     }]);
 
 app.directive('checkMobileExist', function ($timeout, $q, Data) {
@@ -246,4 +633,41 @@ app.directive('checkMobileExist', function ($timeout, $q, Data) {
             };
         }
     }
+});
+
+app.controller('getEmployeesCtrl', function ($scope, Data) {
+    Data.get('master-sales/getEmployees').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.employeeList = response.records;
+        }
+    });
+});
+app.controller('financeEmployees', function ($scope, Data) {
+    Data.get('master-sales/getFinanceEmployees').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.financeEmpList = response.records;
+        }
+    });
+});
+app.controller('agencyTieupCtrl', function ($scope, Data) {
+    Data.get('getFinanceTieupAgency').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.agencyTieupList = response.records;
+        }
+    });
+});
+app.controller('enquiryCityCtrl', function ($scope, Data) {
+    Data.get('master-sales/getEnquiryCity').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.cityList = response.records;
+        }
+    });
 });

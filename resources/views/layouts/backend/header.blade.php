@@ -1,4 +1,4 @@
-<div class="header-title">
+<div class="header-title" style="display: none;">
     <h1 header-title>
     </h1>
 </div>

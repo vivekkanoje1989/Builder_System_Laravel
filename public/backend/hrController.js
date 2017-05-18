@@ -201,7 +201,6 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                             data: {deptId: deptId},
                             async:false,
                         }).then(function (response) {
-                            console.log(response);
                             if (!response.success) {
                                 $scope.errorMsg = response.message;
                             } else {
@@ -246,7 +245,6 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
             data: {id: id, moduleType: moduleType},
         }).then(function (response) {
             if (response) {
-                console.log(response);
                 $scope.menuItems = response;
             } else {
                 $scope.errorMsg = response.message;
@@ -395,14 +393,12 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                 data: {},
                 async: false,
             }).then(function (response) {
-                console.log(response);
                 var arr = new Array();
                 var datalength = Object.keys(response).length;
                 for (var i = 0; i < datalength; i++)
                 {
                     arr.push([{v: "'" + response[i]['v'] + "'", f: "'" + response[i]['f'] }, "'" + response[i]['teamId'] + "'", response[i]['designation_id']]);
                 }
-                console.log(arr);
                 data.addRows(arr);
                 // Create the chart.
                 var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
