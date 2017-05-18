@@ -135,12 +135,12 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-md-12">
                                         <div class="well with-header  with-footer">
-                                            <div class="header bg-blue">
+                                            <div class="header ">
                                                 Manage Documents
                                                 <input type="button" value="Add More" class="btn btn-primary" style="float:right;" ng-click="addNewDocuments()">
                                             </div>
                                             <table class="table table-hover">
-                                                <thead class="bordered-darkorange">
+                                                <thead class="">
                                                     <tr>
                                                         <th>
                                                             Document No.
@@ -155,22 +155,20 @@
                                                             Action
                                                         </th>
                                                     </tr>
-
                                                 </thead>
                                                 <tbody>
                                                     <tr  data-ng-repeat="document in documents"><td width="10%">{{document.id}}</td>
                                                         <td>
                                                             <input type="text"   ng-model="document.document_name" name="document_name" id="document_name"  class="form-control imageFile" >
                                                         </td>
-                                                        <td > 
-
+                                                        <td> 
                                                             <span class="input-icon icon-right">
                                                                 <input type="file" ngf-select   ng-model="document.document_file" name="document_file" id="document_file"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                                 <br/>
                                                             </span>
                                                             <div><img ng-src="[[ Session::get('s3Path') ]]Company/documents/{{document.documentFile}}"  height="80px" width="80px" ></div>
                                                         </td>
-                                                        <td >
+                                                        <td>
                                                             <button class="btn btn-primary" value="Remove" ng-show="$last" ng-if="$first != $last" ng-click="removeChoice()">-</button>
                                                         </td>
                                                     </tr>
@@ -179,19 +177,15 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
                                 <div class="row">
                                     <div class="col-xs-12 col-md-12">
                                         <div class="well with-header  with-footer">
-                                            <div class="header bg-blue">
+                                            <div class="header ">
                                                 Manage Stationary
                                                 <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  ng-click="addNewStationary()">
                                             </div>
                                             <table class="table table-hover" data-ng-repeat="stationary in Stationary">
-                                                <thead class="bordered-darkorange">
+                                                <thead class="">
                                                     <tr>
                                                         <th>Stationary No.</th>
                                                         <th>Name</th>
@@ -229,7 +223,7 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <thead class="bordered-darkorange">
+                                                <thead class="">
                                                     <tr>
                                                         <th></th>
                                                         <th>Estimate logo file</th>

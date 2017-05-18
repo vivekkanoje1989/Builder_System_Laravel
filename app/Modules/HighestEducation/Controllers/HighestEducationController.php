@@ -27,8 +27,9 @@ class HighestEducationController extends Controller {
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
+       
+        $cnt = MlstEducations::where('education','=', $request['education'])->get()->count();
         
-        $cnt = MlstEducations::where(['education' => $request['education']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Education title already exists'];
             return json_encode($result);
@@ -47,7 +48,7 @@ class HighestEducationController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
+       
         $getCount = MlstEducations::where(['education' => $request['education']])
                                     ->where('id','!=',$id)->get()->count();
         if ($getCount > 0) {
@@ -57,7 +58,7 @@ class HighestEducationController extends Controller {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['educationData'] = array_merge($request, $update);
-            $result = MlstEducations::where('id', $request['id'])->update($input['educationData']);
+            $result = MlstEducations::where('id', $id)->update($input['educationData']);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

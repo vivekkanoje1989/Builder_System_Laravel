@@ -2,14 +2,20 @@
   <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Manage Office Addresses</span>
+                <span class="widget-caption">Contact us</span>
                <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
                     <a href="" widget-dispose></a>
                 </div>
             </div>
-            <div class="widget-body table-responsive">   
+            <div class="widget-body table-responsive">  
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Search:</label>
+                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                    </div>
+                </div><br> 
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -44,14 +50,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                         <tr>
-                            <td></td>
-                            <td> <input type="text" ng-model="search" class="form-control" style="width:100%;" placeholder="Search"></td>
-                            <td></td> 
-                            <td></td>
-                             <td></td>
-                              <td></td>
-                        </tr>
                         <tr role="row" ng-repeat="item in contactUsRow| filter:search  | orderBy:orderByField:reverseSort">
                             <td>{{$index+1}}</td>
                             <td>{{item.address}}</td>     
@@ -135,9 +133,9 @@
                                 <br/>
                             </span>
                              <br/>
-                            <label>Contact number<span class="sp-err">*</span></label> 
+                            <label>Contact number 1<span class="sp-err">*</span></label> 
                             <span class="input-icon icon-right">
-                                <input type="number" class="form-control" ng-model="contact_number1" name="contact_number1"  ng-maxlength="10" ng-minlength="10" required>
+                                <input type="text" class="form-control" ng-model="contact_number1" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  name="contact_number1"  ng-maxlength="10" ng-minlength="10" required>
                               
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.contact_number1.$error">
                                     <div ng-message="required">Contact No. is required</div>
@@ -147,9 +145,9 @@
                                 <br/>
                             </span>
                               <br/>
-                            <label>Contact number<span class="sp-err">*</span></label>  
+                            <label>Contact number 2<span class="sp-err">*</span></label>  
                              <span class="input-icon icon-right">
-                                <input type="number" class="form-control" ng-model="contact_number2" name="contact_number2"  ng-maxlength="10" ng-minlength="10" required>
+                                <input type="text" class="form-control" ng-model="contact_number2" name="contact_number2" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  ng-maxlength="10" ng-minlength="10" required>
                         
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.contact_number2.$error">
                                     <div ng-message="required">Contact No. is required</div>
@@ -159,9 +157,9 @@
                                 <br/>
                             </span>
                                <br/><br/>
-                            <label>Contact number<span class="sp-err">*</span></label>   
+                            <label>Contact number 3<span class="sp-err">*</span></label>   
                              <span class="input-icon icon-right">
-                                <input type="number" class="form-control" ng-model="contact_number3" name="contact_number3" ng-maxlength="10" ng-minlength="10" required>
+                                <input type="text" class="form-control" ng-model="contact_number3" name="contact_number3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-maxlength="10" ng-minlength="10" required>
                                
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.contact_number3.$error">
                                     <div ng-message="required">Contact No. is required</div>
@@ -215,7 +213,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Update</button>
                     </div> 
                 </form>           
             </div>

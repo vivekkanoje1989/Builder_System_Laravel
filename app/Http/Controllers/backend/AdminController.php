@@ -33,6 +33,7 @@ use App\Classes\Gupshup;
 use App\Modules\PropertyPortals\Models\MlstBmsbPropertyPortal;
 use App\Modules\WebPages\Models\WebPage;
 use App\Modules\MasterSales\Models\EnquiryFinanceTieup;
+use App\Models\SystemConfig;
 class AdminController extends Controller {
 
     /**
@@ -67,7 +68,7 @@ class AdminController extends Controller {
         $customer = "No";
         $customerId = 1;
         $isInternational = 0; //0 OR 1
-        $sendingType = 1; //always 0 for T_SMS
+        $sendingType = 0; //always 0 for T_SMS
         $smsType = "T_SMS";
         $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
         $decodeResult = json_decode($result,true);
@@ -86,7 +87,16 @@ class AdminController extends Controller {
     }
 
     public function getMenuItems() {
-        $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        if(!empty($request['data']['loggedInUserId'])){
+            $employeeSubmenus = Employee::select("employee_submenus")->where("id",json_decode($request['data']['loggedInUserId']))->get();
+            $permission = json_decode($employeeSubmenus[0]->employee_submenus,true);
+        }else{
+            $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
+            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get();            
+            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
+        }
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
         foreach ($getMenu as $key => $menu) {
@@ -274,7 +284,6 @@ class AdminController extends Controller {
     public function getStates(Request $request) {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-         echo "<pre>";print_r($request);exit;
         $countryId = $request['data']['countryId'];
         $getStates = MlstState::where("country_id", $countryId)->get();
         if (!empty($getStates)) {

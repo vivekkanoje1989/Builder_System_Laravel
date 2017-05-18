@@ -162,8 +162,7 @@ class MyStorageController extends Controller {
 
     public function getMyStorage() {
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $query = MyStorage::whereRaw(
-                        'find_in_set(?, share_with)', $loggedInUserId)->where('deleted_status', '0')->get();
+        $query = MyStorage::whereRaw('find_in_set(?, share_with)', $loggedInUserId)->where('deleted_status', '0')->get();
         if (!empty($query)) {
             $result = ['status' => true, 'records' => $query];
         } else {

@@ -1,0 +1,332 @@
+@font-face{
+	font-family:FontAwesome;
+	src:url(../fonts/fontawesome-webfonte0a5e0a5.eot?v=4.3.0);src:url(../fonts/fontawesome-webfontd41dd41d.eot?#iefix&v=4.3.0) format('embedded-opentype'),url(../fonts/fontawesome-webfonte0a5e0a5.html?v=4.3.0) format('woff2'),url(../fonts/fontawesome-webfonte0a5e0a5.woff?v=4.3.0) format('woff'),url(../fonts/fontawesome-webfonte0a5e0a5.ttf?v=4.3.0) format('truetype'),url(../fonts/fontawesome-webfonte0a5e0a5.svg?v=4.3.0#fontawesomeregular) format('svg');font-weight:400;font-style:normal}
+
+@font-face{
+	font-family:revicons;
+	src:url(../fonts/revicons.eot);src:url(../fonts/revicons.eot) format('embedded-opentype'),url(../fonts/revicons.woff) format('woff2'),url(../fonts/revicons.woff) format('woff'),url(../fonts/revicons.ttf) format('truetype'),url(../fonts/revicons.svg) format('svg');font-weight:400;font-style:normal}	
+	
+.boxed {background-image: url('..images/patt3.html');}
+.featured-title { background-image: url('../images/bg-for-parallax.jpg'); }
+@media (max-width: 1199px) {
+.special-image { width: 195px }
+}
+/*********************custom css********************/
+.tp-revslider-mainul{
+	width:100% !important;
+}
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+
+/**************************************caption************************/
+.tp-caption a {
+	color: #ff7302;
+	text-shadow: none;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out
+}
+.tp-caption a:hover {
+	color: #ffa902
+}
+.tp-caption a {
+	color: #ff7302;
+	text-shadow: none;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out
+}
+.tp-caption a:hover {
+	color: #ffa902
+}
+.tp-caption a {
+	color: #ff7302;
+	text-shadow: none;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out
+}
+.tp-caption a:hover {
+	color: #ffa902
+}
+.tp-caption a {
+	color: #ff7302;
+	text-shadow: none;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out
+}
+.tp-caption a:hover {
+	color: #ffa902
+}
+.tp-caption a {
+	color: #ff7302;
+	text-shadow: none;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out
+}
+.tp-caption a:hover {
+	color: #ffa902
+}
+.tp-caption a {
+	color: #ff7302;
+	text-shadow: none;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out
+}
+.tp-caption a:hover {
+	color: #ffa902
+}
+.tp-caption a {
+	color: #ff7302;
+	text-shadow: none;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out
+}
+.tp-caption a:hover {
+	color: #ffa902
+}
+
+/*****************************caption end*****************************/
+
+/*********************************slider*****************************/
+.custom.tparrows.tp-leftarrow::before, .custom.tparrows.tp-rightarrow::before{
+	content:"" !important;
+}
+.custom.tparrows.tp-leftarrow:hover, .custom.tparrows.tp-rightarrow:hover{
+	background:none;
+}
+/*********************************slider end*****************************/
+
+/**********************************/
+.fitsc-tabs-content h5 span{
+	color:#eeb313 !important;
+}
+.center_text{
+	font-size: 16px;
+	color: #606060;
+	text-align: center;
+}
+.center_text_1{
+	font-size: 16px;
+	color: #ccc;
+	text-align: center;
+}
+.fitsc-row-custom-space{
+	border-top: 1px solid #e4e4e4;
+	background-image: url('../images/work-pattern.png');
+}
+.fitsc-row-custom-space .fitsc-space{
+	height:100px;
+}
+.row-background-custom{
+	background-image: url('../images/bg3.jpg');"
+}
+.row-background-home-2{
+	background-image: url('../images/bg-for-parallax.jpg');
+}
+.row-background-custom-home-2{
+	border-top: 1px solid #e4e4e4;
+	background-image: url('../images/work-pattern.png');
+}
+
+.site-header-home-2{
+	background: rgba(38, 30, 76, 0 ) !important;
+    color: #ffffff !important;
+    position: absolute !important;
+    width: 100% !important;
+    z-index: 99999 !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.site-header-product-1{
+	background: rgba(38, 30, 76, 0 ) !important;
+	position:relative !important;
+}
+.row-product-background_, .row-background-project-3_, .row-background-projects-4{
+	background-image: url('../images/bg1.jpg');"
+}
+.row-background_product_2_{
+	background-image: url('../images/image291211.jpg');
+}
+.row-background_product_2_a{
+	border-top: 1px solid #e4e4e4;
+	background-image: url('../images/work-pattern.png');
+}
+.project-3-main{
+	padding-bottom:0 !important;
+}
+.index-main_, .main-index_2{
+	padding-top:0 !important;
+}
+.main {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+.hentry {
+    padding-bottom: 0;
+}
+.entry-content .fitsc-portfolio .portfolio-filter {
+    margin-bottom: 0;
+    padding: 30px 0;
+}
+.entry-content .fitsc-portfolio .portfolio-filter a {
+   color:#261e4c !important;
+}
+.entry-content .fitsc-portfolio .portfolio-filter a:hover {
+   color:#eeb313 !important;
+}
+
+.entry-content .fitsc-portfolio .portfolio-filter a {
+    color: #fff;
+}
+ul{
+	list-style-type:none;
+}
+.main .portfolio-filter-custom{
+	background:#261e4c !important;
+}
+.entry-content .fitsc-portfolio .portfolio-filter-custom   a{
+	color:#fff !important;
+}
+.row-background-about-us{
+	border-top: 1px solid #e4e4e4;
+	background-image: url('../images/work-pattern.png');
+	border-top: 1px solid rgb(228, 228, 228);
+	padding-left: 381.5px;
+	padding-right: 381.5px;
+	margin-left: -381.5px;
+	margin-right: -381.5px;
+}
+.row-background-about-us_{
+	background-image: url('../images/bg.jpg');
+}
+.row-background-about_3{
+	background-image: url('../images/image291211.jpg');
+}
+.align_top{
+	margin-top: 40px;
+}
+.contact-main{
+	padding:0 !important;
+}
+
+#sls-map-1, #sls-map-1 iframe{
+	width:100%;
+	height:500px;
+	border:0;
+}
+.account-spam{
+	left: -999em;
+	position: absolute;
+}
+.fitwp-tweets-widget li:before{
+	left:0;
+}
+.wp-smiley-1{
+	height: 1em;
+	max-height: 1em;
+}
+.share-friends_ a{
+	font-size:16px;
+}
+.fitsc-space-about-1{
+	height:90px !important;
+}
+.fitsc-row-about-1{
+	border-top: 1px solid #ebebeb;
+}
+.fitsc-space-about-2{
+	height:70px !important;
+}
+.fitsc-space-about-3{
+	height:100px !important;
+}
+.fitsc-space-about-4{
+	height:50px !important;
+}
+.row-background-about-new-bg{
+	background-image: url("../images/work-pattern.png");
+}
+.fitsc-column-home_gutter h6{
+	font-size: 14px !important;
+}
+.fitsc-tab-home h5 span{
+	color: #eeb313 !important;
+}
+/******************************whoocommerce*************************/
+
+.checkout-billing-checkout label{
+	display:block !important;
+}
+.checkout-billing-checkout select{
+	box-sizing: border-box;
+    line-height: 1;
+    margin: 0;
+    outline: 0 none;
+    width: 100%;
+	border: 1px solid #cccccc !important;
+    border-radius: 4px;
+    max-width: 100%;
+    padding: 7px;
+}
+.create-account-link label{
+	display:inline-block !important;
+}
+.cc_center{
+	font-size: 16px;
+	color: #ccc;
+	text-align: center;
+}
+.fitsc_space_beauty01{
+	height: 70px
+}
+.ee_center{
+	text-align:center;
+	color: #eeb313;
+}
+.str_col{
+	"color: #fff;
+}
+.fitsc_space_beauty02{
+	height:90px;
+}
+.fitsc_space_beauty03{
+	height: 60px;
+}
+.center_text60{
+	font-size:16px;
+	color:#606060;
+	text-align:center;
+}
+.video_wrapper_AB{
+	width: 620px;
+}
+.fitwp-thumb-size{
+	display: inline-block;
+    float: left;
+    height: 70px !important;
+    width: 70px !important;
+}
+.fitwp-date{
+	font-style:italic;
+}

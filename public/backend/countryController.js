@@ -10,18 +10,22 @@ app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
         };
         $scope.initialModal = function (id, name, index, index1,phonecode,sortname) {
 
-            $scope.heading = 'Country';
+            if(id == 0)
+            {  $scope.action = 'Submit';  $scope.heading = 'Add Country';
+            }else{  $scope.action = 'Update';  $scope.heading = 'Edit Country'; }
+            
             $scope.id = id;
             $scope.name = name;
             $scope.index = index * ($scope.noOfRows - 1) + (index1 + 1);
             $scope.phonecode = phonecode;
             $scope.sortname = sortname;
+            $scope.sbtBtn = false;
            
         }
         $scope.doCountryAction = function () {
             $scope.errorMsg = '';
 
-            if ($scope.id === 0) //for create
+            if ($scope.id == 0) //for create
             {
                 Data.post('manage-country/', {
                     name: $scope.name,phonecode:$scope.phonecode,sortname:$scope.sortname}).then(function (response) {

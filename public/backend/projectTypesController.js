@@ -1,21 +1,34 @@
-app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$timeout','toaster', function ($scope, Data, $rootScope, $timeout,toaster) {
+app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', function ($scope, Data, $rootScope, $timeout, toaster) {
 
+        $scope.noOfRows = 1;
+        $scope.itemsPerPage = 4;
         $scope.manageProjectTypes = function () {
             Data.post('project-types/manageProjectTypes').then(function (response) {
                 $scope.ProjectTypesRow = response.records;
             });
         };
-        $scope.initialModal = function (id, project_type, index) {
+        $scope.initialModal = function (id, project_type, index, index1) {
 
-            $scope.heading = 'Project Types';
-            $scope.id = id;
-            $scope.project_type = project_type;
-            $scope.index = index;
+             if (id == 0)
+            {
+                $scope.heading = 'Add Project Types';
+                $scope.id = '0';
+                $scope.project_type = '';
+ 
+                $scope.action = 'submit';
+            } else {
+                $scope.heading = 'Edit Project Types';
+                $scope.id = id;
+                $scope.project_type = project_type;
+                $scope.action = 'Update'; 
+            }
+           
             $scope.sbtBtn = false;
+            $scope.index = index * ($scope.noOfRows - 1) + (index1);
         }
         $scope.doProjectTypesAction = function () {
             $scope.errorMsg = '';
-            if ($scope.id === 0) //for create
+            if ($scope.id == 0) //for create
             {
                 Data.post('project-types/', {
                     project_type: $scope.project_type}).then(function (response) {
@@ -23,7 +36,7 @@ app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$time
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                        
+
                         $('#projecttypesModal').modal('toggle');
                         $scope.ProjectTypesRow.push({'project_type': $scope.project_type, 'id': response.lastinsertid});
                         toaster.pop('success', 'Manage project types', 'Record successfully created');

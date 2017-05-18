@@ -16,6 +16,7 @@ var app = angular.module('app', [
     'angularUtils.directives.dirPagination',
 ]);
 var getUrl = 'office';
+var getWebsiteUrl = 'website';
 
 /*app.directive('ngRightClick', function() {
     return function(scope, element, attrs) {

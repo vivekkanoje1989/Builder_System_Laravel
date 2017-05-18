@@ -86,7 +86,7 @@ class EnquiryLocationsController extends Controller {
             return json_encode($result);
         } else {
 
-            $getCity = MlstCities::where('id', '=', $request['state_id'])
+            $getCity = MlstCities::where('id', $request['city_id'])
                     ->select('name')
                     ->first();
 
@@ -115,10 +115,10 @@ class EnquiryLocationsController extends Controller {
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['locationData'] = array_merge($request, $update);
             $result = lstEnquiryLocations::where('id', $id)->update($input['locationData']);
-            $getCity = MlstCities::where('id', '=', $id)
+           $getCity = MlstCities::where('id', $request['city_id'])
                     ->select('name')
                     ->first();
-            $result = ['success' => true, 'result' => $result, 'city_name' => $getCity->name];
+            $result = ['success' => true, 'result' => $result,'city' => $getCity['name']];
             return json_encode($result);
         }
     }

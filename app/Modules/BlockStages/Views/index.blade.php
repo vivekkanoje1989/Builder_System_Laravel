@@ -3,14 +3,25 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Block stages</span>
-                <a href="" data-toggle="modal" data-target="#blockstagesModal" ng-click="initialModal(0, '', '')" class="btn btn-info">Create New Block stages</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#blockstagesModal" ng-click="initialModal(0, '', '')" class="btn btn-info">Add Block stages</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
                     <a href="" widget-dispose></a>
                 </div>
             </div>
-            <div class="widget-body table-responsive">                
+            <div class="widget-body table-responsive">    
+                 <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Search:</label>
+                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                    </div>
+
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Records per page:</label>
+                        <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                    </div>
+                </div><br>
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -20,7 +31,7 @@
                                         <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>                          
                             <th style="width: 30%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Block Stage
+                                <a href="javascript:void(0);" ng-click="orderByField = 'block_stage_name'; reverseSort = !reverseSort">Block Stage
                                     <span ng-show="orderByField == 'block_stage_name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
@@ -30,20 +41,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td><input type="text" ng-model="search" class="form-control"  placeholder="Search"></td>
-                            <td></td>
-                        </tr>
-                        <tr role="row" ng-repeat="list in BlockStageRow| filter:search |orderBy:orderByField:reverseSort" ng-class="{'selected':$index == selectedRow}" ng-click="setClickedRow($index)">
-                            <td>{{$index + 1}}</td>
+                       
+                        <tr role="row" dir-paginate="list in BlockStageRow| filter:search  | itemsPerPage:itemsPerPage |orderBy:orderByField:reverseSort" >
+                            <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{ list.block_stage_name}}</td>                          
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#blockstagesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.block_stage_name}}',{{list.project_type_id}},$index)"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#blockstagesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.block_stage_name}}',{{list.project_type_id}},{{itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td> 
                         </tr>
                     </tbody>
                 </table>
+                 <div class="DTTTFooter">
+                    <div class="col-sm-6">
+                        <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listUsersLength }} entries</div>-->
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -66,7 +84,7 @@
                                     <option value="">Select project type</option>
                                     <option  ng-repeat="item in ProjectTypesRow" value="{{item.id}}">{{item.project_type}}</option>
                                 </select>
-                               
+                               <i class="fa fa-sort-desc" style="margin-top:4%"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blockStagesForm.project_type_id.$error">
                                     <div ng-message="required">Project type is required</div>
                                 </div>
@@ -86,7 +104,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>           
             </div>

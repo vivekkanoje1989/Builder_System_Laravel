@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage City</span>
-                <a href="" data-toggle="modal" data-target="#cityModal" ng-click="initialModal(0,0,'','')" class="btn btn-info">Create New City</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#cityModal" ng-click="initialModal(0,0,'','')" class="btn btn-info">Add City</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -49,11 +49,10 @@
 
                         <tr role="row" dir-paginate="list in citiesRow| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
-
                             <td>{{ list.state_name}}</td> 
                             <td>{{ list.name}}</td>                          
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#cityModal"><a href="javascript:void(0);" ng-click="initialModal(1,{{list.id}},{{list}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit City" style="display: block;" data-toggle="modal" data-target="#cityModal"><a href="javascript:void(0);" ng-click="initialModal(1,{{list.id}},{{list}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -123,7 +122,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>           
             </div>

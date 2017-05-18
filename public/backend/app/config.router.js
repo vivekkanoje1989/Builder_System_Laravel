@@ -261,6 +261,7 @@ angular.module('app')
                                                                     });
                                                                 }
                                                         );
+
                                                     }
                                                 ]
                                     }
@@ -346,6 +347,37 @@ angular.module('app')
                                 .state(getUrl + '.projectWebPage', {
                                     url: '/project/webpage',
                                     templateUrl: getUrl + '/projects/webPage',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Project Configurations'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'textAngular', 'toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/app/controllers/select.js',
+                                                                            '/backend/projectController.js',
+                                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                        ]
+                                                                    });
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                .state(getUrl + '.projectWebPageId', {
+                                    url: '/project/webpage/id/:projectId',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/project/getProjectDetails/' + stateParams.projectId;
+                                    },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Project Configurations'
@@ -527,6 +559,8 @@ angular.module('app')
                                                         serie: true,
                                                         files: [
                                                             '/backend/propertyPortalsController.js',
+                                                            '/backend/app/controllers/accordion.js',
+                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                         ]
                                                     }]);
                                             }
@@ -704,7 +738,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/employee-device/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Employee Device Management'
+                                        label: 'Manage Employee Device'
                                     },
                                     resolve: {
                                         deps:
@@ -1148,7 +1182,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/blood-groups/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create blood groups',
+                                        label: 'Manage blood groups',
                                         description: ''
                                     },
                                     resolve: {
@@ -1176,7 +1210,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/manage-country/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Country',
+                                        label: 'Manage Country',
                                         description: ''
                                     },
                                     resolve: {
@@ -1204,7 +1238,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/manage-states/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create State',
+                                        label: 'Manage State',
                                         description: ''
                                     },
                                     resolve: {
@@ -1232,7 +1266,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/manage-city/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create City',
+                                        label: 'Manage City',
                                         description: ''
                                     },
                                     resolve: {
@@ -1261,7 +1295,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/manage-location/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Location',
+                                        label: 'Manage Location',
                                         description: ''
                                     },
                                     resolve: {
@@ -1289,7 +1323,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/highest-education/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create highest education Types',
+                                        label: 'Manage Highest Education',
                                         description: ''
                                     },
                                     resolve: {
@@ -1317,7 +1351,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/manage-department/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Department',
+                                        label: 'Manage Department',
                                         description: ''
                                     },
                                     resolve: {
@@ -1345,7 +1379,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/manage-profession/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Profession',
+                                        label: 'Manage Profession',
                                         description: ''
                                     },
                                     resolve: {
@@ -1373,7 +1407,7 @@ angular.module('app')
                                     templateUrl: getUrl + '/payment-headings/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Payment Heading',
+                                        label: 'Manage Payment Heading',
                                         description: ''
                                     },
                                     resolve: {
@@ -2728,8 +2762,8 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                
-                                
+
+
                                 .state(getUrl + '.manageProjectIndex', {
                                     url: '/manage-project/index',
                                     templateUrl: getUrl + '/projects/manage',
@@ -2756,14 +2790,115 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+
+
+                                .state(getUrl + '.projectAvailability', {
+                                    url: '/manage-project/availability',
+                                    templateUrl: getUrl + '/projects/availability',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Project Availability',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/projectController.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+
+                                .state(getUrl + '.availbleProjects', {
+                                    url: '/projects/availability/:projectId',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/projects/' + stateParams.projectId + '/availability';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Project Availability',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/projectController.js',
+                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+
+
+                                .state(getUrl + '.webChangeModuleIndex', {
+                                    url: '/website/change-module',
+                                    templateUrl: getUrl + '/website/change-module',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Website Change Module',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/websiteChangeModule.js',
+                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
                                 
-
-
-
-
-
-
-
+                                
+                                
+                                
+                                 .state(getUrl + '.webThemesIndex', {
+                                    url: '/website/themes',
+                                    templateUrl: getUrl + '/website-themes/',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Website Themes',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster', {
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/websiteThemes.js',
+                                                        ]
+                                                    }]);
+                                            }
+                                        ]
+                                    }
+                                })
+                                
+                                
                                 /****************************MANOJ*********************************/
                                 .state('persian', {
                                     abstract: true,

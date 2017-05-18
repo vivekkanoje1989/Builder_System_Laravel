@@ -49,7 +49,7 @@ class ManageProfessionController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $getCount = MlstProfessions::where(['profession' => $request['profession']])->get()->count();
+        $getCount = MlstProfessions::where(['profession' => $request['profession']])->where('id','!=',$id)->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'profession already exists'];
           return json_encode($result);

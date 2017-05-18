@@ -37,6 +37,15 @@ Route::group(array('module' => 'Projects', 'middleware' => ['web'], 'namespace' 
         return View::make('Projects::index');
     });
     
+     Route::get($getUrl . '/projects/availability', function () {
+        return View::make('Projects::availability');
+    });
+   
+     Route::get($getUrl . '/projects/{id}/availability', function ($id) {
+        return View::make('Projects::availableprojects')->with('Id',$id);
+    });
+    
+   
     
     Route::get($getUrl . '/projects/projectType', 'ProjectsController@projectType'); //for populate dropdown
     Route::get($getUrl . '/projects/projectStatus', 'ProjectsController@projectStatus'); //for populate dropdown
@@ -45,7 +54,8 @@ Route::group(array('module' => 'Projects', 'middleware' => ['web'], 'namespace' 
 
     Route::get($getUrl . '/projects/getBlocks', 'ProjectsController@getBlocks'); //show page
     Route::resource($getUrl . '/projects', 'ProjectsController');
-    Route::post($getUrl . '/projects/showProjectDetails', 'ProjectsController@showProjectDetails'); //save project details
+    Route::post($getUrl. '/projects/getProjectDetails/{id}', 'ProjectsController@getProjectDetails'); //save project details
+    //Route::post($getUrl . '/projects/showProjectDetails', 'ProjectsController@showProjectDetails'); //save project details
 
     Route::post($getUrl . '/projects/basicInfo', 'ProjectsController@basicInfo'); //save basic info
 //    Route::post($getUrl. '/projects/webSettings', 'ProjectsController@webSettings'); //save basic info
@@ -53,5 +63,9 @@ Route::group(array('module' => 'Projects', 'middleware' => ['web'], 'namespace' 
     Route::post($getUrl . '/projects/getAmenitiesListOnEdit', 'ProjectsController@getAmenitiesListOnEdit'); //get ameniti list on edit
     Route::post($getUrl . '/projects/getWings', 'ProjectsController@getWings'); //show page
     Route::post($getUrl.'/projects/getprojects','ProjectsController@getprojects');
+    Route::post($getUrl.'/projects/getProjectWings','ProjectsController@getProjectWings');
+    Route::post($getUrl.'/projects/getFloorDetails','ProjectsController@getFloorDetails');
+    
+    
 
 });

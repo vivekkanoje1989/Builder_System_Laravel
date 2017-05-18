@@ -50,7 +50,7 @@ class ManageLostReasonController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
 
-        $getCount = MlstBmsbEnquiryLostReasons::where(['reason' => $request['reason']])->get()->count();
+        $getCount = MlstBmsbEnquiryLostReasons::where(['reason' => $request['reason']])->where('id','', $id)->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Reason already exists'];
             return json_encode($result);

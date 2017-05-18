@@ -31,35 +31,16 @@
                                         <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>                       
                             <th style="width:35%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'first_name'; reverseSort = !reverseSort">Date & Time Registration
+                                <a href="javascript:void(0);" ng-click="orderByField = 'first_name'; reverseSort = !reverseSort">Customer Name
                                     <span ng-show="orderByField == 'first_name'">
                                         <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>
 
                             <th style="width:35%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'monthly_income'; reverseSort = !reverseSort">Registered by
+                                <a href="javascript:void(0);" ng-click="orderByField = 'monthly_income'; reverseSort = !reverseSort">Monthly Income
                                     <span ng-show="orderByField == 'monthly_income'">
                                         <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th>   
-                             <th style="width:35%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'monthly_income'; reverseSort = !reverseSort">Project Name
-                                    <span ng-show="orderByField == 'monthly_income'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th> 
-                            <th style="width:35%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'monthly_income'; reverseSort = !reverseSort">Project Type
-                                    <span ng-show="orderByField == 'monthly_income'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th> 
-                            <th style="width:35%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'monthly_income'; reverseSort = !reverseSort">Project Status
-                                    <span ng-show="orderByField == 'monthly_income'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th> 
-                            <th style="width:35%">
-                                <a >Action
-                                </a></th>     
-
+                                </a></th>  
                             <th style="width: 5%">Actions</th>
                         </tr>
                     </thead>

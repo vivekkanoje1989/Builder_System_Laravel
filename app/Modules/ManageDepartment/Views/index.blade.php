@@ -6,14 +6,25 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Department</span>
-                <a href="" data-toggle="modal" data-target="#departmentModal" ng-click="initialModal(0)" class="btn btn-info">Create New Department</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#departmentModal" ng-click="initialModal(0)" class="btn btn-info">Add Department</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
                     <a href="" widget-dispose></a>
                 </div>
             </div>
-            <div class="widget-body table-responsive">                
+            <div class="widget-body table-responsive">   
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Search:</label>
+                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                    </div>
+
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Records per page:</label>
+                        <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                    </div>
+                </div><br> 
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -41,21 +52,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td><input type="text" ng-model="search" class="form-control"  placeholder="Search"></td>
-                            <td></td>
-                        </tr>
-                        <tr role="row" ng-repeat="list in departmentRow| filter:search |orderBy:orderByField:reverseSort" ng-class="{'selected':$index == selectedRow}" ng-click="setClickedRow($index)">
-                            <td>{{$index + 1}}</td>
+                        <tr role="row" dir-paginate="list in departmentRow| filter:search  | itemsPerPage:itemsPerPage |orderBy:orderByField:reverseSort" >
+                            <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{ list.department_name}}</td>                          
-                            <td>{{ list.name}}</td>
+                            <td>{{ list.vertical.name}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit department" style="display: block;" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},{{list}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit department" style="display: block;" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},{{list}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td> 
                         </tr>
                     </tbody>
                 </table>
+                 <div class="DTTTFooter">
+                    <div class="col-sm-6">
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -93,7 +109,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>
             </div>

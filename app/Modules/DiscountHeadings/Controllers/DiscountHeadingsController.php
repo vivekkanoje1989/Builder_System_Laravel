@@ -27,12 +27,10 @@ class DiscountHeadingsController extends Controller {
             return json_encode($result);
         }
     }
-
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
-        $cnt = LstDlDiscounts::where(['discount_name' => $request['discount_name']])->get()->count();
+        $cnt = LstDlDiscounts::where(['discount_name' => $request['discount_name']])->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Discount heading already exists'];
             return json_encode($result);
@@ -46,11 +44,9 @@ class DiscountHeadingsController extends Controller {
             return json_encode($result);
         }
     }
-
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
         $getCount = LstDlDiscounts::where(['discount_name' => $request['discount_name']])
                 ->where('id', '!=', $id)
                 ->get()

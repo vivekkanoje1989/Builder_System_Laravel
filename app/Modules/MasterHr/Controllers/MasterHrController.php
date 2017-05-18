@@ -289,7 +289,6 @@ class MasterHrController extends Controller {
             unset($input['userData']['loggedInUserId']);
             $input['userData']['employee_photo_file_name'] = '';
         }
-        //echo "<pre>";print_r($input); exit;
         $input = Employee::doAction($input);
         $input['userData']['updated_date'] = date('Y-m-d');
 
@@ -500,7 +499,6 @@ class MasterHrController extends Controller {
     public function accessControl() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-        //print_r($input);exit;
         if (!empty($input)) {//checkbox checked
             if ($input['data']['moduleType'] === 'roles') {
                 $getSubMenus = EmployeeRole::select('employee_submenus')->where('id', $input['data']['empId'])->get();
@@ -556,6 +554,40 @@ class MasterHrController extends Controller {
                 $result = ['success' => true];
                 return json_encode($result);
             }
+        }
+    }
+    public function appAccessControl() {
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        if ($input['data']['isChecked'] == true) {//checkbox checked
+            //{"data":{"empId":2,"submenuId":[107],"isChecked":true,"moduleType":"employee"}}
+            
+            if ($input['data']['moduleType'] === 'roles') {
+                $getSubMenus = EmployeeRole::select('employee_submenus')->where('id', $input['data']['empId'])->get();
+            } else {
+                $getSubMenus = Employee::select('employee_submenus')->where('id', $input['data']['empId'])->get();
+            }
+            $getMenuItem = [];
+            if ($getSubMenus[0]['employee_submenus'] != '') {
+                $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'], true);
+            }
+            $submenuId = array();
+            $submenuId = array_map(function($el) {
+                return '0' . $el;
+            }, $input['data']['submenuId']);
+
+            if (!empty($getMenuItem)) {
+                $menuArr = array_unique(array_merge($submenuId, $getMenuItem)); //merge elements
+            }
+            asort($menuArr);
+            $jsonArr = json_encode($input['data']['submenuId'], true);
+            if ($input['data']['moduleType'] === 'roles') {
+                EmployeeRole::where('id', $input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+            } else {
+                Employee::where('id', $input['data']['empId'])->update(array('employee_submenus' => $jsonArr));
+            }
+            $result = ['success' => true];
+            return json_encode($result);
         }
     }
 

@@ -48,5 +48,7 @@ return [
         "BankAccounts",
         "Wings",
         "EnquiryLocations",
+        "WebsiteChangeModule",
+        "Themes",
     ),
 ];

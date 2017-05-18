@@ -2,7 +2,7 @@
     <div class="col-lg-12 col-sm-6 col-xs-12">
         <tabset class="tabs-left">
             <tab heading="Images">
-                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/images' "></div>
+                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/images'"></div>
             </tab>
             <tab heading="Status">
                 <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/status' "></div>

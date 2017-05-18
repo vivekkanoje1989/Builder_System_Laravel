@@ -39,9 +39,7 @@ class CustomersDataController extends Controller {
 
     public function update() {
         $input = Input::all();
-
         if (!empty($input['emp_photo_url'])) {
-
             $originalName = $input['emp_photo_url']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
                 $s3FolderName = "Customer";
@@ -51,7 +49,6 @@ class CustomersDataController extends Controller {
                 unset($input['emp_photo_url']);
             } else {
                 unset($input['emp_photo_url']);
-                
             }
         }
         $loggedInUserId = Auth::guard('admin')->user()->id;

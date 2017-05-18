@@ -139,12 +139,12 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-md-12">
                                         <div class="well with-header  with-footer">
-                                            <div class="header bg-blue">
+                                            <div class="header ">
                                                 Manage Documents
                                                 <input type="button" value="Add More" class="btn btn-primary" style="float:right;" ng-click="addNewDocuments()">
                                             </div>
                                             <table class="table table-hover">
-                                                <thead class="bordered-darkorange">
+                                                <thead class="">
                                                     <tr>
                                                         <th>
                                                             Document No.
@@ -175,29 +175,28 @@
                                                             <button class="btn btn-primary" value="Remove" ng-show="$last" ng-if="$first != $last" ng-click="removeChoice()">-</button>
                                                         </td>
                                                     </tr>
+                                                <div class="img-div2" data-title="name" ng-repeat="list in document_file_preview">    
+                                                    <img ng-src="{{list}}" class="thumb photoPreview" height="180px" width="180px;">
+                                                </div>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
                                 <div class="row">
                                     <div class="col-xs-12 col-md-12">
                                         <div class="well with-header  with-footer">
-                                            <div class="header bg-blue">
+                                            <div class="header">
                                                 Manage Stationary
                                                 <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  ng-click="addNewStationary()">
                                             </div>
                                             <table class="table table-hover" data-ng-repeat="stationary in Stationary">
-                                                <thead class="bordered-darkorange">
+                                                <thead class="">
                                                     <tr>
                                                         <th>Stationary No.</th>
                                                         <th>Name</th>
                                                         <th>Letter Head</th>
-                                                        <th>Payment Receipt Letter Headthtd
+                                                        <th>Payment Receipt Letter Head
                                                         <th>Stamp </th>
                                                     <tr>
                                                 </thead>
@@ -228,7 +227,7 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <thead class="bordered-darkorange">
+                                                <thead class="">
                                                     <tr>
                                                         <th></th>
                                                         <th>Estimate logo file</th>

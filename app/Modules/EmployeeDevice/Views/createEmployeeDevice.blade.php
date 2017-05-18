@@ -10,7 +10,7 @@
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="widget">
                 <div class="widget-header">
-                    <span class="widget-caption">Add Device</span>
+                    <span class="widget-caption">{{heading}}</span>
                     <div class="widget-buttons">
                         <a href="" widget-maximize></a>
                         <a href="" widget-collapse></a>
@@ -132,6 +132,7 @@
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-sm-3 col-xs-6">
+                                    <a  href="#/[[config('global.getUrl')]]/employeeDevice/index"  class="btn btn-primary" value="" ><< Back</a>
                                     <input type="submit" name="btnname" class="btn btn-primary" value="{{ btnLable}}" ng-click="createBtn = true">
                                 </div>                                    
                             </div>                                

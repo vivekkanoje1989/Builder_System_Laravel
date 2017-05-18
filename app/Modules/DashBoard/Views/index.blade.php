@@ -9,7 +9,6 @@
                         <div id="registration-form">
                             <form  ng-submit="requestLeave.$valid && dorequestLeaveAction(request, '1')" name="requestLeave"  novalidate>
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-
                                 <div class="form-title">
                                     Request leave
                                 </div>
@@ -35,7 +34,7 @@
                                     </div>
                                     <div class="col-sm-3 col-xs-12">
                                         <div class="form-group">
-                                            <label>Application To <span class="sp-err">*</span></label>
+                                            <label>Application To </label>
 
                                             <span class="input-icon icon-right">
                                                 <select class="form-control" ng-model="request.application_cc" name="application_cc" >

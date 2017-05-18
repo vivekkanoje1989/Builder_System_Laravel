@@ -32,7 +32,6 @@ class CareerManagementController extends Controller {
         $result = ['success' => true, 'result' => $careers, 'lastinsertid' => $last3->id];
         return json_encode($result);
     }
-
     public function manageCareers() {
         $careers = WebCareers::where('deleted_status','!=',1)->get();
         if (!empty($careers)) {

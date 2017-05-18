@@ -2,6 +2,8 @@
 app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', 'toaster', function ($scope, Data, $timeout, Upload, $state, toaster) {
 
         $scope.blogId = 0;
+        $scope.itemsPerPage = 4;
+        $scope.noOfRows = 1;
         $scope.manageBlogs = function () {
             Data.post('manage-blog/manageBlogs').then(function (response) {
                 $scope.blogsRow = response.records;
@@ -97,16 +99,15 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                     Data.post('manage-blog/removeBlogImage', {
                         blogId: blogId, imageName: imgname, allimg: $scope.imgs,
                     }).then(function (response) {
-
                         if (!response.success)
                         {
-
-                        } else
-                        {
-                            // $state.go(getUrl+'.contentPagesIndex');
                         }
                     });
                 }
             }
         }
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
     }]);

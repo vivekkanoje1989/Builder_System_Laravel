@@ -3,14 +3,24 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Project Payment Stages</span>
-                <a data-toggle="modal" data-target="#projectpaymentModal" ng-click="initialModal(0, '', '', '', '')" class="btn btn-info">Create Project Payment Stages</a>&nbsp;&nbsp;&nbsp;
+                <a data-toggle="modal" data-target="#projectpaymentModal" ng-click="initialModal(0, '', '', '', '')" class="btn btn-info">Add Project Payment Stages</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
                     <a href="" widget-dispose></a>
                 </div>
             </div>
-            <div class="widget-body table-responsive">                
+            <div class="widget-body table-responsive">    
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Search:</label>
+                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Records per page:</label>
+                        <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                    </div>
+                </div><br> 
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -31,19 +41,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td><input type="text" ng-model="search" class="form-control"  placeholder="Search"></td>                           
-                            <td></td>                        </tr>
-                        <tr role="row" ng-repeat="list in ProjectPaymentStagesRow| filter:search | orderBy:orderByField:reverseSort" ng-class="{'selected':$index == selectedRow}" ng-click="setClickedRow($index)">
-                            <td>{{ $index + 1}}</td>
+
+                        <tr role="row" dir-paginate="list in ProjectPaymentStagesRow| filter:search | orderBy:orderByField:reverseSort| itemsPerPage:itemsPerPage" >
+                            <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{ list.stage_name}}</td>   
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#projectpaymentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.stage_name}}',{{list.project_type_id}},{{list.fix_stage}},$index)"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#projectpaymentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.stage_name}}',{{list.project_type_id}},{{list.fix_stage}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="DTTTFooter">
+                    <div class="col-sm-6">
+                        <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listUsersLength }} entries</div>-->
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -56,8 +74,8 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="projectpaymentForm.$valid && doprojectpaymentAction()" name="projectpaymentForm">
-                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
+                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.project_type_id.$dirty && projectpaymentForm.project_type_id.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
@@ -68,28 +86,28 @@
                                     <option value="">Select project type</option>
                                     <option  ng-repeat="item in ProjectTypesRow" value="{{item.id}}" selected>{{item.project_type}}</option>
                                 </select>
-                                
+
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="projectpaymentForm.project_type_id.$error">
                                     <div ng-message="required">Project type is required</div>
                                 </div>
                             </span>
                             <br/><br/>
                         </div>
-                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.stage_name.$dirty && projectpaymentForm.stage_name.$invalid)}">
-                         
+                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.stage_name.$dirty && projectpaymentForm.stage_name.$invalid)}">
+
                             <span class="input-icon icon-right">
                                 <label>Stage name<span class="sp-err">*</span></label>
                                 <input type="text" class="form-control" ng-model="stage_name" name="stage_name"  ng-change="errorMsg = null" required>
-                             
+
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="projectpaymentForm.stage_name.$error">
                                     <div ng-message="required">Payment stage is required</div>
                                     <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                             <br/> <br/>
-                         </div>
+                        </div>
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projectpaymentForm.fix_stage.$dirty && projectpaymentForm.fix_stage.$invalid)}">
-                         
+
                             <span>
                                 <label>Stage type<span class="sp-err">*</span></label>
                                 <div class="row" style="margin-left: 10px;">
@@ -121,7 +139,7 @@
 
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>           
             </div>

@@ -27,14 +27,17 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
         };
         $scope.initialModal = function (ids,city_id,list, index, index1) {
 
-            $scope.heading = 'City';
+            
             $scope.country_id = list.country_id;
             $scope.id = city_id;
-            alert($scope.id);
             $scope.name = list.name;
             if($scope.id !== 0){
-              
+                 $scope.heading = 'Edit City';     
+                 $scope.action = 'Update';     
                  $scope.manageStates(1,$scope.country_id);
+            }else{
+                $scope.heading = 'Add City';     
+                 $scope.action = 'Submit';
             }
             $scope.state_id = list.state_id;
             $scope.states = list.state_id;
@@ -43,8 +46,7 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
         }
         $scope.doCitiesAction = function () {
             $scope.errorMsg = '';
-          alert($scope.id);
-            if ($scope.id === 0) //for create
+            if ($scope.id == 0) //for create
             {
                 Data.post('manage-city/', {
                     'name': $scope.name, 'state_id': $scope.state_id}).then(function (response) {

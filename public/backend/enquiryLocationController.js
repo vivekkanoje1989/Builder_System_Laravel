@@ -1,24 +1,15 @@
-app.controller('enquiryLocationCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaster', function ($scope, Data, $rootScope, $timeout,toaster) {
+app.controller('enquiryLocationCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', function ($scope, Data, $rootScope, $timeout, toaster) {
 
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.enquiryLocation = function () {
-
             Data.get('enquiry-location/enquiryLocation').then(function (response) {
                 $scope.enquiryLocationRow = response.records;
             });
         };
-        $scope.manageStates = function ($id, country_id) {
-            if ($id == 1)
-            {
-                $scope.country_name_id = country_id;
-
-            } else {
-                $scope.country_id = $scope.countryRow[$scope.country_id - 1].id;
-
-            }
-            Data.post('enquiry-location/manageStates', {country_id: $scope.country_id}).then(function (response) {
+        $scope.manageStates = function (country_id) {
+            Data.post('enquiry-location/manageStates', {country_id: country_id}).then(function (response) {
                 $scope.statesRow = response.records;
             });
         };
@@ -26,7 +17,6 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', '$rootScope', '$timeout
         {
             Data.post('enquiry-location/manageCity', {'state_id': state_id}).then(function (response) {
                 $scope.cityRow = response.records;
-             
             });
         }
         $scope.manageCountry = function () {
@@ -36,60 +26,57 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', '$rootScope', '$timeout
         };
         $scope.initialModal = function (ids, list, index, index1) {
 
-         console.log(list);
-            $scope.heading = 'Enquiry location';
-            $scope.country_id = list.country_id;
-            $scope.location = list.location;
             $scope.id = ids;
-            $scope.name = list.name;
             if (ids !== 0) {
-                $scope.manageStates(1, $scope.country_id);
+                $scope.EnqLocation = list;
+                $scope.manageStates($scope.EnqLocation.country_id);
+                $scope.states = parseInt(list.state_id);
+                $scope.manageCity($scope.states);
+                $scope.city = list.city_id;
+                $scope.heading = 'Add enquiry location';
+                $scope.action = 'Edit';
+            } else {
+                $scope.EnqLocation = {};
+                $scope.heading = 'Edit enquiry location';
+                $scope.action = 'Submit';
             }
-            $scope.state_id = list.state_id;
-            if (ids !== 0) {
-                $scope.manageCity($scope.state_id);
-            }
-            $scope.city_id = list.city_id;
             $scope.index = index * ($scope.noOfRows - 1) + (index1 + 1);
             $scope.sbtBtn = false;
         }
-        $scope.doEnqLocationAction = function () {
+        $scope.doEnqLocationAction = function (EnqLocation) {
             $scope.errorMsg = '';
             if ($scope.id === 0) //for create
             {
                 Data.post('enquiry-location/', {
-                    'city_id': $scope.city_id, 'state_id': $scope.state_id, 'country_id': $scope.country_id, 'location': $scope.location}).then(function (response) {
+                    'city_id': EnqLocation.city_id, 'state_id': EnqLocation.state_id, 'country_id': EnqLocation.country_id, 'location': EnqLocation.location}).then(function (response) {
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                        $scope.enquiryLocationRow.push({'location': $scope.location, 'state_id': $scope.state_id, 'country_id': $scope.country_id, id: response.lastinsertid, 'city_name': $scope.city_name, 'city_id': $scope.city_id });
+                        $scope.enquiryLocationRow.push({'location': EnqLocation.location, 'state_id': Number(EnqLocation.state_id), 'country_id': Number(EnqLocation.country_id), id: response.lastinsertid, 'city_name': response.city, 'city_id': Number(EnqLocation.city_id)});
                         $('#locationModal').modal('toggle');
-                        toaster.pop('success', 'Manage enquiry location', 'Record successfully created'); 
+                        toaster.pop('success', 'Manage enquiry location', 'Record successfully created');
                     }
                 });
             } else { //for update
 
-                Data.put('enquiry-location/' + $scope.id, {'location': $scope.location,
-                    name: $scope.name, id: $scope.id, state_id: $scope.state_id}).then(function (response) {
+                Data.put('enquiry-location/' + $scope.id, {'location': EnqLocation.location,
+                    name: EnqLocation.name, id: $scope.id, state_id: EnqLocation.state_id, city_id: EnqLocation.city_id}).then(function (response) {
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $scope.enquiryLocationRow.splice($scope.index - 1, 1);
                         $scope.enquiryLocationRow.splice($scope.index - 1, 0, {'id': $scope.id,
-                            'location': $scope.location, 'state_id': $scope.state_id, 'country_id': $scope.country_id, 'city_id': $scope.city_id, 'city_name': response.city_name});
+                            'location': EnqLocation.location, 'state_id': Number(EnqLocation.state_id), 'country_id': Number(EnqLocation.country_id), 'city_id': Number(EnqLocation.city_id), 'city_name': response.city});
                         $('#locationModal').modal('toggle');
-                        toaster.pop('success', 'Manage enquiry location', 'Record successfully updated'); 
+                        toaster.pop('success', 'Manage enquiry location', 'Record successfully updated');
                     }
                 });
             }
         };
-
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
-
     }]);

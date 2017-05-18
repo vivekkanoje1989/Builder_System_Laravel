@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Country</span>
-                <a href="" data-toggle="modal" data-target="#countryModal" ng-click="initialModal(0, '', '', '', '', '')" class="btn btn-info">Create New Country</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#countryModal" ng-click="initialModal(0, '', '', '', '', '')" class="btn btn-info">Add Country</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn=true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn=true">{{action}}</button>
                     </div> 
                 </form>           
             </div>

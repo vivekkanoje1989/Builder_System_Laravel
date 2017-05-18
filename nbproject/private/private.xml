@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>app/Modules/BlogManagement/Views/create.blade.php</url>
-            <bookmark id="1">
-                <name/>
-                <line>6</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Controllers/ProjectsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Models/Project.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Theme39/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Theme39/header.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/theme31/assets/js/frontend.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/theme31/about.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/theme31/index.blade.php</file>
         </group>
     </open-files>
 </project-private>

@@ -5,18 +5,24 @@
         background-color: #fff;
         padding: 10px;
     }
+    .thumb{
+        width: 60px;
+        height: 60px;
+        margin-top: 0px !important;
+    }
+    .help-block {
+        color: #e46f61;
+    }
 </style>
 <div class="row" ng-controller="blogsCtrl" >  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="widget flat radius-bordered">
-
                     <div class="widget-body">
                         <div id="registration-form">
                             <form  ng-submit="blogsForm.$valid && doblogscreateAction(bannerImage, galleryImage)" name="blogsForm"  novalidate enctype="multipart/form-data">
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-
                                 <div class="form-title">
                                     Request leave
                                 </div>
@@ -26,7 +32,7 @@
                                             <label>Title <span class="sp-err">*</span></label>
                                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.title.$dirty && blogsForm.title.$invalid) }">
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" class="form-control" ng-model="title" name="title"  ng-change="errormsg = null"  required>
+                                                    <input type="text" class="form-control" ng-model="title" capitalizeFirst name="title"  ng-change="errormsg = null"  required>
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.title.$error">
                                                         <div ng-message="required">Title is required</div>
                                                         <div ng-if="errormsg">{{errormsg}}</div>
@@ -38,9 +44,9 @@
                                     </div>
                                     <div class="col-sm-3 col-xs-12">
                                         <div class="form-group">
-                                            <label>Url<span class="sp-err">*</span></label>
+                                            <label>Url</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="blog_seo_url" name="blog_seo_url"  >
+                                                <input type="text" class="form-control" ng-model="blog_seo_url"  name="blog_seo_url"  >
                                                 <br/>
                                             </span>
                                         </div>
@@ -52,11 +58,10 @@
                                                 <div class="col-lg-12 col-sm-12 col-xs-12">
                                                     <div class="widget flat radius-bordered">
                                                         <div class="widget-header bordered-bottom bordered-themeprimary">
-
                                                         </div>         
                                                         <div class="widget-body no-padding">   
                                                             <div class="form-group">
-                                                                <text-angular name="blog_short_description" ng-model="blog_short_description" required></text-angular>
+                                                                <div text-angular name="blog_short_description"  capitalizeFirst ng-model="blog_short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
                                                             </div>
                                                         </div>
                                                     </div> 
@@ -68,19 +73,17 @@
                                         </div> 
                                     </div>
                                 </div>
-
                                 <div class="col-sm-12 col-xs-12">
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_description.$dirty && blogsForm.blog_description.$invalid) }">
-                                        <label>Blog description</label>
+                                        <label>Blog brief description</label>
                                         <span class="input-icon icon-right">
                                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                                 <div class="widget flat radius-bordered">
                                                     <div class="widget-header bordered-bottom bordered-themeprimary">
-
                                                     </div>         
                                                     <div class="widget-body no-padding">   
                                                         <div class="form-group">
-                                                            <text-angular name="blog_description" ng-model="blog_description" required></text-angular>
+                                                            <div text-angular name="blog_description" capitalizeFirst ng-model="blog_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
                                                         </div>
                                                     </div>
                                                 </div> 
@@ -99,8 +102,10 @@
                                 <label>Banner image</label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select   ng-model="bannerImage" name="bannerImage" id="bannerImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
-                                    <br/>
                                 </span>
+                            </div>
+                            <div class="img-div2" data-title="name" ng-repeat="list in bannerImage_preview">    
+                                <img ng-src="{{list}}" class="thumb photoPreview">
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12">
@@ -108,16 +113,17 @@
                                 <label>Gallery image </label>
                                 <span class="input-icon icon-right">
                                     <input type="file" multiple ngf-select ng-model="galleryImage" name="galleryImage" id="galleryImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
-                                    <br/>
-                                </span> 
+                                </span>
+                            </div>
+                            <div class="img-div2" data-title="name" ng-repeat="list in galleryImage_preview">    
+                                <img ng-src="{{list}}" class="thumb photoPreview" height="180px" width="180px;">
                             </div>
                         </div>
-
                         <div class="col-sm-3 col-xs-12 ">
                             <div class="form-group">
                                 <label>Meta Description</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="meta_description" name="meta_description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" required></textarea>
+                                    <textarea ng-model="meta_description" capitalizeFirst name="meta_description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" required></textarea>
                                 </span>
                             </div>
                         </div>
@@ -125,20 +131,19 @@
                             <div class="form-group">
                                 <label>Meta Keywords</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="meta_Keywords" name="meta_Keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" required></textarea>
+                                    <textarea ng-model="meta_Keywords" capitalizeFirst name="meta_Keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" required></textarea>
                                 </span>
                             </div>
                         </div>
-
-                     </div>
-                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
-                        </form>
-
                     </div>
+                    <br/>                      
+                    <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </div>
 

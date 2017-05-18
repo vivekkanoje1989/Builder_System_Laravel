@@ -1,38 +1,39 @@
 <div class="row">
-    <form role="form" name="statusForm" ng-submit="saveStatusInfo(statusData, statusImages)" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <table class="table table-bordered table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Sr. No.</th>
-                            <th>Image</th>
-                            <th>Status</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="slist in statusRow">
-                            <td>{{$index + 1}}</td>
-                            <td>{{slist.images}}</td>
-                            <td>{{slist.status}}</td>
-                            <td>{{slist.short_description}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <form role="form" name="statusForm" ng-submit="saveStatusInfo(statusData, stProjectImages)" enctype="multipart/form-data">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th style="width:5%;">Sr. No.</th>
+                        <th>Image</th>
+                        <th>Show on website</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="slist in statusRow">
+                        <td>{{$index + 1}}</td>
+                        <td><div ng-repeat="imgList in statusImages[(1 + $index) - 1]" style="float: left;"><img src="[[ Session::get('s3Path') ]]project/images/{{ imgList }}" style="width: 50px;height: 50px;"></div>
+                        <td ng-if="slist.status == 1">Yes</td>
+                        <td ng-if="slist.status == 0">No</td>
+                        <td>{{slist.short_description}}</td>
+                        <td><a href ng-click="delStatusRecord({{ slist.id }})">Delete</a></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-sm-3 col-xs-6">  
                 <div class="form-group">
-                    <label>Images (Image Size: W 1000 X H 450)</label>
+                    <label>Images (Size: W 1000 X H 450)</label>
                     <span class="input-icon icon-right">
-                        <input type="file" multiple ngf-select ng-model="statusImages.images" name="images" id="images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(statusImages.images)">
+                        <input type="file" multiple ngf-select ng-model="stProjectImages.images" name="images" id="images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(statusImages.images)">
                     </span>                                                   
                 </div>
                  <div class="col-sm-12 col-xs-12">
-                    <div class="img-div2" data-title="name" ng-repeat="list in images">   
+                    <div class="img-div2" data-title="name" ng-repeat="list in images_preview">   
                         <i class="fa fa-times rem-icon"  title=""></i>
                         <img ng-src="{{list}}" class="thumb photoPreview">
                     </div>
@@ -40,16 +41,16 @@
             </div>
             <div class="col-sm-3 col-xs-6">
                 <div class="form-group">
-                    <label for="">Status<span class="sp-err">*</span></label>    
+                    <label for="">Status</label>    
                     <div class="control-group">
                         <div class="radio">
                             <label>
-                                <input name="form-field-radio" type="radio" ng-model="statusData.status" value="1" class="colored-success" required>
+                                <input name="form-field-radio" type="radio" ng-model="statusData.status" value="1" class="colored-success">
                                 <span class="text">Yes</span>
                             </label>
                             &nbsp;&nbsp;
                             <label>
-                                <input name="form-field-radio" type="radio" ng-model="statusData.status" value="0" class="colored-blue" required>
+                                <input name="form-field-radio" type="radio" ng-model="statusData.status" value="0" class="colored-blue">
                                 <span class="text">No</span>
                             </label>
                         </div>

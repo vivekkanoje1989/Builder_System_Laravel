@@ -10,7 +10,17 @@
                     <a href="" widget-dispose></a>
                 </div>
             </div>
-            <div class="widget-body table-responsive">                
+            <div class="widget-body table-responsive">  
+                <div class="row">
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Search:</label>
+                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Records per page:</label>
+                        <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                    </div>
+                </div><br> 
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -31,19 +41,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td><input type="text" ng-model="search" class="form-control"  placeholder="Search"></td>                           
-                            <td></td>                        </tr>
-                        <tr role="row" ng-repeat="list in ProjectTypesRow| filter:search | orderBy:orderByField:reverseSort">
-                            <td>{{ $index + 1}}</td>
+                        <tr role="row" dir-paginate="list in ProjectTypesRow| filter:search | orderBy:orderByField:reverseSort | itemsPerPage:itemsPerPage">
+                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{ list.project_type}}</td>   
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit project types" style="display: block;" data-toggle="modal" data-target="#projecttypesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.project_type}}', $index)"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit project types" style="display: block;" data-toggle="modal" data-target="#projecttypesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.project_type}}',{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="DTTTFooter">
+                    <div class="col-sm-6">
+                        <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listUsersLength }} entries</div>-->
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -56,8 +73,8 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="projecttypesForm.$valid && doProjectTypesAction()" name="projecttypesForm">
-                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
+                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!projecttypesForm.project_type.$dirty && projecttypesForm.project_type.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="_id">
@@ -74,7 +91,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>           
             </div>

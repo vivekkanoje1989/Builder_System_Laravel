@@ -13,7 +13,9 @@ app.controller('statesCtrl', ['$scope', 'Data', '$rootScope','$timeout', functio
         };
         $scope.initialModal = function (id, name, country,country_id, index, index1) {
 
-            $scope.heading = ' Manage states';
+            if(id == 0)
+            { $scope.heading = 'Add state';  $scope.action="Submit";
+            }else{  $scope.heading = 'Edit state'; $scope.action="Update"; }
             $scope.id = id;
             $scope.name = name;
             $scope.statesForm.index = index * ($scope.noOfRows - 1) + (index1 + 1);
@@ -23,7 +25,7 @@ app.controller('statesCtrl', ['$scope', 'Data', '$rootScope','$timeout', functio
         $scope.doStatesAction = function () {
           
             $scope.errorMsg = '';
-            if ($scope.id === 0) //for create
+            if ($scope.id == 0) //for create
             {
                 Data.post('manage-states/', {
                     name: $scope.name,country_id:$scope.country_id}).then(function (response) {
