@@ -37,6 +37,11 @@ class UserController extends Controller {
         $getWebsiteUrl = config('global.getWebsiteUrl');
     }
 
+    public function getMenus()
+    {
+        $getProjects = WebPage::with(['menuList'])->where('status','=','1')->where('page_type','=','0')->get();
+         return json_encode(['result' => $getProjects, 'status' => true]);
+    }
     public function index() {
         $testimonials = WebTestimonials::all();
         $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')

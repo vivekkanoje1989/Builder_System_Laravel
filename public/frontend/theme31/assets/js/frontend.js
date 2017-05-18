@@ -5,12 +5,20 @@ var getUrl = 'website';
 app.controller('webAppController', ['$scope', 'Data', 'Upload', '$timeout', function ($scope, Data, Upload, $timeout) {
 
         $scope.submitted = true;
-       $scope.empl = true;
+        $scope.empl = true;
         $scope.getPostsDropdown = function () {
             Data.get('../jobPost').then(function (response) {
                 $scope.jobPostRow = response.result;
             });
         };
+
+        $scope.getMenus = function ()
+        {
+            Data.get('../getMenus').then(function (response) {
+                $scope.getMenus = response.result;
+                console.log($scope.getMenus)
+            });
+        }
 
 
         $scope.getProjects = function () {
@@ -22,7 +30,6 @@ app.controller('webAppController', ['$scope', 'Data', 'Upload', '$timeout', func
         $scope.getProjectsAllProjects = function () {
             Data.get('../getProjectsAllProjects').then(function (response) {
                 $scope.current = response.current;
-                console.log($scope.current);
             });
         };
 
@@ -43,11 +50,11 @@ app.controller('webAppController', ['$scope', 'Data', 'Upload', '$timeout', func
             });
         }
 
-        $scope.getEmployees = function()
+        $scope.getEmployees = function ()
         {
             Data.get('../getEmployees').then(function (response) {
-                console.log(response.records);
-                   $scope.employee = response.records;
+         
+                $scope.employee = response.records;
             });
         }
 

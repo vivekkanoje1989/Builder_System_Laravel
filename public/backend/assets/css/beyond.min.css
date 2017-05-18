@@ -1,6 +1,5 @@
 
 /* vkm custome */
-<<<<<<< HEAD
 
 
 .foldr-main{
@@ -20,13 +19,6 @@
     max-width: 100%;
     height: auto;
     width: 65px;
-=======
-.floatLeft{
-    float: left;
-}
-table th, td{
-    text-align: center;
->>>>>>> 68e051dec948c3fb4c2becf903fb86d6c5e5ca19
 }
 .img-div2{
        position: relative;

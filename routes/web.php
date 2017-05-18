@@ -80,7 +80,6 @@ Route::group(['middleware' => ['web']], function () {
     
     Route::get($getWebsiteUrl . '/','frontend\UserController@index');
 
-<<<<<<< HEAD
     Route::get($getWebsiteUrl . '/index', 'frontend\UserController@index');
 
     Route::get($getWebsiteUrl . '/about', 'frontend\UserController@about');
@@ -92,18 +91,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get($getWebsiteUrl . '/jobPost', 'frontend\UserController@jobPost');
     
     Route::get($getWebsiteUrl . '/background', 'frontend\UserController@getBackGroundImages');
-=======
-Route::group(['middleware' =>['auth:admin']], function () { 
-    $getUrl = config('global.getUrl');
-    /*************************** Admin Dashboard ****************************/
-    Route::get($getUrl.'/dashboard', 'backend\AdminController@dashboard');
-    Route::get($getUrl.'/sessiontimeout', 'backend\AdminController@sessiontimeout');
-//    Route::get($getUrl.'/sessionlogout', 'backend\AdminController@sessionlogout');
->>>>>>> 68e051dec948c3fb4c2becf903fb86d6c5e5ca19
     
     Route::get($getWebsiteUrl . '/contact', 'frontend\UserController@contact');
     
-<<<<<<< HEAD
     Route::get($getWebsiteUrl. '/testimonials','frontend\UserController@testimonials');
 
     Route::get($getWebsiteUrl . '/projects', 'frontend\UserController@projects');
@@ -115,40 +105,6 @@ Route::group(['middleware' =>['auth:admin']], function () {
     Route::post($getWebsiteUrl . '/getProjectDetails', 'frontend\UserController@getProjectDetails');
     
     Route::post($getWebsiteUrl . '/getAvailbility', 'frontend\UserController@getAvailbility');
-=======
-    /***********************************************************************/
-    Route::get($getUrl.'/getMenuItems', 'backend\AdminController@getMenuItems');
-    Route::get($getUrl.'/getTitle', 'backend\AdminController@getTitle');
-    Route::get($getUrl.'/getGender', 'backend\AdminController@getGender');
-    Route::get($getUrl.'/getBloodGroup', 'backend\AdminController@getBloodGroup');
-    Route::get($getUrl.'/getDepartments', 'backend\AdminController@getDepartments');
-    Route::get($getUrl.'/getEducationList', 'backend\AdminController@getEducationList');
-    Route::get($getUrl.'/getProfessionList', 'backend\AdminController@getProfessionList');
-    Route::get($getUrl.'/getCountries', 'backend\AdminController@getCountries');
-    Route::get($getUrl.'/getWebPageList', 'backend\AdminController@getWebPageList'); //uma 
-    Route::get($getUrl.'/getPropertyPortalType', 'backend\AdminController@getPropertyPortalType'); //uma 
-    Route::get($getUrl.'/getVerticals', 'backend\AdminController@getVerticals'); //uma  
-    Route::get($getUrl.'/getFinanceTieupAgency', 'backend\AdminController@getFinanceTieupAgency'); //uma
-    Route::get($getUrl.'/getDesignations', 'backend\AdminController@getDesignations'); //geeta
-    Route::get($getUrl.'/getProjects', 'backend\AdminController@getProjects'); //geeta
-    Route::get($getUrl.'/getCompany', 'backend\AdminController@getCompany'); //geeta
-    Route::get($getUrl.'/getStationary', 'backend\AdminController@getStationary'); //geeta    
-    Route::get($getUrl.'/getSalesEnqCategory', 'backend\AdminController@getSalesEnqCategory'); //geeta
-    Route::get($getUrl.'/getAmenitiesList', 'backend\AdminController@getAmenitiesList'); //geeta
-    Route::post($getUrl.'/getSubBlocks', 'backend\AdminController@getSubBlocks'); //geeta
-    Route::post($getUrl.'/getStates', 'backend\AdminController@getStates');
-    Route::post($getUrl.'/getCities', 'backend\AdminController@getCities');
-    Route::post($getUrl.'/getLocations', 'backend\AdminController@getLocations');
-    Route::post($getUrl.'/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
-    Route::get($getUrl.'/getEnquirySource', 'backend\AdminController@getEnquirySource');
-    Route::post($getUrl.'/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');    
-    Route::post($getUrl.'/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
-    /***********************************MANDAR************************************/
-    Route::get($getUrl.'/getClient', 'backend\AdminController@getClient');
-    Route::get($getUrl.'/getVehiclebrands', 'backend\AdminController@getVehiclebrands');
-    Route::get($getUrl.'/getVehiclemodels', 'backend\AdminController@getVehiclemodels');
-    Route::get($getUrl.'/getEmployees', 'backend\AdminController@getEmployees');
->>>>>>> 68e051dec948c3fb4c2becf903fb86d6c5e5ca19
     
     Route::get($getWebsiteUrl . '/getCurrentProjectDetails', 'frontend\UserController@getCurrentProjectDetails');
     
@@ -157,6 +113,9 @@ Route::group(['middleware' =>['auth:admin']], function () {
     Route::get($getWebsiteUrl . '/getAboutPageContent', 'frontend\UserController@getAboutPageContent');
     
     Route::get($getWebsiteUrl . '/getEmployees', 'frontend\UserController@getEmployees');
+    
+    
+    Route::get($getWebsiteUrl . '/getMenus','frontend\UserController@getMenus');
 });
 
 Route::group(['middleware' => ['auth:admin']], function () {
