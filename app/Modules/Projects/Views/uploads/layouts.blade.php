@@ -9,7 +9,7 @@
                             <label></label>
                             <div class="card card-4 img-div2" ng-if="layoutTitle" ng-repeat="t in layoutTitle" style="height: 82px !important;" id="del_layout_plan_images_{{$index}}">
                                 <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{layoutTitle}},'{{t}}', {{$index}}, {{projectData.project_id}}, 'project/layout_plan_images/', 'layout_plan_images')"></i>
-                                <img src="[[ Session::get('s3Path') ]]project/layout_plan_images/{{t.image}}" class="thumb photoPreview">
+                                <img ng-src="[[ Session::get('s3Path') ]]project/layout_plan_images/{{t.image}}" class="thumb photoPreview">
                                 <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
                             </div>
                             <span class="input-icon icon-right">
@@ -28,7 +28,7 @@
                             <label></label>
                             <div class="card card-4 img-div2" ng-if="floorTitle" ng-repeat="t in floorTitle" id="del_floor_plan_images_{{$index}}">
                                 <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{floorTitle}},'{{t}}', {{$index}}, {{projectData.project_id}}, 'project/floor_plan_images/', 'floor_plan_images')"></i>
-                                <img src="[[ Session::get('s3Path') ]]project/floor_plan_images/{{t.image}}" class="thumb photoPreview">
+                                <img ng-src="[[ Session::get('s3Path') ]]project/floor_plan_images/{{t.image}}" class="thumb photoPreview">
                                 <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
                             </div>
                             <span class="input-icon icon-right">

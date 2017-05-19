@@ -13,7 +13,7 @@
             <div class="col-sm-12 col-xs-12" ng-if="amenities_images">
                 <div class="img-div2" data-title="name" ng-repeat="list in amenities_images" id="del_amenities_images_{{$index}}">    
                     <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{amenities_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/amenities_images/', 'amenities_images')"></i>
-                    <img src="[[ Session::get('s3Path') ]]project/amenities_images/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ Session::get('s3Path') ]]project/amenities_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in amenities_images_preview">    
                     <i class="fa fa-times rem-icon"  title=""></i>

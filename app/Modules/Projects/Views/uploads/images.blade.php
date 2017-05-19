@@ -23,7 +23,7 @@
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div ng-if="!project_logo_preview" class="img-div2" data-title="name" ng-repeat="list in project_logo"> 
-                    <img src="[[ Session::get('s3Path') ]]project/project_logo/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ Session::get('s3Path') ]]project/project_logo/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_logo_preview">    
                     <img ng-src="{{list}}" class="thumb photoPreview">

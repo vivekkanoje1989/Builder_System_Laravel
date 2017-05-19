@@ -399,14 +399,35 @@ class ProjectsController extends Controller {
         return json_encode($result);
     }
 
+    public function getInventoryDetails() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $projectId = $request['data']['projectId'];
+        if ($request['data']['wingId'] == 0) {
+            $projectWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $projectId)->orderBy('id', 'ASC')->first();
+            $projectData = ProjectBlock::where([['wing_id','=',$projectWing->id],['project_id','=',$projectId]])->orderBy('wing_id', 'ASC')->get();
+        } else {
+           $projectData = ProjectBlock::where([['wing_id','=',$request['data']['wingId']],['project_id','=',$projectId]])->get(); 
+        }
+        if (!empty($projectData)) {
+            $result = ['success' => true, 'records' => $projectData];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    
     public function getBlocks() {
-        $getBlockList = MlstBmsbBlockType::select('id', 'block_name')->get();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $projectId = $request['data']['projectId'];
+        $getBlockList = ProjectBlock::with('getBlockType')->where("project_id",$projectId)->get();
         if (!empty($getBlockList)) {
             $result = ['success' => true, 'records' => $getBlockList];
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];
         }
-        return json_encode($result);
+        return json_encode($result);        
     }
 
     public function deleteStatus() {
