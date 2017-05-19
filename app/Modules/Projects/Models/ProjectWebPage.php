@@ -75,6 +75,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class ProjectWebPage extends Eloquent
 {
+        protected $table = 'project_web_pages';
 	protected $casts = [
 		'project_id' => 'int',
 		'alias_status' => 'int',

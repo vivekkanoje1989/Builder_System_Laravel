@@ -83,7 +83,7 @@
                                 <i class="fa fa-user thm-color circular"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="socialwebsiteForm.name.$error">
                                     <div ng-message="required">This field is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                                 <br/>
                             </span>

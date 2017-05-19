@@ -196,6 +196,7 @@ app.directive("ngfSelect", [function () {
         restrict: 'AE',
         require: 'ngModel',
         link: function ($scope, el, ngModel) {
+            
             el.bind("change", function (e) {
                 $scope[ngModel.name + "_preview"] = [];
                 var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp|.svg)$/;

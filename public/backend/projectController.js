@@ -26,14 +26,14 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
     $scope.layoutTitle = [];
     $scope.currentPage =  $scope.itemsPerPage = 4;
     $scope.noOfRows = 1;
-    
-    $scope.projectData.project_country = $scope.projectData.project_state = $scope.projectData.project_city = "";
    
     $scope.pageChangeHandler = function(num) {
         $scope.noOfRows = num;
         $scope.currentPage = num * $scope.itemsPerPage;
     };
     
+    $scope.projectData.project_country = $scope.projectData.project_state = $scope.projectData.project_city = "";
+   
     $scope.manageproject = function ()
     {
         Data.get('projects/manageProjects').then(function (response) {
@@ -383,3 +383,4 @@ app.directive('ngConfirmClick', [
             }
         };
 }])
+    

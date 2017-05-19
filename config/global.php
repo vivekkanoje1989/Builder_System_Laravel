@@ -7,7 +7,10 @@
 
 return [
     'getUrl' => 'office',
+    'getWebsiteUrl' => 'website',
     'companyName' => 'BMS BUILDER',
     'rootPath' => base_path(),
     'randomNoDigits'=> 4,
+    's3Path'=>"https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/",
+    'themeName'=>'',
 ];

@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => env('SESSION_DRIVER', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +29,8 @@ return [
     |
     */
 
-    'lifetime' => 60, //in minute
+
+    'lifetime' => 1,
 
     'expire_on_close' => true,
 

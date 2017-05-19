@@ -97,7 +97,7 @@
                                                 <div class="form-group">
                                                     <label for="">Position<span class="sp-err"></span></label>
                                                     <span class="input-icon icon-right">
-                                                        <input type="text" ng-model="contentPage.Position" name="Position" class="form-control">                                                             
+                                                        <input type="text" ng-model="contentPage.parent_page_position" name="parent_page_position" class="form-control">                                                             
                                                     </span>
                                                 </div>
                                             </div>
@@ -167,7 +167,7 @@
                                             <div class="col-sm-9 col-xs-6">
                                                 <div class="img-div2" data-title="name" ng-repeat="img in imgs track by $index" ng-model="imagePage.allimages">   
                                                     <i class="fa fa-times rem-icon"  title="{{ img}}" ng-click="removeImg('{{img}}',{{$index}},[[ $pageId]])"></i>
-                                                    <img src="[[ Session::get('s3Path') ]]website/banner-images/{{ img}}" style="width: 60px;height: 60px;">
+                                                    <img ng-src="[[ Session::get('s3Path') ]]website/banner-images/{{ img}}" style="width: 60px;height: 60px;">
                                                 </div>
                                             </div>
                                         </div>

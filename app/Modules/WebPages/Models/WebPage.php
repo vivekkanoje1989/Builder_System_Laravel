@@ -6,6 +6,7 @@
  */
 
 namespace App\Modules\WebPages\Models;
+
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
@@ -107,6 +108,10 @@ class WebPage extends Eloquent {
             'status' => 'required'
         );
         return $rules;
+    }
+
+    public function menuList() {
+        return $this->hasMany('App\Modules\WebPages\Models\WebPage', 'parent_id');
     }
 
 }

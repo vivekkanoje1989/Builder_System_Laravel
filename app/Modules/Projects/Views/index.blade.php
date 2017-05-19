@@ -1,4 +1,5 @@
-<div class="row" ng-controller="basicInfoController" ng-init="manageproject()">  
+
+<div class="row" ng-controller="projectController" ng-init="manageproject()">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -153,10 +154,16 @@
                         <tr role="row" dir-paginate="list in projectRow| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                             <td>{{list.created_at}}</td>
-                            <td>{{list.first_name + " " + list.last_name}}</td>
+                            <td>{{list.get_employee.first_name + " " + list.get_employee.last_name}}</td>
+                            <td>{{list.project_name}}</td>
+                            <td>{{list.project_types.project_type}}</td>
+                            <td>{{list.project_status.project_status}}</td>
+
+<!--                            <td>{{list.first_name + " " + list.last_name}}</td>
                             <td>{{list.project_name}}</td>
                             <td>{{list.project_type}}</td>
-                            <td>{{list.pro_status}}</td>
+                            <td>{{list.pro_status}}</td>-->
+
                             <td class="fa-div">
                                 <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="javascript:void(0);" ng-click="showWebPage({{list.id}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
