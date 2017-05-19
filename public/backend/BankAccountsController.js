@@ -74,14 +74,11 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
         $scope.initialModel = function (id, item, itemsPerPage, index)
         {
             $scope.id = id;
-            alert($scope.id);
             $scope.bankAccount = {};
             $scope.heading = "Bank Accounts";
             $scope.bankAccount = angular.copy(item);
             $scope.company = item.company_id;
             $scope.account_type = item.account_type;
-            
-            
             $scope.index = (itemsPerPage * ($scope.noOfRows - 1) + (index + 1)) - 1;
             $scope.sbtBtn = false;
             if ($scope.id !== '0')

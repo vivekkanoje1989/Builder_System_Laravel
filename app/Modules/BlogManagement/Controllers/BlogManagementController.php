@@ -53,9 +53,7 @@ class BlogManagementController extends Controller {
 
     public function store() {
         $input = Input::all();
-
         if (!empty($input['blogImages']['blog_banner_images'])) {
-
             $originalName = $input['blogImages']['blog_banner_images']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
 
@@ -160,14 +158,10 @@ class BlogManagementController extends Controller {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
         $name = implode(',', $obj['allimg']);
-        $s3FolderName = 'Blog';
+        $s3FolderName = 'Blog/gallery_image';
+        $obj['imageName']."     ".$s3FolderName;
         $msg = S3::s3FileDelete($obj['imageName'], $s3FolderName);
-
-        if ($msg) {
-            $updatedata = WebBlogs::where('id', $obj['blogId'])->update(['blog_images' => $name]);
-        } else {
-            
-        }
+        $updatedata = WebBlogs::where('id', $obj['blogId'])->update(['blog_images' => $name]);
     }
 
 }

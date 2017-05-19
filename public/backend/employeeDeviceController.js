@@ -15,10 +15,12 @@ app.controller('empDeviceController', ['$rootScope', '$scope', '$state', 'Data',
                 if (id > 0)
                 {
                     $scope.btnLable = 'Save'
+                    $scope.heading = 'Update Device Information'
                     $scope.deviceData = angular.copy(response.records[0]);
                 }
                 if (id === 0)
                 {
+                    $scope.heading = 'Add Device Information'
                     $scope.btnLable = 'Create';
                 }
             })

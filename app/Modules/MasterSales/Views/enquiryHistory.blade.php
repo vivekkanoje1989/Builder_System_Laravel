@@ -16,29 +16,30 @@
                         </a>
                     </th>
                     <th style="width: 10%">
-                        <a href="javascript:void(0);" ng-click="orderByField = 'designation'; reverseSort = !reverseSort">Last FollowUp Date & Time 
-                            <span ng-show="orderByField == 'designation'">
+                        <a href="javascript:void(0);" ng-click="orderByField = 'last_followup_date'; reverseSort = !reverseSort">Last FollowUp Date & Time 
+                            <span ng-show="orderByField == 'last_followup_date'">
+                                <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                            </span>
+                        </a>
+                    </th>
+                    <th style="width: 10%">Remark</th>
+                    <th style="width: 10%">
+                        <a href="javascript:void(0);" ng-click="orderByField = 'next_followup_date'; reverseSort = !reverseSort">Next FollowUp Date & Time
+                            <span ng-show="orderByField == 'next_followup_date'">
                                 <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                             </span>
                         </a>
                     </th>
                     <th style="width: 10%">
-                        <a href="javascript:void(0);" ng-click="orderByField = 'reporting_to_id'; reverseSort = !reverseSort">Remark
-                            <span ng-show="orderByField == 'reporting_to_id'">
+                        <a href="javascript:void(0);" ng-click="orderByField = 'enquiry_category'; reverseSort = !reverseSort">Enquiry Category
+                            <span ng-show="orderByField == 'enquiry_category'">
                                 <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                             </span>
                         </a>
                     </th>
                     <th style="width: 10%">
-                        <a href="javascript:void(0);" ng-click="orderByField = 'team_lead_id'; reverseSort = !reverseSort">Next FollowUp Date & Time
-                            <span ng-show="orderByField == 'team_lead_id'">
-                                <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                            </span>
-                        </a>
-                    </th>
-                    <th style="width: 10%">
-                        <a href="javascript:void(0);" ng-click="orderByField = 'department_name'; reverseSort = !reverseSort">Enquiry Status
-                            <span ng-show="orderByField == 'department_name'">
+                        <a href="javascript:void(0);" ng-click="orderByField = 'sales_status'; reverseSort = !reverseSort">Enquiry Status
+                            <span ng-show="orderByField == 'sales_status'">
                                 <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                             </span>
                         </a>
@@ -59,6 +60,9 @@
                     </td>
                     <td>
                         {{ history.next_followup_date}} at {{ history.next_followup_time}}
+                    </td>
+                    <td>
+                        {{history.enquiry_category}}
                     </td>
                     <td>
                         {{history.sales_status}}

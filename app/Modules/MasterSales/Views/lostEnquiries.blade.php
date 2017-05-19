@@ -8,7 +8,7 @@
                     <a href="" widget-collapse></a>
                 </div>
             </div>   
-            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/listingTable' "></div>           
+            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryListing' "></div>           
         </div>
     </div> 
 </div>

@@ -8,25 +8,17 @@ use DB;
 use App\Classes\CommonFunctions;
 use Auth;
 use Illuminate\Support\Facades\Input;
+use App\Modules\ManageDepartment\Models\MlstBmsbVerticals;
 
 class ManageDepartmentController extends Controller {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
+  
     public function index() {
         return view("ManageDepartment::index");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
     public function manageDepartment() {
-        $getDepartment = MlstBmsbDepartment::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_verticals as mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
-      
+        $getDepartment = MlstBmsbDepartment::with(['vertical'])->get();
+       // $getDepartment = MlstBmsbDepartment::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_verticals as mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
         if (!empty($getDepartment)) {
             $result = ['success' => true, 'records' => $getDepartment];
             return json_encode($result);
@@ -77,17 +69,16 @@ class ManageDepartmentController extends Controller {
 
     public function update($id) {
         $postdata = file_get_contents('php://input');
-        //$request = json_decode($postdata, true);
-        $request = Input::all();
-       // print_r($request);
-      //  exit;
-        $getCount = MlstBmsbDepartment::where(['department_name' => $request['department_name'], ['id', '<>', $id]])->get()->count();
+        $request = json_decode($postdata, true);
+    
+        $getCount = MlstBmsbDepartment::where(['department_name' => $request['department_name'], ['id', '!=', $id]])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Department already exists'];
             return json_encode($result);
         } else {
-            $result = MlstBmsbDepartment::where('id', $request['id'])->update($request);
-            $result = ['success' => true, 'result' => $result];
+            $result = MlstBmsbDepartment::where('id', $id)->update($request);
+            $vertical = MlstBmsbVerticals::where('id','=',$request['vertical_id'])->first();
+            $result = ['success' => true, 'result' => $result,'vertical'=>$vertical];
             return json_encode($result);
         }
     }

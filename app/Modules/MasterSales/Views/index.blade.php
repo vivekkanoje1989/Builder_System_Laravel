@@ -1,4 +1,4 @@
-<style>
+<br/> {{list.email_id}}<style>
     .btn-round{
         border-radius: 50%;
         height: 40px;
@@ -105,7 +105,7 @@
                                     <td align="center">{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                     <td align="center">
                                         <div > 
-                                            {{list.customer_fname}} {{list.customer_lname}} {{ list.mobile_number}}</div>
+                                            {{list.customer_fname}} {{list.customer_lname}} {{ list.mobile_number}} <br/> {{list.email_id}}</div>
                                         <hr>
                                         <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}">Customer Details</a></div> 
                                         <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ listsIndex.CustomerEnquiryDetails.length }}</b></div>
@@ -121,7 +121,7 @@
                                         <hr>
                                         <!--#/[[config('global.getUrl')]]/sales/updateenquiry/{{ list.id }}   ng-click="getEnquiryDetails({{ list.id }})"-->
                                         <div class="floatLeft"><i class="fa fa-desktop" aria-hidden="true"></i></div>
-                                        <div class="floatLeft" style="width:41%"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}/eid/{{ list.id }}" >Enquiry Details</a></div>
+                                        <div class="floatLeft" style="width:41%"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}/eid/{{ list.id }}">Enquiry Details</a></div>
                                         <div class="floatLeft" style="width:50%">
                                             <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category != 'New Enquiry'">&nbsp;</span>
                                             <span style="float: left;margin-left: 5px;">{{ list.enquiry_category}}</span>              

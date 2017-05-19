@@ -2,8 +2,8 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Manage States</span>
-                <a href="" data-toggle="modal" data-target="#statesModal" ng-click="initialModal(0,'','','','')" class="btn btn-info">Create New States</a>&nbsp;&nbsp;&nbsp;
+                <span class="widget-caption">Manage State</span>
+                <a href="" data-toggle="modal" data-target="#statesModal" ng-click="initialModal(0,'','','','')" class="btn btn-info">Add State</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -50,7 +50,7 @@
                             <td>{{list.country_name}}</td>
                             <td>{{list.name}}</td>                          
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#statesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}','{{list.country_name}}','{{list.country_id}}',{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit State" style="display: block;" data-toggle="modal" data-target="#statesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}','{{list.country_name}}','{{list.country_id}}',{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -102,13 +102,13 @@
                               
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="statesForm.name.$error">
                                     <div ng-message="required">State name is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>           
             </div>

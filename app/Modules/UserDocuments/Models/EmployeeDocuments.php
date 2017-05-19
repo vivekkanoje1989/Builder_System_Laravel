@@ -30,5 +30,9 @@ class EmployeeDocuments extends Model {
         'updated_browser',
         'updated_mac_id',
     ];
+    
+     public function userDocuments() {
+        return $this->belongsTo('App\Modules\UserDocuments\Models\MlstEmployeeDocuments', 'document_id','id')->select("id", "document_name");
+    }
 
 }

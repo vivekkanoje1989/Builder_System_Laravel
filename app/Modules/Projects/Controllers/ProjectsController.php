@@ -33,10 +33,20 @@ class ProjectsController extends Controller {
         return view("Projects::index");
     }
     public function manageProjects() {
-         $getProjects = Project::join('employees','projects.created_by','=','employees.id')
-                    ->join('laravel_developement_master_edynamics.mlst_bmsb_project_types as mlst_bmsb_project_types','projects.project_type_id','=','mlst_bmsb_project_types.id')
-                    ->join('laravel_developement_master_edynamics.mlst_bmsb_project_status as mlst_bmsb_project_status','projects.project_status','=','mlst_bmsb_project_status.id')                  
-                    ->select(['projects.id','projects.created_at','projects.project_name','employees.first_name','employees.last_name','mlst_bmsb_project_types.project_type','mlst_bmsb_project_status.project_status as pro_status','projects.project_status as b ','mlst_bmsb_project_status.id as c'])->get();
+        
+        $getProjects = Project::with(['getEmployee','projectTypes','projectStatus'])->get();
+        if (!empty($getProjects)) {
+            $result = ['success' => true, 'records' => $getProjects];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+        
+//         $getProjects = Project::join('employees','projects.created_by','=','employees.id')
+//                    ->join('laravel_developement_master_edynamics.mlst_bmsb_project_types as mlst_bmsb_project_types','projects.project_type_id','=','mlst_bmsb_project_types.id')
+//                    ->join('laravel_developement_master_edynamics.mlst_bmsb_project_status as mlst_bmsb_project_status','projects.project_status','=','mlst_bmsb_project_status.id')                  
+//                    ->select(['projects.id','projects.created_at','projects.project_name','employees.first_name','employees.last_name','mlst_bmsb_project_types.project_type','mlst_bmsb_project_status.project_status as pro_status','projects.project_status as b ','mlst_bmsb_project_status.id as c'])->get();
 
        if (!empty($getProjects)) {
            $result = ['success' => true, 'records' => $getProjects];

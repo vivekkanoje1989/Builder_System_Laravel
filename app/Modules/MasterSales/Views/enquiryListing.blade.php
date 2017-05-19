@@ -32,7 +32,7 @@
                     <div > 
                         {{list.customer_fname}} {{list.customer_lname}} - {{ list.mobile_number}} <br/> {{list.email_id}} </div>
                     <hr>
-                    <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/updateCustomer/{{ list.customer_id}}">Customer Details</a></div> 
+                    <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}">Customer Details</a></div> 
                     <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ listsIndex.records.length}}</b></div>
                     <div class="floatLeft" style="width:40%;max-width: 30%;word-wrap: break-word;"><b>Booked : 0</b></div>                    
                     <div class="floatLeft" style="width:100%;"><hr></div>
@@ -45,10 +45,14 @@
                     <div>{{list.project_block_name}} - {{list.block_name}} </div>
                     <hr>
                     <div class="floatLeft"><i class="fa fa-desktop" aria-hidden="true"></i></div>
-                    <div class="floatLeft" style="width:41%"><a href="">Enquiry Details</a></div>
+                    <div class="floatLeft" style="width:41%"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}/eid/{{ list.id }}">Enquiry Details</a></div>
                     <div class="floatLeft" style="width:50%">
-                        <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category != 'New Enquiry'">&nbsp;</span>
-                        <span style="float: left;margin-left: 5px;">{{ list.enquiry_category}}</span>              
+                        <span style="margin-left:4px;background-color:orangered;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category = 'New Enquiry'">&nbsp;</span>
+                        <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category == 'Hot'">&nbsp;</span>
+                        <span style="margin-left:4px;background-color:yellow;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category == 'Warm'">&nbsp;</span>
+                        <span style="margin-left:4px;background-color:#5ABBF3;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category == 'Cold'">&nbsp;</span>
+                        
+                        <span style="float: left;margin: -4px 0px 0px 5px;">{{ list.enquiry_category}}</span>              
                     </div> 
                     <div class="floatLeft" style="width:100%;"><hr></div>
                     <div class="floatLeft">
@@ -65,7 +69,7 @@
                 <td align="center" style="vertical-align: middle;">Open</td>
                 <td align="left">
                     <div>Owner: {{list.owner_fname}} {{list.owner_lname}}</div><hr>
-                    <a href="javascript:void(0);" id="enq_id" onclick="get_history(133, 1)" data-reveal-id="history">Show Enquiry History</a>                                        
+                    <button type="button" class="btn btn-primary ng-click-active" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ list.id }})">View History</button>
                 </td>
             </tr>
         </tbody>
@@ -79,5 +83,11 @@
                 <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
             </div>
         </div>
+    </div>
+</div>
+<!-- Enquiry History Modal -->
+<div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+    <div class="modal-dialog modal-lg">
+        <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
     </div>
 </div>

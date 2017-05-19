@@ -11,8 +11,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::get($getUrl . '/MasterSales/enquiryHistory', function () {
         return View::make('MasterSales::enquiryHistory');
     });
-    Route::get($getUrl . '/MasterSales/listingTable', function () {
-        return View::make('MasterSales::listingTable');
+    Route::get($getUrl . '/MasterSales/enquiryListing', function () {
+        return View::make('MasterSales::enquiryListing');
     });
     Route::get($getUrl . '/MasterSales/enquiryHistory', function () {
         return View::make('MasterSales::enquiryHistory');

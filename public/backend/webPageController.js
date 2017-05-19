@@ -14,20 +14,49 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                 $scope.contentPage = response.records[0];
             });
         }
-        $scope.updateWebPage = function (contentdata, pageId)
+        $scope.updateWebPage = function (contentdata, allimg, imageData, pageId)
         {
-            Data.post('web-pages/updateWebPage', {
-                pageId: pageId, contentData: contentdata,
-            }).then(function (response) {
-                if (!response.success)
-                {
-                    toaster.pop('error', 'Web Page', 'Something Went Wrong!!');
-                } else
-                {
-                    toaster.pop('success', 'Web Page', 'Page updated successfully.');
-                    $state.go(getUrl + '.webPagesIndex');
+            alert(imageData)
+            alert(allimg)
+
+            if (typeof imageData === 'undefined') {
+                imageData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+            }
+            $scope.err_msg = '';
+            var imgCount = document.getElementById("banner_images").files.length;
+            allimg.push(imageData['name']);
+
+            var url = getUrl + '/web-pages/updateWebPage';
+
+            var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount, contentData: contentdata};
+
+            imageData.upload = Upload.upload({
+                url: url,
+                headers: {enctype: 'multipart/form-data'},
+                data: data
+            });
+            imageData.upload.then(function (response) {
+                console.log(response)
+                $timeout(function () {
+                    if (!response.data.success) {
+                        toaster.pop('error', 'Banner Image', 'Image not uploaded');
+                    } else
+                    {
+                        Data.post('web-pages/getImages', {
+                            Data: {pageId: pageId, },
+                        }).then(function (response) {
+                            var arraydata = response.records[0]['banner_images'].split(',');
+                            $scope.imgs = arraydata;
+                            toaster.pop('success', 'Banner Image', 'Image uploaded successfully.');
+                        });
+                    }
+                });
+            }, function (response) {
+                if (response.status !== 200) {
+                    $scope.errorMsg = "Something went wrong. Check your internet connection";
                 }
             });
+
         }
         $scope.manageImagePage = function (pageId)
         {
@@ -40,45 +69,41 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
         }
         $scope.updateImagePage = function (allimg, imageData, pageId)
         {
-            if (typeof imageData !== 'undefined') {
-                console.log(imageData);
-                $scope.err_msg = '';
-                var imgCount = document.getElementById("banner_images").files.length;
-                allimg.push(imageData['name']);
-
-                var url = getUrl + '/web-pages/updateWebPageImage';
-
-                var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount};
-
-                imageData.upload = Upload.upload({
-                    url: url,
-                    headers: {enctype: 'multipart/form-data'},
-                    data: data
-                });
-                imageData.upload.then(function (response) {
-                    $timeout(function () {
-                        if (!response.data.success) {
-                            toaster.pop('error', 'Banner Image', 'Image not uploaded');
-                        } else
-                        {
-                            Data.post('web-pages/getImages', {
-                                Data: {pageId: pageId, },
-                            }).then(function (response) {
-                                var arraydata = response.records[0]['banner_images'].split(',');
-                                $scope.imgs = arraydata;
-                                toaster.pop('success', 'Banner Image', 'Image uploaded successfully.');
-                            });
-                        }
-                    });
-                }, function (response) {
-                    if (response.status !== 200) {
-                        $scope.errorMsg = "Something went wrong. Check your internet connection";
+            if (typeof imageData === 'undefined') {
+                imageData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+            }
+            alert(imageData);
+            $scope.err_msg = '';
+            var imgCount = document.getElementById("banner_images").files.length;
+            allimg.push(imageData['name']);
+            var url = getUrl + '/web-pages/updateWebPageImage';
+            var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount};
+            imageData.upload = Upload.upload({
+                url: url,
+                headers: {enctype: 'multipart/form-data'},
+                data: data
+            });
+            imageData.upload.then(function (response) {
+                $timeout(function () {
+                    if (!response.data.success) {
+                        toaster.pop('error', 'Banner Image', 'Image not uploaded');
+                    } else
+                    {
+                        Data.post('web-pages/getImages', {
+                            Data: {pageId: pageId, },
+                        }).then(function (response) {
+                            var arraydata = response.records[0]['banner_images'].split(',');
+                            $scope.imgs = arraydata;
+                            toaster.pop('success', 'Banner Image', 'Image uploaded successfully.');
+                        });
                     }
                 });
-            } else
-            {
-                $scope.err_msg = "Please Select image for upoad";
-            }
+            }, function (response) {
+                if (response.status !== 200) {
+                    $scope.errorMsg = "Something went wrong. Check your internet connection";
+                }
+            });
+
         }
         $scope.removeImg = function (imgname, indeximg, pageId)
         {

@@ -3,14 +3,14 @@
         <div class="widget">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="widget flat radius-bordered">
-
                     <div class="widget-body">
                         <div id="registration-form">
                             <form  ng-submit="requestLeave.$valid && doOtherApprovalAction(request, '2')" name="requestLeave"  novalidate>
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
 
                                 <div class="form-title">
-                                    Request leave
+                                    Request other approval
+
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">

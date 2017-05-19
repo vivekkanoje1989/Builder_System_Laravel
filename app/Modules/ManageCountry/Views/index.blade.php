@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Country</span>
-                <a href="" data-toggle="modal" data-target="#countryModal" ng-click="initialModal(0, '', '', '', '', '')" class="btn btn-info">Create New Country</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#countryModal" ng-click="initialModal(0, '', '', '', '', '')" class="btn btn-info">Add Country</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -84,7 +84,7 @@
                                 <input type="text" class="form-control" ng-model="name" name="name"  ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="countryForm.name.$error">
                                     <div ng-message="required">Country name is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>
@@ -95,7 +95,7 @@
                                 <input type="text" class="form-control" ng-model="phonecode" name="phonecode"  ng-pattern="/^[0-9]/"  required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="countryForm.phonecode.$error">
                                     <div ng-message="required">Phone code is required</div>
-                                    <div ng-message="pattern">Phone code must be numerical</div>
+                                    <div ng-message="pattern" class="err">Phone code must be numerical</div>
                                 </div>
                             </span>
                         </div>
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn=true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn=true">{{action}}</button>
                     </div> 
                 </form>           
             </div>

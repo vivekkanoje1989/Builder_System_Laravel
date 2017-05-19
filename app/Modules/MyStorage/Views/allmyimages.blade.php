@@ -53,8 +53,6 @@
                 <span class="widget-caption">My Storage</span>
                 <a href="" data-toggle="modal" data-target="#folderModel" ng-click="initialModal()" class="btn btn-info">Upload new folder</a> 
                 <a href="" data-toggle="modal" data-target="#storageModel" ng-click="initialModal()" class="btn btn-info">Upload new file</a>
-                <a href="" data-toggle="modal" data-target="#sharedModel" ng-click="initialModal()" class="btn btn-info">Shared with :{{ folderSharedEmployees.length > 0 ? folderSharedEmployees.length : "Private" }}</a>
-                <button confirmed-click="deleteFolder('<?php echo $folderId; ?>',0);" ng-confirm-click="Are you sure delete folder?" class="btn btn-info">Delete Folder</button>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -69,14 +67,31 @@
                 </div>
                 <label>Folders</label>
                 <hr/>
-                <div class="row">
-                    <div class="col-md-2" ng-repeat="imgs in subDirectories track by $index | unique:'imgs' ">
-                        <a  href="#/[[config('global.getUrl')]]/storage-list/getMySubFolderImages/{{imgs.id}}">
-                            <img src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
-                            <br/>
-                            <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
+               <div class="row">
+                <div class="foldr-main" ng-repeat="imgs in subDirectories track by $index | unique:'imgs' ">
+
+                    <div class="databox databoxone databox-halved radius-bordered databox-shadowed databox-vertical">
+                        <div class="databox-top bg-darkorange no-padding">
+                            <div class="databox-icon" style="margin-top:5px;">
+                                <img src="/backend/assets/img/folder-img.png" class="folder-img">                   
+                                <span class="databox-number lightcarbon foldr-icon-div"> 
+                                </span>
+                            </div>
+                        </div>
+                        <div class="databox-bottom bg-white no-padding">
+                            <div class="databox-row text-align-center">
+                                <a  href="#/[[config('global.getUrl')]]/storage-list/getMySubFolderImages/{{imgs.id}}">  
+                                    <div class="databox-cell bordered-platinum padding-5">
+                                        <span class="databox-number lightcarbon"> {{imgs.folder}}</span>                                   
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+               </div>
+       
                 Images
                 <hr/>
                 <div class="row">
@@ -153,7 +168,7 @@
                         </table>
                         <br/><br/>
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!sharedForm.share_with.$dirty && sharedForm.share_with.$invalid) }">
-                           <label>Employee</label>
+                            <label>Employee</label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="share_with" name="share_with" required  ng-change="errorMsg = null">
                                     <option value="">Select Employee</option>

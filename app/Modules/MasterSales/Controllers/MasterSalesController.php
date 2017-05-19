@@ -399,8 +399,9 @@ class MasterSalesController extends Controller {
         $historyList = DB::table('enquiry_followups as ef')
                     ->leftjoin('employees as e', 'e.id', '=', 'ef.followup_by_employee_id')
                     ->leftjoin('laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as mess', 'mess.id', '=', 'ef.sales_status_id')
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_enquiry_sales_categories as mesc', 'mesc.id', '=', 'ef.sales_category_id')
                     ->select('ef.*',DB::raw('DATE_FORMAT(ef.followup_date_time, "%d-%m-%Y at %h:%i %p") as last_followup_date'),DB::raw('DATE_FORMAT(ef.next_followup_date, "%d-%m-%Y") as next_followup_date'),DB::raw('DATE_FORMAT(ef.next_followup_time, "%h:%i %p") as next_followup_time'),
-                        'e.first_name','e.last_name','mess.sales_status')
+                        'e.first_name','e.last_name','mess.sales_status','mesc.enquiry_category')
                     ->where('ef.enquiry_id',$enquiryId)
                     ->orderBy('ef.id','asc  ')
                     ->get();

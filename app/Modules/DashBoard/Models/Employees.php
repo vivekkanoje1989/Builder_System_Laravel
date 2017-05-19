@@ -11,7 +11,6 @@ class Employees extends Model {
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = [
-        
         "id",
         "designation_id",
         "from_date",
@@ -32,5 +31,9 @@ class Employees extends Model {
         "updated_browser",
         "updated_mac_id"
     ];
+
+    public function getDesignation() {
+        return $this->belongsTo('App\Modules\Designations\Models\MlstBmsbDesignations','designation_id','id');
+    }
 
 }

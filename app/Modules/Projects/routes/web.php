@@ -39,7 +39,7 @@ Route::group(array('module' => 'Projects', 'middleware' => ['auth:admin'], 'name
     Route::get($getUrl. '/projects/getProjects', 'ProjectsController@getProjects'); //for populate dropdown
     Route::get($getUrl. '/projects/webPage', ['middleware'=>'check-permission:050103', 'uses' => 'ProjectsController@webPage']); //show page
     Route::get($getUrl. '/projects/getProjectDetails/{id}', 'ProjectsController@getProjectDetails'); //get project details
-    Route::get($getUrl. '/projects/manageProjects', ['middleware'=>'check-permission:050101', 'uses' => 'ProjectsController@manageProjects']); //get project details  
+    Route::get($getUrl. '/projects/manageProjects', 'ProjectsController@manageProjects'); //get project details  
     
 //    Route::resource($getUrl. '/projects', 'ProjectsController');
     

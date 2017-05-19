@@ -162,8 +162,7 @@ class MyStorageController extends Controller {
 
     public function getMyStorage() {
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $query = MyStorage::whereRaw(
-                        'find_in_set(?, share_with)', $loggedInUserId)->where('deleted_status', '0')->get();
+        $query = MyStorage::whereRaw('find_in_set(?, share_with)', $loggedInUserId)->where('deleted_status', '0')->get();
         if (!empty($query)) {
             $result = ['status' => true, 'records' => $query];
         } else {
@@ -314,8 +313,11 @@ class MyStorageController extends Controller {
             $sub_bucket = explode(',', $result->sub_folder);
             $subBuckets = [];
             for ($i = 0; $i < count($sub_bucket); $i++) {
-                $result = MyStorage::where('id', '=', $sub_bucket[$i])->first();
-                array_push($subBuckets, ['id' => $result->id, 'folder' => $result->folder]);
+
+                $result = MyStorage::where(['id' => $sub_bucket[$i]])->first();
+                if ($result->deleted_status == '0') {
+                    array_push($subBuckets, ['id' => $result->id, 'folder' => $result->folder]);
+                }
             }
             return json_encode(['result' => $subBuckets, 'status' => true]);
         } else {
@@ -326,7 +328,7 @@ class MyStorageController extends Controller {
     public function sharedImageWith() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $result = StorageFiles::where('id', $request['image_id'])->first();
+        $result = StorageFiles::where('id', $request['id'])->first();
         $emp = DB::table('employees')->where('id', $request['share_with'])->select(['first_name', 'last_name'])->first();
         $share = explode(',', $result['share_with']);
         if (!(in_array($request['share_with'], $share))) {
@@ -336,7 +338,7 @@ class MyStorageController extends Controller {
                 $share_with = $request['share_with'];
             }
             $post = ['share_with' => $share_with];
-            $update = StorageFiles::where('id', $request['image_id'])->update($post);
+            $update = StorageFiles::where('id', $request['id'])->update($post);
             return json_encode(['result' => $update, 'empl' => $emp, 'status' => true]);
         } else {
             return json_encode(['errorMsg' => 'Employee already assigned', 'empl' => $emp, 'status' => false]);

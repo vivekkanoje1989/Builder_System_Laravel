@@ -2,7 +2,7 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Requests for Me</span>
+                <span class="widget-caption">My Request</span>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -70,7 +70,7 @@
                     <tbody>
 
                         <tr role="row" dir-paginate="list in myRequest| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
-                            <td>{{$index + 1}}</td>
+                            <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{list.in_date}}</td> 
                             <td> {{list.request_type}}</td>
                             <td>{{list.first_name + " "+ list.last_name }}</td>

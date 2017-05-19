@@ -52,8 +52,6 @@
             <div class="widget-header ">
                 <span class="widget-caption">My Storage</span>
                 <a href="" data-toggle="modal" data-target="#storageModel" ng-click="initialModal()" class="btn btn-info">Upload new file</a>
-                <a href="" data-toggle="modal" data-target="#sharedModel" ng-click="initialModal()" class="btn btn-info">Shared with :{{ folderSharedEmployees.length > 0 ? folderSharedEmployees.length : "Private" }}</a>
-                <button confirmed-click="deleteFolder('<?php echo $folderId; ?>',1);" ng-confirm-click="Are you sure delete folder?" class="btn btn-info">Delete Folder</button>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>

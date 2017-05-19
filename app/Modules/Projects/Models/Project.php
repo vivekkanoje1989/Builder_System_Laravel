@@ -112,8 +112,32 @@ class Project extends Eloquent
 		'deleted_mac_id'
 	];
         
-        public function wings()
-        {
-             return $this->hasMany('App\Modules\Wings\Models\ProjectWing','project_id');
-        }
+    public function wings()
+    {
+         return $this->hasMany('App\Modules\Wings\Models\ProjectWing','project_id');
+    }
+    
+    public function projectTypes() {
+        return $this->belongsTo('App\Modules\Projects\Models\MlstBmsbProjectType', 'project_type_id','id')->select("id", "project_type");
+    }
+    
+    public function projectStatus() {
+        return $this->belongsTo('App\Modules\Projects\Models\MlstBmsbProjectStatus', 'project_status','id')->select("id", "project_status");
+    }
+   
+    public function getProjectStatus() {
+        return $this->belongsTo('App\Modules\Projects\Models\MlstBmsbProjectStatus', 'project_status','id')->where('project_status',"Current")->select("id", "project_status");
+    }    
+    
+    public function getEmployee() {
+        return $this->belongsTo('App\Models\backend\Employee', 'created_by', 'id')->select("id","first_name","last_name");
+    }
+    
+    public function projectWebPage() {
+        return $this->hasOne('App\Modules\Projects\Models\ProjectWebPage','project_id');
+    }
+    
+    public function projectAminities() {
+        return $this->hasMany('App\Modules\Projects\Models\MlstBmsbAmenities','id','project_amenities_list')->select('id','name_of_amenity');
+    }
 }

@@ -12,17 +12,19 @@
             width: 700px !important;
         }
     }
-    .errMsg{
-        color:red;
+    .editor-text {
+        border: 1px solid #cecece;
+        margin-top: 10px;
+        background-color: #fff;
+        padding: 10px;
     }
 </style>
 <div class="row">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="userDocumentController" ng-init="getEmployees(); manageEmployeeDocuments();" >
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
                 <div id="user-form">
-                    <form role="form" name="userForm" method="post"  ng-submit="userForm.$valid && createUserDocuments(userData.documentUrl,userData)"   novalidate enctype="multipart/form-data">
+                    <form role="form" name="userForm" method="post"  ng-submit="userForm.$valid && createUserDocuments(userData.documentUrl, userData)"   novalidate enctype="multipart/form-data">
                         <input type="hidden" ng-model="userData.csrfToken" name="csrftoken" id="csrftoken" ng-init="userData.csrfToken = '[[ csrf_token() ]]'">
                         <input type="hidden" ng-model="searchData.userId" name="userId" id="custId" value="{{searchData.userId}}">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">
@@ -54,6 +56,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <input type="hidden"  ng-model="id" >
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="form-group">
@@ -64,20 +67,20 @@
                                                     <option  ng-repeat ="doc in DocumentsRow" value="{{doc.id}}">{{doc.document_name}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i> 
-                                                <div ng-show="formButton" ng-messages="userForm.document_id.$error" class="help-block errMsg" ng-if="submitted">
+                                                <div ng-show="sbtBtn" ng-messages="userForm.document_id.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please select document</div>
                                                     <div ng-if="errorMsgg">{{errorMsgg}}</div>
                                                 </div>
                                             </span>
-                                        </div>
+
+                                        </div>     
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
                                             <label for="">Document Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="userData.document_number" name="document_number" capitalizeFirst oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="15" required   >
-
-                                                <div ng-show="formButton" ng-messages="userForm.document_number.$error" class="help-block errMsg" ng-if="submitted">
+                                                <input type="text" class="form-control" ng-model="userData.document_number" name="document_number" required  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="15" required   >
+                                                <div ng-show="sbtBtn" ng-messages="userForm.document_number.$error" class="help-block errMsg">
                                                     <div ng-message="required">Please enter document number</div>
                                                 </div>
                                             </span>
@@ -87,20 +90,27 @@
                                         <div class="form-group">
                                             <label for="">Upload document</label>
                                             <span class="input-icon icon-right">
-                                                <input type="file" ngf-select ng-model="userData.documentUrl" name="documentUrl" id="documentUrl" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" >
+                                                <input type="file" ngf-select ng-model="userData.documentUrl" name="documentUrl" id="documentUrl" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                 <!--<input type="file"    ng-model="userData.documentUrl" name="documentUrl" id="documentUrl" accept="image/*" class="form-control imageFile"  ngf-model-invalid="errorFile" >-->
                                                 <br/>
                                             </span>
                                         </div>
+<!--                                        <img  ng-if="document_url" src="[[ Session::get('s3Path') ]]Employee-Documents/{{document_url}}" height="80px" width="80px">-->
+                                        <div  ng-show="document_url" style="margin-top:18px;">
+                                            <div  class="img-div2" data-title="name">   
+                                                <i class="fa fa-times rem-icon" ng-if="document_url" ng-click="removeImg('{{document_url}}',{{id}})"></i>
+                                                <img ng-if="document_url" src="[[ Session::get('s3Path') ]]Employee-Documents/{{document_url}}" style="width: 60px;height: 60px;">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-                                    <button type="submit" class="btn btn-primary" ng-show="showDiv" ng-disabled="disableCreateButton" ng-click="formButton = true">Save & Continue</button>
+                                    <button type="submit" class="btn btn-primary"  ng-click="sbtBtn = true">{{action}}</button>
                                 </div>
                             </div> 
                             <hr class="wide col-md-12" />   
                         </div> 
-                        <div class="col-xs-12 col-md-12" ng-if="showDiv">
+                        <div class="col-xs-12 col-md-12" >
                             <div class="widget">                                
                                 <div class="widget-header">
                                     <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Document List <span id="errContactDetails" class="errMsg"></span></span>
@@ -111,16 +121,18 @@
                                             <tr>
                                                 <th>Sr. No. </th>
                                                 <th>Document name</th>
-                                                <th>File name</th>
                                                 <th>Number</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="list in documentRow">
                                                 <td>{{$index + 1}}</td>
-                                                <td>{{list.document_name}}</td>
-                                                <td>{{list.document_url}}</td>
+                                                <td>{{list.user_documents.document_name}}</td>
                                                 <td>{{list.document_number}}</td>
+                                                <td class="fa-div">
+                                                    <div class="fa-hover" tooltip-html-unsafe="Edit City" style="display: block;"><a href="javascript:void(0);" ng-click="updateDocument({{list}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                                </td>
                                             </tr>                                            
                                         </tbody>
                                     </table>
@@ -128,7 +140,6 @@
                             </div>
                         </div>
                         <hr class="wide col-lg-12 col-xs-12 col-md-12" ng-if="showDiv"/>
-
                     </form>
                 </div>
             </div>
