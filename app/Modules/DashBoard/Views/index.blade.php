@@ -1,15 +1,12 @@
 <div class="row" ng-controller="dashboardCtrl" ng-init="getEmployees()">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
-
             <div class="col-lg-12 col-sm-12 col-xs-12">
-                <div class="widget flat radius-bordered">
-                       
+                <div class="widget flat radius-bordered">                       
                     <div class="widget-body">
                         <div id="registration-form">
                             <form  ng-submit="requestLeave.$valid && dorequestLeaveAction(request, '1')" name="requestLeave"  novalidate>
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-
                                 <div class="form-title">
                                     Request leave
                                 </div>
@@ -35,10 +32,7 @@
                                     </div>
                                     <div class="col-sm-3 col-xs-12">
                                         <div class="form-group">
-
-                                            <label>Application To <span class="sp-err">*</span></label>
-
-
+                                            <label>Application CC </label>
                                             <span class="input-icon icon-right">
                                                 <select class="form-control" ng-model="request.application_cc" name="application_cc" >
                                                     <option value="">Select User</option>
@@ -88,7 +82,6 @@
                                     <div class="col-sm-3 col-xs-12">
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.req_desc.$dirty && requestLeave.req_desc.$invalid) }">
                                             <label>Application Description<span class="sp-err">*</span></label>
-
                                             <span class="input-icon icon-right">
                                                 <textarea ng-model="request.req_desc" name="req_desc" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" required></textarea>
                                             </span>

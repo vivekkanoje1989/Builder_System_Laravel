@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Discount Heading</span>
-                <a data-toggle="modal" data-target="#discountheadingModal" ng-click="initialModal(0, '', '', '')" class="btn btn-info">Add discount heading</a>&nbsp;&nbsp;&nbsp;
+                <a data-toggle="modal" data-target="#discountheadingModal" ng-click="initialModal(0, '', '', '')" class="btn btn-primary">Add discount heading</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -12,38 +12,33 @@
             </div>
             <div class="widget-body table-responsive">  
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <label for="search">Search:</label>
-                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
                     </div>
-
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <label for="search">Records per page:</label>
-                        <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                        <input type="number" min="1" max="50" style="width:30%;" class="form-control" ng-model="itemsPerPage">
                     </div>
                 </div><br> 
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
                         <tr>
-                            <th style="width:5%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">SR No.
-                                    <span ng-show="orderByField == 'id'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th> 
+                            <th style="width:5%">Sr No.</th> 
                             <th style="width: 30%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'discount_name'; reverseSort = !reverseSort">Discount name
                                     <span ng-show="orderByField == 'discount_name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
                                 </a>
-                            </th>                             
-
+                            </th>
                             <th style="width:5%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Status.
+                                <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Status
                                     <span ng-show="orderByField == 'status'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th> 
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a>
+                            </th> 
                             <th style="width: 5%">Actions</th>
                         </tr>
                     </thead>
@@ -104,6 +99,7 @@
                                     <option value="1">Active</option>
                                     <option value="0">In Active</option>
                                 </select>
+                                <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="discountheadingForm.status.$error">
                                     <div ng-message="required">This field is required</div>
                                 </div>
@@ -111,7 +107,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">{{action}}</button>
+                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>           
             </div>

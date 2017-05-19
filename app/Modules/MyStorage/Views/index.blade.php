@@ -15,9 +15,9 @@
                 <div class="foldr-main" ng-repeat="imgs in directories track by $index | unique:'imgs' ">
 
                     <div class="databox databox-lg databox-halved radius-bordered databox-shadowed databox-vertical">
-                        <div class="databox-top bg-darkorange no-padding">
+                        <div class="databox-top bg-gray-custom no-padding">
                             <div class="databox-icon" style="margin-top:5px;">
-                                <img src="/backend/assets/img/folder-img.png" class="folder-img">                   
+                                <img ng-src="/backend/assets/img/folder-img.png" class="folder-img">                   
                                 <span class="databox-number lightcarbon foldr-icon-div"> 
                                     <i class="fa fa-share-alt" data-toggle="modal" data-target="#sharedModel" ng-click="share(imgs.id)"></i><br>
                                     <i class="fa fa-trash-o" confirmed-click="deleteFolder(imgs.id,$index,1);" ng-confirm-click="Are you sure delete folder?"></i>

@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="col-sm-3 col-xs-12">
                                         <div class="form-group">
-                                            <label>Application To <span class="sp-err">*</span></label>
+                                            <label>Application CC</label>
 
                                             <span class="input-icon icon-right">
                                                 <select class="form-control" ng-model="request.application_cc" name="application_cc" >
@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="col-sm-3 col-xs-12">
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.req_desc.$dirty && requestLeave.req_desc.$invalid) }">
-                                            <label>Application description</label>
+                                            <label>Application description<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
                                                 <textarea ng-model="request.req_desc" name="req_desc" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" required></textarea>
                                             </span>

@@ -12,14 +12,13 @@
             </div>
             <div class="widget-body table-responsive">     
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <label for="search">Search:</label>
-                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
                     </div>
-
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <label for="search">Records per page:</label>
-                        <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                        <input type="number" min="1" max="50" style="width:30%;" class="form-control" ng-model="itemsPerPage">
                     </div>
                 </div><br>           
                 <table class="table table-hover table-striped table-bordered" at-config="config">
@@ -29,27 +28,27 @@
                             <th style="width:5%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">SR No.
                                     <span ng-show="orderByField == 'id'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>                          
                             <th style="width:15%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'job_title'; reverseSort = !reverseSort">Job title
                                     <span ng-show="orderByField == 'job_title'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>
                             <th style="width:25%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'job_eligibility'; reverseSort = !reverseSort">Eligibility
                                     <span ng-show="orderByField == 'job_eligibility'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>
                             <th style="width:20%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'application_start_date'; reverseSort = !reverseSort">Application start date
                                     <span ng-show="orderByField == 'application_start_date'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>
                             <th style="width:20%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'application_close_date'; reverseSort = !reverseSort">Application close date
                                     <span ng-show="orderByField == 'application_close_date'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th> 
                             <th style="width:15%">
                                 <a href="javascript:void(0);"reverseSort = !reverseSort">Go to

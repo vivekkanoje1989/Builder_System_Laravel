@@ -9,20 +9,19 @@ app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$time
         };
         $scope.initialModal = function (id, project_type, index, index1) {
 
-             if (id == 0)
+            if (id == 0)
             {
                 $scope.heading = 'Add Project Types';
                 $scope.id = '0';
                 $scope.project_type = '';
- 
-                $scope.action = 'submit';
+                $scope.action = 'Add';
             } else {
                 $scope.heading = 'Edit Project Types';
                 $scope.id = id;
                 $scope.project_type = project_type;
-                $scope.action = 'Update'; 
+                $scope.action = 'Update';
             }
-           
+
             $scope.sbtBtn = false;
             $scope.index = index * ($scope.noOfRows - 1) + (index1);
         }

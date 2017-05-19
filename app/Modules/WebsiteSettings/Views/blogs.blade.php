@@ -22,12 +22,12 @@
                             <th style="width:5%">
                             <a href="javascript:void(0);" ng-click="orderByField ='id'; reverseSort = !reverseSort">SR No.
                               <span ng-show="orderByField == 'id'">
-                              <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                              <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                             </a></th>                       
                             <th style="width:90%">
                             <a href="javascript:void(0);" ng-click="orderByField ='name'; reverseSort = !reverseSort">Name.
                               <span ng-show="orderByField == 'name'">
-                              <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                              <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                             </a></th>
                                           
                             <th style="width: 5%">Actions</th>

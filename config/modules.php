@@ -50,5 +50,6 @@ return [
         "EnquiryLocations",
         "WebsiteChangeModule",
         "Themes",
+        "Designations",
     ),
 ];

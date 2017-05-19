@@ -73,7 +73,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$filter', '$state
         }
         $scope.changeStatus = function ()
         {
-            Data.post('request-forme/changeStatus', {
+            Data.post('request-for-me/changeStatus', {
                 status: $scope.status, reply: $scope.reply, id: $scope.id}).then(function (response) {
                 if (response.status)
                 {

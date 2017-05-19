@@ -12,69 +12,49 @@
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <label for="search">Search:</label>
-                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <label for="search">Records per page:</label>
-                        <input type="number" min="1" max="500" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                        <input type="number" min="1" max="50" style="width:30%;" class="form-control" ng-model="itemsPerPage">
                     </div>
                 </div><br>
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                            <!--<th style="width:5%">SR No.</th>-->
-                            <th style="width: 5%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">Id 
-                                    <span ng-show="orderByField == 'id'">
+                            <th style="width: 5%">Sr. No.</th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'device_name'; reverseSort = !reverseSort">Device Name 
+                                    <span ng-show="orderByField == 'device_name'">
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                    </span>
+                                </a>
+                            </th>
+                            <th style="width: 10%">MAC Address </th>
+                            <th style="width: 10%">Employee Name</th>
+                            <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'device_type'; reverseSort = !reverseSort">Device Type
+                                    <span ng-show="orderByField == 'device_type'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
                                 </a>
                             </th>
                             <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'first_name'; reverseSort = !reverseSort">device Name 
-                                    <span ng-show="orderByField == 'first_name'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
-                            <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'designation'; reverseSort = !reverseSort">MAc Address 
-                                    <span ng-show="orderByField == 'designation'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
-                            <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'reporting_to_id'; reverseSort = !reverseSort">Employee Name 
-                                    <span ng-show="orderByField == 'reporting_to_id'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
-                            <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'team_lead_id'; reverseSort = !reverseSort">device type
-                                    <span ng-show="orderByField == 'team_lead_id'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
-                            <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'department_name'; reverseSort = !reverseSort">status
-                                    <span ng-show="orderByField == 'department_name'">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'device_status'; reverseSort = !reverseSort">Status
+                                    <span ng-show="orderByField == 'device_status'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
                                 </a>
                             </th>                           
-                            <th style="width: 10%">Actions</th>
+                            <th style="width: 5%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr role="row" dir-paginate="listDevice in listDevices | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                            <!--<td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>-->
-                            <td>{{ listDevice.id}}</td>
-                            <td>{{ listDevice.device_name}} {{ listDevice.last_name}}</td>
+                            <td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>
+                            <td>{{ listDevice.device_name}}</td>
                             <td>{{ listDevice.device_mac}}</td>
                             <td>{{ listDevice.employee_id}}</td>
                             <td ng-if=" listDevice.device_type == 1">desktop</td>

@@ -44,8 +44,8 @@ class MenuItems {
                         2 => array('id' => '02020102', 'name' => 'Custom Templates', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         3 => array('id' => '02020103', 'name' => 'SMS Templates', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     )),
-                    2 => array('id' => '020202', 'name' => 'BMS Lists Management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 19,
-                        'submenu_ids' => '02020201,02020202,02020203,02020204,02020205,02020206,02020207,02020208,02020209,02020210,02020211,02020212,02020213,02020214,02020215,02020216,02020217,02020218,02020219',
+                    2 => array('id' => '020202', 'name' => 'BMS Lists Management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 18,
+                        'submenu_ids' => '02020201,02020202,02020203,02020204,02020205,02020206,02020207,02020208,02020209,02020210,02020211,02020212,02020213,02020214,02020215,02020216,02020217,02020218',
                         'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '02020201', 'name' => 'Manage Blood Groups', 'icon' => '', 'url' => '/' . $getUrl . '/bloodgroups/index', 'slug' => '.bloodGroupsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             2 => array('id' => '02020202', 'name' => 'Manage Highest Education', 'icon' => '', 'url' => '/' . $getUrl . '/highesteducation/index', 'slug' => '.highesteducationIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -65,7 +65,6 @@ class MenuItems {
                             16 => array('id' => '02020216', 'name' => 'Manage Discount Headings', 'icon' => '', 'url' => '/'.$getUrl.'/discountheading/index', 'slug' => '.discountheadingIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             17 => array('id' => '02020217', 'name' => 'Manage Enquiry Location', 'icon' => '', 'url' => '/' . $getUrl . '/enquirylocation/index', 'slug' => '.enquirylocationIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             18 => array('id' => '02020218', 'name' => 'Manage Designations', 'icon' => '', 'url' => '/' . $getUrl . '/designations/index', 'slug' => '.designationsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            19 => array('id' => '02020219', 'name' => 'Manage Docs', 'icon' => '', 'url' => '/' . $getUrl . '/designations/index', 'slug' => '.designationsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     )),
                     3 => array('id' => '020203', 'name' => 'Auto Assign Web Enquires', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '02020301', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 

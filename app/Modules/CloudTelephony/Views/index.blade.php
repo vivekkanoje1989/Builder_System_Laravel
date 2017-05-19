@@ -6,12 +6,6 @@
             <a href="#/[[config('global.getUrl')]]/cloudtelephony/create" class="btn btn-primary">Create New</a><br><br>
             <div class="widget-header ">
                 <span class="widget-caption">Manage Virtual Numbers</span>
-                
-<!--                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose disabled></a>
-                </div>-->
             </div>
             <div class="widget-body table-responsive">
                 <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search"><br>

@@ -33,12 +33,12 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', '$rootScope', '$timeout
                 $scope.states = parseInt(list.state_id);
                 $scope.manageCity($scope.states);
                 $scope.city = list.city_id;
-                $scope.heading = 'Add enquiry location';
-                $scope.action = 'Edit';
+                $scope.heading = 'Edit location';
+                $scope.action = 'Update';
             } else {
                 $scope.EnqLocation = {};
-                $scope.heading = 'Edit enquiry location';
-                $scope.action = 'Submit';
+                $scope.heading = 'Add location';
+                $scope.action = 'Add';
             }
             $scope.index = index * ($scope.noOfRows - 1) + (index1 + 1);
             $scope.sbtBtn = false;

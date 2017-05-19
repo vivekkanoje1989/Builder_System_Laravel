@@ -11,7 +11,7 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
             if (id == 0)
             {
                 $scope.heading = 'Add Departments';
-                $scope.action = 'Submit';
+                $scope.action = 'Add';
             } else {
                 $scope.heading = 'Edit Departments';
                 $scope.action = 'Update';

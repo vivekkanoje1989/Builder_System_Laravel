@@ -16,11 +16,11 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
 
             if (id == 0)
             {
-                $scope.heading = 'Add Project block types';
-                $scope.action = 'submit';
+                $scope.heading = 'Add block types';
+                $scope.action = 'Add';
                 $scope.index = '';
             } else {
-                $scope.heading = 'Edit Project block types';
+                $scope.heading = 'Edit block types';
                 $scope.action = 'Update';
             }
             $scope.id = id;

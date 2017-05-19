@@ -48,8 +48,6 @@
 
 </style>
 <div class="row" ng-controller="storageCtrl" ng-init="allImages('<?php echo $folderId; ?>'); getSharedEmployees('<?php echo $folderId; ?>'); getSubDirectory('<?php echo $folderId; ?>');" >  
-
-<!--    subDirectoryAdd('<?php echo $folderId; ?>');-->
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -72,7 +70,7 @@
                         <div class="databox databoxone databox-halved radius-bordered databox-shadowed databox-vertical">
                             <div class="databox-top bg-darkorange no-padding">
                                 <div class="databox-icon" style="margin-top:5px;">
-                                    <img src="/backend/assets/img/folder-img.png" class="folder-img">                   
+                                    <img ng-src="/backend/assets/img/folder-img.png" class="folder-img">                   
                                     <span class="databox-number lightcarbon foldr-icon-div"> 
                                         <i class="fa fa-share-alt" data-toggle="modal" data-target="#sharedModel" ng-click="share(imgs.id)"></i><br>
                                         <i class="fa fa-trash-o" confirmed-click="deleteFolder(imgs.id,$index,2);" ng-confirm-click="Are you sure delete folder?"></i>
@@ -107,10 +105,10 @@
                     <div class="col-md-2" ng-repeat="imgs in folderImages track by $index | unique:'imgs' " style="margin:0 0 25px 0;">
                         <div class="img-wrap"> 
                             <a data-reveal-id="sharing_files" ng-click="imageShared(imgs.id); getSharedImagesEmployees(imgs.id);"  data-toggle="modal" data-target="#sharedImageModel" >
-                                <img title="Share " src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
+                                <img title="Share" ng-src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
                             </a>
                             <span class="close" ng-click="deleteImages($index, imgs.id)">&times;</span>
-                            <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" target="_blank"> <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" height="100px;" width="100px;"></a>
+                            <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" target="_blank"> <img ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" height="100px;" width="100px;"></a>
                         </div>
                     </div>
                 </div>
@@ -173,7 +171,7 @@
                                 <tr ng-repeat="Shared in imageSharedEmployees">
                                     <td>{{$index + 1}}</td>
                                     <td>{{Shared.first_name + ' ' + Shared.last_name}}</td>
-                                    <td><a href="javascript:void(0)" ng-click="removeImageSharedEmp($index,Shared.employee_id);" class="btn btn-primary">Remove</a></td>
+                                    <td><a href="javascript:void(0)" ng-click="removeImageSharedEmp($index, Shared.employee_id);" class="btn btn-primary">Remove</a></td>
                                 </tr>
                         </table>
                         <br/><br/>

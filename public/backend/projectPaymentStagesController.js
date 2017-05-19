@@ -9,14 +9,13 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope', 'toa
             });
         };
         $scope.initialModal = function (id, stage_name, project_type_id, fix_stage, index, index1) {
-
             if (id == 0)
             {
-                $scope.heading = 'Add project payment stages';
+                $scope.heading = 'Add payment stages';
                 $scope.id = '0';
                 $scope.action = 'submit';
             } else {
-                $scope.heading = 'Edit project payment stages';
+                $scope.heading = 'Edit payment stages';
                 $scope.action = 'Update';
             }
             $scope.id = id;
@@ -47,15 +46,11 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope', 'toa
                         toaster.pop('success', 'Manage project payment stages', "record created successfully");
                         $('#projectpaymentModal').modal('toggle');
                         $scope.ProjectPaymentStagesRow.push({'stage_name': $scope.stage_name, 'id': response.lastinsertid, 'status': $scope.status, 'project_type_id': $scope.project_type_id, fix_stage: $scope.fix_stage});
-
-                        // $scope.success("Project payment stages created successfully");   
                     }
                 });
             } else { //for update
-
                 Data.put('project-payment/' + $scope.id, {
                     stage_name: $scope.stage_name, id: $scope.id, project_type_id: $scope.project_type_id, fix_stage: $scope.fix_stage}).then(function (response) {
-
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
@@ -65,12 +60,10 @@ app.controller('projectpaymentController', ['$scope', 'Data', '$rootScope', 'toa
                         $scope.ProjectPaymentStagesRow.splice($scope.index, 0, {
                             stage_name: $scope.stage_name, id: $scope.id, 'project_type_id': $scope.project_type_id, fix_stage: $scope.fix_stage});
                         $('#projectpaymentModal').modal('toggle');
-                        // $scope.success("Project payment stages updated successfully");   
                     }
                 });
             }
         }
-
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

@@ -1,7 +1,12 @@
 'use strict';
-app.controller('empDeviceController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', 'toaster', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse, toaster) {
+app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', function ($scope, $state, Data, toaster) {
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
+        
+        $scope.pageChangeHandler = function(num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
 
         $scope.manageDevice = function (id, action)
         {

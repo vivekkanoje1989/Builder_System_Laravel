@@ -12,14 +12,13 @@
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
-                      <label for="search">Search:</label>
-                      <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                    <div class="col-sm-3 col-xs-12">
+                        <label for="search">Search:</label>
+                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
                     </div>
-
-                    <div class="col-sm-6 col-xs-12">
-                      <label for="search">Records per page:</label>
-                      <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                    <div class="col-sm-3 col-xs-12">
+                        <label for="search">Records per page:</label>
+                        <input type="number" min="1" max="50" style="width:30%;" class="form-control" ng-model="itemsPerPage">
                     </div>
                 </div><br>
                 <table class="table table-hover table-striped table-bordered" at-config="config">

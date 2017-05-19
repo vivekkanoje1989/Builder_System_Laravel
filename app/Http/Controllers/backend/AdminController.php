@@ -93,11 +93,6 @@ class AdminController extends Controller {
     public function sessiontimeout(){
         return view('backend.sessiontimeout');
     }
-//    public function sessionlogout(){
-//        Auth()->guard('admin')->logout();
-//        $result = ['success' => true, 'message' => 'Successfully logged out'];
-//        echo json_encode($result);
-//    }
     public function getMenuItems() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);

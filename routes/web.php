@@ -67,16 +67,9 @@ Route::group(['middleware' => ['web']], function () {
     // Reset Password
     Route::get($getUrl . '/password/reset/{token}/{checkState?}', 'backend\Auth\ResetPasswordController@showResetForm');
     Route::post($getUrl . '/password/reset', 'backend\Auth\ResetPasswordController@reset');
-//});
-//
-//Route::group(['middleware' => ['web','user']], function () {
-//    
-    $getWebsiteUrl = config('global.getWebsiteUrl');
-   // $themeName =  Config::get('global.themeName');
     
-  
-    // USER 
-//    Route::post($getUrl . '/', 'backend\Auth\ResetPasswordController@reset');
+    //Website frontend
+    $getWebsiteUrl = config('global.getWebsiteUrl');
     
     Route::get($getWebsiteUrl . '/','frontend\UserController@index');
 

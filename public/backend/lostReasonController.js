@@ -1,4 +1,4 @@
-app.controller('lostReasonsController', ['$rootScope', '$scope', '$state', 'Data', '$timeout', '$parse','toaster', function ($rootScope, $scope, $state, Data, $timeout, $parse,toaster) {
+app.controller('lostReasonsController', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
         $scope.heading = 'Create Lost Reason';
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 4;
@@ -8,21 +8,20 @@ app.controller('lostReasonsController', ['$rootScope', '$scope', '$state', 'Data
                 $scope.listLostReasons = response.records;
             });
         };
-        $scope.initialModal = function (id, reason, status, index,index1) {
-            
-               if (id == 0)
+        $scope.initialModal = function (id, reason, status, index, index1) {
+            if (id == 0)
             {
                 $scope.heading = 'Add Lost Reason';
                 $scope.actionModal = '0';
                 $scope.reason = '';
-                $scope.lost_reason_status= '';
-                $scope.action = 'submit';
+                $scope.lost_reason_status = '';
+                $scope.action = 'Add';
             } else {
                 $scope.heading = 'Edit Lost Reason';
                 $scope.actionModal = id;
                 $scope.reason = reason;
-                $scope.lost_reason_status= status;
-                $scope.action = 'Update'; 
+                $scope.lost_reason_status = status;
+                $scope.action = 'Update';
             }
             $scope.sbtBtn = false;
             $scope.index = index * ($scope.noOfRows - 1) + (index1);
@@ -39,9 +38,8 @@ app.controller('lostReasonsController', ['$rootScope', '$scope', '$state', 'Data
                         toaster.pop('success', 'Manage lost reason', "record updated successfully");
                         $scope.listLostReasons.push({'id': response.lastinsertid, 'reason': $scope.reason, lost_reason_status: $scope.lost_reason_status});
                         $('#lostReasonModal').modal('toggle');
-                        // $scope.success("Lost reason details created successfully"); 
-                    }else{
-                       $scope.errorMsg = response.errormsg;
+                    } else {
+                        $scope.errorMsg = response.errormsg;
                     }
                 });
             } else
@@ -49,26 +47,22 @@ app.controller('lostReasonsController', ['$rootScope', '$scope', '$state', 'Data
                 Data.put('lost-reasons/' + $scope.actionModal, {
                     reason: $scope.reason, lost_reason_status: $scope.lost_reason_status, id: $scope.actionModal
                 }).then(function (response) {
-console.log(response)
+                    console.log(response)
                     if (response.success) {
                         toaster.pop('success', 'Manage lost reason', "record updated successfully");
                         $('#lostReasonModal').modal('toggle');
                         $scope.listLostReasons.splice($scope.index, 1);
                         $scope.listLostReasons.splice($scope.index, 0, {
                             reason: $scope.reason, lost_reason_status: $scope.lost_reason_status, id: $scope.actionModal});
-                        //$scope.success("Lost reason details updated successfully"); 
-                    }else{
-                       $scope.errorMsg = response.errormsg;
+                    } else {
+                        $scope.errorMsg = response.errormsg;
                     }
 
                 });
             }
         }
-        
-        
-         $scope.pageChangeHandler = function (num) {
+        $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
     }]);

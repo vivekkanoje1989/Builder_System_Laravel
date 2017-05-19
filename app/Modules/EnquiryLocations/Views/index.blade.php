@@ -1,9 +1,9 @@
-<div class="row" ng-controller="enquiryLocationCtrl" ng-init="enquiryLocation(); manageCountry();">  
+<div class="row" ng-controller="enquiryLocationCtrl" ng-init="enquiryLocation(); manageCountry()">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Enquiry Location</span>
-                <a href="" data-toggle="modal" data-target="#locationModal" ng-click="initialModal(0, '', '', '', '', '')" class="btn btn-info">Create Enquiry Location</a>&nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#locationModal" ng-click="initialModal(0, '', '', '', '', '')" class="btn btn-primary">Create Enquiry Location</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -12,44 +12,36 @@
             </div>
             <div class="widget-body table-responsive">     
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <label for="search">Search:</label>
-                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
+                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
                     </div>
-
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <label for="search">Records per page:</label>
-                        <input type="number" min="1" max="50" style="width:25%;" class="form-control" ng-model="itemsPerPage">
+                        <input type="number" min="1" max="50" style="width:30%;" class="form-control" ng-model="itemsPerPage">
                     </div>
                 </div><br>           
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
                         <tr>
-                            <th style="width:5%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">SR No.
-                                    <span ng-show="orderByField == 'id'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th> 
-
+                            <th style="width:5%">Sr No.</th>
                             <th style="width:25%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'city'; reverseSort = !reverseSort">City
                                     <span ng-show="orderByField == 'city'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th> 
                             <th style="width:25%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'location'; reverseSort = !reverseSort">Enquiry location
+                                <a href="javascript:void(0);" ng-click="orderByField = 'location'; reverseSort = !reverseSort">Location
                                     <span ng-show="orderByField == 'location'">
-                                        <span ng-show="!reverSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>                           
                             <th style="width: 5%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr role="row" dir-paginate="list in enquiryLocationRow| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
-
                             <td>{{ list.city_name}}</td> 
                             <td>{{ list.location}}</td>                          
                             <td class="fa-div">
@@ -83,7 +75,6 @@
                 </div>
                 <form novalidate ng-submit="EnqLocationForm.$valid && doEnqLocationAction(EnqLocation)" name="EnqLocationForm">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!EnqLocationForm.country_id.$dirty && EnqLocationForm.country_id.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
@@ -93,6 +84,7 @@
                                     <option value="">Select Country</option>
                                     <option ng-repeat="country in countryRow" ng-selected="{{country_id == country.id}}" value="{{country.id}}">{{country.name}}</option>
                                 </select>
+                                <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="EnqLocationForm.country_id.$error">
                                     <div ng-message="required">Select country</div>
                                 </div>
@@ -105,6 +97,7 @@
                                     <option value="">Select state</option>
                                     <option  ng-repeat="itemone in statesRow" ng-selected="{{ states == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
                                 </select>
+                                <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="EnqLocationForm.state_id.$error">
                                     <div ng-message="required">Select state</div>
                                 </div>
@@ -117,6 +110,7 @@
                                     <option value="">Select city</option>
                                     <option  ng-repeat="itemone in cityRow" ng-selected="{{ city == itemone.id}}" value="{{itemone.id}}">{{itemone.name}}</option>
                                 </select>
+                                <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="EnqLocationForm.city_id.$error">
                                     <div ng-message="required">Select state</div>
                                 </div>
@@ -126,7 +120,6 @@
                             <label>Location</label>
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="EnqLocation.location" name="location" ng-change="errorMsg = null" required>
-
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="EnqLocationForm.location.$error">
                                     <div ng-message="required">Location name is required</div>
                                     <div ng-if="errorMsg">{{errorMsg}}</div>
@@ -135,7 +128,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">{{action}}</button>
+                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>           
             </div>

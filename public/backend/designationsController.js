@@ -10,7 +10,7 @@ app.controller('designationsCtrl', ['$scope', 'Data','toaster', function ($scope
         };
         $scope.initialModal = function (id, designation,status, index,index1) {
            
-            $scope.heading = 'Manage Designations';
+            $scope.heading = 'Edit Designation';
             $scope.id = id;
             $scope.designation = designation;
             $scope.index = index * ($scope.noOfRows - 1) + (index1);

@@ -65,9 +65,9 @@
                     <div class="foldr-main" ng-repeat="imgs in directories track by $index | unique:'imgs' ">
 
                         <div class="databox databoxone databox-halved radius-bordered databox-shadowed databox-vertical">
-                            <div class="databox-top bg-darkorange no-padding">
+                            <div class="databox-top bg-gray-custom no-padding">
                                 <div class="databox-icon" style="margin-top:5px;">
-                                    <img src="/backend/assets/img/folder-img.png" class="folder-img">                   
+                                    <img ng-src="/backend/assets/img/folder-img.png" class="folder-img">                   
                                     <span class="databox-number lightcarbon foldr-icon-div"> 
                                     </span>
                                 </div>
@@ -90,10 +90,10 @@
                         <div class="col-md-2" ng-repeat="imgs in myImageStore track by $index | unique:'imgs' " style="margin:0 0 25px 0;">
                             <div class="img-wrap"> 
                                 <a  data-reveal-id="sharing_files" ng-click="imageShared(imgs.id); getSharedImagesEmployees(imgs.id)"  data-toggle="modal" data-target="#imageModel" >
-                                    <img title="Share " src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
+                                    <img title="Share " ng-src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
                                 </a>
                                 <span class="close" ng-click="deleteImages($index, imgs.id)">&times;</span>
-                                <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" target="_blank"> <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" height="100px;" width="100px;"></a>
+                                <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" target="_blank"> <img ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" height="100px;" width="100px;"></a>
                             </div>
                         </div>
                     </div>
