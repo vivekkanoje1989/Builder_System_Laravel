@@ -88,9 +88,7 @@ class ProjectsController extends Controller {
 
     public function getprojects() {
         $getProjects = Project::with(['getEmployee','projectTypes','projectStatus'])->get();
-//        echo "<pre>";
-//        print_r($getProjects);
-//        exit();
+
         if (!empty($getProjects)) {
             $result = ['success' => true, 'records' => $getProjects];
             return json_encode($result);
