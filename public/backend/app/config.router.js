@@ -3119,36 +3119,6 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-
-
-//                                .state(getUrl + '.manageProjectIndex', {
-//                                    url: '/manage-project/index',
-//                                    templateUrl: getUrl + '/projects/manage',
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Manage project',
-//                                        description: ''
-//                                    },
-//                                    resolve: {
-//                                        deps:
-//                                                [
-//                                                    '$ocLazyLoad',
-//                                                    function ($ocLazyLoad) {
-//                                                        return $ocLazyLoad.load(['toaster']).then(
-//                                                                function () {
-//                                                                    return $ocLazyLoad.load({
-//                                                                        serie: true,
-//                                                                        files: [
-//                                                                            '/backend/projectController.js',
-//                                                                        ]
-//                                                                    });
-//                                                                });
-//                                                    }
-//                                                ]
-//                                    }
-//                                })
-
-
                                 .state(getUrl + '.projectAvailability', {
                                     url: '/manage-project/availability',
                                     templateUrl: getUrl + '/projects/availability',
@@ -3173,34 +3143,6 @@ angular.module('app')
                                                                 });
                                                     }
                                                 ]
-                                    }
-                                })
-
-
-
-                                .state(getUrl + '.availbleProjects', {
-                                    url: '/projects/availability/:projectId',
-                                    templateUrl: function (stateParams) {
-                                        return getUrl + '/projects/' + stateParams.projectId + '/availability';
-                                    },
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Project Availability',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps: [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', 'toaster', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/projectController.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                        ]
-                                                    }]);
-                                            }
-                                        ]
                                     }
                                 })
 
@@ -3262,37 +3204,6 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-
-
-                                .state(getUrl + '.projectAvailability', {
-                                    url: '/manage-project/availability',
-                                    templateUrl: getUrl + '/projects/availability',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Project Availability',
-                                        description: ''
-                                    },
-                                    resolve: {
-                                        deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/projectController.js',
-                                                                        ]
-                                                                    });
-                                                                });
-                                                    }
-                                                ]
-                                    }
-                                })
-
-
-
                                 .state(getUrl + '.availbleProjects', {
                                     url: '/projects/availability/:projectId',
                                     templateUrl: function (stateParams) {
