@@ -49,9 +49,9 @@
                                             <label>Application Start Date<span class="sp-err">*</span></label>
                                             <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.from_date.$dirty || requestLeave.from_date.$invalid)}">
                                                 <p class="input-group">
-                                                    <input type="text" ng-model="request.from_date" name="from_date" id="from_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                                    <input type="text" ng-model="request.from_date" name="from_date" min-date="minDate" id="from_date" class="form-control" datepicker-popup="{{format}}" ui-date="dateOptions" is-open="opened"  close-text="Close" ng-click="toggleMin()" readonly required/>
                                                     <span class="input-group-btn" >
-                                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                        <button type="button" class="btn btn-default" ng-click="open($event); clearToDate()"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
                                                 </p>
                                                 <div  class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.from_date.$error">
@@ -66,7 +66,7 @@
                                             <label>Application End Date<span class="sp-err">*</span></label>
                                             <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.to.$dirty || requestLeave.to.$invalid)}">
                                                 <p class="input-group">
-                                                    <input type="text" ng-model="request.to_date"  min-date="model.to" name="to" id="to_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                                    <input type="text" ng-model="request.to_date"  min-date="minDate || request.from_date" name="to" id="to_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>

@@ -28,14 +28,14 @@
                               <span ng-show="orderByField == 'id'">
                               <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                             </a></th>                          
-                            <th style="width: 30%">
+                            <th style="width: 20%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Customer name
                                 <span ng-show="orderByField == 'block_stages'">
                                   <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                 </span>
                                 </a>
                             </th> 
-                            <th style="width: 30%">
+                            <th style="width: 20%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Mobile No
                                 <span ng-show="orderByField == 'block_stages'">
                                   <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
@@ -49,7 +49,7 @@
                                 </span>
                                 </a>
                             </th> 
-                            <th style="width: 30%">
+                            <th style="width: 20%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Date & Time
                                 <span ng-show="orderByField == 'block_stages'">
                                   <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>

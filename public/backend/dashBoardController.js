@@ -8,6 +8,10 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$filter', '$state
                 $scope.employeeRow = response.records;
             });
         };
+        $scope.clearToDate = function()
+        {
+            $scope.request.to_date = '';
+        }
         $scope.getEmployeesCC = function ()
         {
             Data.post('getEmployeesCC', {'id': $scope.request.application_to}).then(function (response) {

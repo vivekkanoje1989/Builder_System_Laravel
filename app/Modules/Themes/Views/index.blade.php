@@ -13,7 +13,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Website Themes</span>
-                <a data-toggle="modal" data-target="#themesModal" ng-click="initialModal(0, '', '')" class="btn btn-info">Create Themes</a>&nbsp;&nbsp;&nbsp;
+                <a data-toggle="modal" data-target="#themesModal" ng-click="initialModal(0, '', '')" class="btn btn-primary">Create Themes</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>

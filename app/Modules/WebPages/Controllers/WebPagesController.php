@@ -36,15 +36,15 @@ class WebPagesController extends Controller {
     }
 
     public function create() {
-        //
+//
     }
 
     public function store() {
-        //
+//
     }
 
     public function show($id) {
-        //
+//
     }
 
     public function edit($id) {
@@ -65,30 +65,124 @@ class WebPagesController extends Controller {
     }
 
     public function updateWebPage() {
-        $postdata = file_get_contents("php://input");
-        $obj = json_decode($postdata, true);
-        //print_r($obj['contentData']);exit;
-        $validationMessages = WebPage::validationMessages();
-        $validationRules = WebPage::validationRules();
-        if (!empty($obj['contentData'])) {
-            $validator = Validator::make($obj['contentData'], $validationRules, $validationMessages);
-            if ($validator->fails()) {
-                $result = ['success' => false, 'message' => $validator->messages()];
-                echo json_encode($result, true);
-                exit;
-            }
+        $input = Input::all();
+        
+        if (array_key_exists('imageData', $input)) {
+            $name = implode(",", $input['imageData']);
+        } else {
+            $name = '';
         }
         if (!empty($input['userData']['loggedInUserId'])) {
             $loggedInUserId = $input['userData']['loggedInUserId'];
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
         }
+        $s3FolderName = '/website/banner-images';
+        for ($i = 0; $i < $input['totalImages']; $i++) {
+            $imageName = 'website_' . $input['pageId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['uploadImage'][$i]->getClientOriginalExtension();
+            S3::s3FileUplod($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
+
+                $name .= ',' . $imageName;
+        }
+        $name = trim($name, ",");
+        $name = explode(',', $name);
+        while (($i = array_search('fileNotSelected', $name)) !== false) {
+            unset($name[$i]);
+        }
+        $name = implode(',', $name);
+        $input['contentData']['banner_images'] = $name;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-        $obj['contentData'] = array_merge($obj['contentData'], $update);
-        $updatedata = WebPage::where('id', $obj['pageId'])->update($obj['contentData']);
-        $result = ['success' => true, 'message' => 'page updated successfully'];
-        echo json_encode($result);
+        $input['contentData'] = array_merge($input['contentData'], $update);
+        $updatedata = WebPage::where('id', $input['pageId'])->update($input['contentData']);
+        echo json_encode(['success' => true, 'records' => $updatedata, 'message' => 'page updated successfully']);
     }
+    
+    public function storeSubWebPage()
+    {
+        $input = Input::all();
+      
+        if (array_key_exists('imageData', $input)) {
+            $name = implode(",", $input['imageData']);
+        } else {
+            $name = '';
+        }
+        if (!empty($input['userData']['loggedInUserId'])) {
+            $loggedInUserId = $input['userData']['loggedInUserId'];
+        } else {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        }
+        $s3FolderName = '/website/banner-images';
+        for ($i = 0; $i < $input['totalImages']; $i++) {
+            $imageName = 'website_' . $input['pageId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['uploadImage'][$i]->getClientOriginalExtension();
+            S3::s3FileUplod($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
+
+                $name .= ',' . $imageName;
+        }
+        $name = trim($name, ",");
+        $name = explode(',', $name);
+        while (($i = array_search('fileNotSelected', $name)) !== false) {
+            unset($name[$i]);
+        }
+        $name = implode(',', $name);
+        $input['subcontentPage']['banner_images'] = $name;
+        $input['subcontentPage']['parent_id'] = $input['pageId'];
+        $input['subcontentPage']['parent_id'] = $input['pageId'];
+        $input['subcontentPage']['page_type'] = '1';
+        $last = WebPage::where('page_type', '1')->orderBy('id', 'desc')->first();
+        if(!empty($last->child_page_id))
+        { $input['subcontentPage']['child_page_id'] = $last->child_page_id+1; }else{ $input['subcontentPage']['child_page_id'] = '1';  }   
+        $update = CommonFunctions::insertMainTableRecords($loggedInUserId);
+        $input['subcontentPage'] = array_merge($input['subcontentPage'], $update);
+        
+        $insertdata = WebPage::create($input['subcontentPage']);
+        $latest = WebPage::latest('id')->first();
+        echo json_encode(['success' => true, 'records' => $input['subcontentPage'],'id'=>$latest->id, 'message' => 'page updated successfully']);
+    }
+    
+    
+    
+    
+    public function updateSubWebPage()
+    {
+        $input = Input::all();
+       
+        if (array_key_exists('imageData', $input)) {
+            $name = implode(",", $input['imageData']);
+        } else {
+            $name = '';
+        }
+        if (!empty($input['userData']['loggedInUserId'])) {
+            $loggedInUserId = $input['userData']['loggedInUserId'];
+        } else {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        }
+        $s3FolderName = '/website/banner-images';
+        for ($i = 0; $i < $input['totalImages']; $i++) {
+            $imageName = 'website_' . $input['pageId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['uploadImage'][$i]->getClientOriginalExtension();
+            S3::s3FileUplod($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
+
+                $name .= ',' . $imageName;
+        }
+        $name = trim($name, ",");
+        $name = explode(',', $name);
+        while (($i = array_search('fileNotSelected', $name)) !== false) {
+            unset($name[$i]);
+        }
+        $name = implode(',', $name);
+        $input['subcontentPage']['banner_images'] = $name;
+        $input['subcontentPage']['parent_id'] = $input['pageId'];
+        $input['subcontentPage']['parent_id'] = $input['pageId'];
+        $input['subcontentPage']['page_type'] = '1';
+        $last = WebPage::where('page_type', '1')->orderBy('id', 'desc')->first();
+        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+        $input['subcontentPage'] = array_merge($input['subcontentPage'], $update);
+        unset($input['subcontentPage']['id']);
+        
+        $updatedata = WebPage::where('id','=',$input['id'])->update($input['subcontentPage']);
+        echo json_encode(['success' => true, 'records' => $input['subcontentPage'], 'message' => 'page updated successfully']);
+    }
+
+   
 
     public function getImages() {
         $postdata = file_get_contents("php://input");
@@ -96,6 +190,18 @@ class WebPagesController extends Controller {
         $getImages = WebPage::where('id', $obj['Data']['pageId'])->select('banner_images')->get();
         if ($getImages) {
             $result = ['success' => true, 'records' => $getImages];
+            echo json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+            echo json_encode($result);
+        }
+    }
+    public function getSubPages() {
+        $postdata = file_get_contents("php://input");
+        $obj = json_decode($postdata, true);
+        $getSubPages = WebPage::where('parent_id', $obj['Data']['pageId'])->get();
+        if ($getSubPages) {
+            $result = ['success' => true, 'records' => $getSubPages];
             echo json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];
@@ -113,7 +219,7 @@ class WebPagesController extends Controller {
         }
         $s3FolderName = '/website/banner-images';
         for ($i = 0; $i < $input['totalImages']; $i++) {
-            $imageName = 'website_' . $input['pageId'] .'_'. rand(pow(10, config('global.randomNoDigits')-1), pow(10, config('global.randomNoDigits'))-1).'.' . $input['uploadImage'][$i]->getClientOriginalExtension();
+            $imageName = 'website_' . $input['pageId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['uploadImage'][$i]->getClientOriginalExtension();
             S3::s3FileUplod($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
             $name .= ',' . $imageName;
         }
@@ -128,7 +234,7 @@ class WebPagesController extends Controller {
         $obj = json_decode($postdata, true);
         $name = implode(',', $obj['allimg']);
         $s3FolderName = '/website/banner-images/';
-        $path =$s3FolderName.$obj['imageName'];
+        $path = $s3FolderName . $obj['imageName'];
         $msg = S3::s3FileDelete($path);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
@@ -136,6 +242,22 @@ class WebPagesController extends Controller {
             
         }
     }
+    
+      public function removeSubWebPageImage() {
+        $postdata = file_get_contents("php://input");
+        $obj = json_decode($postdata, true);
+        $name = implode(',', $obj['subimgs']);
+        $s3FolderName = '/website/banner-images/';
+        $path = $s3FolderName . $obj['imageName'];
+        $msg = S3::s3FileDelete($path);
+        if ($msg) {
+            $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
+        } else {
+            
+        }
+    }
+    
+    
 
     /**
      * Remove the specified resource from storage.
@@ -144,7 +266,7 @@ class WebPagesController extends Controller {
      * @return Response
      */
     public function destroy($id) {
-        //
+//
     }
 
 }

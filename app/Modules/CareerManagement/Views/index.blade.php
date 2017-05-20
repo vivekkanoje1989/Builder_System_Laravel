@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Career</span>
-                <a href="#/[[config('global.getUrl')]]/createJob/index"  class="btn btn-info">Click Here To Post New Job</a>&nbsp;&nbsp;&nbsp;
+                <a href="#/[[config('global.getUrl')]]/createJob/index"  class="btn btn-primary">Click Here To Post New Job</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
