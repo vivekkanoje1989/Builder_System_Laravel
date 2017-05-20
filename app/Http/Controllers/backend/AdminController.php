@@ -37,6 +37,7 @@ use App\Modules\MasterSales\Models\EnquiryFinanceTieup;
 use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\SystemConfig;
 use App\Classes\S3;
+use App\Classes\CommonFunctions;
 
 class AdminController extends Controller {
 
@@ -59,7 +60,14 @@ class AdminController extends Controller {
     }
 
     public function dashboard() {
-        
+        $userName = "support@edynamics.co.in";
+        $password = "edsupport@2016#";
+        $mailBody = "Your SMS creadit limit is over , So Please recharge your account " . "<br><br>" . "Thank You!";
+        $companyName = config('global.companyName');
+        $subject = "Mail subject";
+        $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => "geeta.gurram@gmail.com", "cc" => "umabshinde@gmail.com"];
+        $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
+        echo $sentSuccessfully;exit;
         /*$rootPath = config('global.rootPath'); 
         $data = ["filePath" => $rootPath."/bulkMobileNumbers1.xls","fileName" => "bulkMobileNumbers1.xls", "sendingType" => 1, "textSmsBody" => "send msg in bulk", "smsType" => "bulk_sms"];
         $result = Gupshup::sendBulkSMS($data);
@@ -101,9 +109,10 @@ class AdminController extends Controller {
             $permission = json_decode($employeeSubmenus[0]->employee_submenus,true);
         }else{//for web app
             $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
-            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get();            
-            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
+            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get(); 
             session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
+            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
+            
         }
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();

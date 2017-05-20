@@ -260,16 +260,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-12 col-xs-12 col-md-12" align="center" ng-show="showDivCustomer" ng-disabled="disableCreateButton">
-            <button type="submit" class="btn btn-primary" id="custSubmitBtn" ng-click="formButton = true">{{btnLabelC}}</button>
-            <button type="submit" class="btn btn-primary" id="custSubmitBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')"><< Back</button>
+        <div class="col-lg-12 col-xs-12 col-md-12" align="center" ng-disabled="disableCreateButton">
+            <button type="submit" class="btn btn-primary" ng-show="showDivCustomer" id="custSubmitBtn" ng-click="formButton = true">{{btnLabelC}}</button>
+            <button type="submit" class="btn btn-primary" ng-show="backBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')"><< Back</button>
         </div>
     </form>
 </div>
-<script>
-//$(document).ready(function(){
-//    $("#custSubmitBtn").click(function(){
-//        $("li#enquiryDiv a.ng-binding").trigger("click"); 
-//    })
-//})
-</script>

@@ -3,8 +3,10 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
     $scope.registration = {};
     $scope.errorMsg = '';
 
-    $scope.sessiontimeout = function (event) {
+    $scope.sessiontimeout = function () {
+        $state.reload();
         $scope.logout("logout");
+        return false;
     }
     
     $scope.checkUsername = function (usernameData) {

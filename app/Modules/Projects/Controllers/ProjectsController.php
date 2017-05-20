@@ -169,14 +169,14 @@ class ProjectsController extends Controller {
                                         $prImageName[] = $imageName;
                                     }
                                 } else {
-                                    /*                                     * **************delete single image from s3 bucket start**************** */
+                                    /****************delete single image from s3 bucket start**************** */
                                     if (!empty($input['projectImages'][$key])) {
                                         if ($isProjectExist[$key] !== $input['projectImages'][$key]) {
                                             $path = $s3FolderName . $isProjectExist[$key];
                                             S3::s3FileDelete($path);
                                         }
                                     }
-                                    /*                                     * **************delete single image from s3 bucket end**************** */
+                                    /****************delete single image from s3 bucket end**************** */
 
                                     $imageName = 'project_' . $projectId . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['projectImages'][$key]->getClientOriginalExtension();
                                     S3::s3FileUplod($input['projectImages'][$key]->getPathName(), $imageName, $s3FolderName);

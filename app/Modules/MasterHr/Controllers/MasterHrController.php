@@ -50,12 +50,7 @@ class MasterHrController extends Controller {
             $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ')');
         } else if ($request['empId'] === "") { // for index
             $manageUsers = DB::select('CALL proc_manage_users(0,0)');
-//            $manageUsers = Employee::leftjoin('new_builder_master.lst_departments as dept', 'employees.department_id', '=', 'dept.id')
-//            ->leftjoin(DB::raw('(SELECT login_date_time,employee_id FROM employees_login_logs ORDER BY id DESC limit 1) AS employees_login_logs'), 'employees.id', '=', 'employees_login_logs.employee_id')
-//            ->select('employees.*', 'dept.department_name', 'employees_login_logs.login_date_time')
-//            ->orderBy('employees.id','asc')
-//            ->get();
-
+            
             foreach ($manageUsers as $user) {
                 $getDeptName = array();
                 $dept = MlstBmsbDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
@@ -109,7 +104,7 @@ class MasterHrController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         if (!empty($request['empId'])) {
-            //send mail code
+            //send msg code
             //send email code
             $strRandomNo = str_random(4);
             $changedPassword = \Hash::make($strRandomNo);
@@ -196,10 +191,6 @@ class MasterHrController extends Controller {
                     $folderName = 'hr/employee-photos';
                     $imageName = 'hr' . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['employee_photo_file_name']->getClientOriginalExtension();
                     S3::s3FileUplod($input['employee_photo_file_name']->getPathName(), $imageName, $folderName);
-//                    $folderName = 'Employee-Photos';
-//                    $image = ['0' => $input['employee_photo_file_name']];
-//                    $imageName = S3::s3FileUplod($image, $folderName, 1);
-//                    $imageName = trim($imageName, ',');
                 }
                 $input['userData']['employee_photo_file_name'] = $imageName;
             }
@@ -223,13 +214,11 @@ class MasterHrController extends Controller {
 
             if ($employee) {
                 $result = ['success' => true, 'message' => 'Employee registeration successfully', "empId" => $employee->id];
-                return json_encode($result);
             } else {
                 $result = ['success' => false, 'message' => 'Something went wrong.'];
-                return json_encode($result);
             }
         }
-        exit;
+        return json_encode($result);
     }
 
     /**
@@ -339,6 +328,10 @@ class MasterHrController extends Controller {
                     return json_encode($result);
                 } else {
                     $folderName = 'hr/employee-photos';
+                    
+                    $path = "/". $folderName. "/" . $originalValues[0]['employee_photo_file_name'];
+                    S3::s3FileDelete($path); 
+                    
                     $imageName = 'hr_' . $id . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['employee_photo_file_name']->getClientOriginalExtension();
                     S3::s3FileUplod($input['employee_photo_file_name']->getPathName(), $imageName, $folderName);
                 }
