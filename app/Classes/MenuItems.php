@@ -52,7 +52,7 @@ class MenuItems {
                             2 => array('id' => '02020202', 'name' => 'Manage Highest Education', 'icon' => '', 'url' => '/' . $getUrl . '/highesteducation/index', 'slug' => '.highesteducationIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             3 => array('id' => '02020203', 'name' => 'Manage Departments', 'icon' => '', 'url' => '/' . $getUrl . '/department/index', 'slug' => '.departmentIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             4 => array('id' => '02020204', 'name' => 'Manage Profession', 'icon' => '', 'url' => '/' . $getUrl . '/profession/index', 'slug' => '.professionIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            5 => array('id' => '02020205', 'name' => 'Manage Enquiry Source', 'icon' => '', 'url' => '/' . $getUrl . '/enquirysource/index', 'slug' => '.enquirySourceIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                           // 5 => array('id' => '02020205', 'name' => 'Manage Enquiry Source', 'icon' => '', 'url' => '/' . $getUrl . '/enquirysource/index', 'slug' => '.enquirySourceIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             6 => array('id' => '02020206', 'name' => 'Manage Lost Reasons', 'icon' => '', 'url' => '/' . $getUrl . '/lostreason/index', 'slug' => '.lostreasonsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             7 => array('id' => '02020207', 'name' => 'Manage Project Types', 'icon' => '', 'url' => '/' . $getUrl . '/projecttypes/index', 'slug' => '.projecttypesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             8 => array('id' => '02020208', 'name' => 'Manage Project Payment Stages', 'icon' => '', 'url' => '/' . $getUrl . '/projectstages/index', 'slug' => '.projectstagesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -71,10 +71,10 @@ class MenuItems {
                     'submenu_ids' => '02020301', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
                         1 => array('id' => '02020301', 'name' => 'Manage', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     )),
-                    4 => array('id' => '020204', 'name' => 'Firms & Partners', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
-                    'submenu_ids' => '02020401', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array( 
-                        1 => array('id' => '02020401', 'name' => 'Manage Companies', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    )),
+                   4 => array('id' => '020204', 'name' => 'Firms & Partners', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
+                                'submenu_ids' => '02020401', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                                    1 => array('id' => '02020401', 'name' => 'Manage Companies', 'icon' => '', 'url' => '/' . $getUrl . '/manage/company', 'slug' => '.companiesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                )),
                      5 => array('id' => '020205', 'name' => 'Operational Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'has_submenu' => true, 'total_submenu' => 1,
                     'submenu_ids' => '02020501', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                         1 => array('id' => '02020501', 'name' => 'Manage', 'icon' => '', 'url' => '/' . $getUrl . '/operationalSetting/index', 'slug' => '.operationalSettingIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
