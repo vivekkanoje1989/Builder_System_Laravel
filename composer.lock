@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "888afaa44ad92f8798bd57d484d86665",
-    "content-hash": "4319d1ce3ddb536f24e5913d8c35a0f2",
+    "hash": "952c40a1c0e46efff9807e9c7d2232d8",
+    "content-hash": "f0225c20611175cf9b3663d0e009f23d",
     "packages": [
         {
             "name": "artem-schander/l5-modular",

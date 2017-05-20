@@ -42,11 +42,7 @@
                                     <span ng-show="orderByField == 'name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>  
-                             <th style="width:15%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'name'; reverseSort = !reverseSort">Firm Logo
-                                    <span ng-show="orderByField == 'name'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th>      
+                                
 
                             <th style="width: 5%">Actions</th>
                         </tr>
@@ -56,7 +52,6 @@
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                             <td>{{list.punch_line}}</td> 
                             <td>{{list.legal_name}}</td> 
-                            <td>{{list.firm_logo}}</td> 
                             <td class="fa-div">
                                 <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#companyModal"><a href="#/[[config('global.getUrl')]]/manage-companies/edit/{{list.id}}" ><i class="fa fa-pencil"></i></a></div>
                             </td>

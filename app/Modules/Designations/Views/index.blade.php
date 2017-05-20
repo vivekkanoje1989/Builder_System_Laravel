@@ -33,7 +33,7 @@
                                     </span>
                                 </a>
                             </th>  
-                              <th style="width: 30%">
+                            <th style="width: 30%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Status
                                     <span ng-show="orderByField == 'status'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
@@ -44,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="list in designationsRow| filter:search |orderBy:orderByField:reverseSort|itemsPerPage:itemsPerPage" >
+                        <tr role="row" dir-paginate="list in designationsRow  | filter:search |orderBy:orderByField:reverseSort|itemsPerPage:itemsPerPage" >
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                             <td>{{ list.designation}}</td>
                             <td>{{list.status == "1" ? "Active" : "Inactive" }}</td>
@@ -54,7 +54,7 @@
                         </tr>
                     </tbody>
                 </table>
-                 <div class="DTTTFooter">
+                <div class="DTTTFooter">
                     <div class="col-sm-6">
                         <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                     </div>
@@ -78,8 +78,8 @@
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
                 <form novalidate ng-submit="designationsForm.$valid && dodesignationsAction()" name="designationsForm">
-                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
-                   
+                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!designationsForm.designation.$dirty && designationsForm.designation.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="id" name="id">
@@ -94,7 +94,7 @@
                             </span>
                         </div>
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!designationsForm.status.$dirty && designationsForm.status.$invalid)}">
-                            
+
                             <label>Status<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select name="status" ng-model="status" class="form-control" required>

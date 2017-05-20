@@ -7,8 +7,13 @@ Route::group(array('module' => 'WebPages', 'middleware' => ['web'], 'namespace' 
     Route::resource($getUrl.'/web-pages', 'WebPagesController');
     Route::post($getUrl.'/web-pages/getEditWebPage', 'WebPagesController@getEditWebPage');// get update content page data
     Route::post($getUrl.'/web-pages/updateWebPage', 'WebPagesController@updateWebPage'); //update content management tab page
+    Route::post($getUrl.'/web-pages/updateSubWebPage', 'WebPagesController@updateSubWebPage'); //update content management tab page
+    Route::post($getUrl.'/web-pages/storeSubWebPage', 'WebPagesController@storeSubWebPage'); //update content management tab page
     Route::post($getUrl.'/web-pages/getImages', 'WebPagesController@getImages');
     Route::post($getUrl.'/web-pages/updateWebPageImage', 'WebPagesController@updateWebPageImage'); //upload and update images image management tab 
     Route::post($getUrl.'/web-pages/removeWebPageImage', 'WebPagesController@removeWebPageImage');// remove image
+    Route::post($getUrl.'/web-pages/removeSubWebPageImage', 'WebPagesController@removeSubWebPageImage');// remove image
+    Route::post($getUrl.'/web-pages/getSubPages', 'WebPagesController@getSubPages');// remove image
+    
     
 });	
