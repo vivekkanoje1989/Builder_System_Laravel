@@ -136,24 +136,25 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get($getUrl . '/getProjects', 'backend\AdminController@getProjects'); //geeta
     Route::get($getUrl . '/getCompany', 'backend\AdminController@getCompany'); //geeta
     Route::get($getUrl . '/getStationary', 'backend\AdminController@getStationary'); //geeta
-    Route::get($getUrl . '/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
+    Route::get($getUrl . '/getEnquirySource', 'backend\AdminController@getEnquirySource');
     Route::get($getUrl . '/getSalesEnqCategory', 'backend\AdminController@getSalesEnqCategory'); //geeta
     Route::get($getUrl . '/getAmenitiesList', 'backend\AdminController@getAmenitiesList'); //geeta
+    
+    Route::post($getUrl . '/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
     Route::post($getUrl . '/getSubBlocks', 'backend\AdminController@getSubBlocks'); //geeta
     Route::post($getUrl . '/getStates', 'backend\AdminController@getStates');
     Route::post($getUrl . '/getCities', 'backend\AdminController@getCities');
     Route::post($getUrl . '/getLocations', 'backend\AdminController@getLocations');
-    Route::post($getUrl . '/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
-    Route::get($getUrl . '/getEnquirySource', 'backend\AdminController@getEnquirySource');
-    Route::post($getUrl . '/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');
-
-    /*     * *********************************MANDAR*********************************** */
+    Route::post($getUrl . '/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');    
+    Route::post($getUrl . '/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');    
+    
+    /***********************************MANDAR*******************************/
     Route::get($getUrl . '/getClient', 'backend\AdminController@getClient');
     Route::get($getUrl . '/getVehiclebrands', 'backend\AdminController@getVehiclebrands');
     Route::get($getUrl . '/getVehiclemodels', 'backend\AdminController@getVehiclemodels');
     Route::get($getUrl . '/getEmployees', 'backend\AdminController@getEmployees');
 
-    /*     * ******************************************************************** */
+    /***********************************MANDAR*******************************/
 
     Route::get($getUrl . '/databoxes', function () {
         return View::make('backend.databoxes');

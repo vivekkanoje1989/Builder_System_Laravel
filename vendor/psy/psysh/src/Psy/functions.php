@@ -16,7 +16,6 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
-use XdgBaseDir\Xdg;
 
 if (!function_exists('Psy\sh')) {
     /**
@@ -53,18 +52,6 @@ if (!function_exists('Psy\info')) {
             return;
         }
 
-        $xdg = new Xdg();
-        $home = rtrim(str_replace('\\', '/', $xdg->getHomeDir()), '/');
-        $homePattern = '#^' . preg_quote($home, '#') . '/#';
-
-        $prettyPath = function ($path) use ($homePattern) {
-            if (is_string($path)) {
-                return preg_replace($homePattern, '~/', $path);
-            } else {
-                return $path;
-            }
-        };
-
         $config = $lastConfig ?: new Configuration();
 
         $core = array(
@@ -74,9 +61,9 @@ if (!function_exists('Psy\info')) {
             'require semicolons'  => $config->requireSemicolons(),
             'error logging level' => $config->errorLoggingLevel(),
             'config file'         => array(
-                'default config file' => $prettyPath($config->getConfigFile()),
-                'local config file'   => $prettyPath($config->getLocalConfigFile()),
-                'PSYSH_CONFIG env'    => $prettyPath(getenv('PSYSH_CONFIG')),
+                'default config file' => $config->getConfigFile(),
+                'local config file'   => $config->getLocalConfigFile(),
+                'PSYSH_CONFIG env'    => getenv('PSYSH_CONFIG'),
             ),
             // 'config dir'  => $config->getConfigDir(),
             // 'data dir'    => $config->getDataDir(),
@@ -89,7 +76,7 @@ if (!function_exists('Psy\info')) {
             'update available'       => !$checker->isLatest(),
             'latest release version' => $checker->getLatest(),
             'update check interval'  => $config->getUpdateCheck(),
-            'update cache file'      => $prettyPath($config->getUpdateCheckCacheFile()),
+            'update cache file'      => $config->getUpdateCheckCacheFile(),
         );
 
         if ($config->hasReadline()) {
@@ -99,13 +86,10 @@ if (!function_exists('Psy\info')) {
                 'readline available' => true,
                 'readline enabled'   => $config->useReadline(),
                 'readline service'   => get_class($config->getReadline()),
+                'readline library'   => $info['library_version'],
             );
 
-            if (isset($info['library_version'])) {
-                $readline['readline library'] = $info['library_version'];
-            }
-
-            if (isset($info['readline_name']) && $info['readline_name'] !== '') {
+            if ($info['readline_name'] !== '') {
                 $readline['readline name'] = $info['readline_name'];
             }
         } else {
@@ -120,13 +104,13 @@ if (!function_exists('Psy\info')) {
         );
 
         $history = array(
-            'history file'     => $prettyPath($config->getHistoryFile()),
+            'history file'     => $config->getHistoryFile(),
             'history size'     => $config->getHistorySize(),
             'erase duplicates' => $config->getEraseDuplicates(),
         );
 
         $docs = array(
-            'manual db file'   => $prettyPath($config->getManualDbFile()),
+            'manual db file'   => $config->getManualDbFile(),
             'sqlite available' => true,
         );
 
@@ -253,7 +237,7 @@ EOL;
             } catch (Exception $e) {
                 echo $e->getMessage() . PHP_EOL;
 
-                // @todo this triggers the "exited unexpectedly" logic in the
+                // TODO: this triggers the "exited unexpectedly" logic in the
                 // ForkingLoop, so we can't exit(1) after starting the shell...
                 // fix this :)
 

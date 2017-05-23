@@ -67,7 +67,7 @@ app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
     }
 });
 
-app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $window) {
+app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $window, $location) {
     function link($scope, element, attributes, model) {
         model.$asyncValidators.customerInputs = function () {
             var customerMobileNo = '';
@@ -121,11 +121,19 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                         $scope.searchData.customerId = response.customerPersonalDetails[0].id;
 //                        $scope.disableText = true;
 
-                    } else{ //enquiry list of customer
-                        $scope.showDiv = true;
-                        //$scope.enquiryList = true;
-//                        $scope.showDivCustomer = false;
-                        $scope.listsIndex = response;
+                    } else{ //enquiry list of customer                        
+                        var url = $location.path();
+                        if(url === "/office/sales/enquiry"){
+                            $scope.showDiv = true;
+                            $scope.showDivCustomer = false;
+                            $scope.backBtn = false;
+                            $scope.listsIndex = response;  
+                        }else{
+                            $scope.disableText = true;
+                            $scope.resetBtn = true;
+                            $scope.backBtn = true;
+                            $scope.disableSource = true;  
+                        }
                     }
                 } else {//response false
                     $scope.showDiv = false;

@@ -18,27 +18,36 @@ class TestimonialsController extends Controller {
         return view("Testimonials::index");
     }
 
-    public function manage() {
+    public function show() {
         return view("Testimonials::manage");
     }
-
+    
     public function create() {
         return view("Testimonials::create");
     }
 
-    public function manageEdit($id) {
-        return view("Testimonials::manageUpdate")->with("testimonialId", $id);
+    public function editApproved($id) {
+        return view("Testimonials::editApprovedList")->with("testimonialId", $id);
     }
 
-    public function getApproveTestimonials() {
-        $getApprovedTestimonials = WebTestimonials::all();
+    public function getDisapproveList() {
+        $getApprovedTestimonials = WebTestimonials::where('approve_status', '0')->get();
         if (!empty($getApprovedTestimonials)) {
             $result = ['success' => true, 'records' => $getApprovedTestimonials];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
+    }
+    
+    public function getApprovedList() {
+        $getApprovedTestimonials = WebTestimonials::where('approve_status', '1')->get();
+        if (!empty($getApprovedTestimonials)) {
+            $result = ['success' => true, 'records' => $getApprovedTestimonials];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
     }
 
     public function getTestimonialData() {
@@ -48,34 +57,30 @@ class TestimonialsController extends Controller {
 
         if (!empty($getTestimonials)) {
             $result = ['success' => true, 'records' => $getTestimonials];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
-    }
-
-    public function manageApprovedTestimonials() {
-        $getApprovedTestimonials = WebTestimonials::where('approve_status', '1')->get();
-        if (!empty($getApprovedTestimonials)) {
-            $result = ['success' => true, 'records' => $getApprovedTestimonials];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
+        return json_encode($result);
     }
 
     public function store() {
         $input = Input::all();
-        $s3FolderName = "Testimonial";
-        $fileName = 'testimonial_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photo_url']['photo_url']->getClientOriginalExtension();
-        S3::s3FileUplod($input['photo_url']['photo_url']->getPathName(), $fileName, $s3FolderName);
+        $s3FolderName = '/Testimonial/';
+        $fileName = 'testimonial_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photo_url']->getClientOriginalExtension();
+        S3::s3FileUplod($input['photo_url']->getPathName(), $fileName, $s3FolderName);
+        
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+        
         $input['testimonialsData'] = array_merge($input, $create);
         $input['testimonialsData']['photo_url'] = $fileName;
-        $result = WebTestimonials::create($input['testimonialsData']);
+        $insertData = WebTestimonials::create($input['testimonialsData']);
+        if($insertData){
+            $result = ['success' => true, "records" => $insertData];
+        }
+        else{
+            $result = ['success' => true, "records" => "Something went wrong"];
+        }
         return json_encode($result);
     }
 
@@ -83,28 +88,31 @@ class TestimonialsController extends Controller {
         return view("Testimonials::update")->with("testimonialId", $id);
     }
 
-    public function update() {
+    public function update($id) {
         $input = Input::all();
-        if (!empty($input['photo_url']['photo_url'])) {
-
-            $originalName = $input['photo_url']['photo_url']->getClientOriginalName();
+        if (is_object($input['photo_url'])) {
+            $originalName = $input['photo_url']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
-                $fileName = $input['photo_url']['photo_url']->getClientOriginalExtension();
-                $image = ['0' => $input['photo_url']['photo_url']];
-                $s3FolderName = 'Testimonial';
-                $fileName = S3::s3FileUplod($image, $s3FolderName, 1);
-                $fileName = trim($fileName, ",");
+                $fileName = $input['photo_url']->getClientOriginalExtension();
+                $s3FolderName = '/Testimonial/';
+                $getOldPhoto = WebTestimonials::select('photo_url')->where('testimonial_id', $id)->get();               
+                $path = $s3FolderName . $getOldPhoto[0]['photo_url'];
+                S3::s3FileDelete($path);                                            
+                $imageName = "testimonial_".rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $fileName;
+                S3::s3FileUplod($input['photo_url']->getPathName(), $imageName, $s3FolderName);
+                $fileName = trim($imageName, ",");
                 $input['photo_url'] = $fileName;
             } else {
                 unset($input['photo_url']);
             }
         }
-
+        unset($input['_method']);
         $loggedInUserId = Auth::guard('admin')->user()->id;
-        $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
-        $input['testimonialsData'] = array_merge($input, $create);
-        $result = WebTestimonials::where('testimonial_id', $input['testimonial_id'])->update($input['testimonialsData']);
-        return json_encode($result);
+        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+        $input['testimonialsData'] = array_merge($input, $update);
+        $updateTestimonials = WebTestimonials::where('testimonial_id', $input['testimonial_id'])->update($input['testimonialsData']);
+        $result = ['success' => true, "records" => $updateTestimonials];
+        echo json_encode($result);
     }
 
 }
