@@ -949,14 +949,16 @@ angular.module('app')
                                         [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load('toaster').then(
+                                                return $ocLazyLoad.load(['textAngular', 'toaster']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
                                                                 files: [
-                                                                    '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/textangular.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
+                                                                    
                                                                 ]
                                                             }
                                                             );
@@ -989,6 +991,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }
@@ -1019,6 +1022,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }
@@ -1049,6 +1053,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }
@@ -1079,6 +1084,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }
@@ -1109,6 +1115,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }
@@ -1137,6 +1144,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             }
                                                             );
@@ -1169,6 +1177,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }
@@ -1199,6 +1208,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }
@@ -1229,6 +1239,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }
@@ -1259,6 +1270,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }
@@ -1289,6 +1301,7 @@ angular.module('app')
                                                                     '/js/intlTelInput.js',
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/timepicker.js',
                                                                 ]
                                                             });
                                                         }

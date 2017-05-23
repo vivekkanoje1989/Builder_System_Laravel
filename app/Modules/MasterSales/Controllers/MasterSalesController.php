@@ -191,7 +191,7 @@ class MasterSalesController extends Controller {
             }
             
             unset($input['customerData']['loggedInUserId']);
-            unset($input['customerData']['id']);
+            unset($input['customerData']['id']);            
 
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
@@ -229,6 +229,7 @@ class MasterSalesController extends Controller {
                 $i = 0;
                 foreach ($input['customerContacts'] as $contacts) {
                     unset($contacts['$hashKey']);
+                    unset($contacts['$$hashKey']);
                     unset($contacts['index']);
                     $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] = $contacts['email_optin_status'] = $contacts['email_verification_status'] = 0;
                     $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] = $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;

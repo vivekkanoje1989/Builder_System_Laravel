@@ -66,7 +66,15 @@
                     <span>{{ list.last_followup_date | date:'dd M, yyyy'}} By {{list.followup_fname}} {{list.followup_lname}}</span><hr>
                     <span style="width: 100%;word-break: break-all;">{{ list.remarks}}</span>
                 </td>
-                <td align="center" style="vertical-align: middle;">Open</td>
+                <td align="center" style="vertical-align: middle;">{{ list.sales_status }}
+                <hr>
+                <div style="margin-bottom: 40px;">
+                    <a href data-toggle="modal" data-target="#todaysRemarkModal"> Today's Remark </a><br/>
+                    <a href> Convert to booking </a><br/>
+                    <a href> Generate estimate </a><br/>
+                    <a href> Convert in deal </a>
+                </div>
+                </td>
                 <td align="left">
                     <div>Owner: {{list.owner_fname}} {{list.owner_lname}}</div><hr>
                     <button type="button" class="btn btn-primary ng-click-active" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ list.id }})">View History</button>
@@ -85,9 +93,7 @@
         </div>
     </div>
 </div>
-<!-- Enquiry History Modal -->
-<div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
-    <div class="modal-dialog modal-lg">
-        <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
-    </div>
-</div>
+<!-- Enquiry history modal -->
+<div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
+<!-- Enquiry todays remark modal -->
+<div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/todaysRemark'"></div>

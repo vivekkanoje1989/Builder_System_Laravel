@@ -2,8 +2,8 @@
 
 angular.module('app')
     .controller('AppCtrl', [
-        '$rootScope', '$localStorage', '$state', '$timeout',
-        function ($rootScope, $localStorage, $state, $timeout) {
+        '$rootScope', '$localStorage', '$state', '$timeout', '$scope',
+        function ($rootScope, $localStorage, $state, $timeout, $scope) {
             $rootScope.settings = {
                 skin: '',
                 color: {
@@ -103,5 +103,18 @@ angular.module('app')
                         }
                     }, 500);
                 });
+                
+                $scope.loader = {
+                    loading: false,
+                };
+
+                $scope.showloader = function () {
+                    $scope.loader.loading = true;
+                }
+                $scope.hideloader = function () {
+                    $timeout(function(){
+                        $scope.loader.loading = false;
+                    }, 1000);                    
+                }
         }
     ]);

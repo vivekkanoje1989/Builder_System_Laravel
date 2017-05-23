@@ -60,7 +60,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
             $scope.contactData.index = index;
         }
-        $scope.addRow = function (contactData) {
+        $scope.addRow = function (contactData) { 
             if ($scope.contactData.index === "" || typeof $scope.contactData.index === "undefined") {
                 $('#errContactDetails').text("");
                 $scope.contacts.push({
@@ -87,7 +87,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             } else {
                 var i = $scope.contactData.index;
                 if(i < $scope.contacts.length){
-                    angular.forEach($scope.contacts, function (data, index) { console.log($scope.contacts.length);
+                    angular.forEach($scope.contacts, function (data, index) { 
                         if (index === i) {
                             $scope.contacts.splice(index, 1); //Remove index
                             $scope.contacts.splice(index, 0, contactData);  //Update new value and returns array
@@ -125,19 +125,18 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $('#contactDataModal').modal('toggle');
         };
         function resetContactDetails() {
-                $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
-                $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
-                $scope.contactData.email_id = $scope.contactData.house_number =
-                $scope.contactData.building_house_name = $scope.contactData.wing_name =
-                $scope.contactData.area_name = $scope.contactData.lane_name =
-                $scope.contactData.landmark = $scope.contactData.country_id =
-                $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
-                $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
-                $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
-                $scope.contactData.index = $scope.contacts.length;
+            $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
+            $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
+            $scope.contactData.email_id = $scope.contactData.house_number =
+            $scope.contactData.building_house_name = $scope.contactData.wing_name =
+            $scope.contactData.area_name = $scope.contactData.lane_name =
+            $scope.contactData.landmark = $scope.contactData.country_id =
+            $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
+            $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
+            $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
+            $scope.contactData.index = $scope.contacts.length;
         }
         $scope.initContactModal = function () {
-            console.log($scope.contacts);
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
             resetContactDetails();
             $scope.modalSbtBtn = false;
@@ -266,6 +265,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                     });
                     $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
+                    var bdate = new Date($scope.customerData.birth_date);
+                    $scope.enquiryData.birth_date = (bdate.getFullYear() + '-' + ("0" + (bdate.getMonth() + 1)).slice(-2) + '-' + bdate.getDate());
+            
                     $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                     $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
                     $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
@@ -320,7 +322,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.searchData.searchWithMobile = response.customerContactDetails[0].mobile_number;
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
-                        for (var i = 0; i < 1; i++) {
+                        for (var i = 0; i < response.customerContactDetails.length; i++) {
                             if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {
                                 $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
                             } else {
@@ -385,7 +387,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                 $scope.contacts = angular.copy(response.customerContactDetails);
                 $scope.contactData = angular.copy(response.customerContactDetails);
-                for (var i = 0; i < 1; i++) {
+                for (var i = 0; i < response.customerContactDetails.length; i++) {
                     if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {
                         $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
                     } else {
@@ -423,7 +425,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-        
         $scope.saveEnquiryData = function (enquiryData)
         {
             var date = new Date($scope.enquiryData.next_followup_date);

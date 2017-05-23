@@ -29,7 +29,7 @@
 </style>
 <div class="row"> 
     <div class="widget flat radius-bordered ">
-        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController" ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]])"><!-- ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]])" manageForm(customerID,enquiryId) -->
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customerController" ng-init="manageForm([[ !empty($editCustomerId) ?  $editCustomerId : '0' ]],[[ !empty($editEnquiryId) ?  $editEnquiryId : '0' ]])">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12" style="box-shadow:none;">
                 <div id="customer-form">                    
@@ -145,7 +145,7 @@
                                         <span>{{ list.last_followup_date | date:'dd M, yyyy'}} By {{list.followup_fname}} {{list.followup_lname}}</span><hr>
                                         <span style="width: 100%;word-break: break-all;">{{ list.remarks}}</span>
                                     </td>
-                                    <td align="center" style="vertical-align: middle;">Open</td>
+                                    <td align="center" style="vertical-align: middle;">{{ list.sales_status }}</td>
                                     <td align="left">
                                         <div>Owner: {{list.owner_fname}} {{list.owner_lname}}</div><hr>
                                         <button type="button" class="btn btn-primary ng-click-active" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ list.id }})">View History</button>                                     
@@ -175,12 +175,12 @@
             <div class="modal fade" id="contactDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog">
                     <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title" align="center">Contact Details</h4>
-                        </div>
+                    <div class="modal-content">                        
                         <form novalidate name="modalForm" ng-submit="modalForm.$valid && addRow(contactData)">
+                            <div class="modal-header">
+                                <button type="button" class="close" id="closeModal" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title" align="center">Contact Details</h4>
+                            </div>
                             <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
                             <div class="modal-body">
                                 <div class="col-lg-6 col-sm-6 col-xs-12">
@@ -418,18 +418,23 @@
                                 </div>   
                             </div>
                             <div class="modal-footer" align="center">
-                                <button type="submit" class="btn btn-primary" ng-click="modalSbtBtn = true">Submit</button>
+                                <button type="submit" class="btn btn-primary" id="subbtn" ng-click="modalSbtBtn = true">Submit</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <!-- Enquiry History Modal -->
-            <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
-                <div class="modal-dialog modal-lg">
-                    <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
-                </div>
-            </div>
+            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
+            <div data-ng-include="'[[ config('global.getUrl') ]]/MasterSales/todaysRemark'"></div>
         </div>
     </div>
 </div>
+
+<script>
+   $(document).ready(function(){
+       $("#closeModal").click(function(){
+           $("#subbtn").trigger("click");
+       });
+   })
+</script>

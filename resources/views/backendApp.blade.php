@@ -38,9 +38,22 @@
         <link href="/backend/assets/css/typicons.min.css" rel="stylesheet" />
         <link href="/backend/assets/css/animate.min.css" rel="stylesheet" />
         <link ng-href="{{settings.skin}}" rel="stylesheet" type="text/css" />
+        
+        <link href="/backend/assets/css/loader.css" rel="stylesheet" />
     </head>
     <body ng-right-click>
-        <div ui-view></div>
+  
+        <div class="overlay3" ng-show="loader.loading">
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+        </div>    
+    
+        <div ui-view ng-show="!loader.loading"></div>
 
         <!-- Scripts -->
         <script src="/backend/lib/jquery/jquery.min.js"></script>
