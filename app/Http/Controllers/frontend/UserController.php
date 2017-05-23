@@ -161,7 +161,7 @@ class UserController extends Controller {
 
         $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
                         ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
-                        ->select(["db2.first_name", "db2.personal_email1", "db2.last_name", "db2.id", "db1.designation"])
+                        ->select(["db2.first_name","db2.employee_photo_file_name", "db2.personal_email1", "db2.last_name", "db2.id", "db1.designation"])
                         ->orderByRaw("RAND()")->get();
 
         if (!empty($employees)) {
@@ -216,7 +216,9 @@ class UserController extends Controller {
     }
 
     public function getProjectDetails() {
-        $input = Input::all();
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        
         $projects = Project::join('project_web_pages', 'project_web_pages.project_id', '=', 'projects.id')
                 ->get();
 
@@ -226,7 +228,7 @@ class UserController extends Controller {
                 ->get();
 
         $getProjects = Project::join('project_web_pages', 'project_web_pages.project_id', '=', 'projects.id')
-                        ->where('projects.id', $input['id'])->first();
+                        ->where('projects.id', $request['id'])->first();
         if (!empty($getProjects->project_amenities_list)) {
             $aminity = explode(',', $getProjects->project_amenities_list);
             $aminities = DB::table('laravel_developement_master_edynamics.mlst_bmsb_amenities')->whereIn('id', $aminity)->get();
@@ -250,14 +252,14 @@ class UserController extends Controller {
         $currentResult = [];
         $current = Project::join('laravel_developement_master_edynamics.mlst_bmsb_project_status as mlst_bmsb_project_status', 'mlst_bmsb_project_status.id', '=', 'projects.project_status')
                 ->join('project_web_pages', 'project_web_pages.project_id', '=', 'projects.id')
-                ->select('mlst_bmsb_project_status.project_status as status', 'projects.id', 'projects.project_name', 'project_web_pages.project_logo', 'project_web_pages.project_amenities_list')
+                ->select('mlst_bmsb_project_status.project_status as status', 'projects.id', 'projects.project_name', 'project_web_pages.project_logo', 'project_web_pages.project_amenities_list','project_web_pages.short_description')
                 ->where('mlst_bmsb_project_status.project_status', '=', 'Current')
                 ->get();
 
         for ($i = 0; $i < count($current); $i++) {
             $aminity = explode(',', $current[$i]['project_amenities_list']);
             $aminities = DB::table('laravel_developement_master_edynamics.mlst_bmsb_amenities')->whereIn('id', $aminity)->select('name_of_amenity')->get();
-            $result = ['id' => $current[$i]['id'], 'project_name' => $current[$i]['project_name'], 'project_logo' => $current[$i]['project_logo'], 'amenities' => $aminities];
+            $result = ['id' => $current[$i]['id'], 'project_name' => $current[$i]['project_name'], 'project_logo' => $current[$i]['project_logo'], 'short_description' => $current[$i]['short_description'], 'amenities' => $aminities];
             array_push($currentResult, $result);
         }
         return json_encode(['current' => $currentResult, 'status' => true]);

@@ -2793,6 +2793,7 @@ div.aligncenter,
 .fitsc-team .team-members {
   position: relative;
   padding-top: 85px;
+  opacity: none;
 }
 .fitsc-team .owl-item .team-member {
   display: block;
@@ -2805,7 +2806,7 @@ div.aligncenter,
   padding: 0 0 80px;
   position: relative;
   overflow: hidden;
-  display: none;
+
 }
 .fitsc-team .team-member img {
   -webkit-border-radius: 5px 5px 0 0;

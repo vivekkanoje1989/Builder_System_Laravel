@@ -8,7 +8,7 @@
                             <form  ng-submit="jobPosting.$valid && dojobPostingAction(career)" name="jobPosting"  novalidate enctype="multipart/form-data">
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                                 <div class="form-title">
-                                    Manage Career
+                                   Create job posting
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">
@@ -83,9 +83,9 @@
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.application_start_date.$dirty || jobPosting.application_start_date.$invalid)}">
                                             <label>Application start date<span class="sp-err">*</span></label>
                                             <p class="input-group">
-                                                <input type="text" ng-model="career.application_start_date" name="application_start_date" id="application_start_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                                <input type="text" ng-model="career.application_start_date" min-date="minDate" name="application_start_date" id="application_start_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                                 <span class="input-group-btn" >
-                                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                    <button type="button" class="btn btn-default" ng-click="open($event);  clearToDate()"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>
                                             </p>
                                             <div  class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.application_start_date.$error">
@@ -98,7 +98,7 @@
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.application_close_date.$dirty || jobPosting.application_close_date.$invalid)}">
                                             <label>Application end date<span class="sp-err">*</span></label>
                                             <p class="input-group">
-                                                <input type="text" ng-model="career.application_close_date"  min-date="model.application_start_date" name="application_close_date" id="application_close_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                                <input type="text" ng-model="career.application_close_date"  min-date="career.application_start_date"  min-date="model.application_start_date" name="application_close_date" id="application_close_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"   datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                                 <span class="input-group-btn">
                                                     <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                 </span>

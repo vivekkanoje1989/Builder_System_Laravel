@@ -2414,11 +2414,11 @@ angular.module('app')
                                     }
                                 })
                                 .state(getUrl + '.manageJobIndex', {
-                                    url: '/manage-job/index',
+                                    url: '/job-posting/index',
                                     templateUrl: getUrl + '/manage-job/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage job posting',
+                                        label: 'Manage Career',
                                         description: ''
                                     },
                                     resolve: {
@@ -2442,7 +2442,7 @@ angular.module('app')
                                     }
                                 })
                                 .state(getUrl + '.createJobIndex', {
-                                    url: '/createJob/index',
+                                    url: '/job-posting/create',
                                     templateUrl: getUrl + '/create-Job/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2471,7 +2471,7 @@ angular.module('app')
                                     }
                                 })
                                 .state(getUrl + '.careerUpdate', {
-                                    url: '/manage-job/update/:jobId',
+                                    url: '/job-posting/update/:jobId',
                                     templateUrl: function (stateParams) {
                                         return getUrl + '/manage-job/' + stateParams.jobId + '/edit';
                                     },
@@ -2502,7 +2502,7 @@ angular.module('app')
                                     }
                                 })
                                 .state(getUrl + '.careerShow', {
-                                    url: '/manage-job/show/:jobId',
+                                    url: '/job-posting/show/:jobId',
                                     templateUrl: function (stateParams) {
                                         return getUrl + '/manage-job/' + stateParams.jobId + '/show';
                                     },

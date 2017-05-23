@@ -83,7 +83,7 @@
 
 </div>
 <!-- end #wrapper -->
-<script src="/backend/lib/angular/angular.js"></script>
+<script type='text/javascript' src='/frontend/Theme39/js/angular.min.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
 <script src="/backend/app/ng-file-upload.js"></script>
 <script src="/frontend/theme31/assets/js/frontend.js"></script>

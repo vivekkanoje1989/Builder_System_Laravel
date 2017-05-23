@@ -29,7 +29,7 @@
 <!-- END FOOTER -->
 
 </div>
-<script src="/backend/lib/angular/angular.js"></script>
+<script src="/frontend/Theme32/scripts/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
 <script src="/backend/app/ng-file-upload.js"></script>
 <script src="/frontend/theme31/assets/js/frontend.js"></script>

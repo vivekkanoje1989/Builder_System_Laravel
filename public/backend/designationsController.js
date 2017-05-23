@@ -1,4 +1,4 @@
-app.controller('designationsCtrl', ['$scope', 'Data','toaster', function ($scope, Data,toaster) {
+app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -8,8 +8,8 @@ app.controller('designationsCtrl', ['$scope', 'Data','toaster', function ($scope
 
             });
         };
-        $scope.initialModal = function (id, designation,status, index,index1) {
-           
+        $scope.initialModal = function (id, designation, status, index, index1) {
+
             $scope.heading = 'Edit Designation';
             $scope.id = id;
             $scope.designation = designation;
@@ -22,29 +22,32 @@ app.controller('designationsCtrl', ['$scope', 'Data','toaster', function ($scope
             if ($scope.id === 0) //for create
             {
                 Data.post('manage-designations/', {
-                    designation: $scope.designation,status :$scope.status}).then(function (response) {
-             
+                    designation: $scope.designation, status: $scope.status}).then(function (response) {
+
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                        $scope.designationsRow.push({'designation': $scope.designation, 'id': response.lastinsertid,'status':$scope.status});
+                        $scope.designationsRow.push({'designation': $scope.designation, 'id': response.lastinsertid, 'status': $scope.status});
                         $('#designations').modal('toggle');
-                       toaster.pop('success', 'Manage designations', 'Record successfully created');
+                        toaster.pop('success', 'Manage designations', 'Record successfully created');
                     }
                 });
             } else { //for update
-
-                Data.put('manage-designations/'+$scope.id, {
-                    designation: $scope.designation,'status':$scope.status}).then(function (response) {
+                Data.put('manage-designations/' + $scope.id, {
+                    designation: $scope.designation, 'status': $scope.status}).then(function (response) {
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                        $scope.designationsRow.splice($scope.index, 1);
-                        $scope.designationsRow.splice($scope.index, 0, { designation: $scope.designation,'status':$scope.status,id:$scope.id});
+                        if ($scope.index != 0) {
+                            $scope.designationsRow.splice($scope.index, 1);
+                            $scope.designationsRow.splice($scope.index, 0, {designation: $scope.designation, 'status': $scope.status, id: $scope.id});
+                        }else{
+                             $scope.manageDesignations();
+                        }
                         $('#designations').modal('toggle');
-                      toaster.pop('success', 'Manage designations', 'Record successfully updated');
+                        toaster.pop('success', 'Manage designations', 'Record successfully updated');
                     }
                 });
             }
@@ -53,5 +56,5 @@ app.controller('designationsCtrl', ['$scope', 'Data','toaster', function ($scope
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-        
+
     }]);

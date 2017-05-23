@@ -10,10 +10,13 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                 $scope.careerRow = response.records;
             });
         };
+        $scope.clearToDate = function()
+        {
+            $scope.career.application_close_date = '';
+        }
         $scope.getCareer = function (id) {
             Data.post('manage-job/getCareer', {
                 'id': id}).then(function (response) {
-
                 $scope.career.job_eligibility = response.records.job_eligibility;
                 $scope.career.job_title = response.records.job_title;
                 $scope.career.job_locations = response.records.job_locations;
@@ -24,7 +27,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                 $scope.career.number_of_positions = response.records.number_of_positions;
                 $scope.id = id;
             });
-        }
+        };
         $scope.deleteJob = function (id, index) {
             Data.post('manage-job/deleteJob', {
                 'id': id}).then(function (response) {

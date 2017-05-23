@@ -110,7 +110,7 @@
                                                             ?></a></h4>
                                                     <div class="caption-text"><?php echo $projects['project_status']; ?></div>
                                                     <div class="buttons">
-                                                        <a class="btn btn-theme ripple-effect"  href="<?php //echo $this->getProjectsUrl($projects->id, $projects->seo_url, 'ongoing');    ?>">More Details</a>
+                                                        <a class="btn btn-theme ripple-effect"  href="<?php echo "project-details/" . $projects['id']; ?>">More Details</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -155,7 +155,7 @@
                                                             ?></a></h4>
                                                     <div class="caption-text"><?php echo $projects['project_status']; ?></div>
                                                     <div class="buttons">
-                                                        <a class="btn btn-theme ripple-effect"  href="<?php //echo $this->getProjectsUrl($projects->id, $projects->seo_url, 'ongoing');    ?>">More Details</a>
+                                                        <a class="btn btn-theme ripple-effect"  href="<?php echo "project-details/" . $projects['id']; ?>">More Details</a>
                                                     </div>
                                                 </div>
                                             </div>

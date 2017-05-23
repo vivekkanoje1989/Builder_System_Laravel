@@ -1,6 +1,11 @@
 @extends('layouts/frontend/Theme32/main')
 @section('content')
-<main class="main-content" ng-controller="webAppController" ng-init="getProjects();">
+<style>
+    .err{
+        color:red;
+    }
+</style>
+<main class="main-content" ng-controller="webAppController" ng-init="getProjects(); getPostsDropdown()">
     <div class="slideshow-main owl-carousel" data-slideshow-options='{"autoPlay":5000,"stopOnHover":true,"transitionStyle":"fade"}'>
 	<div class="slideshow-main-item">
 		<div class="container">
@@ -26,46 +31,21 @@
 <div class="container">
 	<header class="heading">
 		<h2>Current Projects</h2>
-		<a href="projects.html" class="btn-more" title="VIEW ALL PROJECTS">View all works</a>
-	</header>{
+		<a href="projects" class="btn-more" title="VIEW ALL PROJECTS">View all works</a>
+	</header>{{current }}
 
-	<div class="thumbs offset-bottom">
-		<div class="thumbs-item" ng-repeat="current in current">
+	<div class="thumbs offset-bottom" id="current">
+		<div class="thumbs-item" ng-repeat="list in current">
 			<a href="project_details.html">
 				<header class="thumbs-item-heading">
-					<h3>Project Name</h3>
-					<p>project description description project descriptionproject description </p>
+					<h3>{{list.project_name}}</h3>
+					<p>{{list.short_description |htmlToPlaintext | limitTo : 15}}{{list.short_description.length > 15? '': '...'}} </p>
 				</header>
 				<img src="/frontend/Theme32/img/pro1.jpg" alt="">
 			</a>
 		</div>
-		<div class="thumbs-item ">
-			<a href="project_details.html">
-				<header class="thumbs-item-heading">
-					<h3>Project</h3>
-					<p>project description</p>
-				</header>
-				<img src="/frontend/Theme32/img/pro3.jpg" width="586" height="280" alt="">
-			</a>
-		</div>
-		<div class="thumbs-item ">
-			<a href="project_details.html">
-				<header class="thumbs-item-heading">
-					<h3>Project Name</h3>
-					<p>project description description project descriptionproject description </p>
-				</header>
-				<img src="/frontend/Theme32/img/pro1.jpg" alt="">
-			</a>
-		</div>
-		<div class="thumbs-item ">
-			<a href="project_details.html">
-				<header class="thumbs-item-heading">
-					<h3>Project</h3>
-					<p>project description</p>
-				</header>
-				<img src="/frontend/Theme32/img/pro3.jpg" width="586" height="280" alt="">
-			</a>
-		</div>
+		
+		
 		<div class="thumbs-sizer"></div>
 	</div>
 
@@ -138,50 +118,78 @@
 
 	<div class="row">
 		<div class="col span_12"  style="padding:4px">
-			<form class="form-contact" method="post" >
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
-					<label class="form-item-label">Name</label>
-					<input type="text" name="name" required>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
-					<label class="form-item-label">E-mail</label>
-					<input type="email" name="email" required>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
-					<label class="form-item-label">Phone</label>
-					<input type="tel" name="phone" required>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
-					<label class="form-item-label">Select Position</label>
-					<select required class="shape">
-						<option value="" selected disabled>Select Position</option>
-						<option>Web Designer</option>
-						<option>Php Developer</option>
-						<option>Sales Manager</option>
-						<option>Support Engineer</option>
-					</select>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
-					<label class="form-item-label">Upload CV</label>
-					<input type="file" required></textarea>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
-					<center>
-						<img src="img/captcha_code_file.jpg" class="img-responsive center-block">	
-						<br />
-						<label class="form-item-label"><a href="#">Click To Refresh </a></label>
-					</center>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
-					<label class="form-item-label">Captcha</label>
-					<input type="text" name="captcha" required>
-				</div>
-				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-item">
-					<center>
-						<button type="submit" class="btn">Send</button>
-					</center>
-				</div>
-			</form>
+                     <form id="careerForm" ng-submit="careerForm.$valid && doApplicantAction(career,career.resume,career.photo_url)" class="form-horizontal" enctype="multipart/form-data" name="careerForm" novalidate enctype="multipart/form-data">
+                        <input type="hidden" ng-model="_token" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+                        <div class="col-md-6 col-xs-6" style="padding-right:100px;">
+                            <div class="form-group">
+                                <label for="" class="sr-only2">Enter your First Name</label>
+                                    <input type="text" class="form-control" name="first_name" id="first_name" ng-model="career.first_name" ng-required="required" />
+                                    <div class="help-block" ng-show="sbtBtn" ng-messages="careerForm.first_name.$error" >
+                                        <div ng-message="required" class="err">First name is required</div>
+                                    </div>
+                            </div><br><br>
+                            <div class="form-group">
+                                <label for="" class="sr-only2">Enter your Last Name</label>
+                                
+                                    <input type="text" class="form-control" name="last_name" id="last_name" ng-model="career.last_name" ng-required="required" />
+                                    <div class="help-block" ng-show="sbtBtn && submitted" ng-messages="careerForm.last_name.$error">
+                                        <div ng-message="required" class="err">Last name is required</div>
+                                    </div>
+                            </div><br><br>
+                            <div class="form-group">
+                                <label for="" class="sr-only2">Enter your Mobile Name</label>
+                                
+                                    <input type="text" class="form-control" name="mobile_number" id="mobile_number" ng-model="career.mobile_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-maxlength="10" ng-minlength="10" ng-required="required" />
+                                    <div class="help-block" ng-show="sbtBtn && submitted" ng-messages="careerForm.mobile_number.$error" class="err">
+                                        <div ng-message="required" class="err">Mobile number is required</div>
+                                        <div ng-message="maxlength" class="err">Mobile number is must be 10 digit</div>
+                                        <div ng-message="minlength" class="err">Mobile number is must be 10 digit</div>
+                                    </div>
+                            </div><br><br>
+                            <div class="form-group">
+                                <label for="" class="sr-only2">Select Post</label>
+                                   <select class="form-control" name="career_id" id="career_id" ng-model="career.career_id" ng-required="required">
+                                        <option  value="">Select Post</option>
+                                        <option ng-repeat="job in jobPostRow" value="{{job.id}}">{{job.job_title}}</option>
+                                    </select>
+                                    <div class="help-block" ng-show="sbtBtn && submitted" ng-messages="careerForm.career_id.$error">
+                                        <div ng-message="required" class="err">Select post to apply</div>
+                                    </div>
+                            </div>
+                        </div><br><br>
+                        <div class="col-md-6 col-xs-12" >
+                            <div class="form-group">
+                                <label for="" class="sr-only2">Enter your Email Id</label>
+                                   <input type="email" class="form-control" name="email_id" id="email_id" ng-model="career.email_id" ng-required="required" />
+                                    <div class="help-block" ng-show="sbtBtn && submitted" ng-messages="careerForm.email_id.$error" class="err">
+                                        <div ng-message="required" class="err">Email is required</div>
+                                        <div ng-message="email" class="err">Invalid Email</div>
+                                    </div>
+                            </div><br><br>
+                            <div class="form-group">
+                                <label for="" class="sr-only2">Upload Your Resume</label>
+                                <input type="file" ngf-select valid-file  ng-model="career.resume" name="resume_file_name" ng-required="required"  required id="resume_file_name"   ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                <div class="help-block" ng-show="sbtBtn && submitted" ng-messages="careerForm.resume_file_name.$error" >
+                                    <div ng-message="required" class="err">Resume is required</div>
+                                </div>
+                            </div><br><br>
+                            <div class="form-group">
+                                <label for="" class="sr-only2">Photo Url</label>
+                                <input type="file" ngf-select   ng-model="career.photo_url" name="career.photo_url" id="photo_url"   ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+
+                            </div><br><br>
+                            <div class="form-group">
+                                <div class="g-recaptcha" data-sitekey="6LezFyAUAAAAAM1fRUDpyRXLSjHPiYFQkIQWYK2d"></div>
+                                <div class="help-block"  >
+                                    <div class="err" ng-if="recaptcha" style="float: left;">{{recaptcha}}</div>
+                                </div>
+                            </div><br><br>
+                        </div>
+                        <div class="col-md-12 col-xs-12"><br>
+                            <button type="submit" class="btn" ng-click="sbtBtn = true" value="{{ !careerForm.$valid && 'invalid' || 'valid' }}">Apply For job</button>
+                        </div>
+                    </form>
+                    
 		</div>
 	</div>
 </div>

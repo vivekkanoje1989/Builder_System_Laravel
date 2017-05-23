@@ -49,7 +49,7 @@
                             <td>{{ list.designation}}</td>
                             <td>{{list.status == "1" ? "Active" : "Inactive" }}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit highest education" style="display: block;" data-toggle="modal" data-target="#designations"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.designation}}','{{list.status}}',{{itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit designation" style="display: block;" data-toggle="modal" data-target="#designations"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.designation}}','{{list.status}}',{{itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td> 
                         </tr>
                     </tbody>

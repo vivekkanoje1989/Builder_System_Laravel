@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" class="no-js">
+<html>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <head>
         <meta charset="utf-8">
@@ -7,7 +6,7 @@
         <meta name="description" content="Squarefolio HTML Multi-purpose Template">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
+         <link rel="stylesheet" href="/frontend/Theme32/styles/bootstrap.min.css">
         <!-- Animate.css -->
         <link rel="stylesheet" href="/frontend/Theme32/styles/animate.min.css">
 
@@ -31,7 +30,7 @@
         <link rel="stylesheet" href="/frontend/Theme32/styles/main.css">
         <link href="/frontend/Theme32/styles/style.css" rel="stylesheet">
         <link rel="shortcut icon" href="/frontend/Theme32/favicon.png">
-
+  <script src='https://www.google.com/recaptcha/api.js'></script> 
     </head>
     <body ng-app="app">
 
@@ -50,7 +49,7 @@
                     </div>
                     <nav class="nav-main" ng-init="getMenus()">
                         <ul>
-                            <li ng-repeat="menu in getMenus| orderBy:'parent_page_position'" class="nav-main-item"  ng-class="{'active':$first}">
+                            <li ng-repeat="menu in getMenus" class="nav-main-item"  ng-class="{'active':$first}">
                                 <a class="nav-main-link" href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/{{menu.page_name}}">{{menu.page_name}}</a>
                                 <ul>
                                     <li    ng-repeat="subMenu in menu.menu_list">

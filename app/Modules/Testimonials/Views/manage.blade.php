@@ -50,8 +50,8 @@
                                 </a>
                             </th> 
                             <th style="width: 20%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Date & Time
-                                <span ng-show="orderByField == 'block_stages'">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'created_at'; reverseSort = !reverseSort">Date & Time
+                                <span ng-show="orderByField == 'created_at'">
                                   <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                 </span>
                                 </a>

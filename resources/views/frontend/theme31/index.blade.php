@@ -24,7 +24,7 @@
             </ol>
             <div class="carousel-inner">
                 <div class="item" ng-class='{active:$first}'  ng-repeat="img in backgroundImages track by $index">
-                    <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/website/banner-images/{{img}}" alt="{{img}}" style="width:100%;">
+                    <img ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/website/banner-images/{{img}}" alt="{{img}}" style="width:100%;">
                 </div>
             </div>
             <a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -138,10 +138,7 @@
                         <span>Who We Are ?</span>
                     </h2>
                     <p>{{aboutUs.page_content| htmlToPlaintext | limitTo: 200}} {{aboutUs.page_content.length > 20 ? '...' : ''}} </p>
-                    <ul class="list-icons">
-                        <li><i class="fa fa-check-circle"></i>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-                        <li><i class="fa fa-check-circle"></i>Proin tempus sapien non iaculis pretium.</li>
-                    </ul>
+                    
                     <p class="btn-row">
                         <a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/about" class="btn btn-theme ripple-effect btn-theme-md">See All About Us</a>
                         <a href="#" data-toggle="modal" data-target="#experience" class="btn btn-theme ripple-effect btn-theme-md btn-theme-transparent">Share Your Thoughts</a>
@@ -174,7 +171,7 @@
                             <div class="media">
                                 <div class="media-left">
                                     <a href="#">
-                                        <img class="media-object testimonial-avatar" src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Testimonial/[[$testimonials[$i]->photo_url]]" alt="Testimonial avatar">
+                                        <img class="media-object testimonial-avatar" ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Testimonial/[[$testimonials[$i]->photo_url]]" alt="Testimonial avatar">
                                     </a>
                                 </div>
                                 <div class="media-body">
@@ -218,7 +215,7 @@
                                                 <div class="swiper-wrapper">
                                                     <div class="swiper-slid" style="width:100% !important;" >
                                                         <a class="btn btn-zoom" href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/{{current.project_logo}}" data-gal="prettyPhoto"><i class="fa fa-arrows-h"></i></a>
-                                                        <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/{{current.project_logo}}" data-gal="prettyPhoto"><img class="img-responsive" style="height: auto; width: 100%;" src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/{{current.project_logo}}" alt=""/></a>
+                                                        <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/{{current.project_logo}}" data-gal="prettyPhoto"><img class="img-responsive" style="height: auto; width: 100%;" ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/{{current.project_logo}}" alt=""/></a>
                                                     </div>
                                                 </div>
                                             </div>

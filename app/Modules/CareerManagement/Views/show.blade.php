@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Career</span>
-                <a href="#/[[config('global.getUrl')]]/createJob/index"  class="btn btn-primary">Click Here To Post New Job</a>&nbsp;&nbsp;&nbsp;
+                <a href="#/[[config('global.getUrl')]]/job-posting/create"  class="btn btn-primary">Post Job</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -61,8 +61,7 @@
                             <td>{{list.last_name}}</td> 
                             <td>{{list.mobile_number}}</td> 
                             <td>{{list.email_id}}</td> 
-                            <td><span ng-if="list.resume_file_name">
-                                    <a href="/download/{{list.resume_file_name}}" target="_blank" class="btn btn-primary">Download</a></span></td>
+                            <td><span ng-if="list.resume_file_name"><a href="/download/{{list.resume_file_name}}" target="_blank" class="btn btn-primary">Download</a></span></td>
 
                         </tr>
                     </tbody>

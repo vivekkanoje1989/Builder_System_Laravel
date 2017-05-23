@@ -1248,26 +1248,7 @@ video {
           transform: translate(-50%, -50%) rotate(90deg);
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="search"],
-input[type="url"],
-input[type="tel"],
-input[type="number"],
-textarea {
-  width: 100%;
-  padding: 15px;
-  background: #F3F3F3;
-  border: none;
-  border-left: 2px solid #000;
-  border-bottom: 1px solid #000;
-  box-sizing: border-box;
-  font: 1em Arial, Helvetica, sans-serif;
-  color: #000;
-  transition: 0.2s;
-  outline: none;
-}
+
 
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -1550,58 +1531,6 @@ label.error {
   width: 100%;
 }
 
-.jq-selectbox .jq-selectbox__select {
-  height: 45px;
-  padding: 0px 45px 0px 15px;
-  border: none;
-  border-left: 2px solid #000;
-  border-radius: 0;
-  background: #F3F3F3;
-  box-shadow: none;
-  box-sizing: border-box;
-  line-height: 45px;
-  color: #000;
-  text-shadow: none;
-  transition: 0.2s;
-}
-
-.jq-selectbox .jq-selectbox__select:hover {
-  background: #F3F3F3;
-}
-
-.jq-selectbox .jq-selectbox__select:active {
-  background: #F3F3F3;
-  box-shadow: none;
-}
-
-.jq-selectbox .jq-selectbox__select .jq-selectbox__trigger {
-  width: 45px;
-  border: none;
-}
-
-.jq-selectbox .jq-selectbox__select .jq-selectbox__trigger .jq-selectbox__trigger-arrow {
-  top: 50%;
-  right: 50%;
-  border-top: 5px solid;
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-  -webkit-transform: translate(50%, -50%);
-      -ms-transform: translate(50%, -50%);
-          transform: translate(50%, -50%);
-}
-
-.jq-selectbox .jq-selectbox__select-text {
-  width: 100% !important;
-}
-
-.jq-selectbox .jq-selectbox__dropdown {
-  margin: 0;
-  background: #F3F3F3;
-  border: none;
-  border-radius: 0;
-  font-size: 0.8571428571em;
-}
-
 .jq-selectbox li {
   padding: 10px 15px;
   transition: 0.2s;
@@ -1617,15 +1546,6 @@ label.error {
   color: #ffffff;
 }
 
-.jq-selectbox.focused .jq-selectbox__select {
-  border: none;
-  border-left: 2px solid #000;
-  background: #F3F3F3;
-}
-
-.section-light .jq-selectbox .jq-selectbox__select {
-  background: #fff;
-}
 
 .jq-file {
   width: 100%;

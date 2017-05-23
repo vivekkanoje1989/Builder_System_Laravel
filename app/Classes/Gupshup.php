@@ -144,7 +144,7 @@ class Gupshup {
                         $mailBody = "Your SMS creadit limit is over , So Please recharge your account " . "<br><br>" . "Thank You!";
                         $companyName = config('global.companyName');
                         $subject = "Mail subject";
-                        $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => "geeta.gurram@gmail.com", "cc" => "umabshinde@gmail.com"];
+                        $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => "", "cc" => ""];
                         $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
 
                         if($sentSuccessfully == 1){

@@ -11,12 +11,32 @@ app.controller('webAppController', ['$scope', 'Data', 'Upload', '$timeout', func
                 $scope.jobPostRow = response.result;
             });
         };
-
+        
+        $scope.getProjectDetails = function(id)
+        {
+            console.log(id)
+            Data.post('../../getProjectDetails',{'id':id}).then(function (response) {
+                console.log(response)
+                $scope.aminities = response.aminities;
+                $scope.availble = response.availble;
+                $scope.projects = response.projects;
+                $scope.bannerImgs = response.result.project_banner_images.split(',');
+                $scope.specification = response.result.specification_description;
+                $scope.description = response.result.brief_description;
+                
+                $scope.layout_plan_images = response.result.layout_plan_images;
+                $scope.layout_plan_images = response.result.floor_plan_images;
+                $scope.project_logo = response.result.project_logo;
+                $scope.layout_plan_images = response.result.layout_plan_images;
+                $scope.layout_plan_images = response.result.layout_plan_images;
+                
+            });
+        }
+       
         $scope.getMenus = function ()
         {
-            Data.get('../getMenus').then(function (response) {
+            Data.get('getMenus').then(function (response) {
                 $scope.getMenus = response.result;
-                console.log($scope.getMenus)
             });
         }
 
@@ -55,6 +75,7 @@ app.controller('webAppController', ['$scope', 'Data', 'Upload', '$timeout', func
             Data.get('../getEmployees').then(function (response) {
          
                 $scope.employee = response.records;
+                console.log($scope.employee)
             });
         }
 
@@ -66,9 +87,12 @@ app.controller('webAppController', ['$scope', 'Data', 'Upload', '$timeout', func
         }
 
         $scope.doContactAction = function (contact) {
+            
             var v = grecaptcha.getResponse();
             if (v.length != '0') {
 
+            } else {
+                $scope.recaptcha = "Please revalidate captcha";
             }
         }
         $scope.doApplicantAction = function (career, resumeFileName, photoUrl)

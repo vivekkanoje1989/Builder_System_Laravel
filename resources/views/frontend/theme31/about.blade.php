@@ -44,7 +44,7 @@
                     <div class="col-md-3 col-sm-6 wow fadeInDown col-centered"  ng-repeat="emp in employee | limitTo:3" data-wow-offset="200" data-wow-delay="400ms"  align="center">
                         <div class="thumbnail thumbnail-team no-border no-padding">
                             <div class="">
-                                <img src="/frontend/theme31/assets/img/team2.jpg" alt="" class="team-img center-block">
+                                <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/hr/employee-photos/{{emp.employee_photo_file_name}}" alt="" class="team-img center-block">
                             </div>
                             <div class="caption">
                                 <h4 class="caption-title">{{emp.first_name+" "+emp.last_name}} <small>{{emp.designation}}</small></h4>
