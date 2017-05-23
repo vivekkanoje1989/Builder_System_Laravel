@@ -60,14 +60,6 @@ class AdminController extends Controller {
     }
 
     public function dashboard() {
-        $userName = "support@edynamics.co.in";
-        $password = "edsupport@2016#";
-        $mailBody = "Your SMS creadit limit is over , So Please recharge your account " . "<br><br>" . "Thank You!";
-        $companyName = config('global.companyName');
-        $subject = "Mail subject";
-        $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => "geeta.gurram@gmail.com", "cc" => "umabshinde@gmail.com"];
-        $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-        echo $sentSuccessfully;exit;
         /*$rootPath = config('global.rootPath'); 
         $data = ["filePath" => $rootPath."/bulkMobileNumbers1.xls","fileName" => "bulkMobileNumbers1.xls", "sendingType" => 1, "textSmsBody" => "send msg in bulk", "smsType" => "bulk_sms"];
         $result = Gupshup::sendBulkSMS($data);
