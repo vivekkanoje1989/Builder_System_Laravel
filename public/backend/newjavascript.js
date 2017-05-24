@@ -2,10 +2,10 @@
 app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams) {
     $scope.registration = {};
     $scope.errorMsg = '';
-    
+
     $scope.sessiontimeout = function () {
+        $state.reload();
         $scope.logout("logout");
-        window.back();
         return false;
     }
     

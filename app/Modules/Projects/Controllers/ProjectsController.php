@@ -345,44 +345,46 @@ class ProjectsController extends Controller {
         return json_encode($result);
     }
 
-    public function getProjectDetails($id) {
-//        $postdata = file_get_contents("php://input");
-//        $input = json_decode($postdata, true);
-        $getProjectDetails = ProjectWebPage::where("project_id", "=", $id)->get();
-        $getProjectStatusRecords = ProjectStatus::select('id', 'images', 'status', 'short_description')->where("project_id", "=", $id)->get();
-
-        /*         * ************getSpecifiction************* */
+    public function getProjectDetails($id) {        
+        $getProjectDetails = $getProjectStatusRecords = $getProjectInventory = array();
+        $getProjectDetails = ProjectWebPage::where("project_id","=",$id)->get();
+        $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->where("project_id","=",$id)->get();
+        
+        $getWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $id)->orderBy('id', 'ASC')->first();
+        $getProjectInventory = ProjectBlock::where([['wing_id','=',$getWing->id],['project_id','=',$id]])->orderBy('wing_id', 'ASC')->get();
+        /**************getSpecifiction**************/
         $specificationTitle = array();
-        if (!empty($getProjectDetails[0]->specification_images)) {
-            $decodeSpecificationDetails = json_decode($getProjectDetails[0]->specification_images, true);
-            foreach ($decodeSpecificationDetails as $key => $val) {
+//        echo "<pre>";print_r($getProjectDetails[0]->specification_images);exit;
+        if(!empty($getProjectDetails[0]->specification_images) && ($getProjectDetails[0]->specification_images !== 'null')){
+            $decodeSpecificationDetails = json_decode($getProjectDetails[0]->specification_images,true);
+            foreach($decodeSpecificationDetails as $key => $val){
                 $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
-                $specificationTitle[$key] = ["image" => $val['specification_images'], "title" => $projectWingName[0]->wing_name . ", Floor:" . implode(",", $val['floors'])];
+                $specificationTitle[$key] = ["image" => $val['specification_images'],"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $val['floors'])];
             }
         }
         $floorTitle = array();
-        if (!empty($getProjectDetails[0]->floor_plan_images)) {
-            $decodeFloorDetails = json_decode($getProjectDetails[0]->floor_plan_images, true);
-            foreach ($decodeFloorDetails as $key => $val) {
+        if(!empty($getProjectDetails[0]->floor_plan_images) && ($getProjectDetails[0]->specification_images !== 'null')){
+            $decodeFloorDetails = json_decode($getProjectDetails[0]->floor_plan_images,true);
+            foreach($decodeFloorDetails as $key => $val){
                 $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
-                $floorTitle[$key] = ["image" => $val['floor_plan_images'], "title" => $projectWingName[0]->wing_name . ", Floor:" . implode(",", $val['floors'])];
+                $floorTitle[$key] = ["image" => $val['floor_plan_images'],"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $val['floors'])];
             }
         }
         $layoutTitle = array();
-        if (!empty($getProjectDetails[0]->layout_plan_images)) {
-            $decodeLayoutDetails = json_decode($getProjectDetails[0]->layout_plan_images, true);
-            foreach ($decodeLayoutDetails as $key => $val) {
+        if(!empty($getProjectDetails[0]->layout_plan_images)){
+            $decodeLayoutDetails = json_decode($getProjectDetails[0]->layout_plan_images,true);
+            foreach($decodeLayoutDetails as $key => $val){
                 $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
-                $layoutTitle[$key] = ["image" => $val['layout_plan_images'], "title" => $projectWingName[0]->wing_name];
+                $layoutTitle[$key] = ["image" => $val['layout_plan_images'],"title" => $projectWingName[0]->wing_name];
             }
         }
-        /*         * ************getSpecifiction************* */
-        if (!empty($getProjectDetails[0])) {
-            $result = ['success' => true, 'details' => $getProjectDetails[0], 'projectStatusRecords' => $getProjectStatusRecords, 'specificationTitle' => $specificationTitle, 'floorTitle' => $floorTitle, 'layoutTitle' => $layoutTitle];
-        } else {
-            $result = ['success' => false, 'message' => 'Record not exist.'];
+        /**************getSpecifiction**************/
+        if(!empty($getProjectDetails[0])){
+            $result = ['success' => true, 'details' => $getProjectDetails[0], 'projectStatusRecords' => $getProjectStatusRecords, 'specificationTitle' => $specificationTitle, 'floorTitle' => $floorTitle, 'layoutTitle' => $layoutTitle, 'getProjectInventory' => $getProjectInventory ];
+        }else{
+            $result = ['success' => false, 'details' => array(), 'projectStatusRecords' => array(), 'specificationTitle' => array(), 'floorTitle' => array(), 'layoutTitle' => array(), 'getProjectInventory' => array()];
         }
-        echo json_encode($result);
+        return json_encode($result);
     }
 
     public function getAmenitiesListOnEdit() {
@@ -430,10 +432,16 @@ class ProjectsController extends Controller {
         return json_encode($result);        
     }
 
-    public function deleteStatus() {
+    public function deleteStatus(){
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $statusId = $request['data']['statusId'];
+        if(!empty($request['data']['selectedImages'])){
+            foreach($request['data']['selectedImages'] as $key => $value){
+                $path = "/project/images/".$value;
+                S3::s3FileDelete($path);    
+            }
+        }
         ProjectStatus::where('id', $statusId)->delete();
         $msg = "Record has been deleted successfully";
         $getProjectStatusRecords = ProjectStatus::select('id', 'images', 'status', 'short_description')->get();
@@ -441,6 +449,28 @@ class ProjectsController extends Controller {
         return json_encode($result);
     }
 
+    public function deleteImage(){
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true); 
+        if($request['tblFieldName'] == "specification_images"){
+            $selectedImgs = json_encode($request['selectedImg']);
+            $decodeValue = json_decode($request['delImgName']);
+            $path = $request['folderName'].$decodeValue->image;
+            $deleteImg = S3::s3FileDelete($path);
+        }else{
+            $selectedImgs = implode(',', $request['selectedImg']);
+            $path = $request['folderName'].$request['delImgName'];
+            $deleteImg = S3::s3FileDelete($path);
+        }
+        if ($deleteImg) {
+           ProjectWebPage::where('id', $request['tblRowId'])->update([$request['tblFieldName'] => $selectedImgs]);
+           $result = ['success' => true, 'message' => "Image deleted successfully"];
+        } else {
+            $result = ['success' => false, 'message' => "Something went wrong. Please check internet connection"];
+        }
+        
+        return json_encode($result);
+    }
     /**
      * Display the specified resource.
      *

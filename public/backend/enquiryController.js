@@ -1,6 +1,6 @@
 app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$timeout', 'toaster', '$stateParams', '$filter', function ($scope, $state, Data, Upload, $timeout, toaster, $stateParams, $filter) {
         $scope.projectsDetails = [];
-        $scope.locations = [];
+//        $scope.locations = [];
         $scope.searchData = {};
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -11,34 +11,31 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
             $scope.currentPage = num * $scope.itemsPerPage;
         };
 
-        $scope.sms = function (){
-            $scope.divSms = true;
-            $scope.divEmail = false;
-            $scope.divText = false;
-        }
-        $scope.email = function (){
-            $scope.divSms = false;
-            $scope.divEmail = true;
-            $scope.divText = false;
-        }
-        $scope.text = function (){
-            $scope.divSms = false;
-            $scope.divEmail = false;
-            $scope.divText = true;
-        }
-        
+               
 //        $scope.saveEnquiryData = function (enquiryData)
 //        {
-//            Data.post('master-sales/saveEnquiryData', {
-//                enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
-//            }).then(function (response) {
-//                toaster.pop('success', 'Enquiry', 'Enquiry successfully created');
-//                $scope.disableFinishButton = true;
-//            });
+//            var date = new Date($scope.enquiryData.next_followup_date);
+//            $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+//            
+//            if(typeof $scope.enquiryData.id === 'undefined'){
+//                Data.post('master-sales/saveEnquiry', {
+//                    enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
+//                }).then(function (response) {
+//                    toaster.pop('success', 'Enquiry', response.message);
+//                    $scope.disableFinishButton = true;
+//                });
+//            }
+//            else{
+//                Data.put('master-sales/updateEnquiry/' + $scope.enquiryData.id, {
+//                    enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
+//                }).then(function (response) {
+//                    toaster.pop('success', 'Enquiry', response.message);
+//                });
+//            }
 //        }
-//        $scope.addProjectRow = function (id)
+//        $scope.addProjectRow = function (projectId)
 //        {
-//            if (typeof $scope.enquiryData.project_id !== 'undefined' && typeof $scope.enquiryData.block_id !== 'undefined' && typeof $scope.enquiryData.sub_block_id !== 'undefined')
+//            if ((projectId !== ""))
 //            {
 //                var totalSubBlocks = $scope.enquiryData.sub_block_id.length;
 //                var totalBlocks = $scope.enquiryData.block_id.length;
@@ -53,41 +50,68 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
 //                }
 //                for (var j = 0; j < totalBlocks; j++)
 //                {
-//
 //                    $scope.blockname.push($scope.enquiryData.block_id[j].block_name);
 //                    $scope.block_id.push($scope.enquiryData.block_id[j].id);
 //                }
-//                $scope.projectsDetails.push({
-//                    'project_id': $scope.enquiryData.project_id.split('_')[0],
-//                    'project_name': $scope.enquiryData.project_id.split('_')[1],
-//                    'blocks': $scope.blockname.toString(),
-//                    'block_id': $scope.block_id.toString(),
-//                    'sub_block_id': $scope.sub_block_id.toString(),
-//                    'subblocks': $scope.subblockname.toString(),
-//                });
+//                if($scope.enquiryData.id === 'undefined'){
+//                    Data.post('master-sales/addEnquiryDetailRow',{
+//                        enquiry_id: $scope.enquiryData.id,
+//                        project_id: $scope.enquiryData.project_id.split('_')[0],
+//                        block_id: $scope.block_id.toString(),
+//                        sub_block_id: $scope.sub_block_id.toString()
+//                    }).then(function(response){
+//                        $scope.projectsDetails.push({
+//                            'id': response.enqId,
+//                            'project_id': $scope.enquiryData.project_id.split('_')[0],
+//                            'project_name': $scope.enquiryData.project_id.split('_')[1],
+//                            'blocks': $scope.blockname.toString(),
+//                            'block_id': $scope.block_id.toString(),
+//                            'sub_block_id': $scope.sub_block_id.toString(),
+//                            'subblocks': $scope.subblockname.toString(),
+//                        })
+//                    });
+//                }else{
+//                    $scope.projectsDetails.push({
+//                        'project_id': $scope.enquiryData.project_id.split('_')[0],
+//                        'project_name': $scope.enquiryData.project_id.split('_')[1],
+//                        'blocks': $scope.blockname.toString(),
+//                        'block_id': $scope.block_id.toString(),
+//                        'sub_block_id': $scope.sub_block_id.toString(),
+//                        'subblocks': $scope.subblockname.toString(),
+//                    });
+//                }
 //                $("#projectBody").hide();
 //                $scope.enquiryData.block_id = {};
 //                $scope.enquiryData.sub_block_id = {};
 //                $scope.enquiryData.project_id = '';
-//            } else
-//            {
-//                alert("Please select all project details");
+//            } else{
+//                if(projectId == ""){
+//                    $scope.emptyProjectId = true;
+//                } 
+//                if (blockId == ""){
+//                    $scope.emptyBlockId = true;
+//                }
+//                if (subBlockId == ""){
+//                    $scope.emptySubBlockId = true;
+//                }
 //            }
 //        }
-//
-//        $scope.removeRow = function (id) {
+//        $scope.removeRow = function (rowId,enquiryDetailId) {
+//            if(enquiryDetailId !== ''){
+//                Data.post('master-sales/delEnquiryDetailRow', {
+//                    enquiryDetailId: enquiryDetailId,
+//                }).then(function(){});
+//            }
 //            var index = -1;
 //            var comArr = eval($scope.projectsDetails);
 //            for (var i = 0; i < comArr.length; i++) {
-//                if (comArr[i].name === id) {
+//                if (comArr[i].name === rowId) {
 //                    index = i;
 //                    break;
 //                }
 //            }
-//            if (index === -1) {
-//                alert("Something gone wrong");
-//            }
 //            $scope.projectsDetails.splice(index, 1);
+//            
 //        }
 //        $scope.changeLocations = function (cityId)
 //        {
@@ -188,14 +212,71 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
             });
         }
         /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
-        
-        $scope.updateEnquiryDetails = function (mobNo, email)
-        {
-            $state.go(getUrl + '.salesCreate', {"mobNo": mobNo, "email": email});
-            $scope.searchData.searchWithMobile = mobNo;
-            $scope.searchData.searchWithEmail = email;
+        $scope.projectList = [];
+        $scope.blockTypeList = [];
+        var d = new Date();
+        $scope.hstep = 1;$scope.mstep = 15; 
+        $scope.todayRemark = function(enquiryId){
+            Data.post('master-sales/getDataForTodayRemark',{enquiryId:enquiryId}).then(function (response) {
+                if(!response.success){
+                    $scope.errorMsg = response.errorMsg;
+                }else{
+                    var setTime = response.data[0].next_followup_time.split(":");
+                    var setMin = setTime[1].split(" ");
+                    d.setHours(setTime[0]);
+                    d.setMinutes(setMin[0]);
+                    response.data[0].next_followup_time = d;
+                    $scope.remarkData = angular.copy(response.data[0]);
+                    $scope.projectList = response.data.selectedProjects;
+                    $scope.blockTypeList = response.data.selectedBlocks;
+                    $timeout(function () {
+                        $scope.remarkData.project_id = response.data.selectedProjects;
+                        $scope.remarkData.block_id = response.data.selectedBlocks;
+                    },500);
+                    if($scope.remarkData.customer_fname !== ''){
+                        $scope.custInfo = true;
+                        $scope.editableCustInfo = false;
+                    }else{
+                        $scope.custInfo = false;
+                        $scope.editableCustInfo = true;
+                    }
+                    if($scope.remarkData.sales_source_id !== '' || $scope.remarkData.sales_source_id !== 0){
+                        $scope.source = false;
+                    }else{
+                        $scope.source = true;
+                    }
+                }                
+            });
         }
-    }]);
+        $scope.checkProjectLength = function () {
+            if ($scope.remarkData.project_id.length === 0) {
+                $scope.emptyProjectId = true;
+                $scope.applyClassProject = 'ng-active';
+            } else {
+                $scope.emptyProjectId = false;
+                $scope.applyClassProject = 'ng-inactive';
+            }
+        };   
+        $scope.checkBlockLength = function () {
+            if ($scope.remarkData.block_id.length === 0) {
+                $scope.emptyBlockId = true;
+                $scope.applyClassProject = 'ng-active';
+            } else {
+                $scope.emptyBlockId = false;
+                $scope.applyClassProject = 'ng-inactive';
+            }
+        };   
+        $scope.insertRemark = function(modalData){
+            console.log(modalData);
+            Data.post('master-sales/insertTodayRemark',{modalData:modalData}).then(function (response) {
+                if(!response.success){
+                    $scope.errorMsg = response.errorMsg;
+                }else{
+                    
+                }                
+            });
+        };
+}]);
 
 app.controller('getEmployeesCtrl', function ($scope, Data) {
     Data.get('master-sales/getEmployees').then(function (response) {

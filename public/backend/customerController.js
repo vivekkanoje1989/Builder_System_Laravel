@@ -7,7 +7,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.enquiryData = {};
         $scope.btnLabelC = $scope.btnLabelE = "Save";
         $scope.projectsDetails = [];
-        $scope.locations = [];
+        $scope.locations = [];        
+        $scope.projectList = [];
+        $scope.blockTypeList = [];
+        
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.customerData.sms_privacy_status = 1;
@@ -54,7 +57,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             }
         };
-        $scope.editContactDetails = function (index) {
+   $scope.editContactDetails = function (index) {
             $scope.contactData.index = index;
             $scope.contactData = $scope.contacts[index];
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
@@ -193,7 +196,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                     } else {
                         var url = $location.path();
-                        alert(url);
                         if(url === "/office/sales/enquiry"){
                             $('.errMsg').text('');
                             $window.sessionStorage.setItem("sessionContactData", "");
@@ -231,7 +233,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         
         $scope.resetForm = function () {
             $state.go(getUrl + '.salesCreate');
-//            $state.go(getUrl + '.salesCreate', {}, {reload: true});
         }
         
         $scope.addContactDetails = function () {
@@ -374,7 +375,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 });                
             }
         }
-        $scope.createEnquiry = function () {alert(createEnq);
+        $scope.createEnquiry = function () {
             Data.post('master-sales/getCustomerDetails', {
                 data: {customerMobileNo: $scope.searchData.searchWithMobile, customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
             }).then(function (response) {
@@ -545,7 +546,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             });
         }
         
-        /****************************ENQUIRIES****************************/
+        /****************************ENQUIRIES****************************
         $scope.getTotalEnquiries = function ()
         {
             Data.post('master-sales/getTotalEnquiries').then(function (response) {
@@ -564,9 +565,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.listsIndex = response;
             });
         }
-        /****************************ENQUIRIES****************************/
+        /****************************ENQUIRIES****************************
         
-        /****************************FOLLOWUPS****************************/
+        /****************************FOLLOWUPS****************************
         $scope.showTodaysFollowups = function ()
         {
             Data.post('master-sales/getTodaysFollowups').then(function (response) {
@@ -585,9 +586,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.listsIndex = response;
             });
         }
-        /****************************FOLLOWUPS****************************/
-        
-        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+        /****************************FOLLOWUPS****************************
+       
+        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************
         $scope.getTeamTotalEnquiries = function ()
         {
             Data.post('master-sales/getTeamTotalEnquiries').then(function (response) {
@@ -626,14 +627,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
         
-        $scope.updateEnquiryDetails = function (mobNo, email)
-        {
-            $state.go(getUrl + '.salesCreate', {"mobNo": mobNo, "email": email});
-            $scope.searchData.searchWithMobile = mobNo;
-            $scope.searchData.searchWithEmail = email;
-        }
-        /****************************************Enquiry Controller*********************************************/
-
     }]);
 
 app.directive('checkMobileExist', function ($timeout, $q, Data) {

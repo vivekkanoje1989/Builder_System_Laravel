@@ -11,26 +11,6 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/theme31/career.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/theme31/projects.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/theme31/assets/js/frontend.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/theme31/projectdetails.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/frontend/UserController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/theme31/about.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/theme31/index.blade.php</file>
-=======
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryListing.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
->>>>>>> 36129e4d9d3a62e21a5777696bb5dd8e50a46c6d
-        </group>
+        <group/>
     </open-files>
 </project-private>

@@ -22,6 +22,7 @@ use App\Modules\MasterSales\Models\Enquiry;
 use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\LstEnquiryLocation;
 use Illuminate\Support\Facades\Session;
+use App\Models\Project;
 
 class MasterSalesController extends Controller {
 
@@ -278,8 +279,7 @@ class MasterSalesController extends Controller {
                         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                         $contacts = array_merge($contacts, $create);
                         CustomersContact::create($contacts); //insert data into customer_contacts table
-                    }
-                    
+                    }                    
                     $i++;
                 }
             }
@@ -531,7 +531,7 @@ class MasterSalesController extends Controller {
         try{
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-
+            
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
@@ -625,6 +625,40 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
+
+    public function getDataForTodayRemark(){
+        try{
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);    
+            $getRemarkDetails = DB::select('CALL proc_get_today_remark('.$request['enquiryId'].')');
+            $decodeRemarkDetails = json_decode( json_encode($getRemarkDetails), true);
+            $projectId = $blockId = array();
+            if(!empty($decodeRemarkDetails[0]['project_block_id'])){
+                $explodeComma = explode(",", $decodeRemarkDetails[0]['project_block_id']);
+                if(!empty($explodeComma)){
+                    foreach($explodeComma as $value){
+                        $explodeDash = explode("-", $value);
+                        $projectId[] = $explodeDash[0];  
+                        $blockId[] = $explodeDash[1];  
+                    }
+                }
+            }
+            $getProjects = Project::select("id","project_name")->whereIn('id', $projectId)->get();
+            $getBlocks = MlstBmsbBlockType::select("id","block_name")->whereIn('id', $blockId)->get();
+            
+            $decodeRemarkDetails['selectedProjects'] = $getProjects;
+            $decodeRemarkDetails['selectedBlocks'] = $getBlocks;
+            if (count($decodeRemarkDetails) != 0) {
+                $result = ['success' => true, 'data' => $decodeRemarkDetails];
+            } else {
+                $result = ['success' => false, 'errorMsg' => 'Something went wrong'];
+            }
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+        return json_encode($result);
+    }
+
 
     /*********************** ENQUIRY LISTING *************************/
     

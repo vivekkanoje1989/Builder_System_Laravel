@@ -350,8 +350,9 @@ angular.module('app')
                                                                 '/js/intlTelInput.js',
                                                                 '/backend/customerController.js',
                                                                 '/backend/enquiryController.js',
-                                                                '/backend/app/controllers/datepicker.js',
                                                                 '/backend/app/controllers/select.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                                
                                                                 '/backend/app/controllers/timepicker.js',
                                                             ]
                                                         });
@@ -949,7 +950,7 @@ angular.module('app')
                                         [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['textAngular', 'toaster']).then(
+                                                return $ocLazyLoad.load(['ui.select','textAngular', 'toaster']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
@@ -958,7 +959,7 @@ angular.module('app')
                                                                     '/backend/app/controllers/textangular.js',
                                                                     '/backend/app/controllers/datepicker.js',
                                                                     '/backend/app/controllers/timepicker.js',
-                                                                    
+                                                                    '/backend/app/controllers/select.js',                                                                    
                                                                 ]
                                                             }
                                                             );

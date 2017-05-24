@@ -69,7 +69,7 @@
                 <td align="center" style="vertical-align: middle;">{{ list.sales_status }}
                 <hr>
                 <div style="margin-bottom: 40px;">
-                    <a href data-toggle="modal" data-target="#todaysRemarkModal"> Today's Remark </a><br/>
+                    <a href data-toggle="modal" data-target="#todaysRemarkModal" ng-click="todayRemark({{ list.id }})"> Today's Remark </a><br/>
                     <a href> Convert to booking </a><br/>
                     <a href> Generate estimate </a><br/>
                     <a href> Convert in deal </a>

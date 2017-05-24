@@ -28,6 +28,7 @@ use App\Models\Project;
 use App\Models\Company;
 use App\Models\CompanyStationary;
 use App\Models\MlstEnquirySalesCategory;
+use App\Models\MlstEnquirySalesStatus;
 use App\Models\MlstBmsbAmenity;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
@@ -420,6 +421,16 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+    public function getSalesEnqStatus() {
+        $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->get();
+        if (!empty($salesEnqStatusList)) {
+            $result = ['success' => true, 'records' => $salesEnqStatusList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    
     public function getAmenitiesList() {
         $amenitiesList = MlstBmsbAmenity::select('id','name_of_amenity')->get();
         if (!empty($amenitiesList)) {
