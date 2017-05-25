@@ -214,21 +214,29 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
         /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
         $scope.projectList = [];
         $scope.blockTypeList = [];
+        $scope.mobileList = [];
+        $scope.custInfo = $scope.editableCustInfo = $scope.source = false;
         var d = new Date();
         $scope.hstep = 1;$scope.mstep = 15; 
-        $scope.todayRemark = function(enquiryId){
+        $scope.enquiryId = $scope.followupId = '';
+        $scope.todayRemark = function(enquiryId,followupId){
             Data.post('master-sales/getDataForTodayRemark',{enquiryId:enquiryId}).then(function (response) {
                 if(!response.success){
                     $scope.errorMsg = response.errorMsg;
                 }else{
+                    console.log(response);
                     var setTime = response.data[0].next_followup_time.split(":");
                     var setMin = setTime[1].split(" ");
                     d.setHours(setTime[0]);
                     d.setMinutes(setMin[0]);
-                    response.data[0].next_followup_time = d;
+                    response.data[0].next_followup_time = d;                                        
                     $scope.remarkData = angular.copy(response.data[0]);
                     $scope.projectList = response.data.selectedProjects;
                     $scope.blockTypeList = response.data.selectedBlocks;
+                    $scope.mobileList = response.data.mobileNumber;
+                    $scope.emailList = response.data.emailId;
+                    $scope.remarkData.next_followup_date = (d.getFullYear() + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getDate());
+
                     $timeout(function () {
                         $scope.remarkData.project_id = response.data.selectedProjects;
                         $scope.remarkData.block_id = response.data.selectedBlocks;
@@ -245,6 +253,23 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                     }else{
                         $scope.source = true;
                     }
+                    $scope.enquiryId = enquiryId;
+                    $scope.followupId = followupId;
+                    
+                    Data.post('getSalesEnqSubCategory',{categoryId:response.data[0].sales_category_id}).then(function (response) {
+                        if (!response.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+                            $scope.salesEnqSubCategoryList = response.records;
+                        }
+                    });
+                    Data.post('getSalesEnqSubStatus',{statusId:response.data[0].sales_status_id}).then(function (response) {
+                        if (!response.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+                            $scope.salesEnqSubStatusList = response.records;
+                        }
+                    });
                 }                
             });
         }
@@ -267,12 +292,42 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
             }
         };   
         $scope.insertRemark = function(modalData){
-            console.log(modalData);
-            Data.post('master-sales/insertTodayRemark',{modalData:modalData}).then(function (response) {
+            
+            if($scope.editableCustInfo === true){
+                var custInfo = {title_id:modalData.title_id,customer_fname:modalData.customer_fname,customer_lname:modalData.customer_lname};
+            }
+            if($scope.source === true){
+                var sourceInfo = {source_id:modalData.source_id,sales_subsource_id:modalData.sales_subsource_id,sales_source_description:modalData.sales_source_description,};
+            }
+            if(modalData.textRemark !== ''){
+                remarks = modalData.textRemark;
+            }else if(modalData.msgRemark !== ''){
+                remarks = modalData.msgRemark;
+            }else{
+                remarks = modalData.email_content;
+            }
+                console.log(modalData);
+            var data = {enquiry_id:$scope.enquiryId, 
+                followupId:$scope.followupId, 
+                sales_category_id:modalData.sales_category_id,
+                sales_subcategory_id:modalData.sales_subcategory_id,
+                followup_by_employee_id:modalData.followup_by_employee_id,
+                next_followup_date:modalData.next_followup_date,
+                next_followup_time:modalData.next_followup_time,
+                sales_status_id:modalData.sales_status_id,
+                sales_substatus_id:modalData.sales_substatus_id,
+                project_id:modalData.project_id,
+                block_id:modalData.block_id,
+                textRemark:modalData.textRemark,
+                msgRemark:modalData.msgRemark,
+                email_content:modalData.email_content,
+                subject:modalData.subject};
+
+            Data.post('master-sales/insertTodayRemark',{data:data,custInfo:custInfo,sourceInfo:sourceInfo}).then(function (response) {
                 if(!response.success){
                     $scope.errorMsg = response.errorMsg;
                 }else{
-                    
+                    toaster.pop('success', '', response.message);
                 }                
             });
         };

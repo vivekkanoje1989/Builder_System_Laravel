@@ -86,6 +86,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::post($getUrl . '/master-sales/addEnquiryDetailRow', 'MasterSalesController@addEnquiryDetailRow');
     Route::post($getUrl . '/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');
     Route::post($getUrl . '/master-sales/getDataForTodayRemark', 'MasterSalesController@getDataForTodayRemark');
+    Route::post($getUrl . '/master-sales/insertTodayRemark', 'MasterSalesController@insertTodayRemark');
     
     /****************************ENQUIRIES****************************/
     Route::post($getUrl . '/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing

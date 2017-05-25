@@ -107,7 +107,6 @@ Route::group(['middleware' => ['web']], function () {
     
     Route::get($getWebsiteUrl . '/getEmployees', 'frontend\UserController@getEmployees');
     
-    
     Route::get($getWebsiteUrl . '/getMenus','frontend\UserController@getMenus');
 });
 
@@ -137,8 +136,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get($getUrl . '/getCompany', 'backend\AdminController@getCompany'); //geeta
     Route::get($getUrl . '/getStationary', 'backend\AdminController@getStationary'); //geeta
     Route::get($getUrl . '/getEnquirySource', 'backend\AdminController@getEnquirySource');
-    Route::get($getUrl . '/getSalesEnqCategory', 'backend\AdminController@getSalesEnqCategory'); //geeta
-    Route::get($getUrl . '/getSalesEnqStatus', 'backend\AdminController@getSalesEnqStatus'); //geeta
+    Route::get($getUrl . '/getSalesEnqCategory', 'backend\AdminController@getSalesEnqCategory'); //geeta    
+    Route::get($getUrl . '/getSalesEnqStatus', 'backend\AdminController@getSalesEnqStatus'); //geeta    
     Route::get($getUrl . '/getAmenitiesList', 'backend\AdminController@getAmenitiesList'); //geeta
     
     Route::post($getUrl . '/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
@@ -149,6 +148,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post($getUrl . '/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');    
     Route::post($getUrl . '/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');    
     
+    Route::post($getUrl . '/getSalesEnqSubStatus', 'backend\AdminController@getSalesEnqSubStatus'); //geeta
+    Route::post($getUrl . '/getSalesEnqSubCategory', 'backend\AdminController@getSalesEnqSubCategory'); //geeta
     /***********************************MANDAR*******************************/
     Route::get($getUrl . '/getClient', 'backend\AdminController@getClient');
     Route::get($getUrl . '/getVehiclebrands', 'backend\AdminController@getVehiclebrands');

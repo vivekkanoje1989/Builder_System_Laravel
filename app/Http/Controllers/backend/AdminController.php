@@ -28,7 +28,9 @@ use App\Models\Project;
 use App\Models\Company;
 use App\Models\CompanyStationary;
 use App\Models\MlstEnquirySalesCategory;
+use App\Models\EnquirySalesSubcategory;
 use App\Models\MlstEnquirySalesStatus;
+use App\Models\EnquirySalesSubstatus;
 use App\Models\MlstBmsbAmenity;
 use Illuminate\Http\Request;
 use App\Classes\Gupshup;
@@ -105,7 +107,6 @@ class AdminController extends Controller {
             $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get(); 
             session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
             session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
-            
         }
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
@@ -278,7 +279,7 @@ class AdminController extends Controller {
         $getEmployees = Employee::select('id', 'first_name','department_id')->get();
         $blockTypeList = MlstBmsbBlockType::select("id","project_type_id","block_name")->get();
         $projectList = Project::select('id','project_name')->get();
-        $subBlocksList = ProjectBlock::select("id","block_type_id","block_sub_type")->get();
+        $subBlocksList = ProjectBlock::select("id","project_id","block_type_id","block_sub_type")->get();
         $enquiryFinanceTieup = EnquiryFinanceTieup::all(); 
         $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id','=',101)->get();
         //echo json_encode($indiaCities);exit;
@@ -421,6 +422,19 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+    public function getSalesEnqSubCategory() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $categoryId = $request['categoryId'];
+        
+        $salesEnqSubCategoryList = EnquirySalesSubcategory::where('enquiry_sales_category_id',$categoryId)->select('id','enquiry_sales_subcategory')->get();
+        if (!empty($salesEnqSubCategoryList)) {
+            $result = ['success' => true, 'records' => $salesEnqSubCategoryList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
     public function getSalesEnqStatus() {
         $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->get();
         if (!empty($salesEnqStatusList)) {
@@ -430,7 +444,19 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
-    
+    public function getSalesEnqSubStatus() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $statusId = $request['statusId'];
+        
+        $salesEnqSubStatusList = EnquirySalesSubstatus::where('enquiry_sales_status_id',$statusId)->select('id','enquiry_sales_substatus')->get();
+        if (!empty($salesEnqSubStatusList)) {
+            $result = ['success' => true, 'records' => $salesEnqSubStatusList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
     public function getAmenitiesList() {
         $amenitiesList = MlstBmsbAmenity::select('id','name_of_amenity')->get();
         if (!empty($amenitiesList)) {

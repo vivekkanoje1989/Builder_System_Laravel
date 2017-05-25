@@ -30,7 +30,7 @@
                 <td align="center">{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                 <td align="center">
                     <div > 
-                        {{list.customer_fname}} {{list.customer_lname}} - {{ list.mobile_number}} <br/> {{list.email_id}} </div>
+                        {{list.customer_fname}} {{list.customer_lname}} - {{ list.mobile_number}} - {{list.email_id}} </div>
                     <hr>
                     <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}">Customer Details</a></div> 
                     <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ listsIndex.records.length}}</b></div>
@@ -47,10 +47,10 @@
                     <div class="floatLeft"><i class="fa fa-desktop" aria-hidden="true"></i></div>
                     <div class="floatLeft" style="width:41%"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}/eid/{{ list.id }}">Enquiry Details</a></div>
                     <div class="floatLeft" style="width:50%">
-                        <span style="margin-left:4px;background-color:orangered;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category = 'New Enquiry'">&nbsp;</span>
-                        <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category == 'Hot'">&nbsp;</span>
-                        <span style="margin-left:4px;background-color:yellow;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category == 'Warm'">&nbsp;</span>
-                        <span style="margin-left:4px;background-color:#5ABBF3;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category == 'Cold'">&nbsp;</span>
+                        <span style="margin-left:4px;background-color:orange;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'New Enquiry'">&nbsp;</span>
+                        <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Hot'">&nbsp;</span>
+                        <span style="margin-left:4px;background-color:yellow;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Warm'">&nbsp;</span>
+                        <span style="margin-left:4px;background-color:#5ABBF3;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Cold'">&nbsp;</span>
                         
                         <span style="float: left;margin: -4px 0px 0px 5px;">{{ list.enquiry_category}}</span>              
                     </div> 
@@ -68,11 +68,11 @@
                 </td>
                 <td align="center" style="vertical-align: middle;">{{ list.sales_status }}
                 <hr>
-                <div style="margin-bottom: 40px;">
-                    <a href data-toggle="modal" data-target="#todaysRemarkModal" ng-click="todayRemark({{ list.id }})"> Today's Remark </a><br/>
-                    <a href> Convert to booking </a><br/>
-                    <a href> Generate estimate </a><br/>
-                    <a href> Convert in deal </a>
+                <div style="margin-bottom: 40px;text-align: left;">
+                    <i class="fa fa-external-link" aria-hidden="true"></i><a href data-toggle="modal" data-target="#todaysRemarkModal" ng-click="todayRemark({{ list.id }},{{list.followup_id}})"> Today's Remark </a><br/>
+                    <i class="fa fa-external-link" aria-hidden="true"></i><a href> Convert to booking </a><br/>
+                    <i class="fa fa-external-link" aria-hidden="true"></i><a href> Generate estimate </a><br/>
+                    <i class="fa fa-external-link" aria-hidden="true"></i><a href> Convert in deal </a>
                 </div>
                 </td>
                 <td align="left">

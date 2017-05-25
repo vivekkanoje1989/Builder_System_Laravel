@@ -531,18 +531,18 @@ class MasterSalesController extends Controller {
         try{
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            
+           
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
-
+//echo "<pre>";print_r($request);exit;
             unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],
                     $request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],
                     $request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time'],
                     $request['enquiryData']['project_name'],$request['enquiryData']['block_name'],$request['enquiryData']['block_sub_type'],
-                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id']);
+                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id'],$request['enquiryData']['loggedInUserId']);
 
             /*  update enquiry  */
             if (!empty($request['enquiryData']['sales_channel_id'])) {
@@ -565,11 +565,20 @@ class MasterSalesController extends Controller {
                     $request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],
                     $request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time'],
                     $request['enquiryData']['project_name'],$request['enquiryData']['block_name'],$request['enquiryData']['block_sub_type'],
-                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id']);
+                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id'],$request['enquiryData']['loggedInUserId']);
 
-            Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
-
-            $result = ['success' => true, 'message' => 'Record updated Successfully.'];
+            $update = Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
+            if (!empty($request['projectEnquiryDetails'])) {
+                foreach ($request['projectEnquiryDetails'] as $projectDetail) {
+                    $projectDetail = array_merge($projectDetail, $update);
+                    EnquiryDetail::where('enquiry_id', $request['enquiryData']['id'])->update($projectDetail);
+                }
+            } 
+            if($update){
+                $result = ['success' => true, 'message' => 'Record updated Successfully.'];
+            }else{
+                $result = ['success' => false, 'message' => 'Record not updated.'];
+            }
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
@@ -643,11 +652,23 @@ class MasterSalesController extends Controller {
                     }
                 }
             }
+           
+            if(!empty($decodeRemarkDetails[0]['customer_mobile_no'])){
+                $mobileNumber = explode(",", $decodeRemarkDetails[0]['customer_mobile_no']);
+                $mobileNumber = array_unique($mobileNumber);
+            } 
+            if(!empty($decodeRemarkDetails[0]['customer_email_id'])){
+                $emailId = explode(",", $decodeRemarkDetails[0]['customer_email_id']);
+                $emailId = array_values(array_filter($emailId));
+                $emailId = array_unique($emailId);
+            }
             $getProjects = Project::select("id","project_name")->whereIn('id', $projectId)->get();
             $getBlocks = MlstBmsbBlockType::select("id","block_name")->whereIn('id', $blockId)->get();
             
             $decodeRemarkDetails['selectedProjects'] = $getProjects;
             $decodeRemarkDetails['selectedBlocks'] = $getBlocks;
+            $decodeRemarkDetails['mobileNumber'] = $mobileNumber;
+            $decodeRemarkDetails['emailId'] = $emailId;
             if (count($decodeRemarkDetails) != 0) {
                 $result = ['success' => true, 'data' => $decodeRemarkDetails];
             } else {
@@ -658,7 +679,51 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-
+    public function insertTodayRemark(){
+        try{
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);  
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            echo "<pre>";print_r($request);exit;
+            if(!empty($request['data']))
+            {
+                $todayDate = date('Y-m-d H:i:s');
+                EnquiryFollowup::where('id',$request['data']['followupId'])->update(["actual_followup_date_time" => $todayDate]);                
+                $request['data']['next_followup_date'] = date('Y-m-d', strtotime($request['data']['next_followup_date']));
+                $request['data']['next_followup_time'] = date('H:i:s', strtotime($request['data']['next_followup_time']));
+                $request['data']['actual_followup_date_time'] = "0000-00-00 00:00:00";    
+                if($request['data']['textRemark'] !== ''){
+                   $request['data']['remarks'] = $request['data']['textRemark']; 
+                }else if($request['data']['msgRemark'] !== ''){
+                    $request['data']['remarks'] = $request['data']['msgRemark']; 
+                }else{
+                    $request['data']['remarks'] = $request['data']['email_content']; 
+                }
+                
+                unset($request['data']['followupId'],$request['data']['textRemark'],$request['data']['msgRemark'],
+                        $request['data']['email_content'],$request['data']['subject']);
+                
+                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                $request['data'] = array_merge($request['data'], $create);
+                $insertFollowup = EnquiryFollowup::create($request['data']);
+                if($insertFollowup){
+                    $result = ['success' => true, 'message' => 'Remark inserted successfully'];
+                }else{
+                    $result = ['success' => false , 'message' => 'Remark not inserted'];
+                }
+            }
+            if(!empty($request['custInfo'])){
+//                $insertFollowup = EnquiryFollowup::create();
+            }
+            if(!empty($request['sourceInfo'])){
+//                $insertFollowup = EnquiryFollowup::create();
+            }
+            
+        } catch (Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+        return json_encode($result);
+    }
 
     /*********************** ENQUIRY LISTING *************************/
     

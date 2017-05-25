@@ -111,7 +111,17 @@ app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
             $scope.salesEnqCategoryList = response.records;
         }
     });
+    $scope.getSubCategory = function(categoryId){
+        Data.post('getSalesEnqSubCategory',{categoryId:categoryId}).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.salesEnqSubCategoryList = response.records;
+            }
+        });
+    }
 });
+
 app.controller('salesEnqStatusCtrl', function ($scope, Data) {
     Data.get('getSalesEnqStatus').then(function (response) {
         if (!response.success) {
@@ -120,7 +130,17 @@ app.controller('salesEnqStatusCtrl', function ($scope, Data) {
             $scope.salesEnqStatusList = response.records;
         }
     });
+    $scope.getSubStatus = function(statusId){
+        Data.post('getSalesEnqSubStatus',{statusId:statusId}).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.salesEnqSubStatusList = response.records;
+            }
+        });
+    }
 });
+
 app.controller('projectCtrl', function ($scope, Data) {
     Data.get('getProjects').then(function (response) {
         if (!response.success) {

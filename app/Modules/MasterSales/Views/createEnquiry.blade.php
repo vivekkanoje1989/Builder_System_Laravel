@@ -174,7 +174,7 @@
                                 </div>
                             </div>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.finance_required.$error" class="help-block">
-                                <div ng-message="required">Please select finance required</div>
+                                <div ng-message="required">Please select finance</div>
                             </div>                                
                         </div>
                     </div>

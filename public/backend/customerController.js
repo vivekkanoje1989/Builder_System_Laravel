@@ -10,17 +10,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.locations = [];        
         $scope.projectList = [];
         $scope.blockTypeList = [];
+        $scope.contacts = [];
         
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
-        $scope.customerData.sms_privacy_status = 1;
-        $scope.customerData.email_privacy_status = 1;
-        $scope.contacts = [];
+        $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;        
         resetContactDetails();
         $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
-        $scope.showDiv = false;
-        $scope.enquiryList = false;
-        $scope.showDivCustomer = false;
+        $scope.showDiv = $scope.enquiryList = $scope.disableSource = $scope.showDivCustomer = false;
         $scope.searchData.customerId = 0;
         $scope.hstep = 1;$scope.mstep = 15;        
         var sessionContactData = $scope.contactData.index = "";
@@ -57,7 +54,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 }
             }
         };
-   $scope.editContactDetails = function (index) {
+        $scope.editContactDetails = function (index) {
             $scope.contactData.index = index;
             $scope.contactData = $scope.contacts[index];
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
@@ -205,6 +202,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $("li#enquiryDiv a.ng-binding").trigger("click"); 
                         
                         $scope.customer_id = response.data.customerId;
+                        
+                        console.log(response);
+                        console.log(response.data.customerId);
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
                             toaster.pop('success', 'Customer', 'Record successfully created');
                         } else {

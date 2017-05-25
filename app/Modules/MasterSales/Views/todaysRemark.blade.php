@@ -27,7 +27,6 @@
     -webkit-filter: drop-shadow(0 0 2px black);
             filter: drop-shadow(0 0 0 2px black);
 }
-
 .btn-send-sms{
     float: right;
     margin:5px;
@@ -47,6 +46,12 @@
     margin: 5px;
     width:100%;
 }
+#divMyTags div.existingTag p {
+    color: black;
+}
+.help-block{
+    color: red;
+}
 </style>
 <div class="modal fade" id="todaysRemarkModal" role="dialog" tabindex='-1'>
     <div class="modal-dialog modal-lg">
@@ -60,7 +65,9 @@
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <tabset justified="true">
                             <tab heading="Todays Remark">
-                                <form name="remarkForm" novalidate ng-submit="remarkForm.$valid && insertRemark(remarkData)" >
+                                <form name="remarkForm" novalidate ng-submit="remarkForm.$valid && insertRemark(remarkData)">
+                                <input type="hidden" ng-model="remarkData.enquiryId" name="enquiryId" id="custId" value="{{searchData.customerId}}">
+                                <input type="hidden" ng-model="remarkData.Id" name="customerId" id="custId" value="{{searchData.customerId}}">
                                 <div class="row" ng-show="custInfo">
                                     <div class="col-sm-12">
                                         <h4><b>{{remarkData.title}} {{remarkData.customer_fname}} {{remarkData.customer_lname}}</b></h4>
@@ -151,12 +158,12 @@
                                         </div>
                                     </div>
                                 </div> 
-                                <div class="row">
+                                <div class="row" ng-controller="salesEnqCategoryCtrl" >
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="">Enquiry Category</label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-controller="salesEnqCategoryCtrl" ng-model="remarkData.sales_category_id" name="sales_category_id" id="sales_category_id">                                  
+                                                <select class="form-control" ng-model="remarkData.sales_category_id" name="sales_category_id" id="sales_category_id" ng-click="getSubCategory(remarkData.sales_category_id)">                                  
                                                     <option ng-repeat="list in salesEnqCategoryList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_category_id}}">{{list.enquiry_category}}</option>          
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
@@ -165,10 +172,36 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-group">
+                                            <label for="">Enquiry Sub Category</label>
+                                            <span class="input-icon icon-right">
+                                                <select class="form-control" ng-model="remarkData.sales_subcategory_id" name="sales_subcategory_id" id="sales_subcategory_id">
+                                                    <option value="">Select Sub Category</option>
+                                                    <option ng-repeat="list in salesEnqSubCategoryList" value="{{list.id}}">{{list.enquiry_sales_subcategory}}</option>          
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-controller="salesEnqStatusCtrl">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
                                             <label for="">Enquiry Status</label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-controller="salesEnqStatusCtrl" ng-model="remarkData.sales_status_id" name="sales_status_id">                                      
+                                                <select class="form-control" ng-model="remarkData.sales_status_id" name="sales_status_id" ng-click="getSubStatus(remarkData.sales_status_id)">                                      
                                                     <option ng-repeat="list in salesEnqStatusList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>          
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="">Enquiry Sub Status</label>
+                                            <span class="input-icon icon-right">
+                                                <select class="form-control" ng-model="remarkData.sales_substatus_id" name="sales_substatus_id">       
+                                                    <option value="">Select Sub Status</option>
+                                                    <option ng-repeat="list in salesEnqSubStatusList" value="{{list.id}}">{{list.enquiry_sales_substatus}}</option>          
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                             </span>
@@ -204,20 +237,7 @@
                                             </div>                               
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Reassign to</label>
-                                            <span class="input-icon icon-right">
-                                                <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id">
-                                                    <option ng-repeat="list in employeeList" value="{{list.id}}">{{list.first_name}} {{list.last_name}}</option>                                              
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                            </span>
-                                        </div>
-                                    </div>                                    
-                                </div>
+                                </div>                                
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
@@ -228,7 +248,7 @@
                                                     <span class="input-group-btn" >
                                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.next_followup_date.$error" class="help-block enqFormBtn">
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
                                                     <div ng-message="required">Please select followup date</div>
                                                 </div>
                                                 </p>
@@ -244,41 +264,58 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="">Reassign to</label>
+                                            <span class="input-icon icon-right">
+                                                <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id">
+                                                    <option ng-repeat="list in employeeList" value="{{list.id}}">{{list.first_name}} {{list.last_name}}</option>                                              
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                            </span>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="row">
                                     <div class="col-sm-12">
                                         <div class="timeline-unit"> Remark through </div>
                                         <a href ng-click="[divSms=true,divEmail=false,divText=false]"><img src="/images/sms.png" tooltip-html-unsafe="Send SMS"/></a><span>&nbsp; OR &nbsp;</span>
                                         <a href ng-click="[divSms=false,divEmail=true,divText=false]"><img src="/images/email.png" tooltip-html-unsafe="Send Email"/></a><span>&nbsp; OR &nbsp;</span>
-                                        <a href ng-click="[divSms=false,divEmail=false,divText=true]"><img src="/images/text.png" tooltip-html-unsafe="Enter Text"/></a>
+                                        <a href ng-click="[divSms=false,divEmail=false,divText=true]"><img src="/images/text.png" tooltip-html-unsafe="Enter Remark"/></a>
                                     </div>
                                 </div>
                                 <div class="row" ng-show="divSms">
                                     <div class="col-sm-12"><br/>
                                         <div id="divMyTags">
                                             <div class="existingTag">   
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
                                                         <label for="">Select mobile number <span class="sp-err">*</span></label>
                                                         <div class="control-group">
-                                                            <div class="radio">
-                                                                <label>
-                                                                    <input name="mobile_number" type="radio" ng-model="remarkData.mobile_number" checked="true" value="1" class="colored-success">
-                                                                    <span class="text">9898989898</span>
-                                                                </label>&nbsp;&nbsp;
-                                                                <label>
-                                                                    <input name="mobile_number" type="radio" ng-model="remarkData.mobile_number" value="0" class="colored-success">
-                                                                    <span class="text">8889998889</span>
-                                                                </label>
-                                                            </div>
+                                                            <ul style="list-style: none;float: left;margin: 0 0 0 -40px;">
+                                                                <li ng-repeat="mlist in mobileList track by $index">
+                                                                    <label>
+                                                                        <input type="radio" ng-model="remarkData.mobile_number" name="mobile_number" value="{{mlist}}_{{$index}}" class="colored-success" ng-required="divSms" />
+                                                                        <span class="text">{{mlist}}</span>
+                                                                    </label>
+                                                                </li>
+                                                            </ul>
                                                         </div>
+                                                    </div><br/><br/>
+                                                    <div ng-show="sbtBtn && divSms" ng-messages="remarkForm.mobile_number.$error" class="help-block">
+                                                        <div ng-message="required">Please select mobile number.</div>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-9">
                                                     <div class="form-group">
                                                         <label for="">Remark <span class="sp-err">*</span></label>
                                                         <span class="input-icon icon-right">
-                                                            <textarea class="form-control" rows="4" ng-model="remarkData.remark" name="remark" ng-required="divSms"></textarea>
+                                                            <textarea class="form-control" rows="4" ng-model="remarkData.msgRemark" name="msgRemark" ng-required="divSms"></textarea>
                                                             <i class="fa fa-file-text"></i>
                                                         </span>
+                                                        <div ng-show="sbtBtn && divSms" ng-messages="remarkForm.msgRemark.$error" class="help-block">
+                                                            <div ng-message="required">Please enter remark.</div>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -286,34 +323,60 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <button class="btn btn-primary btn-send-sms">Set Reminder SMS</button>
-                                        <button class="btn btn-primary btn-send-sms">Send SMS</button>
-                                        <button class="btn btn-primary btn-send-sms">Call</button>
+                                        <button type="submit" class="btn btn-primary btn-send-sms" ng-click="sbtBtn=true">Set Reminder SMS</button>
+                                        <button type="submit" class="btn btn-primary btn-send-sms" ng-click="sbtBtn=true">Send SMS</button>
+                                        <button type="submit" class="btn btn-primary btn-send-sms" ng-click="sbtBtn=true">Call</button>
                                     </div>  
                                 </div>
                                 <div class="row" ng-show="divEmail">
                                     <div class="col-sm-12">
                                         <div id="divMyTags">
                                             <div class="existingTag">
+                                                <div class="row">                                                    
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label>Select email id<span class="sp-err">*</span></label>
+                                                            <div class="control-group">
+                                                                <ul style="list-style: none;float: left;margin: 0 0 0 -40px;">
+                                                                    <li ng-repeat="elist in emailList track by $index">
+                                                                        <label>
+                                                                            <input type="radio" ng-model="remarkData.email_id" name="email_id" value="{{elist}}_{{$index}}" class="colored-success" ng-required="divEmail" />
+                                                                            <span class="text">{{elist}}</span>
+                                                                        </label>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div><br/><br/>
+                                                        <div ng-show="sbtBtn && divEmail" ng-messages="remarkForm.email_id.$error" class="help-block">
+                                                            <div ng-message="required">Please select email id.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label for="">Subject</label>
+                                                            <label for="">Subject<span class="sp-err">*</span></label>
                                                             <span class="input-icon icon-right">
                                                                 <input type="text" ng-model="remarkData.subject" name="subject" class="form-control" ng-required="divEmail">
                                                                 <i class="fa fa-envelope"></i>
                                                             </span>
+                                                            <div ng-show="sbtBtn && divEmail" ng-messages="remarkForm.subject.$error" class="help-block">
+                                                                <div ng-message="required">Please enter subject.</div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
                                                         <div class="form-group">
-                                                            <label for="">Mail Content</label>
+                                                            <label for="">Mail Content<span class="sp-err">*</span></label>
                                                             <span class="input-icon icon-right">
                                                                 <div class="widget flat radius-bordered">
                                                                     <div class="widget-body no-padding">   
                                                                         <div class="form-group">
                                                                             <div text-angular name="email_content" capitalizeFirst ng-model="remarkData.email_content" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" ng-required="divEmail"></div>
-                                                                        </div>
+                                                                        </div>                                                                        
+                                                                    </div>
+                                                                    <div ng-show="sbtBtn && divEmail" ng-messages="remarkForm.email_content.$error" class="help-block">
+                                                                        <div ng-message="required">Please enter email content.</div>
                                                                     </div>
                                                                 </div>
                                                             </span>
@@ -324,20 +387,23 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <button class="btn btn-primary btn-send-sms">Submit</button>
+                                        <button class="btn btn-primary btn-send-sms" ng-click="sbtBtn=true">Submit</button>
                                     </div> 
                                 </div>
                                 <div class="row" ng-show="divText">
                                     <div class="col-sm-12">
                                         <div id="divMyTags">
                                             <div class="existingTag">
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-12">
                                                     <div class="form-group">
                                                         <label for="">Remark <span class="sp-err">*</span></label>
                                                         <span class="input-icon icon-right">
-                                                            <textarea class="form-control" rows="4" ng-model="remarkData.remark" name="remark" ng-required="divText"></textarea>
+                                                            <textarea class="form-control" rows="4" cols="50" ng-model="remarkData.textRemark" name="textRemark" ng-required="divText"></textarea>
                                                             <i class="fa fa-file-text"></i>
                                                         </span>
+                                                        <div ng-show="sbtBtn && divText" ng-messages="remarkForm.textRemark.$error" class="help-block">
+                                                            <div ng-message="required">Please enter remark.</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
