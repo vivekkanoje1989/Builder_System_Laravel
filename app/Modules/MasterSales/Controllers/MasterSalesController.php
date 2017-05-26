@@ -389,7 +389,6 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-
     public function checkMobileExist() {
         try{
             $postdata = file_get_contents("php://input");
@@ -532,12 +531,12 @@ class MasterSalesController extends Controller {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
            
-            if (empty($request['enquiryData']['loggedInUserId'])) {
+            if (empty($request['enquiryData']['loggedInUserId'])) { 
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
-//echo "<pre>";print_r($request);exit;
+
             unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],
                     $request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],
                     $request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time'],
@@ -553,27 +552,33 @@ class MasterSalesController extends Controller {
             if (!empty($request['enquiryData']['property_possession_date'])) {
                 $request['enquiryData']['property_possession_date'] = date('Y-m-d', strtotime($request['enquiryData']['property_possession_date']));
             }
-            if (!empty($request['enquiryData']['enquiry_locations'])) {
-                $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
-                            return $el['id'];
-                        }, $request['enquiryData']['enquiry_locations']));
-            }
+//            if (!empty($request['enquiryData']['enquiry_locations'])) {
+//                $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
+//                            return $el['id'];
+//                        }, $request['enquiryData']['enquiry_locations']));
+//            }
+            
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $request['enquiryData'] = array_merge($request['enquiryData'], $update);
 
-            unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],
-                    $request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],
-                    $request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time'],
-                    $request['enquiryData']['project_name'],$request['enquiryData']['block_name'],$request['enquiryData']['block_sub_type'],
-                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id'],$request['enquiryData']['loggedInUserId']);
+//            unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],
+//                    $request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],
+//                    $request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time'],
+//                    $request['enquiryData']['project_name'],$request['enquiryData']['block_name'],$request['enquiryData']['block_sub_type'],
+//                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id'],$request['enquiryData']['loggedInUserId']);
 
             $update = Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
-            if (!empty($request['projectEnquiryDetails'])) {
+
+            if (!empty($request['projectEnquiryDetails'])) {                
                 foreach ($request['projectEnquiryDetails'] as $projectDetail) {
-                    $projectDetail = array_merge($projectDetail, $update);
-                    EnquiryDetail::where('enquiry_id', $request['enquiryData']['id'])->update($projectDetail);
+                    $getProjectId = EnquiryDetail::select("id")->where(['enquiry_id'=>$request['enquiryData']['id'],'project_id' => $projectDetail['project_id'], 'block_id' => $projectDetail['block_id'],'sub_block_id' => $projectDetail['sub_block_id']])->get();
+                    if(empty($getProjectId[0]['id'])){
+                        $projectDetail['enquiry_id'] = $request['enquiryData']['id'];
+                        EnquiryDetail::create($projectDetail);
+                    }
                 }
             } 
+            
             if($update){
                 $result = ['success' => true, 'message' => 'Record updated Successfully.'];
             }else{
@@ -893,8 +898,6 @@ class MasterSalesController extends Controller {
     }
     
     public function getTeamTotalEnquiries() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
 
         if (empty($request['loggedInUserID']))
             $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -905,7 +908,6 @@ class MasterSalesController extends Controller {
         $this->getTeamIds($loggedInUserId);
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
-       
         $enquiries = DB::select('CALL proc_get_total_enquiries("' . $empTeamIds . '")');
 
         if (count($enquiries) != 0) {

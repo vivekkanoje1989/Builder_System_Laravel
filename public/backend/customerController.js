@@ -422,10 +422,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         /****************************************Enquiry Controller*********************************************/
 
         $scope.historyList = {};
-        $scope.pageChangeHandler = function (num) {
-            $scope.noOfRows = num;
-            $scope.currentPage = num * $scope.itemsPerPage;
-        };
+//        $scope.pageChangeHandler = function (num) {
+//            $scope.noOfRows = num;
+//            $scope.currentPage = num * $scope.itemsPerPage;
+//        };
         $scope.saveEnquiryData = function (enquiryData)
         {
             var date = new Date($scope.enquiryData.next_followup_date);

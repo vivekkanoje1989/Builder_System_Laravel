@@ -2,15 +2,20 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
         $scope.projectsDetails = [];
 //        $scope.locations = [];
         $scope.searchData = {};
-        $scope.currentPage = $scope.itemsPerPage = 4;
+        $scope.currentPage = 4;
+        $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.historyList = {};
-
+        $scope.divText = true;
+        $scope.itemsperpageno = function(no){
+            $scope.itemsPerPage = no;
+        }
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
+        
+        
                
 //        $scope.saveEnquiryData = function (enquiryData)
 //        {
@@ -135,7 +140,7 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
         /****************************ENQUIRIES****************************/
         $scope.getTotalEnquiries = function ()
         {
-            Data.post('master-sales/getTotalEnquiries').then(function (response) {
+            Data.post('master-sales/getTotalEnquiries').then(function (response) {console.log(response);
                 $scope.listsIndex = response;
             });
         }
@@ -224,7 +229,6 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 if(!response.success){
                     $scope.errorMsg = response.errorMsg;
                 }else{
-                    console.log(response);
                     var setTime = response.data[0].next_followup_time.split(":");
                     var setMin = setTime[1].split(" ");
                     d.setHours(setTime[0]);
@@ -291,8 +295,11 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 $scope.applyClassProject = 'ng-inactive';
             }
         };   
+        $scope.mobile_number = [];
+        $scope.checkedMobileNo = function(mobileNo){
+            $scope.mobile_number.push(mobileNo);
+        }
         $scope.insertRemark = function(modalData){
-            
             if($scope.editableCustInfo === true){
                 var custInfo = {title_id:modalData.title_id,customer_fname:modalData.customer_fname,customer_lname:modalData.customer_lname};
             }
@@ -306,7 +313,7 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
             }else{
                 remarks = modalData.email_content;
             }
-                console.log(modalData);
+            
             var data = {enquiry_id:$scope.enquiryId, 
                 followupId:$scope.followupId, 
                 sales_category_id:modalData.sales_category_id,
@@ -319,9 +326,11 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 project_id:modalData.project_id,
                 block_id:modalData.block_id,
                 textRemark:modalData.textRemark,
+                mobileNumber: $scope.mobile_number,
                 msgRemark:modalData.msgRemark,
                 email_content:modalData.email_content,
-                subject:modalData.subject};
+                subject:modalData.subject
+            };
 
             Data.post('master-sales/insertTodayRemark',{data:data,custInfo:custInfo,sourceInfo:sourceInfo}).then(function (response) {
                 if(!response.success){
