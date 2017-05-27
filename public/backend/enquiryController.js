@@ -220,11 +220,43 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
         $scope.projectList = [];
         $scope.blockTypeList = [];
         $scope.mobileList = [];
+        $scope.mobile_number = [];
+        $scope.email_id_arr = [];
         $scope.custInfo = $scope.editableCustInfo = $scope.source = false;
         var d = new Date();
         $scope.hstep = 1;$scope.mstep = 15; 
-        $scope.enquiryId = $scope.followupId = '';
-        $scope.todayRemark = function(enquiryId,followupId){
+        $scope.enquiryId = $scope.followupId = $scope.customerId = '';
+        
+        $scope.text = function(){
+            $scope.divText = true;
+            $scope.divSms = false;
+            $scope.divEmail = false;
+            $scope.email_id_arr = $scope.mobile_number = [];
+            $scope.remarkData.msgRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
+            $('.clsMobile').prop("checked",false);
+            $('.clsEmail').prop("checked",false);
+            $scope.sbtBtn1 = $scope.sbtBtn2 = false;
+        }
+        $scope.sms = function(){
+            $scope.divText = false;
+            $scope.divSms = true;
+            $scope.divEmail = false;
+            $scope.email_id_arr = [];
+            $scope.remarkData.textRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
+            $('.clsEmail').prop("checked",false);
+            $scope.sbtBtn2 = $scope.sbtBtn3 = false;
+        }
+        $scope.email = function(){
+            $scope.divText = false;
+            $scope.divSms = false;
+            $scope.divEmail = true;
+            $scope.mobile_number = [];
+            $scope.remarkData.msgRemark = $scope.remarkData.textRemark = '';
+            $('.clsMobile').prop("checked",false);
+            $scope.sbtBtn1 = $scope.sbtBtn3 = false;
+        }       
+        
+        $scope.todayRemark = function(enquiryId,followupId,customerId){
             Data.post('master-sales/getDataForTodayRemark',{enquiryId:enquiryId}).then(function (response) {
                 if(!response.success){
                     $scope.errorMsg = response.errorMsg;
@@ -233,7 +265,7 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                     var setMin = setTime[1].split(" ");
                     d.setHours(setTime[0]);
                     d.setMinutes(setMin[0]);
-                    response.data[0].next_followup_time = d;                                        
+                    response.data[0].next_followup_time = d;
                     $scope.remarkData = angular.copy(response.data[0]);
                     $scope.projectList = response.data.selectedProjects;
                     $scope.blockTypeList = response.data.selectedBlocks;
@@ -259,6 +291,7 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                     }
                     $scope.enquiryId = enquiryId;
                     $scope.followupId = followupId;
+                    $scope.customerId = customerId;
                     
                     Data.post('getSalesEnqSubCategory',{categoryId:response.data[0].sales_category_id}).then(function (response) {
                         if (!response.success) {
@@ -295,9 +328,28 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 $scope.applyClassProject = 'ng-inactive';
             }
         };   
-        $scope.mobile_number = [];
-        $scope.checkedMobileNo = function(mobileNo){
-            $scope.mobile_number.push(mobileNo);
+        
+        $scope.checkedMobileNo = function(mobileNo,inc){
+            if ($('#mob_'+inc).is(':checked')) {
+                $scope.mobile_number.push(mobileNo);
+            }else{
+                var mobIndex = $scope.mobile_number.indexOf(mobileNo);
+                if (mobIndex > -1) {
+                   $scope.mobile_number.splice(mobIndex, 1);
+                }
+            }
+            console.log($scope.mobile_number);
+        }
+        $scope.checkedEmailId = function(emailId,inc){
+            if ($('#email_'+inc).is(':checked')) {
+                $scope.email_id_arr.push(emailId);
+            }else{
+                var mobIndex = $scope.email_id_arr.indexOf(emailId);
+                if (mobIndex > -1) {
+                   $scope.email_id_arr.splice(mobIndex, 1);
+                }
+            }
+            console.log($scope.email_id_arr);
         }
         $scope.insertRemark = function(modalData){
             if($scope.editableCustInfo === true){
@@ -306,16 +358,10 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
             if($scope.source === true){
                 var sourceInfo = {source_id:modalData.source_id,sales_subsource_id:modalData.sales_subsource_id,sales_source_description:modalData.sales_source_description,};
             }
-            if(modalData.textRemark !== ''){
-                remarks = modalData.textRemark;
-            }else if(modalData.msgRemark !== ''){
-                remarks = modalData.msgRemark;
-            }else{
-                remarks = modalData.email_content;
-            }
             
             var data = {enquiry_id:$scope.enquiryId, 
                 followupId:$scope.followupId, 
+                customerId:$scope.customerId, 
                 sales_category_id:modalData.sales_category_id,
                 sales_subcategory_id:modalData.sales_subcategory_id,
                 followup_by_employee_id:modalData.followup_by_employee_id,
@@ -325,9 +371,17 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 sales_substatus_id:modalData.sales_substatus_id,
                 project_id:modalData.project_id,
                 block_id:modalData.block_id,
+                title_id:modalData.title_id,
+                first_name:modalData.first_name,
+                last_name:modalData.last_name,
+                source_id:modalData.source_id,
+                subsource_id:modalData.subsource_id,
+                source_description:modalData.source_description,                
                 textRemark:modalData.textRemark,
                 mobileNumber: $scope.mobile_number,
                 msgRemark:modalData.msgRemark,
+                email_id:modalData.email_id,
+                email_id_arr:$scope.email_id_arr,
                 email_content:modalData.email_content,
                 subject:modalData.subject
             };

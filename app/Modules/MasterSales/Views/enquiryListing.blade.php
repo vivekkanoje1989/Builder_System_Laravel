@@ -67,7 +67,7 @@
                 <td style="vertical-align: middle;">{{ list.sales_status }}
                 <hr>
                 <div style="margin-bottom: 40px;text-align: left;">
-                    <i class="fa fa-external-link" aria-hidden="true"></i><a href data-toggle="modal" data-target="#todaysRemarkModal" ng-click="todayRemark({{ list.id }},'{{list.followup_id}}')"> Today's Remark </a><br/>
+                    <i class="fa fa-external-link" aria-hidden="true"></i><a href data-toggle="modal" data-target="#todaysRemarkModal" ng-click="todayRemark({{ list.id }},'{{list.followup_id}}','{{list.customer_id}}')"> Today's Remark </a><br/>
                     <i class="fa fa-external-link" aria-hidden="true"></i><a href> Convert to booking </a><br/>
                     <i class="fa fa-external-link" aria-hidden="true"></i><a href> Generate estimate </a><br/>
                     <i class="fa fa-external-link" aria-hidden="true"></i><a href> Convert in deal </a>

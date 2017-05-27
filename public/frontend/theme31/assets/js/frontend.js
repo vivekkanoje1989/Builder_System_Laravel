@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngMessages', 'ngFileUpload']);
+var app = angular.module('frontendapp', ['ngMessages', 'ngFileUpload']);
 
 var getUrl = 'website';
 

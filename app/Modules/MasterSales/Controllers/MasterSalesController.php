@@ -23,7 +23,6 @@ use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\LstEnquiryLocation;
 use Illuminate\Support\Facades\Session;
 use App\Models\Project;
-
 class MasterSalesController extends Controller {
 
     public $allusers;
@@ -552,11 +551,11 @@ class MasterSalesController extends Controller {
             if (!empty($request['enquiryData']['property_possession_date'])) {
                 $request['enquiryData']['property_possession_date'] = date('Y-m-d', strtotime($request['enquiryData']['property_possession_date']));
             }
-//            if (!empty($request['enquiryData']['enquiry_locations'])) {
-//                $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
-//                            return $el['id'];
-//                        }, $request['enquiryData']['enquiry_locations']));
-//            }
+            if (!empty($request['enquiryData']['enquiry_locations'])) {
+                $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
+                            return $el['id'];
+                        }, $request['enquiryData']['enquiry_locations']));
+            }
             
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $request['enquiryData'] = array_merge($request['enquiryData'], $update);
@@ -646,7 +645,7 @@ class MasterSalesController extends Controller {
             $request = json_decode($postdata, true);    
             $getRemarkDetails = DB::select('CALL proc_get_today_remark('.$request['enquiryId'].')');
             $decodeRemarkDetails = json_decode( json_encode($getRemarkDetails), true);
-            $projectId = $blockId = array();
+            $projectId = $blockId = $emailId = array();
             if(!empty($decodeRemarkDetails[0]['project_block_id'])){
                 $explodeComma = explode(",", $decodeRemarkDetails[0]['project_block_id']);
                 if(!empty($explodeComma)){
@@ -689,39 +688,76 @@ class MasterSalesController extends Controller {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);  
             $loggedInUserId = Auth::guard('admin')->user()->id;
+            $input = $request['data'];
+            $enquiryId = $input['enquiry_id'];
+            $followupId = $input['followupId'];
+            $customerId = $input['customerId'];
+            if(!empty($input['title_id']) && !empty($input['first_name']) && !empty($input['last_name'])){
+                $titleId = $input['title_id'];
+                $firstName = $input['first_name'];
+                $lastName = $input['last_name'];
+            }
+            if(!empty($input['source_id']) && !empty($input['subsource_id']) && !empty($input['source_description'])){
+                $sourceId = $input['source_id'];
+                $subSourceId = $input['subsource_id'];
+                $sourceDescription = $input['source_description'];
+            }
             echo "<pre>";print_r($request);exit;
-            if(!empty($request['data']))
+            if(!empty($input))
             {
                 $todayDate = date('Y-m-d H:i:s');
-                EnquiryFollowup::where('id',$request['data']['followupId'])->update(["actual_followup_date_time" => $todayDate]);                
-                $request['data']['next_followup_date'] = date('Y-m-d', strtotime($request['data']['next_followup_date']));
-                $request['data']['next_followup_time'] = date('H:i:s', strtotime($request['data']['next_followup_time']));
-                $request['data']['actual_followup_date_time'] = "0000-00-00 00:00:00";    
-                if($request['data']['textRemark'] !== ''){
-                   $request['data']['remarks'] = $request['data']['textRemark']; 
-                }else if($request['data']['msgRemark'] !== ''){
-                    $request['data']['remarks'] = $request['data']['msgRemark']; 
+                EnquiryFollowup::where('id',$followupId)->update(["actual_followup_date_time" => $todayDate]);                
+                $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
+                $input['next_followup_time'] = date('H:i:s', strtotime($input['next_followup_time']));
+                $input['actual_followup_date_time'] = "0000-00-00 00:00:00";    
+                if($input['textRemark'] !== ''){
+                   $input['remarks'] = $input['textRemark']; 
+                   $msg = 'Remark inserted successfully';
+                }else if($input['msgRemark'] !== ''){
+                    $input['remarks'] = $input['msgRemark'];
+                    
+                    $implodeMobileNo = implode(",", $input['remarks']);
+                    $mobileNo = $implodeMobileNo;
+                    $customer = "No";
+                    $isInternational = 0; //0 OR 1
+                    $sendingType = 0; //always 0 for T_SMS
+                    $smsType = "T_SMS";
+                    $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
+                    $decodeResult = json_decode($result,true);
+                    $msg = $decodeResult["message"]; 
                 }else{
-                    $request['data']['remarks'] = $request['data']['email_content']; 
+                    $input['remarks'] = $input['email_content']; 
+                    $implodeEmailId = implode(",",$input['email_id_arr']);
+                    $userName = "support@edynamics.co.in";
+                    $password = "edsupport@2016#";
+                    $mailBody = $input['email_content'];
+                    $companyName = config('global.companyName');
+                    $subject = $input['subject'];
+                    $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => $implodeEmailId , "cc" => ""];
+                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);   
+                    if($sentSuccessfully)
+                        $msg = "Email sent successfully";
                 }
-                
-                unset($request['data']['followupId'],$request['data']['textRemark'],$request['data']['msgRemark'],
-                        $request['data']['email_content'],$request['data']['subject']);
+                unset($input['followupId'],$input['customerId'],$input['title_id'],
+                        $input['first_name'],$input['last_name'],$input['source_id'],
+                        $input['subsource_id'],$input['source_description'],
+                        $input['textRemark'],$input['msgRemark'], $input['email_content'],$input['subject']);
                 
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                $request['data'] = array_merge($request['data'], $create);
-                $insertFollowup = EnquiryFollowup::create($request['data']);
-                if($insertFollowup){
-                    $result = ['success' => true, 'message' => 'Remark inserted successfully'];
-                }else{
-                    $result = ['success' => false , 'message' => 'Remark not inserted'];
-                }
+                $input = array_merge($input, $create);
+                $insertFollowup = EnquiryFollowup::create($input);
             }
             if(!empty($request['custInfo'])){
-//                $insertFollowup = EnquiryFollowup::create();
+                Customer::where('id',$customerId)->update(["title_id" => $titleId, "first_name" => $firstName, "last_name" => $lastName]);
             }
             if(!empty($request['sourceInfo'])){
-//                $insertFollowup = EnquiryFollowup::create();
+                Customer::where('id',$customerId)->update(["source_id" => $sourceId, "subsource_id" => $subSourceId, "source_description" => $sourceDescription]);
+                Enquiry::where('id',$enquiryId)->update(["sales_source_id" => $sourceId, "sales_subsource_id" => $subSourceId, "sales_source_description" => $sourceDescription]);
+            }
+            if($insertFollowup){
+                $result = ['success' => true, 'message' => $msg];
+            }else{
+                $result = ['success' => false , 'message' => 'Remark not inserted'];
             }
             
         } catch (Exception $ex) {

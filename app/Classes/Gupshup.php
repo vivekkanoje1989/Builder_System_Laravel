@@ -133,10 +133,8 @@ class Gupshup {
                               }
                               } */
                             $result = ["success" => true, "status" => 200, "message" => "SMS sent sucessfully"];
-                            return json_encode($result);
                         } else {
                             $result = ["success" => false, "status" => 500, "message" => "Server error please try again"];
-                            return json_encode($result);
                         }
                     } else {
                         $userName = "support@edynamics.co.in";
@@ -149,25 +147,21 @@ class Gupshup {
 
                         if($sentSuccessfully == 1){
                             $result = ["success" => false, "status" => 509, "message" => "Credit Limit exceeded please contact to BMS admin"];
-                            return json_encode($result);
                         }elseif (!empty(Mail::failures())) {
                             $result = ["success" => false, "status" => 509, "message" => "Insufficient creadit Limit"];
-                            return json_encode($result);
                         }
                     }
                 } else {
                     $result = ["success" => false, "status" => 401, "message" => "Account is deactivated or suspended"];
-                    return json_encode($result);
                 }
             } else {
                 $result = ["success" => false, "status" => 404, "message" => "Mobile number not found"];
-                return json_encode($result);
             }
         }
         catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
     
     public static function sendBulkSMS($data) {

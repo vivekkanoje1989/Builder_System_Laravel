@@ -54,6 +54,7 @@ Route::group(['middleware' => ['web']], function () {
     
     // ADMIN
     Route::get($getUrl . '/session', 'backend\Auth\LoginController@getSession');
+    Route::get($getUrl . '/sessiontimeout', 'backend\Auth\LoginController@sessiontimeout');
     Route::get($getUrl . '/login', 'backend\Auth\LoginController@getLoginForm');
     Route::post($getUrl . '/authenticate', 'backend\Auth\LoginController@authenticate');
 
