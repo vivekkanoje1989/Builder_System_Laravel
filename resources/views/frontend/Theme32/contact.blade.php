@@ -1,12 +1,16 @@
 @extends('layouts/frontend/Theme32/main')
 @section('content')
-<!-- END HEADER -->
-<!-- BEGIN MAIN CONTAINER -->
-<main class="main-content">
+<style>
+    .err{
+        font-size: 13;
+        color:red;
+    }
+</style>
+<main class="main-content" ng-init="getContactDetails()">
     <div class="breadcrumbs">
         <div class="container">
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/index">Home</a></li>
                 <li><span>Contact Us</span></li>
             </ul>
         </div>
@@ -20,59 +24,65 @@
 
         </div>
         <div class="row">
-            <div class="col span_6" style="padding:4px">
-                <div class="offset-bottom">
-                    <h2>Get in touch</h2>
-                    <h3><i class="fa fa-map-marker"></i> Address</h3>
-                    <address><blockquote> <b> edynamics (H.O. Pune) </b></blockquote> <br />
-                        No 5, Richmond Park, Opp. Orchid School,<br />
-                        Baner Road, Balewadi Phata, Baner, <br />
-                        Pune, Maharashtra 411045</address>
-                    <h3><i class="fa fa-phone"></i> Phone</h3>
-                    <p>+91 98 8376 6284</p>
-                    <h3><i class="fa fa-envelope"></i> Email</h3>
-                    <p>mail@edynamics.com</p>
-                    <h3>Social</h3>
-                    <ul class="nav-social">
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
-                        <li><a href="#"><i class="fa fa-skype"></i></a></li>
-                    </ul>
-                </div>
+            <div class="col span_6" >
+                <h2>Get in touch</h2>
+                <div class="row">
+                    <div class="col-md-6" ng-repeat="contact in contacts track by $index"> 
+                        <div class="offset-bottom" >
+                            <h3><i class="fa fa-map-marker"></i> Address</h3>
+                            <address>{{contact.address}}</address>
+                            <h3><i class="fa fa-phone"></i> Phone</h3>
+                            <p>{{contact.contact_number1}}</p>
+                            <h3><i class="fa fa-envelope"></i> Email</h3>
+                            <p>{{contact.email}}</p>
+                        </div>
+                    </div></div>
             </div>
+            <div class="alert alert-success" ng-if="submitted">
+            <strong>Thank You for contacting us</strong> 
+        </div>
             <div class="col span_6"  style="padding:4px">
-                <form class="form-contact" method="post" >
+                <form class="contact" method="post" name="contactForm"  ng-submit="contactForm.$valid && doContactAction(contact)" novalidate>
                     <h2>Send a message</h2>
                     <div class="form-item">
-                        <label class="form-item-label">Name</label>
-                        <input type="text" name="name" required>
+                        <label class="form-item-label">Name<span class="err">*</span></label>
+                        <input type="text" name="name" ng-model="contact.name" class="form-control" required>
+                        <div ng-show="sbtBtn" ng-messages="contactForm.name.$error">
+                            <div ng-message="required" class="err">Name is required</div>
+                        </div>
                     </div>
                     <div class="form-item">
-                        <label class="form-item-label">Phone</label>
-                        <input type="tel" name="phone" required>
+                        <label class="form-item-label">E-mail<span class="err">*</span></label>
+                        <input type="email" name="email" ng-model="contact.email" class="form-control" required>
+                        <div class="help-block" ng-show="sbtBtn" ng-messages="contactForm.email.$error" class="err">
+                            <div ng-message="required" class="err">Email is required</div>
+                            <div ng-message="email" class="err">Invalid email address </div>
+                        </div>
                     </div>
                     <div class="form-item">
-                        <label class="form-item-label">E-mail</label>
-                        <input type="email" name="email" required>
+                        <label class="form-item-label">Mobile Number<span class="err">*</span></label>
+                        <input type="tel" name="contact_number1" ng-model="contact.contact_number1"  ng-maxlength="10" ng-minlength="10" class="form-control" required>
+                        <div class="help-block" ng-show="sbtBtn" ng-messages="contactForm.contact_number1.$error" class="err">
+                            <div ng-message="required" class="err">Mobile number is required</div>
+                            <div ng-message="maxlength" class="err">Mobile number is must be 10 digit</div>
+                            <div ng-message="minlength" class="err">Mobile number is must be 10 digit</div>
+                        </div>
                     </div>
                     <div class="form-item">
-                        <label class="form-item-label">Message</label>
-                        <textarea name="message" cols="90" rows="4" required></textarea>
+                        <label class="form-item-label">Message<span class="err">*</span></label>
+                        <textarea name="message" ng-model="contact.massage"  class="form-control" cols="90" rows="4" required></textarea>
+                        <div ng-show="sbtBtn" ng-messages="contactForm.message.$error">
+                            <div ng-message="required" class="err">Message is required</div>
+                        </div>
                     </div>
                     <div class="form-item">
-                        <center>
-                            <img src="img/captcha_code_file.jpg" class="img-responsive center-block">	
-                            <br />
-                            <label class="form-item-label"><a href="#">Click To Refresh </a></label>
-                        </center>
+                        <div class="g-recaptcha" data-sitekey="6LezFyAUAAAAAM1fRUDpyRXLSjHPiYFQkIQWYK2d"></div>
+                        <div class="help-block"  >
+                            <div class="err" ng-if="recaptcha" style="float: left;">{{recaptcha}}</div>
+                        </div>
                     </div>
                     <div class="form-item">
-                        <label class="form-item-label">Captcha</label>
-                        <input type="text" name="captcha" required>
-                    </div>
-                    <div class="form-item">
-                        <button type="submit" class="btn">Send</button>
+                        <input type="submit" ng-click="sbtBtn = true" class="btn" value="Send">
                     </div>
                 </form>
             </div>

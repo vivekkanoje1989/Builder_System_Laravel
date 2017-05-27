@@ -338,7 +338,6 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                    $scope.mobile_number.splice(mobIndex, 1);
                 }
             }
-            console.log($scope.mobile_number);
         }
         $scope.checkedEmailId = function(emailId,inc){
             if ($('#email_'+inc).is(':checked')) {
@@ -349,7 +348,6 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                    $scope.email_id_arr.splice(mobIndex, 1);
                 }
             }
-            console.log($scope.email_id_arr);
         }
         $scope.insertRemark = function(modalData){
             if($scope.editableCustInfo === true){
@@ -390,6 +388,7 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
                 if(!response.success){
                     $scope.errorMsg = response.errorMsg;
                 }else{
+                    $('#todaysRemarkModal').modal('toggle');
                     toaster.pop('success', '', response.message);
                 }                
             });

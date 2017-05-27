@@ -51,7 +51,7 @@
                                                         <div class="media" align="center">
                                                             <?php $path = $projects['project_logo'];
                                                             ?>
-                                                            <img src="<?php echo "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/" . $path; ?>" alt=""/>
+                                                            <img src="<?php echo "[[config('global.s3Path')]]project/project_logo/" . $path; ?>" alt=""/>
                                                         </div>
                                                     </a>
                                                     <?php
@@ -97,7 +97,7 @@
                                                         <div class="media" align="center">
                                                             <?php $path = $projects['project_logo'];
                                                             ?>
-                                                            <img src="<?php echo "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/" . $path; ?>" alt=""/>
+                                                            <img src="<?php echo "[[config('global.s3Path')]]project/project_logo/" . $path; ?>" alt=""/>
                                                         </div>
                                                     </a>
                                                     <?php
@@ -142,7 +142,7 @@
                                                         <div class="media" align="center">
                                                             <?php $path = $projects['project_logo'];
                                                             ?>
-                                                            <img src="<?php echo "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/" . $path; ?>" alt=""/>
+                                                            <img src="<?php echo "[[config('global.s3Path')]]project/project_logo/" . $path; ?>" alt=""/>
                                                         </div>
                                                     </a>
                                                     <?php

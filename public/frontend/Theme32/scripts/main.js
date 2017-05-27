@@ -35,15 +35,7 @@
 		/*======================================================
 		=            Init thumbnails grid & filtering            =
 		======================================================*/
-		$('.thumbs').shuffle({
-			itemSelector: '.thumbs-item',
-			sizer: '.thumbs-sizer'
-		});
-
-		$('.thumbs-filter').on('click', 'li', function() {
-			var self = $(this);
-			$(this).parents('.filter').next('.thumbs').shuffle('shuffle', self.data('group'));
-		});
+		
 
 		/*=============================================
 		=            Show/hide search form            =
@@ -190,20 +182,20 @@
 			twitterFetcher.fetch(tweetsConfig);
 		}
 
-		/*=================================================
-		=            Init form inputs styling             =
-		=================================================*/
-		$('select, input[type="checkbox"], input[type="radio"], input[type="file"], input[type="number"]').styler({
-			filePlaceholder: 'No file selected',
-			fileBrowse: 'Browse…'
-		});
+//		/*=================================================
+//		=            Init form inputs styling             =
+//		=================================================*/
+//		$('select, input[type="checkbox"], input[type="radio"], input[type="file"], input[type="number"]').styler({
+//			filePlaceholder: 'No file selected',
+//			fileBrowse: 'Browse…'
+//		});
 
 		/*==================================
 		=            Validation            =
 		==================================*/
-		$('form').each( function() {
-			$(this).validate();
-		});
+//		$('form').each( function() {
+//			$(this).validate();
+//		});
 
 		/*===================================
 		=            Form submit            =
@@ -241,16 +233,16 @@
 		/*==============================
 		=            Popups            =
 		==============================*/
-		$('.btn-popup').magnificPopup({
-			mainClass: 'squarefolio',
-			removalDelay: 300
-		});
-
-		$('.btn-lightbox').magnificPopup({
-			type: 'image',
-			mainClass: 'squarefolio',
-			removalDelay: 300
-		});
+//		$('.btn-popup').magnificPopup({
+//			mainClass: 'squarefolio',
+//			removalDelay: 300
+//		});
+//
+//		$('.btn-lightbox').magnificPopup({
+//			type: 'image',
+//			mainClass: 'squarefolio',
+//			removalDelay: 300
+//		});
 
 		$('.gallery').each(function() {
 			$(this).magnificPopup({

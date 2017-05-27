@@ -3,14 +3,14 @@
 <!-- END HEADER -->
 
 <!-- BEGIN MAIN CONTAINER -->
-<main class="main-content">
+<main class="main-content"  ng-init="getProjectsAllProjects()">
 
     <!-- start content -->
     <!-- start breadcrumbs.html-->
     <div class="breadcrumbs">
         <div class="container">
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/index">Home</a></li>
                 <li><span>All Projects</span></li>
             </ul>
         </div>
@@ -29,42 +29,14 @@
                 <li class="active" data-group="all"><span>Current Project</span></li>
             </ul>
         </div>
-
         <div class="thumbs offset-bottom">
-            <div class="thumbs-item ">
-                <a href="project_details.html">
+            <div class="thumbs-item " ng-repeat="currentProject in current">
+                <a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/project-details/{{currentProject.id}}">
                     <header class="thumbs-item-heading">
-                        <h3>Project Name</h3>
-                        <p>project description description project descriptionproject description </p>
+                        <h3>{{currentProject.project_name}}</h3>
+                         <p>{{currentProject.short_description | htmlToPlaintext}} </p>
                     </header>
-                    <img src="img/pro1.jpg" alt="">
-                </a>
-            </div>
-            <div class="thumbs-item ">
-                <a href="project_details.html">
-                    <header class="thumbs-item-heading">
-                        <h3>Project</h3>
-                        <p>project description</p>
-                    </header>
-                    <img src="img/pro3.jpg" width="586" height="280" alt="">
-                </a>
-            </div>
-            <div class="thumbs-item ">
-                <a href="project_details.html">
-                    <header class="thumbs-item-heading">
-                        <h3>Project Name</h3>
-                        <p>project description description project descriptionproject description </p>
-                    </header>
-                    <img src="img/pro1.jpg" alt="">
-                </a>
-            </div>
-            <div class="thumbs-item ">
-                <a href="project_details.html">
-                    <header class="thumbs-item-heading">
-                        <h3>Project</h3>
-                        <p>project description</p>
-                    </header>
-                    <img src="img/pro3.jpg" width="586" height="280" alt="">
+                    <img ng-src="[[config('global.s3Path')]]project/project_logo/{{currentProject.project_logo}}" alt="">
                 </a>
             </div>
             <div class="thumbs-sizer"></div>
@@ -76,33 +48,14 @@
             </ul>
         </div>
 
-        <div class="thumbs offset-bottom">
-
-            <div class="thumbs-item ">
-                <a href="project_details.html">
+         <div class="thumbs offset-bottom">
+            <div class="thumbs-item " ng-repeat="currentProject in upcoming">
+                <a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/project-details/{{currentProject.id}}">
                     <header class="thumbs-item-heading">
-                        <h3>Project</h3>
-                        <p>project description</p>
+                        <h3>{{currentProject.project_name}}</h3>
+                        <p>{{currentProject.short_description | htmlToPlaintext}} </p>
                     </header>
-                    <img src="img/pro3.jpg" width="586" height="280" alt="">
-                </a>
-            </div>
-            <div class="thumbs-item ">
-                <a href="project_details.html">
-                    <header class="thumbs-item-heading">
-                        <h3>Project Name</h3>
-                        <p>project description description project descriptionproject description </p>
-                    </header>
-                    <img src="img/pro1.jpg" alt="">
-                </a>
-            </div>
-            <div class="thumbs-item ">
-                <a href="project_details.html">
-                    <header class="thumbs-item-heading">
-                        <h3>Project</h3>
-                        <p>project description</p>
-                    </header>
-                    <img src="img/pro3.jpg" width="586" height="280" alt="">
+                    <img ng-src="[[config('global.s3Path')]]project/project_logo/{{currentProject.project_logo}}" alt="">
                 </a>
             </div>
             <div class="thumbs-sizer"></div>
@@ -114,24 +67,14 @@
             </ul>
         </div>
 
-        <div class="thumbs offset-bottom">
-
-            <div class="thumbs-item ">
-                <a href="project_details.html">
+         <div class="thumbs offset-bottom">
+            <div class="thumbs-item " ng-repeat="currentProject in completed">
+                <a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/project-details/{{currentProject.id}}">
                     <header class="thumbs-item-heading">
-                        <h3>Project Name</h3>
-                        <p>project description description project descriptionproject description </p>
+                        <h3>{{currentProject.project_name}}</h3>
+                        <p>{{currentProject.short_description | htmlToPlaintext}} </p>
                     </header>
-                    <img src="img/pro1.jpg" alt="">
-                </a>
-            </div>
-            <div class="thumbs-item ">
-                <a href="project_details.html">
-                    <header class="thumbs-item-heading">
-                        <h3>Project</h3>
-                        <p>project description</p>
-                    </header>
-                    <img src="img/pro3.jpg" width="586" height="280" alt="">
+                    <img ng-src="[[config('global.s3Path')]]project/project_logo/{{currentProject.project_logo}}" alt="">
                 </a>
             </div>
             <div class="thumbs-sizer"></div>

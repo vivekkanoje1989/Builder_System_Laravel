@@ -66,7 +66,7 @@
                         <div class="form-group af-inner has-icon">
                             <label class="sr-only" for="input-message">Message</label>
                             <textarea
-                                name="message" id="input-message" placeholder="Message" rows="4" cols="50"
+                                name="message" id="input-message" placeholder="Message" rows="4" cols="50" ng-model="massage"
                                 data-toggle="tooltip" title="Message is required"
                                 class="form-control placeholder"></textarea>
                             <span class="form-control-icon"><i class="fa fa-bars" style="margin-top: 10%;"></i></span>
@@ -94,7 +94,7 @@
                     <ul class="media-list contact-list" ng-repeat="contact in contacts track by $index">
                         <li class="media">
                             <div class="media-left"><i class="fa fa-home"></i></div>
-                            <div class="media-body">Adress {{$index+1}}: {{contact.address}}</div>
+                            <div class="media-body">Adress {{$index + 1}}: {{contact.address}}</div>
                         </li>
                         <li class="media">
                             <div class="media-left"><i class="fa fa-phone"></i></div>
@@ -104,14 +104,10 @@
                             <div class="media-left"><i class="fa fa-envelope"></i></div>
                             <div class="media-body">E mails: {{contact.email}}</div>
                         </li>
-                        <li class="media">
-                            <div class="media-left"><i class="fa fa-clock-o"></i></div>
-                            <div class="media-body">Working Hours: 09:30-21:00 except on Sundays</div>
-                        </li>
-<br>
+                        <br>
                     </ul>
-                    
-                    
+
+
                 </div>
             </div>
         </div>

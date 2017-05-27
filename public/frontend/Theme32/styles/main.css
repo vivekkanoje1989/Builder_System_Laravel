@@ -43,6 +43,7 @@ h3 {
 }
 
 p {
+  font-size: 15px;  
   margin: 0 0 30px;
   line-height: 1.5;
 }
@@ -61,17 +62,17 @@ ul li {
 
 a {
   font-weight: bold;
-  color: #FFD635;
 }
 
 a:hover {
-  color: #000;
+  //color: #000;
 }
 
 address {
   margin: 0 0 30px;
   font-style: normal;
   line-height: 1.5;
+  font-size: 15px;
 }
 
 blockquote {
@@ -303,7 +304,7 @@ video {
 }
 
 .offset-bottom {
-  margin-bottom: 80px;
+  margin-bottom: 40px;
 }
 
 .no-offset-top {
@@ -3041,7 +3042,6 @@ a .fa {
   float: left;
   width: 80px;
   height: 80px;
-  border-bottom: 8px solid #000;
   margin: 0 30px 0 0;
 }
 
@@ -4532,3 +4532,8 @@ a .fa {
 }
 
 /******** VIDEO MODAL*********/
+
+.err{
+        font-size: 13;
+        color:red;
+    }

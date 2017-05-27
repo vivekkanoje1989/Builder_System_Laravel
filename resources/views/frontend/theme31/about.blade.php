@@ -1,6 +1,6 @@
 @extends('layouts/frontend/theme31/main')
 @section('content')
-<div class="wrapper" ng-controller="webAppController" >
+<div class="wrapper">
     <div class="content-area" ng-init="getAboutPageContent(); getEmployees();">
         <div class="container">
             <article class="post-wrap">
@@ -11,7 +11,7 @@
                         </ol>
                         <div class="carousel-inner">
                             <div  ng-repeat="banner in banner_images track by $index" ng-class="{'active':$first}" class="item slides">
-                                <div class="slide-{{$index+1}}" style="background-image: url(https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/website/banner-images/{{banner}}"></div>
+                                <div class="slide-{{$index+1}}" style="background-image: url([[config('global.s3Path')]]website/banner-images/{{banner}}"></div>
                             </div>
                         </div> 
                     </div>
@@ -44,7 +44,7 @@
                     <div class="col-md-3 col-sm-6 wow fadeInDown col-centered"  ng-repeat="emp in employee | limitTo:3" data-wow-offset="200" data-wow-delay="400ms"  align="center">
                         <div class="thumbnail thumbnail-team no-border no-padding">
                             <div class="">
-                                <img src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/hr/employee-photos/{{emp.employee_photo_file_name}}" alt="" class="team-img center-block">
+                                <img src="[[config('global.s3Path')]]hr/employee-photos/{{emp.employee_photo_file_name}}" alt="" class="team-img center-block">
                             </div>
                             <div class="caption">
                                 <h4 class="caption-title">{{emp.first_name+" "+emp.last_name}} <small>{{emp.designation}}</small></h4>

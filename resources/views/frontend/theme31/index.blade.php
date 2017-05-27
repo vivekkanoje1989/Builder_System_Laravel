@@ -15,7 +15,7 @@
     /* position: relative; */
 }
 </style>
-<div class="content-area" ng-controller="webAppController">
+<div class="content-area" >
     <section class="page-section no-padding slider" ng-init="getBackGroundImages(); getProjects(); getAboutPageContent();">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
             <!-- Indicators -->
@@ -24,7 +24,7 @@
             </ol>
             <div class="carousel-inner">
                 <div class="item" ng-class='{active:$first}'  ng-repeat="img in backgroundImages track by $index">
-                    <img ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/website/banner-images/{{img}}" alt="{{img}}" style="width:100%;">
+                    <img ng-src="[[config('global.s3Path')]]website/banner-images/{{img}}" alt="{{img}}" style="width:100%;">
                 </div>
             </div>
             <a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -152,7 +152,7 @@
                         </ol>
                         <div class="carousel-inner">
                             <div  ng-repeat="banner in banner_images track by $index" ng-class="{'active':$first}" class="item slides">
-                                <div class="slide-{{$index + 1}}" style="background-image: url(https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/website/banner-images/{{banner}}"></div>
+                                <div class="slide-{{$index + 1}}" style="background-image: url([[config('global.s3Path')]]website/banner-images/{{banner}}"></div>
                             </div>
                         </div> 
                     </div>
@@ -165,13 +165,13 @@
         <div class="container wow fadeInUp" data-wow-offset="70" data-wow-delay="500ms">
             <div class="testimonials-carousel">
                 <div class="owl-carousel" id="testimonials">
-                    <?php for ($i = 0; $i < count($testimonials); $i++) { ?>
+                    @for($i = 0; $i < count($testimonials); $i++)
 
                         <div class="testimonial">
                             <div class="media">
                                 <div class="media-left">
                                     <a href="#">
-                                        <img class="media-object testimonial-avatar" ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Testimonial/[[$testimonials[$i]->photo_url]]" alt="Testimonial avatar">
+                                        <img class="media-object testimonial-avatar" ng-src="[[config('global.s3Path')]]Testimonial/[[$testimonials[$i]->photo_url]]" alt="Testimonial avatar">
                                     </a>
                                 </div>
                                 <div class="media-body">
@@ -180,7 +180,7 @@
                                 </div>
                             </div>
                         </div>
-                    <?php } ?>
+                    @endfor
                 </div>
             </div>
         </div>
@@ -214,8 +214,8 @@
                                             <div class="swiper-container" id="swiperSlider2x1">
                                                 <div class="swiper-wrapper">
                                                     <div class="swiper-slid" style="width:100% !important;" >
-                                                        <a class="btn btn-zoom" href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/{{current.project_logo}}" data-gal="prettyPhoto"><i class="fa fa-arrows-h"></i></a>
-                                                        <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/{{current.project_logo}}" data-gal="prettyPhoto"><img class="img-responsive" style="height: auto; width: 100%;" ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/project/project_logo/{{current.project_logo}}" alt=""/></a>
+                                                        <a class="btn btn-zoom" href="[[config('global.s3Path')]]project/project_logo/{{current.project_logo}}" data-gal="prettyPhoto"><i class="fa fa-arrows-h"></i></a>
+                                                        <a href="[[config('global.s3Path')]]project/project_logo/{{current.project_logo}}" data-gal="prettyPhoto"><img class="img-responsive" style="height: auto; width: 100%;" ng-src="[[config('global.s3Path')]]project/project_logo/{{current.project_logo}}" alt=""/></a>
                                                     </div>
                                                 </div>
                                             </div>

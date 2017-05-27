@@ -108,7 +108,53 @@ Route::group(['middleware' => ['web']], function () {
     
     Route::get($getWebsiteUrl . '/getEmployees', 'frontend\UserController@getEmployees');
     
+    Route::get($getWebsiteUrl . '/getTestimonials', 'frontend\UserController@getTestimonials');
+    
     Route::get($getWebsiteUrl . '/getMenus','frontend\UserController@getMenus');
+    
+    Route::get($getWebsiteUrl . '/getCareers','frontend\UserController@getCareers');
+    
+    Route::get($getWebsiteUrl . '/testimonials','frontend\UserController@testimonials');
+    
+    Route::get($getWebsiteUrl . '/blog','frontend\UserController@blog');
+    
+    Route::get($getWebsiteUrl . '/blog-details/{blogId}','frontend\UserController@blogdetails');
+    
+    Route::get($getWebsiteUrl . '/getBlogs','frontend\UserController@getBlogs');
+    
+    Route::post($getWebsiteUrl . '/create_testimonials','frontend\UserController@create_testimonials');
+    
+    Route::post($getWebsiteUrl . '/getBlogDetails','frontend\UserController@getBlogDetails');
+    
+    Route::get($getWebsiteUrl . '/news','frontend\UserController@news');
+        
+    Route::get($getWebsiteUrl . '/getNews','frontend\UserController@getNews');
+    
+    Route::get($getWebsiteUrl . '/news-details/{newsId}','frontend\UserController@newsdetails');
+    
+    Route::post($getWebsiteUrl . '/getNewsDetails','frontend\UserController@getNewsDetails');
+    
+    Route::get($getWebsiteUrl . '/press-release','frontend\UserController@press_release');
+        
+    Route::get($getWebsiteUrl . '/getpressRelease','frontend\UserController@getpressRelease');
+    
+    Route::get($getWebsiteUrl . '/press-release-details/{Id}','frontend\UserController@press_release_details');
+    
+    Route::post($getWebsiteUrl . '/getpressReleaseDetails','frontend\UserController@getpressReleaseDetails');
+    
+    Route::get($getWebsiteUrl . '/events','frontend\UserController@events');
+        
+    Route::get($getWebsiteUrl . '/getEvents','frontend\UserController@getEvents');
+    
+    Route::get($getWebsiteUrl . '/event-details/{id}','frontend\UserController@eventDetails');
+    
+    Route::post($getWebsiteUrl . '/getEventDetails','frontend\UserController@getEventDetails');
+    
+    Route::get($getWebsiteUrl . '/testimonial/{id}','frontend\UserController@testimonialdetail');
+    
+    Route::post($getWebsiteUrl . '/getTestimonialDetails','frontend\UserController@getTestimonialDetails');
+    
+    Route::get($getWebsiteUrl . '/enquiry/{id}','frontend\UserController@enquiry');
 });
 
 Route::group(['middleware' => ['auth:admin']], function () {

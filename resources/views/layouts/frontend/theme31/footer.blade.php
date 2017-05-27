@@ -27,8 +27,7 @@
 <script src="/backend/lib/angular/angular.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
 <script src="/backend/app/ng-file-upload.js"></script>
-<script src="/frontend/theme31/assets/js/frontend.js"></script>
-<script src="/frontend/theme31/assets/js/Data.js"></script>
+<script src="/frontend/frontend.js"></script>
 <script src="/frontend/theme31/assets/plugins/jquery/jquery-1.11.1.min.js"></script>
 <script src="/frontend/theme31/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="/frontend/theme31/assets/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>

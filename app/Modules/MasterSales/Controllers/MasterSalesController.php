@@ -23,6 +23,7 @@ use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\LstEnquiryLocation;
 use Illuminate\Support\Facades\Session;
 use App\Models\Project;
+use App\Classes\Gupshup;
 class MasterSalesController extends Controller {
 
     public $allusers;
@@ -702,7 +703,7 @@ class MasterSalesController extends Controller {
                 $subSourceId = $input['subsource_id'];
                 $sourceDescription = $input['source_description'];
             }
-            echo "<pre>";print_r($request);exit;
+
             if(!empty($input))
             {
                 $todayDate = date('Y-m-d H:i:s');
@@ -716,12 +717,13 @@ class MasterSalesController extends Controller {
                 }else if($input['msgRemark'] !== ''){
                     $input['remarks'] = $input['msgRemark'];
                     
-                    $implodeMobileNo = implode(",", $input['remarks']);
+                    $implodeMobileNo = implode(",", $input['mobileNumber']);
                     $mobileNo = $implodeMobileNo;
                     $customer = "No";
                     $isInternational = 0; //0 OR 1
                     $sendingType = 0; //always 0 for T_SMS
                     $smsType = "T_SMS";
+                    $smsBody = $input['msgRemark'];
                     $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
                     $decodeResult = json_decode($result,true);
                     $msg = $decodeResult["message"]; 
@@ -737,6 +739,10 @@ class MasterSalesController extends Controller {
                     $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);   
                     if($sentSuccessfully)
                         $msg = "Email sent successfully";
+                    else{
+                        $msg = "Email not sent successfully";
+                    }
+                        
                 }
                 unset($input['followupId'],$input['customerId'],$input['title_id'],
                         $input['first_name'],$input['last_name'],$input['source_id'],
