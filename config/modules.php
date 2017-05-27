@@ -51,5 +51,8 @@ return [
         "WebsiteChangeModule",
         "Themes",
         "Designations",
+        "News",
+        "PressRelease",
+        "Events",
     ),
 ];

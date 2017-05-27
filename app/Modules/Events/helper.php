@@ -1,0 +1,4 @@
+<?php
+ /**
+ *	Events Helper  
+ */
