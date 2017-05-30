@@ -536,15 +536,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.locations = response.records;
             });
         }
-        $scope.initHistoryDataModal = function (enquiry_id) {
-            Data.post('master-sales/getEnquiryHistory', {
-                enquiryId: enquiry_id,
-            }).then(function (response) {
-                if (response.success) {
-                    $scope.historyList = angular.copy(response.records);
-                }
-            });
-        }        
+            
     }]);
 
 app.directive('checkMobileExist', function ($timeout, $q, Data) {

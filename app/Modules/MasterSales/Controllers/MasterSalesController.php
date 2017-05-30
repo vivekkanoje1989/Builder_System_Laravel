@@ -1,10 +1,6 @@
-<?php
-
-namespace App\Modules\MasterSales\Controllers;
-
+<?php namespace App\Modules\MasterSales\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Modules\MasterSales\Models\Customer;
 use App\Modules\MasterSales\Models\CustomersLog;
@@ -24,8 +20,8 @@ use App\Models\LstEnquiryLocation;
 use Illuminate\Support\Facades\Session;
 use App\Models\Project;
 use App\Classes\Gupshup;
+use Maatwebsite\Excel\Facades\Excel;
 class MasterSalesController extends Controller {
-
     public $allusers;
     /**
      * Display a listing of the resource.
@@ -804,7 +800,7 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-
+   
     public function getLostEnquiries() {// get lost enquiries
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -1079,7 +1075,75 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-    
+            //$data = Employee::select("id", "first_name")->get();
+    public function exportToExcel()
+    {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $data = $request['result']; 
+        
+        $reportName = $request['reportName'];
+        $currentDate = date('_d_m_Y_h_A');
+        $fileName = $reportName . $currentDate . "_by_" . Auth::guard('admin')->user()->first_name . "_" . Auth::guard('admin')->user()->last_name;
+
+        //$data = Employee::select("id", "first_name")->get()->toArray();
+        ob_end_clean();        
+        Excel::create($fileName, function($excel) use ($data,$reportName) {
+            $excel->sheet($reportName, function($sheet) use ($data, $reportName) {
+                $sheet->mergeCells('A1:Q1');
+                $sheet->setHeight("1", 50);
+                $sheet->cells('A1:Q1', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontColor('#315AD7');
+                    $cells->setBackground('#D6D6D6');
+                    $cells->setBorder('thick', 'thick', 'thick', 'thick');// Set all borders (top, right, bottom, left)
+                    $cells->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '25',
+                    ));
+                });
+               
+                $sheet->mergeCells('A2:Q2');
+                
+                $title = str_replace('_', ' ', $reportName);
+                $sheet->row(1, array('BMS BUILDER - '.$title));
+                
+//                $sheet->appendRow(array_keys($data[0])); // column names
+
+                // setting column names for data - you can of course set it manually
+                $sheet->appendRow(["Sr.No","Date of enquiry","Customer Details","Mobile Numbers","Landline Number",
+                    "Email Ids","Project Details","Enquiry Category","Last Followup By","Last Followup Remarks",
+                    "Next Followup","Enquiry Status","Enquiry Source","Enquiry Sub Source","Enquiry Source Description","Enquiry Owner"]); // column names
+                $sheet->row(3, function ($row) {
+                    $row->setAlignment('center');
+                    $row->setBackground('#f9c955');
+                    $row->setFont(array(
+                        'family'     => 'Calibri',
+                        'size'       => '12',
+                    ));
+                });
+                
+                $i = 1;
+                // putting users data as next rows
+                foreach ($data as $user) {
+                    $srno = ["srno" => $i++];
+                    $getFilterData = [$user["sales_enquiry_date"],$user["customer_fname"]." ".$user["customer_lname"],
+                    $user["group_mobile_number"],$user["group_landline_number"],$user["group_email_id"],$user["project_block_name"],
+                    $user["enquiry_category"],$user["last_followup_date"],
+                    $user["remarks"],$user["next_followup_date"]." ".$user["next_followup_time"],
+                    $user["sales_status"],$user["sales_source_id"],$user["sales_subsource_id"],
+                    $user["sales_source_description"],$user["owner_fname"]." ".$user["owner_lname"]];
+                    
+                    $user = array_merge($srno,$getFilterData);
+                    $sheet->appendRow($user);
+                }
+            });
+        })->save('XLS', "downloads/");
+        
+        $path = "http://localhost/Builder_System_Laravel/public/downloads/" . $fileName. ".xls";
+        $result = ['success' => true, 'pathOfSheet' => $path];
+        return json_encode($result);
+    }
     public function updateCustomer($id) {
         return view('MasterSales::updateCustomer')->with('id', $id);
     }

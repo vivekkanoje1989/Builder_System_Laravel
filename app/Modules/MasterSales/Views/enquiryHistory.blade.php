@@ -59,7 +59,7 @@
                                 {{ history.last_followup_date}}
                             </td>
                             <td>
-                                {{history.remarks}}
+                                {{history.remarks | htmlToPlaintext}}
                             </td>
                             <td>
                                 {{ history.next_followup_date}} at {{ history.next_followup_time}}

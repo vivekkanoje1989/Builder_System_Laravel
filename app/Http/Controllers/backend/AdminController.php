@@ -1,5 +1,4 @@
-<?php
-namespace App\Http\Controllers\backend;
+<?php namespace App\Http\Controllers\backend;
 use Auth;
 use App\Http\Controllers\Controller;
 use App\Classes\MenuItems;

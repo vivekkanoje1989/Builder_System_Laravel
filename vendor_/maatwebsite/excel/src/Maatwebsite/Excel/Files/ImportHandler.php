@@ -9,4 +9,4 @@ interface ImportHandler {
      */
     public function handle($file);
 
-} 
+}

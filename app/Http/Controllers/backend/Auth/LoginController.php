@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Http\Controllers\backend\Auth;
+<?php namespace App\Http\Controllers\backend\Auth;
 
 use App\Models\backend\Employee;
 use Illuminate\Http\Request;
@@ -45,7 +43,7 @@ class LoginController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $result = "";
-        $checkEmail = Employee::getRecords(["id","password","high_security_password"], ["username" => $request['data']['mobileData']]);//(select attributes, where conditions)
+        $checkEmail = Employee::getRecords(["id","first_name","last_name","password","high_security_password"], ["username" => $request['data']['mobileData']]);//(select attributes, where conditions)
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         
         if(empty($request['data']['passwordData'])){      
@@ -62,7 +60,7 @@ class LoginController extends Controller {
                         return json_encode($result);
                     }                
                 } 
-                $result = ['success' => true];
+                $result = ['success' => true, "message" => ["fullName" => $checkEmail[0]->first_name." ".$checkEmail[0]->last_name]];
             }
             else{
                 $result = ['success' => false,'message' => 'Mobile does not exist!'];
@@ -70,14 +68,14 @@ class LoginController extends Controller {
         }
         elseif(empty($request['data']['securityPasswordData'])){   
             if (\Hash::check($request['data']['passwordData'], $checkEmail[0]->password)) {
-                $result = ['success' => true];                
+                $result = ['success' => true, "message" => ["fullName" => $checkEmail[0]->first_name." ".$checkEmail[0]->last_name]];                
             }else {
                 $result = ['success' => false,'message' => 'Wrong Password!'];
             }
         }
         else{      
             if ($request['data']['securityPasswordData'] == $checkEmail[0]->high_security_password) {
-                $result = ['success' => true];                
+                $result = ['success' => true, "message" => ["fullName" => $checkEmail[0]->first_name." ".$checkEmail[0]->last_name]];                
             }else {
                 $result = ['success' => false,'message' => 'Wrong Password!'];
             }

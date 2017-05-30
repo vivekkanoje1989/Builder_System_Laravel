@@ -65,28 +65,28 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     });    
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
     
-    
-    Route::get($getUrl . '/master-sales/updateCustomer/{id}', 'MasterSalesController@updateCustomer');
+    Route::get($getUrl . '/master-sales/updateCustomer/{id}', 'MasterSalesController@updateCustomer'); //update customer data
     Route::get($getUrl . '/master-sales/getEmployees', 'MasterSalesController@getEmployees');  // get all employees    
     Route::get($getUrl . '/master-sales/getEnquiryCity', 'MasterSalesController@getEnquiryCity'); // get enquiry city from table 
     Route::post($getUrl . '/master-sales/getAllLocations', 'MasterSalesController@getAllLocations'); //get all locations of perticular city id
     Route::get($getUrl . '/master-sales/getFinanceEmployees', 'MasterSalesController@getFinanceEmployees'); // get employees whose deparment is finance
     Route::get($getUrl . '/master-sales/showEnquiry/{id}', 'MasterSalesController@showEnquiry'); //show enquiry page
-    Route::post($getUrl . '/master-sales/saveEnquiry', 'MasterSalesController@saveEnquiry'); //saveEnquiry
+    Route::post($getUrl . '/master-sales/saveEnquiry', 'MasterSalesController@saveEnquiry'); //save enquiry data
     
     Route::get($getUrl . '/master-sales/editCustomer/cid/{cid}', 'MasterSalesController@editCustomer'); //updateCustomer
-    Route::get($getUrl . '/master-sales/editEnquiry/cid/{cid}/eid/{eid}', 'MasterSalesController@editEnquiry'); //updateEnquiry
-    Route::put($getUrl . '/master-sales/updateEnquiry/{id}', 'MasterSalesController@updateEnquiry'); //updateEnquiry
+    Route::get($getUrl . '/master-sales/editEnquiry/cid/{cid}/eid/{eid}', 'MasterSalesController@editEnquiry'); //update enquiry data
+    Route::put($getUrl . '/master-sales/updateEnquiry/{id}', 'MasterSalesController@updateEnquiry'); //update enquiry data
     Route::resource($getUrl . '/master-sales', 'MasterSalesController');
     Route::post($getUrl . '/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails'); //get customer details
     Route::post($getUrl . '/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details
-    Route::post($getUrl . '/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // getCustomerDataWithId
+    Route::post($getUrl . '/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // get Customer Data With Id
     Route::post($getUrl . '/master-sales/checkMobileExist', 'MasterSalesController@checkMobileExist');
     Route::post($getUrl . '/master-sales/delEnquiryDetailRow', 'MasterSalesController@delEnquiryDetailRow');
     Route::post($getUrl . '/master-sales/addEnquiryDetailRow', 'MasterSalesController@addEnquiryDetailRow');
     Route::post($getUrl . '/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');
     Route::post($getUrl . '/master-sales/getDataForTodayRemark', 'MasterSalesController@getDataForTodayRemark');
     Route::post($getUrl . '/master-sales/insertTodayRemark', 'MasterSalesController@insertTodayRemark');
+    Route::post($getUrl . '/master-sales/exportToExcel', 'MasterSalesController@exportToExcel');//export data in excel sheet
     
     /****************************ENQUIRIES****************************/
     Route::post($getUrl . '/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing

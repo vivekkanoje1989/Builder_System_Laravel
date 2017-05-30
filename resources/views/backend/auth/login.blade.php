@@ -11,12 +11,12 @@
                 <form name="loginForm" novalidate ng-submit="loginForm.$valid && login(loginData)" ng-controller="adminController">
                 <input type="hidden" ng-model="loginData.csrfToken" name="csrftoken" id="csrftoken" ng-init="loginData.csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="login-div">
-                    <h3>Hi, GUEST</h3>
+                    <h3>Hi, <span ng-if="fullName">{{fullName}}</span><span ng-if="!fullName">Guest</span></h3>
                     <hr>
                     <div id="login-form" class="w3-animate-right">
                         <div class="group-div">
                             <label>Mobile No.</label>
-                            <input type="text" name="mobile" ng-model="loginData.mobile" check-login-credentials minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required ng-model-options="{ allowInvalid: true, debounce: 100 }">
+                                <input type="text" name="mobile" ng-model="loginData.mobile" check-login-credentials minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required ng-model-options="{ allowInvalid: true, debounce: 100 }">
                             <div ng-show="next1" ng-messages="loginForm.mobile.$error" class="help-block next1">
                                 <div ng-message="required">Required</div>
                                 <div ng-message="minlength">Invalid mobile no.</div>

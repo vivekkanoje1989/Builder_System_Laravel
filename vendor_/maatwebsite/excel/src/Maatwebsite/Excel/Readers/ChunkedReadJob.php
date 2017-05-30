@@ -1,6 +1,4 @@
-<?php
-
-namespace Maatwebsite\Excel\Readers;
+<?php namespace Maatwebsite\Excel\Readers;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

@@ -81,6 +81,9 @@ app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
                                 model.$setValidity('wrongCredentials', !!response.success);
                                 $scope.errMsg = response.message;
                             }, 200);
+                            if(response.success){
+                                $scope.fullName = response.message.fullName;
+                            }
                 });
             };
         }

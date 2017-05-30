@@ -10,6 +10,7 @@ angular.module('app')
         .config(
                 ['$stateProvider', '$urlRouterProvider',
                     function ($stateProvider, $urlRouterProvider) {
+                        
                         $urlRouterProvider
                                 .otherwise(getUrl + '/login');
                         $stateProvider
@@ -3659,12 +3660,12 @@ angular.module('app')
                                     }
                                 });
                     }
-                ]).run(function ($rootScope, $location, $state, Data, $http, $window, $stateParams) {
-    $rootScope.authenticated = false;
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
-    $rootScope.getMenu = {};
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, next, current) {
+        ]).run(function ($rootScope, $location, $state, Data, $http, $window, $stateParams) {
+        $rootScope.authenticated = false;
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+        $rootScope.getMenu = {};
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, next, current) {
         var nextUrl = $location.path();
         if ((toState.requiredLogin && $rootScope.authenticated === false) || (!toState.requiredLogin && $rootScope.authenticated === false)) { // true && false
             Data.get('session').then(function (results) {

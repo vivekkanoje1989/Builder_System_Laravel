@@ -1,9 +1,29 @@
+<script src="https://rawgithub.com/eligrey/FileSaver.js/master/FileSaver.js" type="text/javascript"></script>
 <div class="widget-body table-responsive">
     <div class="row" ng-if="listsIndex.success">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-sm-3 col-xs-12">
-                <label for="search">Records per page:</label>
-                <input type="number" ng-model="itemsPerPage" name="itemsPerPage" min="1" max="50" style="width:30%;" class="form-control" ng-change="itemsperpageno(itemsPerPage)">
+            <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-4 col-md-2 col-xs-12">
+                    <label for="search">Show Results:</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-xs-12">
+                   <input type="number" ng-model="itemsPerPage" name="itemsPerPage" min="1" max="50" class="form-control" ng-change="itemsperpageno(itemsPerPage)">                 
+                </div>
+                <div class="col-sm-6 col-md-8 col-xs-12">
+                    <p style="font-size: 12px;">Show Filter Total {{listsIndex.records.length}} Enquiries Found Showing {{itemsPerPage}} Enquiries</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-6 col-xs-12">
+                    <a href="javascript:void(0);" class="btn btn-labeled btn-blue" ng-click="exportReport(listsIndex.records)" style="float: right;">
+                        <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
+                    </a>
+                </div>
+                <div class="col-sm-6 col-xs-12" ng-if="listsIndex.success">
+                    <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                        <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber,itemsPerPage)" max-size="10" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                    </div>                
+                </div>
             </div>
         </div>
     </div><br/>
@@ -24,15 +44,15 @@
             </tr>
         </tbody>
         <tbody ng-if="listsIndex.success">
-            <tr dir-paginate="list in listsIndex.records | filter:search | itemsPerPage:itemsPerPage">  
+            <tr dir-paginate="list in listsIndex.records | filter:search | itemsPerPage:itemsPerPage" current-page="currentPage">  
                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                 <td>
                     <div > 
                         {{list.customer_fname}} {{list.customer_lname}} - {{ list.mobile_number}} - {{list.email_id}} </div>
                     <hr>
                     <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}">Customer Details</a></div> 
-                    <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ listsIndex.records.length }}</b></div>
-                    <div class="floatLeft" style="width:40%;max-width: 30%;word-wrap: break-word;"><b>Booked : 0</b></div>                    
+                    <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ list.totalenq }}</b></div>
+                    <div class="floatLeft" style="width:40%;max-width: 30%;word-wrap: break-word;"><b>Booked : {{ list.totalbookedenq }}</b></div>                    
                     <div class="floatLeft" style="width:100%;"><hr></div>
                     <div style="text-align:center;">
                         <span style="margin:5px"><strong>Source: </strong>{{ list.sales_source_name}}<br></span>
@@ -49,8 +69,7 @@
                         <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Hot'">&nbsp;</span>
                         <span style="margin-left:4px;background-color:yellow;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Warm'">&nbsp;</span>
                         <span style="margin-left:4px;background-color:#5ABBF3;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Cold'">&nbsp;</span>
-                        
-                        <span style="float: left;margin: -4px 0px 0px 5px;">{{ list.enquiry_category}}</span>              
+                        <span style="float:left;margin: -4px 0px 0px 5px;">{{ list.enquiry_category}}</span>              
                     </div> 
                     <div class="floatLeft" style="width:100%;"><hr></div>
                     <div class="floatLeft">
@@ -86,11 +105,12 @@
         </div>
         <div class="col-sm-6">
             <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber,itemsPerPage)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber,itemsPerPage)" max-size="10" direction-links="true" boundary-links="true"></dir-pagination-controls>
             </div>
         </div>
     </div>
 </div>
+<a href id="downloadExcel" download>Download excel</a>
 <!-- Enquiry history modal -->
 <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
 <!-- Enquiry todays remark modal -->

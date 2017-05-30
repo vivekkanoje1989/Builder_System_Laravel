@@ -1,12 +1,12 @@
-app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$timeout', 'toaster', '$stateParams', '$filter', function ($scope, $state, Data, Upload, $timeout, toaster, $stateParams, $filter) {
+app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', function ($scope, Data, $timeout, toaster) {
         $scope.projectsDetails = [];
-//        $scope.locations = [];
         $scope.searchData = {};
         $scope.currentPage = 4;
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.historyList = {};
         $scope.divText = true;
+        $scope.pageHeading = '';
         $scope.itemsperpageno = function(no){
             $scope.itemsPerPage = no;
         }
@@ -14,8 +14,23 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-        
-        
+        $scope.initHistoryDataModal = function (enquiry_id) {
+            Data.post('master-sales/getEnquiryHistory', {
+                enquiryId: enquiry_id,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.historyList = angular.copy(response.records);
+                }
+            });
+        }    
+        $scope.exportReport = function(result){
+           // alert($scope.pageHeading.replace(/ /g,"_"));
+            
+            Data.post('master-sales/exportToExcel',{result:result, reportName:$scope.pageHeading.replace(/ /g,"_")}).then(function (response) {
+                $("#downloadExcel").attr("href",response.pathOfSheet);
+                //window.location = $('#downloadExcel').attr('href');
+            });
+        }
                
 //        $scope.saveEnquiryData = function (enquiryData)
 //        {
@@ -140,7 +155,8 @@ app.controller('enquiryController', ['$scope', '$state', 'Data', 'Upload', '$tim
         /****************************ENQUIRIES****************************/
         $scope.getTotalEnquiries = function ()
         {
-            Data.post('master-sales/getTotalEnquiries').then(function (response) {console.log(response);
+            $scope.pageHeading = "Total Enquiries";
+            Data.post('master-sales/getTotalEnquiries').then(function (response) {
                 $scope.listsIndex = response;
             });
         }

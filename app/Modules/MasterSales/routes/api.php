@@ -7,7 +7,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
     Route::post('api/master-sales', 'MasterSalesController@store');
     Route::put('api/master-sales/{id}', 'MasterSalesController@update');
     Route::post('api/master-sales/checkMobileExist', 'MasterSalesController@checkMobileExist');
-    Route::post('api/master-sales/saveEnquiryData', 'MasterSalesController@saveEnquiryData');
+    Route::post('api/master-sales/saveEnquiry', 'MasterSalesController@saveEnquiry');
     
     Route::post('api/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // getCustomerDataWithId
     Route::post('api/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details

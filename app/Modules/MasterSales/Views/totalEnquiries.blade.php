@@ -1,8 +1,8 @@
-<div class="widget flat radius-bordered " ng-controller="enquiryController" ng-init="getTotalEnquiries()">
+<div class="widget flat radius-bordered" ng-controller="enquiryController" ng-init="getTotalEnquiries()">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Total Enquiries</span>
+                <span class="widget-caption">{{pageHeading}}</span>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
