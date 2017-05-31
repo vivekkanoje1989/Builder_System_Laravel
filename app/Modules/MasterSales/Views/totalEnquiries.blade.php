@@ -1,4 +1,5 @@
 <div class="widget flat radius-bordered" ng-controller="enquiryController" ng-init="getTotalEnquiries()">
+    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '[[ csrf_token() ]]'">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header ">

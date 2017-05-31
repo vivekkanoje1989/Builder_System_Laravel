@@ -1,27 +1,28 @@
-<script src="https://rawgithub.com/eligrey/FileSaver.js/master/FileSaver.js" type="text/javascript"></script>
 <div class="widget-body table-responsive">
-    <div class="row" ng-if="listsIndex.success">
+    <div class="row" >
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="col-sm-4 col-md-2 col-xs-12">
                     <label for="search">Show Results:</label>
                 </div>
                 <div class="col-sm-2 col-md-2 col-xs-12">
-                   <input type="number" ng-model="itemsPerPage" name="itemsPerPage" min="1" max="50" class="form-control" ng-change="itemsperpageno(itemsPerPage)">                 
+                    <input type="number" min="1" max="999" class="form-control" ng-model="itemsPerPage">
                 </div>
                 <div class="col-sm-6 col-md-8 col-xs-12">
-                    <p style="font-size: 12px;">Show Filter Total {{listsIndex.records.length}} Enquiries Found Showing {{itemsPerPage}} Enquiries</p>
+                    <p style="font-size: 12px;">Show Filter Total {{listsIndex.records.length}} Enquiries Found Showing {{(itemsPerPage > listsIndex.records.length) ? listsIndex.records.length : itemsPerPage}} Enquiries</p>
                 </div>
             </div>
             <div class="col-sm-6 col-xs-12">
                 <div class="col-sm-6 col-xs-12">
-                    <a href="javascript:void(0);" class="btn btn-labeled btn-blue" ng-click="exportReport(listsIndex.records)" style="float: right;">
+                    <a href="http://localhost/Builder_System_Laravel/public/downloads/{{sheetName}}" class="btn btn-labeled btn-blue" id="downloadExcel" download="{{sheetName}}" style="float: right;" ng-show="dnExcelSheet">
+                        <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
+                    <a href="javascript:void(0);" class="btn btn-labeled btn-blue" ng-click="exportReport(listsIndex.records)" style="float: right;" ng-show="btnExport">
                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                     </a>
                 </div>
-                <div class="col-sm-6 col-xs-12" ng-if="listsIndex.success">
+                <div class="col-sm-6 col-xs-12">
                     <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                        <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber,itemsPerPage)" max-size="10" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                        <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
                     </div>                
                 </div>
             </div>
@@ -44,7 +45,7 @@
             </tr>
         </tbody>
         <tbody ng-if="listsIndex.success">
-            <tr dir-paginate="list in listsIndex.records | filter:search | itemsPerPage:itemsPerPage" current-page="currentPage">  
+            <tr role="row" dir-paginate="list in listsIndex.records | filter: search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                 <td>
                     <div > 
@@ -105,12 +106,12 @@
         </div>
         <div class="col-sm-6">
             <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber,itemsPerPage)" max-size="10" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
             </div>
         </div>
     </div>
 </div>
-<a href id="downloadExcel" download>Download excel</a>
+
 <!-- Enquiry history modal -->
 <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
 <!-- Enquiry todays remark modal -->

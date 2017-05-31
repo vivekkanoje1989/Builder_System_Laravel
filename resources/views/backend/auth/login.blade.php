@@ -5,18 +5,19 @@
     <div class="sub-page-bg">
         <div class="row div-wdt div-bg">
             <div class="col-md-9 col-sm-8 col-xs-12" style="padding: 0;">
-                <img src="http://cdn.wonderfulengineering.com/wp-content/uploads/2014/01/building-wallpaper-5.jpg" class="img-responsive">
+                <!--img src="https://image.freepik.com/free-vector/abstract-logo-in-flame-shape_1043-44.jpg" class="clnt-logo"-->
+                <img src="http://cdn.wonderfulengineering.com/wp-content/uploads/2014/01/building-wallpaper-5.jpg" class="img-responsive">                
             </div>
             <div class="col-md-3 col-sm-4 col-xs-12"  style="padding: 0;">
                 <form name="loginForm" novalidate ng-submit="loginForm.$valid && login(loginData)" ng-controller="adminController">
                 <input type="hidden" ng-model="loginData.csrfToken" name="csrftoken" id="csrftoken" ng-init="loginData.csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="login-div">
-                    <h3>Hi, <span ng-if="fullName">{{fullName}}</span><span ng-if="!fullName">Guest</span></h3>
+                    <h3>Hi, GUEST</h3>
                     <hr>
                     <div id="login-form" class="w3-animate-right">
                         <div class="group-div">
                             <label>Mobile No.</label>
-                                <input type="text" name="mobile" ng-model="loginData.mobile" check-login-credentials minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required ng-model-options="{ allowInvalid: true, debounce: 100 }">
+                            <input type="text" name="mobile" ng-model="loginData.mobile" check-login-credentials minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required ng-model-options="{ allowInvalid: true, debounce: 100 }">
                             <div ng-show="next1" ng-messages="loginForm.mobile.$error" class="help-block next1">
                                 <div ng-message="required">Required</div>
                                 <div ng-message="minlength">Invalid mobile no.</div>
@@ -72,14 +73,21 @@
                     </div>
                 </div>
                 </form>
-                <!--div class="footer-div">
-                        <p>All rights are reserved</p>
-                </div-->
+     
+              
             </div>
+            <div class="foot-p2" align="center">
+                <div class="bord2">  
+                    <img src="http://bmsbuilder.in/themes/backend/bms.1.9.14/bms.png" class="bms-logo">
+                    <span class="pos2">1.0</span>
+                </div>  
+                <img src="http://bmsbuilderdev.in/common/images/edynamicslogo.jpg" class="foot-logo2"><p> All Rights Reserved © 2017 <a href="http://edynamics.co.in/" target="_blank"> edynamics Business Services LLP </a></p>
+                  
+            </div>    
         </div>
     </div>
 </div>
-
+   
 <script>
     $(document).ready(function () {
         $(".bt-next1").click(function (e) {

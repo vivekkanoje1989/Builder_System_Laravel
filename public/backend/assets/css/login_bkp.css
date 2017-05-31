@@ -1,59 +1,12 @@
-/* new css */
-  .pos2{
-        position: absolute;
-        bottom: 3px;
-    }
-    .bord2{
-        border-bottom: 1px solid #dee0de;
-        position: relative;
-    }
-    .bms-logo{
-        max-width: 55px;
-        height: auto;
-    }
-    .foot-logo2{
-        border-radius: 50%;
-        height: 32px;
-        width: 32px;
-        margin-top:10px;
-    }
-    .foot-p2{
-        position: absolute;
-        bottom: 0;
-        right: 2%; 
-    }
-    .clnt-logo{
-        position: absolute;
-        left: 0;
-        max-height: 90px;
-        width: auto;
-    }
-    
-    @media only screen and (max-width: 768px){
-        .foot-p2{
-            position: static;
-        }
-    }
-    @media only screen and (max-width: 1400px){
-        .foot-p2 p{
-            font-size: 10px;
-        }   
-    }
-
-/*end new css */
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 30 Jan, 2017, 3:44:25 PM
+    Author     : Admin
+*/
 
 .mar10{
         margin: 10px 0; 

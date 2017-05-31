@@ -12,8 +12,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.blockTypeList = [];
         $scope.contacts = [];
         
-        $scope.currentPage = $scope.itemsPerPage = 4;
-        $scope.noOfRows = 1;
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;        
         resetContactDetails();
         $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
@@ -28,10 +26,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.showDivCustomer = false;
             }
         }
-        $scope.pageChangeHandler = function(num) {
-            $scope.noOfRows = num;
-            $scope.currentPage = num * $scope.itemsPerPage;
-        };
+        
         $scope.validateMobileNumber = function (value) {
             var regex = /^(\+\d{1,4}-)\d{10}$/;
             if (!regex.test(value)) {

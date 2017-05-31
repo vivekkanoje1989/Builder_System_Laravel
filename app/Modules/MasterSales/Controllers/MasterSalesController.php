@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Project;
 use App\Classes\Gupshup;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Classes\S3;
+
 class MasterSalesController extends Controller {
     public $allusers;
     /**
@@ -793,6 +795,7 @@ class MasterSalesController extends Controller {
             $implodeLoc = implode(",", $getLocationName);
             $enqDetails['enquiry_locations'] = $implodeLoc;
         }*/
+        
         if (count($getCustomerEnquiryDetails) != 0) {
             $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
         } else {
@@ -881,13 +884,13 @@ class MasterSalesController extends Controller {
         
         $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups('.$loggedInUserId .')');
         $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
-        
+
         /*$date = date('Y-m-d');
         $empId = Auth::guard('admin')->user()->id;
         $getCustomerEnquiryDetails = EnquiryFollowup::select("*", DB::raw('MAX(id) AS id'))->whereDate('followup_date_time', '=', $date)->with(['getEnquiryFromFollowup' => function($q) use ($empId) {
                         $q->whereIn('sales_employee_id', [$empId]);
                     }])->groupBy("enquiry_id")->get();*/
-        if (count($getCustomerEnquiryDetails) != 0) {
+        if (count($getCustomerEnquiryDetails) != 0 && !empty($getCustomerEnquiryDetails[0]['id'])) {
             $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
@@ -906,7 +909,7 @@ class MasterSalesController extends Controller {
         
         $getCustomerEnquiryDetails = DB::select('CALL proc_get_pending_followups('.$loggedInUserId .')');
         $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
-        
+
         /*$date = date('Y-m-d');
         $empId = Auth::guard('admin')->user()->id;
         $salesStatusId = implode(",", array(1, 2));
@@ -1075,24 +1078,24 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-            //$data = Employee::select("id", "first_name")->get();
+           
     public function exportToExcel()
     {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $data = $request['result']; 
-        
+        $data = $request['result'];   
+
         $reportName = $request['reportName'];
         $currentDate = date('_d_m_Y_h_A');
         $fileName = $reportName . $currentDate . "_by_" . Auth::guard('admin')->user()->first_name . "_" . Auth::guard('admin')->user()->last_name;
-
-        //$data = Employee::select("id", "first_name")->get()->toArray();
+        
+        $getS3Url = config('global.s3Path');
         ob_end_clean();        
         Excel::create($fileName, function($excel) use ($data,$reportName) {
             $excel->sheet($reportName, function($sheet) use ($data, $reportName) {
-                $sheet->mergeCells('A1:Q1');
-                $sheet->setHeight("1", 50);
-                $sheet->cells('A1:Q1', function($cells) {
+                $sheet->mergeCells('A1:P1');
+                $sheet->setHeight("1", 45);
+                $sheet->cells('A1:P1', function($cells) {
                     $cells->setAlignment('center');
                     $cells->setFontColor('#315AD7');
                     $cells->setBackground('#D6D6D6');
@@ -1103,12 +1106,10 @@ class MasterSalesController extends Controller {
                     ));
                 });
                
-                $sheet->mergeCells('A2:Q2');
+                $sheet->mergeCells('A2:P2');
                 
                 $title = str_replace('_', ' ', $reportName);
                 $sheet->row(1, array('BMS BUILDER - '.$title));
-                
-//                $sheet->appendRow(array_keys($data[0])); // column names
 
                 // setting column names for data - you can of course set it manually
                 $sheet->appendRow(["Sr.No","Date of enquiry","Customer Details","Mobile Numbers","Landline Number",
@@ -1140,8 +1141,13 @@ class MasterSalesController extends Controller {
             });
         })->save('XLS', "downloads/");
         
-        $path = "http://localhost/Builder_System_Laravel/public/downloads/" . $fileName. ".xls";
-        $result = ['success' => true, 'pathOfSheet' => $path];
+/*header("Content-type: text/xls");
+header("Cache-Control: no-store, no-cache");
+header('Content-Disposition: attachment; filename='.public_path()."/".$fileName.'".xls"');
+$file = fopen('php://output','w');*/
+
+
+        $result = ['success' => true, 'sheetName' => $fileName.".xls"];
         return json_encode($result);
     }
     public function updateCustomer($id) {
