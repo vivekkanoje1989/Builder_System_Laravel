@@ -14,6 +14,7 @@ var app = angular.module('app', [
     'oc.lazyLoad',
     'ngMessages',
     'angularUtils.directives.dirPagination',
+    'chart.js',
 ]);
 var getUrl = 'office';
 var getWebsiteUrl = 'website';

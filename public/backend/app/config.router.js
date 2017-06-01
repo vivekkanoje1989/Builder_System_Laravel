@@ -3371,7 +3371,187 @@ angular.module('app')
                                     }
                                 })
                                 
+                                 .state(getUrl + '.enquiryReport', {
+                                    url: '/report/enquiryreport',
+                                    templateUrl: getUrl + '/reports/getEnquiryReport',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'My Enquiry Report'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/reportsController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+
+                                .state(getUrl + '.followupReport', {
+                                    url: '/report/followupReport',
+                                    templateUrl: getUrl + '/report/followupReport',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'My Followup Report'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/reportsController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+
+                                .state(getUrl + '.projectwiseReport', {
+                                    url: '/report/projectwiseReport',
+                                    templateUrl: getUrl + '/reports/projectwiseReport',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'My Sale`s Report'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/reportsController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
                                 
+                                .state(getUrl + '.teamenquiryReport', {
+                                    url: '/reports/teamenquiryreport',
+                                    templateUrl: getUrl + '/reports/getTeamEnquiryreports',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team Enquiry Report'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/reportsController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+                                .state(getUrl + '.teamFollowupReport', {
+                                    url: '/reports/teamfollowupreport',
+                                    templateUrl: getUrl + '/reports/teamFollowupreports',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team Followup Reports'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/reportsController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                 .state(getUrl + '.projectwiseMyPreSales', {
+                                    url: '/reports/projectwiseMyPreSales',
+                                    templateUrl: getUrl + '/reports/projectwiseMyPreSales',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Project wise Reports'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/reportsController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
                                 /****************************MANOJ*********************************/
                                 .state('persian', {
                                     abstract: true,

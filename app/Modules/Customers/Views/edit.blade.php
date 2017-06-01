@@ -28,7 +28,7 @@
                                         <option ng-repeat="t in titles track by $index" ng-selected="customerData.title_id == t.id" value="{{t.id}}">{{t.title}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
-                                    <div ng-messages="customerForm.title_id.$error" class="help-block">
+                                    <div ng-show="sbtBtn" ng-messages="customerForm.title_id.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
                                 </span>
@@ -138,7 +138,7 @@
                                 <div class="form-group">
                                     <label for="">Pan Card Number</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control" required>
+                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control">
                                     </span>
                                 </div>
                             </div>
@@ -162,7 +162,7 @@
                             <label>Marriage Date </label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
@@ -224,7 +224,7 @@
                             <div class="form-group">
                                 <label for="">Sub source</label>
                                 <span class="input-icon icon-right">
-                                    <select  ng-model="customerData.subsource_id" name="subsource_id" class="form-control" required>                          
+                                    <select  ng-model="customerData.subsource_id" name="subsource_id" class="form-control">                          
                                         <option value="">Select Sub Source</option>
                                         <option ng-repeat="sub in subSourceList" ng-selected="subsource_id == sub.id" value="{{sub.id}}">{{sub.sub_source}}</option>
                                     </select>

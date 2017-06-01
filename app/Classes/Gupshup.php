@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Classes;
+<?php namespace App\Classes;
 
 use Auth;
 use App\Models\VasCredit;

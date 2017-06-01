@@ -134,13 +134,13 @@ class MenuItems {
                     1 => array('id' => '0401', 'name' => 'Enquiry Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 9,
                         'submenu_ids' => '040101,040102,040103,040104,040105,040106,040107,040108,040109', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
                         1 => array('id' => '040101', 'name' => 'New Enquiry', 'icon' => '', 'url' => '/'.$getUrl.'/sales/create', 'slug' => '.salesCreate', 'uiSrefActive' => 'active'),
-                        2 => array('id' => '040102', 'name' => 'My Today\'s Followups', 'icon' => '', 'url' => '/'.$getUrl.'/sales/todaysfollowups', 'slug' => '.todaysfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        3 => array('id' => '040103', 'name' => 'My Pending Followups', 'icon' => '', 'url' => '/'.$getUrl.'/sales/pendingfollowups', 'slug' => '.pendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        4 => array('id' => '040104', 'name' => 'My Previous Followups', 'icon' => '', 'url' => '/'.$getUrl.'/sales/previousfollowups', 'slug' => '.previousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        5 => array('id' => '040105', 'name' => 'My Total Enquiries', 'icon' => '', 'url' => '/'.$getUrl.'/sales/totalenquiries', 'slug' => '.enquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        6 => array('id' => '040106', 'name' => 'My Lost Enquiries', 'icon' => '', 'url' => '/'.$getUrl.'/sales/lostenquiries', 'slug' => '.lostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        7 => array('id' => '040107', 'name' => 'My Closed Enquiries', 'icon' => '', 'url' => '/'.$getUrl.'/sales/closedenquiries', 'slug' => '.closedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        8 => array('id' => '040108', 'name' => 'My Reassigned Enquiries', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        2 => array('id' => '040102', 'name' => 'Today\'s Followups', 'icon' => '', 'url' => '/'.$getUrl.'/sales/todaysfollowups', 'slug' => '.todaysfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        3 => array('id' => '040103', 'name' => 'Pending Followups', 'icon' => '', 'url' => '/'.$getUrl.'/sales/pendingfollowups', 'slug' => '.pendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        4 => array('id' => '040104', 'name' => 'Previous Followups', 'icon' => '', 'url' => '/'.$getUrl.'/sales/previousfollowups', 'slug' => '.previousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        5 => array('id' => '040105', 'name' => 'Total Enquiries', 'icon' => '', 'url' => '/'.$getUrl.'/sales/totalenquiries', 'slug' => '.enquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        6 => array('id' => '040106', 'name' => 'Lost Enquiries', 'icon' => '', 'url' => '/'.$getUrl.'/sales/lostenquiries', 'slug' => '.lostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        7 => array('id' => '040107', 'name' => 'Closed Enquiries', 'icon' => '', 'url' => '/'.$getUrl.'/sales/closedenquiries', 'slug' => '.closedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        8 => array('id' => '040108', 'name' => 'Reassigned Enquiries', 'icon' => '', 'url' => '#', 'slug' => '/'.$getUrl.'/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         9 => array('id' => '040109', 'name' => 'Team\'s Enquiries', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
                             'submenu_ids' => '04010901,04010902,04010903,04010904,04010905,04010906', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
                             1 => array('id' => '04010901', 'name' => 'Todays Followups', 'icon' => '', 'url' => '/'.$getUrl.'/sales/teamtodayfollowups', 'slug' => '.teamtodayfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -275,22 +275,22 @@ class MenuItems {
                 )),
                 9 => array('name' => 'Reports', 'icon' => 'repo-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'reports', 'has_submenu' => true, 'total_submenu' => 2,
                 'submenu_ids' => '0901,0902,0903', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '0901', 'name' => 'Pre Sales', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                        1 => array('id' => '0901', 'name' => 'Pre Sales', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
                         'submenu_ids' => '090101,090102', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '090101', 'name' => 'My Reports', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                                 'submenu_ids' => '09010101,09010102,09010103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                                    1 => array('id' => '09010101', 'name' => 'Enquiry Report', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    2 => array('id' => '09010102', 'name' => 'Followup Report', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    3 => array('id' => '09010103', 'name' => 'Project Wise Report', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    1 => array('id' => '09010101', 'name' => 'Enquiry Report', 'icon' => '',  'url' => '/'.$getUrl.'/reports/enquiryReport', 'slug' => '.enquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '09010102', 'name' => 'Followup Report', 'icon' => '',  'url' => '/'.$getUrl.'/reports/followupReport', 'slug' => '.followupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '09010103', 'name' => 'Project Wise Report', 'icon' => '', 'url' => '/'.$getUrl.'/reports/projectwiseReport', 'slug' => '.projectwiseReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                            2 => array('id' => '090102', 'name' => 'Enquiry Report', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
+                            2 => array('id' => '090102', 'name' => 'Team Report', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                                 'submenu_ids' => '09010201,09010202,09010203', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                                    1 => array('id' => '09010201', 'name' => 'Enquiry Report', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    2 => array('id' => '09010202', 'name' => 'Followup Report', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                                    3 => array('id' => '09010203', 'name' => 'Project Wise Report', 'icon' => '', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    1 => array('id' => '09010201', 'name' => 'Enquiry Report', 'icon' => '', 'url' => '/'.$getUrl.'/reports/teamenquiryReport', 'slug' => '.teamenquiryReport',  'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '09010202', 'name' => 'Followup Report', 'icon' => '',  'url' => '/'.$getUrl.'/reports/teamFollowupReport', 'slug' => '.teamFollowupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '09010203', 'name' => 'Project Wise Report', 'icon' => '',  'url' => '/'.$getUrl.'/reports/projectwisereport', 'slug' => '.projectwisePreSales', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
                         )),
-                    2 => array('id' => '0903', 'name' => 'Post Sales', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                        2 => array('id' => '0903', 'name' => 'Post Sales', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
                         'submenu_ids' => '090301,090302', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '090301', 'name' => 'Project Wise Report', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                                 'submenu_ids' => '09030101,09030102,09030103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(

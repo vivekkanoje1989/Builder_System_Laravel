@@ -950,7 +950,8 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
         $enquiries = DB::select('CALL proc_get_total_enquiries("' . $empTeamIds . '")');
-
+        $enquiries = json_decode( json_encode($enquiries), true);
+        
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
         } else {
@@ -974,6 +975,7 @@ class MasterSalesController extends Controller {
         $empTeamIds = implode(',', $alluser);
       
         $enquiries = DB::select('CALL proc_get_lost_enquiries("' . $empTeamIds . '")');
+        $enquiries = json_decode( json_encode($enquiries), true);
 
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
@@ -998,7 +1000,8 @@ class MasterSalesController extends Controller {
         $empTeamIds = implode(',', $alluser);
 
         $enquiries = DB::select('CALL proc_get_closed_enquiries("' . $empTeamIds . '")');
-
+        $enquiries = json_decode( json_encode($enquiries), true);
+        
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
         } else {
@@ -1022,7 +1025,8 @@ class MasterSalesController extends Controller {
         $empTeamIds = implode(',', $alluser);
 
         $enquiries = DB::select('CALL proc_get_today_followups("'.$empTeamIds.'")');
-
+        $enquiries = json_decode( json_encode($enquiries), true);
+        
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
         } else {
@@ -1046,6 +1050,7 @@ class MasterSalesController extends Controller {
         $empTeamIds = implode(',', $alluser);
         
         $enquiries = DB::select('CALL proc_get_pending_followups("' . $empTeamIds . '")');
+        $enquiries = json_decode( json_encode($enquiries), true);
         
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
@@ -1070,8 +1075,9 @@ class MasterSalesController extends Controller {
         $empTeamIds = implode(',', $alluser);
         
         $enquiries = DB::select('CALL proc_get_previous_followups("' . $empTeamIds . '")');
+        $enquiries = json_decode( json_encode($enquiries), true);
 
-        if (count($enquiries) != 0) {
+        if (count($enquiries) > 0 && !empty($enquiries[0]['id'])) {
             $result = ['success' => true, 'records' => $enquiries];
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
@@ -1141,13 +1147,24 @@ class MasterSalesController extends Controller {
             });
         })->save('XLS', "downloads/");
         
+        $file_url = 'http://localhost/Builder_System_Laravel/public/downloads/'.$fileName.".xls";
+//$file_name = $fileName.".xls";
+//header('Content-Type: application/force-download');
+//header("Content-Disposition: inline; filename=\"" . $fileName . ".xls\"");
+//header("Pragma: no-cache");
+//header("Expires: 0");
+//readfile($file_url);
+
+        return \Response::download(public_path().'/downloads/'.$fileName.".xls", $fileName.".xls", ['content-type' => 'text/xls']);
+        
+exit;
+ 
 /*header("Content-type: text/xls");
 header("Cache-Control: no-store, no-cache");
 header('Content-Disposition: attachment; filename='.public_path()."/".$fileName.'".xls"');
 $file = fopen('php://output','w');*/
 
-
-        $result = ['success' => true, 'sheetName' => $fileName.".xls"];
+        $result = ['success' => true, 'sheetName' => $fileName.".xls", "fileUrl" => $file_url];
         return json_encode($result);
     }
     public function updateCustomer($id) {

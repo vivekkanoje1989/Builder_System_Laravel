@@ -54,5 +54,6 @@ return [
         "News",
         "PressRelease",
         "Events",
+        "Reports",
     ),
 ];

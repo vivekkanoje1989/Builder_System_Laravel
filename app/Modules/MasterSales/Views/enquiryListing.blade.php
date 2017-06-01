@@ -1,12 +1,12 @@
 <div class="widget-body table-responsive">
-    <div class="row" >
+    <div class="row" ng-if="listsIndex.success">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="col-sm-4 col-md-2 col-xs-12">
                     <label for="search">Show Results:</label>
                 </div>
                 <div class="col-sm-2 col-md-2 col-xs-12">
-                    <input type="number" min="1" max="999" class="form-control" ng-model="itemsPerPage">
+                    <input type="number" min="1" max="999" class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-change="items(itemsPerPage)">
                 </div>
                 <div class="col-sm-6 col-md-8 col-xs-12">
                     <p style="font-size: 12px;">Show Filter Total {{listsIndex.records.length}} Enquiries Found Showing {{(itemsPerPage > listsIndex.records.length) ? listsIndex.records.length : itemsPerPage}} Enquiries</p>
@@ -14,7 +14,7 @@
             </div>
             <div class="col-sm-6 col-xs-12">
                 <div class="col-sm-6 col-xs-12">
-                    <a href="http://localhost/Builder_System_Laravel/public/downloads/{{sheetName}}" class="btn btn-labeled btn-blue" id="downloadExcel" download="{{sheetName}}" style="float: right;" ng-show="dnExcelSheet">
+                    <a href="" class="btn btn-labeled btn-blue" id="downloadExcel" download="{{sheetName}}" style="float: right;" ng-show="dnExcelSheet">
                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
                     <a href="javascript:void(0);" class="btn btn-labeled btn-blue" ng-click="exportReport(listsIndex.records)" style="float: right;" ng-show="btnExport">
                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
@@ -68,7 +68,7 @@
                     <div class="floatLeft" style="width:50%">
                         <span style="margin-left:4px;background-color:orange;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'New Enquiry'">&nbsp;</span>
                         <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Hot'">&nbsp;</span>
-                        <span style="margin-left:4px;background-color:yellow;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Warm'">&nbsp;</span>
+                        <span style="margin-left:4px;background-color:#E3B81C;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Warm'">&nbsp;</span>
                         <span style="margin-left:4px;background-color:#5ABBF3;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Cold'">&nbsp;</span>
                         <span style="float:left;margin: -4px 0px 0px 5px;">{{ list.enquiry_category}}</span>              
                     </div> 

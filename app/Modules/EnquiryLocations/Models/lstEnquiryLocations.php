@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Modules\EnquiryLocations\Models;
+<?php namespace App\Modules\EnquiryLocations\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

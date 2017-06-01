@@ -1,13 +1,17 @@
 app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', function ($scope, Data, $timeout, toaster) {
         $scope.projectsDetails = [];
         $scope.searchData = {};
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 10;
         $scope.noOfRows = 1;
         $scope.historyList = {};
         $scope.divText = true;
         $scope.btnExport = true;
         $scope.dnExcelSheet = false;
         $scope.pageHeading = '';
+        
+        $scope.items = function (num) {
+            $scope.itemsPerPage = num;
+        };
         
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
@@ -25,10 +29,11 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
         }    
         $scope.exportReport = function(result){            
             Data.post('master-sales/exportToExcel',{result:result, reportName:$scope.pageHeading.replace(/ /g,"_")}).then(function (response) {
-                $("#downloadExcel").attr("href",response.sheetName);     
+                $("#downloadExcel").attr("href",response.fileUrl);
+                console.log(response.sheetName);
                 $scope.sheetName = response.sheetName;
                 $timeout(function(){
-                    window.open($('#downloadExcel').attr('href'),"_blank");
+                   // window.open($('#downloadExcel').attr('href'),"_blank");
 //                  angular.element('#downloadExcel').trigger('click');
                     $scope.btnExport = false;
                     $scope.dnExcelSheet = true;
@@ -341,10 +346,4 @@ app.controller('enquiryCityCtrl', function ($scope, Data) {
             $scope.cityList = response.records;
         }
     });
-});
-
-app.controller('OtherController', function ($scope) {
-    $scope.pageChangeHandler = function(num) {
-        console.log('going to page ' + num);
-    };   
 });

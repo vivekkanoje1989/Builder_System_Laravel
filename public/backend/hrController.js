@@ -58,7 +58,9 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
     };
     
     $scope.copyToUsername = function (value) {
-        $scope.userData.username = value.split('-')[1];
+        if(typeof value !== "undefined"){alert(value);
+            $scope.userData.username = value.split('-')[1];
+        }
     };
     /*$scope.checkTitle = function () {
         if ($scope.userData.title_id === "Mrs.")
