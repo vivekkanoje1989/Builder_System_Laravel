@@ -33,7 +33,7 @@ return [
         "EmailConfig",
         "CareerManagement",
         "DashBoard",
-        "CustomersData",
+        "Customers",
         "Projects",
         "EmployeeDevice",
         "Alerts",

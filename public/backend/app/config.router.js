@@ -939,6 +939,37 @@ angular.module('app')
                                         ]
                                     }
                                 })
+                                
+                                .state(getUrl + '.manageCustomerUpdate', {
+                                    url: '/customers/update/:custId',
+                                    templateUrl: function (stateParams) {
+                                        return getUrl + '/customers/' + stateParams.custId + '/edit';
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Customer',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                function () {
+                                                    return $ocLazyLoad.load({
+                                                        serie: true,
+                                                        files: [
+                                                            '/backend/CustomerDataController.js',
+                                                            '/js/intlTelInput.js',
+                                                            '/backend/app/controllers/datepicker.js',
+                                                        ]
+                                                    });
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })
                                 .state(getUrl + '.enquiries', {
                                     url: '/sales/totalenquiries',
                                     templateUrl: getUrl + '/master-sales/totalEnquiries',
@@ -3189,30 +3220,30 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.customerDataIndex', {
-                                    url: '/customers-data/index',
-                                    templateUrl: getUrl + '/customers-data/',
+                                .state(getUrl + '.customersIndex', {
+                                    url: '/customers/index',
+                                    templateUrl: getUrl + '/customers/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage customer data',
+                                        label: 'Manage Customers',
                                         description: ''
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/CustomerDataController.js',
-                                                                        ]
-                                                                    });
-                                                                });
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/CustomerDataController.js',
+                                                            ]
+                                                        });
+                                                    });
+                                            }
+                                        ]
                                     }
                                 })
                                 .state(getUrl + '.projectAvailability', {
@@ -3241,38 +3272,6 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-
-//                                .state(getUrl + '.customerUpdate', {
-//                                    url: '/manage-customer/update/:custId',
-//                                    templateUrl: function (stateParams) {
-//                                        return getUrl + '/customer-data/' + stateParams.custId + '/edit';
-//                                    },
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Edit customer',
-//                                        description: ''
-//                                    },
-//                                    resolve: {
-//                                        deps:
-//                                                [
-//                                                    '$ocLazyLoad',
-//                                                    function ($ocLazyLoad) {
-//                                                        return $ocLazyLoad.load(['toaster']).then(
-//                                                                function () {
-//                                                                    return $ocLazyLoad.load({
-//                                                                        serie: true,
-//                                                                        files: [
-//                                                                            '/backend/CustomerDataController.js',
-//                                                                            '/js/intlTelInput.js',
-//                                                                            '/backend/app/controllers/datepicker.js',
-//                                                                            '/backend/app/controllers/select.js',
-//                                                                        ]
-//                                                                    });
-//                                                                });
-//                                                    }
-//                                                ]
-//                                    }
-//                                })
 
 //                                .state(getUrl + '.manageProjectIndex', {
 //                                    url: '/manage-project/index',

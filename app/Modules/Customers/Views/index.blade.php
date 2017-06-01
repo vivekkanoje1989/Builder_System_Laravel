@@ -23,33 +23,52 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                        <tr>
-                            <th style="width:5%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">SR No.
-                                    <span ng-show="orderByField == 'id'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th>                       
-                            <th style="width:35%">
+                            <th style="width:5%">Sr. No.</th>    
+                            <th style="width:5%">Title</th>
+                            <th style="width:20%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'first_name'; reverseSort = !reverseSort">Customer Name
                                     <span ng-show="orderByField == 'first_name'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th>
-
-                            <th style="width:35%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'monthly_income'; reverseSort = !reverseSort">Monthly Income
-                                    <span ng-show="orderByField == 'monthly_income'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th>  
+                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a>
+                            </th>
+                            <th style="width:20%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'profession_name'; reverseSort = !reverseSort">Profession
+                                    <span ng-show="orderByField == 'profession_name'">
+                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a>
+                            </th>  
+                            <th style="width:20%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'source_name'; reverseSort = !reverseSort">Source
+                                    <span ng-show="orderByField == 'source_name'">
+                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a>
+                            </th> 
+                            <th style="width:10%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'email_privacy_status'; reverseSort = !reverseSort">Email Status
+                                    <span ng-show="orderByField == 'email_privacy_status'">
+                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a>
+                            </th> 
+                            <th style="width:10%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'sms_privacy_status'; reverseSort = !reverseSort">SMS Status
+                                    <span ng-show="orderByField == 'sms_privacy_status'">
+                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                </a>
+                            </th> 
                             <th style="width: 5%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr role="row" dir-paginate="list in customerDataRow| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
+                            <td>{{list.get_title.title}}</td>
                             <td>{{list.first_name + " " + list.last_name}}</td>     
-                            <td>{{list.monthly_income}}</td>     
+                            <td>{{list.get_profession.profession}}</td>     
+                            <td>{{list.get_source.sales_source_name}}</td>     
+                            <td>{{(list.email_privacy_status == 1) ? "Yes" : "No"}}</td>     
+                            <td>{{(list.sms_privacy_status == 1) ? "Yes" : "No"}}</td>     
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="#/[[config('global.getUrl')]]/manage-customer/update/{{ list.id}}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="#/[[config('global.getUrl')]]/customers/update/{{ list.id}}"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

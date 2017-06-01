@@ -5,7 +5,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
     
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
-        window.back();
+        window.history.back();
         return false;
     }
     

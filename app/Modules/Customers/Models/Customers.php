@@ -1,4 +1,4 @@
-<?php namespace App\Modules\CustomersData\Models;
+<?php namespace App\Modules\Customers\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -19,7 +19,8 @@ class Customers extends Eloquent {
         'aadhar_number',
         'image_file',
         'birth_date',
-        'marriage_date','source_id',
+        'marriage_date',
+        'source_id',
         'subsource_id',
         'source_description',
         'sms_privacy_status',
@@ -40,5 +41,13 @@ class Customers extends Eloquent {
         'deleted_IP','deleted_browser',
         'deleted_mac_id'
     ];
-
+    public function getTitle() {
+        return $this->hasOne('App\Models\MlstTitle', 'id','title_id')->select("id","title");
+    }
+    public function getProfession() {
+        return $this->hasOne('App\Models\MlstProfession', 'id','profession_id')->select("id","profession");
+    }
+    public function getSource() {
+        return $this->hasOne('App\Models\MlstBmsbEnquirySalesSource', 'id','source_id')->select("id","sales_source_name");
+    }
 }

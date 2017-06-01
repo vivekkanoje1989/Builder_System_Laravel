@@ -38,12 +38,11 @@
                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.first_name.$dirty && customerForm.first_name.$invalid)}">
                                 <label for="">First Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="customerData.first_name" name="first_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" minlength="2" required>
+                                    <input type="text" ng-model="customerData.first_name" name="first_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                     <i class="fa fa-user"></i>
-                                    <div ng-show="sbtBtn" ng-messages="customerForm.first_name.$error" class="help-block sbtBtn">
+                                    <div ng-show="sbtBtn" ng-messages="customerForm.first_name.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                         <div ng-message="maxlength">First name not more than 15 characters long.</div>
-                                        <div ng-message="minlength">First name atleast 2 characters long.</div>
                                     </div>
                                 </span>                                
                             </div>
@@ -61,12 +60,11 @@
                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.last_name.$dirty && customerForm.last_name.$invalid)}">
                                 <label for="">Last Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="customerData.last_name" name="last_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15"  minlength="2" required>
+                                    <input type="text" ng-model="customerData.last_name" name="last_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15"  required>
                                     <i class="fa fa-user"></i>
-                                    <div ng-show="sbtBtn" ng-messages="customerForm.last_name.$error" class="help-block sbtBtn">
+                                    <div ng-show="sbtBtn" ng-messages="customerForm.last_name.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                         <div ng-message="maxlength">First name not more than 15 characters long.</div>
-                                        <div ng-message="minlength">First name atleast 2 characters long.</div>
                                     </div>
                                 </span>
                             </div>
@@ -82,7 +80,7 @@
                                         <option ng-repeat="gender in genders" ng-selected="customerData.gender_id == gender.id"  value="{{gender.id}}">{{gender.gender}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
-                                    <div ng-show="sbtBtn" ng-messages="customerForm.gender.$error" class="help-block sbtBtn">
+                                    <div ng-show="sbtBtn" ng-messages="customerForm.gender.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
                                 </span>
@@ -90,14 +88,14 @@
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.profession_id.$dirty && customerForm.profession_id.$invalid)}">
-                                <label for="">Title <span class="sp-err">*</span></label>
+                                <label for="">Profession <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <select ng-controller="professionCtrl" ng-model="customerData.profession_id" name="profession_id" class="form-control" required>
                                         <option value="">Select Title</option>
                                         <option ng-repeat="profession in professions" ng-selected="customerData.profession_id == profession.id"  value="{{profession.id}}">{{profession.profession}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
-                                    <div ng-messages="customerForm.profession_id.$error" class="help-block">
+                                    <div ng-show="sbtBtn" ng-messages="customerForm.profession_id.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
                                 </span>
@@ -106,26 +104,25 @@
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group">
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.monthly_income.$dirty && customerForm.monthly_income.$invalid)}">
-
-                                    <label for="">Monthly income</label>
+                                    <label for="">Monthly Income<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" required>
-                                        <div ng-show="sbtBtn" ng-messages="customerForm.monthly_income.$error" class="help-block sbtBtn">
-                                            <div ng-message="required">This field is required.</div>
-                                        </div>
+                                        <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>                                    
+                                        <i class="fa fa-money"></i>
                                     </span>
+                                    <div ng-show="sbtBtn" ng-messages="customerForm.monthly_income.$error" class="help-block">
+                                        <div ng-message="required">This field is required.</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>                        
 
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group">
-                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.aadhar_number.$dirty && customerForm.aadhar_number.$invalid)}">
-
+                                <div class="form-group">
                                     <label for="">Aadhar Card Number</label>
                                     <span class="input-icon icon-right">
                                         <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" ng-maxlength="12" ng-minlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                                        <div ng-show="sbtBtn" ng-messages="customerForm.aadhar_number.$error" class="help-block sbtBtn">
+                                        <div ng-show="sbtBtn" ng-messages="customerForm.aadhar_number.$error" class="help-block">
                                             <div ng-message="required">This field is required.</div>
                                             <div ng-message="minlength">Aadhar card number must be 12 digits.</div>
                                             <div ng-message="maxlength">Aadhar card number must be 12 digits.</div>
@@ -138,14 +135,10 @@
                     <div class="row">     
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group">
-                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.pan_number.$dirty && customerForm.pan_number.$invalid)}">
-
+                                <div class="form-group">
                                     <label for="">Pan Card Number</label>
                                     <span class="input-icon icon-right">
                                         <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control" required>
-                                        <div ng-show="sbtBtn" ng-messages="customerForm.pan_number.$error" class="help-block sbtBtn">
-                                            <div ng-message="required">This field is required.</div>
-                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -160,23 +153,20 @@
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
-                                <div ng-show="sbtBtn" ng-messages="customerForm.birth_date.$error" class="help-block sbtBtn">
+                                <div ng-show="sbtBtn" ng-messages="customerForm.birth_date.$error" class="help-block">
                                     <div ng-message="required">This field is required.</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <label>Marriage Date <span class="sp-err">*</span></label>
-                            <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.marriage_date.$dirty && customerForm.date_of_birth.$invalid)}">
+                            <label>Marriage Date </label>
+                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
                                     <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
-                                <div ng-show="sbtBtn" ng-messages="customerForm.marriage_date.$error" class="help-block sbtBtn">
-                                    <div ng-message="required">This field is required.</div>
-                                </div>
                             </div>
                         </div>
 
@@ -189,8 +179,9 @@
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
+                                    <i class="fa fa-sort-desc"></i>
                                 </p>
-                                <div ng-show="sbtBtn" ng-messages="customerForm.sms_privacy_status.$error" class="help-block sbtBtn">
+                                <div ng-show="sbtBtn" ng-messages="customerForm.sms_privacy_status.$error" class="help-block">
                                     <div ng-message="required">This field is required.</div>
                                 </div>
                             </div>
@@ -207,8 +198,9 @@
                                         <option value="1">Active</option>
                                         <option value="0">Inactive</option>
                                     </select>
+                                    <i class="fa fa-sort-desc"></i>
                                 </p>
-                                <div ng-show="sbtBtn" ng-messages="customerForm.email_privacy_status.$error" class="help-block sbtBtn">
+                                <div ng-show="sbtBtn" ng-messages="customerForm.email_privacy_status.$error" class="help-block">
                                     <div ng-message="required">This field is required.</div>
                                 </div>
                             </div>
@@ -222,24 +214,21 @@
                                         <option ng-repeat="source in sourceList"  ng-selected="customerData.source_id == source.id"  value="{{source.id}}">{{source.sales_source_name}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
-                                    <div ng-show="sbtBtn" ng-messages="customerForm.source_id.$error" class="help-block sbtBtn">
+                                    <div ng-show="sbtBtn" ng-messages="customerForm.source_id.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
                                 </span>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.subsource_id.$dirty && customerForm.subsource_id.$invalid)}">
-                                <label for="">Sub source <span class="sp-err">*</span></label>
+                            <div class="form-group">
+                                <label for="">Sub source</label>
                                 <span class="input-icon icon-right">
                                     <select  ng-model="customerData.subsource_id" name="subsource_id" class="form-control" required>                          
                                         <option value="">Select Sub Source</option>
                                         <option ng-repeat="sub in subSourceList" ng-selected="subsource_id == sub.id" value="{{sub.id}}">{{sub.sub_source}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
-                                    <div ng-show="sbtBtn" ng-messages="customerForm.profession.$error" class="help-block sbtBtn">
-                                        <div ng-message="required">This field is required.</div>
-                                    </div>
                                 </span>
                             </div>
                         </div>
@@ -256,19 +245,19 @@
                                 <br/>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-xs-6">
-
+<!--                        <div class="col-sm-3 col-xs-6">
                             <label for="">Customer Image File</label>
                             <span class="input-icon icon-right">
                                 <input type="file" ngf-select ng-model="customerData.image_file" name="image_file" id="image_file" accept="image/*" ngf-max-size="2MB" class="form-control"  ngf-model-invalid="errorFile" >
                                <br/>
                                 <img id="empPhotoPreview" ng-src="[[ Session::get('s3Path') ]]Customer/{{image}}" alt="Image" width="80px" height="80px" class="thumb"/>
                             </span> 
-                        </div>
+                        </div>-->
                     </div>
                     <div class="row">
-                        <div class="col-md-12 col-xs-12" align="center">
+                        <div class="col-md-12 col-xs-12" align="right">
                             <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
+                            <a href="#/[[config('global.getUrl')]]/customers/index" class="btn btn-primary"><< Back to list</a>
                         </div>
                     </div>
                 </div>	
