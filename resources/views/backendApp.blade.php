@@ -64,7 +64,8 @@
         <script src="/backend/app/dirPagination.js"></script>
         <script src="js/Chart.min.js"></script>
         <script src="js/angular-chart.min.js"></script>
-                   
+        <script src="js/rzslider.min.js"></script>
+        
         <script src="/backend/lib/angular/angular-animate/angular-animate.js"></script>
         <script src="/backend/lib/angular/angular-cookies/angular-cookies.js"></script>
         <script src="/backend/lib/angular/angular-resource/angular-resource.js"></script>
@@ -91,6 +92,7 @@
         <script src="/backend/app/directives.js"></script>        
         <script src="/backend/adminController.js"></script>
         <script src="/backend/hrController.js"></script>
+        
         <!--mandar-->
         <script src="/backend/cloudtelephonyController.js"></script>
         <script src="/backend/promotionalsmsController.js"></script>

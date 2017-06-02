@@ -9,6 +9,11 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
         $scope.dnExcelSheet = false;
         $scope.pageHeading = '';
         
+        $scope.locations = [];        
+        $scope.projectList = [];
+        $scope.subSourceList = [];
+        $scope.subCategoryList = [];
+        
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };
@@ -17,6 +22,12 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
+
+        $scope.refreshSlider = function(){
+            $timeout(function(){
+                $scope.$broadcast('rzSliderForceRender');    
+            },200);
+        }
 
         $scope.initHistoryDataModal = function (enquiry_id) {
             Data.post('master-sales/getEnquiryHistory', {
@@ -346,4 +357,39 @@ app.controller('enquiryCityCtrl', function ($scope, Data) {
             $scope.cityList = response.records;
         }
     });
+});
+app.controller('rzCtrl', function ($scope) {
+    $scope.min = 3000000;
+    $scope.max = 7000000;
+    $scope.visSlider = {
+        options: {
+            floor: 200000,
+            ceil: 20000000,
+            step: 1
+        }
+    };
+    
+    $scope.rangeValidateMin = function(minVal){
+        if(typeof minVal == 'undefined' || minVal < 200000){
+            $scope.min = 200000;
+        }
+        else if(minVal > 20000000){
+             $scope.min = 20000000;
+        }
+        else if(minVal > $scope.max){
+             $scope.min = $scope.max;
+        }
+    }
+    $scope.rangeValidateMax = function(maxVal){
+        if(typeof maxVal == 'undefined' || maxVal > 20000000){
+            $scope.max = 20000000;
+        }
+        else if(maxVal < 200000){
+             $scope.max = $scope.min;
+        }
+        else if(maxVal < $scope.min){
+             $scope.max = $scope.min;
+        }
+        
+    }
 });

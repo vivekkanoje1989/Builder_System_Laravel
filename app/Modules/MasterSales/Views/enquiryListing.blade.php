@@ -1,3 +1,4 @@
+<link href="css/rzslider.min.css" rel="stylesheet" />
 <div class="widget-body table-responsive">
     <div class="row" ng-if="listsIndex.success">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -14,9 +15,10 @@
             </div>
             <div class="col-sm-6 col-xs-12">
                 <div class="col-sm-6 col-xs-12">
-                    <a href="" class="btn btn-labeled btn-blue" id="downloadExcel" download="{{sheetName}}" style="float: right;" ng-show="dnExcelSheet">
+                    <button type="button" class="btn btn-primary" style="float: right;margin-left: 10px;"data-toggle="modal" data-target="#showFilterModal" ng-click="refreshSlider()"><i class="btn-label fa fa-filter"></i>Show Filter</button>
+                    <a href="" class="btn btn-primary" id="downloadExcel" download="{{sheetName}}" style="float: right;" ng-show="dnExcelSheet">
                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                    <a href="javascript:void(0);" class="btn btn-labeled btn-blue" ng-click="exportReport(listsIndex.records)" style="float: right;" ng-show="btnExport">
+                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="exportReport(listsIndex.records)" style="float: right;" ng-show="btnExport">
                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                     </a>
                 </div>
@@ -48,9 +50,7 @@
             <tr role="row" dir-paginate="list in listsIndex.records | filter: search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                 <td>
-                    <div > 
-                        {{list.customer_fname}} {{list.customer_lname}} - {{ list.mobile_number}} - {{list.email_id}} </div>
-                    <hr>
+                    <div>{{list.customer_fname}} {{list.customer_lname}} - {{ list.mobile_number}} - {{list.email_id}}</div><hr>
                     <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}">Customer Details</a></div> 
                     <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ list.totalenq }}</b></div>
                     <div class="floatLeft" style="width:40%;max-width: 30%;word-wrap: break-word;"><b>Booked : {{ list.totalbookedenq }}</b></div>                    
@@ -116,3 +116,5 @@
 <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
 <!-- Enquiry todays remark modal -->
 <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/todaysRemark'"></div>
+<!-- Enquiry Filter modal -->
+<div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/showFilter'"></div>

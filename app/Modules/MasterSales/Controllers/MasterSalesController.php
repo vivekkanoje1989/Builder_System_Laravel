@@ -1,4 +1,5 @@
-<?php namespace App\Modules\MasterSales\Controllers;
+<?php
+namespace App\Modules\MasterSales\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -1148,21 +1149,21 @@ class MasterSalesController extends Controller {
         })->save('XLS', "downloads/");
         
         $file_url = 'http://localhost/Builder_System_Laravel/public/downloads/'.$fileName.".xls";
-//$file_name = $fileName.".xls";
-//header('Content-Type: application/force-download');
-//header("Content-Disposition: inline; filename=\"" . $fileName . ".xls\"");
-//header("Pragma: no-cache");
-//header("Expires: 0");
-//readfile($file_url);
 
+        header('Pragma: public'); 	// required
+	header('Expires: 0');		// no cache
+	header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+	header('Cache-Control: private',false);
+	header('Content-Type: application/vnd.ms-excel');
+	header('Content-Disposition: attachment; filename="'.basename(public_path().'/downloads/'.$fileName.".xls").'"');
+	header('Content-Transfer-Encoding: binary');
+	header('Content-Length: '.filesize(public_path().'/downloads/'.$fileName.".xls"));	// provide file size
+	header('Connection: close');
+	readfile(public_path().'/downloads/'.$fileName.".xls");
         return \Response::download(public_path().'/downloads/'.$fileName.".xls", $fileName.".xls", ['content-type' => 'text/xls']);
         
 exit;
  
-/*header("Content-type: text/xls");
-header("Cache-Control: no-store, no-cache");
-header('Content-Disposition: attachment; filename='.public_path()."/".$fileName.'".xls"');
-$file = fopen('php://output','w');*/
 
         $result = ['success' => true, 'sheetName' => $fileName.".xls", "fileUrl" => $file_url];
         return json_encode($result);

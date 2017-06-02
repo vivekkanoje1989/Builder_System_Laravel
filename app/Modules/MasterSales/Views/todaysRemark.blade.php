@@ -85,8 +85,6 @@ div#cover {
 .slide.ng-hide {
   bottom: 0;
 }
-
-
 </style>
 <div class="modal fade" id="todaysRemarkModal" role="dialog" tabindex='-1'>
     <div class="modal-dialog modal-lg">
@@ -105,7 +103,6 @@ div#cover {
                                 <div class="col-sm-6"  ng-show="custInfo">
                                     <h4><b>{{remarkData.title}} {{remarkData.customer_fname}} {{remarkData.customer_lname}}</b></h4>   
                                 </div>
-
                                 <div class="col-md-6 col-xs-12" ng-show="editableCustInfo">
                                     <div class="row">
                                     <div class="col-sm-4">

@@ -15,6 +15,7 @@ var app = angular.module('app', [
     'ngMessages',
     'angularUtils.directives.dirPagination',
     'chart.js',
+    'rzModule',
 ]);
 var getUrl = 'office';
 var getWebsiteUrl = 'website';

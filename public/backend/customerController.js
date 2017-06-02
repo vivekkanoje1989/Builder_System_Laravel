@@ -195,11 +195,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                         document.getElementById("enquiryDiv").style.display = 'block';
                         $("li#enquiryDiv a.ng-binding").trigger("click"); 
-                        
                         $scope.customer_id = response.data.customerId;
-                        
-                        console.log(response);
-                        console.log(response.data.customerId);
                         if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
                             toaster.pop('success', 'Customer', 'Record successfully created');
                         } else {
@@ -285,7 +281,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 
                         $scope.contactData.index = i;
                     }
-                    
                     $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
                     $scope.searchData.customerId = response.customerPersonalDetails[0].id;
 //                    $scope.disableText = true;
