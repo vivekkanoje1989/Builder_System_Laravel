@@ -398,7 +398,6 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
     };
 });
 app.controller('enquirySourceCtrl', function ($scope, Data) {
-
     $scope.$on("myEvent", function (event, args) {
         $scope.onEnquirySourceChange(args.source_id);
     });
@@ -422,6 +421,15 @@ app.controller('enquirySourceCtrl', function ($scope, Data) {
             }
         });
     };
+});
+app.controller('channelCtrl', function ($scope, Data) {
+    Data.get('getChannelList').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.channelList = response.records;
+        }
+    });
 });
 /****************************UMA************************************/
 app.controller('webPageListCtrl', function ($scope, Data) {

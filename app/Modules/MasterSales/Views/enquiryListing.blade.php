@@ -1,4 +1,3 @@
-<link href="css/rzslider.min.css" rel="stylesheet" />
 <div class="widget-body table-responsive">
     <div class="row" ng-if="listsIndex.success">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -116,5 +115,3 @@
 <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
 <!-- Enquiry todays remark modal -->
 <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/todaysRemark'"></div>
-<!-- Enquiry Filter modal -->
-<div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/showFilter'"></div>

@@ -11,4 +11,6 @@
             <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryListing' "></div>
         </div>
     </div> 
+    <!-- Enquiry Filter modal -->
+    <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/showFilter'" ng-click="procName('proc_get_pending_followups')"></div>
 </div>

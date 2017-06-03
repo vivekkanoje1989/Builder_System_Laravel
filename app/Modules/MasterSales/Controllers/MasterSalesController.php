@@ -108,10 +108,10 @@ class MasterSalesController extends Controller {
             }
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-            return json_encode($result);
+            return response()->json($result);
         }
         $result = ["success" => true, "customerId" => $createCustomer->id];
-        return json_encode($result);
+        return response()->json($result);
     }
 
     /**
@@ -146,14 +146,14 @@ class MasterSalesController extends Controller {
         }else{
             $result = ['success' => false];
         }        
-        return json_encode($result);
+        return response()->json($result);
     }
     public function delEnquiryDetailRow(){
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         EnquiryDetail::where('id', $request['enquiryDetailId'])->delete();
         $result = ['success' => true];
-        return json_encode($result);
+        return response()->json($result);
     }
     public function editCustomer($cid) {
         return view("MasterSales::index")->with(["editCustomerId" => $cid]);
@@ -284,10 +284,10 @@ class MasterSalesController extends Controller {
             }
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-            return json_encode($result);
+            return response()->json($result);
         }
         $result = ["success" => true, "customerId" => $id];
-        return json_encode($result);
+        return response()->json($result);
     }
 
     /**
@@ -329,7 +329,7 @@ class MasterSalesController extends Controller {
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     
     public function getEnquiryDetails() {
@@ -370,7 +370,7 @@ class MasterSalesController extends Controller {
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     public function getCustomerDataWithId() {
         try{
@@ -386,7 +386,7 @@ class MasterSalesController extends Controller {
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     public function checkMobileExist() {
         try{
@@ -407,7 +407,7 @@ class MasterSalesController extends Controller {
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     
     public function getEnquiryHistory(){
@@ -433,7 +433,7 @@ class MasterSalesController extends Controller {
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     // insert new enquiry 
     public function saveEnquiry() {
@@ -523,7 +523,7 @@ class MasterSalesController extends Controller {
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     public function updateEnquiry() {
         try{
@@ -586,7 +586,7 @@ class MasterSalesController extends Controller {
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
 
     /* get all listing controler data */
@@ -598,7 +598,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
 
     public function getFinanceEmployees() {
@@ -614,7 +614,7 @@ class MasterSalesController extends Controller {
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
 
     public function getEnquiryCity() {
@@ -624,7 +624,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
 
     public function getAllLocations() {
@@ -636,13 +636,13 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
 
     public function getDataForTodayRemark(){
         try{
             $postdata = file_get_contents("php://input");
-            $request = json_decode($postdata, true);    
+            $request = json_decode($postdata, true);               
             $getRemarkDetails = DB::select('CALL proc_get_today_remark('.$request['enquiryId'].')');
             $decodeRemarkDetails = json_decode( json_encode($getRemarkDetails), true);
             $projectId = $blockId = $emailId = array();
@@ -681,7 +681,7 @@ class MasterSalesController extends Controller {
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     public function insertTodayRemark(){
         try{
@@ -768,9 +768,48 @@ class MasterSalesController extends Controller {
         } catch (Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
 
+    public function filteredData(){
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);      
+        $filterData = $request['filterData']; 
+        
+        if (empty($filterData['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $filterData['loggedInUserID'];
+        
+        $filterData["customerFname"] = !empty($filterData['customerFname']) ? $filterData['customerFname'] : "";
+        $filterData["customerLname"] = !empty($filterData['customerLname']) ? $filterData['customerLname'] : "";
+        $filterData["emailId"] = !empty($filterData['emailId']) ? $filterData['emailId'] : "";
+        $filterData["mobileNubmer"] = !empty($filterData['mobileNubmer']) ? $filterData['mobileNubmer'] : "";        
+        $filterData["fromDate"] = !empty($filterData['fromDate']) ? date('Y-m-d',strtotime($filterData['fromDate'])) : "";
+        $filterData["toDate"] = !empty($filterData['toDate']) ? date('Y-m-d',strtotime($filterData['toDate'])) : "";
+        $filterData["category_id"] = !empty($filterData['category_id']) ? $filterData['category_id'] : "";
+        $filterData["subcategory_id"] = !empty($filterData['subcategory_id']) ? implode(',', array_column($filterData['subcategory_id'], 'id')) : "";
+        $filterData["source_id"] = !empty($filterData['source_id']) ? $filterData['source_id'] : "0";
+        $filterData["subsource_id"] = !empty($filterData['subsource_id']) ? implode(',', array_column($filterData['subsource_id'], 'id')) : "";
+        $filterData["project_id"] = !empty($filterData['project_id']) ? implode(',', array_column($filterData['project_id'], 'id')) : "";
+        $filterData["enquiry_locations"] = !empty($filterData['enquiry_locations']) ? implode(',', array_column($filterData['enquiry_locations'], 'id')) : "";
+        $filterData["parking_required"] = !empty($filterData['parking_required']) ? $filterData['parking_required'] : "";
+        $filterData["loan_required"] = !empty($filterData['loan_required']) ? $filterData['loan_required'] : "";
+        $filterData["site_visited"] = !empty($filterData['site_visited']) ? $filterData['site_visited'] : "";
+        $filterData["channel_id"] = !empty($filterData['channel_id']) ? $filterData['channel_id'] : "0";
+        $filterData["maxbudget"] = !empty($request['maxBudget']) ? $request['maxBudget'] : "0";
+        $filterData["minbudget"] = !empty($request['minBudget']) ? $request['minBudget'] : "0";
+        
+        $getEnquiryDetails = DB::select('CALL '.$request["getProcName"].'('.$loggedInUserId .',"'.$filterData["customerFname"].'","'.$filterData["customerLname"].'","'.
+                $filterData["emailId"].'","'.$filterData["mobileNubmer"].'","'.$filterData["fromDate"].'","'.$filterData["toDate"].'","'.
+                $filterData["category_id"].'","'.$filterData["subcategory_id"].'",'.$filterData["source_id"].',"'.$filterData["subsource_id"].'","'.
+                $filterData["parking_required"].'","'.$filterData["loan_required"].'","'.$filterData["project_id"].'","'.$filterData["enquiry_locations"].'",'.
+                $filterData["channel_id"].','. $filterData["minbudget"] .','. $filterData["maxbudget"] .')');
+        $getEnquiryDetails = json_decode( json_encode($getEnquiryDetails), true);
+       
+        echo "<pre>";print_r($filterData);
+        echo "<pre>";print_r($getEnquiryDetails);exit;   
+    }
     /*********************** ENQUIRY LISTING *************************/
     
     public function getTotalEnquiries() { // get all enquiries
@@ -782,7 +821,10 @@ class MasterSalesController extends Controller {
         else
             $loggedInUserId = $request['loggedInUserID'];
         
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_total_enquiries('.$loggedInUserId .')');
+//        ('CALL proc_get_total_enquiries(login_user_id,customer_fname,customer_lname,email_id,mobile_number,from_date,to_date,
+//        sales_category_id,sales_subcategory_id,enquiry_source,enquiry_subsource,parking_required,finance_required,project_id,
+//        enquiry_location,sales_channel_id,minbudget,maxbudget)')
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_total_enquiries('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
             
         /*$getCustomerEnquiryDetails = Enquiry::whereIn('sales_status_id', [1, 2])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
@@ -802,7 +844,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No Records Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
    
     public function getLostEnquiries() {// get lost enquiries
@@ -814,7 +856,7 @@ class MasterSalesController extends Controller {
         else
             $loggedInUserId = $request['loggedInUserID'];
         
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_lost_enquiries('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_lost_enquiries('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
         
         //$getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 4]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
@@ -823,7 +865,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No Records Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
 
     public function getClosedEnquiries() {// get booked enquiries
@@ -835,7 +877,7 @@ class MasterSalesController extends Controller {
         else
             $loggedInUserId = $request['loggedInUserID'];
         
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_closed_enquiries('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_closed_enquiries('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
         
         //$getCustomerEnquiryDetails = Enquiry::where([['sales_status_id', '=', 3]])->with('getEnquiryCategoryName', 'getEnquiryDetails', 'getFollowupDetails', 'channelName', 'customerDetails', 'customerContacts')->get();
@@ -844,7 +886,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No Records Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
 
     public function getTodaysFollowups() {// Todays Followups 
@@ -856,7 +898,7 @@ class MasterSalesController extends Controller {
         else
             $loggedInUserId = $request['loggedInUserID'];
         
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_today_followups('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_today_followups('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
         /*$date = date('Y-m-d');
         $empId = Auth::guard('admin')->user()->id;
@@ -871,7 +913,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     
     public function getPreviousFollowups() {// Previous Followups 
@@ -883,7 +925,7 @@ class MasterSalesController extends Controller {
         else
             $loggedInUserId = $request['loggedInUserID'];
         
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
 
         /*$date = date('Y-m-d');
@@ -896,7 +938,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
         
     public function getPendingFollowups() {// Pending Followups 
@@ -908,7 +950,7 @@ class MasterSalesController extends Controller {
         else
             $loggedInUserId = $request['loggedInUserID'];
         
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_pending_followups('.$loggedInUserId .')');
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_pending_followups('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
 
         /*$date = date('Y-m-d');
@@ -923,7 +965,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     
     /********************** TEAM ENQUIRIES *****************************/
@@ -950,7 +992,7 @@ class MasterSalesController extends Controller {
         $this->getTeamIds($loggedInUserId);
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
-        $enquiries = DB::select('CALL proc_get_total_enquiries("' . $empTeamIds . '")');
+        $enquiries = DB::select('CALL proc_get_total_enquiries("'.$empTeamIds .'","","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $enquiries = json_decode( json_encode($enquiries), true);
         
         if (count($enquiries) != 0) {
@@ -958,7 +1000,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     
     public function getTeamlostEnquiries() {
@@ -975,7 +1017,7 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
       
-        $enquiries = DB::select('CALL proc_get_lost_enquiries("' . $empTeamIds . '")');
+        $enquiries = DB::select('CALL proc_get_lost_enquiries("'.$empTeamIds .'","","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $enquiries = json_decode( json_encode($enquiries), true);
 
         if (count($enquiries) != 0) {
@@ -983,7 +1025,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     
     public function getTeamClosedEnquiries() {
@@ -1000,7 +1042,7 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
 
-        $enquiries = DB::select('CALL proc_get_closed_enquiries("' . $empTeamIds . '")');
+        $enquiries = DB::select('CALL proc_get_closed_enquiries("'.$empTeamIds .'","","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $enquiries = json_decode( json_encode($enquiries), true);
         
         if (count($enquiries) != 0) {
@@ -1008,7 +1050,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     
     public function getTeamTodayFollowups() {
@@ -1025,7 +1067,7 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
 
-        $enquiries = DB::select('CALL proc_get_today_followups("'.$empTeamIds.'")');
+        $enquiries = DB::select('CALL proc_get_today_followups("'.$empTeamIds .'","","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $enquiries = json_decode( json_encode($enquiries), true);
         
         if (count($enquiries) != 0) {
@@ -1033,7 +1075,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     
     public function getTeamPendingFollowups() {
@@ -1050,7 +1092,7 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
         
-        $enquiries = DB::select('CALL proc_get_pending_followups("' . $empTeamIds . '")');
+        $enquiries = DB::select('CALL proc_get_pending_followups("'.$empTeamIds .'","","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $enquiries = json_decode( json_encode($enquiries), true);
         
         if (count($enquiries) != 0) {
@@ -1058,7 +1100,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
     
     public function getTeamPreviousFollowups() {
@@ -1075,7 +1117,7 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
         
-        $enquiries = DB::select('CALL proc_get_previous_followups("' . $empTeamIds . '")');
+        $enquiries = DB::select('CALL proc_get_previous_followups("'.$empTeamIds .'","","","","","0000-00-00","0000-00-00","","",0,"","","","","",0,0,0)');
         $enquiries = json_decode( json_encode($enquiries), true);
 
         if (count($enquiries) > 0 && !empty($enquiries[0]['id'])) {
@@ -1083,7 +1125,7 @@ class MasterSalesController extends Controller {
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
-        return json_encode($result);
+        return response()->json($result);
     }
            
     public function exportToExcel()
@@ -1163,10 +1205,8 @@ class MasterSalesController extends Controller {
         return \Response::download(public_path().'/downloads/'.$fileName.".xls", $fileName.".xls", ['content-type' => 'text/xls']);
         
 exit;
- 
-
         $result = ['success' => true, 'sheetName' => $fileName.".xls", "fileUrl" => $file_url];
-        return json_encode($result);
+        return response()->json($result);
     }
     public function updateCustomer($id) {
         return view('MasterSales::updateCustomer')->with('id', $id);

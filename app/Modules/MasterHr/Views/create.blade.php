@@ -126,8 +126,8 @@
                             <div class="form-group">
                                 <label for="">Physic Description</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="userData.physic_desc" name="physic_desc" class="form-control" maxlength="50"></textarea>
-                                    <i class="fa fa-sort-desc"></i>
+                                    <textarea ng-model="userData.physic_desc" name="physic_desc" class="form-control" maxlength="50" ng-disabled="(userData.physic_status == '2') ? false : true"></textarea>
+                                    <i class="fa fa-align-left"></i>
                                 </span>
                             </div>
                         </div>                        

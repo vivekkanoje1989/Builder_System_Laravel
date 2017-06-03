@@ -89,7 +89,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['web'], 'namespac
     Route::post($getUrl . '/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');
     Route::post($getUrl . '/master-sales/getDataForTodayRemark', 'MasterSalesController@getDataForTodayRemark');
     Route::post($getUrl . '/master-sales/insertTodayRemark', 'MasterSalesController@insertTodayRemark');
-    Route::post($getUrl . '/master-sales/exportToExcel', 'MasterSalesController@exportToExcel');//export data in excel sheet
+    Route::post($getUrl . '/master-sales/exportToExcel', 'MasterSalesController@exportToExcel');//export data in excel sheet    
+    Route::post($getUrl . '/master-sales/filteredData', 'MasterSalesController@filteredData');//filtered data
     
     /****************************ENQUIRIES****************************/
     Route::post($getUrl . '/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing

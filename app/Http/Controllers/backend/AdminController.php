@@ -15,6 +15,7 @@ use App\Modules\ManageCity\Models\MlstCities;
 use App\Models\ClientInfo;
 use App\Models\MlstBmsbEnquirySalesSource;
 use App\Models\EnquirySalesSubSource;
+use App\Models\MlstEnquirySalesChannel;
 use App\Models\MlstProfession;
 use App\Models\VehicleBrand;
 use App\Models\VehicleModel;
@@ -280,11 +281,20 @@ class AdminController extends Controller {
         $projectList = Project::select('id','project_name')->get();
         $subBlocksList = ProjectBlock::select("id","project_id","block_type_id","block_sub_type")->get();
         $enquiryFinanceTieup = EnquiryFinanceTieup::all(); 
+        $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->get();
+        $salesEnqSubCategoryList = EnquirySalesSubcategory::select('id','enquiry_sales_subcategory')->get();
+        $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->get();
+        $salesEnqSubStatusList = EnquirySalesSubstatus::select('id','enquiry_sales_substatus')->get();
         $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id','=',101)->get();
         //echo json_encode($indiaCities);exit;
         //$getEnquiryCity = lstEnquiryLocations::where('country_id',101)->get();
         if (!empty($getTitle)) {
-            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments, 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,"blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup,'enquiryLocation'=>$getEnquiryLocation];
+            $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
+                'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 
+                'getMlstProfession' => $getMlstProfession,'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,
+                "blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup,
+                'enquiryLocation'=>$getEnquiryLocation,'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
+                'salesEnqStatusList' => $salesEnqStatusList,'salesEnqSubStatusList' => $salesEnqSubStatusList];
             return json_encode($result);
 
         } else {
@@ -376,7 +386,7 @@ class AdminController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $sourceId = $request['data']['sourceId'];
-        $getsubSource = EnquirySalesSubSource::where('enquiry_sales_source_id', $sourceId)->get();
+        $getsubSource = EnquirySalesSubSource::select("id","enquiry_sales_source_id","sub_source","sub_source_status")->where(['enquiry_sales_source_id' => $sourceId, 'sub_source_status' => 1])->get();
         if (!empty($getsubSource)) {
             $result = ['success' => true, 'records' => $getsubSource];
         } else {
@@ -460,6 +470,16 @@ class AdminController extends Controller {
         $amenitiesList = MlstBmsbAmenity::select('id','name_of_amenity')->get();
         if (!empty($amenitiesList)) {
             $result = ['success' => true, 'records' => $amenitiesList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    
+    public function getChannelList() {
+        $channelList = MlstEnquirySalesChannel::select('id','channel_name')->get();
+        if (!empty($channelList)) {
+            $result = ['success' => true, 'records' => $channelList];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
