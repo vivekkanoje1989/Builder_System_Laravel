@@ -43,7 +43,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center">Create new Storage</h4>
+                    <h4 class="modal-title" align="center">Create New Folder</h4>
                 </div>
                 <form novalidate ng-submit="storageForm.$valid && dostorageFormAction()" name="storageForm">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">

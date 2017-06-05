@@ -259,7 +259,7 @@
                                             <div class="form-group">
                                                 <label>
                                                     <input type="checkbox" ng-model="filterData.verifiedMobNo" name="verifiedMobNo">
-                                                    <span class="text">Verified Email Id </span>
+                                                    <span class="text">Verified Mobile Number</span>
                                                 </label>
                                             </div>
                                         </div>

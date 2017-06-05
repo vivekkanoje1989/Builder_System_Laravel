@@ -17,7 +17,7 @@
                     <button type="button" class="btn btn-primary" style="float: right;margin-left: 10px;"data-toggle="modal" data-target="#showFilterModal" ng-click="refreshSlider()"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                     <a href="" class="btn btn-primary" id="downloadExcel" download="{{sheetName}}" style="float: right;" ng-show="dnExcelSheet">
                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                    <a href="javascript:void(0);" class="btn btn-primary" ng-click="exportReport(listsIndex.records)" style="float: right;" ng-show="btnExport">
+                    <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary" ng-click="exportReport(listsIndex.records)" style="float: right;" ng-show="btnExport">
                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                     </a>
                 </div>
@@ -80,7 +80,7 @@
                     </div>
                 </td>
                 <td width="30%">
-                    <span>{{ list.last_followup_date | date:'dd M, yyyy'}} By {{list.followup_fname}} {{list.followup_lname}}</span><hr>
+                    <span>{{ list.last_followup_date | myDateFormat}} By {{list.followup_fname}} {{list.followup_lname}}</span><hr>
                     <span style="width: 100%;word-break: break-all;">{{ list.remarks}}</span>
                 </td>
                 <td style="vertical-align: middle;">{{ list.sales_status }}

@@ -69,9 +69,9 @@
                 <div class="row">
                     <div class="col-md-2" ng-repeat="imgs in subDirectories track by $index | unique:'imgs' ">
                         <a  href="#/[[config('global.getUrl')]]/storage-list/SubFolderRestore/{{imgs.id}}">
-                            <img ng-src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
-                            <br/>
-                            <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
+                        <img ng-src="/backend/assets/img/folder.jpg" width="100px" height="120px;" >
+                        <br/>
+                        <h5 style="margin-left: 20px;">{{imgs.folder}}</h5></a>
                     </div>
                 </div>
                 Images
@@ -101,7 +101,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center">Create new Storage</h4>
+                    <h4 class="modal-title" align="center">Create New File</h4>
                 </div>
                 <form  ng-submit="storageForm.$valid && dosubstorageFormAction(fileName, '<?php echo $folderId; ?>')" name="storageForm"  novalidate enctype="multipart/form-data">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
@@ -176,7 +176,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center">Create new Storage</h4>
+                    <h4 class="modal-title" align="center">Create New Folder</h4>
                 </div>
                 <form  ng-submit="folderForm.$valid && dofolderstorageAction('<?php echo $folderId; ?>')" name="folderForm"  novalidate>
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">

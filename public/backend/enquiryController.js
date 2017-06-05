@@ -1,7 +1,8 @@
-app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', function ($scope, Data, $timeout, toaster) {
+app.controller('enquiryController', ['$scope','$state', '$stateParams', 'Data', '$timeout', 'toaster', function ($scope, $state, $stateParams,Data, $timeout, toaster) {
         $scope.projectsDetails = [];
         $scope.searchData = {};
         $scope.filterData = {};
+        $scope.listsIndex = {};
         $scope.itemsPerPage = 10;
         $scope.noOfRows = 1;
         $scope.historyList = {};
@@ -46,21 +47,23 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
         $scope.exportReport = function(result){            
             Data.post('master-sales/exportToExcel',{result:result, reportName:$scope.pageHeading.replace(/ /g,"_")}).then(function (response) {
                 $("#downloadExcel").attr("href",response.fileUrl);
-                console.log(response.sheetName);
                 $scope.sheetName = response.sheetName;
-                $timeout(function(){
-                   // window.open($('#downloadExcel').attr('href'),"_blank");
-//                  angular.element('#downloadExcel').trigger('click');
+                
                     $scope.btnExport = false;
                     $scope.dnExcelSheet = true;
-                },500);
+                    //$timeout(function(){
+                    //angular.element('#downloadExcel').siblings('#exportExcel').trigger('click');
+                    //window.open($('#downloadExcel').attr('href'),"_blank");
+//                  angular.element('#downloadExcel').trigger('click');
+                    
+               // },500);
             });
         }
 
         /****************************ENQUIRIES****************************/
         $scope.getTotalEnquiries = function ()
         {
-            $scope.pageHeading = "Total Enquiries";
+            $scope.pageHeading = "Total Enquiries";              
             Data.post('master-sales/getTotalEnquiries').then(function (response) {
                 $scope.listsIndex = response;
             });
@@ -362,13 +365,18 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
 
     }
     /**************************Budget Range Bar*************************/
-    $scope.getProcName = '';
+    $scope.getProcName = $scope.getFunctionName = '';
 
-    $scope.procName = function (name){
-        $scope.getProcName = angular.copy(name);
+    $scope.procName = function (procedureName,functionName){
+        $scope.getProcName = angular.copy(procedureName);
+        $scope.getFunctionName = angular.copy(functionName);
     } 
     $scope.getFilteredData = function (filterData,minBudget,maxBudget)
     {
+        if(filterData.verifiedMobNo == true)
+            filterData.verifiedMobNo = 1;
+        else 
+            filterData.verifiedMobNo = 0;
         if(typeof filterData.fromDate !== 'undefined'){
             var fdate = new Date(filterData.fromDate);
             $scope.filterData.fromDate = (fdate.getFullYear() + '-' + ("0" + (fdate.getMonth() + 1)).slice(-2) + '-' + fdate.getDate());
@@ -378,7 +386,8 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
         }
         
         Data.post('master-sales/filteredData', {filterData: filterData,minBudget:minBudget,maxBudget:maxBudget,getProcName:$scope.getProcName}).then(function (response) {
-            $scope.locations = response.records;
+            $scope.listsIndex = response;
+            $('#showFilterModal').modal('toggle');
         });
     }
 }]);
@@ -425,4 +434,11 @@ app.controller('enquiryCityCtrl', function ($scope, Data) {
             $scope.locations = response.records;
         });
     }
+});
+
+app.filter('myDateFormat', function myDateFormat($filter){
+  return function(text){
+    var  tempdate= new Date(text.replace(/-/g,"/"));
+    return $filter('date')(tempdate, "dd-MM-yyyy");
+  }
 });
