@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Blog Management</span>
-                <a title="Create blog" class="btn btn-primary" href="#/[[config('global.getUrl')]]/manage-blog/create" >Create Blog</a>
+                <a title="Create blog" class="btn btn-primary" href="[[ config('global.backendUrl') ]]#/manage-blog/create" >Create Blog</a>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -47,7 +47,7 @@
                             <td>{{item.meta_description}}</td>
                             <td>{{item.meta_keywords}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal"><a href="#/[[config('global.getUrl')]]/manage-blog/update/{{ item.id}}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal"><a href="[[ config('global.backendUrl') ]]#/manage-blog/update/{{ item.id}}"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

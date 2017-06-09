@@ -249,7 +249,7 @@
                             <!--Avatar Area-->
                             <li class="edit">
 <!--                                <a href="profile.html" class="pull-left">Profile</a>-->
-                                <a href="#/[[config('global.getUrl')]]/user/update/[[Auth::guard('admin')->user()->id;]]">Profile</a>
+                                <a href="#/user/update/[[Auth::guard('admin')->user()->id;]]">Profile</a>
                                 <a href="#" class="pull-right">Setting</a>
                             </li>
                             <!--Theme Selector Area-->

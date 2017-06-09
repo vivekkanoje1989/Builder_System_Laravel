@@ -56,7 +56,7 @@
                             <td>{{list.project_types.project_type}}</td>
                              <td>{{list.project_name}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a  href="#/[[config('global.getUrl')]]/projects/availability/{{list.id}}"><i class="fa fa-search"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a  href="[[ config('global.backendUrl') ]]#/projects/availability/{{list.id}}"><i class="fa fa-search"></i></a></div>
                             </td>
                            
                         </tr>

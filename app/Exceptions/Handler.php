@@ -65,9 +65,9 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return redirect('office/sessiontimeout');
+            return redirect('/sessiontimeout');
 //            return response()->json(['error' => 'Unauthenticated.'], 401);
         }
-        return redirect('office/sessiontimeout');
+        return redirect('/sessiontimeout');
     }
 }

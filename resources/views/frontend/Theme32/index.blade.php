@@ -2,7 +2,7 @@
 @section('content')
 <main class="main-content"  ng-init="getProjects(); getPostsDropdown(); getTestimonials();">
     <div class="slideshow-main owl-carousel" data-slideshow-options='{"autoPlay":5000,"stopOnHover":true,"transitionStyle":"fade"}'>
-        <?php $background = explode(',', $background['banner_images']); ?>
+        <?php $background = explode(',', $background['banner_images']) ?>
         @foreach($background as $img) 
         <div class="slideshow-main-item" style="background-image:url([[config('global.s3Path')]]website/banner-images/[[$img]]);">
             <div class="container">

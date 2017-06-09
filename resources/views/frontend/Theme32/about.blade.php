@@ -2,7 +2,7 @@
 @section('content')
 <!-- END HEADER -->
 <!-- BEGIN MAIN CONTAINER -->
-<main class="main-content"  >
+<main class="main-content" >
 
     <!-- start content -->
     <!-- start breadcrumbs.html-->

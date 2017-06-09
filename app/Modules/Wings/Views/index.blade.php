@@ -1,10 +1,9 @@
-
-<div class="row" ng-controller="wingsController"  ng-init="manageWings([[ $id ]])">
+    <div class="row" ng-controller="wingsController"  ng-init="manageWings([[ $id ]])">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Wings</span>
-                <a href="#/[[config('global.getUrl')]]/wings/create" class="btn btn-info">Create Wings</a>&nbsp;&nbsp;&nbsp;
+                <a href="[[ config('global.backendUrl') ]]#/wings/create" class="btn btn-info">Create Wings</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -62,7 +61,7 @@
                             <td>{{ listWing.stationary_name.stationary_set_name }}</td>
                             <td>{{ listWing.number_of_floors }}</td>                            
                             <td class="fa-div">                                
-                                <div class="fa-hover" tooltip-html-unsafe="Edit Wings" style="display: block;"><a href="#/[[config('global.getUrl')]]/wings/update/{{ listWing.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                                
+                                <div class="fa-hover" tooltip-html-unsafe="Edit Wings" style="display: block;"><a href="#/wings/update/{{ listWing.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                                
                             </td>
                         </tr>
                     </tbody>

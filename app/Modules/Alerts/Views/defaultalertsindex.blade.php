@@ -8,7 +8,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Default Alerts</span>
-                <a href="#/[[config('global.getUrl')]]/dafaultalerts/create " class="btn btn-info">Create New Alert</a>&nbsp;&nbsp;&nbsp;
+                <a href="[[ config('global.backendUrl') ]]#/dafaultalerts/create " class="btn btn-info">Create New Alert</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -62,7 +62,7 @@
                             <td>{{ listAlert.event_name }}</td>
                             <td>{{ listAlert.email_subject | htmlToPlaintext }}</td>
                             <td class="fa-div">
-                                 <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/[[config('global.getUrl')]]/defaultalerts/update/{{ listAlert.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                 <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/defaultalerts/update/{{ listAlert.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                             </td>
                         </tr>
                     </tbody>

@@ -1,4 +1,4 @@
-app.controller('manageProfessionCtrl', ['$scope', 'Data', '$rootScope', 'toaster', function ($scope, Data, $rootScope, toaster) {
+app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 4;

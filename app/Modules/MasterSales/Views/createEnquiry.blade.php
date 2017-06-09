@@ -374,7 +374,7 @@
             <div class="row">
                 <div class="col-md-12 col-xs-12" align="center">
                     <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true" ng-disabled="disableFinishButton">{{btnLabelE}}</button>
-                    <button type="submit" class="btn btn-primary" ng-show="backBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')"><< Back</button>
+                    <button type="submit" class="btn btn-primary" ng-show="backBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')"><< Back To List</button>
                 </div>
             </div>
         </div>

@@ -1,4 +1,4 @@
-app.controller('contactUsCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaster', function ($scope, Data, $rootScope, $timeout,toaster) {
+app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;

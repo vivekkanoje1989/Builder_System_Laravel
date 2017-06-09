@@ -17,13 +17,13 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             }
             if ($scope.blogId == '0')
             {
-                var url = getUrl + '/manage-blog/';
+                var url = '/manage-blog/';
                 var data = {
                     'blog_title': $scope.title, 'blog_seo_url': $scope.blog_seo_url, 'blog_short_description': $scope.blog_short_description,
                     'blog_description': $scope.blog_description, 'meta_description': $scope.meta_description,
                     'blog_publish': $scope.blog_publish, 'meta_keywords': $scope.meta_Keywords, 'blogImages': {'blog_banner_images': bannerImage}, 'galleryImage': {'galleryImage': galleryImage}}
             } else {
-                var url = getUrl + '/manage-blog/update/' + $scope.blogId;
+                var url = '/manage-blog/update/' + $scope.blogId;
                 var successMsg = "Blog updated successfully.";
                 if (typeof bannerImage === 'string') {
                     bannerImage = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
@@ -47,10 +47,11 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                     } else {
                         toaster.pop('success', 'Manage blog', 'Record successfully updated');
                     }
-                    $state.go(getUrl + '.manageblogIndex');
+                    $state.go('manageblogIndex');
                 });
             }, function (response) {
                 if (response.status !== 200) {
+                    toaster.pop('danger', 'Please Select image for upload');
                     $scope.err_msg = "Please Select image for upload";
                 }
             });

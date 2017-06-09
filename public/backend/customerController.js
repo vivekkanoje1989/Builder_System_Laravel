@@ -151,10 +151,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 customerPhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
             if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
-                var url = getUrl + '/master-sales';
+                var url = '/master-sales';
                 var data = {customerData: customerData, image_file: customerPhoto, customerContacts: sessionContactData};
             } else {
-                var url = getUrl + '/master-sales/' + $scope.searchData.customerId;
+                var url = '/master-sales/' + $scope.searchData.customerId;
                 var data = {_method: "PUT", customerData: customerData, image_file: customerPhoto, customerContacts: sessionContactData};
             }
 
@@ -210,7 +210,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }, function (evt, response) {});
         };
         $scope.backToListing = function(mobileNo,emailId){
-            $state.go(getUrl + ".salesCreate");
+            $state.go("salesCreate");
             $timeout(function () {
                 if(mobileNo !== ''){
                     $("input[name='searchWithMobile']").val(mobileNo);
@@ -223,7 +223,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         
         $scope.resetForm = function () {
-            $state.go(getUrl + '.salesCreate');
+            $state.go('salesCreate');
         }
         
         $scope.addContactDetails = function () {

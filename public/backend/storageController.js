@@ -1,6 +1,4 @@
-app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout', 'toaster', function ($scope, Data, $state, Upload, $timeout, toaster) {
-
-
+app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', function ($scope, Data, $state, Upload, toaster) {
         $scope.dostorageFormAction = function ()
         {
             Data.post('storage-list/', {
@@ -20,7 +18,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             $scope.id = shareId;
             $scope.subDirectories;
             $scope.getSharedEmployees(shareId)
-
         }
         $scope.dofolderstorageAction = function (folder)
         {
@@ -40,7 +37,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
         {
             Data.post('storage-list/getSubDirectory', {
                 id: id}).then(function (response) {
-                // console.log(response);
                 if (response.status)
                 {
                     $scope.subDirectories = response.result;
@@ -66,7 +62,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             Data.post('storage-list/folderSharedEmployees', {
                 id: id}).then(function (response) {
                 $scope.folderSharedEmployees = response.result;
-                console.log($scope.folderSharedEmployees);
             });
         };
         $scope.removeEmployees = function (index, employee_id, id)
@@ -159,7 +154,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
                 if (response.result)
                 {
                     toaster.pop('success', 'My storage', 'Record successfully restored');
-                    $state.go(getUrl + '.recycleBin');
+                    $state.go('.recycleBin');
                 }
             });
         };
@@ -183,7 +178,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             if (typeof fileName === 'undefined') {
                 fileName = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
-            var url = getUrl + '/storage-list/subFolder';
+            var url = '/storage-list/subFolder';
             var data = {'id': foldername, 'fileName': {'fileName': fileName}};
 
             fileName.upload = Upload.upload({
@@ -215,7 +210,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', '$timeout',
             if (typeof fileName === 'undefined') {
                 fileName = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
-            var url = getUrl + '/storage-list/subImageStorage';
+            var url = '/storage-list/subImageStorage';
             var data = {'id': foldername, 'fileName': {'fileName': fileName}};
 
             fileName.upload = Upload.upload({

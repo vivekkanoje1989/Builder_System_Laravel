@@ -1,4 +1,4 @@
-app.controller('socialwebsitesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','$state', function ($scope, Data, $rootScope, $timeout, $state ) {
+app.controller('socialwebsitesCtrl', ['$scope', 'Data', function ($scope, Data) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -20,7 +20,7 @@ app.controller('socialwebsitesCtrl', ['$scope', 'Data', '$rootScope', '$timeout'
         $scope.dosocialwebsiteAction = function () {
             $scope.errorMsg = '';
 
-            Data.put('social-website/'+$scope.id, {
+            Data.put('social-website/' + $scope.id, {
                 name: $scope.name, id: $scope.id, link: $scope.link, status: $scope.status}).then(function (response) {
                 if (!response.success)
                 {
@@ -30,14 +30,9 @@ app.controller('socialwebsitesCtrl', ['$scope', 'Data', '$rootScope', '$timeout'
                     $scope.socialwebsiteRow.splice($scope.index, 0, {
                         name: $scope.name, id: $scope.id, link: $scope.link, status: $scope.status});
                     $('#contactUsModal').modal('toggle');
-                    //$scope.success("Social website details updated successfully");
                 }
             });
         }
-        $scope.success = function (message) {
-            Flash.create('success', message);
-        };
-
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

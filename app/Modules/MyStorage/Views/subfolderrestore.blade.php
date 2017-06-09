@@ -46,12 +46,12 @@
 
     }
 </style>
-<div class="row" ng-controller="storageCtrl" ng-init="allImages('<?php echo $folderId; ?>'); getSharedEmployees('<?php echo $folderId; ?>');">  
+<div class="row" ng-controller="storageCtrl" ng-init="allImages('[[ $folderId ]]'); getSharedEmployees('[[ $folderId ]]');">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">My Storage</span>
-                 <button confirmed-click="restoreFolder('<?php echo $folderId; ?>');" ng-confirm-click="Are you sure restore folder?" class="btn btn-info">Restore Folder</button>
+                 <button confirmed-click="restoreFolder('[[ $folderId ]]');" ng-confirm-click="Are you sure restore folder?" class="btn btn-primary">Restore Folder</button>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>

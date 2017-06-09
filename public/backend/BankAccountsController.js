@@ -23,8 +23,7 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
                 $scope.applyClassDepartment = 'ng-inactive';
             }
             angular.forEach(bankAccount.payment_heading, function (value, key) {
-                if (key == '0')
-                {
+                if (key == '0') {
                     $scope.paymentHeading = value.id;
                 } else {
                     $scope.paymentHeading = $scope.paymentHeading + ',' + value.id;
@@ -87,22 +86,13 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
                 $scope.paymentHeadingFiltered(item.preffered_payment_headings_ids);
             }
         }
-
-
         $scope.paymentHeadingFiltered = function (ids)
         {
             $scope.paymentHeadings = [];
             Data.post('bank-accounts/paymentHeadingFiltered', {payment_headings: ids}).then(function (response) {
-
                 $scope.paymentHeadings = response.records;
-
-                //$scope.bankAccount.payment_heading = response.records;
-                //console.log($scope.paymentHeadings);
-
             });
         }
-
-
         $scope.paymentHeadingEdit = function (ids)
         {
             Data.post('bank-accounts/paymentHeadingEdit', {payment_headings: ids}).then(function (response) {
@@ -113,24 +103,18 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
                 }
             });
         }
-
         $scope.manageCompanys = function ()
         {
             Data.get('bank-accounts/getCompany').then(function (response) {
-
                 $scope.companyRow = response.records;
-
             });
         };
-
         $scope.managePaymentHeading = function () {
             $scope.paymentHeadings = [];
             Data.get('bank-account/managePaymentHeading').then(function (response) {
                 $scope.paymentHeadings = response.records;
-
             });
         }
-
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

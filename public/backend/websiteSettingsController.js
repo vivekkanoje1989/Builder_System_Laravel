@@ -1,6 +1,6 @@
 'use strict';
 /*******************************MANOJ*********************************/
-app.controller('contactUsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
+app.controller('contactUsCtrl', ['$scope', 'Data', function ($scope, Data) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -37,10 +37,6 @@ app.controller('contactUsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', fun
                 }
             });
         }
-//        $scope.success = function (message) {
-//            Flash.create('success', message);
-//        };
-
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
@@ -48,7 +44,7 @@ app.controller('contactUsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', fun
 
     }]);
 
-app.controller('socialwebsitesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope,  $timeout ) {
+app.controller('socialwebsitesCtrl', ['$scope', 'Data', function ($scope, Data) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -84,10 +80,6 @@ app.controller('socialwebsitesCtrl', ['$scope', 'Data', '$rootScope', '$timeout'
                 }
             });
         }
-//        $scope.success = function (message) {
-//            Flash.create('success', message);
-//        };
-
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
@@ -96,7 +88,7 @@ app.controller('socialwebsitesCtrl', ['$scope', 'Data', '$rootScope', '$timeout'
     }]);
 /*******************************MANOJ*********************************/
 /*******************************UMA*********************************/
-app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse) {
+app.controller('contentPagesCtrl', ['$scope', '$state', 'Data', 'Upload', '$timeout', function ($scope, $state, Data, Upload, $timeout) {
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
 
@@ -118,39 +110,29 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
             Data.post('website_settings/saveContentPageSettings', {
                 pageId: pageId, contentData: contentdata,
             }).then(function (response) {
-                if (!response.success)
-                {
-
-                } else
-                {
-                    $state.go(getUrl + '.contentPagesIndex');
+                if (response.success) {
+                    $state.go('contentPagesIndex');
                 }
             });
-            //alert("update");
         }
         $scope.manageImagePage = function (pageId)
         {
             Data.post('website_settings/getImages', {
                 Data: {pageId: pageId, },
             }).then(function (response) {
-                //console.log(response.records[0]['banner_images']);
-                //var imgs = JSON.parse("[" + response.records[0]['banner_images'] + "]");
                 var arraydata = response.records[0]['banner_images'].split(',');
                 $scope.imgs = arraydata;
-                //  $scope.contentPage = response.records[0];
             });
         }
         $scope.updateimagePage = function (allimg, imageData, pageId)
         {
-            console.log(imageData);
             if (typeof imageData !== 'undefined') {
                 $scope.err_msg = '';
                 allimg.push(imageData['name']);
                 allimg.toString();
-                var url = getUrl + '/website_settings/saveImagePageSettings';
+                var url = '/website_settings/saveImagePageSettings';
                 var data = {pageId: pageId, imageData: allimg, uploadImage: imageData};
 
-                console.log(data);
                 imageData.upload = Upload.upload({
                     url: url,
                     headers: {enctype: 'multipart/form-data'},
@@ -159,10 +141,7 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                 imageData.upload.then(function (response) {
                     $timeout(function () {
                         if (!response.data.success) {
-                           alert("wrong");
-                        } else
-                        {
-                            console.log(response);
+                            alert("wrong");
                         }
                     });
                 }, function (response) {
@@ -170,18 +149,6 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                         $scope.errorMsg = "Something went wrong. Check your internet connection";
                     }
                 });
-//                Data.post('website_settings/saveImagePageSettings', {
-//                    pageId: pageId, imageData: allimg, uploadImage: imageData,
-//                }).then(function (response) {
-//                    if (!response.success)
-//                    {
-//
-//                    } else
-//                    {
-//                        // $state.go(getUrl+'.contentPagesIndex');
-//                        $scope.imagePage.banner_images = '';
-//                    }
-//                });
             } else
             {
                 $scope.err_msg = "Please Select image for upoad";
@@ -194,13 +161,6 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                 Data.post('website_settings/saveImagePageSettings', {
                     pageId: pageId, imageData: $scope.imgs,
                 }).then(function (response) {
-                    if (!response.success)
-                    {
-
-                    } else
-                    {
-                        // $state.go(getUrl+'.contentPagesIndex');
-                    }
                 });
             }
         }

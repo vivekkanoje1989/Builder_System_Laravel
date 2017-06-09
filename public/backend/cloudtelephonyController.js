@@ -12,7 +12,6 @@ $scope.registrationData.default_number = false;
 $scope.registrationData.id = '';
 //$scope.cvn_id ='';
 $scope.registrationNumber = function (registrationData) {
-        console.log(registrationData);
         var date = new Date($scope.registrationData.activation_date);
         $scope.registrationData.activation_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
         $scope.submitted = true;
@@ -34,7 +33,7 @@ $scope.registrationNumber = function (registrationData) {
                 $rootScope.alert('success', response.message);
                 $('.alert-delay').delay(1000).fadeOut("slow");
                 $timeout(function () {
-                    $state.go(getUrl+'.numbersIndex');
+                    $state.go('numbersIndex');
                 }, 1000);
                 
                 
@@ -45,13 +44,12 @@ $scope.registrationNumber = function (registrationData) {
     
     
     $scope.createExtNumber = function (extData1,welcomeTuneAudio,mscwelcomeTuneAudio,ct_settings_id) {
-        console.log(extData1);
         $scope.submitted = true;
             extData1.ct_settings_id = ct_settings_id;
             //alert(extData1.id);return false;
             if(extData1.id === '0')
             {       
-                var url = getUrl+'/extensionmenu';
+                var url = '/extensionmenu';
                 var data = {extData1: extData1, welcomeTuneAudio: welcomeTuneAudio, mscwelcomeTuneAudio: mscwelcomeTuneAudio};
                 welcomeTuneAudio.upload = Upload.upload({
                     url: url,
@@ -67,11 +65,11 @@ $scope.registrationNumber = function (registrationData) {
                         $scope.step2 = false;
 
                         $('.alert-delay').delay(1000).fadeOut("slow");
-                        $state.go(getUrl+'.extensionMenu');
+                        $state.go('extensionMenu');
                     });
                 });
             }else{
-                var url = getUrl+'/extensionmenu/' + extData1.id;
+                var url = '/extensionmenu/' + extData1.id;
                 var data = {_method: 'PUT', extData1: extData1, welcomeTuneAudio: welcomeTuneAudio, mscwelcomeTuneAudio: mscwelcomeTuneAudio};
                 welcomeTuneAudio.upload = Upload.upload({
                     url: url,
@@ -86,7 +84,7 @@ $scope.registrationNumber = function (registrationData) {
                         $scope.step2 = false;
 
                         $('.alert-delay').delay(1000).fadeOut("slow");
-                        $state.go(getUrl+'.extensionMenu');
+                        $state.go('extensionMenu');
                     });
                 });
         }
@@ -100,7 +98,7 @@ $scope.registrationNumber = function (registrationData) {
         console.log(welcomeTuneAudio);
         console.log(holdTuneAudio);
         $scope.submitted = true;
-            var url = getUrl+'/virtualnumber';
+            var url = '/virtualnumber';
             var data = {vnumberData: vnumberData, welcomeTuneAudio: welcomeTuneAudio, holdTuneAudio:holdTuneAudio};
             welcomeTuneAudio.upload = Upload.upload({
                 url: url,
@@ -109,9 +107,9 @@ $scope.registrationNumber = function (registrationData) {
             }).then(function (response,evt) {
                 $timeout(function () {
                     if(vnumberData.menu_status == false){
-                        $state.go(getUrl+'.existingUpdate',{'id':vnumberData.id});
+                        $state.go('existingUpdate',{'id':vnumberData.id});
                     }else{
-                        $state.go(getUrl+'.extensionMenu',{'id':vnumberData.id});
+                        $state.go('extensionMenu',{'id':vnumberData.id});
                     }
             });
             
@@ -126,7 +124,7 @@ $scope.registrationNumber = function (registrationData) {
 
         $scope.submitted = true;
             //alert(vnumberData.id);return false;
-            var url = getUrl+'/virtualnumber/'+vnumberData.id;
+            var url = '/virtualnumber/'+vnumberData.id;
             var data = {_method: 'PUT',vnumberData: vnumberData, welcomeTuneAudio: welcomeTuneAudio, holdTuneAudio:holdTuneAudio};
             welcomeTuneAudio.upload = Upload.upload({
                 url: url,
@@ -135,7 +133,7 @@ $scope.registrationNumber = function (registrationData) {
             }).then(function (response,evt) {
                 $timeout(function () {
                     if(response.data.success == true)
-                    $state.go(getUrl+'.virtualnumberslist');    
+                    $state.go('virtualnumberslist');    
             });
             
     });

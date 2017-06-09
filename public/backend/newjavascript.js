@@ -1,5 +1,5 @@
 'use strict';
-app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams) {
+app.controller('adminController', function ($rootScope, $scope, $state, Data) {
     $scope.registration = {};
     $scope.errorMsg = '';
 
@@ -29,7 +29,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         }).then(function (response) {
             if (response.success) {
                 $state.reload();
-                $state.go(getUrl + '.dashboard');
+                $state.go('dashboard');
                 return false;
             } else {
                 $scope.errorMsg = response.message;
@@ -78,7 +78,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
-                $state.go(getUrl + '.dashboard');
+                $state.go('dashboard');
             }
         });
     }

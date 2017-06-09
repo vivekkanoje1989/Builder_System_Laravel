@@ -1,4 +1,4 @@
-app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', '$state', 'toaster', function ($scope, Data, Upload, $state, toaster) {
+app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', function ($scope, Data, Upload, toaster) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -18,12 +18,12 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', '$state', 'toast
             $scope.errorMsg = '';
             $scope.err_msg = '';
             if ($scope.testimonial_id == 0) {
-                var url = getUrl + '/testimonials/';
+                var url = '/testimonials/';
                 var data = {
                     'customer_name': $scope.customer_name, 'company_name': $scope.company_name, 'description': $scope.description,
                     'web_status': $scope.web_status, 'mobile_number': $scope.mobile_number, 'video_url': $scope.video_url, 'photo_url': photo_url}
             } else {
-                var url = getUrl + '/testimonials/update/'+$scope.testimonial_id;
+                var url = '/testimonials/update/'+$scope.testimonial_id;
 
                 if (typeof photo_url === 'undefined' || typeof photo_url === 'string') {
                     photo_url = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});

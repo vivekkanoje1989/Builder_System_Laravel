@@ -1,5 +1,5 @@
 'use strict';
-app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', '$parse', 'toaster', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout, $parse, toaster) {
+app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', function ($scope, Data, Upload, $timeout, toaster) {
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.subId = '0';
@@ -34,7 +34,7 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
             }
             $scope.err_msg = '';
             var imgCount = document.getElementById("banner_images").files.length;
-            var url = getUrl + '/web-pages/updateWebPage';
+            var url = '/web-pages/updateWebPage';
             var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount, contentData: contentdata};
 
             imageData.upload = Upload.upload({
@@ -43,7 +43,6 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                 data: data
             });
             imageData.upload.then(function (response) {
-
                 $timeout(function () {
                     if (!response.data.success) {
                         toaster.pop('error', 'Banner Image', 'Image not uploaded');
@@ -63,7 +62,6 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                     $scope.errorMsg = "Something went wrong. Check your internet connection";
                 }
             });
-
         }
 
         $scope.editSubPage = function (list, index)
@@ -84,12 +82,11 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
             }
             $scope.err_msg = '';
             var imgCount = document.getElementById("subbanner_images").files.length;
-            if ($scope.subId == 0)
-            {
-                var url = getUrl + '/web-pages/storeSubWebPage';
+            if ($scope.subId == 0){
+                var url = '/web-pages/storeSubWebPage';
                 var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount, subcontentPage: subcontentPage};
             } else {
-                var url = getUrl + '/web-pages/updateSubWebPage';
+                var url = '/web-pages/updateSubWebPage';
                 var data = {'id': $scope.subId, pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount, subcontentPage: subcontentPage};
             }
             imageData.upload = Upload.upload({
@@ -98,9 +95,7 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                 data: data
             });
             imageData.upload.then(function (response) {
-                //console.log(response.data)
                 var record = response.data.records;
-
                 if ($scope.subId == 0)
                 {
                     $scope.subPage.push({'page_name': record.page_name, 'page_title': record.page_title, 'seo_url': record.seo_url, 'seo_page_title': record.seo_page_title,
@@ -131,14 +126,12 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                     $scope.errorMsg = "Something went wrong. Check your internet connection";
                 }
             });
-
         }
         $scope.manageImagePage = function (pageId)
         {
             Data.post('web-pages/getImages', {
                 Data: {pageId: pageId, },
             }).then(function (response) {
-                //console.log(response.records[0])
                 if (response.records[0]['banner_images'] != null) {
                     var arraydata = response.records[0]['banner_images'].split(',');
                     $scope.imgs = arraydata;
@@ -152,11 +145,10 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
             if (typeof imageData === 'undefined') {
                 imageData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
-            alert(imageData);
             $scope.err_msg = '';
             var imgCount = document.getElementById("banner_images").files.length;
             allimg.push(imageData['name']);
-            var url = getUrl + '/web-pages/updateWebPageImage';
+            var url = '/web-pages/updateWebPageImage';
             var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount};
             imageData.upload = Upload.upload({
                 url: url,
@@ -183,7 +175,6 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                     $scope.errorMsg = "Something went wrong. Check your internet connection";
                 }
             });
-
         }
         $scope.removeImg = function (imgname, indeximg, pageId)
         {
@@ -203,18 +194,13 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                         }
                     });
                 }
-            } else
-            {
-
-            }
-        }
+            }         }
         $scope.removeSubImg = function (imgname, indeximg, pageId)
         {
             if (window.confirm("Are you sure want to remove this image?"))
             {
                 if (indeximg > -1) {
                     $scope.subimgs.splice(indeximg, 1);
-                   // console.log($scope.subimgs)
                     Data.post('web-pages/removeSubWebPageImage', {
                         pageId: $scope.subId, imageName: imgname, subimgs: $scope.subimgs,
                     }).then(function (response) {
@@ -227,9 +213,6 @@ app.controller('contentPagesCtrl', ['$rootScope', '$scope', '$state', 'Data', '$
                         }
                     });
                 }
-            } else
-            {
-
             }
         }
     }]);

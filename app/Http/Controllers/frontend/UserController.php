@@ -39,6 +39,10 @@ class UserController extends Controller {
         $getWebsiteUrl = config('global.getWebsiteUrl');
     }
 
+    public function load(){
+//        echo $_SERVER['REQUEST_URI']."<br>".$_SERVER['PHP_SELF'];
+        return view('website');
+    }
     public function getMenus() {
         $getProjects = WebPage::with(['menuList'])->where('status', '=', '1')->where('page_type', '=', '0')->orderBy('parent_page_position')->get();
         return json_encode(['result' => $getProjects, 'status' => true]);
@@ -66,6 +70,9 @@ class UserController extends Controller {
         return view('frontend.' . $this->themeName . '.index')->with(["testimonials" => $testimonials, 'employee' => $employees, 'background' => $images, 'current' => $currentResult]);
     }
 
+    public function geeta() {echo "hhh";
+        return view('frontend.Theme32.geeta');
+    }
     public function career() {
         $result = WebCareers::all();
         return view('frontend.' . $this->themeName . '.career')->with("carrier", $result);

@@ -1,18 +1,15 @@
-
-<!--<link rel="stylesheet" href="/backend/assets/css/login.css">-->
-
 <div class="page-bg">
     <div class="sub-page-bg">
         <div class="row div-wdt div-bg">
             <div class="col-md-9 col-sm-8 col-xs-12" style="padding: 0;">
-                <!--img src="https://image.freepik.com/free-vector/abstract-logo-in-flame-shape_1043-44.jpg" class="clnt-logo"-->
                 <img src="http://cdn.wonderfulengineering.com/wp-content/uploads/2014/01/building-wallpaper-5.jpg" class="img-responsive">                
             </div>
             <div class="col-md-3 col-sm-4 col-xs-12"  style="padding: 0;">
                 <form name="loginForm" novalidate ng-submit="loginForm.$valid && login(loginData)" ng-controller="adminController">
                 <input type="hidden" ng-model="loginData.csrfToken" name="csrftoken" id="csrftoken" ng-init="loginData.csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="login-div">
-                    <h3>Hi, GUEST</h3>
+                    <h3 ng-if="!fullName">Hello, GUEST</h3>
+                    <h3 ng-if="fullName">Hello, {{fullName}}</h3>
                     <hr>
                     <div id="login-form" class="w3-animate-right">
                         <div class="group-div">

@@ -23,7 +23,7 @@
                         </div>
                         <div class="databox-bottom bg-white no-padding">
                             <div class="databox-row text-align-center">
-                                <a  href="#/[[config('global.getUrl')]]/storage-list/getAllListToRestore/{{imgs.id}}">  
+                                <a  href="[[ config('global.backendUrl') ]]#/storage-list/getAllListToRestore/{{imgs.id}}">  
                                     <div class="databox-cell bordered-platinum padding-5">
                                         <span class="databox-number lightcarbon"> {{imgs.folder}}</span>                                   
                                     </div>

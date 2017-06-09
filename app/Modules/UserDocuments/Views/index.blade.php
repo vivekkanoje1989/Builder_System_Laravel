@@ -29,9 +29,6 @@
                         <input type="hidden" ng-model="searchData.userId" name="userId" id="custId" value="{{searchData.userId}}">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">
                             <div class="col-lg-6 col-sm-6 col-xs-12">
-                                <div class="form-title">
-                                    User Documents  
-                                </div>
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
@@ -41,22 +38,21 @@
                                                     <option value="">Select User</option>
                                                     <option  ng-repeat="itemone in employeeRow"  value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}}</option>
                                                 </select>
-                                                <i class="glyphicon glyphicon-user"></i>
+                                                <i class="fa fa-sort-desc"></i>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>     
                         </div>
-                        <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">
-                            <hr class="wide" />
+                        <div class="row col-lg-12 col-sm-12 col-xs-12" ng-if="showDiv">                            
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="form-title">
                                     Document Details
                                 </div>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
-                                <input type="hidden"  ng-model="id" >
+                                <input type="hidden" ng-model="id" >
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="form-group">
@@ -90,12 +86,9 @@
                                         <div class="form-group">
                                             <label for="">Upload document</label>
                                             <span class="input-icon icon-right">
-                                                <input type="file" ngf-select ng-model="userData.documentUrl" name="documentUrl" id="documentUrl" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
-                                                <!--<input type="file"    ng-model="userData.documentUrl" name="documentUrl" id="documentUrl" accept="image/*" class="form-control imageFile"  ngf-model-invalid="errorFile" >-->
-                                                <br/>
+                                                <input type="file" ngf-select ng-model="userData.documentUrl" name="documentUrl" id="documentUrl" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ><br/>
                                             </span>
                                         </div>
-<!--                                        <img  ng-if="document_url" src="[[ Session::get('s3Path') ]]Employee-Documents/{{document_url}}" height="80px" width="80px">-->
                                         <div  ng-show="document_url" style="margin-top:18px;">
                                             <div  class="img-div2" data-title="name">   
                                                 <i class="fa fa-times rem-icon" ng-if="document_url" ng-click="removeImg('{{document_url}}',{{id}})"></i>
@@ -104,13 +97,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 col-xs-12 col-md-12" align="center">
-                                    <button type="submit" class="btn btn-primary"  ng-click="sbtBtn = true">{{action}}</button>
-                                </div>
-                            </div> 
-                            <hr class="wide col-md-12" />   
+                                <div class="row">
+                                    <div class="col-lg-12 col-xs-12 col-md-12" align="left">
+                                        <button type="submit" class="btn btn-primary"  ng-click="sbtBtn = true">{{action}}</button>
+                                    </div>
+                                </div><br>
+                            </div>   
                         </div> 
-                        <div class="col-xs-12 col-md-12" >
+                        <div class="col-xs-12 col-md-12" ng-if="showDiv">
                             <div class="widget">                                
                                 <div class="widget-header">
                                     <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Document List <span id="errContactDetails" class="errMsg"></span></span>
@@ -131,7 +125,7 @@
                                                 <td>{{list.user_documents.document_name}}</td>
                                                 <td>{{list.document_number}}</td>
                                                 <td class="fa-div">
-                                                    <div class="fa-hover" tooltip-html-unsafe="Edit City" style="display: block;"><a href="javascript:void(0);" ng-click="updateDocument({{list}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                                    <div class="fa-hover" tooltip-html-unsafe="Edit Document" style="display: block;"><a href="javascript:void(0);" ng-click="updateDocument({{list}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                                                 </td>
                                             </tr>                                            
                                         </tbody>
@@ -139,7 +133,6 @@
                                 </div>
                             </div>
                         </div>
-                        <hr class="wide col-lg-12 col-xs-12 col-md-12" ng-if="showDiv"/>
                     </form>
                 </div>
             </div>

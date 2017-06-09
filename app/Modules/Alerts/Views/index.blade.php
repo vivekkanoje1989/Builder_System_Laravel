@@ -110,7 +110,7 @@
                             <td>{{ listAlert.module_names }}</td>
                             <td class="fa-div">
                                 <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/[[config('global.getUrl')]]/alerts/update/{{ listAlert.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/alerts/update/{{ listAlert.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                             </td>
                         </tr>
                     </tbody>

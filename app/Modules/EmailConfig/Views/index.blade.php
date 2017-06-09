@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Configure Email Accounts</span>
-                <a class="btn btn-primary" href="#/[[config('global.getUrl')]]/emailConfig/create/">Create Account</a>
+                <a class="btn btn-primary" href="[[ config('global.backendUrl') ]]#/emailConfig/create/">Create Account</a>
                 <div class="widget-buttons">                    
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -30,7 +30,7 @@
                             <td>Gmail</td>          
                             <td>{{ listmail.deptName }}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit Account"><a href="#/[[config('global.getUrl')]]/emailConfig/update/{{ listmail.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit Account"><a href="[[ config('global.backendUrl') ]]#/emailConfig/update/{{ listmail.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                             </td>
                         </tr>
                     </tbody>

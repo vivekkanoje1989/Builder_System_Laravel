@@ -1,6 +1,36 @@
-var app = angular.module('app', ['ngMessages', 'ngFileUpload']);
+var app = angular.module('app', ['ngFileUpload',
+    'ngMessages']);
 
-app.controller('webAppController', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
+/*app.config(
+                ['$stateProvider', '$urlRouterProvider',
+                    function ($stateProvider, $urlRouterProvider) {
+    $stateProvider.
+      when('/index', {
+		templateUrl: 'website/index',
+		controller: 'AppCtrl'
+	}).
+      when('/about', {
+		templateUrl: 'website/about',
+		controller: 'AppCtrl'
+      }).
+      otherwise({
+		redirectTo: '/index'
+      });
+}]);*/
+
+app.config(['$stateProvider', '$urlRouterProvider', 
+    function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider
+        .otherwise('/index');
+    $stateProvider
+        .state('website', {
+            //abstract: true,
+            url: '/',
+            templateUrl: 'website/index',
+        })
+}]);
+                                
+app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
 
         $scope.submitted = false;
         $scope.empl = true;
@@ -320,5 +350,4 @@ app.filter('htmlToPlaintext', function () {
     return function (text) {
         return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
     };
-}
-);
+});

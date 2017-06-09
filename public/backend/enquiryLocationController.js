@@ -1,4 +1,4 @@
-app.controller('enquiryLocationCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', function ($scope, Data, $rootScope, $timeout, toaster) {
+app.controller('enquiryLocationCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
 
         $scope.itemsPerPage = 4;

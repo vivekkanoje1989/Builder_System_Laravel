@@ -8,7 +8,7 @@
                             <form  ng-submit="jobPosting.$valid && dojobPostingAction(career)" name="jobPosting"  novalidate enctype="multipart/form-data">
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                                 <div class="form-title">
-                                   Create job posting
+                                   Add Job Description
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">
@@ -67,7 +67,7 @@
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">
                                         <div class="form-group">
-                                            <label>job Responsibilities<span class="sp-err">*</span></label>
+                                            <label>Job Responsibilities<span class="sp-err">*</span></label>
                                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_responsibilities.$dirty && jobPosting.job_responsibilities.$invalid) }">
                                                 <span class="input-icon icon-right">
                                                     <textarea ng-model="career.job_responsibilities" name="job_responsibilities" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="col-sm-3 col-xs-12 ">
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.application_start_date.$dirty || jobPosting.application_start_date.$invalid)}">
-                                            <label>Application start date<span class="sp-err">*</span></label>
+                                            <label>Application Start Date<span class="sp-err">*</span></label>
                                             <p class="input-group">
                                                 <input type="text" ng-model="career.application_start_date" min-date="minDate" name="application_start_date" id="application_start_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                                 <span class="input-group-btn" >
@@ -96,7 +96,7 @@
 
                                     <div class="col-sm-3 col-xs-12 ">
                                         <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.application_close_date.$dirty || jobPosting.application_close_date.$invalid)}">
-                                            <label>Application end date<span class="sp-err">*</span></label>
+                                            <label>Application End Date<span class="sp-err">*</span></label>
                                             <p class="input-group">
                                                 <input type="text" ng-model="career.application_close_date"  min-date="career.application_start_date"  min-date="model.application_start_date" name="application_close_date" id="application_close_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"   datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                                 <span class="input-group-btn">
@@ -111,7 +111,7 @@
 
                                     <div class="col-sm-3 col-xs-12">
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.number_of_positions.$dirty && jobPosting.number_of_positions.$invalid) }">
-                                            <label>Number of positions<span class="sp-err">*</span></label>
+                                            <label>Number Of Positions<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
                                                 <input type="text" class="form-control" ng-model="career.number_of_positions" name="number_of_positions" required  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.number_of_positions.$error">

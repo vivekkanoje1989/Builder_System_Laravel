@@ -2,20 +2,16 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 4;
-
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
-
                 $scope.CompanyRow = response.result;
             });
         };
-
         $scope.loadCompanyData = function (companyId)
         {
             $scope.CompanyData = [];
             Data.post('manage-companies/loadCompanyData', {'id': companyId}).then(function (response) {
                 $scope.companyData = response.result;
-                console.log(response.stationary)
                 $scope.id = response.result.id;
                 $scope.CompanyData.legal_name = response.result.legal_name;
                 $scope.CompanyData.punch_line = response.result.punch_line;
@@ -40,36 +36,26 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                     $scope.Stationary = [{id: '1'}];
                 }
                 angular.forEach(response.stationary, function (value, key) {
-
                     $scope.Stationary.push({'stationary_set_name': value.stationary_set_name, 'estimateLetter': value.estimate_letterhead_file, 'receiptLetterhead': value.receipt_letterhead_file, 'receipt_logo_file': value.receipt_logo_file, 'rubberStamp': value.rubber_stamp_file, 'estimateLetterheadFile': value.estimate_letterhead_file, 'estimateLogo': value.estimate_logo_file, 'demandletterFile': value.demandletter_letterhead_file, 'receiptLogoFile': value.receipt_logo_file, 'demandletterLogoFile': value.demandletter_logo_file, })
-
                 });
-
             });
         }
-
         $scope.docompanyscreateAction = function (FirmLogo, CompanyData)
         {
-            console.log($scope.documents);
             $scope.errorMsg = '';
             $scope.allimages = '';
-
-
-            if ($scope.id == 0)
-            {
-                var url = getUrl + '/manage-companies/';
+            if ($scope.id == 0) {
+                var url = '/manage-companies/';
                 var data = {
                     'bank_account': CompanyData.bank_account, 'legal_name': CompanyData.legal_name, 'punch_line': CompanyData.punch_line, 'pan_number': CompanyData.pan_num, 'main_office_addr': CompanyData.main_office_addr,
                     'cloud_telephoney_client': CompanyData.cloud_telephoney_client, 'gst_number': CompanyData.gst_number, 'domain_name': CompanyData.domain_name,
                     'service_tax_number': CompanyData.service_tax_number, 'sms_alice': CompanyData.sms_alice, 'vat_num': CompanyData.vat_num,
                     'FirmLogo': {'FirmLogo': FirmLogo}, 'stationary': $scope.Stationary, 'documents': $scope.documents}
             } else {
-
                 if (typeof FirmLogo === 'undefined') {
                     FirmLogo = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 }
-
-                var url = getUrl + '/manage-companies/updateCompany';
+                var url = '/manage-companies/updateCompany';
                 var data = {'id': $scope.id,
                     'bank_account': CompanyData.bank_account, 'legal_name': CompanyData.legal_name, 'punch_line': CompanyData.punch_line, 'pan_number': CompanyData.pan_num, 'main_office_addr': CompanyData.main_office_addr,
                     'cloud_telephoney_client': CompanyData.cloud_telephoney_client, 'gst_number': CompanyData.gst_number, 'domain_name': CompanyData.domain_name,
@@ -83,13 +69,9 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 data: data
             });
             FirmLogo.upload.then(function (response) {
-
-               // console.log(response);
-                if (response.status)
-                {
-                    $state.go(getUrl + '.companiesIndex');
-                    if ($scope.id == 0)
-                    {
+                if (response.status) {
+                    $state.go('companiesIndex');
+                    if ($scope.id == 0) {
                         toaster.pop('success', 'Manage Companies', 'Record successfully created');
                     } else {
                         toaster.pop('success', 'Manage Companies', 'Record Updated created');
@@ -109,13 +91,11 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             var newItemNo = $scope.Stationary.length + 1;
             $scope.Stationary.push({'id': newItemNo});
         };
-
         $scope.addNewDocuments = function ()
         {
             var newItemNo = $scope.documents.length + 1;
             $scope.documents.push({'id': newItemNo});
         }
-
         $scope.removeChoice = function () {
             var lastItem = $scope.documents.length - 1;
             $scope.documents.splice(lastItem);
@@ -123,13 +103,11 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
     }]);
 
-
 app.controller('bankAccountCtrl', ['$scope', 'Data', function ($scope, Data) {
-
-        $scope.bankAccountRow = [];
-        $scope.manageBankAccounts = function () {
-            Data.get('manage-companies/manageBankAccount').then(function (response) {
-                $scope.bankAccountRow = response.records;
-            });
-        };
-    }]);
+    $scope.bankAccountRow = [];
+    $scope.manageBankAccounts = function () {
+        Data.get('manage-companies/manageBankAccount').then(function (response) {
+            $scope.bankAccountRow = response.records;
+        });
+    };
+}]);

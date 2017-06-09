@@ -459,20 +459,14 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                         <div class="row"><br>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <center><button type="submit" class="btn btn-primary" ng-click="step1 = true">Save and Continue</button>
-                                    <!--                                &nbsp;&nbsp;&nbsp;<a ng-if="registrationData.menu_status == '1'" class="btn btn-primary" href="#/[[config('global.getUrl')]]/extensionmenu/view/{{registrationData.id}}">Next</a>
-                                <a ng-if="registrationData.menu_status != '1'" class="btn btn-primary" href="#/<?php echo config('global.getUrl');?>/virtualnumber/existingupdate/{{ registrationData.id }}">Next</a>-->
                                 </center>
                             </div>
                         </div>
-
                     </div>
-                    <!--  </div>-->
                 </form>
             </div>
 

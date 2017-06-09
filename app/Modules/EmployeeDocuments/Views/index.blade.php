@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Documents</span>
-                <a data-toggle="modal" data-target="#documentModal" ng-click="initialModal(0, '', '')" class="btn btn-info">Create document</a>&nbsp;&nbsp;&nbsp;
+                <a data-toggle="modal" data-target="#documentModal" ng-click="initialModal(0, '', '')" class="btn btn-primary">Create Document</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -14,12 +14,7 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                        <tr>
-                            <th style="width:5%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">SR No.
-                                    <span ng-show="orderByField == 'id'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th> 
+                            <th style="width:5%">SR No</th> 
                             <th style="width: 30%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'document_name'; reverseSort = !reverseSort">Document name
                                     <span ng-show="orderByField == 'document_name'">
@@ -74,7 +69,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
                     </div> 
                 </form>           
             </div>

@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">My Storage</span>
-                <a href="" data-toggle="modal" data-target="#storageModel"  class="btn btn-info">Upload new</a> &nbsp;&nbsp;&nbsp;
+                <a href="" data-toggle="modal" data-target="#storageModel"  class="btn btn-primary">Upload new</a> &nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -26,7 +26,7 @@
                         </div>
                         <div class="databox-bottom bg-white no-padding">
                             <div class="databox-row text-align-center">
-                                <a  href="#/[[config('global.getUrl')]]/storage-list/getAllList/{{imgs.id}}">  
+                                <a  href="[[ config('global.backendUrl') ]]#/storage-list/getAllList/{{imgs.id}}">  
                                     <div class="databox-cell bordered-platinum padding-5">
                                         <span class="databox-number lightcarbon"> {{imgs.folder}}</span>                                   
                                     </div>

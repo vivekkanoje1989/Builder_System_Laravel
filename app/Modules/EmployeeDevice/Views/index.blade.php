@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Employee Device</span>
-                <a  href="#/[[config('global.getUrl')]]/employeeDevice/create" class="btn btn-info">Add Device</a>&nbsp;&nbsp;&nbsp;
+                <a  href="[[ config('global.backendUrl') ]]#/employeeDevice/create" class="btn btn-info">Add Device</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -63,7 +63,7 @@
                             <td ng-if="listDevice.device_status == 1">Active</td>
                             <td ng-if="listDevice.device_status == 0">Inactive</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="#/[[config('global.getUrl')]]/employeeDevice/update/{{ listDevice.id}}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                               
+                                <div class="fa-hover" tooltip-html-unsafe="Edit Information" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/employeeDevice/update/{{ listDevice.id}}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                               
                             </td>
                         </tr>
                     </tbody>

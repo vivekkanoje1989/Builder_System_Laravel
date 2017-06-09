@@ -517,7 +517,7 @@ class MasterHrController extends Controller {
     public function accessControl() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-        if (!empty($input)) {//checkbox checked
+        if (!empty($input)) {
             if ($input['data']['moduleType'] === 'roles') {
                 $getSubMenus = EmployeeRole::select('employee_submenus')->where('id', $input['data']['empId'])->get();
             } else {
@@ -555,6 +555,7 @@ class MasterHrController extends Controller {
                 $result = ['success' => true];
                 return json_encode($result);
             } else {//checkbox unchecked
+                echo "<pre>";print_r($input);exit;
                 $submenuId = array_map(function($el) {
                     return '0' . $el;
                 }, $input['data']['submenuId']);

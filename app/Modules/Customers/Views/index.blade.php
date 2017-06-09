@@ -68,7 +68,7 @@
                             <td>{{(list.email_privacy_status == 1) ? "Yes" : "No"}}</td>     
                             <td>{{(list.sms_privacy_status == 1) ? "Yes" : "No"}}</td>     
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="#/[[config('global.getUrl')]]/customers/update/{{ list.id}}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/customers/update/{{ list.id}}"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

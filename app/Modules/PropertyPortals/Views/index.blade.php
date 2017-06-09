@@ -1,4 +1,4 @@
-<div class="row" ng-controller="propertyPortalsController">
+<div class="row" ng-controller="propertyPortalsController" ng-init="portalTypeList()">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -25,8 +25,7 @@
                             <td>{{ listPortal.portal_name }}</td>
                              <td ng-if="listPortal.status == 1"><label><input class="checkbox-slider slider-icon colored-success" type="checkbox" id="statuschk{{ listPortal.id }}" checked ng-click="changestatus({{  listPortal.status }},{{ listPortal.id }})"><span class="text"></span></label></td>
                             <td ng-if="listPortal.status == 0"><label><input class="checkbox-slider slider-icon" type="checkbox" id="statuschk{{ listPortal.id }}" ng-click="changestatus({{  listPortal.status }},{{ listPortal.id }})"><span class="text"></span></label></td>
-                            <!-- <td>{{ listPortal.status }}</td> -->
-                            <td class="fa-div"><a class="glyphicon glyphicon-eye-open" href="#/[[config('global.getUrl')]]/portalaccounts/{{ listPortal.id }}" ></a></td>
+                            <td class="fa-div"><a class="glyphicon glyphicon-eye-open" href="[[ config('global.backendUrl') ]]#/portalaccounts/{{ listPortal.id }}" ></a></td>
                         </tr>
                     </tbody>
                 </table> 

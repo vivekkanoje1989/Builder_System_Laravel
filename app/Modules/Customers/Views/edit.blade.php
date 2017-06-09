@@ -257,7 +257,7 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
-                            <a href="#/[[config('global.getUrl')]]/customers/index" class="btn btn-primary"><< Back to list</a>
+                            <a href="[[ config('global.backendUrl') ]]#/customers/index" class="btn btn-primary"><< Back to list</a>
                         </div>
                     </div>
                 </div>	

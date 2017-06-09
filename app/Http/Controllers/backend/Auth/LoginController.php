@@ -38,7 +38,6 @@ class LoginController extends Controller {
     {
         return Auth::guard('admin');
     }
-    
     public static function checkUserCredentials(){
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);

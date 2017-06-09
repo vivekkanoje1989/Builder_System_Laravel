@@ -1,7 +1,7 @@
 
 <div class="row">
     <div class="widget flat radius-bordered">
-        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController" ng-init="myFollowupReport(<?php echo Auth::guard('admin')->user()->id; ?>)">
+        <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController" ng-init="myFollowupReport([[$loggedInUserID]])">
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
 
                 <div id="followup-report">

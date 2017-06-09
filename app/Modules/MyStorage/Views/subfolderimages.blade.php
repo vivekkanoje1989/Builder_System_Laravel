@@ -46,12 +46,12 @@
 
     }
 </style>
-<div class="row" ng-controller="storageCtrl" ng-init="allImages('<?php echo $folderId; ?>'); getSharedEmployees('<?php echo $folderId; ?>');">  
+<div class="row" ng-controller="storageCtrl" ng-init="allImages('[[ $folderId ]]'); getSharedEmployees('[[ $folderId ]]');">  
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">My Storage</span>
-                <a href="" data-toggle="modal" data-target="#storageModel" ng-click="initialModal()" class="btn btn-info">Upload new file</a>
+                <a href="" data-toggle="modal" data-target="#storageModel" ng-click="initialModal()" class="btn btn-primary">Upload new file</a>
                <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>

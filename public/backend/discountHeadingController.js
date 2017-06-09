@@ -7,7 +7,6 @@ app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'to
 
             Data.post('discount-headings/manageDiscountHeading').then(function (response) {
                 $scope.DiscountHeadingRow = response.records;
-                console.log($scope.DiscountHeadingRow)
             });
         };
         $scope.initialModal = function (id, discount_name, status, index, index1) {

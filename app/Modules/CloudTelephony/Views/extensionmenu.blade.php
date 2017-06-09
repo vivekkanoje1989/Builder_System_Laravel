@@ -488,9 +488,9 @@ use Illuminate\Support\Facades\Route;
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <center><br>
-                                        <a class="btn btn-primary" href="#/<?php echo config('global.getUrl');?>/virtualnumber/update/{{ virtualno[0]['id'] }}">Back</a>
+                                        <a class="btn btn-primary" href="[[ config('global.backendUrl') ]]#/virtualnumber/update/{{ virtualno[0]['id'] }}">Back</a>
                                 &nbsp;&nbsp;&nbsp;<button type="submit" class="btn btn-primary" ng-click="step2 = true">Submit</button>
-                                &nbsp;&nbsp;&nbsp;<a class="btn btn-primary" href="#/<?php echo config('global.getUrl');?>/virtualnumber/existingupdate/{{ virtualno[0]['id'] }}">Next</a>
+                                &nbsp;&nbsp;&nbsp;<a class="btn btn-primary" href="[[ config('global.backendUrl') ]]#/virtualnumber/existingupdate/{{ virtualno[0]['id'] }}">Next</a>
                                     </center>
                                 <br>
                             </div>

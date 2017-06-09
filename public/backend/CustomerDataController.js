@@ -24,7 +24,7 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
             if (typeof cust_image_file === 'undefined' || typeof cust_image_file === 'string') {
                 cust_image_file = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
-            var url = getUrl + '/customers/update';
+            var url = '/customers/update';
             var data = {'id': customerData.id, 'title_id': customerData.title_id, 'first_name': customerData.first_name, 'middle_name': customerData.middle_name,
                 'last_name': customerData.last_name, gender_id: customerData.gender_id,
                 'monthly_income': customerData.monthly_income, 'profession_id': customerData.profession_id, 'pan_number': customerData.pan_number,
@@ -42,7 +42,7 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
                 $scope.errormsg = response.errormsg;
                 $timeout(function () {
                     toaster.pop('success', 'Customer data', 'Record successfully updated');
-                    $state.go(getUrl + '.customersIndex');
+                    $state.go('customersIndex');
                 });
             }, function (response) {
                 if (response.status !== 200) {

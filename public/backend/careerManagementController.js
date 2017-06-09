@@ -52,7 +52,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                         $scope.errorMsg = response.errormsg;
                     } else {
                         toaster.pop('success', 'Careers', 'Job post created successfully');
-                        $state.go(getUrl + '.manageJobIndex');
+                        $state.go('manageJobIndex');
                     }
                 });
             } else { //for update
@@ -65,7 +65,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                         $scope.errorMsg = response.errormsg;
                     } else {
                         toaster.pop('success', 'Careers', 'Job post updated successfully');
-                        $state.go(getUrl + '.manageJobIndex');
+                        $state.go('manageJobIndex');
                     }
                 });
             }

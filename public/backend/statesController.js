@@ -1,4 +1,4 @@
-app.controller('statesCtrl', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope,$timeout) {
+app.controller('statesCtrl', ['$scope', 'Data', function ($scope, Data) {
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 4;
         $scope.manageStates = function () {

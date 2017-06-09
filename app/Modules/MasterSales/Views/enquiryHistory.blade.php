@@ -41,7 +41,7 @@
                                 {{history.sales_status}}
                             </td>
                         </tr>
-                        <tr ng-if="!historyList.length" align="center"><td colspan="6"> Records Not Found</td>
+                        <tr ng-if="!historyList.length" align="center"><td colspan="7"> Records Not Found</td>
                         </tr>
                     </tbody>
                 </table>

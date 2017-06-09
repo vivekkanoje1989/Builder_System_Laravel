@@ -1,4 +1,4 @@
-app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', function ($scope, Data, $rootScope, $timeout, toaster) {
+app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 4;
@@ -38,7 +38,7 @@ app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$time
 
                         $('#projecttypesModal').modal('toggle');
                         $scope.ProjectTypesRow.push({'project_type': $scope.project_type, 'id': response.lastinsertid});
-                        toaster.pop('success', 'Manage project types', 'Record successfully created');
+                        toaster.pop('success', 'Project types', 'Record successfully created');
                     }
                 });
             } else { //for update
@@ -52,7 +52,7 @@ app.controller('projecttypesController', ['$scope', 'Data', '$rootScope', '$time
                         $scope.ProjectTypesRow.splice($scope.index, 0, {
                             project_type: $scope.project_type, id: $scope.id});
                         $('#projecttypesModal').modal('toggle');
-                        toaster.pop('success', 'Manage project types', 'Record successfully updated');
+                        toaster.pop('success', 'Project types', 'Record successfully updated');
                     }
                 });
             }

@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Career</span>
-                <a href="#/[[config('global.getUrl')]]/job-posting/create"  class="btn btn-primary">Post Job</a>&nbsp;&nbsp;&nbsp;
+                <a href="[[ config('global.backendUrl') ]]#/job-posting/create"  class="btn btn-primary">Post Job</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -65,9 +65,9 @@
                             <td>{{list.job_eligibility}}</td> 
                             <td>{{list.application_start_date}}</td> 
                             <td>{{list.application_close_date}}</td>
-                            <td><a href="#/[[config('global.getUrl')]]/job-posting/show/{{ list.id}}" class="btn btn-primary">View Application</a></td>
+                            <td><a href="[[ config('global.backendUrl') ]]#/job-posting/show/{{ list.id}}" class="btn btn-primary">View Application</a></td>
                             <td class="fa-div">	
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" ><a href="#/[[config('global.getUrl')]]/job-posting/update/{{ list.id}}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" ><a href="[[ config('global.backendUrl') ]]#/job-posting/update/{{ list.id}}"><i class="fa fa-pencil"></i></a></div>
                             </td>
                             <td class="fa-div">	
                                 <div class="fa-hover" tooltip-html-unsafe="Delete" style="display: block;"><a ng-click="deleteJob({{list.id}},{{$index}})"><i class="fa fa-trash-o"></i></a></div>

@@ -1,4 +1,4 @@
-app.controller('highestEducationCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
+app.controller('highestEducationCtrl', ['$scope', 'Data', function ($scope, Data) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;

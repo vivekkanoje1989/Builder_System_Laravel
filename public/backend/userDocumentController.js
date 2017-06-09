@@ -1,4 +1,4 @@
-app.controller('userDocumentController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', function ($scope, Data, Upload, $timeout, toaster) {
+app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', function ($scope, Data, Upload, toaster) {
 
         $scope.action = 'Submit';
         $scope.id = 0;
@@ -10,8 +10,7 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', '$timeout'
         $scope.getUserDocumentsLists = function (employee_id)
         {
             $scope.errorMsgg = '';
-            if (employee_id == undefined)
-            {
+            if (employee_id == 'undefined') {
                 $scope.showDiv = false;
             } else {
                 $scope.showDiv = true;
@@ -22,7 +21,7 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', '$timeout'
         };
         $scope.updateDocument = function (list, index)
         {
-            $scope.action = 'update';
+            $scope.action = 'Update';
             $scope.id = list.id;
             $scope.userData.document_number = list.document_number;
             $scope.document_url = list.document_url;
@@ -37,11 +36,11 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', '$timeout'
             $scope.empId = userData.employee_id;
 
             if ($scope.id == 0) {
-                var url = getUrl + '/user-document/';
+                var url = '/user-document/';
                 var data = {
                     'employee_id': userData.employee_id, 'document_id': userData.document_id, 'document_number': userData.document_number, 'documentUrl': {'documentUrl': documentUrl}}
             } else {
-                var url = getUrl + '/user-document/edit';
+                var url = '/user-document/edit';
                 var data = {
                     'id': $scope.id, 'employee_id': userData.employee_id, 'document_id': userData.document_id, 'document_number': userData.document_number, 'documentUrl': {'documentUrl': documentUrl}}
 
@@ -52,7 +51,6 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', '$timeout'
                 data: data
             });
             documentUrl.upload.then(function (response) {
-                console.log(response.data);
                 if (response.data.success)
                 {
                     if ($scope.documentRow == undefined)
@@ -86,31 +84,19 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', '$timeout'
                 }
             });
         };
-
         $scope.removeImg = function (imgname, id)
         {
-            console.log(imgname + " "+ id)
-            if (window.confirm("Are you sure want to remove this image?"))
-            {
-                Data.post('user-document/removeImage', {id: id}).then(function (response) {
-                    console.log(response)
-                    if (!response.success)
-                    {
-                    }
-                });
+            if (window.confirm("Are you sure want to remove this image?")) {
+                Data.post('user-document/removeImage', {id: id}).then(function (response) {});
             }
         }
-
-
         $scope.manageEmployeeDocuments = function () {
             Data.get('user-document/documents').then(function (response) {
                 $scope.DocumentsRow = response.records;
             });
         };
-
         $scope.changeErrorMsg = function ()
         {
             $scope.errorMsgg = '';
         }
-
     }]);       

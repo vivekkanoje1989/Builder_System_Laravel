@@ -101,15 +101,14 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
             if (model.$isEmpty(customerMobileNo) && model.$isEmpty(customerEmailId))
                 return $q.when();
             else{
-                
-                $scope.showloader();
-            
+                $scope.showloader();            
                 return Data.post('master-sales/getCustomerDetails', {
                     data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId},
                 }).then(function (response) {
                     if (response.success) { //response true  
                         if (response.flag === 0)//if customer exist
                         {
+                            alert("1");
                             $scope.showDiv = false;
                             $scope.showDivCustomer = true;
                             $scope.btnLabelC = "Update";
@@ -148,11 +147,10 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.searchData.searchWithEmail = customerEmailId;
                             $scope.searchData.customerId = response.customerPersonalDetails[0].id;
                             $scope.hideloader();
-    //                        $scope.disableText = true;
 
-                        } else{ //enquiry list of customer  
+                        } else{ //enquiry list of customer 
                             var url = $location.path();
-                            if(url === "/office/sales/enquiry"){
+                            if(url === "/sales/enquiry"){
                                 $scope.showDiv = true;
                                 $scope.showDivCustomer = false;
                                 $scope.backBtn = false;
@@ -166,6 +164,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.hideloader();
                         }
                     } else {//response false
+                        alert("3");
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
                         if ($scope.searchData.searchWithMobile === undefined) {

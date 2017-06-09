@@ -48,7 +48,7 @@
                             <td>{{ listpage.page_name }}</td>
                             <td>{{ listpage.page_title }}</td>                            
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit Page" style="display: block;"><a href="#/[[config('global.getUrl')]]/contentpages/{{ listpage.page_id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                                
+                                <div class="fa-hover" tooltip-html-unsafe="Edit Page" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/contentpages/{{ listpage.page_id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                                
                             </td>
                         </tr>
                     </tbody>

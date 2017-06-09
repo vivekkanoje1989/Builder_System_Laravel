@@ -41,7 +41,7 @@
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{ list.stage_name}}</td>   
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#projectpaymentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.stage_name}}',{{list.project_type_id}},{{list.fix_stage}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit Information" style="display: block;" data-toggle="modal" data-target="#projectpaymentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.stage_name}}',{{list.project_type_id}},{{list.fix_stage}},{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

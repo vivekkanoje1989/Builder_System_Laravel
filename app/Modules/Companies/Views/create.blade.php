@@ -17,7 +17,7 @@
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                                 <input type="hidden" ng-model="id" name="id"  class="form-control">
                                 <div class="form-title">
-                                    Manage Companies
+                                    Add Company Information
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">
@@ -109,7 +109,7 @@
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.firm_logo.$dirty && companysForm.firm_logo.$invalid) }">
-                                            <label>   Firm Logo<span class="sp-err">*</span></label>
+                                            <label>Firm Logo<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
                                                 <input type="file" ngf-select   ng-model="CompanyData.firm_logo" name="firm_logo" id="firm_logo" required accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.firm_logo.$error">
@@ -121,7 +121,7 @@
                                     <div class="col-sm-3 col-xs-12 ">
                                         <div class="form-group">
                                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.main_office_addr.$dirty && companysForm.main_office_addr.$invalid) }">   
-                                                <label>   Main Office Address<span class="sp-err">*</span></label>
+                                                <label>Main Office Address<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
                                                     <textarea ng-model="CompanyData.main_office_addr" required name="main_office_addr" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.main_office_addr.$error">

@@ -3,7 +3,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Companies</span>
-                <a href="#/[[config('global.getUrl')]]/manage-companies/create"  class="btn btn-info">Add New Company</a>&nbsp;&nbsp;&nbsp;
+                <a href="[[ config('global.backendUrl') ]]#/manage-companies/create"  class="btn btn-info">Add New Company</a>&nbsp;&nbsp;&nbsp;
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -24,26 +24,19 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                        <tr>
-                            <th style="width:5%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">SR No.
-                                    <span ng-show="orderByField == 'id'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th>                       
-                            
-                             <th style="width:20%">
+                            <th style="width:5%">SR No.</th>
+                            <th style="width:20%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'name'; reverseSort = !reverseSort">Punch Line
                                     <span ng-show="orderByField == 'name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th>
-                           
-                             <th style="width:20%">
+                                </a>
+                            </th>                           
+                            <th style="width:20%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'name'; reverseSort = !reverseSort">Legal Name
                                     <span ng-show="orderByField == 'name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th>  
-                                
-
+                                </a>
+                            </th>  
                             <th style="width: 5%">Actions</th>
                         </tr>
                     </thead>
@@ -53,7 +46,7 @@
                             <td>{{list.punch_line}}</td> 
                             <td>{{list.legal_name}}</td> 
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#companyModal"><a href="#/[[config('global.getUrl')]]/manage-companies/edit/{{list.id}}" ><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit Information" style="display: block;" data-toggle="modal" data-target="#companyModal"><a href="[[ config('global.backendUrl') ]]#/manage-companies/edit/{{list.id}}" ><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

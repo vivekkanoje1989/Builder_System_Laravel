@@ -89,7 +89,7 @@
                         <div class="col-lg-12 col-sm-12 col-xs-12">
                             <div class="col-sm-3 col-xs-6">
                                 <input type="submit" class="btn btn-primary" value="Create" id="sbt" ng-click="sbtbtn=true">
-                                <a href="#/[[config('global.getUrl')]]/emailConfig/index" class="btn btn-primary"><< Back</a>
+                                <a href="[[ config('global.backendUrl') ]]#/emailConfig/index" class="btn btn-primary"><< Back</a>
                             </div>
                             <div class="col-sm-3 col-xs-6"></div>
                             <div class="col-sm-3 col-xs-6"></div>

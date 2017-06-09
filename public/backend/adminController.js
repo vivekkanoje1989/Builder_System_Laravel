@@ -29,7 +29,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         }).then(function (response) {
             if (response.success) {
                 $state.reload();
-                $state.go(getUrl + '.dashboard');
+                $state.go('dashboard');
                 return false;
             } else {
                 $scope.errorMsg = response.message;
@@ -78,7 +78,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
-                $state.go(getUrl + '.dashboard');
+                $state.go('dashboard');
             }
         });
     }
@@ -265,7 +265,6 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
             blockTypeId.push(value.id);
         });
         var myJsonString = JSON.stringify(blockTypeId);
-        //console.log(myJsonString);
         if ($scope.enquiryData.block_id.length === 0) {
             $scope.emptyBlockId = true;
             $scope.applyClassBlock = 'ng-active';
@@ -280,7 +279,6 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.subBlockList = response.records;
-                    // console.log($scope.subBlockList);
                 }
             });
         }

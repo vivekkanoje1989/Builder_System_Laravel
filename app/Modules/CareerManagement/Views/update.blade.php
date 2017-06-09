@@ -8,7 +8,7 @@
                             <form  ng-submit="jobPosting.$valid && dojobPostingAction(career)" name="jobPosting"  novalidate enctype="multipart/form-data">
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                                 <div class="form-title">
-                                    Manage Career
+                                    Edit Job Description
                                 </div>
                                 <div class="row">
                                     <input type="hidden" class="form-control" ng-model="id" name="id" >

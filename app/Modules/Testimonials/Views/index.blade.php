@@ -2,7 +2,7 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Testimonials</span>
+                <span class="widget-caption">Manage Testimonials</span>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -57,7 +57,7 @@
                             <td>{{ list.company_name}}</td>
                             <td>{{ (list.approve_status == 1) ? "Approved" : "Not Approve"}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" ><a href="#/[[config('global.getUrl')]]/testimonials/update/{{ list.testimonial_id}}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit Information" style="display: block;" ><a href="[[ config('global.backendUrl') ]]#/testimonials/update/{{ list.testimonial_id}}"><i class="fa fa-pencil"></i></a></div>
                             </td> 
                         </tr>
                     </tbody>

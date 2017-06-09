@@ -8,20 +8,20 @@ angular.module('app')
                 ]
                 )
         .config(
-                ['$stateProvider', '$urlRouterProvider',
-                    function ($stateProvider, $urlRouterProvider) {
-                        
+                ['$stateProvider', '$urlRouterProvider','$locationProvider',
+                    function ($stateProvider, $urlRouterProvider,$locationProvider) {
+                       
                         $urlRouterProvider
-                                .otherwise(getUrl + '/login');
+                                .otherwise('/login');
                         $stateProvider
-                                .state(getUrl, {
-                                    abstract: true,
-                                    url: '/' + getUrl,
-                                    templateUrl: getUrl + '/layout',
-                                })
-                                .state(getUrl + '.dashboard', {
+//                                .state(getUrl, {
+//                                    abstract: true,
+//                                    url: '/' + getUrl,
+//                                    templateUrl: '/layout',
+//                                })
+                                .state('dashboard', {
                                     url: '/dashboard',
-                                    templateUrl: getUrl + '/dashboard',
+                                    templateUrl: '/dashboard',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Dashboard',
@@ -49,9 +49,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.user', {
+                                .state('user', {
                                     url: '/user/create',
-                                    templateUrl: getUrl + '/master-hr/create',
+                                    templateUrl: '/master-hr/create',
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -78,9 +78,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.userIndex', {
+                                .state('userIndex', {
                                     url: '/user/index',
-                                    templateUrl: getUrl + '/master-hr/',
+                                    templateUrl: '/master-hr/',
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -105,10 +105,10 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.userUpdate', {
+                                .state('userUpdate', {
                                     url: '/user/update/:empId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/master-hr/' + stateParams.empId + '/edit';
+                                        return '/master-hr/' + stateParams.empId + '/edit';
                                     },
                                     controller: 'hrController',
                                     requiredLogin: true,
@@ -136,9 +136,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.manageRoles', {
+                                .state('manageRoles', {
                                     url: '/user/manageroles',
-                                    templateUrl: getUrl + '/master-hr/manageRolesPermission',
+                                    templateUrl: '/master-hr/manageRolesPermission',
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -146,10 +146,10 @@ angular.module('app')
                                         description: ''
                                     },
                                 })
-                                .state(getUrl + '.userPermissions', {
+                                .state('userPermissions', {
                                     url: '/user/permissions/:empId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/master-hr/userPermissions/' + stateParams.empId;
+                                        return '/master-hr/userPermissions/' + stateParams.empId;
                                     },
                                     controller: 'hrController',
                                     requiredLogin: true,
@@ -176,10 +176,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.rolePermissions', {
+                                .state('rolePermissions', {
                                     url: '/role/permissions/:empId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/master-hr/rolePermissions/' + stateParams.empId;
+                                        return '/master-hr/rolePermissions/' + stateParams.empId;
                                     },
                                     controller: 'hrController',
                                     requiredLogin: true,
@@ -206,9 +206,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.salesCreate', {
+                                .state('salesCreate', {
                                     url: '/sales/enquiry',
-                                    templateUrl: getUrl + '/master-sales/create',
+                                    templateUrl: '/master-sales/create',
                                     controller: 'customerController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -238,10 +238,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                /*.state(getUrl + '.enquiryCreate', {
+                                /*.state('enquiryCreate', {
                                     url: '/sales/createEnquiry/:customerId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/master-sales/showEnquiry/' + stateParams.customerId;
+                                        return '/master-sales/showEnquiry/' + stateParams.customerId;
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -268,8 +268,8 @@ angular.module('app')
                                         ]    
                                     }
                                 })*/
-                                /*.state(getUrl + '.salesIndex', {
-                                    templateUrl: getUrl + '/master-sales/create',
+                                /*.state('salesIndex', {
+                                    templateUrl: '/master-sales/create',
                                     controller: 'customerController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -296,10 +296,10 @@ angular.module('app')
                                         ]
                                     }
                                 })*/
-                                .state(getUrl + '.salesUpdateCustomer', {
+                                .state('salesUpdateCustomer', {
                                     url: '/sales/update/cid/:customerId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/master-sales/editCustomer/cid/' + stateParams.customerId;
+                                        return '/master-sales/editCustomer/cid/' + stateParams.customerId;
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -329,10 +329,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.salesUpdateEnquiry', {
+                                .state('salesUpdateEnquiry', {
                                     url: '/sales/update/cid/:customerId/eid/:enquiryId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/master-sales/editEnquiry/cid/' + stateParams.customerId + '/eid/'+ stateParams.enquiryId;
+                                        return '/master-sales/editEnquiry/cid/' + stateParams.customerId + '/eid/'+ stateParams.enquiryId;
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -363,9 +363,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.userChart', {
+                                .state('userChart', {
                                     url: '/user/orgchart',
-                                    templateUrl: getUrl + '/master-hr/orgchart',
+                                    templateUrl: '/master-hr/orgchart',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Organization Chart',
@@ -392,9 +392,9 @@ angular.module('app')
                                             
                                     }
                                 })
-                                .state(getUrl + '.projectCreate', {
+                                .state('projectCreate', {
                                     url: '/project/create',
-                                    templateUrl: getUrl + '/projects/create',
+                                    templateUrl: '/projects/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Create Project'
@@ -419,9 +419,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.projectWebPage', {
+                                .state('projectWebPage', {
                                     url: '/project/webpage',
-                                    templateUrl: getUrl + '/projects/webPage',
+                                    templateUrl: '/projects/webPage',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Project Configurations'
@@ -448,10 +448,10 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                /*.state(getUrl + '.projectWebPageId', {
+                                /*.state('projectWebPageId', {
                                     url: '/project/webpage/:projectId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/projects/getProjectDetails/' + stateParams.projectId;
+                                        return '/projects/getProjectDetails/' + stateParams.projectId;
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -470,9 +470,9 @@ angular.module('app')
                                         ]
                                     }
                                 })*/
-                                .state(getUrl + '.manageProjectIndex', {
+                                .state('manageProjectIndex', {
                                    url: '/project/index',
-                                   templateUrl: getUrl + '/projects/',
+                                   templateUrl: '/projects/',
                                    requiredLogin: true,
                                    ncyBreadcrumb: {
                                        label: 'Manage project',
@@ -496,9 +496,9 @@ angular.module('app')
                                         ]
                                    }
                                })
-                                .state(getUrl + '.wingsIndex', {
+                                .state('wingsIndex', {
                                     url: '/wings/index',
-                                    templateUrl: getUrl + '/wings/',
+                                    templateUrl: '/wings/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Wings'
@@ -522,9 +522,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.wingsCreate', {
+                                .state('wingsCreate', {
                                     url: '/wings/create',
-                                    templateUrl: getUrl + '/wings/create',
+                                    templateUrl: '/wings/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Create Wings'
@@ -549,11 +549,11 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.wingsUpdate', {
+                                .state('wingsUpdate', {
                                     url: '/wings/update/:id',
                                     templateUrl: function (setParams)
                                     {
-                                        return getUrl + '/wings/' + setParams.id + '/edit';
+                                        return '/wings/' + setParams.id + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -579,38 +579,39 @@ angular.module('app')
                                     }
                                 })
                                 /************************************ UMA ******************************/
-                                .state(getUrl + '.propertyPortalIndex', {
-                                    templateUrl: getUrl + '/projects/create',
+                                .state('propertyPortalIndex', {
+                                    url: '/portalaccounts/index',
+                                    templateUrl: '/propertyportals/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Create Project'
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/projectController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/propertyPortalsController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
-                                .state(getUrl + '.propertyPortalAccounts', {
+                                .state('propertyPortalAccounts', {
                                     url: '/portalaccounts/:portalTypeId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/propertyportals/' + stateParams.portalTypeId + '/showPortalAccounts';
+                                        return '/propertyportals/' + stateParams.portalTypeId + '/showPortalAccounts';
                                     },
                                     controller: 'propertyPortalsController',
                                     requiredLogin: true,
@@ -623,19 +624,19 @@ angular.module('app')
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/propertyPortalsController.js',
-                                                        ]
-                                                    }]);
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/propertyPortalsController.js',
+                                                    ]
+                                                }]);
                                             }
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.createPortalAccounts', {
+                                .state('createPortalAccounts', {
                                     url: '/portalaccounts/create/:portalTypeId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/propertyportals/' + stateParams.portalTypeId + '/createAccount';
+                                        return '/propertyportals/' + stateParams.portalTypeId + '/createAccount';
                                     },
                                     controller: 'propertyPortalsController',
                                     requiredLogin: true,
@@ -657,10 +658,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.updatePortalAccounts', {
+                                .state('updatePortalAccounts', {
                                     url: '/portalaccounts/update/:portaltypeId/:accountId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/propertyportals/' + stateParams.portaltypeId + '/' + stateParams.accountId + '/updatePortalAccount';
+                                        return '/propertyportals/' + stateParams.portaltypeId + '/' + stateParams.accountId + '/updatePortalAccount';
                                     },
                                     controller: 'propertyPortalsController',
                                     requiredLogin: true,
@@ -682,9 +683,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.webPagesIndex', {
+                                .state('webPagesIndex', {
                                     url: '/webpages/index',
-                                    templateUrl: getUrl + '/web-pages/',
+                                    templateUrl: '/web-pages/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Web Page Management',
@@ -710,10 +711,10 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.webPagesUpdate', {
+                                .state('webPagesUpdate', {
                                     url: '/webpages/update/:id',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/web-pages/' + stateParams.id + '/edit';
+                                        return '/web-pages/' + stateParams.id + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -742,9 +743,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.emailConfigIndex', {
+                                .state('emailConfigIndex', {
                                     url: '/emailConfig/index',
-                                    templateUrl: getUrl + '/email-config/',
+                                    templateUrl: '/email-config/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Email Account Configuration'
@@ -769,11 +770,11 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.updateEmailConfig', {
+                                .state('updateEmailConfig', {
                                     url: '/emailConfig/update/:id',
                                     templateUrl: function (setParams)
                                     {
-                                        return getUrl + '/email-config/' + setParams.id + '/edit';
+                                        return '/email-config/' + setParams.id + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -796,9 +797,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.createEmailConfig', {
+                                .state('createEmailConfig', {
                                     url: '/emailConfig/create/',
-                                    templateUrl: getUrl + '/email-config/create',
+                                    templateUrl: '/email-config/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Email Account Configuration'
@@ -823,9 +824,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.employeeDeviceIndex', {
+                                .state('employeeDeviceIndex', {
                                     url: '/employeeDevice/index',
-                                    templateUrl: getUrl + '/employee-device/',
+                                    templateUrl: '/employee-device/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Employee Device Management'
@@ -850,9 +851,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.employeeDeviceCreate', {
+                                .state('employeeDeviceCreate', {
                                     url: '/employeeDevice/create',
-                                    templateUrl: getUrl + '/employee-device/create',
+                                    templateUrl: '/employee-device/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Add Device'
@@ -878,11 +879,11 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.employeeDeviceUpdate', {
+                                .state('employeeDeviceUpdate', {
                                     url: '/employeeDevice/update/:id',
                                     templateUrl: function (setParam)
                                     {
-                                        return getUrl + '/employee-device/' + setParam.id + '/edit';
+                                        return '/employee-device/' + setParam.id + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -908,10 +909,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.customerUpdate', {
+                                .state('customerUpdate', {
                                     url: '/sales/updateCustomer/:id',
                                     templateUrl: function (setParams) {
-                                        return getUrl + '/master-sales/updateCustomer/'+ setParams.id ;
+                                        return '/master-sales/updateCustomer/'+ setParams.id ;
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -940,10 +941,10 @@ angular.module('app')
                                     }
                                 })
                                 
-                                .state(getUrl + '.manageCustomerUpdate', {
+                                .state('manageCustomerUpdate', {
                                     url: '/customers/update/:custId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/customers/' + stateParams.custId + '/edit';
+                                        return '/customers/' + stateParams.custId + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -970,9 +971,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.enquiries', {
+                                .state('enquiries', {
                                     url: '/sales/totalenquiries',
-                                    templateUrl: getUrl + '/master-sales/totalEnquiries',
+                                    templateUrl: '/master-sales/totalEnquiries',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Total Enquiries'
@@ -1002,10 +1003,10 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.lostenquiries', {
+                                .state('lostenquiries', {
                                     url: '/sales/lostenquiries',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/lostEnquiries';
+                                        return '/master-sales/lostEnquiries';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1033,10 +1034,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.closedenquiries', {
+                                .state('closedenquiries', {
                                     url: '/sales/closedenquiries',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/closeEnquiries';
+                                        return '/master-sales/closeEnquiries';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1064,10 +1065,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.todaysfollowups', {
+                                .state('todaysfollowups', {
                                     url: '/sales/todaysfollowups',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/showTodaysFollowups';
+                                        return '/master-sales/showTodaysFollowups';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1095,10 +1096,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.pendingfollowups', {
+                                .state('pendingfollowups', {
                                     url: '/sales/pendingfollowups',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/showPendingFollowups';
+                                        return '/master-sales/showPendingFollowups';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1126,10 +1127,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.previousfollowups', {
+                                .state('previousfollowups', {
                                     url: '/sales/previousfollowups',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/showPreviousFollowups';
+                                        return '/master-sales/showPreviousFollowups';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1157,9 +1158,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.teamtotalenquiries', {
+                                .state('teamtotalenquiries', {
                                     url: '/sales/teamtotalenquiries',
-                                    templateUrl: getUrl + '/master-sales/teamTotalEnquiries',
+                                    templateUrl: '/master-sales/teamTotalEnquiries',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Team Total Enquiries'
@@ -1188,10 +1189,10 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.teamlostenquiries', {
+                                .state('teamlostenquiries', {
                                     url: '/sales/teamlostenquiries',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/teamLostEnquiries';
+                                        return '/master-sales/teamLostEnquiries';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1219,10 +1220,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.teamclosedenquiries', {
+                                .state('teamclosedenquiries', {
                                     url: '/sales/teamclosedenquiries',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/teamClosedEnquiries';
+                                        return '/master-sales/teamClosedEnquiries';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1250,10 +1251,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.teamtodayfollowups', {
+                                .state('teamtodayfollowups', {
                                     url: '/sales/teamtodayfollowups',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/teamTodayFollowups';
+                                        return '/master-sales/teamTodayFollowups';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1281,10 +1282,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.teampendingfollowups', {
+                                .state('teampendingfollowups', {
                                     url: '/sales/teampendingfollowups',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/teamPendingFollowups';
+                                        return '/master-sales/teamPendingFollowups';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1312,10 +1313,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.teampreviousfollowups', {
+                                .state('teampreviousfollowups', {
                                     url: '/sales/teampreviousfollowups',
                                     templateUrl: function () {
-                                        return getUrl + '/master-sales/teamPreviousFollowups';
+                                        return '/master-sales/teamPreviousFollowups';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1347,9 +1348,9 @@ angular.module('app')
 
                                 /****************************UMA************************************/
                                 /****************************MANDAR*********************************/
-                                .state(getUrl + '.cloudtelephony', {
+                                .state('cloudtelephony', {
                                     url: '/cloudtelephony/create',
-                                    templateUrl: getUrl + '/cloudtelephony/create',
+                                    templateUrl: '/cloudtelephony/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Virtual Number Registration',
@@ -1372,9 +1373,9 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.virtualnumberslist', {
+                                .state('virtualnumberslist', {
                                     url: '/virtualnumber/index',
-                                    templateUrl: getUrl + '/virtualnumber/',
+                                    templateUrl: '/virtualnumber/',
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1384,9 +1385,9 @@ angular.module('app')
                                 })
 
 
-                                .state(getUrl + '.numbersIndex', {
+                                .state('numbersIndex', {
                                     url: '/cloudtelephony/index',
-                                    templateUrl: getUrl + '/cloudtelephony/',
+                                    templateUrl: '/cloudtelephony/',
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1396,10 +1397,10 @@ angular.module('app')
                                 })
 
 
-                                .state(getUrl + '.recordUpdate', {
+                                .state('recordUpdate', {
                                     url: '/cloudtelephony/update/:id',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/cloudtelephony/' + stateParams.id + '/edit';
+                                        return '/cloudtelephony/' + stateParams.id + '/edit';
                                     },
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
@@ -1421,10 +1422,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.vnumberUpdate', {
+                                .state('vnumberUpdate', {
                                     url: '/virtualnumber/update/:id',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/virtualnumber/' + stateParams.id + '/edit';
+                                        return '/virtualnumber/' + stateParams.id + '/edit';
                                     },
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
@@ -1448,10 +1449,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.extensionMenu', {
+                                .state('extensionMenu', {
                                     url: '/extensionmenu/view/:id',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/extensionmenu/' + stateParams.id + '/viewData';
+                                        return '/extensionmenu/' + stateParams.id + '/viewData';
                                     },
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
@@ -1475,10 +1476,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.existingUpdate', {
+                                .state('existingUpdate', {
                                     url: '/virtualnumber/existingupdate/:id',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/virtualnumber/' + stateParams.id + '/existingUpdate';
+                                        return '/virtualnumber/' + stateParams.id + '/existingUpdate';
                                     },
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
@@ -1506,9 +1507,9 @@ angular.module('app')
 
                                 /*************************** Promotional SMS ****************/
 
-                                .state(getUrl + '.promotionalsms', {
+                                .state('promotionalsms', {
                                     url: '/promotionalsms/index',
-                                    templateUrl: getUrl + '/promotionalsms/',
+                                    templateUrl: '/promotionalsms/',
                                     controller: 'promotionalsmsController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1518,9 +1519,9 @@ angular.module('app')
                                 })
 
                                 /**************************** Alerts Routing *****************************/
-                                .state(getUrl + '.alertsIndex', {
+                                .state('alertsIndex', {
                                     url: '/alerts/index',
-                                    templateUrl: getUrl + '/alerts/',
+                                    templateUrl: '/alerts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Alerts'
@@ -1539,10 +1540,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.alertsUpdate', {
+                                .state('alertsUpdate', {
                                     url: '/alerts/update/:id',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/alerts/' + stateParams.id + '/edit';
+                                        return '/alerts/' + stateParams.id + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1564,9 +1565,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.customalertsIndex', {
+                                .state('customalertsIndex', {
                                     url: '/customalerts/index',
-                                    templateUrl: getUrl + '/customalerts/',
+                                    templateUrl: '/customalerts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Custome Alters'
@@ -1585,9 +1586,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.customalertcreate', {
+                                .state('customalertcreate', {
                                     url: '/customalerts/create',
-                                    templateUrl: getUrl + '/customalerts/create',
+                                    templateUrl: '/customalerts/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Create Custome Alert',
@@ -1608,10 +1609,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.customalertsUpdate', {
+                                .state('customalertsUpdate', {
                                     url: '/customalerts/update/:id',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/customalerts/' + stateParams.id + '/edit';
+                                        return '/customalerts/' + stateParams.id + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1633,9 +1634,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.defaultalertsIndex', {
+                                .state('defaultalertsIndex', {
                                     url: '/defaultalerts/index',
-                                    templateUrl: getUrl + '/defaultalerts/',
+                                    templateUrl: '/defaultalerts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Custome Alters'
@@ -1654,9 +1655,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.dafaultalertcreate', {
+                                .state('dafaultalertcreate', {
                                     url: '/dafaultalerts/create',
-                                    templateUrl: getUrl + '/defaultalerts/create',
+                                    templateUrl: '/defaultalerts/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Create Custome Alert',
@@ -1676,10 +1677,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.defaultalertsUpdate', {
+                                .state('defaultalertsUpdate', {
                                     url: '/defaultalerts/update/:id',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/defaultalerts/' + stateParams.id + '/edit';
+                                        return '/defaultalerts/' + stateParams.id + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1704,9 +1705,9 @@ angular.module('app')
 
                                 /****************************MANDAR*********************************/
                                 /****************************MANOJ*********************************/
-                                .state(getUrl + '.bloodGroupsIndex', {
+                                .state('bloodGroupsIndex', {
                                     url: '/bloodgroups/index',
-                                    templateUrl: getUrl + '/blood-groups/',
+                                    templateUrl: '/blood-groups/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage blood groups',
@@ -1732,9 +1733,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.countryIndex', {
+                                .state('countryIndex', {
                                     url: '/country/index',
-                                    templateUrl: getUrl + '/manage-country/',
+                                    templateUrl: '/manage-country/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Country',
@@ -1760,9 +1761,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.statesIndex', {
+                                .state('statesIndex', {
                                     url: '/states/index',
-                                    templateUrl: getUrl + '/manage-states/',
+                                    templateUrl: '/manage-states/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage State',
@@ -1788,9 +1789,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.cityIndex', {
+                                .state('cityIndex', {
                                     url: '/city/index',
-                                    templateUrl: getUrl + '/manage-city/',
+                                    templateUrl: '/manage-city/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage City',
@@ -1817,9 +1818,9 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.locationIndex', {
+                                .state('locationIndex', {
                                     url: '/location/index',
-                                    templateUrl: getUrl + '/manage-location/',
+                                    templateUrl: '/manage-location/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Location',
@@ -1845,9 +1846,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.highesteducationIndex', {
+                                .state('highesteducationIndex', {
                                     url: '/highesteducation/index',
-                                    templateUrl: getUrl + '/highest-education/',
+                                    templateUrl: '/highest-education/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Highest Education',
@@ -1873,9 +1874,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.departmentIndex', {
+                                .state('departmentIndex', {
                                     url: '/department/index',
-                                    templateUrl: getUrl + '/manage-department/',
+                                    templateUrl: '/manage-department/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Department',
@@ -1901,9 +1902,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.professionIndex', {
+                                .state('professionIndex', {
                                     url: '/profession/index',
-                                    templateUrl: getUrl + '/manage-profession/',
+                                    templateUrl: '/manage-profession/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Profession',
@@ -1929,9 +1930,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.paymentheadingIndex', {
+                                .state('paymentheadingIndex', {
                                     url: '/paymentheading/index',
-                                    templateUrl: getUrl + '/payment-headings/',
+                                    templateUrl: '/payment-headings/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Payment Heading',
@@ -1957,9 +1958,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.lostreasonsIndex', {
+                                .state('lostreasonsIndex', {
                                     url: '/lostreasons/index',
-                                    templateUrl: getUrl + '/lost-reasons/',
+                                    templateUrl: '/lost-reasons/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Lost Reasons'
@@ -1984,9 +1985,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.blockStagesIndex', {
+                                .state('blockStagesIndex', {
                                     url: '/blockstages/index',
-                                    templateUrl: getUrl + '/block-stages/',
+                                    templateUrl: '/block-stages/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage block stages'
@@ -2011,9 +2012,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.enquirySourceIndex', {
+                                .state('enquirySourceIndex', {
                                     url: '/enquirySource/index',
-                                    templateUrl: getUrl + '/enquiry-source/',
+                                    templateUrl: '/enquiry-source/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage enquiry source'
@@ -2038,9 +2039,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.discountheadingIndex', {
+                                .state('discountheadingIndex', {
                                     url: '/discountheading/index',
-                                    templateUrl: getUrl + '/discount-headings/',
+                                    templateUrl: '/discount-headings/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Discount Heading'
@@ -2065,9 +2066,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.projectstagesIndex', {
+                                .state('projectstagesIndex', {
                                     url: '/projectstages/index',
-                                    templateUrl: getUrl + '/project-payment/',
+                                    templateUrl: '/project-payment/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage payment stages'
@@ -2092,9 +2093,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.projecttypesIndex', {
+                                .state('projecttypesIndex', {
                                     url: '/projecttypes/index',
-                                    templateUrl: getUrl + '/project-types/',
+                                    templateUrl: '/project-types/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Project Types'
@@ -2119,9 +2120,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.blocktypesIndex', {
+                                .state('blocktypesIndex', {
                                     url: '/blocktypes/index',
-                                    templateUrl: getUrl + '/block-types/',
+                                    templateUrl: '/block-types/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Block Types'
@@ -2145,9 +2146,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.contactusIndex', {
+                                .state('contactusIndex', {
                                     url: '/contactus/index',
-                                    templateUrl: getUrl + '/contact-us/',
+                                    templateUrl: '/contact-us/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Contact us'
@@ -2171,9 +2172,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.socialwebsiteIndex', {
+                                .state('socialwebsiteIndex', {
                                     url: '/social-website/index',
-                                    templateUrl: getUrl + '/social-website/',
+                                    templateUrl: '/social-website/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage social website'
@@ -2197,9 +2198,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.assignenquiryIndex', {
+                                .state('assignenquiryIndex', {
                                     url: '/assignenquiry/index',
-                                    templateUrl: getUrl + '/assign-enquiry/',
+                                    templateUrl: '/assign-enquiry/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage auto assign web enquiries'
@@ -2223,9 +2224,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.manageblogIndex', {
+                                .state('manageblogIndex', {
                                     url: '/blog/index',
-                                    templateUrl: getUrl + '/manage-blog/',
+                                    templateUrl: '/manage-blog/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Blogs'
@@ -2249,9 +2250,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.createBlog', {
+                                .state('createBlog', {
                                     url: '/manage-blog/create',
-                                    templateUrl: getUrl + '/manage-blog/create',
+                                    templateUrl: '/manage-blog/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Create blog',
@@ -2277,10 +2278,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.blogUpdate', {
+                                .state('blogUpdate', {
                                     url: '/manage-blog/update/:blogId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/manage-blog/' + stateParams.blogId + '/edit';
+                                        return '/manage-blog/' + stateParams.blogId + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2308,9 +2309,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.testimonialsIndex', {
+                                .state('testimonialsIndex', {
                                     url: '/testimonials/index',
-                                    templateUrl: getUrl + '/testimonials/',
+                                    templateUrl: '/testimonials/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Approve Testimonials',
@@ -2335,10 +2336,10 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.testimonialUpdate', {
+                                .state('testimonialUpdate', {
                                     url: '/testimonials/update/:testimonialId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/testimonials/' + stateParams.testimonialId + '/edit';
+                                        return '/testimonials/' + stateParams.testimonialId + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2365,10 +2366,10 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.testimonialManage', {
+                                .state('testimonialManage', {
                                     url: '/testimonials-manage/update/:testimonialId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/testimonials/' + stateParams.testimonialId + '/editApproved';
+                                        return '/testimonials/' + stateParams.testimonialId + '/editApproved';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2394,9 +2395,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.testimonialsCreate', {
+                                .state('testimonialsCreate', {
                                     url: '/testimonials/create',
-                                    templateUrl: getUrl + '/testimonials/create',
+                                    templateUrl: '/testimonials/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Create Testimonial',
@@ -2422,9 +2423,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.testimonialsManage', {
+                                .state('testimonialsManage', {
                                     url: '/testimonials/manage',
-                                    templateUrl: getUrl + '/testimonials/manage',
+                                    templateUrl: '/testimonials/manage',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Testimonials',
@@ -2450,9 +2451,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.manageJobIndex', {
+                                .state('manageJobIndex', {
                                     url: '/job-posting/index',
-                                    templateUrl: getUrl + '/manage-job/',
+                                    templateUrl: '/manage-job/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Career',
@@ -2478,9 +2479,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.createJobIndex', {
+                                .state('createJobIndex', {
                                     url: '/job-posting/create',
-                                    templateUrl: getUrl + '/create-Job/',
+                                    templateUrl: '/create-Job/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Create job posting',
@@ -2507,10 +2508,10 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.careerUpdate', {
+                                .state('careerUpdate', {
                                     url: '/job-posting/update/:jobId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/manage-job/' + stateParams.jobId + '/edit';
+                                        return '/manage-job/' + stateParams.jobId + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2538,10 +2539,10 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.careerShow', {
+                                .state('careerShow', {
                                     url: '/job-posting/show/:jobId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/manage-job/' + stateParams.jobId + '/show';
+                                        return '/manage-job/' + stateParams.jobId + '/show';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2569,9 +2570,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.requestLeaveIndex', {
+                                .state('requestLeaveIndex', {
                                     url: '/request-leave/index',
-                                    templateUrl: getUrl + '/request-leave/',
+                                    templateUrl: '/request-leave/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Request leave',
@@ -2598,9 +2599,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.requestOtherApprovalIndex', {
+                                .state('requestOtherApprovalIndex', {
                                     url: '/request-approval/index',
-                                    templateUrl: getUrl + '/request-approval/index',
+                                    templateUrl: '/request-approval/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Request other approval',
@@ -2627,9 +2628,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.requestForMeIndex', {
+                                .state('requestForMeIndex', {
                                     url: '/request-for-me/index',
-                                    templateUrl: getUrl + '/request-for-me/index',
+                                    templateUrl: '/request-for-me/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Request for me',
@@ -2657,9 +2658,9 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.myRequestIndex', {
+                                .state('myRequestIndex', {
                                     url: '/my-request/index',
-                                    templateUrl: getUrl + '/my-request/index',
+                                    templateUrl: '/my-request/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'My request',
@@ -2686,9 +2687,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.operationalSettingIndex', {
+                                .state('operationalSettingIndex', {
                                     url: '/operational-setting/index',
-                                    templateUrl: getUrl + '/operational-setting/',
+                                    templateUrl: '/operational-setting/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage operational settings',
@@ -2715,9 +2716,9 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.enquirylocationIndex', {
+                                .state('enquirylocationIndex', {
                                     url: '/enquiry-location/index',
-                                    templateUrl: getUrl + '/enquiry-location/',
+                                    templateUrl: '/enquiry-location/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Enquiry Location',
@@ -2745,9 +2746,9 @@ angular.module('app')
                                 })
 
 
-                                .state(getUrl + '.designationsIndex', {
+                                .state('designationsIndex', {
                                     url: '/manage-designations/index',
-                                    templateUrl: getUrl + '/manage-designations/',
+                                    templateUrl: '/manage-designations/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Designations',
@@ -2773,9 +2774,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.storageListIndex', {
+                                .state('storageListIndex', {
                                     url: '/storage-list/index',
-                                    templateUrl: getUrl + '/storage-list/',
+                                    templateUrl: '/storage-list/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Storage',
@@ -2801,9 +2802,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.sharedWithMe', {
+                                .state('sharedWithMe', {
                                     url: '/sharedwith-me/index',
-                                    templateUrl: getUrl + '/sharedwith-me/',
+                                    templateUrl: '/sharedwith-me/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Storage',
@@ -2829,9 +2830,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.recycleBin', {
+                                .state('recycleBin', {
                                     url: '/recycle-bin/index',
-                                    templateUrl: getUrl + '/recycle-bin/',
+                                    templateUrl: '/recycle-bin/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Storage',
@@ -2858,10 +2859,10 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.allFiles', {
+                                .state('allFiles', {
                                     url: '/storage-list/getAllList/:folderId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/storage-list/' + stateParams.folderId + '/allfiles';
+                                        return '/storage-list/' + stateParams.folderId + '/allfiles';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2889,10 +2890,10 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.allMyFiles', {
+                                .state('allMyFiles', {
                                     url: '/storage-list/getAllMyList/:filename',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/storage-list/' + stateParams.filename + '/allmyfiles';
+                                        return '/storage-list/' + stateParams.filename + '/allmyfiles';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2920,11 +2921,11 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.getSubFolderImages', {
+                                .state('getSubFolderImages', {
                                     url: '/storage-list/getSubFolderImages/:filename',
                                     templateUrl: function (stateParams) {
 
-                                        return getUrl + '/storage-list/' + stateParams.filename + '/getSubFolderImages';
+                                        return '/storage-list/' + stateParams.filename + '/getSubFolderImages';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2951,10 +2952,10 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.getAllListToRestore', {
+                                .state('getAllListToRestore', {
                                     url: '/storage-list/getAllListToRestore/:filename',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/storage-list/' + stateParams.filename + '/getAllListToRestore';
+                                        return '/storage-list/' + stateParams.filename + '/getAllListToRestore';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2982,10 +2983,10 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.SubFolderRestore', {
+                                .state('SubFolderRestore', {
                                     url: '/storage-list/SubFolderRestore/:filename',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/storage-list/' + stateParams.filename + '/SubFolderRestore';
+                                        return '/storage-list/' + stateParams.filename + '/SubFolderRestore';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -3013,11 +3014,10 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.getMySubFolderImages', {
+                                .state('getMySubFolderImages', {
                                     url: '/storage-list/getMySubFolderImages/:filename',
                                     templateUrl: function (stateParams) {
-                                        alert(stateParams.filename);
-                                        return getUrl + '/storage-list/' + stateParams.filename + '/getMySubFolderImages';
+                                        return '/storage-list/' + stateParams.filename + '/getMySubFolderImages';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -3045,9 +3045,9 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.userDocument', {
+                                .state('userDocument', {
                                     url: '/user-document/index',
-                                    templateUrl: getUrl + '/user-document/',
+                                    templateUrl: '/user-document/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'User Documents',
@@ -3074,9 +3074,9 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.documentIndex', {
+                                .state('documentIndex', {
                                     url: '/employee-document/index',
-                                    templateUrl: getUrl + '/employee-document/',
+                                    templateUrl: '/employee-document/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Employee Documents',
@@ -3104,9 +3104,9 @@ angular.module('app')
                                 })
 
 
-                                .state(getUrl + '.companiesIndex', {
+                                .state('companiesIndex', {
                                     url: '/manage-company/index',
-                                    templateUrl: getUrl + '/manage-companies/',
+                                    templateUrl: '/manage-companies/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage company',
@@ -3132,9 +3132,9 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state(getUrl + '.companiesCreate', {
+                                .state('companiesCreate', {
                                     url: '/manage-companies/create',
-                                    templateUrl: getUrl + '/manage-companies/create',
+                                    templateUrl: '/manage-companies/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage company',
@@ -3160,11 +3160,11 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.companiesUpdate', {
+                                .state('companiesUpdate', {
                                     url: '/manage-companies/edit/:companyId',
                                     templateUrl: function (stateParams) {
 
-                                        return getUrl + '/manage-companies/' + stateParams.companyId + '/edit';
+                                        return '/manage-companies/' + stateParams.companyId + '/edit';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -3192,9 +3192,9 @@ angular.module('app')
                                 })
 
 
-                                .state(getUrl + '.bankAccountsIndex', {
+                                .state('bankAccountsIndex', {
                                     url: '/bank-accounts/index',
-                                    templateUrl: getUrl + '/bank-accounts/',
+                                    templateUrl: '/bank-accounts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage bank accounts',
@@ -3220,9 +3220,9 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.customersIndex', {
+                                .state('customersIndex', {
                                     url: '/customers/index',
-                                    templateUrl: getUrl + '/customers/',
+                                    templateUrl: '/customers/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Customers',
@@ -3246,9 +3246,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.projectAvailability', {
+                                .state('projectAvailability', {
                                     url: '/manage-project/availability',
-                                    templateUrl: getUrl + '/projects/availability',
+                                    templateUrl: '/projects/availability',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Project Availability',
@@ -3273,9 +3273,9 @@ angular.module('app')
                                     }
                                 })
 
-//                                .state(getUrl + '.manageProjectIndex', {
+//                                .state('manageProjectIndex', {
 //                                    url: '/manage-project/index',
-//                                    templateUrl: getUrl + '/projects/manage',
+//                                    templateUrl: '/projects/manage',
 //                                    requiredLogin: true,
 //                                    ncyBreadcrumb: {
 //                                        label: 'Manage project',
@@ -3299,10 +3299,10 @@ angular.module('app')
 //                                                ]
 //                                    }
 //                                })
-                                .state(getUrl + '.availbleProjects', {
+                                .state('availbleProjects', {
                                     url: '/projects/availability/:projectId',
                                     templateUrl: function (stateParams) {
-                                        return getUrl + '/projects/' + stateParams.projectId + '/availability';
+                                        return '/projects/' + stateParams.projectId + '/availability';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -3325,9 +3325,9 @@ angular.module('app')
                                     }
                                 })
 
-                                .state(getUrl + '.webChangeModuleIndex', {
+                                .state('webChangeModuleIndex', {
                                     url: '/website/change-module',
-                                    templateUrl: getUrl + '/website/change-module',
+                                    templateUrl: '/website/change-module',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Website Change Module',
@@ -3348,9 +3348,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                 .state(getUrl + '.webThemesIndex', {
+                                .state('webThemesIndex', {
                                     url: '/website/themes',
-                                    templateUrl: getUrl + '/website-themes/',
+                                    templateUrl: '/website-themes/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Manage Website Themes',
@@ -3361,22 +3361,107 @@ angular.module('app')
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(['ui.select', 'toaster', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/websiteThemes.js',
-                                                        ]
-                                                    }]);
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/websiteThemes.js',
+                                                    ]
+                                                }]);
                                             }
                                         ]
                                     }
                                 })
                                 
-                                 .state(getUrl + '.enquiryReport', {
-                                    url: '/report/enquiryreport',
-                                    templateUrl: getUrl + '/reports/getEnquiryReport',
+                                .state('enquiryReport', {
+                                    url: '/reports/enquiryReport',
+                                    templateUrl: '/reports/getEnquiryReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Enquiry Report'
+                                        label: 'Enquiry Report'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                function () {
+                                                    return $ocLazyLoad.load({
+                                                        serie: true,
+                                                        files: [
+                                                            '/js/intlTelInput.js',
+                                                            '/backend/reportsController.js',
+                                                            '/backend/app/controllers/datepicker.js',
+                                                        ]
+                                                    }
+                                                    );
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })
+
+                                .state('followupReport', {
+                                    url: '/reports/followupReport',
+                                    templateUrl: '/reports/followupReport',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Followup Report'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                    return $ocLazyLoad.load({
+                                                        serie: true,
+                                                        files: [
+                                                            '/js/intlTelInput.js',
+                                                            '/backend/reportsController.js',
+                                                            '/backend/app/controllers/datepicker.js',
+                                                        ]
+                                                    });
+                                                });
+                                            }
+                                        ]
+                                    }
+                                })
+
+                                .state('projectwiseReport', {
+                                    url: '/reports/projectwiseReport',
+                                    templateUrl: '/reports/projectwiseReport',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Sales Report'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/js/intlTelInput.js',
+                                                                '/backend/reportsController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state('teamenquiryReport', {
+                                    url: '/reports/teamEnquiryReport',
+                                    templateUrl: '/reports/getTeamEnquiryreports',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team Enquiry Report'
                                     },
                                     resolve: {
                                         deps:
@@ -3400,156 +3485,90 @@ angular.module('app')
                                         ]
                                     }
                                 })
-
-                                .state(getUrl + '.followupReport', {
-                                    url: '/report/followupReport',
-                                    templateUrl: getUrl + '/report/followupReport',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'My Followup Report'
-                                    },
-                                    resolve: {
-                                        deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/reportsController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
-                                    }
-                                })
-
-                                .state(getUrl + '.projectwiseReport', {
-                                    url: '/report/projectwiseReport',
-                                    templateUrl: getUrl + '/reports/projectwiseReport',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'My Sale`s Report'
-                                    },
-                                    resolve: {
-                                        deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/reportsController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
-                                    }
-                                })
-
-
-                                
-                                .state(getUrl + '.teamenquiryReport', {
-                                    url: '/reports/teamenquiryreport',
-                                    templateUrl: getUrl + '/reports/getTeamEnquiryreports',
-                                    requiredLogin: true,
-                                    ncyBreadcrumb: {
-                                        label: 'Team Enquiry Report'
-                                    },
-                                    resolve: {
-                                        deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/reportsController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
-                                    }
-                                })
-
-
-                                .state(getUrl + '.teamFollowupReport', {
-                                    url: '/reports/teamfollowupreport',
-                                    templateUrl: getUrl + '/reports/teamFollowupreports',
+                                .state('teamfollowupReport', {
+                                    url: '/reports/teamFollowupReport',
+                                    templateUrl: '/reports/teamfollowupReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Team Followup Reports'
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/reportsController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/js/intlTelInput.js',
+                                                                '/backend/reportsController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                            ]
+                                                        });
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
-                                 .state(getUrl + '.projectwiseMyPreSales', {
-                                    url: '/reports/projectwiseMyPreSales',
-                                    templateUrl: getUrl + '/reports/projectwiseMyPreSales',
+
+                                .state('projectwiseTeamreport', {
+                                    url: '/reports/projectwiseTeamReport',
+                                    templateUrl: '/reports/projectwiseTeamreport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Project wise Reports'
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/reportsController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/js/intlTelInput.js',
+                                                                '/backend/reportsController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                            ]
+                                                        });
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+
+                                .state('projectOverviewReport', {
+                                    url: '/reports/projectOverviewReport',
+                                    templateUrl: '/reports/projectOverviewReport',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Project wise Reports'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/js/intlTelInput.js',
+                                                                '/backend/reportsController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 /****************************MANOJ*********************************/
@@ -3586,9 +3605,9 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.databoxes', {
+                                .state('databoxes', {
                                     url: '/databoxes',
-                                    templateUrl: getUrl + '/databoxes',
+                                    templateUrl: '/databoxes',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Databoxes',
@@ -3623,16 +3642,16 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.widgets', {
+                                .state('widgets', {
                                     url: '/widgets',
-                                    templateUrl: getUrl + '/widgets',
+                                    templateUrl: '/widgets',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Widgets',
                                         description: 'flexible containers'
                                     }
                                 })
-                                .state(getUrl + '.easypiechart', {
+                                .state('easypiechart', {
                                     url: '/easypiechart',
                                     templateUrl: 'views/easypiechart.html',
                                     ncyBreadcrumb: {
@@ -3653,7 +3672,7 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.chartjs', {
+                                .state('chartjs', {
                                     url: '/chartjs',
                                     templateUrl: 'views/chartjs.html',
                                     ncyBreadcrumb: {
@@ -3675,7 +3694,7 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.profile', {
+                                .state('profile', {
                                     url: '/profile',
                                     templateUrl: 'views/profile.html',
                                     ncyBreadcrumb: {
@@ -3697,21 +3716,21 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.inbox', {
+                                .state('inbox', {
                                     url: '/inbox',
                                     templateUrl: 'views/inbox.html',
                                     ncyBreadcrumb: {
                                         label: 'Beyond Mail'
                                     }
                                 })
-                                .state(getUrl + '.messageview', {
+                                .state('messageview', {
                                     url: '/viewmessage',
                                     templateUrl: 'views/message-view.html',
                                     ncyBreadcrumb: {
                                         label: 'Veiw Message'
                                     }
                                 })
-                                .state(getUrl + '.messagecompose', {
+                                .state('messagecompose', {
                                     url: '/composemessage',
                                     templateUrl: 'views/message-compose.html',
                                     ncyBreadcrumb: {
@@ -3736,7 +3755,7 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                .state(getUrl + '.calendar', {
+                                .state('calendar', {
                                     url: '/calendar',
                                     templateUrl: 'views/calendar.html',
                                     ncyBreadcrumb: {
@@ -3762,8 +3781,8 @@ angular.module('app')
                                     }
                                 })
                                 .state('login', {
-                                    url: '/' + getUrl + '/login',
-                                    templateUrl: getUrl + '/login', //laravel slug
+                                    url: '/login',
+                                    templateUrl: '/login', //laravel slug
                                     requiredLogin: false,
                                     ncyBreadcrumb: {
                                         label: 'Login'
@@ -3773,19 +3792,19 @@ angular.module('app')
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/assets/css/login.css'
-                                                            ]
-                                                        });
+                                                {
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/assets/css/login.css'
+                                                    ]
+                                                });
                                             }
                                         ]
                                     }
                                 })
                                 .state('logout', {
-                                    url: '/' + getUrl + '/logout',
-                                    templateUrl: getUrl + '/logout',
+                                    url: '/logout',
+                                    templateUrl: '/logout',
                                     requiredLogin: false,
                                     ncyBreadcrumb: {
                                         label: 'Logout'
@@ -3793,25 +3812,25 @@ angular.module('app')
                                 })
                                 .state('forgotPassword', {
                                     url: '/office/forgotPassword',
-                                    templateUrl: getUrl + '/password/resetLink/backend',
+                                    templateUrl: '/password/resetLink/backend',
                                     requiredLogin: false,
                                     ncyBreadcrumb: {
                                         label: 'Forgot Password'
                                     }
                                 })
                                 .state('resetPassword', {
-                                    url: '/' + getUrl + '/resetPassword/:resetToken',
+                                    url: '/resetPassword/:resetToken',
                                     requiredLogin: false,
                                     templateUrl: function (params) {
-                                        return getUrl + '/password/reset/' + params.resetToken + '/backend';
+                                        return '/password/reset/' + params.resetToken + '/backend';
                                     },
                                     ncyBreadcrumb: {
                                         label: 'Reset Password'
                                     }
                                 })
                                 .state('register', {
-                                    url: '/' + getUrl + '/register',
-                                    templateUrl: getUrl + '/register',
+                                    url: '/register',
+                                    templateUrl: '/register',
                                     requiredLogin: false,
                                     ncyBreadcrumb: {
                                         label: 'Register'
@@ -3833,43 +3852,44 @@ angular.module('app')
                                 })
                                 .state('error500', {
                                     url: '/error500',
-                                    templateUrl: getUrl + '/error500',
+                                    templateUrl: '/error500',
                                     ncyBreadcrumb: {
                                         label: 'Error 500 - something went wrong'
                                     }
                                 });
+                                // $locationProvider.html5Mode(true);
                     }
         ]).run(function ($rootScope, $location, $state, Data, $http, $window, $stateParams) {
+        var nextUrl = $location.path();
         $rootScope.authenticated = false;
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
         $rootScope.getMenu = {};
         $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, next, current) {
-        var nextUrl = $location.path();
+//        var nextUrl = $location.path();
         if ((toState.requiredLogin && $rootScope.authenticated === false) || (!toState.requiredLogin && $rootScope.authenticated === false)) { // true && false
             Data.get('session').then(function (results) {
+                var modifiedUrl = nextUrl.substr(nextUrl.lastIndexOf('/') + 0);
                 if (results.success === true) {
                     $rootScope.authenticated = true;
                     $rootScope.id = results.id;
                     $rootScope.name = results.name;
                     $rootScope.email = results.email;
                     $window.sessionStorage.setItem("userLoggedIn", true);
-                    $http.get(getUrl + '/getMenuItems').then(function (response) {
+                    $http.get('/getMenuItems').then(function (response) {
                         $rootScope.getMenu = response.data;
                     }, function (error) {
                         alert('Error');
-                    });
-                    var modifiedUrl = nextUrl.substr(nextUrl.lastIndexOf('/') + 0);
+                    });                    
                     modifiedUrl = nextUrl.replace(new RegExp(modifiedUrl), '');
-                    if (nextUrl === '/' + getUrl + '/register' || nextUrl === '/' + getUrl + '/login' || nextUrl === '/' + getUrl + '/forgotPassword' || modifiedUrl === '/' + getUrl + '/resetPassword') {
-                        $state.transitionTo(getUrl + ".dashboard");
+                    if (nextUrl === '/register' || nextUrl === '/login' || nextUrl === '/forgotPassword' || modifiedUrl === '/resetPassword') {
+                        $state.transitionTo("dashboard");
                         event.preventDefault();
                         return false;
                     }
-                } else {
-                    var modifiedUrl = nextUrl.substr(nextUrl.lastIndexOf('/') + 0);
+                } else {                    
                     modifiedUrl = nextUrl.replace(new RegExp(modifiedUrl), '');
-                    if (nextUrl === '/' + getUrl + '/register' || nextUrl === '/' + getUrl + '/login' || nextUrl === '/' + getUrl + '/forgotPassword' || modifiedUrl === '/' + getUrl + '/resetPassword') {
+                    if (nextUrl === '/register' || nextUrl === '/login' || nextUrl === '/forgotPassword' || modifiedUrl === '/resetPassword') {
                         event.preventDefault();
                         return false;
                     } else {
@@ -3882,37 +3902,10 @@ angular.module('app')
         }
         if (!toState.requiredLogin && $rootScope.authenticated === true) //false && true
         {
-            $state.go(getUrl + '.dashboard');
+            $state.go('dashboard');
             $state.reload();
             event.preventDefault();
             return false;
         }
-
-        /*else {
-         var nextUrl = $location.path();
-         if (!toState.requiredLogin) {
-         if (nextUrl === '/' + getUrl + '/register' || nextUrl === '/' + getUrl + '/login' || nextUrl === '/' + getUrl + '/forgotPassword' || nextUrl === '/' + getUrl + '/resetPassword') {
-         $state.go('admin.dashboard');
-         $state.reload();
-         return false;
-         }
-         } else {
-         var flag;
-         console.log($rootScope.getMenu.actions + "====" + nextUrl);
-         angular.forEach($rootScope.getMenu.actions, function (value, key) {
-         if (value === nextUrl) {
-         flag = true;
-         } else {
-         flag = false;
-         }
-         });
-         if (flag === true) {
-         alert("access");
-         } else {
-         alert("noaccess");
-         }
-         }
-         }*/
-
     });
 });

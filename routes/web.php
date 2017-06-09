@@ -16,64 +16,62 @@ $getWebsiteUrl = config('global.getWebsiteUrl');
 Route::get('/', function () {
     return View::make('backendApp');
 });
-Route::get($getUrl . '/error500', function () {
+Route::get('/error500', function () {
     return view('layouts.backend.error500');
 });
-Route::post($getUrl . '/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
-Route::get($getUrl . '/layout', function () {
+Route::post('/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
+Route::get('/layout', function () {
     return view('layouts.backend.layout');
 });
-Route::get($getWebsiteUrl . '/websitelayout', function () {
-    return view('layouts.frontend.main');
-});
-Route::get($getUrl . '/dashboard', function () {
+Route::get('/dashboard', function () {
     return View::make('layouts.backend.dashboard');
 });
-Route::get($getUrl . '/loading', function () {
+Route::get('/loading', function () {
     return View::make('layouts.backend.loading');
 });
-Route::get($getUrl . '/navbar', function () {
+Route::get('/navbar', function () {
     return View::make('layouts.backend.navbar');
 });
-Route::get($getUrl . '/sidebar', function () {
+Route::get('/sidebar', function () {
     return View::make('layouts.backend.sidebar');
 });
-Route::get($getUrl . '/chatbar', function () {
+Route::get('/chatbar', function () {
     return View::make('layouts.backend.chatbar');
 });
-Route::get($getUrl . '/breadcrumbs', function () {
+Route::get('/breadcrumbs', function () {
     return View::make('layouts.backend.breadcrumbs');
 });
-Route::get($getUrl . '/header', function () {
+Route::get('/header', function () {
     return View::make('layouts.backend.header');
 });
-Route::get($getUrl . '/getToken', 'backend\Auth\LoginController@getToken');
+Route::get('/getToken', 'backend\Auth\LoginController@getToken');
 
+Route::get('website/geeta', function () {echo "hhh";
+    return View::make('website');
+});
 Route::group(['middleware' => ['web']], function () {
     $getUrl = config('global.getUrl');
     
     // ADMIN
-    Route::get($getUrl . '/session', 'backend\Auth\LoginController@getSession');
-    Route::get($getUrl . '/sessiontimeout', 'backend\AdminController@sessiontimeout');
-    Route::get($getUrl . '/login', 'backend\Auth\LoginController@getLoginForm');
-    Route::post($getUrl . '/authenticate', 'backend\Auth\LoginController@authenticate');
+    Route::get('/session', 'backend\Auth\LoginController@getSession');
+    Route::get('/sessiontimeout', 'backend\AdminController@sessiontimeout');
+    Route::get('/login', 'backend\Auth\LoginController@getLoginForm');
+    Route::post('/authenticate', 'backend\Auth\LoginController@authenticate');
 
-    Route::get($getUrl . '/register', 'backend\Auth\RegisterController@getRegisterForm');
-    Route::post($getUrl . '/saveRegister', 'backend\Auth\RegisterController@saveRegisterForm');
+    Route::get('/register', 'backend\Auth\RegisterController@getRegisterForm');
+    Route::post('/saveRegister', 'backend\Auth\RegisterController@saveRegisterForm');
     // Forget Password 
-    Route::get($getUrl . '/password/resetLink/{request}', 'backend\Auth\ForgotPasswordController@showLinkRequestForm', function ($request = 'admin') {
+    Route::get('/password/resetLink/{request}', 'backend\Auth\ForgotPasswordController@showLinkRequestForm', function ($request = 'admin') {
         return $request;
     });
-    Route::post($getUrl . '/password/email', 'backend\Auth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('/password/email', 'backend\Auth\ForgotPasswordController@sendResetLinkEmail');
     // Reset Password
-    Route::get($getUrl . '/password/reset/{token}/{checkState?}', 'backend\Auth\ResetPasswordController@showResetForm');
-    Route::post($getUrl . '/password/reset', 'backend\Auth\ResetPasswordController@reset');
+    Route::get('/password/reset/{token}/{checkState?}', 'backend\Auth\ResetPasswordController@showResetForm');
+    Route::post('/password/reset', 'backend\Auth\ResetPasswordController@reset');
     
     //Website frontend
-    $getWebsiteUrl = config('global.getWebsiteUrl');
-    
-    Route::get($getWebsiteUrl . '/','frontend\UserController@index');
-    Route::get($getWebsiteUrl . '/index', 'frontend\UserController@index');
+    $getWebsiteUrl = config('global.getWebsiteUrl');    
+    Route::get($getWebsiteUrl . '/index', 'frontend\UserController@index');    
     Route::get($getWebsiteUrl . '/about', 'frontend\UserController@about');
     Route::get($getWebsiteUrl . '/career', 'frontend\UserController@career');    
     Route::post($getWebsiteUrl . '/register_applicant', 'frontend\UserController@register_applicant');
@@ -114,61 +112,66 @@ Route::group(['middleware' => ['web']], function () {
     Route::get($getWebsiteUrl . '/testimonial/{id}','frontend\UserController@testimonialdetail');    
     Route::post($getWebsiteUrl . '/getTestimonialDetails','frontend\UserController@getTestimonialDetails');    
     Route::get($getWebsiteUrl . '/enquiry/{id}','frontend\UserController@enquiry');
+    
+    $result = \DB::table('web_themes')->where('status', '1')->select(['id', 'theme_name'])->first();
+    $result = json_decode(json_encode($result),true);
+    Config::set('global.themeName', $result['theme_name']); 
 });
 
 Route::group(['middleware' => ['auth:admin']], function () {
     $getUrl = config('global.getUrl');
     /*************************** Admin Dashboard ****************************/
-    Route::get($getUrl . '/dashboard', 'backend\AdminController@dashboard');
-    Route::post($getUrl . '/logout', 'backend\Auth\LoginController@getLogout');
+    Route::get('/dashboard', 'backend\AdminController@dashboard');
+    Route::post('/logout', 'backend\Auth\LoginController@getLogout');
 
     /***********************************************************************/
-    Route::get($getUrl . '/getMenuItems', 'backend\AdminController@getMenuItems');
-    Route::get($getUrl . '/getTitle', 'backend\AdminController@getTitle');
-    Route::get($getUrl . '/getGender', 'backend\AdminController@getGender');
-    Route::get($getUrl . '/getBloodGroup', 'backend\AdminController@getBloodGroup');
-    Route::get($getUrl . '/getDepartments', 'backend\AdminController@getDepartments');
-    Route::get($getUrl . '/getEducationList', 'backend\AdminController@getEducationList');
-    Route::get($getUrl . '/getProfessionList', 'backend\AdminController@getProfessionList');
-    Route::get($getUrl . '/getCountries', 'backend\AdminController@getCountries');
-    Route::get($getUrl . '/getWebPageList', 'backend\AdminController@getWebPageList'); //uma 
-    Route::get($getUrl . '/getPropertyPortalType', 'backend\AdminController@getPropertyPortalType'); //uma 
-    Route::get($getUrl . '/getVerticals', 'backend\AdminController@getVerticals'); //uma  
-    Route::get($getUrl . '/getFinanceTieupAgency', 'backend\AdminController@getFinanceTieupAgency'); //uma
-    Route::get($getUrl . '/getDesignations', 'backend\AdminController@getDesignations'); //geeta
-    Route::get($getUrl . '/getProjects', 'backend\AdminController@getProjects'); //geeta
-    Route::get($getUrl . '/getCompany', 'backend\AdminController@getCompany'); //geeta
-    Route::get($getUrl . '/getStationary', 'backend\AdminController@getStationary'); //geeta
-    Route::get($getUrl . '/getEnquirySource', 'backend\AdminController@getEnquirySource');
-    Route::get($getUrl . '/getSalesEnqCategory', 'backend\AdminController@getSalesEnqCategory'); //geeta    
-    Route::get($getUrl . '/getSalesEnqStatus', 'backend\AdminController@getSalesEnqStatus'); //geeta    
-    Route::get($getUrl . '/getAmenitiesList', 'backend\AdminController@getAmenitiesList'); //geeta
-    Route::get($getUrl . '/getChannelList', 'backend\AdminController@getChannelList'); //geeta
+    Route::get('/getMenuItems', 'backend\AdminController@getMenuItems');
+    Route::get('/getTitle', 'backend\AdminController@getTitle');
+    Route::get('/getGender', 'backend\AdminController@getGender');
+    Route::get('/getBloodGroup', 'backend\AdminController@getBloodGroup');
+    Route::get('/getDepartments', 'backend\AdminController@getDepartments');
+    Route::get('/getEducationList', 'backend\AdminController@getEducationList');
+    Route::get('/getProfessionList', 'backend\AdminController@getProfessionList');
+    Route::get('/getCountries', 'backend\AdminController@getCountries');
+    Route::get('/getWebPageList', 'backend\AdminController@getWebPageList'); //uma 
+    Route::get('/getPropertyPortalType', 'backend\AdminController@getPropertyPortalType'); //uma 
+    Route::get('/getVerticals', 'backend\AdminController@getVerticals'); //uma  
+    Route::get('/getFinanceTieupAgency', 'backend\AdminController@getFinanceTieupAgency'); //uma
+    Route::get('/getDesignations', 'backend\AdminController@getDesignations'); //geeta
+    Route::get('/getProjects', 'backend\AdminController@getProjects'); //geeta
+    Route::get('/getCompany', 'backend\AdminController@getCompany'); //geeta
+    Route::get('/getStationary', 'backend\AdminController@getStationary'); //geeta
+    Route::get('/getEnquirySource', 'backend\AdminController@getEnquirySource');
+    Route::get('/getSalesEnqCategory', 'backend\AdminController@getSalesEnqCategory'); //geeta    
+    Route::get('/getSalesEnqStatus', 'backend\AdminController@getSalesEnqStatus'); //geeta    
+    Route::get('/getAmenitiesList', 'backend\AdminController@getAmenitiesList'); //geeta
+    Route::get('/getChannelList', 'backend\AdminController@getChannelList'); //geeta
     
-    Route::post($getUrl . '/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
-    Route::post($getUrl . '/getSubBlocks', 'backend\AdminController@getSubBlocks'); //geeta
-    Route::post($getUrl . '/getStates', 'backend\AdminController@getStates');
-    Route::post($getUrl . '/getCities', 'backend\AdminController@getCities');
-    Route::post($getUrl . '/getLocations', 'backend\AdminController@getLocations');
-    Route::post($getUrl . '/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');    
-    Route::post($getUrl . '/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');        
-    Route::post($getUrl . '/getSalesEnqSubStatus', 'backend\AdminController@getSalesEnqSubStatus'); //geeta
-    Route::post($getUrl . '/getSalesEnqSubCategory', 'backend\AdminController@getSalesEnqSubCategory'); //geeta
+    Route::post('/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
+    Route::post('/getSubBlocks', 'backend\AdminController@getSubBlocks'); //geeta
+    Route::post('/getStates', 'backend\AdminController@getStates');
+    Route::post('/getCities', 'backend\AdminController@getCities');
+    Route::post('/getLocations', 'backend\AdminController@getLocations');
+    Route::post('/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');    
+    Route::post('/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');        
+    Route::post('/getSalesEnqSubStatus', 'backend\AdminController@getSalesEnqSubStatus'); //geeta
+    Route::post('/getSalesEnqSubCategory', 'backend\AdminController@getSalesEnqSubCategory'); //geeta
     
     /***********************************MANDAR*******************************/
-    Route::get($getUrl . '/getClient', 'backend\AdminController@getClient');
-    Route::get($getUrl . '/getVehiclebrands', 'backend\AdminController@getVehiclebrands');
-    Route::get($getUrl . '/getVehiclemodels', 'backend\AdminController@getVehiclemodels');
-    Route::get($getUrl . '/getEmployees', 'backend\AdminController@getEmployees');
+    Route::get('/getClient', 'backend\AdminController@getClient');
+    Route::get('/getVehiclebrands', 'backend\AdminController@getVehiclebrands');
+    Route::get('/getVehiclemodels', 'backend\AdminController@getVehiclemodels');
+    Route::get('/getEmployees', 'backend\AdminController@getEmployees');
 
     /***********************************MANDAR*******************************/
 
-    Route::get($getUrl . '/databoxes', function () {
+    Route::get('/databoxes', function () {
         return View::make('backend.databoxes');
     });
-    Route::get($getUrl . '/widgets', function () {
+    Route::get('/widgets', function () {
         return View::make('backend.widgets');
     });
+    
 });
 
 Route::group(['middleware' => ['user']], function () {

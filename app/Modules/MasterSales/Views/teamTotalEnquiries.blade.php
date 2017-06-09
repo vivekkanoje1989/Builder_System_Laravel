@@ -8,9 +8,9 @@
                     <a href="" widget-collapse></a>
                 </div>
             </div>        
-            <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryListing' "></div>
+            <div data-ng-include=" '/MasterSales/enquiryListing' "></div>
         </div>
     </div> 
     <!-- Enquiry Filter modal -->
-    <div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/showFilter'" ng-click="procName('proc_get_total_enquiries')"></div>
+    <div data-ng-include=" '/MasterSales/showFilter'" ng-click="procName('proc_get_total_enquiries')"></div>
 </div>

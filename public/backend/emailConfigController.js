@@ -38,7 +38,7 @@ app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                     toaster.pop('error', 'Email Configuration', response.message);
                 } else {
                     toaster.pop('success', 'Email Configuration', response.message);
-                    $state.go(getUrl + '.emailConfigIndex');
+                    $state.go('emailConfigIndex');
                 }
             });
         } else
@@ -48,7 +48,7 @@ app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                     toaster.pop('error', 'Email Configuration', response.message);
                 } else {
                     toaster.pop('success', 'Email Configuration', response.message);
-                    $state.go(getUrl + '.emailConfigIndex');
+                    $state.go('emailConfigIndex');
                 }
             });
         }

@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app" ng-controller="AppCtrl" data-ng-init="init()">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="app" ng-controller="AppCtrl">
     <head>
         <meta charset="utf-8" />
-        <title page-title></title>
         
+        <base href="/">
         <meta name="description" content="blank page" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="shortcut icon" href="/backend/assets/img/favicon.png" type="image/x-icon">
 
+        <?php if($_SERVER['REQUEST_URI'] == "/office.php"){ ?>
+        <title page-title>BMS Builder Admin</title>
         <!--Basic Styles-->
         <link href="/backend/assets/css/bootstrap.min.css" rel="stylesheet" />
         <link ng-if="settings.rtl" ng-href="/backend/assets/css/bootstrap-rtl.min.css" rel="stylesheet" />
@@ -38,11 +40,20 @@
         <link href="/backend/assets/css/typicons.min.css" rel="stylesheet" />
         <link href="/backend/assets/css/animate.min.css" rel="stylesheet" />
         <link ng-href="{{settings.skin}}" rel="stylesheet" type="text/css" />
-        
         <link href="/backend/assets/css/loader.css" rel="stylesheet" />
+        
+        <?php }else{ $getThemeName = config('global.themeName');?>
+        <title page-title>BMS Builder</title>       
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-route.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-animate.min.js"></script>
+        <script src="/backend/app/ng-file-upload.js"></script>
+        <script src="/frontend/route.js"></script> 
+        @include('layouts.frontend.'.$getThemeName.'.style') 
+        <?php }?>
     </head>
     <body ng-right-click>
-  
+        <?php if($_SERVER['REQUEST_URI'] == "/office.php"){ ?>
         <div class="overlay3" ng-show="loader.loading">
             <div class="spinner">
                 <div class="rect1"></div>
@@ -52,11 +63,11 @@
                 <div class="rect5"></div>
             </div>
         </div>    
-    
-        <div ui-view ng-show="!loader.loading"></div>
-
+        @include('layouts.backend.layout')
+        <!--<div ui-view ng-show="!loader.loading"></div>-->
+       
         <!-- Scripts -->
-        <script src="/backend/lib/jquery/jquery.min.js"></script>
+         <script src="/backend/lib/jquery/jquery.min.js"></script>
         <script src="/backend/lib/jquery/bootstrap.js"></script>
         <script src="/backend/lib/angular/angular.js"></script>
         <script src="/backend/app/ng-file-upload.js"></script>
@@ -107,6 +118,8 @@
         <script src="/backend/app/directives/navbar.js"></script>
         <script src="/backend/app/directives/chatbar.js"></script>
         <script src="/backend/app/directives/widget.js"></script>
-        
+        <?php }else{ ?>
+        <div ng-view></div>
+        <?php }?>
     </body>               
 </html>

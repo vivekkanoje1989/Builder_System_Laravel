@@ -1,4 +1,4 @@
-app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$filter', '$state', function ($scope, Data, toaster, $filter, $state) {
+app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function ($scope, Data, toaster, $state) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -46,7 +46,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$filter', '$state
                 uid: $scope.request.application_to, cc: $scope.request.application_cc, from_date: $scope.from_date, to_date: $scope.to_date, req_desc: request.req_desc, request_type: "Leave", status: "1"}).then(function (response) {
                 if (response.status) {
                     toaster.pop('success', 'Manage request', "Request created successfully");
-                    $state.go(getUrl + '.myRequestIndex');
+                    $state.go('myRequestIndex');
                 }
             });
         };
@@ -57,7 +57,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$filter', '$state
                 if (response.status) {
 
                     toaster.pop('success', 'Manage request', "Request created successfully");
-                    $state.go(getUrl + '.myRequestIndex');
+                    $state.go('myRequestIndex');
                 }
             });
         };

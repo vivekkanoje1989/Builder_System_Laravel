@@ -1,4 +1,4 @@
-app.controller('wingsController', ['$scope', '$state', 'Data', 'toaster', '$timeout', function ($scope, $state, Data, toaster, $timeout) {
+app.controller('wingsController', ['$scope', '$state', 'Data', 'toaster', function ($scope, $state, Data, toaster) {
         $scope.currentPage = $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.wingData = {};
@@ -38,7 +38,7 @@ app.controller('wingsController', ['$scope', '$state', 'Data', 'toaster', '$time
                     } else
                     {
                         toaster.pop('success', 'Project Wings', 'Wing Created Successfully.');
-                        $state.go(getUrl + '.wingsIndex');
+                        $state.go('wingsIndex');
                     }
                 })
             } else
@@ -50,7 +50,7 @@ app.controller('wingsController', ['$scope', '$state', 'Data', 'toaster', '$time
                     } else
                     {
                         toaster.pop('success', 'Project Wings', 'Wing Updated Successfully.');
-                        $state.go(getUrl + '.wingsIndex');
+                        $state.go('wingsIndex');
                     }
                 })
             }

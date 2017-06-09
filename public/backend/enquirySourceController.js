@@ -1,4 +1,4 @@
-app.controller('enquirysourceCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
+app.controller('enquirysourceCtrl', ['$scope', 'Data', function ($scope, Data) {
 
         $scope.manageEnquirySource = function () {
             Data.post('enquiry-source/manageEnquirySource').then(function (response) {

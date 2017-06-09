@@ -50,7 +50,7 @@
                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                 <td>
                     <div>{{list.customer_fname}} {{list.customer_lname}} - {{ list.mobile_number}} - {{list.email_id}}</div><hr>
-                    <div class="floatLeft"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}">Customer Details</a></div> 
+                    <div class="floatLeft"><a href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ list.customer_id }}">Customer Details</a></div> 
                     <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ list.totalenq }}</b></div>
                     <div class="floatLeft" style="width:40%;max-width: 30%;word-wrap: break-word;"><b>Booked : {{ list.totalbookedenq }}</b></div>                    
                     <div class="floatLeft" style="width:100%;"><hr></div>
@@ -63,7 +63,7 @@
                     <div>{{list.project_block_name}} - {{list.block_name}} </div>
                     <hr>
                     <div class="floatLeft"><i class="fa fa-desktop" aria-hidden="true"></i></div>
-                    <div class="floatLeft" style="width:41%"><a href="#/[[config('global.getUrl')]]/sales/update/cid/{{ list.customer_id }}/eid/{{ list.id }}">Enquiry Details</a></div>
+                    <div class="floatLeft" style="width:41%"><a href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ list.customer_id }}/eid/{{ list.id }}">Enquiry Details</a></div>
                     <div class="floatLeft" style="width:50%">
                         <span style="margin-left:4px;background-color:orange;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'New Enquiry'">&nbsp;</span>
                         <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.enquiry_category == 'Hot'">&nbsp;</span>
@@ -112,6 +112,6 @@
 </div>
 
 <!-- Enquiry history modal -->
-<div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/enquiryHistory'"></div>
+<div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
 <!-- Enquiry todays remark modal -->
-<div data-ng-include=" '[[ config('global.getUrl') ]]/MasterSales/todaysRemark'"></div>
+<div data-ng-include=" '/MasterSales/todaysRemark'"></div>

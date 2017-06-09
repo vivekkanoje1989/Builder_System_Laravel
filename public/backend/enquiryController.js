@@ -1,4 +1,4 @@
-app.controller('enquiryController', ['$scope','$state', '$stateParams', 'Data', '$timeout', 'toaster', function ($scope, $state, $stateParams,Data, $timeout, toaster) {
+app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', function ($scope, Data, $timeout, toaster) {
         $scope.projectsDetails = [];
         $scope.searchData = {};
         $scope.filterData = {};

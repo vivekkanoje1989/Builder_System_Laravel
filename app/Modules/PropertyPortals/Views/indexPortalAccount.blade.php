@@ -4,7 +4,7 @@
         <div class="widget">
             <div class="widget-header ">                
                 <span class="widget-caption"> {{ portal_name}} </span> 
-                <a href="#/[[config('global.getUrl')]]/portalaccounts/create/[[ $accountid ]]" class="btn btn-info">Add New Account</a>
+                <a href="[[ config('global.backendUrl') ]]#/portalaccounts/create/[[ $accountid ]]" class="btn btn-info">Add New Account</a>
                 <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -34,7 +34,7 @@
                             <td ng-if="listPortal.status == 1"><label><input class="checkbox-slider slider-icon" id="accountStatuschk{{ listPortal.id}}" type="checkbox" checked ng-click="changeAccountStatus({{  listPortal.status}},{{ listPortal.id}})"><span class="text"></span></label></td>
                             <td ng-if="listPortal.status == 0"><label><input class="checkbox-slider slider-icon" id="accountStatuschk{{ listPortal.id}}" type="checkbox" ng-click="changeAccountStatus({{  listPortal.status}},{{ listPortal.id}})"><span class="text"></span></label></td>
                             <!-- <td>{{ listPortal.status }}</td> -->
-                            <td class="fa-div"><div class="fa-hover" tooltip-html-unsafe="Edit Account" style="display: block;"><a href="#/[[config('global.getUrl')]]/portalaccounts/update/[[ $accountid ]]/{{ listPortal.id}}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div></td>
+                            <td class="fa-div"><div class="fa-hover" tooltip-html-unsafe="Edit Account" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/portalaccounts/update/[[ $accountid ]]/{{ listPortal.id}}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div></td>
                         </tr>
                     </tbody>
                 </table> 

@@ -1,12 +1,12 @@
 <?php
 
-Route::group(array('module' => 'PaymentHeadings','middleware' => 'auth:admin', 'namespace' => 'App\Modules\PaymentHeadings\Controllers'), function() {
+Route::group(array('module' => 'PaymentHeadings','middleware' => ['auth:admin'], 'namespace' => 'App\Modules\PaymentHeadings\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
    
-    Route::get($getUrl . '/payment-headings/managePaymentHeading','PaymentHeadingsController@managePaymentHeading');
-     Route::post($getUrl . '/payment-headings/manageProjectTypes ','PaymentHeadingsController@manageProjectTypes');
-     Route::resource($getUrl.'/payment-headings', 'PaymentHeadingsController');
+    Route::get('/payment-headings/managePaymentHeading','PaymentHeadingsController@managePaymentHeading');
+     Route::post('/payment-headings/manageProjectTypes ','PaymentHeadingsController@manageProjectTypes');
+     Route::resource('/payment-headings', 'PaymentHeadingsController');
      
      
 

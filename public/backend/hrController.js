@@ -58,7 +58,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
     };
     
     $scope.copyToUsername = function (value) {
-        if(typeof value !== "undefined"){alert(value);
+        if(typeof value !== "undefined"){
             $scope.userData.username = value.split('-')[1];
         }
     };
@@ -84,12 +84,12 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
         
         if(empId === 0)
         {          
-            var url = getUrl+'/master-hr/';
+            var url = '/master-hr/';
             var data = {userData: userData, employee_photo_file_name: employeePhoto, empId: empId};
             var successMsg = "Record successfully created.";
         }
         else{
-            var url = getUrl+'/master-hr/' + empId;            
+            var url = '/master-hr/' + empId;            
             var successMsg = "Record successfully updated.";  
             if (typeof employeePhoto === 'string') {
                 employeePhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
@@ -116,7 +116,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                     employeePhoto.result = response.data;
                     toaster.pop('success', 'Employee Details', successMsg);                    
                     $timeout(function () {
-                        $state.go(getUrl+'.userIndex');
+                        $state.go('userIndex');
                     }, 1000);
                 }
             });
@@ -233,7 +233,6 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
         Data.post('master-hr/changePassword', {
             empId: id,username:username
         }).then(function (response) {
-            console.log(response);
            if (response.success) {
                $("#myModal").modal("toggle");
                 $scope.successMsg = response.message;

@@ -6,7 +6,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Blog Management</span>
-                <a title="Create blog" class="btn btn-primary" href="#/[[config('global.getUrl')]]/website_settings/create" >Create blogs</a>
+                <a title="Create blog" class="btn btn-primary" href="[[ config('global.backendUrl') ]]#/website_settings/create" >Create blogs</a>
                <div class="widget-buttons">
                     <a href="" widget-maximize></a>
                     <a href="" widget-collapse></a>
@@ -45,7 +45,7 @@
                             <td>{{$index+1}}</td>
                             <td>{{item.blog_title}}</td>  
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit contact" style="display: block;" data-toggle="modal"><a href="#/[[config('global.getUrl')]]/website_settings/update/{{ item.blog_id }}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit contact" style="display: block;" data-toggle="modal"><a href="#/website_settings/update/{{ item.blog_id }}"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

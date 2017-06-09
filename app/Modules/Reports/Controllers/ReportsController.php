@@ -13,11 +13,15 @@ use Auth;
 
 class ReportsController extends Controller {
 
-    public function getEnquiryReport() { //manoj
-        return view("Reports::enquiryreport");
+    public function __construct() {
+        $this->middleware('web');
+    }
+    
+    public function getEnquiryReport() { 
+        return view("Reports::enquiryReport")->with("loggedInUserID",Auth::guard('admin')->user()->id);
     }
 
-    public function myfollowupsreport() { //manoj
+    public function myfollowupsreport() { 
         return view("Reports::myfollowupsreport");
     }
 
@@ -72,7 +76,9 @@ class ReportsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
-    } //manoj
+    }
+
+
 
     public function getStatusReport() {
         $postdata = file_get_contents("php://input");
@@ -122,7 +128,9 @@ class ReportsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
-    } //manoj
+    }
+
+
 
     public function getProjectWiseCategoryReport() {
         $postdata = file_get_contents("php://input");
@@ -145,11 +153,11 @@ class ReportsController extends Controller {
         //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id AND $condition GROUP BY e.sales_category_id";
         $category_wise_report = "SELECT enquiry.enquiry_category,enquiry.id FROM laravel_developement_master_edynamics.mlst_enquiry_sales_categories as enquiry";
         $category_wise_report = DB::select($category_wise_report);
-       
+
         $temp_array = array();
         $Total = 0;
         foreach ($category_wise_report as $sources) {
-            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_category_id = $sources->id AND enquiry_details.project_id =". $request['project_id']." AND $condition";
+            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_category_id = $sources->id AND enquiry_details.project_id =" . $request['project_id'] . " AND $condition";
             $category = DB::select($report);
 
 
@@ -168,10 +176,11 @@ class ReportsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
-    } //manoj
-    
-    public function getProjectWiseStatusReport() //manoj
-    {
+    }
+
+
+
+    public function getProjectWiseStatusReport() { 
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $response = array();
@@ -192,11 +201,11 @@ class ReportsController extends Controller {
         //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id AND $condition GROUP BY e.sales_category_id";
         $status_wise_report = "SELECT enquiry.sales_status,enquiry.id FROM laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as enquiry";
         $status_wise_report = DB::select($status_wise_report);
-       
+
         $temp_array = array();
         $Total = 0;
         foreach ($status_wise_report as $status) {
-            $salesStatus =$status->sales_status;
+            $salesStatus = $status->sales_status;
             $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_status_id = $status->id AND enquiry_details.project_id = $request[project_id] AND $condition";
             $status = DB::select($report);
             $enquiry_status = str_replace(' ', '_', $salesStatus);
@@ -215,9 +224,8 @@ class ReportsController extends Controller {
             return json_encode($result);
         }
     }
-       
-     public function getProjectWiseSourceReport() //manoj
-    {
+
+    public function getProjectWiseSourceReport() { 
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $response = array();
@@ -238,7 +246,7 @@ class ReportsController extends Controller {
         //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id AND $condition GROUP BY e.sales_category_id";
         $source_wise_report = "SELECT enquiry.sales_source_name,enquiry.id FROM laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as enquiry";
         $source_wise_report = DB::select($source_wise_report);
-        
+
         $temp_array = array();
         $Total = 0;
         foreach ($source_wise_report as $source) {
@@ -253,7 +261,7 @@ class ReportsController extends Controller {
             $Total = $Total + $status['0']->cnt;
         }
         $response['0'] = $temp_array;
-       
+
         if (!empty($response)) {
             $result = ['success' => true, 'records' => $response, 'Total' => $Total];
             return json_encode($result);
@@ -262,7 +270,7 @@ class ReportsController extends Controller {
             return json_encode($result);
         }
     }
-    
+
     public function getSourceReport() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -310,7 +318,9 @@ class ReportsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
-    }  //manoj
+    }
+
+
 
     public function getMysalesreport() {
         $postdata = file_get_contents("php://input");
@@ -371,12 +381,12 @@ class ReportsController extends Controller {
 
         if ($emp_id) {
             if ($flag1 == 0) {
-                $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM lmsauto_client_final.enquiries e INNER JOIN lmsauto_master_final.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $emp_id GROUP BY e.`sales_category_id`";
+                $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $emp_id GROUP BY e.`sales_category_id`";
             } else {
                 if (!empty($condition))
-                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM lmsauto_client_final.enquiries e INNER JOIN lmsauto_master_final.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $emp_id AND $condition GROUP BY e.`sales_category_id`";
+                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $emp_id AND $condition GROUP BY e.`sales_category_id`";
                 else
-                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM lmsauto_client_final.enquiries e INNER JOIN lmsauto_master_final.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $emp_id GROUP BY e.`sales_category_id`";
+                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $emp_id GROUP BY e.`sales_category_id`";
             }
             $results_enquiry_type = DB::select($results_enquiry_type);
 
@@ -409,14 +419,12 @@ class ReportsController extends Controller {
         }
 
 
-        if (!empty($employeeids)) {
-            $emp_ids = explode(',', $employeeids);
-            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
-        } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
-        }
+
+        $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
+
 
         foreach ($selfteam as $selfmember) {
+
             $this->allusers = array();
             $this->tuserid($selfmember->id);
             $alluser = $this->allusers;
@@ -469,7 +477,9 @@ class ReportsController extends Controller {
 
         $response = array("category_wise_report" => $category_wise_team_total);
         echo Json_encode($response);
-    } //manoj
+    }
+
+
 
     public function tuserid($id) {
 
@@ -480,7 +490,7 @@ class ReportsController extends Controller {
 
                 $this->allusers[$item->id] = $item->id;
 
-                $this->tuserid($item->id);
+                // $this->tuserid($item->id);
             }
         } else {
             return;
@@ -615,13 +625,16 @@ class ReportsController extends Controller {
 
         $response = array("source_wise_report" => $source_wise_team_total);
         echo Json_encode($response);
-    } //manoj
+    }
+
+
 
     public function getTeamstatusreports() {
         $response = array();
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $emp_id = $request["employee_id"];
+
 //        if (empty($request['login_id'])) {
 //            $login_id = Auth::guard('admin')->user()->id;
 //        } else {
@@ -651,6 +664,7 @@ class ReportsController extends Controller {
                 else
                     $results_status_wise = "SELECT count(*) as cnt,laravel_developement_master_edynamics.mlst_enquiry_sales_statuses.sales_status FROM laravel_developement_builder_client.enquiries INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses ON laravel_developement_master_edynamics.mlst_enquiry_sales_statuses.id = laravel_developement_builder_client.enquiries.`sales_status_id` where laravel_developement_builder_client.enquiries.`sales_employee_id` = $emp_id GROUP BY laravel_developement_builder_client.enquiries.`sales_status_id`";
             }
+
             $results_status_wise = DB::select($results_status_wise);
 
             $open_count = 0;
@@ -681,7 +695,6 @@ class ReportsController extends Controller {
 
             $status_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'open' => $open_count, 'booked' => $booked_count, 'lost' => $lost_count, 'new' => $new_count, 'total' => $total);
         }
-
 
         if (!empty($employeeids)) {
             $emp_ids = explode(',', $employeeids);
@@ -738,7 +751,9 @@ class ReportsController extends Controller {
         }
         $response = array("status_wise_report" => $status_wise_team_total);
         echo Json_encode($response);
-    } //manoj
+    }
+
+
 
     public function getTeamfollowupreports() {
         $response = array();
@@ -746,8 +761,8 @@ class ReportsController extends Controller {
         $request = json_decode($postdata, true);
         $emp_id = $request["employee_id"];
 
-        $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
 
+        $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
         $condition = '';
         if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
             $from_date = date('Y-m-d', strtotime($request['from_date']));
@@ -760,8 +775,10 @@ class ReportsController extends Controller {
         } else {
             $flag = 0;
         }
+
         $parant_id = '';
         $parant_id = $this->isParant($first_admin_model->id);
+
         //Start team's total followup for team leader
         if ($emp_id) {
             if ($flag == 0) {
@@ -789,7 +806,6 @@ class ReportsController extends Controller {
                 }
 
                 if (!empty($followup)) {
-
                     foreach ($followup as $key1 => $value1) {
 
                         if ($key1 == 0) {
@@ -819,9 +835,6 @@ class ReportsController extends Controller {
             }
             $team_follwup[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'sameday' => $followupreportlist['sameday'], 'secondday' => $followupreportlist['secondday'], 'thirdday' => $followupreportlist['thirdday'], 'afterthirdday' => $followupreportlist['afterthirdday'], 'total' => $total);
         }
-
-        //End
-
         if (!empty($employeeids)) {
             $emp_ids = explode(',', $employeeids);
             $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
@@ -899,8 +912,8 @@ class ReportsController extends Controller {
 
         $response = array("Teams_followups" => $team_follwup);
         echo Json_encode($response);
-    } //manoj
-
+    }
+    
     public function isParant($admin) {
         $admin_model = "SELECT DISTINCT team_lead_id FROM employees";
         $admin_model = DB::select($admin_model);
@@ -916,15 +929,15 @@ class ReportsController extends Controller {
         }
     }
 
-    public function projectwiseReport() {   //manoj
-        return view("Reports::projectwiseReport");
-    } //manoj
+    public function projectwiseReport() {  
+        return view("Reports::projectReport")->with("loggedInUserID",Auth::guard('admin')->user()->id);
+    }
 
-    public function followupReport() {  //manoj
-        return view("Reports::followupReport");
-    }  //manoj
-
-    Public function followupReports() {   //manoj
+    public function followupReport() {
+        return view("Reports::followupReport")->with("loggedInUserID",Auth::guard('admin')->user()->id);
+    }
+    
+    Public function followupReports() {   
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $response = array();
@@ -982,14 +995,701 @@ class ReportsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
-    } //manoj
+    }
 
     public function getTeamEnquiryreports() {
-        return view("Reports::getTeamEnquiryreports");
-    } //manoj
+        return view("Reports::teamEnquiryReport")->with("loggedInUserID",Auth::guard('admin')->user()->id);
+    }
 
-    public function teamFollowupreports() {
-        return view("Reports::teamFollowupreports");
-    } //manoj
+    public function projectwiseTeamreport() {
+        return view("Reports::projectTeamReport")->with("loggedInUserID",Auth::guard('admin')->user()->id);
+    }
+
+    public function TeamProjectCategotyReport() {
+        $response = array();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $emp_id = $request["employee_id"];
+        $condition = '';
+        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
+            $from_date = date('Y-m-d', strtotime($request['from_date']));
+            $to_date = date('Y-m-d', strtotime($request['to_date']));
+            $condition .= "(be.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+        }
+        if (!empty($request['flag'])) {
+            $flag1 = $request['flag'];
+        } else {
+            $flag1 = 0;
+        }
+        $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
+
+        if ($emp_id) {
+            if ($flag1 == 0) {
+                $results_enquiry_type = "  SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty  ON e.sales_category_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project  ON detail.project_id =  project.id  WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id = " . $emp_id . " GROUP BY e.sales_category_id";
+            }
+            $results_enquiry_type = DB::select($results_enquiry_type);
+
+            $category_wise_team_total = array();
+            $m_cold_count = 0;
+            $m_hot_count = 0;
+            $m_warm_count = 0;
+            $m_new_count = 0;
+            $mtotal = 0;
+            if (!empty($results_enquiry_type)) {
+                foreach ($results_enquiry_type AS $result_enquiry_type) {
+                    $enqtype = $result_enquiry_type->enquiry_category;
+                    if ($enqtype == "Cold") {
+                        $m_cold_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Hot") {
+                        $m_hot_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Warm") {
+                        $m_warm_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "New Enquiry") {
+                        $m_new_count = $result_enquiry_type->cnt;
+                    }
+                    $mtotal = $m_cold_count + $m_hot_count + $m_warm_count + $m_new_count;
+                }
+            }
+
+            $parant_id = '';
+            $parant_id = $this->isParant($first_admin_model->id);
+
+            $category_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'Cold' => $m_cold_count, 'Hot' => $m_hot_count, 'Warm' => $m_warm_count, 'New' => $m_new_count, 'Total' => $mtotal);
+        }
+
+
+        if (!empty($employeeids)) {
+            $emp_ids = explode(',', $employeeids);
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
+        } else {
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
+        }
+
+        foreach ($selfteam as $selfmember) {
+            $this->allusers = array();
+            $this->tuserid($selfmember->id);
+            $alluser = $this->allusers;
+
+            $alluser[$selfmember->id] = $selfmember->id;
+            ksort($alluser);
+            $temp = @implode(',', $alluser);
+            //print_r($temp);exit;
+            if (!empty($temp)) {
+                if ($flag1 == 0) {
+                    $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . " AND e.sales_employee_id IN($temp) GROUP BY e.sales_category_id";
+                } else {
+                    if (!empty($condition)) {
+                        $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) AND $condition GROUP BY e.sales_category_id";
+                    } else {
+                        $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id  INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) GROUP BY e.sales_category_id";
+                    }
+                }
+
+                $results_category_wise = DB::select($results_category_wise);
+
+                $cold_count = 0;
+                $hot_count = 0;
+                $warm_count = 0;
+                $new_count = 0;
+                $ttotal = 0;
+                if (!empty($results_category_wise)) {
+                    foreach ($results_category_wise as $result_category_wise) {
+
+                        $enqtype = $result_category_wise->enquiry_category;
+                        if ($enqtype == "Cold") {
+                            $cold_count = $result_category_wise->cnt;
+                        } else if ($enqtype == "Hot") {
+                            $hot_count = $result_category_wise->cnt;
+                        } else if ($enqtype == "Warm") {
+                            $warm_count = $result_category_wise->cnt;
+                        } else if ($enqtype == "New Enquiry") {
+                            $new_count = $result_category_wise->cnt;
+                        }
+                        $ttotal = $cold_count + $hot_count + $warm_count + $new_count;
+                    }
+                    //print_r($result_category_wise->enquiry_category);exit;
+                }
+                $parant_id1 = 0;
+                $parant_id1 = $this->isParant($selfmember->id);
+
+                $category_wise_team_total[] = array('name' => $selfmember->first_name . ' ' . $selfmember->last_name, 'employee_id' => $selfmember->id, 'is_parent' => $parant_id1, 'Cold' => $cold_count, 'Hot' => $hot_count, 'Warm' => $warm_count, 'New' => $new_count, 'Total' => $ttotal);
+            }
+        }
+
+        $response = array("category_wise_report" => $category_wise_team_total);
+        echo Json_encode($response);
+    }
+
+    public function TeamProjectStatusReport() {
+
+        $response = array();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $emp_id = $request["employee_id"];
+        $condition = '';
+        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
+            $from_date = date('Y-m-d', strtotime($request['from_date']));
+            $to_date = date('Y-m-d', strtotime($request['to_date']));
+            $condition .= "(be.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+        }
+        if (!empty($request['flag'])) {
+            $flag1 = $request['flag'];
+        } else {
+            $flag1 = 0;
+        }
+        $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
+        if ($emp_id) {
+            if ($flag1 == 0) {
+                $results_enquiry_type = "  SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty  ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project  ON detail.project_id =  project.id  WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id = " . $emp_id . " GROUP BY e.sales_status_id";
+            } else {
+                if (!empty($condition))
+                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project  ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2)  AND  project.id = " . $request['project_id'] . "   AND e.sales_employee_id = $emp_id AND $condition  GROUP BY e.sales_status_id";
+                else
+                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id = 1 GROUP BY e.sales_status_id";
+            }
+            $results_enquiry_type = DB::select($results_enquiry_type);
+
+            $status_wise_team_total = array();
+            $m_new_count = 0;
+            $m_open_count = 0;
+            $m_booked_count = 0;
+            $m_lost_count = 0;
+            $mtotal = 0;
+            if (!empty($results_enquiry_type)) {
+                foreach ($results_enquiry_type AS $result_enquiry_type) {
+                    $enqtype = $result_enquiry_type->sales_status;
+                    if ($enqtype == "New Enquiry") {
+                        $m_new_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Open") {
+                        $m_open_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Booked") {
+                        $m_booked_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Lost") {
+                        $m_lost_count = $result_enquiry_type->cnt;
+                    }
+                    $mtotal = $m_new_count + $m_open_count + $m_booked_count + $m_lost_count;
+                }
+            }
+
+            $parant_id = '';
+            $parant_id = $this->isParant($first_admin_model->id);
+            $status_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'new' => $m_new_count, 'open' => $m_open_count, 'booked' => $m_booked_count, 'lost' => $m_lost_count, 'Total' => $mtotal);
+        }
+
+        if (!empty($employeeids)) {
+            $emp_ids = explode(',', $employeeids);
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
+        } else {
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
+        }
+        foreach ($selfteam as $selfmember) {
+            $this->allusers = array();
+            $this->tuserid($selfmember->id);
+            $alluser = $this->allusers;
+            $alluser[$selfmember->id] = $selfmember->id;
+            ksort($alluser);
+            $temp = @implode(',', $alluser);
+            if (!empty($temp)) {
+                if ($flag1 == 0) {
+                    $results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . " AND e.sales_employee_id IN($temp) GROUP BY e.sales_status_id";
+                } else {
+                    if (!empty($condition)) {
+                        $results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) AND $condition GROUP BY e.sales_status_id";
+                    } else {
+                        $results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id  INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) GROUP BY e.sales_status_id";
+                    }
+                }
+                $results_status_wise = DB::select($results_status_wise);
+                $new_count = 0;
+                $open_count = 0;
+                $booked_count = 0;
+                $Lost_count = 0;
+                $ttotal = 0;
+                if (!empty($results_status_wise)) {
+                    foreach ($results_status_wise as $results_status_wise) {
+
+                        $enqtype = $results_status_wise->sales_status;
+
+                        if ($enqtype == "New Enquiry") {
+                            $new_count = $results_status_wise->cnt;
+                        } else if ($enqtype == "Open") {
+                            $open_count = $results_status_wise->cnt;
+                        } else if ($enqtype == "Booked") {
+                            $booked_count = $results_status_wise->cnt;
+                        } else if ($enqtype == "Lost") {
+                            $Lost_count = $results_status_wise->cnt;
+                        }
+                        $ttotal = $new_count + $open_count + $booked_count + $Lost_count;
+                    }
+                }
+                $parant_id1 = 0;
+                $parant_id1 = $this->isParant($selfmember->id);
+                $status_wise_team_total[] = array('name' => $selfmember->first_name . ' ' . $selfmember->last_name, 'employee_id' => $selfmember->id, 'is_parent' => $parant_id1, 'new' => $new_count, 'open' => $open_count, 'booked' => $booked_count, 'lost' => $Lost_count, 'Total' => $ttotal);
+            }
+        }
+
+        $response = array("status_wise_report" => $status_wise_team_total);
+        echo Json_encode($response);
+    }
+
+    public function TeamProjectSourceReport() {
+        $response = array();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $temp_array = array();
+        $other_array = array();
+        $emp_id = $request["employee_id"];
+        $condition = '';
+        $source_wise_team_total = array();
+        $Total = 0;
+        $sTotal = 0;
+        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
+            $from_date = date('Y-m-d', strtotime($request['from_date']));
+            $to_date = date('Y-m-d', strtotime($request['to_date']));
+            $condition .= "(be.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+        }
+        if (!empty($request['flag'])) {
+            $flag1 = $request['flag'];
+        } else {
+            $flag1 = 0;
+        }
+        $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
+        $sources = "SELECT id,sales_source_name FROM laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources";
+        $sourcesResult = DB::select($sources);
+        if ($emp_id) {
+            if ($flag1 == 0) {
+
+                foreach ($sourcesResult as $source) {
+                    $result = "SELECT count(*) as cnt FROM laravel_developement_builder_client.enquiries e 
+                            INNER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as eqty 
+                            ON e.sales_source_id =  eqty.id  INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id 
+                            INNER JOIN projects as project  ON detail.project_id =  project.id  WHERE e.sales_status_id IN(1,2)
+                            AND  project.id = " . $request['project_id'] . " AND  eqty.id = " . $source->id . " AND e.sales_employee_id = " . $emp_id . " GROUP BY e.sales_source_id";
+
+                    $sourceResult = DB::select($result);
+                    if (!empty($sourceResult['0']->cnt)) {
+                        $count = $sourceResult['0']->cnt;
+                        $Total = $Total + $sourceResult['0']->cnt;
+                    } else {
+                        $count = 0;
+                    }
+                    $sales_source_name = str_replace(' ', '_', $source->sales_source_name);
+                    $post = array($sales_source_name => $count);
+                    $temp_array = array_merge($post, $temp_array);
+                }
+
+                // $results = "SELECT count(*) as cnt, eqty.sales_source_name FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as eqty  ON e.sales_source_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project  ON detail.project_id =  project.id  WHERE e.sales_status_id IN(1,2) AND  project.id = ".$request['project_id']."  AND e.sales_employee_id = ".$emp_id." GROUP BY e.sales_source_id";
+            } else {
+                if (!empty($condition))
+                    $results = "SELECT count(*) as cnt, eqty.sales_source_name FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as eqty ON e.sales_source_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project  ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2)  AND  project.id = " . $request['project_id'] . "   AND e.sales_employee_id = $emp_id AND $condition  GROUP BY e.sales_source_id";
+                else
+                    $results = "SELECT count(*) as cnt, eqty.sales_source_name FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as eqty ON e.sales_source_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id = 1 GROUP BY e.sales_source_id";
+            }
+
+
+            $parant_id = '';
+            $parant_id = $this->isParant($first_admin_model->id);
+            $source_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'source' => $temp_array, 'Total' => $Total);
+        }
+
+        if (!empty($employeeids)) {
+            $emp_ids = explode(',', $employeeids);
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
+        } else {
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
+        }
+        foreach ($selfteam as $selfmember) {
+            $this->allusers = array();
+            $this->tuserid($selfmember->id);
+            $alluser = $this->allusers;
+            $alluser[$selfmember->id] = $selfmember->id;
+            ksort($alluser);
+            $temp = @implode(',', $alluser);
+
+            if (!empty($temp)) {
+                if ($flag1 == 0) {
+
+                    //$results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . " AND e.sales_employee_id IN($temp) GROUP BY e.sales_status_id";
+
+                    foreach ($sourcesResult as $source) {
+                        $sresult = "SELECT count(*) as cnt FROM laravel_developement_builder_client.enquiries e 
+                            INNER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as eqty 
+                            ON e.sales_source_id =  eqty.id  INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id 
+                            INNER JOIN projects as project  ON detail.project_id =  project.id  WHERE e.sales_status_id IN(1,2)
+                            AND  project.id = " . $request['project_id'] . " AND  eqty.id = " . $source->id . " AND e.sales_employee_id  IN($temp) GROUP BY e.sales_source_id";
+
+                        $source_result = DB::select($sresult);
+                        if (!empty($source_result['0']->cnt)) {
+                            $count = $source_result['0']->cnt;
+                            $sTotal = $sTotal + $source_result['0']->cnt;
+                        } else {
+                            $count = 0;
+                        }
+                        $sales_source_name = str_replace(' ', '_', $source->sales_source_name);
+                        $post = array($sales_source_name => $count);
+                        $other_array = array_merge($post, $other_array);
+                    }
+                } else {
+                    if (!empty($condition)) {
+                        //   $results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) AND $condition GROUP BY e.sales_status_id";
+                    } else {
+                        // $results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id  INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) GROUP BY e.sales_status_id";
+                    }
+                }
+
+                $parant_id1 = 0;
+                $parant_id1 = $this->isParant($selfmember->id);
+
+                $source_wise_team_total[] = array('name' => $selfmember->first_name . ' ' . $selfmember->last_name, 'employee_id' => $selfmember->id, 'is_parent' => $parant_id1, 'source' => $other_array, 'Total' => $sTotal);
+            }
+        }
+
+        $response = array("source_wise_report" => $source_wise_team_total);
+        echo Json_encode($response);
+    }
+
+    public function teamProjectCategoryReport() {
+
+        $response = array();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $emp_id = $request["employee_id"];
+        $condition = '';
+        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
+            $from_date = date('Y-m-d', strtotime($request['from_date']));
+            $to_date = date('Y-m-d', strtotime($request['to_date']));
+            $condition .= "(be.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+        }
+        if (!empty($request['flag'])) {
+            $flag1 = $request['flag'];
+        } else {
+            $flag1 = 0;
+        }
+        $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
+        if ($emp_id) {
+            if ($flag1 == 0) {
+                $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
+            } else {
+                if (!empty($condition)) {
+                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND $condition AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
+                } else {
+                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
+                }
+            }
+            $results_enquiry_type = DB::select($results_enquiry_type);
+            $category_wise_team_total = array();
+            $m_cold_count = 0;
+            $m_hot_count = 0;
+            $m_warm_count = 0;
+            $m_new_count = 0;
+            $mtotal = 0;
+
+            if (!empty($results_enquiry_type)) {
+                foreach ($results_enquiry_type AS $result_enquiry_type) {
+                    $enqtype = $result_enquiry_type->enquiry_category;
+                    if ($enqtype == "Cold") {
+                        $m_cold_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Hot") {
+                        $m_hot_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Warm") {
+                        $m_warm_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "New Enquiry") {
+                        $m_new_count = $result_enquiry_type->cnt;
+                    }
+                    $mtotal = $m_cold_count + $m_hot_count + $m_warm_count + $m_new_count;
+                }
+            }
+            $parant_id = '';
+            $parant_id = $this->isParant($first_admin_model->id);
+
+            $category_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'Cold' => $m_cold_count, 'Hot' => $m_hot_count, 'Warm' => $m_warm_count, 'New' => $m_new_count, 'Total' => $mtotal);
+        }
+
+        if (!empty($employeeids)) {
+            $emp_ids = explode(',', $employeeids);
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
+        } else {
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
+        }
+
+
+        foreach ($selfteam as $selfmember) {
+            $this->allusers = array();
+            $this->tuserid($selfmember->id);
+            $alluser = $this->allusers;
+            $alluser[$selfmember->id] = $selfmember->id;
+            ksort($alluser);
+            $temp = @implode(',', $alluser);
+
+
+            if (!empty($temp)) {
+                if ($flag1 == 0) {
+                    $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND details.project_id = 1 AND e.sales_employee_id IN($temp) AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
+                } else {
+                    if (!empty($condition)) {
+                        $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND details.project_id = 1 AND e.sales_employee_id IN($temp)   AND $condition  AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
+                    }
+                    $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND details.project_id = 1 AND e.sales_employee_id IN($temp)   AND $condition  GROUP BY e.sales_category_id";
+                }
+                $results_category_wise = DB::select($results_category_wise);
+                $cold_count = 0;
+                $hot_count = 0;
+                $warm_count = 0;
+                $new_count = 0;
+                $ttotal = 0;
+                if (!empty($results_category_wise)) {
+                    foreach ($results_category_wise as $result_category_wise) {
+                        $enqtype = $result_category_wise->enquiry_category;
+                        if ($enqtype == "Cold") {
+                            $cold_count = $result_category_wise->cnt;
+                        } else if ($enqtype == "Hot") {
+                            $hot_count = $result_category_wise->cnt;
+                        } else if ($enqtype == "Warm") {
+                            $warm_count = $result_category_wise->cnt;
+                        } else if ($enqtype == "New Enquiry") {
+                            $new_count = $result_category_wise->cnt;
+                        }
+                        $ttotal = $cold_count + $hot_count + $warm_count + $new_count;
+                    }
+                }
+                $parant_id1 = 0;
+                $parant_id1 = $this->isParant($selfmember->id);
+                $category_wise_team_total[] = array('name' => $selfmember->first_name . ' ' . $selfmember->last_name, 'employee_id' => $selfmember->id, 'is_parent' => $parant_id1, 'Cold' => $cold_count, 'Hot' => $hot_count, 'Warm' => $warm_count, 'New' => $new_count, 'Total' => $ttotal);
+            }
+        }
+
+        $response = array("category_wise_report" => $category_wise_team_total);
+        echo Json_encode($response);
+    }
+
+    public function teamProjectStatusEmpReport() {
+        $response = array();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $emp_id = $request["employee_id"];
+        $condition = '';
+        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
+            $from_date = date('Y-m-d', strtotime($request['from_date']));
+            $to_date = date('Y-m-d', strtotime($request['to_date']));
+            $condition .= "(be.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+        }
+        if (!empty($request['flag'])) {
+            $flag1 = $request['flag'];
+        } else {
+            $flag1 = 0;
+        }
+        $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
+        if ($emp_id) {
+            if ($flag1 == 0) {
+                $results_enquiry_type = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_status_id";
+            } else {
+                if (!empty($condition))
+                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . "  AND $condition GROUP BY e.sales_status_id";
+                else
+                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . "   GROUP BY e.sales_status_id";
+            }
+            $results_enquiry_type = DB::select($results_enquiry_type);
+
+            $status_wise_team_total = array();
+            $m_new_count = 0;
+            $m_open_count = 0;
+            $m_booked_count = 0;
+            $m_lost_count = 0;
+            $mtotal = 0;
+            if (!empty($results_enquiry_type)) {
+                foreach ($results_enquiry_type AS $result_enquiry_type) {
+                    $enqtype = $result_enquiry_type->sales_status;
+                    if ($enqtype == "New Enquiry") {
+                        $m_new_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Open") {
+                        $m_open_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Booked") {
+                        $m_booked_count = $result_enquiry_type->cnt;
+                    } else if ($enqtype == "Lost") {
+                        $m_lost_count = $result_enquiry_type->cnt;
+                    }
+                    $mtotal = $m_new_count + $m_open_count + $m_booked_count + $m_lost_count;
+                }
+            }
+            $parant_id = '';
+            $parant_id = $this->isParant($first_admin_model->id);
+            $status_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'new' => $m_new_count, 'open' => $m_open_count, 'booked' => $m_booked_count, 'lost' => $m_lost_count, 'Total' => $mtotal);
+        }
+
+        if (!empty($employeeids)) {
+            $emp_ids = explode(',', $employeeids);
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
+        } else {
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
+        }
+        foreach ($selfteam as $selfmember) {
+            $this->allusers = array();
+            $this->tuserid($selfmember->id);
+            $alluser = $this->allusers;
+            $alluser[$selfmember->id] = $selfmember->id;
+            ksort($alluser);
+            $temp = @implode(',', $alluser);
+            if (!empty($temp)) {
+                if ($flag1 == 0) {
+                    $results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) GROUP BY e.sales_status_id";
+                } else {
+                    if (!empty($condition)) {
+                        $results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) AND $condition GROUP BY e.sales_status_id";
+                    } else {
+                        $results_status_wise = "SELECT count(*) as cnt, eqty.sales_status FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as eqty ON e.sales_status_id = eqty.id INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id  INNER JOIN projects as project ON detail.project_id =  project.id WHERE e.sales_status_id IN(1,2) AND  project.id = " . $request['project_id'] . "  AND e.sales_employee_id IN($temp) GROUP BY e.sales_status_id";
+                    }
+                }
+                $results_status_wise = DB::select($results_status_wise);
+                $new_count = 0;
+                $open_count = 0;
+                $booked_count = 0;
+                $Lost_count = 0;
+                $ttotal = 0;
+                if (!empty($results_status_wise)) {
+                    foreach ($results_status_wise as $results_status_wise) {
+                        $enqtype = $results_status_wise->sales_status;
+                        if ($enqtype == "New Enquiry") {
+                            $new_count = $results_status_wise->cnt;
+                        } else if ($enqtype == "Open") {
+                            $open_count = $results_status_wise->cnt;
+                        } else if ($enqtype == "Booked") {
+                            $booked_count = $results_status_wise->cnt;
+                        } else if ($enqtype == "Lost") {
+                            $Lost_count = $results_status_wise->cnt;
+                        }
+                        $ttotal = $new_count + $open_count + $booked_count + $Lost_count;
+                    }
+                }
+                $parant_id1 = 0;
+                $parant_id1 = $this->isParant($selfmember->id);
+                $status_wise_team_total[] = array('name' => $selfmember->first_name . ' ' . $selfmember->last_name, 'employee_id' => $selfmember->id, 'is_parent' => $parant_id1, 'new' => $new_count, 'open' => $open_count, 'booked' => $booked_count, 'lost' => $Lost_count, 'Total' => $ttotal);
+            }
+        }
+
+        $response = array("status_wise_report" => $status_wise_team_total);
+        echo Json_encode($response);
+    }
+
+    public function teamfollowupReport() {  
+        return view("Reports::teamFollowupReport")->with("loggedInUserID",Auth::guard('admin')->user()->id);
+    }
+
+    public function teamProjectSourceEmpReport() {
+
+        $response = array();
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $temp_array = array();
+        $other_array = array();
+        $emp_id = $request["employee_id"];
+        $condition = '';
+        $source_wise_team_total = array();
+        $Total = 0;
+        $sTotal = 0;
+        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
+            $from_date = date('Y-m-d', strtotime($request['from_date']));
+            $to_date = date('Y-m-d', strtotime($request['to_date']));
+            $condition .= "(be.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+        }
+        if (!empty($request['flag'])) {
+            $flag1 = $request['flag'];
+        } else {
+            $flag1 = 0;
+        }
+        $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
+        $sources = "SELECT id,sales_source_name FROM laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources";
+        $sourcesResult = DB::select($sources);
+        if ($emp_id) {
+            if ($flag1 == 0) {
+
+                foreach ($sourcesResult as $source) {
+                    $result = "SELECT count(*) as cnt FROM laravel_developement_builder_client.enquiries e 
+                            INNER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as eqty 
+                            ON e.sales_source_id =  eqty.id  INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id 
+                            INNER JOIN projects as project  ON detail.project_id =  project.id  WHERE e.sales_status_id IN(1,2)
+                            AND  project.id = " . $request['project_id'] . " AND  eqty.id = " . $source->id . " AND e.sales_employee_id = " . $emp_id . " GROUP BY e.sales_source_id";
+
+                    $sourceResult = DB::select($result);
+                    if (!empty($sourceResult['0']->cnt)) {
+                        $count = $sourceResult['0']->cnt;
+                        $Total = $Total + $sourceResult['0']->cnt;
+                    } else {
+                        $count = 0;
+                    }
+                    $sales_source_name = str_replace(' ', '_', $source->sales_source_name);
+                    $post = array($sales_source_name => $count);
+                    $temp_array = array_merge($post, $temp_array);
+                }
+            }
+            $parant_id = '';
+            $parant_id = $this->isParant($first_admin_model->id);
+            $source_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'source' => $temp_array, 'Total' => $Total);
+        }
+
+
+        if (!empty($employeeids)) {
+            $emp_ids = explode(',', $employeeids);
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
+        } else {
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
+        }
+        foreach ($selfteam as $selfmember) {
+            $this->allusers = array();
+            $this->tuserid($selfmember->id);
+            $alluser = $this->allusers;
+            $alluser[$selfmember->id] = $selfmember->id;
+            ksort($alluser);
+            $temp = @implode(',', $alluser);
+
+            if (!empty($temp)) {
+                if ($flag1 == 0) {
+                    foreach ($sourcesResult as $source) {
+                        $sresult = "SELECT count(*) as cnt FROM laravel_developement_builder_client.enquiries e 
+                            INNER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as eqty 
+                            ON e.sales_source_id =  eqty.id  INNER JOIN enquiry_details as detail ON detail.enquiry_id = e.id 
+                            INNER JOIN projects as project  ON detail.project_id =  project.id  WHERE e.sales_status_id IN(1,2)
+                            AND  project.id = " . $request['project_id'] . " AND  eqty.id = " . $source->id . " AND e.sales_employee_id  IN($temp) GROUP BY e.sales_source_id";
+
+                        $source_result = DB::select($sresult);
+                        if (!empty($source_result['0']->cnt)) {
+                            $count = $source_result['0']->cnt;
+                            $sTotal = $sTotal + $source_result['0']->cnt;
+                        } else {
+                            $count = 0;
+                        }
+                        $sales_source_name = str_replace(' ', '_', $source->sales_source_name);
+                        $post = array($sales_source_name => $count);
+                        $other_array = array_merge($post, $other_array);
+                    }
+                }
+
+                $parant_id1 = 0;
+                $parant_id1 = $this->isParant($selfmember->id);
+                $source_wise_team_total[] = array('name' => $selfmember->first_name . ' ' . $selfmember->last_name, 'employee_id' => $selfmember->id, 'is_parent' => $parant_id1, 'source' => $other_array, 'Total' => $sTotal);
+            }
+        }
+
+
+        $response = array("source_wise_report" => $source_wise_team_total);
+        echo Json_encode($response);
+    }
+    
+    
+    public function projectOverviewReport()
+    {
+        return view('Reports::projectOverviewReport');
+    }
+    
+    public function overViewReport()
+    {
+        $projectList = Project::with('wings')->get();
+        
+        if (!empty($projectList)) {
+            $result = ['success' => true, 'records' => $projectList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+        }
+        return json_encode($result);     
+    }
 
 }

@@ -103,6 +103,7 @@
                                             <option value="1">Active</option>
                                             <option value="0">Inactive</option>
                                         </select>
+                                        <i class="fa fa-sort-desc"></i>
                                     </span>
                                 </div>
                             </div>

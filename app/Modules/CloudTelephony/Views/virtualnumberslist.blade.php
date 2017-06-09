@@ -30,7 +30,7 @@
                             <td ng-if="listNumber.default_number == 1">Yes</td>
                             <td ng-if="listNumber.default_number == 0">No</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="#/[[config('global.getUrl')]]/virtualnumber/update/{{ listNumber.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/virtualnumber/update/{{ listNumber.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                             </td>
                         </tr>
                     </tbody>

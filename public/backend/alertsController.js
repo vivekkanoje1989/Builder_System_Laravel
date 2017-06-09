@@ -23,8 +23,7 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
     }; 
     $scope.changeSmsStatus = function(val,index,id){
         Data.post('alerts/changeSmsStatus', {
-            val: val,
-            id: id
+            val: val,id: id
         }).then(function (response) {
             if (response.success) {
                 var successMsg = response.successMsg;
@@ -32,14 +31,14 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
                 $rootScope.alert('success', successMsg);
                 $('.alert-delay').delay(3000).fadeOut("slow");
                 $timeout(function () {
-                    $state.go(getUrl+'.alertsIndex');
+                    $state.go('alertsIndex');
                 }, 1000);
             } else {
                 var errorMsg = response.errorMsg;
                 $rootScope.alert('warning', successMsg);
                 $('.alert-delay').delay(3000).fadeOut("slow");
                 $timeout(function () {
-                    $state.go(getUrl+'.alertsIndex');
+                    $state.go('alertsIndex');
                 }, 1000);
             }
         });
@@ -112,14 +111,14 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
                 $rootScope.alert('success', successMsg);
                 $('.alert-delay').delay(3000).fadeOut("slow");
                 $timeout(function () {
-                    $state.go(getUrl+'.alertsIndex');
+                    $state.go('alertsIndex');
                 }, 1000);
             } else {
                 var errorMsg = response.errorMsg;
                 $rootScope.alert('warning', successMsg);
                 $('.alert-delay').delay(3000).fadeOut("slow");
                 $timeout(function () {
-                    $state.go(getUrl+'.alertsIndex');
+                    $state.go('alertsIndex');
                 }, 1000);
             }
         });
@@ -134,7 +133,6 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
         else{
             Data.post('alerts/updateAlerts', {
                 alertData:alertData, id: alterId}).then(function (response) {
-                console.log(response)
                 if (!response.success)
                 {
                     $scope.errorMsg = response.errormsg;
@@ -142,7 +140,7 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
                     $rootScope.alert('success', response.message);
                     $('.alert-delay').delay(3000).fadeOut("slow");
                     $timeout(function(){
-                        $state.go(getUrl+'.alertsIndex');
+                        $state.go('alertsIndex');
                     }, 1000);
                 }
             });
@@ -214,10 +212,8 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
             }
         });
     };
-
     $scope.pageChangeHandler = function(num) {
         $scope.noOfRows = num;
         $scope.currentPage = num * $scope.itemsPerPage;
     };
-    
 }]);

@@ -26,7 +26,7 @@
                             <td>{{$index+1}}</td>
                             <td>{{list.role_name}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="#/[[config('global.getUrl')]]/role/permissions/{{ list.id }}"><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/role/permissions/{{ list.id }}"><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
                             </td>
                         </tr>
                     </tbody>

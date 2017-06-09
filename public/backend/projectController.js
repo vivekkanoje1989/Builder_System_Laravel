@@ -11,7 +11,7 @@ app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$ti
                 $scope.projectSbtBtn = true;
                 toaster.pop('success', 'Project Details', 'Project created successfully');
                 $timeout(function () {
-                    $state.go(getUrl + '.createProjectsIndex');
+                    $state.go('createProjectsIndex');
                 },1000);
             }
         });
@@ -119,7 +119,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
     }    
     $scope.showWebPage = function(id)
     {
-        $state.go(getUrl + '.projectWebPage'); 
+        $state.go('projectWebPage'); 
         $timeout(function () {
             $("#project_id").val(id);
             $("#project_id").change();
@@ -134,7 +134,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
                 projectImages = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
             }
             projectImages.upload = Upload.upload({
-                url: getUrl + '/projects/basicInfo',
+                url: '/projects/basicInfo',
                 headers: {enctype: 'multipart/form-data'},
                 data: {project_id:  $scope.projectData.project_id, projectData: projectData, projectImages: projectImages},
             });
@@ -167,7 +167,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
             statusImages = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
         }
         statusImages.upload = Upload.upload({
-            url: getUrl + '/projects/basicInfo',
+            url: '/projects/basicInfo',
             headers: {enctype: 'multipart/form-data'},
             data: {project_id:  $scope.projectData.project_id, statusData: statusData, projectImages: statusImages},
         });
@@ -251,7 +251,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
             var customData = {project_id:  $scope.projectData.project_id, floorData: {modalData:modalData}, projectImages: modalImages, objName: objName};
         }
         modalImages.upload = Upload.upload({
-            url: getUrl + '/projects/basicInfo',
+            url: '/projects/basicInfo',
             headers: {enctype: 'multipart/form-data'},
             data: customData,
         });
@@ -286,7 +286,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
             modalImages = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
         }
         modalImages.upload = Upload.upload({
-            url: getUrl + '/projects/basicInfo',
+            url: '/projects/basicInfo',
             headers: {enctype: 'multipart/form-data'},
             data: {project_id:  $scope.projectData.project_id, layoutData: {modalData:modalData}, projectImages: modalImages},
         });

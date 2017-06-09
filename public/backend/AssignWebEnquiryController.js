@@ -1,6 +1,5 @@
 'use strict';
-app.controller('autoassignEnquiriesCtrl', ['$scope', 'Data', '$rootScope','$timeout', function ($scope, Data, $rootScope,$timeout) {
-
+app.controller('autoassignEnquiriesCtrl', ['$scope', 'Data', function ($scope, Data) {
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
         $scope.manageEnquiries = function () {
@@ -8,22 +7,14 @@ app.controller('autoassignEnquiriesCtrl', ['$scope', 'Data', '$rootScope','$time
                 $scope.EnquirieRow = response.records;
             });
         };
-      
+
         $scope.doautoenquiriesAction = function () {
-           
             $scope.errorMsg = '';
-                Data.put('assign-enquiry/'+ $scope.employee_id, {
-                    employee_id: $scope.employee_id}).then(function (response) {
-                    if (!response.success)
-                    {
-                        $scope.errorMsg = response.errormsg;
-                    } else {
-                        
-                       // $scope.success("Contact details updated successfully");
-                    }
-                });
+            Data.put('assign-enquiry/' + $scope.employee_id, {
+                employee_id: $scope.employee_id}).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.errormsg;
+                }
+            });
         }
-        $scope.success = function(message) {
-               Flash.create('success', message);
-           };
     }]);

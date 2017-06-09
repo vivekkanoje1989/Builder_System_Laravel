@@ -23,16 +23,17 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                            <th style="width:5%">Sr.No.</th>         
+                            <th style="width:5%">Sr.No.</th>
+                            <th style="width:10%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Customer name
-                                    <span ng-show="orderByField == 'block_stages'">
+                                    <span ng-show="orderByField == 'customer_name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
                                 </a>
                             </th> 
                             <th style="width: 20%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Mobile No
-                                    <span ng-show="orderByField == 'block_stages'">
+                                    <span ng-show="orderByField == 'mobile_number'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
                                 </a>
@@ -44,7 +45,6 @@
                                     </span>
                                 </a>
                             </th> 
-                            
                             <th style="width: 20%">Approve Status</th>  
                             <th style="width: 5%">Actions</th>
                         </tr>
@@ -57,7 +57,7 @@
                             <td>{{ list.company_name}}</td>
                             <td>{{ (list.approve_status == 1) ? "Approved" : "Not Approve"}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" ><a href="#/[[config('global.getUrl')]]/testimonials-manage/update/{{ list.testimonial_id}}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" ><a href="[[ config('global.backendUrl') ]]#/testimonials-manage/update/{{ list.testimonial_id}}"><i class="fa fa-pencil"></i></a></div>
                             </td> 
                         </tr>
                     </tbody>

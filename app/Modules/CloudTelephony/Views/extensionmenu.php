@@ -487,13 +487,13 @@ use Illuminate\Support\Facades\Route;
                             </div>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <br>
-                                <center><a class="btn btn-primary" href="#/<?php echo config('global.getUrl');?>/virtualnumber/update/{{ virtualno[0]['id'] }}">Back</a></center>
+                                <center><a class="btn btn-primary" href="[[ config('global.backendUrl') ]]#/virtualnumber/update/{{ virtualno[0]['id'] }}">Back</a></center>
                                 <br>
                                 <center>
                                     <button type="submit" class="btn btn-primary" ng-click="step2 = true">Submit</button>
                                 </center>
                                 <br>
-                                <center><a class="btn btn-primary" href="#/<?php echo config('global.getUrl');?>/virtualnumber/existingupdate/{{ virtualno[0]['id'] }}">Next</a></center>
+                                <center><a class="btn btn-primary" href="[[ config('global.backendUrl') ]]#/virtualnumber/existingupdate/{{ virtualno[0]['id'] }}">Next</a></center>
                                 <br>
                             </div>
                         </form>

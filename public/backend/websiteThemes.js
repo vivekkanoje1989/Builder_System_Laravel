@@ -36,11 +36,11 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             $scope.errorMsg = '';
             if ($scope.id == '0')
             {
-                var url = getUrl + '/website-themes/';
+                var url = '/website-themes/';
                 var data = {
                     'theme_name': $scope.theme_name, 'imageUrl': imageUrl}
             } else {
-                var url = getUrl + '/website-themes/update/' + $scope.id;
+                var url = '/website-themes/update/' + $scope.id;
 
                 if (typeof imageUrl === 'undefined') {
                     imageUrl = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});

@@ -1,9 +1,11 @@
 'use strict';
-app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', 'Data', '$timeout', function ($rootScope, $scope, $state, Data, $timeout) {
+app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeout', function ($scope, $state, Data, $timeout) {
         $scope.lstAllEmployees=[];
-        Data.get('getPropertyPortalType').then(function (response) {
-            $scope.listPortals = response.records;
-        });
+        $scope.portalTypeList = function(){
+            Data.get('getPropertyPortalType').then(function (response) {
+                $scope.listPortals = response.records;
+            });
+        }
         $scope.changestatus = function (status, id)
         {
             var ischk = document.getElementById('statuschk' + id).checked;
@@ -61,7 +63,6 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
         }
         $scope.addEditProjects = function (modalData,index)
         {
-            alert("data"+modalData.project_id+"index"+index);
             var empname = '';
             var ids = '';
             var status = false;
@@ -130,7 +131,7 @@ app.controller('propertyPortalsController', ['$rootScope', '$scope', '$state', '
                 } else
                 {
                     $timeout(function () {
-                        $state.go(getUrl + '.propertyPortalAccounts', {portalTypeId: portalId});
+                        $state.go('propertyPortalAccounts', {portalTypeId: portalId});
                     }, 1000);
                 }
             });

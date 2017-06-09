@@ -132,7 +132,7 @@
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-sm-3 col-xs-6">
-                                    <a  href="#/[[config('global.getUrl')]]/employeeDevice/index"  class="btn btn-primary" value="" ><< Back</a>
+                                    <a  href="[[ config('global.backendUrl') ]]#/employeeDevice/index"  class="btn btn-primary" value="" ><< Back</a>
                                     <input type="submit" name="btnname" class="btn btn-primary" value="{{ btnLable}}" ng-click="createBtn = true">
                                 </div>                                    
                             </div>                                

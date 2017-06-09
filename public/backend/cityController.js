@@ -1,4 +1,4 @@
-app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaster', function ($scope, Data, $rootScope, $timeout,toaster) {
+app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.itemsPerPage = 4;
         $scope.noOfRows = 1;
@@ -26,8 +26,6 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
             });
         };
         $scope.initialModal = function (ids,city_id,list, index, index1) {
-
-            
             $scope.country_id = list.country_id;
             $scope.id = city_id;
             $scope.name = list.name;
@@ -63,10 +61,8 @@ app.controller('citiesCtrl', ['$scope', 'Data', '$rootScope', '$timeout','toaste
 
                 Data.put('manage-city/' + $scope.id, {
                     name: $scope.name, id: $scope.id, state_id: $scope.state_id}).then(function (response) {
-                 console.log(response);
                     if (!response.success)
                     {
-
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $scope.citiesRow.splice($scope.index - 1, 1);

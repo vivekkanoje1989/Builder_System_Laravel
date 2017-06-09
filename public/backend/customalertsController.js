@@ -1,5 +1,5 @@
 'use strict';
-app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Data', '$filter', 'Upload', '$timeout', function ($rootScope, $scope, $state, Data, $filter, Upload, $timeout) {
+app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Data', '$timeout', function ($rootScope, $scope, $state, Data, $timeout) {
     $scope.pageHeading = 'Create Custome Alert';
     $scope.buttonLabel = 'Create';
     $scope.customAlertData = {};
@@ -26,7 +26,6 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
         {          
            Data.post('customalerts/', {
                 customAlertData:customAlertData}).then(function (response) {
-                console.log(response)
                 if (!response.success)
                 {
                     $scope.errorMsg = response.errormsg;
@@ -34,7 +33,7 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
                     $rootScope.alert('success', response.message);
                     $('.alert-delay').delay(3000).fadeOut("slow");
                     $timeout(function(){
-                        $state.go(getUrl+'.customalertsIndex');
+                        $state.go('customalertsIndex');
                     }, 1000);
                 }
             }); 
@@ -42,7 +41,6 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
         else{
             Data.post('customalerts/updateCustomAlerts', {
                 customAlertData:customAlertData, id: alterId}).then(function (response) {
-                console.log(response)
                 if (!response.success)
                 {
                     $scope.errorMsg = response.errormsg;
@@ -50,7 +48,7 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
                     $rootScope.alert('success', response.message);
                     $('.alert-delay').delay(3000).fadeOut("slow");
                     $timeout(function(){
-                        $state.go(getUrl+'.customalertsIndex');
+                        $state.go('customalertsIndex');
                     }, 1000);
                 }
             });

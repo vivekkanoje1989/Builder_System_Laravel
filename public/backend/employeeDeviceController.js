@@ -44,7 +44,7 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', fu
                     } else
                     {
                         toaster.pop('success', 'Employee Device', 'Device Added successfully.');
-                        $state.go(getUrl + '.employeeDeviceIndex');
+                        $state.go('employeeDeviceIndex');
                     }
                 })
             } else
@@ -58,7 +58,7 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', fu
                     } else
                     {
                         toaster.pop('success', 'Employee Device', 'Device updated successfully.');
-                        $state.go(getUrl + '.employeeDeviceIndex');
+                        $state.go('employeeDeviceIndex');
 
                     }
                 })
