@@ -164,7 +164,7 @@ class AdminController extends Controller {
     }
 
     public function getTitle() {
-        $getTitle = MlstTitle::all();
+        $getTitle = MlstTitle::where("status",1)->get();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'records' => $getTitle];
         } else {
@@ -174,7 +174,7 @@ class AdminController extends Controller {
     }
 
     public function getGender() {
-        $getGender = MlstGender::all();
+        $getGender = MlstGender::where("status",1)->get();
         if (!empty($getGender)) {
             $result = ['success' => true, 'records' => $getGender];
         } else {
@@ -193,7 +193,7 @@ class AdminController extends Controller {
         return json_encode($result);
     }
     public function getDesignations() {
-        $getBloodGroup = MlstBmsbDesignation::all();
+        $getBloodGroup = MlstBmsbDesignation::where("status",1)->get();
         if (!empty($getBloodGroup)) {
             $result = ['success' => true, 'records' => $getBloodGroup];
         } else {
@@ -212,7 +212,7 @@ class AdminController extends Controller {
     }
 
     public function getEducationList() {
-        $getEducationList = MlstEducation::all();
+        $getEducationList = MlstEducation::where("status",1)->get();
         if (!empty($getEducationList)) {
             $result = ['success' => true, 'records' => $getEducationList];
         } else {
@@ -266,28 +266,27 @@ class AdminController extends Controller {
     }
 
     public function getMasterData() {
-        $getTitle = MlstTitle::all();
-        $getGender = MlstGender::all();
+        $getTitle = MlstTitle::where("status",1)->get();;
+        $getGender = MlstGender::where("status",1)->get();
         $getBloodGroup = MlstBloodGroup::all();
         $getDepartments = MlstBmsbDepartment::all();
-        $getEducationList = MlstEducation::all();
-        $getEnquirySource = MlstBmsbEnquirySalesSource::all();
-        $getEnquirySubSource = EnquirySalesSubSource::all();
-        $getMlstProfession = MlstProfession::all();
-        $getMlstBmsbDesignation = MlstBmsbDesignation::all();
+        $getEducationList = MlstEducation::where("status",1)->get();
+        $getEnquirySource = MlstBmsbEnquirySalesSource::where("status",1)->get();
+        $getEnquirySubSource = EnquirySalesSubSource::where("sub_source_status",1)->get();
+        $getMlstProfession = MlstProfession::where("status",1)->get();
+        $getMlstBmsbDesignation = MlstBmsbDesignation::where("status",1)->get();
         $getStates=  MlstState::where('country_id',101)->get();
-        $getEmployees = Employee::select('id', 'first_name','department_id')->get();
+        $getEmployees = Employee::select('id', 'first_name','department_id')->where("employee_status",1)->get();
         $blockTypeList = MlstBmsbBlockType::select("id","project_type_id","block_name")->get();
         $projectList = Project::select('id','project_name')->get();
         $subBlocksList = ProjectBlock::select("id","project_id","block_type_id","block_sub_type")->get();
-        $enquiryFinanceTieup = EnquiryFinanceTieup::all(); 
-        $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->get();
-        $salesEnqSubCategoryList = EnquirySalesSubcategory::select('id','enquiry_sales_subcategory')->get();
-        $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->get();
-        $salesEnqSubStatusList = EnquirySalesSubstatus::select('id','enquiry_sales_substatus')->get();
+        $enquiryFinanceTieup = EnquiryFinanceTieup::where("status",1)->get(); 
+        $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->where("status",1)->get();
+        $salesEnqSubCategoryList = EnquirySalesSubcategory::select('id','enquiry_sales_subcategory')->where("status",1)->get();
+        $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->where("status",1)->get();
+        $salesEnqSubStatusList = EnquirySalesSubstatus::select('id','enquiry_sales_substatus')->where("status",1)->get();
         $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id','=',101)->get();
-        //echo json_encode($indiaCities);exit;
-        //$getEnquiryCity = lstEnquiryLocations::where('country_id',101)->get();
+        
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 
@@ -373,7 +372,7 @@ class AdminController extends Controller {
     }
 
     public function getEnquirySource() {
-        $getSource = MlstBmsbEnquirySalesSource::all();
+        $getSource = MlstBmsbEnquirySalesSource::where("status",1)->get();
         if (!empty($getSource)) {
             $result = ['success' => true, 'records' => $getSource];
         } else {
@@ -414,7 +413,7 @@ class AdminController extends Controller {
         return json_encode($result);
     }
     public function getStationary() {
-        $stationaryList = CompanyStationary::select('id','stationary_set_name')->get();
+        $stationaryList = CompanyStationary::select('id','stationary_set_name')->where("status",1)->get();
         if (!empty($stationaryList)) {
             $result = ['success' => true, 'records' => $stationaryList];
         } else {
@@ -423,7 +422,7 @@ class AdminController extends Controller {
         return json_encode($result);
     }
     public function getSalesEnqCategory() {
-        $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->get();
+        $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->where("status",1)->get();
         if (!empty($salesEnqCategoryList)) {
             $result = ['success' => true, 'records' => $salesEnqCategoryList];
         } else {
@@ -436,7 +435,7 @@ class AdminController extends Controller {
         $request = json_decode($postdata, true);
         $categoryId = $request['categoryId'];
         
-        $salesEnqSubCategoryList = EnquirySalesSubcategory::where('enquiry_sales_category_id',$categoryId)->select('id','enquiry_sales_subcategory')->get();
+        $salesEnqSubCategoryList = EnquirySalesSubcategory::where(['enquiry_sales_category_id' => $categoryId, 'status' => 1])->select('id','enquiry_sales_subcategory')->get();
         if (!empty($salesEnqSubCategoryList)) {
             $result = ['success' => true, 'records' => $salesEnqSubCategoryList];
         } else {
@@ -445,7 +444,7 @@ class AdminController extends Controller {
         return json_encode($result);
     }
     public function getSalesEnqStatus() {
-        $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->get();
+        $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->where("status",1)->get();
         if (!empty($salesEnqStatusList)) {
             $result = ['success' => true, 'records' => $salesEnqStatusList];
         } else {
@@ -458,7 +457,7 @@ class AdminController extends Controller {
         $request = json_decode($postdata, true);
         $statusId = $request['statusId'];
         
-        $salesEnqSubStatusList = EnquirySalesSubstatus::where('enquiry_sales_status_id',$statusId)->select('id','enquiry_sales_substatus')->get();
+        $salesEnqSubStatusList = EnquirySalesSubstatus::where(['enquiry_sales_status_id' => $statusId, 'status' => 1])->select('id','enquiry_sales_substatus')->get();
         if (!empty($salesEnqSubStatusList)) {
             $result = ['success' => true, 'records' => $salesEnqSubStatusList];
         } else {
@@ -467,7 +466,7 @@ class AdminController extends Controller {
         return json_encode($result);
     }
     public function getAmenitiesList() {
-        $amenitiesList = MlstBmsbAmenity::select('id','name_of_amenity')->get();
+        $amenitiesList = MlstBmsbAmenity::select('id','name_of_amenity')->where("amenity_status",1)->get();
         if (!empty($amenitiesList)) {
             $result = ['success' => true, 'records' => $amenitiesList];
         } else {
@@ -488,7 +487,7 @@ class AdminController extends Controller {
     
     /****************************UMA************************************/
     public function getWebPageList() {
-        $getpages = WebPage::all();
+        $getpages = WebPage::where("status",1)->get();
         if (!empty($getpages)) {
             $result = ['success' => true, 'records' => $getpages];
         } else {
@@ -498,7 +497,7 @@ class AdminController extends Controller {
     }
 
     public function getPropertyPortalType() {
-        $getPropertyPortal = MlstBmsbPropertyPortal::all();
+        $getPropertyPortal = MlstBmsbPropertyPortal::where("status",1)->get();
         if (!empty($getPropertyPortal)) {
             $result = ['success' => true, 'records' => $getPropertyPortal];
         } else {
@@ -516,7 +515,7 @@ class AdminController extends Controller {
         return json_encode($result);
     }
      public function getFinanceTieupAgency() {
-        $enquiryFinanceTieup = EnquiryFinanceTieup::all();        
+        $enquiryFinanceTieup = EnquiryFinanceTieup::where("status",1)->get();   
         if (!empty($enquiryFinanceTieup)) {
             $result = ['success' => true, 'records' => $enquiryFinanceTieup];
         } else {
@@ -529,7 +528,7 @@ class AdminController extends Controller {
     /***************************MANDAR*********************************/
 
     public function getEmployees() {
-        $getEmployees = Employee::select('id', 'first_name','last_name','designation_id')->get();
+        $getEmployees = Employee::select('id', 'first_name','last_name','designation_id')->where("employee_status",1)->get();
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
         } else {
@@ -542,26 +541,6 @@ class AdminController extends Controller {
         $getclient = ClientInfo::all();
         if (!empty($getclient)) {
             $result = ['success' => true, 'records' => $getclient];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-        }
-        return json_encode($result);
-    }
-
-    public function getVehiclebrands() {
-        $getVehiclebrands = VehicleBrand::all();
-        if (!empty($getVehiclebrands)) {
-            $result = ['success' => true, 'records' => $getVehiclebrands];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-        }
-        return json_encode($result);
-    }
-
-    public function getVehiclemodels() {
-        $getVehiclemodels = VehicleModel::select('*')->where("brand_id", 1)->get();
-        if (!empty($getVehiclemodels)) {
-            $result = ['success' => true, 'records' => $getVehiclemodels];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

@@ -99,6 +99,19 @@ class MasterHrController extends Controller {
         }
         echo json_encode($result);
     }
+    public function checkUniqueEmpId() {  
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $checkEmpIdExist = Employee::select("employee_id")->where([['employee_id', '=', $request['employeeId']],
+            ['id', '<>', $request['recordId']]])->get();
+        
+        if (!empty($checkEmpIdExist[0]['employee_id'])) {
+            $result = ['success' => false, "message" => "Employee id already exist."];
+        } else {
+            $result = ['success' => true];
+        }
+        return \Response::json($result);
+    }
 
     public function changePassword() {
         $postdata = file_get_contents("php://input");
@@ -185,8 +198,7 @@ class MasterHrController extends Controller {
                 $validateEmpPhotoUrl = Validator::make($input, $imgRules);
                 if ($validator->fails()) {
                     $result = ['success' => false, 'message' => $validator->messages()];
-                    echo json_encode($result);
-                    exit;
+                    return json_encode($result);
                 } else {
                     $folderName = 'hr/employee-photos';
                     $imageName = 'hr' . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['employee_photo_file_name']->getClientOriginalExtension();
@@ -281,7 +293,7 @@ class MasterHrController extends Controller {
         $originalValues = Employee::where('id', $id)->get();
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-
+        
         $validationMessages = Employee::validationMessages();
         $validationRules = Employee::validationRules();
         $validationRules['personal_email1'] = 'required|email|unique:employees,personal_email1,' . $id . '';
@@ -289,6 +301,8 @@ class MasterHrController extends Controller {
 
         if (empty($input)) {
             $input = Input::all();
+            if($input['userData']['physic_desc'] == "")
+                $input['userData']['physic_desc'] == "";            
             $validator = Validator::make($input['userData'], $validationRules, $validationMessages);
             if ($validator->fails()) {
                 $result = ['success' => false, 'message' => $validator->messages()];
@@ -328,12 +342,12 @@ class MasterHrController extends Controller {
                     return json_encode($result);
                 } else {
                     $folderName = 'hr/employee-photos';
-                    
                     $path = "/". $folderName. "/" . $originalValues[0]['employee_photo_file_name'];
                     S3::s3FileDelete($path); 
                     
                     $imageName = 'hr_' . $id . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['employee_photo_file_name']->getClientOriginalExtension();
-                    S3::s3FileUplod($input['employee_photo_file_name']->getPathName(), $imageName, $folderName);
+                    $val = S3::s3FileUplod($input['employee_photo_file_name']->getPathName(), $imageName, $folderName);
+                    echo $val;exit;
                 }
                 $input['userData']['employee_photo_file_name'] = $imageName;
             }
@@ -528,9 +542,9 @@ class MasterHrController extends Controller {
             if ($getSubMenus[0]['employee_submenus'] != '') {
                 $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'], true);
             }
+            $parentId = $submenuId = array();
             if (!empty($input['data']['isChecked'])) { //checkbox checked
-                $parentId = $submenuId = array();
-
+                
                 if (!empty($input['data']['parentId'])) {
                     $parentId = array_map(function($el) {
                         return '0' . $el;
@@ -554,15 +568,21 @@ class MasterHrController extends Controller {
                 }
                 $result = ['success' => true];
                 return json_encode($result);
-            } else {//checkbox unchecked
-                echo "<pre>";print_r($input);exit;
+            } else {//checkbox unchecked    
+                
+                if (!empty($input['data']['parentId'])) {
+                    $parentId = array_map(function($el) {
+                        return '0' . $el;
+                    }, $input['data']['parentId']);
+                }
                 $submenuId = array_map(function($el) {
                     return '0' . $el;
                 }, $input['data']['submenuId']);
-                $menuArrDiff = array_diff($getMenuItem, $submenuId); //removes elements
+                $menuArr = array_merge($parentId, $submenuId);
+                
                 if (!empty($getMenuItem)) {
-                    $menuArr = array_unique($menuArrDiff); //merge elements
-                }
+                    $menuArr = array_unique(array_diff($getMenuItem,$menuArr)); //merge elements
+                }                
                 asort($menuArr);
                 $jsonArr = json_encode($menuArr, true);
                 if ($input['data']['moduleType'] === 'roles') {

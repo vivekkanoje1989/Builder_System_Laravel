@@ -81,7 +81,7 @@
                             <label>Birth Date <span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.date_of_birth.$dirty  && userForm.date_of_birth.$invalid)}">
                                 <p class="input-group">
-                                <input type="text" ng-model="userData.date_of_birth" name="date_of_birth" id="date_of_birth" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                <input type="text" ng-model="userData.date_of_birth" name="date_of_birth" id="date_of_birth" value="date_of_birth" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
@@ -169,7 +169,7 @@
                                 <label>Marriage Date<span class="sp-err">*</span></label>
                                 <div ng-controller="DatepickerDemoCtrl">
                                     <p class="input-group">
-                                        <input type="text" ng-model="userData.marriage_date" name="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly ng-required='userData.marital_status == 2'/>
+                                        <input type="text" ng-model="userData.marriage_date" name="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly ng-required='userData.marital_status == 2'/>
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </span>
@@ -198,11 +198,12 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.personal_mobile1.$dirty && userForm.personal_mobile1.$invalid)}">
                                         <label for="">Personal Mobile Number <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">   
-                                            <input type="text" ng-model="userData.personal_mobile1" name="personal_mobile1" id="personal_mobile1" class="form-control" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" ng-model-options="{ updateOn: 'blur' }" ng-change="copyToUsername(userData.personal_mobile1)" required>
+                                            <input type="text" ng-model="userData.personal_mobile1" name="personal_mobile1" id="personal_mobile1" class="form-control" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" ng-model-options="{ updateOn: 'blur' }" ng-change="copyToUsername(userData.personal_mobile1); validateMobile(userData.personal_mobile1,'errPersonalMobile');" required>
                                             <i class="fa fa-phone"></i>
                                             <div ng-show="step2" ng-messages="userForm.personal_mobile1.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
                                                 <div ng-message="pattern">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
+                                                <div>{{ errPersonalMobile }}</div>
                                             </div>
                                         </span>
                                     </div>
@@ -211,11 +212,12 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.office_mobile_no.$dirty && userForm.office_mobile_no.$invalid)}">
                                         <label>Office Mobile Number <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">                                            
-                                            <input type="text" ng-model="userData.office_mobile_no" name="office_mobile_no" id="office_mobile_no" class="form-control" ng-model-options="{ updateOn: 'blur' }" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
+                                            <input type="text" ng-model="userData.office_mobile_no" name="office_mobile_no" id="office_mobile_no" class="form-control" ng-change="validateMobile(userData.office_mobile_no,'errOfficeMobile');" ng-model-options="{ updateOn: 'blur' }" ng-pattern="/^(\+\d{1,4}-)\d{10}$/" required>
                                             <i class="fa fa-phone"></i>
                                             <div ng-show="step2" ng-messages="userForm.office_mobile_no.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
                                                 <div ng-message="pattern">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
+                                                <div>{{ errOfficeMobile }}</div>
                                             </div>
                                         </span>
                                     </div>   
@@ -226,10 +228,11 @@
                                     <div class="form-group">
                                         <label for="">Family Member Mobile No.</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="userData.personal_mobile2" name="personal_mobile2" id="personal_mobile2" class="form-control" placeholder="+91-" ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userData.personal_mobile2)">
+                                            <input type="text" ng-model="userData.personal_mobile2" name="personal_mobile2" id="personal_mobile2" class="form-control" placeholder="+91-" ng-change="validateMobileNumber(userData.personal_mobile2);validateMobile(userData.personal_mobile2,'errFamilyMobile');" ng-model-options="{ updateOn: 'blur' }">
                                             <i class="fa fa-phone"></i>
-                                            <div ng-show="step2 && errMobile" ng-messages="userForm.personal_mobile2.$error" class="help-block step2 {{ applyClassMobile }}">
+                                            <div ng-show="step2 || errMobile || errFamilyMobile" ng-messages="userForm.personal_mobile2.$error" class="help-block step2 {{ applyClassMobile }}">
                                                 <div>{{ errMobile }}</div>
+                                                <div>{{ errFamilyMobile }}</div>
                                             </div>
                                         </span>                               
                                     </div> 
@@ -585,7 +588,7 @@
                                 <label>Joining Date<span class="sp-err">*</span></label>
                                 <div ng-controller="DatepickerDemoCtrl">
                                     <p class="input-group">
-                                        <input type="text" ng-model="userData.joining_date" name="joining_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                        <input type="text" ng-model="userData.joining_date" name="joining_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </span>
@@ -658,17 +661,18 @@
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.employee_id.$dirty && userForm.employee_id.$invalid)}">
                                 <label>Employee Id <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.employee_id" name="employee_id" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
+                                    <input type="text" ng-model="userData.employee_id" name="employee_id" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-change="checkUniqueEmpId(userData.employee_id,'[[$empId]]');" ng-model-options="{ updateOn: 'blur' }" required>
                                     <i class="fa fa-user"></i>
-                                    <div ng-show="step5" ng-messages="userForm.employee_id.$error" class="help-block step5">
+                                    <div ng-show="step5 || duplicateEmpId" ng-messages="userForm.employee_id.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
+                                        <span>{{duplicateEmpId}}</span>
                                     </div>
                                 </span>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password_type.$dirty && userForm.high_security_password_type.$invalid)}">
-                                <label>High security password type <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
+                                <label>High security password type <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right" >
                                     <select ng-model="userData.high_security_password_type" name="high_security_password_type" class="form-control">
                                         <option value="">Select Password Type</option>
@@ -684,7 +688,7 @@
                         </div>
                         <div class="col-sm-3 col-xs-6" ng-if="userData.high_security_password_type == 1">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password.$dirty && userForm.high_security_password.$invalid)}">
-                                <label>High security password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
+                                <label>High security password <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <input type="text" ng-model="userData.high_security_password" name="high_security_password" class="form-control" minlength="4" maxlength="4" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-required='userData.high_security_password_type == 2'>
                                     <i class="fa fa-lock"></i>

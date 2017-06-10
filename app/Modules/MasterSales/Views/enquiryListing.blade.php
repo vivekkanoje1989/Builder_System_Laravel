@@ -6,7 +6,7 @@
                     <label for="search">Show Results:</label>
                 </div>
                 <div class="col-sm-2 col-md-2 col-xs-12">
-                    <input type="number" min="1" max="999" class="form-control" ng-model="itemsPerPage" name="itemsPerPage" ng-change="items(itemsPerPage)">
+                    <input type="text" class="form-control" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model="itemsPerPage" name="itemsPerPage" ng-change="items(itemsPerPage)">
                 </div>
                 <div class="col-sm-6 col-md-8 col-xs-12">
                     <p style="font-size: 12px;">Show Filter Total {{listsIndex.records.length}} Enquiries Found Showing {{(itemsPerPage > listsIndex.records.length) ? listsIndex.records.length : itemsPerPage}} Enquiries</p>

@@ -70,12 +70,12 @@ return [
                 'host' => '192.168.0.150',
             ],
             'write' => [
-                'host' => '192.168.0.150'
+                'host' => '192.168.0.150',
             ],
             'driver' => 'mysql',
             'port' => 3306,
             'database' => 'laravel_developement_master_edynamics',
-            'username' => 'bmsbuilder',
+            'username' =>  'bmsbuilder',
             'password' => 'bms123',
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',

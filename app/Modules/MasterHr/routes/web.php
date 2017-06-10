@@ -15,6 +15,7 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::get('/master-hr/create', ['middleware'=>'check-permission:030102', 'uses' => 'MasterHrController@create']);
     Route::post('/master-hr/', ['middleware'=>'check-permission:030102', 'uses' => 'MasterHrController@store']);
     Route::get('/master-hr/{id}/edit', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@edit']);
+    Route::post('/master-hr/checkUniqueEmpId', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@checkUniqueEmpId']);
     Route::put('/master-hr/{id}', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@update']);
     
     Route::post('/master-hr/manageUsers', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@manageUsers']);

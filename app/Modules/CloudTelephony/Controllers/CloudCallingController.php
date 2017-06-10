@@ -166,20 +166,7 @@ class CloudCallingController extends Controller {
         $arg_caller_number = trim($_GET['caller_number']);
         $arg_caller_number = substr($arg_caller_number, -10);
         
-        $action = "agentnumbers"; //exit;
-//            switch ($action) {
-//                // Find respective model
-//                case 'agentnumbers': // {{{
-//                    $model = Systemconfig::find()->Where(array('client_code' => $arg_client_code, 'app_access_key' => $arg_app_access_key))->one();
-//                    break; // }}}
-//                default: // {{{
-//                    $this->_sendResponse(501, sprintf('Mode <b>agentnumbers</b> is not implemented for action <b>%s</b>', $action));
-//                    exit; // }}}
-//            }
-//
-//            if (empty($model)) {
-//                $this->_sendResponse(404, 'No Client found with attributes ' . $arg_client_code . ' and ' . $arg_app_access_key);
-//            } 
+        $action = "agentnumbers"; 
 
         $virtual_number_row = CtSetting::where("virtual_number", $arg_virtual_number)->first();
 

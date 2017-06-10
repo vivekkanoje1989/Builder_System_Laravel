@@ -164,7 +164,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.hideloader();
                         }
                     } else {//response false
-                        alert("3");
+                        $scope.locations = [];                         
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
                         if ($scope.searchData.searchWithMobile === undefined) {

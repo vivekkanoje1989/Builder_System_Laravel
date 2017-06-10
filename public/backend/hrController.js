@@ -57,10 +57,39 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
         }
     };
     
+    $scope.validateMobile = function(mobNo,label){
+        var mobNoSplit = mobNo.split('-')[1];
+        var firstDigit = mobNoSplit.substring(0, 1);
+        
+        var model = $parse(label);        
+
+        if(mobNoSplit === "0000000000" ){
+            model.assign($scope, "Mobile number should be 10 digits and pattern should be for ex. +91-9999999999");
+            $scope.applyClassMobile = 'ng-active';
+        }else if(firstDigit === "0"){
+            model.assign($scope, "First digit of mobile number should not be 0");
+            $scope.applyClassMobile = 'ng-active';
+        }
+        else{
+            model.assign($scope, "");
+            $scope.errPersonalMobile = "";
+            $scope.applyClassMobile = 'ng-inactive';
+        }    
+    }
+    
     $scope.copyToUsername = function (value) {
         if(typeof value !== "undefined"){
             $scope.userData.username = value.split('-')[1];
         }
+    };
+    $scope.checkUniqueEmpId = function (employeeId,recordId) {
+        Data.post('master-hr/checkUniqueEmpId',{employeeId:employeeId,recordId:recordId}).then(function (response) {
+            if (!response.success) {
+                $scope.duplicateEmpId = response.message;
+            }else{
+                   $scope.duplicateEmpId = '';
+            }
+        });
     };
     /*$scope.checkTitle = function () {
         if ($scope.userData.title_id === "Mrs.")
@@ -140,7 +169,11 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                     $scope.listUsersLength = response.records.total;
                 }
                 else if(action === 'edit'){
-                    if(id !== '0'){
+                     if(id !== '0'){
+                        if(response.records.data[0].current_address == response.records.data[0].permenent_address && response.records.data[0].current_city_id == response.records.data[0].permenent_city_id &&  response.records.data[0].current_country_id == response.records.data[0].permenent_country_id && response.records.data[0].current_pin == response.records.data[0].permenent_pin && response.records.data[0].current_state_id == response.records.data[0].permenent_state_id)
+                        {
+                            $scope.copyContent = true;
+                        }
                         $scope.pageHeading = 'Edit User';
                         $scope.buttonLabel = 'Update';
                         $scope.userData = angular.copy(response.records.data[0]);

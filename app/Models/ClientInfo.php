@@ -37,6 +37,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class ClientInfo extends Eloquent
 {
+        protected $primaryKey = 'id';
+	protected $connection = 'masterdb';
 	public $timestamps = false;
 
 	protected $casts = [

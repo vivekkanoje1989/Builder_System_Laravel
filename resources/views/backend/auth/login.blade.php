@@ -61,9 +61,7 @@
                                 <div ng-message="minlength">Too short (Minimum length is 4 characters)</div>
                                 <div ng-message="wrongCredentials">Wrong security password!</div>                                
                             </div>
-                        </div>
-                        <br>
-                        <hr>
+                        </div><br><hr>
                         <div class="group-div" align="center">
                             <button type="submit" ng-click="next3=true" class="sub-btn">Login</button>
                         </div>

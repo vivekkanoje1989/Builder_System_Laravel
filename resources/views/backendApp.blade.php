@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" ng-app="app" ng-controller="AppCtrl">
     <head>
-        <meta charset="utf-8" />
-        
+        <meta charset="utf-8" />        
         <base href="/">
         <meta name="description" content="blank page" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +10,7 @@
         <link rel="shortcut icon" href="/backend/assets/img/favicon.png" type="image/x-icon">
 
         <?php if($_SERVER['REQUEST_URI'] == "/office.php"){ ?>
-        <title page-title>BMS Builder Admin</title>
+        <title page-title></title>       
         <!--Basic Styles-->
         <link href="/backend/assets/css/bootstrap.min.css" rel="stylesheet" />
         <link ng-if="settings.rtl" ng-href="/backend/assets/css/bootstrap-rtl.min.css" rel="stylesheet" />
