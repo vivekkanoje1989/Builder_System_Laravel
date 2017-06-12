@@ -1,6 +1,6 @@
 app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$state', function ($scope, Data, $rootScope, $timeout, toaster, $state)
 {
-    $scope.currentPage = $scope.itemsPerPage = 4;
+    $scope.itemsPerPage = 30
     $scope.noOfRows = 1;
     $scope.listDepartmentOnCreate = [];
     $scope.pageHeading = "Create Email Account";

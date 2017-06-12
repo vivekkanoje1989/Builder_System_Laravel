@@ -1,6 +1,6 @@
 app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function ($scope, Data, toaster, $state) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.request = {};
         $scope.getEmployees = function () {

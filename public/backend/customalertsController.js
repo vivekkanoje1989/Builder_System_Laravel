@@ -7,7 +7,7 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
     $scope.templateEvents = [];
     $scope.isDisabled = false;
     $scope.customAlertData.client_id = 1;
-    $scope.currentPage =  $scope.itemsPerPage = 10; 
+    $scope.itemsPerPage = 30; 
     $scope.noOfRows = 1;
    
     $scope.getTemplatesEvents = function(){

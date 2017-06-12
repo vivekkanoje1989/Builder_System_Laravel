@@ -1,7 +1,7 @@
 app.controller('enquiryLocationCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.enquiryLocation = function () {
             Data.get('enquiry-location/enquiryLocation').then(function (response) {

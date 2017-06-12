@@ -285,6 +285,7 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
     };
 });
 app.controller('currentCountryListCtrl', function ($scope, Data) {
+    $("#current_country_id").val("101");
     Data.get('getCountries').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;
@@ -330,6 +331,7 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
     };
 });
 app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
+
     Data.get('getCountries').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;

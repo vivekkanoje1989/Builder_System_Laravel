@@ -2,7 +2,7 @@
 app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', 'toaster', function ($scope, Data, $timeout, Upload, $state, toaster) {
 
         $scope.blogId = 0;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageBlogs = function () {
             Data.post('manage-blog/manageBlogs').then(function (response) {

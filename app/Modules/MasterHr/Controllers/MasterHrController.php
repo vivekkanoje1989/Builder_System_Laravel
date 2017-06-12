@@ -343,22 +343,19 @@ class MasterHrController extends Controller {
                 } else {
                     $folderName = 'hr/employee-photos';
                     $path = "/". $folderName. "/" . $originalValues[0]['employee_photo_file_name'];
-                    S3::s3FileDelete($path); 
                     
                     $imageName = 'hr_' . $id . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['employee_photo_file_name']->getClientOriginalExtension();
                     $val = S3::s3FileUplod($input['employee_photo_file_name']->getPathName(), $imageName, $folderName);
-                    echo $val;exit;
                 }
                 $input['userData']['employee_photo_file_name'] = $imageName;
             }
         } else {
             $input['userData']['employee_photo_file_name'] = "a.jpg";
         }
-        /*         * ************************* EMPLOYEE PHOTO UPLOAD ********************************* */
+        /*************************** EMPLOYEE PHOTO UPLOAD **********************************/
 
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
-        //
         $employeeUpdate = Employee::where('id', $id)->update($input['userData']);
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData = $originalValues[0]['attributes']['password'];

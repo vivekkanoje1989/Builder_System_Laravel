@@ -1,6 +1,6 @@
 app.controller('highestEducationCtrl', ['$scope', 'Data', function ($scope, Data) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageHighestEducation = function () {
             Data.post('highest-education/manageHighestEducation').then(function (response) {

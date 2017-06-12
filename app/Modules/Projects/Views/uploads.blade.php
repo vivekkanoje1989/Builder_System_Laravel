@@ -2,25 +2,25 @@
     <div class="col-lg-12 col-sm-6 col-xs-12">
         <tabset class="tabs-left">
             <tab heading="Images">
-                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/images'"></div>
+                <div data-ng-include=" '/projects/uploads/images'"></div>
             </tab>
             <tab heading="Status">
-                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/status' "></div>
+                <div data-ng-include=" '/projects/uploads/status' "></div>
             </tab>
             <tab heading="Layout">
-               <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/layouts' "></div>
+               <div data-ng-include=" '/projects/uploads/layouts' "></div>
             </tab>
             <tab heading="Map">
-                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/maps' "></div>
+                <div data-ng-include=" '/projects/uploads/maps' "></div>
             </tab>
             <tab heading="Amenities">
-                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/amenities' "></div>
+                <div data-ng-include=" '/projects/uploads/amenities' "></div>
             </tab>
             <tab heading="Specification">
-                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/specification' "></div>
+                <div data-ng-include=" '/projects/uploads/specification' "></div>
             </tab>
             <tab heading="Gallery">
-                <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads/gallery' "></div>
+                <div data-ng-include=" '/projects/uploads/gallery' "></div>
             </tab>
         </tabset>
         <div class="horizontal-space"></div>

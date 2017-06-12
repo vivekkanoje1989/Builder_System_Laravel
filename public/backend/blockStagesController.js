@@ -1,6 +1,6 @@
 app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', function ($scope, Data, $rootScope, $timeout, toaster) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.blockStages = function () {
             Data.post('block-stages/manageBlockStages').then(function (response) {

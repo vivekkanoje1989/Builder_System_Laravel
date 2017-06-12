@@ -1,7 +1,7 @@
 app.controller('lostReasonsController', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
         $scope.heading = 'Create Lost Reason';
         $scope.noOfRows = 1;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.manageLostReasons = function () {
             $scope.modal = {};
             Data.post('lost-reasons/manageLostReason').then(function (response) {

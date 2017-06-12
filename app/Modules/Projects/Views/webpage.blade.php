@@ -17,13 +17,13 @@
             <div class="col-lg-12 col-sm-6 col-xs-12" ng-if="projectDetails">
                 <tabset>
                     <tab heading="Website Settings">
-                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/basicinfo' "></div>
+                        <div data-ng-include=" '/projects/basicinfo' "></div>
                     </tab>
                     <tab heading="Uploads" class="uploadsTab">
-                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/uploads' "></div>
+                        <div data-ng-include=" '/projects/uploads' "></div>
                     </tab>
                     <tab heading="Project Inventory" ng-click="getProjectInventory(0)">
-                        <div data-ng-include=" '[[ config('global.getUrl') ]]/projects/inventory' "></div>
+                        <div data-ng-include=" '/projects/inventory' "></div>
                     </tab>
                     <tab heading="Floor Inventory">
                         <p>Floor Inventory</p>

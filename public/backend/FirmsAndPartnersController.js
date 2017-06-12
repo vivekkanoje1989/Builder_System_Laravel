@@ -1,7 +1,7 @@
 app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', function ($scope, Data, Upload, toaster, $state) {
 
         $scope.noOfRows = 1;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
                 $scope.CompanyRow = response.result;

@@ -19,6 +19,9 @@ Route::get('/', function () {
 Route::get('/error500', function () {
     return view('layouts.backend.error500');
 });
+Route::get('/undercConstruction', function () {
+    return view('layouts.backend.pageUnderConstruction');
+});
 Route::post('/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
 Route::get('/layout', function () {
     return view('layouts.backend.layout');

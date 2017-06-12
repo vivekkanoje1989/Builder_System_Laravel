@@ -117,6 +117,27 @@
         <script src="/backend/app/directives/navbar.js"></script>
         <script src="/backend/app/directives/chatbar.js"></script>
         <script src="/backend/app/directives/widget.js"></script>
+        <script>
+        $(document).ready(function(){
+            setTimeout(function(){
+                $("ul#cstmenu > li > a").click(function () {
+                    $('ul#cstmenu > li > ul.submenu').not($(this).siblings()).slideUp();
+                    $(this).siblings("ul.submenu").slideToggle();
+                });
+
+                $("#cstmenu > li > ul > li > a").click(function () {
+                    $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();
+                    $(this).siblings("ul.submenu").slideToggle();
+                });
+                
+                $("#cstmenu > li > ul > li > ul > li > a").click(function () {
+                    $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).slideUp();
+                    $(this).siblings("ul.submenu").slideToggle();
+                });
+                
+            }, 500);
+        });
+        </script>
         <?php }else{ ?>
         <div ng-view></div>
         <?php }?>

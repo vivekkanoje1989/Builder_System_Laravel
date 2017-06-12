@@ -9,7 +9,7 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
     $scope.alertData.physic_status_id = $scope.alertData.marital_status = $scope.alertData.highest_education_id =
     $scope.alertData.current_country_id = $scope.alertData.current_state_id = $scope.alertData.current_city_id =
     $scope.alertData.permenent_country_id = $scope.alertData.permenent_state_id = $scope.alertData.permenent_city_id = "";
-    $scope.currentPage =  $scope.itemsPerPage = 4; 
+    $scope.itemsPerPage = 30; 
     $scope.noOfRows = 1;
     
     $scope.checkDepartment = function () {

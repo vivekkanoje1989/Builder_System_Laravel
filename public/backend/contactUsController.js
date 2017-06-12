@@ -1,6 +1,6 @@
 app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageContactUs = function () {
             Data.post('contact-us/manageContactUs').then(function (response) {

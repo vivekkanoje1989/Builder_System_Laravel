@@ -166,7 +166,7 @@ $scope.registrationNumber = function (registrationData) {
                     $scope.listNumbers = response.records.data;
                     $scope.listNumbersLength = response.records.total;
                     $scope.currentPage = 1;
-                    $scope.itemsPerPage = 50;
+                    $scope.itemsPerPage = 30;
                 }
                 else if(action === 'edit'){
                     if(id !== '0'){
@@ -202,7 +202,7 @@ $scope.registrationNumber = function (registrationData) {
                     $scope.listNumbers = response.records.data;
                     $scope.listNumbersLength = response.records.total;
                     $scope.currentPage = 1;
-                    $scope.itemsPerPage = 50;
+                    $scope.itemsPerPage = 30;
                 }
                 else if(action === 'edit'){
                     if(id !== '0'){
@@ -290,7 +290,7 @@ $scope.registrationNumber = function (registrationData) {
                     $scope.listNumbersLength = response.records.total;
                     $scope.virtualno = response.records.virtualno;
                     $scope.currentPage = 1;
-                    $scope.itemsPerPage = 10;
+                    $scope.itemsPerPage = 30;
                     
                 }
             } else {

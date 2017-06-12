@@ -1,7 +1,7 @@
 'use strict';
 app.controller('bloodGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageBloodGroup = function () {
             Data.post('blood-groups/manageBloodGroup').then(function (response) {

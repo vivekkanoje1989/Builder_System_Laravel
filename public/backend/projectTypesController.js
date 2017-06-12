@@ -1,16 +1,14 @@
 app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.noOfRows = 1;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.manageProjectTypes = function () {
             Data.post('project-types/manageProjectTypes').then(function (response) {
                 $scope.ProjectTypesRow = response.records;
             });
         };
         $scope.initialModal = function (id, project_type, index, index1) {
-
-            if (id == 0)
-            {
+            if (id == 0){
                 $scope.heading = 'Add Project Types';
                 $scope.id = '0';
                 $scope.project_type = '';
@@ -21,7 +19,6 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
                 $scope.project_type = project_type;
                 $scope.action = 'Update';
             }
-
             $scope.sbtBtn = false;
             $scope.index = index * ($scope.noOfRows - 1) + (index1);
         }
@@ -31,8 +28,7 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
             {
                 Data.post('project-types/', {
                     project_type: $scope.project_type}).then(function (response) {
-                    if (!response.success)
-                    {
+                    if (!response.success){
                         $scope.errorMsg = response.errormsg;
                     } else {
 
@@ -61,5 +57,4 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
     }]);

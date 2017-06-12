@@ -1,6 +1,6 @@
 app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageCities = function () {
             Data.get('manage-city/manageCity').then(function (response) {

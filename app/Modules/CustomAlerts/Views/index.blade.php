@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-sm-3 col-xs-12">
                         <label for="search">Records per page:</label>
-                        <input type="number" min="1" max="50" style="width:30%;" class="form-control" ng-model="itemsPerPage">
+                        <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
                     </div>
                 </div><br>
                 <table class="table table-hover table-striped table-bordered" at-config="config">

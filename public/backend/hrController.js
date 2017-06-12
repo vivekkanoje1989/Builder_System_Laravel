@@ -5,13 +5,15 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
     $scope.listUsers = [];
     $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
     $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
-    $scope.userData.current_country_id = $scope.userData.current_state_id = $scope.userData.current_city_id =
-    $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = "";
+    $scope.userData.current_state_id = $scope.userData.current_city_id =
+    $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = "";
     $scope.userData.employee_status = "1";
     $scope.userData.personal_mobile1 = $scope.userData.office_mobile_no = $scope.userData.personal_mobile2 = $scope.userData.personal_landline_no = "+91-";
     $scope.disableCreateButton = false;
-    $scope.currentPage =  $scope.itemsPerPage = 4;
+    $scope.currentPage =  $scope.itemsPerPage = 30;
     $scope.noOfRows = 1;
+    $scope.userData.high_security_password_type = 0;
+    $scope.userData.current_country_id = $scope.userData.permenent_country_id = 101;
     
     $scope.validateMobileNumber = function (value) {
         var regex = /^(\+\d{1,4}-)\d{10}$/;
@@ -27,7 +29,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
     $scope.validateLandlineNumber = function (value) {
         var regex = /^(\+\d{1,4}-\d{1,4})\d{6}$/;
         if(!regex.test(value)){
-            $scope.errLandline = "Landline number should be 12 digits and pattern should be for ex. +91-1234-999999";
+            $scope.errLandline = "Landline number should be 12 digits and pattern should be for ex. +91-1234999999";
             $scope.applyClass = 'ng-active';
         }
         else{
@@ -91,17 +93,6 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
             }
         });
     };
-    /*$scope.checkTitle = function () {
-        if ($scope.userData.title_id === "Mrs.")
-        {
-            $scope.userData.marital_status = "2";
-            $("#marital_status").prop("disabled","disabled");
-        }
-        else{
-            $scope.userData.marital_status = "1";
-            $("#marital_status").removeAttr("disabled");
-        }
-    }*/
 
     $scope.createUser = function (enteredData, employeePhoto, empId) {
         var userData = {};        
@@ -189,12 +180,15 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                             var personal_mobile_no2_code = '+' + response.records.data[0].personal_mobile2_calling_code + '-';
                             $scope.userData.personal_mobile2 = personal_mobile_no2_code + angular.copy(response.records.data[0].personal_mobile2);
                         }else{$scope.userData.personal_mobile2 = "+91-";}
-                        
-                        if (response.records.data[0].personal_landline_calling_code !== null) {
+                       
+                        if(response.records.data[0].personal_landline_calling_code == 0){
+                            $scope.userData.personal_landline_no = "+91-";
+                        }
+                        else if (response.records.data[0].personal_landline_calling_code !== null) {
                             var landlineNo = '+'+response.records.data[0].personal_landline_calling_code + '-';
                             var landLineNumber=""+response.records.data[0].personal_landline_no;
                             $scope.userData.personal_landline_no = landlineNo +landLineNumber;
-                        }else{$scope.userData.personal_landline_no = "+91-";}
+                        }
                         if (response.records.data[0].office_email_id === null || response.records.data[0].office_email_id === '') {                                
                             $scope.userData.office_email_id = '';
                         }
@@ -207,7 +201,6 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
                         $scope.userData.passwordOld = response.records.data[0].password;
                         var current_country = response.records.data[0].current_country_id;
                         var current_state = response.records.data[0].current_state_id;
-
                         Data.post('getStates', {
                             data: {countryId: current_country},
                         }).then(function (response) {

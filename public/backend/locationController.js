@@ -1,16 +1,13 @@
 app.controller('locationCtrl', ['$scope', 'Data', function ($scope, Data) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageLocation = function () {
-            Data.post('manage-location/manageLocation').then(function (response) {
-             
+            Data.post('manage-location/manageLocation').then(function (response) {             
                 $scope.locationRow = response.records;
-
             });
         };
         $scope.initialModal = function (id, name, index, index1,status) {
-
             $scope.heading = 'Location';
             $scope.id = id;
             $scope.name = name;
@@ -29,11 +26,9 @@ app.controller('locationCtrl', ['$scope', 'Data', function ($scope, Data) {
                     } else {
                         $scope.locationRow.push({'location_type': $scope.name,id:response.lastinsertid,status:$scope.status});
                         $('#LocationModal').modal('toggle');
-                      //  $scope.success("Location details created successfully");
                     }
                 });
             } else { //for update
-
                 Data.put('manage-location/'+$scope.id, {
                     location_type: $scope.name, id: $scope.id,status:$scope.status}).then(function (response) {
 
@@ -45,14 +40,10 @@ app.controller('locationCtrl', ['$scope', 'Data', function ($scope, Data) {
                         $scope.locationRow.splice($scope.index - 1, 0, {
                             location_type: $scope.name, id: $scope.id,status:$scope.status});
                         $('#LocationModal').modal('toggle');
-                        // $scope.success("Location details Updated successfully");
                     }
                 });
             }
         }
-        $scope.success = function(message) {
-               Flash.create('success', message);
-           };
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

@@ -2,7 +2,7 @@
 /*******************************MANOJ*********************************/
 app.controller('contactUsCtrl', ['$scope', 'Data', function ($scope, Data) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageContactUs = function () {
             Data.get('website_settings/manageContactUs').then(function (response) {

@@ -24,7 +24,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
     $scope.specificationTitle = [];
     $scope.floorTitle = [];
     $scope.layoutTitle = [];
-    $scope.currentPage =  $scope.itemsPerPage = 4;
+    $scope.itemsPerPage = 30;
     $scope.noOfRows = 1;
    
     $scope.pageChangeHandler = function(num) {

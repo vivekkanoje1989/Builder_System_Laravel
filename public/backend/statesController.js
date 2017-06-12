@@ -1,6 +1,6 @@
 app.controller('statesCtrl', ['$scope', 'Data', function ($scope, Data) {
         $scope.noOfRows = 1;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.manageStates = function () {
             Data.get('manage-states/manageStates').then(function (response) {
                 $scope.statesRow = response.records;

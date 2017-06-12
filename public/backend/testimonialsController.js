@@ -1,6 +1,6 @@
 app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', function ($scope, Data, Upload, toaster) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.testimonial_id = 0;
         $scope.approve_status = $scope.web_status= '1';

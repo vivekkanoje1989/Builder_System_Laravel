@@ -16,11 +16,11 @@
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>
             <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
                 <ul class="steps">
-                    <li class="wiredstep1 active"><span class="step">1</span><span class="title">Step 1</span><span class="chevron"></span></li>
-                    <li class="wiredstep2"><span class="step">2</span><span class="title">Step 2</span> <span class="chevron"></span></li>
-                    <li class="wiredstep3"><span class="step">3</span><span class="title">Step 3</span> <span class="chevron"></span></li>
-                    <li class="wiredstep4"><span class="step">4</span><span class="title">Step 4</span> <span class="chevron"></span></li>
-                    <li class="wiredstep5"><span class="step">5</span><span class="title">Step 5</span> <span class="chevron"></span></li>
+                    <li class="wiredstep1 active"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
+                    <li class="wiredstep2"><span class="step">2</span><span class="title">Contact Information</span> <span class="chevron"></span></li>
+                    <li class="wiredstep3"><span class="step">3</span><span class="title">Educational & Other Details</span> <span class="chevron"></span></li>
+                    <li class="wiredstep4"><span class="step">4</span><span class="title">Job Offer Details</span> <span class="chevron"></span></li>
+                    <li class="wiredstep5"><span class="step">5</span><span class="title">User Status</span> <span class="chevron"></span></li>
                 </ul>
             </div>
             <div class="step-content" id="WiredWizardsteps">
@@ -108,7 +108,7 @@
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.physic_status.$dirty && userForm.physic_status.$invalid)}">
-                                <label for="">Physic <span class="sp-err">*</span></label>
+                                <label for="">Physical Status <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right" required>
                                     <select ng-model="userData.physic_status" name="physic_status" class="form-control" placeholder="Select Physic" required>
                                         <option value="">Select Physic Status</option>
@@ -124,7 +124,7 @@
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group">
-                                <label for="">Physic Description</label>
+                                <label for="">Physical Description</label>
                                 <span class="input-icon icon-right">
                                     <textarea ng-model="userData.physic_desc" name="physic_desc" class="form-control" maxlength="50" ng-disabled="(userData.physic_status == '2') ? false : true"></textarea>
                                     <i class="fa fa-align-left"></i>
@@ -257,7 +257,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.personal_email1.$dirty && userForm.personal_email1.$invalid)}">
                                         <label for="">Email <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userData.personal_email1" name="personal_email1" class="form-control" check-unique-email ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
+                                            <input type="email" ng-model="userData.personal_email1" name="personal_email1" class="form-control" maxlength="50" check-unique-email ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userForm.personal_email1.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
@@ -272,7 +272,7 @@
                                     <div class="form-group">
                                         <label for=""> Office Email</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userData.office_email_id" name="office_email_id" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="form-control">
+                                            <input type="email" ng-model="userData.office_email_id" name="office_email_id" maxlength="50" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="form-control">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userForm.office_email_id.$error" class="help-block step2">
                                                 <div ng-message="email">Invalid email address.</div>
@@ -287,9 +287,9 @@
                                     <div class="form-group">
                                         <label for=""> Alternate Email</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userData.personal_email2" name="personal_email2" class="form-control">
+                                            <input type="email" ng-model="userData.personal_email2" name="personal_email2" maxlength="50" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="form-control">
                                             <i class="fa fa-envelope"></i>
-                                            <div ng-show="step2" ng-messages="userForm.personal_email2.$error" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="help-block step2">
+                                            <div ng-show="step2" ng-messages="userForm.personal_email2.$error" class="help-block step2">
                                                 <div ng-message="email">Invalid email address.</div>
                                                 <div ng-message="pattern">Invalid email address.</div>
                                             </div>
@@ -371,7 +371,7 @@
                                     <label for="">Pin code <span class="sp-err">*</span></label>
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.current_pin.$dirty && userForm.current_pin.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="userData.current_pin" name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
+                                            <input type="text" ng-model="userData.current_pin" name="current_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2" ng-messages="userForm.current_pin.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
@@ -383,20 +383,20 @@
                         </div>
                         <div class="col-sm-6 col-xs-12" ng-controller="permanentCountryListCtrl">
                             <div class="form-title">
+                                Permanent Address&nbsp;&nbsp;
                                 <span class="checkbox" style="display:inline-block;margin: 0;">
                                     <label>
                                         <input type="checkbox" ng-model="copyContent" ng-change="checkboxSelected(copyContent)">
-                                        <span class="text"> Same as Left</span>
+                                        <span class="text"> Same as Correspondence Address</span>
                                     </label>
                                 </span>	
-                                &nbsp;&nbsp;:&nbsp;Permanent Address
                             </div>
                             <div class="row">  
                                 <div class="col-sm-12 col-xs-12">
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_address.$invalid)}">
                                         <label for="">Permanent Address <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="userData.permenent_address" name="permenent_address" class="form-control" required></textarea>
+                                            <textarea ng-model="userData.permenent_address" name="permenent_address" maxlength="255" class="form-control" required></textarea>
                                             <i class="fa fa-map-marker"></i>                                            
                                             <div ng-show="step2" ng-messages="userForm.permenent_address.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
@@ -410,7 +410,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_country_id.$invalid)}">
                                         <label for="">Select Country <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <select ng-change="onPCountryChange()" ng-model="userData.permenent_country_id" name="permenent_country_id" class="form-control" required>
+                                            <select ng-change="onPCountryChange()" ng-model="userData.permenent_country_id" name="permenent_country_id" id="permenent_country_id" class="form-control" required>
                                                 <option value="">Select Country</option>
                                                 <option ng-repeat="country in countryList" value="{{country.id}}" ng-selected="{{ country.id == userData.permenent_country_id}}">{{country.name}}</option>
                                             </select>
@@ -457,7 +457,7 @@
                                     <label for="">Pin Code <span class="sp-err">*</span></label>
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (userForm.permenent_pin.$invalid)}">
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="userData.permenent_pin" name="permenent_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
+                                            <input type="text" ng-model="userData.permenent_pin" name="permenent_pin" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="6" required>
                                             <i class="fa fa-map-pin"></i>
                                             <div ng-show="step2" ng-messages="userForm.permenent_pin.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
@@ -506,16 +506,15 @@
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step3 && (userForm.employee_photo_file_name.$invalid)}">
-                                <label for="">Employee Photo ( W 105 X H 120 )<span class="sp-err">*</span></label>
+                                <label for="">Employee Photo ( W 105 X H 120 )</label>
                                 <span class="input-icon icon-right">
-                                    <input type="file" ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.employee_photo_file_name)">
-                                    <img ng-if="!employee_photo_file_name_preview" ng-src="[[ Session::get('s3Path') ]]hr/employee-photos/{{imgUrl}}" class="thumb photoPreview">
+                                    <input type="file" ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.employee_photo_file_name)">
+                                    <img ng-if="!employee_photo_file_name_preview" ng-src="[[ Config('global.s3Path') ]]hr/employee-photos/{{imgUrl}}" class="thumb photoPreview">
                                     <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
                                         <img ng-src="{{list}}" class="thumb photoPreview">
                                     </div>
                                     <div ng-show="step3 || employee_photo_file_name_err" ng-messages="userForm.employee_photo_file_name.$error" class="help-block step3">
                                         <span class="help-block" ng-show="employee_photo_file_name_err">{{employee_photo_file_name_err}}</span>
-                                        <div ng-message="required">This field is required.</div>
                                         <i ng-show="userForm.employee_photo_file_name.$error.maxSize">File too large {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
                                     </div>
                                 </span>                                                   
@@ -639,13 +638,13 @@
                                             <span class="text">Active </span>
                                         </label>
                                     </div>
-                                    <div class="radio">
+                                    <div class="radio" ng-if="[[ $empId ]] != 0">
                                         <label>
                                             <input name="form-field-radio" type="radio" ng-model="userData.employee_status" value="2" class="colored-blue">
                                             <span class="text">  Temporary Suspended </span>
                                         </label>
                                     </div>
-                                    <div class="radio">
+                                    <div class="radio" ng-if="[[ $empId ]] != 0">
                                         <label>
                                             <input name="form-field-radio" type="radio" ng-model="userData.employee_status" value="3" class="colored-danger">
                                             <span class="text"> Permanently Suspended  </span>
@@ -690,7 +689,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.high_security_password.$dirty && userForm.high_security_password.$invalid)}">
                                 <label>High security password <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.high_security_password" name="high_security_password" class="form-control" minlength="4" maxlength="4" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-required='userData.high_security_password_type == 2'>
+                                    <input type="password" ng-model="userData.high_security_password" name="high_security_password" class="form-control" minlength="4" maxlength="4" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-required='userData.high_security_password_type == 2'>
                                     <i class="fa fa-lock"></i>
                                     <div ng-show="step5" ng-messages="userForm.high_security_password.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
@@ -710,7 +709,7 @@
                                 </span>
                             </div>
                         </div>                        
-                        <div class="col-sm-3 col-xs-6" ng-if="[[ $empId ]] == 0">
+<!--                        <div class="col-sm-3 col-xs-6" ng-if="[[ $empId ]] == 0">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userForm.password.$dirty && userForm.password.$invalid)}">
                                 <label>Password <span ng-show="[[ $empId ]] == 0" class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
@@ -737,8 +736,7 @@
                                     </div>
                                 </span>
                             </div>
-                        </div>
-
+                        </div>-->
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">

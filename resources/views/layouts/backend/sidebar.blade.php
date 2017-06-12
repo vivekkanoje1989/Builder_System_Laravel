@@ -7,9 +7,9 @@
 <!-- /Page Sidebar Header -->
 <!-- Sidebar Menu -->
 
-<ul class="nav sidebar-menu" ng-controller="adminController">
+<ul class="nav sidebar-menu" ng-controller="adminController" id="cstmenu">
     <li ng-repeat="parent in getMenu.mainMenu" ui-sref-active="{{ parent.uiSrefActive }}" class="{{ parent.liclass }}">
-        <a ng-if='!parent.has_submenu' ui-sref="admin{{ parent.slug }}" class="{{ parent.anchorClass }}" ng-Click="checkPermission('{{ parent.slug }}')">
+        <a ng-if='!parent.has_submenu' ui-sref="{{ parent.slug }}" class="{{ parent.anchorClass }}" ng-Click="checkPermission('{{ parent.slug }}')">
             <p class="{{ parent.icon }}"></p>
             <span class="menu-text"> {{ parent.name }} </span>
             <i class="menu-expand"></i>
@@ -57,4 +57,3 @@
 <!-- /Sidebar Menu -->
 
 <toaster-container toaster-options="{'time-out': 2000,'position-class': 'toast-center', 'close-button':true}"></toaster-container>
-

@@ -1,7 +1,7 @@
 app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.noOfRows = 1;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.manageProfession = function () {
             Data.post('manage-profession/manageProfession').then(function (response) {
                 $scope.professionRow = response.records;

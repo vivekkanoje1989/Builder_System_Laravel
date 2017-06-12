@@ -1,7 +1,7 @@
 app.controller('projectpaymentController', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.noOfRows = 1;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.fix_stage = 1;
         $scope.manageProjectPaymentStages = function () {
             Data.post('project-payment/manageProjectPaymentStages').then(function (response) {

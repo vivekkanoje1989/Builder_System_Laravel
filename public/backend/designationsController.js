@@ -1,6 +1,6 @@
 app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageDesignations = function () {
             Data.post('manage-designations/manageDesignations').then(function (response) {

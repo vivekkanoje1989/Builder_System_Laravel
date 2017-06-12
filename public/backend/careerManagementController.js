@@ -2,7 +2,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
 
         $scope.display_portal = 1;
         $scope.id = 0;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.career = {};
         $scope.manageCareers = function () {

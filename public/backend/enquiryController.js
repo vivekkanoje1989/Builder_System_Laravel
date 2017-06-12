@@ -3,7 +3,7 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
         $scope.searchData = {};
         $scope.filterData = {};
         $scope.listsIndex = {};
-        $scope.itemsPerPage = 10;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.historyList = {};
         $scope.divText = true;

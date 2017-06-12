@@ -1,6 +1,6 @@
 app.controller('socialwebsitesCtrl', ['$scope', 'Data', function ($scope, Data) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageSocialWebsite = function () {
             Data.post('social-website/manageSocialWebsite').then(function (response) {

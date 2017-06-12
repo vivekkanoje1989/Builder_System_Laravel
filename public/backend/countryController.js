@@ -1,6 +1,6 @@
 app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageCountry = function () {
             Data.get('manage-country/manageCountry').then(function (response) {

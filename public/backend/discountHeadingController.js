@@ -1,6 +1,6 @@
 app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'toaster', function ($scope, Data, $rootScope, toaster) {
 
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
 
         $scope.manageDiscountHeading = function () {

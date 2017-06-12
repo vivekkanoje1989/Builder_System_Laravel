@@ -71,22 +71,18 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12">
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_short_description.$dirty && blogsForm.blog_short_description.$invalid) }">
-                                            <label>Short description</label>
                                             <span class="input-icon icon-right">
-                                                <div class="col-lg-12 col-sm-12 col-xs-12">
-                                                    <div class="widget flat radius-bordered">
-                                                        <div class="widget-header bordered-bottom bordered-themeprimary"></div>         
-                                                        <div class="widget-body no-padding">   
-                                                            <div class="form-group">
-                                                                <div text-angular name="blog_short_description"  capitalizeFirst ng-model="blog_short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
-                                                            </div>
+                                                <div class="widget flat radius-bordered">
+                                                    <div class="widget-header bordered-bottom bordered-themeprimary"><span class="widget-caption">Short Description</span></div>         
+                                                    <div class="widget-body no-padding">   
+                                                        <div class="form-group">
+                                                            <div text-angular name="blog_short_description"  capitalizeFirst ng-model="blog_short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
                                                         </div>
-                                                    </div> 
-                                                    <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_short_description.$error">
-                                                        <div ng-message="required">Short description is required</div>
                                                     </div>
-                                                    <br/>
-                                                </div>
+                                                </div> 
+                                                <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_short_description.$error">
+                                                    <div ng-message="required">Short description is required</div>
+                                                </div><br/>
                                             </span>
                                         </div> 
                                     </div>
@@ -94,22 +90,18 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12">
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_description.$dirty && blogsForm.blog_description.$invalid) }">
-                                            <label>Brief description</label>
                                             <span class="input-icon icon-right">
-                                                <div class="col-lg-12 col-sm-12 col-xs-12">
-                                                    <div class="widget flat radius-bordered">
-                                                        <div class="widget-header bordered-bottom bordered-themeprimary">
-                                                        </div>         
-                                                        <div class="widget-body no-padding">   
-                                                            <div class="form-group">
-                                                                <div text-angular name="blog_description" capitalizeFirst ng-model="blog_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
-                                                            </div>
+                                                <div class="widget flat radius-bordered">
+                                                    <div class="widget-header bordered-bottom bordered-themeprimary"><span class="widget-caption">Brief Description</span></div>         
+                                                    <div class="widget-body no-padding">   
+                                                        <div class="form-group">
+                                                            <div text-angular name="blog_description" capitalizeFirst ng-model="blog_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
                                                         </div>
-                                                    </div> 
-                                                    <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_description.$error">
-                                                        <div ng-message="required">Description is required</div>
-                                                    </div> <br/>
-                                                </div>
+                                                    </div>
+                                                </div> 
+                                                <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_description.$error">
+                                                    <div ng-message="required">Description is required</div>
+                                                </div> <br/>
                                             </span>
                                         </div>
                                     </div> 

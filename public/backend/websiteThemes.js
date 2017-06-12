@@ -1,7 +1,7 @@
 app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', function ($scope, Data, Upload, $timeout, toaster) {
 
         $scope.noOfRows = 1;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.manageThemes = function () {
             Data.post('website/getThemes').then(function (response) {
                 $scope.themesRow = response.records;

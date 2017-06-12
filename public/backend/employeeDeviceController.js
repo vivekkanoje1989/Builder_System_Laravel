@@ -1,6 +1,6 @@
 'use strict';
 app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', function ($scope, $state, Data, toaster) {
-        $scope.currentPage = $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         
         $scope.pageChangeHandler = function(num) {

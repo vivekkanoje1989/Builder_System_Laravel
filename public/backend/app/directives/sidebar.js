@@ -36,7 +36,7 @@ angular.module('app')
                     }
                     if (isCompact && $(submenu.parentNode.parentNode).hasClass("sidebar-menu"))
                         return false;
-                    $(submenu).slideToggle(200).parent().toggleClass("open");
+//                    $(submenu).slideToggle(200).parent().toggleClass("open");
                     return false;
                 });
             }

@@ -1,6 +1,6 @@
 'use strict';
 app.controller('autoassignEnquiriesCtrl', ['$scope', 'Data', function ($scope, Data) {
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.manageEnquiries = function () {
             Data.post('assign-enquiry/manageAutoEnquiries').then(function (response) {

@@ -1,7 +1,7 @@
 app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', function ($scope, Data, $rootScope, $timeout, toaster) {
 
         $scope.noOfRows = 1;
-        $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.manageBlockTypes = function () {
             Data.post('block-types/manageBlockTypes').then(function (response) {
                 $scope.BlockTypesRow = response.records;

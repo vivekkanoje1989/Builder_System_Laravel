@@ -1,11 +1,16 @@
 'use strict';
 app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', function ($scope, Data, Upload, $timeout, toaster) {
-        $scope.currentPage = $scope.itemsPerPage = 4;
+        $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.subId = '0';
         $scope.submitted = true;
         $scope.sbtBtn = false;
 
+        $scope.pageChangeHandler = function(num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
+        
         Data.get('web-pages/getWebPages').then(function (response) {
             $scope.listPages = response.records.data;
         });
