@@ -1,14 +1,15 @@
-<div class="row">
+<div class="row" ng-controller="hrController" ng-init="userPermissions('roles',[[ $roleId ]])">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Role Permissions</h5>
         </div>    
+        <div class="col-sm-6 col-lg-2"><div class="form-group"><span class="input-icon icon-right">Total Permissions: {{totalPermissions}}</span></div></div>
         <div class="">
             <div class="col-lg-12 col-sm-6 col-xs-12">
                 <div class="widget">
                     <div class="widget-body no-padding">
                         <div class="widget-main ">
-                            <div class="panel-group accordion" id="accordion" ng-controller="hrController" ng-init="userPermissions('roles',[[ $roleId ]])">
+                            <div class="panel-group accordion" id="accordion">
                                 <div class="panel panel-default" ng-repeat="parent in menuItems">
                                     <div class="panel-heading ">
                                         <h4 class="panel-title">

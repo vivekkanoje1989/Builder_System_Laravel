@@ -1,4 +1,9 @@
-<div ng-controller="DashboardCtrl">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+           <h1> Welcome to BMS </h1>
+        </div>
+    </div>
+<!--<div ng-controller="DashboardCtrl">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="row">
@@ -349,7 +354,7 @@
                 <div class="widget-header bordered-bottom bordered-themeprimary">
                     <i class="widget-icon fa fa-tasks themeprimary"></i>
                     <span class="widget-caption themeprimary">Task Board</span>
-                </div><!--Widget Header-->
+                </div>Widget Header
                 <div class="widget-body no-padding">
                     <div class="task-container">
                         <div class="task-search">
@@ -412,7 +417,7 @@
                             </li>
                         </ul>
                     </div>
-                </div><!--Widget Body-->
+                </div>Widget Body
             </div>
 
         </div>
@@ -502,7 +507,7 @@
                         <div class="widget-header bordered-bottom bordered-themesecondary">
                             <i class="widget-icon fa fa-tags themesecondary"></i>
                             <span class="widget-caption themesecondary">Ticket Board</span>
-                        </div><!--Widget Header-->
+                        </div>Widget Header
                         <div class="widget-body  no-padding">
                             <div class="tickets-container">
                                 <ul class="tickets-list">
@@ -753,4 +758,4 @@
         </div>
 
     </div>
-</div>
+</div>-->

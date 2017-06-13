@@ -143,7 +143,7 @@
                             <br/>
                             <label>Reply</label>
                             <span class="input-icon icon-right">
-                                <textarea class="form-control" ng-model="reply" name="reply" placeholder=""></textarea>
+                                <textarea class="form-control" ng-model="reply" name="reply" maxlength="500"></textarea>
                             </span>
                         </div>
                     </div>

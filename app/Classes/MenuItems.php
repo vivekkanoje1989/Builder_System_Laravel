@@ -115,14 +115,15 @@ class MenuItems {
                 )),
                 3 => array('name' => 'HR', 'icon' => 'hr-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'hr', 'has_submenu' => true, 'total_submenu' => 2,
                 'submenu_ids' => '0301,0302', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '0301', 'name' => 'User Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
-                        'submenu_ids' => '030101,030102,030103,030104,030105,030106', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                    1 => array('id' => '0301', 'name' => 'User Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 7,
+                        'submenu_ids' => '030101,030102,030103,030104,030105,030106,030107', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '030101', 'name' => 'List Users', 'icon' => '', 'url' => '/user/index', 'slug' => 'userIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             2 => array('id' => '030102', 'name' => 'New User', 'icon' => '', 'url' => '/user', 'slug' => 'user', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '030103', 'name' => 'Reassign Data', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            4 => array('id' => '030104', 'name' => 'Organization Chart', 'icon' => '', 'url' => '/user/orgchart', 'slug' => 'userChart', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            5 => array('id' => '030105', 'name' => 'User Documents', 'icon' => '', 'url' => '/user/document', 'slug' => 'userDocument', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            6 => array('id' => '030106', 'name' => 'Manage Documents', 'icon' => '', 'url' => '/manage/document', 'slug' => 'documentIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '030103', 'name' => 'Manage Roles', 'icon' => '', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            4 => array('id' => '030104', 'name' => 'Reassign Data', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            5 => array('id' => '030105', 'name' => 'Organization Chart', 'icon' => '', 'url' => '/user/orgchart', 'slug' => 'userChart', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            6 => array('id' => '030106', 'name' => 'User Documents', 'icon' => '', 'url' => '/user/document', 'slug' => 'userDocument', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            7 => array('id' => '030107', 'name' => 'Manage Documents', 'icon' => '', 'url' => '/manage/document', 'slug' => 'documentIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '0302', 'name' => 'Salary Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                         'submenu_ids' => '030201', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(

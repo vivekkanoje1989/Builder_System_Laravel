@@ -40,6 +40,17 @@ class MasterHrController extends Controller {
     public function index() {        
         return view("MasterHr::index")->with("loggedInUserId", Auth::guard('admin')->user()->id);
     }
+    public function checkRole() { 
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $checkRole = Employee::select("client_role_id")->where("id",$request["empId"])->get();
+        if(!empty($checkRole[0]['client_role_id'])){
+            $result = ['success' => true, "role_id" => $checkRole[0]['client_role_id']];
+        } else {
+            $result = ['success' => false, "records" => "No records found"];
+        }
+        return \Response()->json($result);
+    }
 
     public function manageUsers() {
         $postdata = file_get_contents("php://input");
@@ -49,19 +60,8 @@ class MasterHrController extends Controller {
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
             $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ')');
         } else if ($request['empId'] === "") { // for index
-            $manageUsers = DB::select('CALL proc_manage_users(0,0)');
-            
-            foreach ($manageUsers as $user) {
-                $getDeptName = array();
-                $dept = MlstBmsbDepartment::select('department_name')->whereRaw("id IN($user->department_id)")->get();
-                for ($i = 0; $i < count($dept); $i++) {
-                    $getDeptName[] = $dept[$i]->department_name;
-                }
-                $implodeDept = implode(",", $getDeptName);
-                $user->department_id = $implodeDept;
-                $user->login_date_time = !empty($user->login_date_time) ? date('Y-m-d', strtotime($user->login_date_time)) : '-';
-            }
-        }
+            $manageUsers = DB::select('CALL proc_manage_users(0,0)');            
+        }        
         if ($manageUsers) {
             $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
             echo json_encode($result);
@@ -393,16 +393,15 @@ class MasterHrController extends Controller {
         $id = $input['data']['empId'];
         $roleId = $input['data']['roleId'];
         $getRolePermission = EmployeeRole::select('employee_submenus')->where('id', $roleId)->get();
-        $updateRecord = Employee::where('id', $input['data']['empId'])->update(array('employee_submenus' => $getRolePermission[0]['employee_submenus']));
+        $updateRecord = Employee::where('id', $input['data']['empId'])->update(array('employee_submenus' => $getRolePermission[0]['employee_submenus'],'client_role_id' => $roleId));
         $result = MasterHrController::arrangeMenu($getRolePermission[0]['employee_submenus']);
         return json_encode($result);
         if ($result) {
             $result = ['success' => true, "employeeSubmenus" => json_encode($menuItems)];
-            return json_encode($result);
         } else {
             $result = ['success' => false, "message" => "Something went wrong"];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public static function arrangeMenu($employeeSubmenus) {
@@ -472,7 +471,6 @@ class MasterHrController extends Controller {
 
         $getMenu = MenuItems::getMenuItems();
         $permission = json_decode($getPermission[0]['employee_submenus'], true);
-
         if (!empty($permission)) {
             $menuItem = array();
             foreach ($getMenu as $key => $menu) {
@@ -518,11 +516,12 @@ class MasterHrController extends Controller {
                 $menuItem[] = $menu;
             }
             ksort($menuItem);
-            return json_encode($menuItem);
+            $result = ['success' => true, "getMenu" => $menuItem, "totalPermissions" => count($permission)];
         } else {
             ksort($getMenu);
-            return json_encode($getMenu);
+            $result = ['success' => true, "getMenu" => $getMenu, "totalPermissions" => count($permission)];
         }
+        return json_encode($result);
     }
 
     public function accessControl() {

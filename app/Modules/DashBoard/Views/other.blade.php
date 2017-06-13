@@ -7,10 +7,8 @@
                         <div id="registration-form">
                             <form  ng-submit="requestLeave.$valid && doOtherApprovalAction(request, '2')" name="requestLeave"  novalidate>
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-
                                 <div class="form-title">
                                     Request other approval
-
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">
@@ -49,11 +47,10 @@
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.req_desc.$dirty && requestLeave.req_desc.$invalid) }">
                                             <label>Application description<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <textarea ng-model="request.req_desc" name="req_desc" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" required></textarea>
+                                                <textarea ng-model="request.req_desc" name="req_desc" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="500" required></textarea>
                                             </span>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.req_desc.$error">
-                                                <div ng-message="required">	
-                                                    Application Description is required.</div>
+                                                <div ng-message="required">Application Description is required.</div>
                                             </div>
                                             <br/>
                                         </div>  

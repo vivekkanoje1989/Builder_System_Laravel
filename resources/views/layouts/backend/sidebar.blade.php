@@ -57,3 +57,24 @@
 <!-- /Sidebar Menu -->
 
 <toaster-container toaster-options="{'time-out': 2000,'position-class': 'toast-center', 'close-button':true}"></toaster-container>
+
+<script>
+    $(document).ready(function(){
+        setTimeout(function(){  
+            $("ul#cstmenu > li > a").click(function () {
+                $('ul#cstmenu > li > ul.submenu').not($(this).siblings()).slideUp();
+                $(this).siblings("ul.submenu").slideToggle();
+            });
+
+            $("#cstmenu > li > ul > li > a").click(function () {
+                $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();
+                $(this).siblings("ul.submenu").slideToggle();
+            });
+
+            $("#cstmenu > li > ul > li > ul > li > a").click(function () {
+                $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).slideUp();
+                $(this).siblings("ul.submenu").slideToggle();
+            });
+        }, 1000);            
+    });
+</script>

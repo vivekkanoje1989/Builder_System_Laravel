@@ -8,23 +8,23 @@
         color: #e46f61;
     }
 </style>
-<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.employee_photo_file_name,[[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit')">
+<form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData,userData.employee_photo_file_name,[[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]],'edit');getStepDiv(1,[[ !empty($empId) ?  $empId : '0' ]]);">
     <input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
     <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-init="userForm.id = '[[ $empId ]]'" value="[[ $empId ]]" class="form-control">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>
+            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading }}</h5>
             <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
                 <ul class="steps">
-                    <li class="wiredstep1 active"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
-                    <li class="wiredstep2"><span class="step">2</span><span class="title">Contact Information</span> <span class="chevron"></span></li>
-                    <li class="wiredstep3"><span class="step">3</span><span class="title">Educational & Other Details</span> <span class="chevron"></span></li>
-                    <li class="wiredstep4"><span class="step">4</span><span class="title">Job Offer Details</span> <span class="chevron"></span></li>
-                    <li class="wiredstep5"><span class="step">5</span><span class="title">User Status</span> <span class="chevron"></span></li>
+                    <li ng-class="{complete: userId > 0}" ng-click="getStepDiv(1, [[$empId]])" class="user_steps wizardstep1 active"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
+                    <li ng-class="{complete: userId > 0}" ng-click="getStepDiv(2, [[$empId]])" class="user_steps wizardstep2"><span class="step">2</span><span class="title">Contact Information</span><span class="chevron"></span></li>
+                    <li ng-class="{complete: userId > 0}" ng-click="getStepDiv(3, [[$empId]])" class="user_steps wizardstep3"><span class="step">3</span><span class="title">Educational & Other Details</span><span class="chevron"></span></li>
+                    <li ng-class="{complete: userId > 0}" ng-click="getStepDiv(4, [[$empId]])" class="user_steps wizardstep4"><span class="step">4</span><span class="title">Job Offer Details</span><span class="chevron"></span></li>
+                    <li ng-class="{complete: userId > 0}" ng-click="getStepDiv(5, [[$empId]])" class="user_steps wizardstep5"><span class="step">5</span><span class="title">User Status</span><span class="chevron"></span></li>
                 </ul>
             </div>
             <div class="step-content" id="WiredWizardsteps">
-                <div class="step-pane active" id="wiredstep1">
+                <div class="step-pane active" id="wizardstep1">
                     <div class="form-title">Personal Information</div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
@@ -187,7 +187,7 @@
                         </div>
                     </div>
                 </div>	
-                <div class="step-pane" id="wiredstep2">	
+                <div class="step-pane" id="wizardstep2">	
                     <div class="form-title">
                         Contact Information
                     </div>
@@ -257,7 +257,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!userForm.personal_email1.$dirty && userForm.personal_email1.$invalid)}">
                                         <label for="">Email <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userData.personal_email1" name="personal_email1" class="form-control" maxlength="50" check-unique-email ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
+                                            <input type="email" ng-model="userData.personal_email1" name="personal_email1" class="form-control" maxlength="50" check-unique-email ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userForm.personal_email1.$error" class="help-block step2">
                                                 <div ng-message="required">This field is required.</div>
@@ -272,7 +272,7 @@
                                     <div class="form-group">
                                         <label for=""> Office Email</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userData.office_email_id" name="office_email_id" maxlength="50" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="form-control">
+                                            <input type="email" ng-model="userData.office_email_id" name="office_email_id" maxlength="50" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" class="form-control">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userForm.office_email_id.$error" class="help-block step2">
                                                 <div ng-message="email">Invalid email address.</div>
@@ -287,7 +287,7 @@
                                     <div class="form-group">
                                         <label for=""> Alternate Email</label>
                                         <span class="input-icon icon-right">
-                                            <input type="email" ng-model="userData.personal_email2" name="personal_email2" maxlength="50" ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" class="form-control">
+                                            <input type="email" ng-model="userData.personal_email2" name="personal_email2" maxlength="50" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" class="form-control">
                                             <i class="fa fa-envelope"></i>
                                             <div ng-show="step2" ng-messages="userForm.personal_email2.$error" class="help-block step2">
                                                 <div ng-message="email">Invalid email address.</div>
@@ -475,7 +475,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="step-pane" id="wiredstep3">	
+                <div class="step-pane" id="wizardstep3">	
                     <div class="form-title">
                         Educational & Other Details
                     </div>
@@ -533,7 +533,7 @@
                         </div>
                     </div>
                 </div>	
-                <div class="step-pane" id="wiredstep4">	
+                <div class="step-pane" id="wizardstep4">	
                     <div class="form-title">
                         Job Offer Details
                     </div>
@@ -623,7 +623,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="step-pane" id="wiredstep5">	
+                <div class="step-pane" id="wizardstep5">	
                     <div class="form-title">                                           
                         User status
                     </div>
@@ -758,44 +758,48 @@
             if($(".step1").hasClass("ng-active")) {
                 e.preventDefault();
             }else{
-                $("#wiredstep1").hide();
-                $("#wiredstep2").show();
-                $(".wiredstep2").addClass("active");
-                $(".wiredstep1").removeClass("active");
-                $(".wiredstep1").addClass("complete");
+                $("#wizardstep1").hide();
+                $("#wizardstep2").show();
+                $(".wizardstep2").addClass("active");
+                $(".wizardstep2").removeClass("complete");
+                $(".wizardstep1").removeClass("active");
+                $(".wizardstep1").addClass("complete");
             }
         });
         $(".btn-nxt2").click(function(e){
             if($(".step2").hasClass("ng-active")) {
                 e.preventDefault();
             }else{
-                $("#wiredstep2").hide();
-                $("#wiredstep3").show();
-                $(".wiredstep3").addClass("active");
-                $(".wiredstep2").removeClass("active");
-                $(".wiredstep2").addClass("complete");
+                $("#wizardstep2").hide();
+                $("#wizardstep3").show();
+                $(".wizardstep3").addClass("active");
+                $(".wizardstep3").removeClass("complete");
+                $(".wizardstep2").removeClass("active");
+                $(".wizardstep2").addClass("complete");
             }
         });
         $(".btn-nxt3").click(function(e){
             if($(".step3").hasClass("ng-active")) {
                 e.preventDefault();
             }else{
-                $("#wiredstep3").hide();
-                $("#wiredstep4").show();
-                $(".wiredstep4").addClass("active");
-                $(".wiredstep3").removeClass("active");
-                $(".wiredstep3").addClass("complete");
+                $("#wizardstep3").hide();
+                $("#wizardstep4").show();
+                $(".wizardstep4").addClass("active");
+                $(".wizardstep4").removeClass("complete");
+                $(".wizardstep3").removeClass("active");
+                $(".wizardstep3").addClass("complete");
             }
         });
         $(".btn-nxt6").click(function(e){
             if($(".step4").hasClass("ng-active")) {
                 e.preventDefault();
             }else{
-                $("#wiredstep4").hide();
-                $("#wiredstep5").show();
-                $(".wiredstep5").addClass("active");
-                $(".wiredstep4").removeClass("active");
-                $(".wiredstep4").addClass("complete");
+                $("#wizardstep4").hide();
+                $("#wizardstep5").show();
+                $(".wizardstep5").addClass("active");
+                $(".wizardstep5").removeClass("complete");
+                $(".wizardstep4").removeClass("active");
+                $(".wizardstep4").addClass("complete");
             }
             if( $(".select2-input").attr('placeholder') === '' && $(".step4").hasClass("ng-hide")) {
             }
@@ -808,32 +812,36 @@
         });
         
         $(".btn-pre2").click(function(){
-            $("#wiredstep1").show();
-            $("#wiredstep2").hide();
-            $(".wiredstep1").addClass("active");
-            $(".wiredstep2").removeClass("active");
-            $(".wiredstep1").removeClass("complete");
+            $("#wizardstep1").show();
+            $("#wizardstep2").hide();
+            $(".wizardstep1").addClass("active");
+            $(".wizardstep2").addClass("complete");
+            $(".wizardstep2").removeClass("active");
+            $(".wizardstep1").removeClass("complete");
         });
         $(".btn-pre3").click(function(){
-            $("#wiredstep2").show();
-            $("#wiredstep3").hide();
-            $(".wiredstep2").addClass("active");
-            $(".wiredstep3").removeClass("active");
-            $(".wiredstep2").removeClass("complete");
+            $("#wizardstep2").show();
+            $("#wizardstep3").hide();
+            $(".wizardstep2").addClass("active");
+            $(".wizardstep3").addClass("complete");
+            $(".wizardstep3").removeClass("active");
+            $(".wizardstep2").removeClass("complete");
         });
         $(".btn-pre4").click(function(){
-            $("#wiredstep3").show();
-            $("#wiredstep4").hide();
-            $(".wiredstep3").addClass("active");
-            $(".wiredstep4").removeClass("active");
-            $(".wiredstep3").removeClass("complete");
+            $("#wizardstep3").show();
+            $("#wizardstep4").hide();
+            $(".wizardstep3").addClass("active");
+            $(".wizardstep4").addClass("complete");
+            $(".wizardstep4").removeClass("active");
+            $(".wizardstep3").removeClass("complete");
         });
         $(".btn-pre5").click(function(){
-            $("#wiredstep4").show();
-            $("#wiredstep5").hide();
-            $(".wiredstep4").addClass("active");
-            $(".wiredstep5").removeClass("active");
-            $(".wiredstep4").removeClass("complete");
+            $("#wizardstep4").show();
+            $("#wizardstep5").hide();
+            $(".wizardstep4").addClass("active");
+            $(".wizardstep5").addClass("complete");
+            $(".wizardstep5").removeClass("active");
+            $(".wizardstep4").removeClass("complete");
         });
     });
     $("#personal_mobile1,#personal_mobile2,#office_mobile_no,#personal_landline_no").intlTelInput();

@@ -5,10 +5,10 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     $getUrl = config('global.getUrl');
     Route::get('/master-hr/getTeamLead/{id}', 'MasterHrController@getTeamLead');    
     
-    Route::get('/master-hr/orgchart', ['middleware'=>'check-permission:030104', 'uses' => 'MasterHrController@orgchart']); // show page
-    Route::get('/master-hr/getChartData', ['middleware'=>'check-permission:030104', 'uses' => 'MasterHrController@getChartData']); //show chart
-    Route::get('/master-hr/manageRolesPermission', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@manageRolesPermission']); //show manage role page
-    Route::get('/master-hr/getRoles', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@getRoles']); //get role data from table
+    Route::get('/master-hr/orgchart', ['middleware'=>'check-permission:030105', 'uses' => 'MasterHrController@orgchart']); // show page
+    Route::get('/master-hr/getChartData', ['middleware'=>'check-permission:030105', 'uses' => 'MasterHrController@getChartData']); //show chart
+    Route::get('/master-hr/manageRolesPermission', ['middleware'=>'check-permission:030103', 'uses' => 'MasterHrController@manageRolesPermission']); //show manage role page
+    Route::get('/master-hr/getRoles', ['middleware'=>'check-permission:030103', 'uses' => 'MasterHrController@getRoles']); //get role data from table
 //    Route::resource('/master-hr', 'MasterHrController');
     
     Route::get('/master-hr', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@index']);
@@ -18,6 +18,7 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::post('/master-hr/checkUniqueEmpId', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@checkUniqueEmpId']);
     Route::put('/master-hr/{id}', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@update']);
     
+    Route::post('/master-hr/checkRole', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@checkRole']); //get role id
     Route::post('/master-hr/manageUsers', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@manageUsers']);
     Route::post('/master-hr/editDepartments', ['middleware'=>'check-permission:030102', 'uses' => 'MasterHrController@editDepartments']);
     Route::post('/master-hr/getDepartmentsToEdit', ['middleware'=>'check-permission:030102', 'uses' => 'MasterHrController@getDepartmentsToEdit']);

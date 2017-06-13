@@ -2,6 +2,7 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
     $scope.pageHeading = 'Create User';
     $scope.buttonLabel = 'Create';
     $scope.userData = {};
+    $scope.roleData = {};
     $scope.listUsers = [];
     $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
     $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
@@ -14,6 +15,9 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
     $scope.noOfRows = 1;
     $scope.userData.high_security_password_type = 0;
     $scope.userData.current_country_id = $scope.userData.permenent_country_id = 101;
+    var date = new Date($scope.userData.date_of_birth);
+    $scope.userData.date_of_birth = ((date.getFullYear()-100) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+    $scope.userData.date_of_birth = ("1990-01-01");
     
     $scope.validateMobileNumber = function (value) {
         var regex = /^(\+\d{1,4}-)\d{10}$/;
@@ -84,6 +88,18 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
             $scope.userData.username = value.split('-')[1];
         }
     };
+    $scope.roleType = function (empId) {
+        Data.post('master-hr/checkRole',{empId:empId}).then(function (response) {
+            if(response.role_id !== 0){
+                $scope.roleData.roleType = 1; //role predefined 
+                $timeout(function(){
+                    $scope.roleData.roleId = angular.copy(response.role_id);
+                },500);                
+            }else{
+                $scope.roleData.roleType = 0; //custom
+            }
+        });
+    };
     $scope.checkUniqueEmpId = function (employeeId,recordId) {
         Data.post('master-hr/checkUniqueEmpId',{employeeId:employeeId,recordId:recordId}).then(function (response) {
             if (!response.success) {
@@ -93,12 +109,36 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
             }
         });
     };
+    $scope.getStepDiv = function (stepId, empId)
+    {
+         $scope.stepId = stepId;
+        if (empId != 0) {
+            $( ".user_steps" ).each(function( index ) {
+                $(this).addClass('complete');
+                $(this).removeClass('active')
+            });
+            $(".wizardstep" + stepId).addClass('active');
+            $(".wizardstep" + stepId).removeClass('complete');
+            
+            $(".step-pane").css('display', 'none');
+            $("#wizardstep" + stepId).css('display', 'block');
+        } else {
+            if (stepId == 1)
+            {
+                $scope.stepId = 1;
+                $("#wizardstep1").css('display', 'block');
+                $("#wizardstep1").addClass('active');
+            }
+        }
+    }
 
     $scope.createUser = function (enteredData, employeePhoto, empId) {
         var userData = {};        
         userData = angular.fromJson(angular.toJson(enteredData));
         var date = new Date($scope.userData.date_of_birth);
-        $scope.userData.date_of_birth = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+        $scope.userData.date_of_birth = ((date.getFullYear()-100) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+        alert($scope.userData.date_of_birth);
+        
         var date = new Date($scope.userData.joining_date);
         $scope.userData.joining_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
         
@@ -271,8 +311,9 @@ app.controller('hrController', ['$scope', '$state', 'Data', 'Upload', '$timeout'
         Data.post('master-hr/getMenuLists',{
             data: {id: id, moduleType: moduleType},
         }).then(function (response) {
-            if (response) {
-                $scope.menuItems = response;
+            if (response.success) {
+                $scope.menuItems = response.getMenu;
+                $scope.totalPermissions = response.totalPermissions;
             } else {
                 $scope.errorMsg = response.message;
             }
