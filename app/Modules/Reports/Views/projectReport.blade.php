@@ -1,16 +1,18 @@
-
 <div class="row">
     <div class="widget flat radius-bordered">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController" >
-          
+            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Project Report</h5>
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
-                  <div class="col-sm-3 col-xs-12" ng-controller="projectCtrl">
-                                        <label for="search">Select Project:</label>
-                                        <select id="project" name="project" class="form-control" ng-model="project"  ng-change="projectWiseReport(project,'[[$loggedInUserID]]')" >
-                                            <option value="">Select Projects</option>
-                                            <option ng-repeat="item in projectList" value="{{item.id}}">{{item.project_name}}</option>
-                                        </select>
-                                        <br/> </div>
+                <div class="col-sm-3 col-xs-12" ng-controller="projectCtrl">
+                    <label for="search">Select Project:</label>
+                    <span class="input-icon icon-right">
+                        <select id="project" name="project" class="form-control" ng-model="project"  ng-change="projectWiseReport(project, '[[$loggedInUserID]]')" >
+                            <option value="">Select Projects</option>
+                            <option ng-repeat="item in projectList" value="{{item.id}}">{{item.project_name}}</option>
+                        </select>
+                        <i class="fa fa-sort-desc"></i>
+                    </span><br/><br/>
+                </div>
                 <tabset class="col-md-12" ng-if="projectShow">
                     <tab heading="Category">
                         <div id="category-report">
@@ -19,7 +21,7 @@
                                     <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Enquiry Category-Wise Report</span>
                                 </div>
                                 <div class="widget-body table-responsive">
-                                    
+
                                     <table class="table table-hover table-striped table-bordered" at-config="config">
                                         <thead class="bord-bot">
                                             <tr>
@@ -32,13 +34,12 @@
                                             <tr  ng-repeat="(key,value) in category_report['0']">
                                                 <td><b>{{ key.split("_").join(" ")}}</b></td>
                                                 <td>{{value}}</td>
-                                                <td>{{((value / Total) * 100).toFixed(2)== 'NaN' ? '0':((value / Total) * 100).toFixed(2)}}</td>
-<!--                                               <td>{{((value / Total) * 100).toFixed(2)}}</td>-->
+                                                <td>{{((value / Total) * 100).toFixed(2) == 'NaN' ? '0':((value / Total) * 100).toFixed(2)}}</td>
                                             </tr> 
                                             <tr>
                                                 <td align="center"><b>Total</b></td>
                                                 <td><b>{{Total}}</b></td>
-                                                <td><b>{{((Total / Total) * 100).toFixed(2)== 'NaN' ? '0':((Total / Total) * 100).toFixed(2)}}</b></td>
+                                                <td><b>{{((Total / Total) * 100).toFixed(2) == 'NaN' ? '0':((Total / Total) * 100).toFixed(2)}}</b></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -111,13 +112,13 @@
                                             <tr  ng-repeat="(key,value) in status_report['0']">
                                                 <td><b>{{ key.split("_").join(" ")}}</b></td>
                                                 <td>{{value}}</td>
-                                                <td>{{((value / Total) * 100).toFixed(2)== 'NaN' ? '0':((value / Total) * 100).toFixed(2)}}</td>
+                                                <td>{{((value / Total) * 100).toFixed(2) == 'NaN' ? '0':((value / Total) * 100).toFixed(2)}}</td>
 <!--                                               <td>{{((value / Total) * 100).toFixed(2)}}</td>-->
                                             </tr> 
                                             <tr>
                                                 <td align="center"><b>Total</b></td>
                                                 <td><b>{{Total}}</b></td>
-                                                <td><b>{{((Total / Total) * 100).toFixed(2)== 'NaN' ? '0':((Total / Total) * 100).toFixed(2)}}</b></td>
+                                                <td><b>{{((Total / Total) * 100).toFixed(2) == 'NaN' ? '0':((Total / Total) * 100).toFixed(2)}}</b></td>
                                             </tr>
                                         </tbody>
                                     </table>

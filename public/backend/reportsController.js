@@ -6,6 +6,10 @@
 
 app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
 
+        $scope.headingName = "";
+        $scope.reportHeading = function(headingName){
+           $scope.headingName = headingName;
+        }
         $scope.myEnquiryReport = function (employee_id) { //manoj
             $scope.categoryShow = true;
             $scope.fromDate = "0000-00-00";
@@ -16,7 +20,8 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             $scope.sourcecolors = [];
             $scope.source_total = 0;
             $scope.projectShow = false;
-
+            $scope.headingName = "Enquiry Category Report";
+            
             Data.post('reports/getCategoryReport', {
                 employee_id: employee_id, from_date: $scope.fromDate, to_date: $scope.toDate, flag: $scope.reportFlag,
             }).then(function (response) {
@@ -24,7 +29,6 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-
                     $scope.category_report = angular.copy(response.records);
 
                     $scope.categorylabels = ["New Enquiry", "Hot", "Warm", "Cold"];
@@ -72,7 +76,6 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-
                     $scope.status_report = angular.copy(response.records);
 
                     $scope.statuslabels = ["New Enquiry", "Open", "Booked", "Lost"];
@@ -86,7 +89,6 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
                     };
                 }
             });
-
         }
 
         $scope.projectWiseReport = function (project_id, employee_id)
@@ -96,6 +98,7 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             $scope.reportFlag = '0';
             $scope.project_total = 0;
             $scope.projectShow = true;
+            $scope.headingName = "Project - Category Report";
             Data.post('reports/getProjectWiseCategoryReport', {
                 project_id: project_id, employee_id: employee_id, from_date: $scope.fromDate, to_date: $scope.toDate, flag: $scope.reportFlag,
             }).then(function (response) {
@@ -179,7 +182,7 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             $scope.fromDate = "0000-00-00";
             $scope.toDate = new Date();
             $scope.reportFlag = '0';
-
+            $scope.headingName = "Followup Report";
             Data.post('reports/followupReports', {
                 employee_id: employee_id, from_date: $scope.fromDate, to_date: $scope.toDate, flag: $scope.reportFlag,
             }).then(function (response) {
@@ -187,9 +190,7 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-
                     $scope.followup_report = angular.copy(response.records);
-
                     $scope.followuplabels = ["Same Day", "Second Day", "Third Day", "After Third Day"];
                     $scope.followupdata = [$scope.followup_report[0].same_day, $scope.followup_report[0].second_day, $scope.followup_report[0].third_day, $scope.followup_report[0].after_third_day];
                     $scope.followupcolors = ['#ff7a81', '#FFFF00', '#00d4c3', '#b3a0fa'];
@@ -220,10 +221,10 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             $scope.stotalLost = 0;
             $scope.employee_id = employee_id;
             $scope.team_source_total = 0;
+            $scope.headingName = "Team-wise Enquiry Category Report";
             Data.post('reports/getTeamcategoryreports', {
                 employee_id: employee_id, from_date: $scope.fromDate, to_date: $scope.toDate, flag: $scope.reportFlag,
             }).then(function (response) {
-
                 $scope.team_category_report = angular.copy(response.category_wise_report);
 
                 $scope.categorylabels = ["New Enquiry", "Hot", "Warm", "Cold"];
@@ -246,7 +247,6 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             Data.post('reports/getTeamsourcereports', {
                 employee_id: employee_id, from_date: $scope.fromDate, to_date: $scope.toDate, flag: $scope.reportFlag,
             }).then(function (response) {
-
                 $scope.team_source_report = angular.copy(response.source_wise_report);
 
                 for (var i = 0; i < $scope.team_source_report.length; i++) {
@@ -257,7 +257,7 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             Data.post('reports/getTeamstatusreports', {
                 employee_id: employee_id, from_date: $scope.fromDate, to_date: $scope.toDate, flag: $scope.reportFlag,
             }).then(function (response) {
-
+                
                 $scope.team_status_report = angular.copy(response.status_wise_report);
                 for (var i = 0; i < $scope.team_status_report.length; i++) {
                     $scope.stotalNew += $scope.team_status_report[i].new;
@@ -304,10 +304,10 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             $scope.totalThird = 0;
             $scope.totalAfter = 0;
             followup.flag = 1;
+            
             Data.post('reports/getTeamfollowupreports', {
                 employee_id: $scope.employee_id, from_date: $scope.fromDate, to_date: $scope.toDate, flag: $scope.reportFlag,
             }).then(function (response) {
-                console.log(response)
                 $scope.subteam_followup_report = angular.copy(response.Teams_followups);
                 for (var i = 0; i < $scope.subteam_followup_report.length; i++) {
                     $scope.subtotalSame += $scope.subteam_followup_report[i].sameday;
@@ -337,13 +337,12 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             $scope.totalSecond = 0;
             $scope.totalThird = 0;
             $scope.totalAfter = 0;
-            //$scope.team_followup_report ={};
             $scope.employee_id = employee_id;
-
+            $scope.headingName = "Team Followup Report";
+            
             Data.post('reports/getTeamfollowupreports', {
                 employee_id: employee_id, from_date: $scope.fromDate, to_date: $scope.toDate, flag: $scope.reportFlag,
             }).then(function (response) {
-                console.log(response)
                 $scope.team_followup_report = angular.copy(response.Teams_followups);
 
                 $scope.followuplabels = ["Same Day", "Second Day", "Third Day", "After Third Day"];
@@ -364,7 +363,6 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
                     }
                 };
             });
-
         }
 
         $scope.teamcategoryEnquiryReport = function (category) {
@@ -548,8 +546,7 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
 
         $scope.projectWiseTeamReports = function (project_id, employee_id)
         {
-            if (project_id == '')
-            {
+            if (project_id == ''){
                 return false;
             }
             $scope.fromDate = "0000-00-00";
@@ -567,7 +564,8 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             $scope.totalBooked = 0;
             $scope.totalLost = 0;
             $scope.totalStatusNew = 0;
-            $scope.SourceTotal = 0;
+            $scope.SourceTotal = 0;            
+            
             Data.post('reports/TeamProjectCategotyReport', {
                 project_id: $scope.project_id, employee_id: $scope.employee_id, from_date: $scope.fromDate, to_date: $scope.toDate, flag: $scope.reportFlag,
             }).then(function (response) {
@@ -676,8 +674,6 @@ app.controller('reportsController', ['$scope', 'Data', function ($scope, Data) {
             });
 
         }
-
-
 
         $scope.teamProjectCategoryReport = function (category) {
 

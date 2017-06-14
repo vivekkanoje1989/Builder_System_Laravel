@@ -4,6 +4,14 @@ use DB;
 use Auth;
 use Mail;
 use App\Mail\MailConfig;
+use App\Models\TemplatesDefault;
+use App\Models\TemplatesSetting;
+use App\Models\TemplatesCustom;
+use App\Modules\EmailConfig\Models\EmailConfiguration;
+use App\Models\ClientInfo;
+use App\Modules\Projects\Models\Project;
+use App\Modules\MasterSales\Models\Customer;
+use App\Models\backend\Employee;
 
 class CommonFunctions {
 
@@ -96,6 +104,198 @@ class CommonFunctions {
         } catch (\Exception $ex) {
             return false;
         }
+    }
+
+    public static function templateData($alertdata) {
+        $customer_id = $alertdata['customer_id'];
+        $employee_id = $alertdata['employee_id'];
+        $client_id = $alertdata['client_id'];
+        $arrExtra = $alertdata['arrExtra'];
+        $eventid_customer = $alertdata['event_id_customer'];
+        $eventid_employee = $alertdata['event_id_employee'];
+		if(!empty($alertdata['cust_attached_file']))
+			$cust_attachedfile = $alertdata['cust_attached_file'];
+	   else
+		   $cust_attachedfile = "";
+		if(!empty($alertdata['emp_attached_file']))
+			$emp_attachedfile = $alertdata['emp_attached_file'];
+	   else
+		   $emp_attachedfile = "";
+		   
+        //$model_id = $alertdata['model_id'];
+        $car_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/car.png";
+        $loc_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/loc2.png";
+       
+        if (!empty($customer_id > 0)) {
+            $template_settings_customer = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_customer, 'template_for' => 1])->first();
+            if (!empty($template_settings_customer)) {
+                if ($template_settings_customer->template_type == 0) {
+                    $template_customer = TemplatesDefault::where(['templates_event_id' => $eventid_customer, 'template_for' => 1])->first();
+                } else {
+                    $template_customer = TemplatesCustom::where(['client_id' => $client_id, 'template_event_id' => $eventid_customer])->first();
+                }
+            }
+        }
+        
+        //employee  
+        if (!empty($employee_id > 0)) {
+            $template_settings_employee = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
+             
+            if (!empty($template_settings_employee)) {
+                $template_employee = TemplatesDefault::where(['templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
+            }
+        }
+       
+        $email_from_id = "";
+        if (!empty($template_employee)) {
+            $emp_emailTemplate = $template_employee->email_body;
+            $emp_smsTemplate = $template_employee->sms_body;
+
+            $email_from_id = $template_settings_employee->from_mail_id;
+        } else {
+            $emp_emailTemplate = "";
+            $emp_smsTemplate = "";
+        }
+        
+        if (!empty($template_customer)) {
+            $cust_emailTemplate = $template_customer->email_body;
+            $cust_smsTemplate = $template_customer->sms_body;
+            $email_from_id = $template_settings_customer->from_mail_id;
+        } else {
+            $cust_emailTemplate = "";
+            $cust_smsTemplate = "";
+        }
+        date_default_timezone_set('Asia/Kolkata');
+        $h = date('h');
+        $a = date('A');
+        if ($h >= 05 and $h < 12 and $a == 'AM')
+            $greeting_msg = "Good Morning";
+        else if (( $h == 12 || $h < 04 ) and $a == 'PM')
+            $greeting_msg = "Good Afternoon";
+        else if ($h >= 04 and $h < 10 and $a == 'PM')
+            $greeting_msg = "Good Evening";
+        else
+            $greeting_msg = '';
+
+        if (!empty($client_id > 0)) {
+
+            $client = \App\Models\ClientInfo::where('id', $client_id)->first();
+            $brand = Project::where('id', $client->project_id)->first();
+            $brandlogo = 'https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/hr/employee-photos/1492516782.jpg';
+//            $model_data = \App\Models\MlstLmsaModel::where('id', $model_id)->first();
+//            if (empty($model_data)) {
+//                $model_name = "";
+//            } else {
+//                $model_name = $model_data->model_name;
+//            }
+            $logo = $client->company_logo;
+
+            $search = array('[#companyMktName#]', '[#showroomGoogleMap#]', '[#companyAddress#]', '[#companyLogo#]', '[#brandLogo#]', '[#brandName#]', '[#greeting#]', '[#modelName#]', '[#locimg#]', '[#vehicleimg#]');
+
+            $replace = array(ucwords($client->marketing_name), '', $client->address, $logo, $brandlogo, $brand->project_name, $greeting_msg, $loc_image, $car_image);
+            if (!empty($template_employee)) {
+                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
+                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
+            }
+            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
+            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
+        }
+
+        if ($employee_id > 0) {
+            $employee = Employee::where('id','=', $employee_id)->first();
+            if (empty($employee->office_email_id)) {
+                $emp_email = $employee->personal_email1;
+            } else {
+                $emp_email = $employee->office_email_id;
+            }
+
+            $search = array('[#employeeName#]', '[#employeeMobile#]', '[#employeeEmail#]');
+
+            $replace = array(ucwords($employee->first_name . ' ' . $employee->last_name), $employee->username, $emp_email);
+            if (!empty($template_employee)) {
+                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
+                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
+            }
+            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
+            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
+        }
+
+        if ($customer_id > 0) {
+            $customer_contact = \App\Models\CustomersContact::where('customer_id', $customer_id)->first();
+
+            $customer_data =Customer::where('id', $customer_id)->first();
+			//echo '<pre>';print_r($customer_data);print_r($customer_contact);exit;
+            $search = array('[#custName#]', '[#custMobile#]', '[#custEmail#]');
+
+            $replace = array(ucwords($customer_data->first_name . ' ' . $customer_data->last_name), $customer_contact->mobile_number, $customer_contact->email_id);
+            if (!empty($template_employee)) {
+                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
+                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
+            }
+            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
+            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
+        }
+
+
+
+        if (!empty($arrExtra[0])) {
+            $search = $arrExtra[0];
+            $replace = $arrExtra[1];
+            if (!empty($template_employee)) {
+                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
+                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
+            }
+            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
+            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
+        }
+
+        $emailConfig = EmailConfiguration::where('id', $email_from_id)->first();
+
+        $isInternational = 0; //0 OR 1
+        $sendingType = 1; //always 0 for T_SMS
+        $smsType = "T_SMS";
+
+        $userName = "bmstracking@edynamics.co.in"; //$emailConfig->email;
+        $password = "bmstrack@2016#"; //$emailConfig->password;
+        $companyName = $client->marketing_name;
+        
+        if (!empty($customer_id > 0)) {            
+            if (!empty($template_settings_customer)) {
+                if ($template_settings_customer->email_status == 1) {
+                   
+                    $subject = $template_customer->email_subject;
+                    $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_contact->email_id, "cc" => $template_customer->email_cc_ids,"attachment"=>$cust_attachedfile];
+                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
+                    echo"send".$sentSuccessfully;exit;return false;
+                }
+                if ($template_settings_customer->sms_status == 1) {
+                    $mobile = $customer_contact->mobile_number;
+                    $customer = "Yes";
+                    $customerId = $customer_contact->customer_id;
+                    $result = Gupshup::sendSMS($cust_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
+                }
+            }
+        }
+        
+
+        if (!empty($employee_id > 0)) {
+            if (!empty($template_settings_employee)) {
+                if ($template_settings_employee->email_status == 1) {
+
+                    $subject = $template_employee->email_subject;
+                    $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids,"attachment"=>$emp_attachedfile];
+                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
+                    
+                }
+                if ($template_settings_employee->sms_status == 1) {
+                    $mobile = $employee->username;
+                    $customer = "No";
+                    $customerId = 0;
+                    $result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
+                }
+            }
+        }        
+        return true;
     }
 
 }

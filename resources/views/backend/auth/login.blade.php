@@ -1,11 +1,11 @@
-<div class="page-bg">
+<div class="page-bg" ng-controller="adminController">
     <div class="sub-page-bg">
         <div class="row div-wdt div-bg">
             <div class="col-md-9 col-sm-8 col-xs-12" style="padding: 0;">
                 <img src="http://cdn.wonderfulengineering.com/wp-content/uploads/2014/01/building-wallpaper-5.jpg" class="img-responsive">                
             </div>
             <div class="col-md-3 col-sm-4 col-xs-12"  style="padding: 0;">
-                <form name="loginForm" novalidate ng-submit="loginForm.$valid && login(loginData)" ng-controller="adminController">
+                <form name="loginForm" novalidate ng-submit="loginForm.$valid && login(loginData)">
                 <input type="hidden" ng-model="loginData.csrfToken" name="csrftoken" id="csrftoken" ng-init="loginData.csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="login-div">
                     <h3 ng-if="!fullName">Hello, GUEST</h3>
@@ -77,7 +77,6 @@
                     <span class="pos2">1.0</span>
                 </div>  
                 <img src="http://bmsbuilderdev.in/common/images/edynamicslogo.jpg" class="foot-logo2"><p> All Rights Reserved © 2017 <a href="http://edynamics.co.in/" target="_blank"> edynamics Business Services LLP </a></p>
-                  
             </div>    
         </div>
     </div>

@@ -1,20 +1,24 @@
 <div class="row">
     <div class="widget flat radius-bordered">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController">
+            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Team's Project Report</h5>
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
                 <div class="col-sm-3 col-xs-12" ng-controller="projectCtrl">
                     <label for="search">Select Project:</label>
-                    <select id="project" name="project" class="form-control" ng-model="project"  ng-change="projectWiseTeamReports(project, '[[$loggedInUserID]]')" >
-                        <option value="">Select Projects</option>
-                        <option ng-repeat="item in projectList" value="{{item.id}}">{{item.project_name}}</option>
-                    </select>
-                    <br/> </div>
+                    <span class="input-icon icon-right">
+                        <select id="project" name="project" class="form-control" ng-model="project"  ng-change="projectWiseTeamReports(project, '[[$loggedInUserID]]')" >
+                            <option value="">Select Projects</option>
+                            <option ng-repeat="item in projectList" value="{{item.id}}">{{item.project_name}}</option>
+                        </select>
+                        <i class="fa fa-sort-desc"></i>
+                    </span><br/><br/>
+                </div>
                 <tabset class="col-md-12" ng-if="project_id > 0">
                     <tab heading="Category">
                         <div id="category-report">
                             <div class="widget">                                
                                 <div class="widget-header">
-                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Team's Category-Wise Enquiry Report</span>
+                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Category Enquiry Report</span>
                                 </div>
                                 <div class="widget-body table-responsive">
                                     <table class="table table-hover table-striped table-bordered" at-config="config">
@@ -130,11 +134,11 @@
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Source" active="source_div">
+                    <tab heading="Source" active="source_div" ng-click="reportHeading('Team-wise Project Source Report')">
                         <div id="source-report">
                             <div class="widget">                                
                                 <div class="widget-header">
-                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Team's Source-Wise Enquiry Report</span>
+                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Source Enquiry Report</span>
                                 </div>
                                 <div class="widget-body table-responsive">
                                     <table class="table table-hover table-striped table-bordered" at-config="config">
@@ -218,11 +222,11 @@
 
                         </div>
                     </tab>
-                    <tab heading="Status" active="status_div">
+                    <tab heading="Status" active="status_div" ng-click="reportHeading('Team-wise Project Status Report')">
                         <div id="status-report">
                             <div class="widget">                                
                                 <div class="widget-header">
-                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Team Status-Wise Enquiry Report</span>
+                                    <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Status Enquiry Report</span>
                                 </div>
                                 <div class="widget-body table-responsive">
                                     <table class="table table-hover table-striped table-bordered" at-config="config">

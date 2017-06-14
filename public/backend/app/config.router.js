@@ -3589,6 +3589,66 @@ angular.module('app')
                                     }
                                 })
                                 /****************************MANOJ*********************************/
+                                /****************************Rohit*********************************/
+                                .state('quickUser', {
+                                   url: '/user/quickuser',
+                                   templateUrl: '/master-hr/showQuickUser',
+                                   controller: 'hrController',
+                                   requiredLogin: true,
+                                   ncyBreadcrumb: {
+                                       label: ' User Management ',
+                                       description: ''
+                                   },
+                                   resolve: {
+                                       deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                function () {
+                                                    return $ocLazyLoad.load({
+                                                        serie: true,
+                                                        files: [
+                                                            '/js/intlTelInput.js',
+                                                            '/backend/hrController.js',
+                                                        ]
+                                                    }
+                                                    );
+                                                } );
+                                            }
+                                        ]
+                                   }
+                               })
+                                .state('userProfile', {
+                                   url: '/user/profile',
+                                   templateUrl: function (stateParams) {
+                                       return '/master-hr/profile';
+                                   },
+                                   controller: 'hrController',
+                                   requiredLogin: true,
+                                   ncyBreadcrumb: {
+                                       label: 'Profile',
+                                       description: ''
+                                   },
+                                   resolve: {
+                                       deps:
+                                       [
+                                           '$ocLazyLoad',
+                                           function ($ocLazyLoad) {
+                                               return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                               function () {
+                                                   return $ocLazyLoad.load({
+                                                       serie: true,
+                                                       files: [              
+                                                           '/backend/hrController.js',                                                           
+                                                       ]
+                                                   });
+                                               });
+                                           }
+                                       ]
+                                   }
+                               })
+                                /****************************Rohit*********************************/
                                 .state('underconstruction', {
                                     url: '/underconstruction',
                                     templateUrl: '/undercConstruction',

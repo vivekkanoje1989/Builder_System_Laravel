@@ -23,14 +23,16 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
     $scope.resetErrorMsg = function () {
         $scope.errorMsg = '';
     }
-    $scope.login = function (loginData) {
+    $scope.login = function (loginData,e) {
         Data.post('authenticate', {
             username: loginData.mobile, password: loginData.password,
         }).then(function (response) {
             if (response.success) {
                 $state.reload();
+                $scope.showloader();                
                 $state.go('dashboard');
-                return false;
+                $scope.hideloader();
+                e.preventDefault();
             } else {
                 $scope.errorMsg = response.message;
             }

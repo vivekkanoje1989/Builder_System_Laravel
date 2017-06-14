@@ -2,14 +2,11 @@
 <div class="row">
     <div class="widget flat radius-bordered">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController" ng-init="myFollowupReport([[$loggedInUserID]])">
+            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{headingName}}</h5>
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
-
                 <div id="followup-report">
-                    <div class="widget">                                
-                        <div class="widget-header">
-                            <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">My Followup's Report</span>
-                        </div>
-                        <div class="widget-body table-responsive">
+                    <div class="widget">    
+                        <div class="table-responsive">
                             <table class="table table-hover table-striped table-bordered" at-config="config">
                                 <thead class="bord-bot">
                                     <tr>

@@ -509,7 +509,7 @@
                                 <label for="">Employee Photo ( W 105 X H 120 )</label>
                                 <span class="input-icon icon-right">
                                     <input type="file" ngf-select ng-model="userData.employee_photo_file_name" name="employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" ngf-model-invalid="errorFile" ng-change="checkImageExtension(userData.employee_photo_file_name)">
-                                    <img ng-if="!employee_photo_file_name_preview" ng-src="[[ Config('global.s3Path') ]]hr/employee-photos/{{imgUrl}}" class="thumb photoPreview">
+                                    <img ng-if="!employee_photo_file_name_preview" ng-src="[[ Config('global.s3Path') ]]employee-photos/{{imgUrl}}" class="thumb photoPreview">
                                     <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
                                         <img ng-src="{{list}}" class="thumb photoPreview">
                                     </div>

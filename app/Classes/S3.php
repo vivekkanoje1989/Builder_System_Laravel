@@ -64,7 +64,7 @@ class S3 {
      * For App-same as above
      */
 
-    public static function s3FileUplod($image, $imageFileName, $s3FolderName) {
+    public static function s3FileUpload($image, $imageFileName, $s3FolderName) {
         S3::s3Configuration();
         $s3 = \Storage::disk('s3');
         S3::SaveImageStorage($imageFileName, $s3FolderName);

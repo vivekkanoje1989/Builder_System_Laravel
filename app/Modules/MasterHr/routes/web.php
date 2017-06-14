@@ -28,4 +28,11 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::post('/master-hr/accessControl', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@accessControl']); //save multiple comma separated submenu list
     Route::post('/master-hr/updatePermissions', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@updatePermissions']);
     Route::get('/master-hr/rolePermissions/{id}', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@rolePermissions']); //show user permission page
+    
+    Route::post('/master-hr/getProfileInfo', 'MasterHrController@getProfileInfo'); 
+    Route::post('/master-hr/updateProfileInfo', 'MasterHrController@updateProfileInfo');
+    Route::get('/master-hr/profile', 'MasterHrController@profile');
+    
+    Route::get('/master-hr/showQuickUser', 'MasterHrController@showQuickUser');
+    Route::post('/master-hr/createQuickUser', 'MasterHrController@createQuickUser');
 });

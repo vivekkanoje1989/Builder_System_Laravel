@@ -155,11 +155,12 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/getStates', 'backend\AdminController@getStates');
     Route::post('/getCities', 'backend\AdminController@getCities');
     Route::post('/getLocations', 'backend\AdminController@getLocations');
-    Route::post('/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');    
+    Route::post('/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');   
+    Route::post('/checkUniqueMobile', 'backend\AdminController@checkUniqueMobile');
     Route::post('/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');        
     Route::post('/getSalesEnqSubStatus', 'backend\AdminController@getSalesEnqSubStatus'); //geeta
     Route::post('/getSalesEnqSubCategory', 'backend\AdminController@getSalesEnqSubCategory'); //geeta
-    
+    Route::post('/checkOldPassword', 'backend\AdminController@checkOldPassword');
     /***********************************MANDAR*******************************/
     Route::get('/getClient', 'backend\AdminController@getClient');
     Route::get('/getVehiclebrands', 'backend\AdminController@getVehiclebrands');

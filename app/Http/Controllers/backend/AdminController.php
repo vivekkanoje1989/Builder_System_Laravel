@@ -353,6 +353,7 @@ class AdminController extends Controller {
     public function checkUniqueEmail() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+        
         $id = $request['data']['id'];
         if ($id == 0) {
             $checkEmail = Employee::getRecords(["personal_email1"], ["personal_email1" => $request['data']['emailData']]);
@@ -364,6 +365,33 @@ class AdminController extends Controller {
             $checkEmail = json_decode($checkEmail);
         }
         if (empty($checkEmail[0]->personal_email1)) {
+            $result = ['success' => true];
+        } else {
+            $result = ['success' => false];
+        }
+        return json_encode($result);
+    }
+    public function checkUniqueMobile() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $id = $request['data']['id'];
+        $explodeArray = @explode("-", $request['data']['mobileData']);
+        $mobileData = $explodeArray[1];
+
+        if ($id == 0) {
+            $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')
+                    ->where('personal_mobile1', $mobileData)
+                    ->orWhere('office_mobile_no', $mobileData)
+                    ->first();
+        } else {
+            $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')
+                    ->where(function($query) use ($mobileData) {
+                        $query->where('personal_mobile1', $mobileData)
+                        ->orWhere('office_mobile_no', $mobileData);
+                    })->where('id', '<>', $id)
+                    ->first();
+        }
+        if (empty($checkMobile)) {
             $result = ['success' => true];
         } else {
             $result = ['success' => false];
@@ -548,6 +576,26 @@ class AdminController extends Controller {
     }
 
     /***************************MANDAR*********************************/
+    /***************************Rohit*********************************/
+    
+    public function checkOldPassword()
+    {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $id = Auth::guard('admin')->user()->id;
+        $password = $request['data']['old_password'];        
+        $employee = Employee::select('password')->where('id' ,  $id)->first();        
+        if (\Hash::check($password, $employee->password)) 
+        {
+            $result = ['success' => true];
+        }
+        else
+        {
+            $result = ['success' => false];
+        }
+        return json_encode($result);
+    }        
+    /***************************Rohit*********************************/
     
     protected function guard() {
         return Auth::guard('admin');

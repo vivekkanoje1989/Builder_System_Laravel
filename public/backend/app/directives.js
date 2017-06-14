@@ -108,7 +108,6 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     if (response.success) { //response true  
                         if (response.flag === 0)//if customer exist
                         {
-                            alert("1");
                             $scope.showDiv = false;
                             $scope.showDivCustomer = true;
                             $scope.btnLabelC = "Update";
@@ -203,6 +202,9 @@ app.directive('checkUniqueEmail', function ($timeout, $q, Data) {
         link: function ($scope, element, attributes, model) {
             model.$asyncValidators.uniqueEmail = function () {
                 var personal_email1 = $scope.userData.personal_email1;
+                if(typeof personal_email1 == 'undefined'){
+                    var personal_email1 = $("#personal_email1").val();
+                }
                 var employeeId = (typeof $scope.userData.id === "undefined" || $scope.userData.id === "0") ? "0" : $scope.userData.id;
                 return Data.post('checkUniqueEmail', {
                     data: {emailData: personal_email1, id: employeeId},
@@ -261,3 +263,43 @@ app.directive("ngfSelect", [function () {
         }
     }
 }]);
+
+app.directive('checkOldPassword', function ($timeout, $q, Data) {
+    return {
+        restrict: 'AE',
+        require: 'ngModel',
+        link: function ($scope, element, attributes, model) {
+            model.$asyncValidators.checkOldPassword = function () {
+                console.log($scope);
+                var old_password = $scope.profileData.oldPassword;
+                return Data.post('checkOldPassword', {
+                    data: {old_password: old_password},
+                }).then(function (response) {
+                    $timeout(function () {
+                        model.$setValidity('compareOldPassword', !!response.success);
+                    }, 1000);
+                });
+            };
+        }
+    }
+});
+
+app.directive('checkUniqueMobile', function ($timeout, $q, Data) {
+    return {
+        restrict: 'AE',
+        require: 'ngModel',
+        link: function ($scope, element, attributes, model) {
+            model.$asyncValidators.uniqueMobile = function () {
+                var personal_mobile1 = $scope.userData.personal_mobile1;
+                var employeeId = (typeof $scope.userData.id === "undefined" || $scope.userData.id === "0") ? "0" : $scope.userData.id;
+                return Data.post('checkUniqueMobile', {
+                    data: {mobileData: personal_mobile1, id: employeeId},
+                }).then(function (response) {
+                    $timeout(function () {
+                        model.$setValidity('uniqueMobile', !!response.success);
+                    }, 1000);
+                });
+            };
+        }
+    }
+});

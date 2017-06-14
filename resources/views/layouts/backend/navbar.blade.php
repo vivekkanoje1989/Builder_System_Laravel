@@ -227,9 +227,10 @@
                         <a chat-link class="wave in" title="Chat"></a>
                     </li>
                     <li>
-                        <a class="login-area dropdown-toggle" data-toggle="dropdown">
+                        <a class="login-area dropdown-toggle" data-toggle="dropdown" ng-controller="hrController">
                             <div class="avatar" title="View your public profile">
-                                <img src="/backend/assets/img/avatars/adam-jansen.jpg">
+                                <img ng-show="!imageURL" src="[[ Config('global.s3Path') ]]employee-photos/[[Auth::guard('admin')->user()->employee_photo_file_name;]]">
+                                <img ng-show="imageURL" src="[[ Config('global.s3Path') ]]employee-photos/{{imageURL}}">
                             </div>
                             <section>
                                 <h2><span class="profile"><span>[[Auth::guard('admin')->user()->first_name;]] [[Auth::guard('admin')->user()->last_name;]]</span></span></h2>
@@ -238,19 +239,19 @@
                         <!--Login Area Dropdown-->
                         <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
                             <li class="username"><a>[[Auth::guard('admin')->user()->first_name;]]</a></li>
-                            <li class="email"><a>[[Auth::guard('admin')->user()->personal_email1;]]</a></li>
+                            <li class="email"><a>[[Auth::guard('admin')->user()->username;]]</a></li>
                             <!--Avatar Area-->
-<!--                            <li>
+                            <li>
                                 <div class="avatar-area">
-                                    <img src="/backend/assets/img/avatars/adam-jansen.jpg" class="avatar">
-                                    <span class="caption">Change Photo</span>
+                                    <img ng-show="!imageURL" src="[[ Config('global.s3Path') ]]employee-photos/[[Auth::guard('admin')->user()->employee_photo_file_name;]]" class="avatar">
+                                    <img ng-show="imageURL" src="[[ Config('global.s3Path') ]]employee-photos/{{imageURL}}" class="avatar">
+                                    <!--<span class="caption">Change Photo</span>-->
                                 </div>
-                            </li>-->
+                            </li>
                             <!--Avatar Area-->
                             <li class="edit">
-<!--                                <a href="profile.html" class="pull-left">Profile</a>-->
-                                <a href="#/user/update/[[Auth::guard('admin')->user()->id;]]">Profile</a>
-                                <a href="#" class="pull-right">Setting</a>
+                                <a href="office.php#/user/profile" class="pull-left">Profile</a>
+                                <!--<a href="#" class="pull-right">Setting</a>-->
                             </li>
                             <!--Theme Selector Area-->
                             <li class="theme-area">
