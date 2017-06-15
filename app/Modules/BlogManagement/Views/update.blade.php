@@ -24,7 +24,7 @@
                             <form  ng-submit="blogsForm.$valid && doblogscreateAction(bannerImage, galleryImage)" name="blogsForm"  novalidate enctype="multipart/form-data">
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                                 <div class="form-title">
-                                    Create blog
+                                    Edit Blog
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">
@@ -69,6 +69,63 @@
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col-sm-3 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label>Banner image</label>
+                                            <span class="input-icon icon-right">
+                                                <input type="file" ngf-select   ng-model="bannerImage" name="bannerImage" id="bannerImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                            </span>
+                                            <span class="help-block">{{bannerImage_err}}</span>
+                                        </div>
+                                        <div class="img-div2" data-title="name" ng-repeat="list in bannerImage_preview">    
+                                            <img ng-src="{{list}}" class="thumb photoPreview">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Gallery image </label>
+                                            <span class="input-icon icon-right">
+                                                <input type="file" multiple ngf-select ng-model="galleryImage" name="galleryImage" id="galleryImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                            </span>
+                                            <span class="help-block">{{galleryImage_err}}</span>
+                                        </div>
+                                        <div class="img-div2" data-title="name" ng-repeat="list in galleryImage_preview">    
+                                            <img ng-src="{{list}}" class="thumb photoPreview" height="180px" width="180px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label>Blog Code <span class="sp-err">*</span></label>
+                                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.code.$dirty && blogsForm.code.$invalid) }">
+                                                <span class="input-icon icon-right">
+                                                    <input type="text" class="form-control" ng-model="code" name="code" maxlength="50" required>
+                                                    <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.code.$error">
+                                                        <div ng-message="required">Code is required</div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-xs-12 ">
+                                        <div class="form-group">
+                                            <label>Blog Status <span class="sp-err">*</span></label>
+                                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.status.$dirty && blogsForm.status.$invalid) }">
+                                                <span class="input-icon icon-right">
+                                                    <select ng-model="status" name="status" class="form-control" required>
+                                                        <option value="">Select Status</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                    <i class="fa fa-sort-desc"></i>
+                                                    <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.status.$error">
+                                                        <div ng-message="required">Please select status</div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><br/>
+                                <div class="row">
                                     <div class="col-sm-12 col-xs-12">
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_short_description.$dirty && blogsForm.blog_short_description.$invalid) }">
                                             <span class="input-icon icon-right">
@@ -82,14 +139,14 @@
                                                 </div> 
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_short_description.$error">
                                                     <div ng-message="required">Short description is required</div>
-                                                </div><br/>
+                                                </div>
                                             </span>
                                         </div> 
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12">
-                                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_description.$dirty && blogsForm.blog_description.$invalid) }">
+                                        <div ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_description.$dirty && blogsForm.blog_description.$invalid) }">
                                             <span class="input-icon icon-right">
                                                 <div class="widget flat radius-bordered">
                                                     <div class="widget-header bordered-bottom bordered-themeprimary"><span class="widget-caption">Brief Description</span></div>         
@@ -100,36 +157,12 @@
                                                     </div>
                                                 </div> 
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_description.$error">
-                                                    <div ng-message="required">Description is required</div>
-                                                </div> <br/>
+                                                    <div ng-message="required">Brief description is required</div>
+                                                </div>
                                             </span>
                                         </div>
                                     </div> 
-                                </div>  
-                                <div class="row">
-                                    <div class="col-sm-3 col-xs-12 ">
-                                        <div class="form-group">
-                                            <label>Banner image</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="file" ngf-select   ng-model="bannerImage" name="bannerImage" id="bannerImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
-                                            </span>
-                                        </div>
-                                        <div class="img-div2" data-title="name" ng-repeat="list in bannerImage_preview">    
-                                            <img ng-src="{{list}}" class="thumb photoPreview">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label>Gallery image </label>
-                                            <span class="input-icon icon-right">
-                                                <input type="file" multiple ngf-select ng-model="galleryImage" name="galleryImage" id="galleryImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
-                                            </span>
-                                        </div>
-                                        <div class="img-div2" data-title="name" ng-repeat="list in galleryImage_preview">    
-                                            <img ng-src="{{list}}" class="thumb photoPreview" height="180px" width="180px;">
-                                        </div>
-                                    </div>
-                                </div><br/> 
+                                </div>
                                 <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
                             </form>
                         </div>

@@ -29,7 +29,7 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                            <th style="width:5%">SR No.</th>
+                            <th style="width:5%">Sr. No.</th>
                             <th style="width: 10%">
                                 <a href="javascript:void(0);" ng-click="orderByField='first_name'; reverseSort = !reverseSort">Alert To
                                     <span ng-show="orderByField == 'first_name'">

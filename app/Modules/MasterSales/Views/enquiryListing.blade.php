@@ -1,5 +1,5 @@
 <div class="widget-body table-responsive">
-    <div class="row" ng-if="listsIndex.success">
+    <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="col-sm-4 col-md-2 col-xs-12">

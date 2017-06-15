@@ -14,7 +14,7 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                            <th style="width: 5%;">SR No.</th>
+                            <th style="width: 5%;">Sr. No.</th>
                             <th style="width: 10%;">Email Id</th>
                             <th style="width: 10%;">Password</th>
                             <th style="width: 10%;">Service Provider </th>                            

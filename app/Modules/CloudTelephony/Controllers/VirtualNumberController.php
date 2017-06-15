@@ -100,7 +100,7 @@ class VirtualNumberController extends Controller {
                     if($input['vnumberData']['welcome_tune_type_id'] == 3){
                         if(!empty($input['vnumberData']['welcome_tune_audio'])){
                             $s3FolderName ='caller_tunes';  
-                            $name = S3::s3FileUplod($input['vnumberData']['welcome_tune_audio'], $s3FolderName,1);
+                            $name = S3::s3FileUpload($input['vnumberData']['welcome_tune_audio'], $s3FolderName,1);
                             $name = trim($name, ",");
                             $input['vnumberData']['welcome_tune'] = $name;
                         }
@@ -112,7 +112,7 @@ class VirtualNumberController extends Controller {
                     if($input['vnumberData']['hold_tune_type_id'] == 3){
                         if(!empty($input['vnumberData']['hold_tune_audio'])){
                             $s3FolderName ='caller_tunes';  
-                            $name = S3::s3FileUplod($input['vnumberData']['hold_tune_audio'], $s3FolderName,1);
+                            $name = S3::s3FileUpload($input['vnumberData']['hold_tune_audio'], $s3FolderName,1);
                             $name = trim($name, ",");
                             $input['vnumberData']['hold_tune'] = $name;
                         }
@@ -124,7 +124,7 @@ class VirtualNumberController extends Controller {
                     if($input['vnumberData']['nwh_welcome_tune_type_id'] == 3){
                         if(!empty($input['vnumberData']['nwh_welcome_tune_audio'])){
                             $s3FolderName ='caller_tunes';  
-                            $name = S3::s3FileUplod($input['vnumberData']['nwh_welcome_tune_audio'], $s3FolderName,1);
+                            $name = S3::s3FileUpload($input['vnumberData']['nwh_welcome_tune_audio'], $s3FolderName,1);
                             $name = trim($name, ",");
                             $input['vnumberData']['nwh_welcome_tune'] = $name;
                         }
@@ -194,7 +194,7 @@ class VirtualNumberController extends Controller {
                             //$input['vnumberData']['welcome_tune_audio']->move(base_path()."/common/tunes/", $wfileName);
                             //$input['vnumberData']['ec_welcome_tune'] = $wfileName;
                             $s3FolderName ='caller_tunes';  
-                            $name = S3::s3FileUplod($input['vnumberData']['welcome_tune_audio'], $s3FolderName,1);
+                            $name = S3::s3FileUpload($input['vnumberData']['welcome_tune_audio'], $s3FolderName,1);
                             $name = trim($name, ",");
                             $input['vnumberData']['ec_welcome_tune'] = $name;
                         }
@@ -209,7 +209,7 @@ class VirtualNumberController extends Controller {
                             //$input['vnumberData']['hold_tune_audio']->move(base_path()."/common/tunes/", $hfileName);
                             //$input['vnumberData']['ec_hold_tune'] = $hfileName;
                             $s3FolderName ='caller_tunes';  
-                            $name = S3::s3FileUplod($input['vnumberData']['hold_tune_audio'], $s3FolderName,1);
+                            $name = S3::s3FileUpload($input['vnumberData']['hold_tune_audio'], $s3FolderName,1);
                             $name = trim($name, ",");
                             $input['vnumberData']['ec_hold_tune'] = $name;
                         }

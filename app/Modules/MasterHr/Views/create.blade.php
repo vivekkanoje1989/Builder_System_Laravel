@@ -619,7 +619,7 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="button" class="btn btn-primary btn-pre4">Prev</button>
-                            <button type="button" class="btn btn-primary btn-nxt6" ng-click="step4=true">Next</button>
+                            <button type="button" class="btn btn-primary btn-nxt6" ng-click="(step4=true);checkDepartment();">Next</button>
                         </div>
                     </div>
                 </div>

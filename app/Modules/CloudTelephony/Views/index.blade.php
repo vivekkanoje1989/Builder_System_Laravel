@@ -12,7 +12,7 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                            <th style="width:5%">SR No.</th>
+                            <th style="width:5%">Sr. No.</th>
                             <th style="width: 15%">Client Name</th>
                             <th style="width: 10%">Virtual Number</th>
                             <th style="width: 10%">Default Number</th>

@@ -212,7 +212,7 @@ class MyStorageController extends Controller {
                 $res = MyStorage::where('id', $input['id'])->select('folder')->first();
                 $s3FolderName = $res->folder;
                 $imageName = 'storage_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['fileName']['fileName']->getClientOriginalExtension();
-                S3::s3FileUplod($input['fileName']['fileName']->getPathName(), $imageName, $s3FolderName);
+                S3::s3FileUpload($input['fileName']['fileName']->getPathName(), $imageName, $s3FolderName);
                 $FileName = $imageName;
 
                 $post = ['file_name' => $FileName, 'storage_id' => $input['id'], 'file_url' => $s3FolderName . '/' . $FileName];
@@ -242,7 +242,7 @@ class MyStorageController extends Controller {
                 if (!empty($query->folder)) {
                     $s3FolderName = $query->folder . "/" . $res->folder;
                     $imageName = 'storage_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['fileName']['fileName']->getClientOriginalExtension();
-                    S3::s3FileUplod($input['fileName']['fileName']->getPathName(), $imageName, $s3FolderName);
+                    S3::s3FileUpload($input['fileName']['fileName']->getPathName(), $imageName, $s3FolderName);
                     $FileName = $imageName;
                     $post = ['file_name' => $FileName, 'storage_id' => $input['id'], 'file_url' => $s3FolderName . '/' . $FileName];
                     $loggedInUserId = Auth::guard('admin')->user()->id;

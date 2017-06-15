@@ -5,7 +5,7 @@
  * Developed By :Uma Shinde(22-03-2017)
  * purpose : Managing images on AWS S3 Buckets
  * 1) s3Configuration() : This function is for s3 configuratio. We can set access key,secret key,region,bucket dynamically from system_configs table.
- * 2) s3FileUplod() : This function will upload image to the s3 bucket with folder name.
+ * 2) s3FileUpload() : This function will upload image to the s3 bucket with folder name.
  * 3)s3FileDelete() : Delete file from s3 bucket if exist. Pass folder name as parameter to delete file under that folder.
   This will return true if file exist, otherwise deletes the file and returns false.
  * 4)s3FileLists() :listing all files from bucket. It returns file names in json array.
@@ -55,7 +55,7 @@ class S3 {
     }
 
     /*
-     * s3FileUplod() used for upload file to s3 bucket
+     * s3FileUpload() used for upload file to s3 bucket
      * parameters-
      *          1)$image - image file temporary name or pathname
      *          2)$imageFileName -image file name which we want to upload with extention

@@ -165,7 +165,7 @@ class ProjectsController extends Controller {
                                     $prImageName = explode(",", $isProjectExist[$key]);
                                     for ($i = 0; $i < count($input['projectImages'][$key]); $i++) {
                                         $imageName = 'project_' . $projectId . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['projectImages'][$key][$i]->getClientOriginalExtension();
-                                        S3::s3FileUplod($input['projectImages'][$key][$i]->getPathName(), $imageName, $s3FolderName);
+                                        S3::s3FileUpload($input['projectImages'][$key][$i]->getPathName(), $imageName, $s3FolderName);
                                         $prImageName[] = $imageName;
                                     }
                                 } else {
@@ -179,7 +179,7 @@ class ProjectsController extends Controller {
                                     /****************delete single image from s3 bucket end**************** */
 
                                     $imageName = 'project_' . $projectId . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['projectImages'][$key]->getClientOriginalExtension();
-                                    S3::s3FileUplod($input['projectImages'][$key]->getPathName(), $imageName, $s3FolderName);
+                                    S3::s3FileUpload($input['projectImages'][$key]->getPathName(), $imageName, $s3FolderName);
                                     $prImageName[] = $imageName;
                                 }
                                 $prImageName = array_filter($prImageName);

@@ -33,14 +33,17 @@ class UserController extends Controller {
     public $themeName;
 
     public function __construct() {
-        $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
-        Config::set('global.themeName', $result['theme_name']);
-        $this->themeName = Config::get('global.themeName');
-        $getWebsiteUrl = config('global.getWebsiteUrl');
+        try{
+            $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
+            Config::set('global.themeName', $result['theme_name']);
+            $this->themeName = Config::get('global.themeName');
+            $getWebsiteUrl = config('global.getWebsiteUrl');
+        } catch (\Exception $ex){
+            return View::make('layouts.backend.error500')->withSuccess('Page not found');
+        }
     }
 
     public function load(){
-//        echo $_SERVER['REQUEST_URI']."<br>".$_SERVER['PHP_SELF'];
         return view('website');
     }
     public function getMenus() {
@@ -101,7 +104,7 @@ class UserController extends Controller {
 
                 $s3FolderName = "Testimonials";
                 $imageName = 'testimonial_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photoUrl']->getClientOriginalExtension();
-                S3::s3FileUplod($input['photoUrl']->getPathName(), $imageName, $s3FolderName);
+                S3::s3FileUpload($input['photoUrl']->getPathName(), $imageName, $s3FolderName);
                 $photo_url = $imageName;
             } else {
                 $photo_url = '';
@@ -142,7 +145,7 @@ class UserController extends Controller {
             if ($originalName !== 'fileNotSelected') {
                 $s3FolderName = "career/resume";
                 $imageName = 'resume_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['resumeFileName']->getClientOriginalExtension();
-                S3::s3FileUplod($input['resumeFileName']->getPathName(), $imageName, $s3FolderName);
+                S3::s3FileUpload($input['resumeFileName']->getPathName(), $imageName, $s3FolderName);
                 $resume_file_name = $imageName;
                 unset($input['resumeFileName']);
             } else {
@@ -157,7 +160,7 @@ class UserController extends Controller {
 
                 $s3FolderName = "career/applicants";
                 $imageName = 'applicant_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photoUrl']->getClientOriginalExtension();
-                S3::s3FileUplod($input['photoUrl']->getPathName(), $imageName, $s3FolderName);
+                S3::s3FileUpload($input['photoUrl']->getPathName(), $imageName, $s3FolderName);
                 $photo_url = $imageName;
                 unset($input['photoUrl']);
             }

@@ -59,7 +59,7 @@ class BlogManagementController extends Controller {
 
                 $s3FolderName = "Blog/blog_banner_images";
                 $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
-                S3::s3FileUplod($input['blogImages']['blog_banner_images']->getPathName(), $imageName, $s3FolderName);
+                S3::s3FileUpload($input['blogImages']['blog_banner_images']->getPathName(), $imageName, $s3FolderName);
                 $banner_images = $imageName;
             } else {
                 unset($input['blog_banner_images']);
@@ -73,7 +73,7 @@ class BlogManagementController extends Controller {
                 $s3FolderName = "Blog/gallery_image";
                 for ($i = 0; $i < $imgCount; $i++) {
                     $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['galleryImage']['galleryImage'][$i]->getClientOriginalExtension();
-                    S3::s3FileUplod($input['galleryImage']['galleryImage'][$i]->getPathName(), $imageName, $s3FolderName);
+                    S3::s3FileUpload($input['galleryImage']['galleryImage'][$i]->getPathName(), $imageName, $s3FolderName);
                     $name .= ',' . $imageName;
                 }
                 $allfile = trim($name, ",");
@@ -101,13 +101,14 @@ class BlogManagementController extends Controller {
 
     public function update($id) {
         $input = Input::all();
+        
         if (!empty($input['blogImages']['blog_banner_images'])) {
 
             $originalName = $input['blogImages']['blog_banner_images']->getClientOriginalName();
             if ($originalName !== 'fileNotSelected') {
                 $s3FolderName = "Blog/blog_banner_images";
                 $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
-                S3::s3FileUplod($input['blogImages']['blog_banner_images']->getPathName(), $imageName, $s3FolderName);
+                S3::s3FileUpload($input['blogImages']['blog_banner_images']->getPathName(), $imageName, $s3FolderName);
                 $banner_images = $imageName;
             } else {
                 unset($input['blog_banner_images']);
@@ -121,7 +122,7 @@ class BlogManagementController extends Controller {
                 $s3FolderName = "Blog/gallery_image";
                 for ($i = 0; $i < $imgCount; $i++) {
                     $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['galleryImage']['galleryImage'][$i]->getClientOriginalExtension();
-                    S3::s3FileUplod($input['galleryImage']['galleryImage'][$i]->getPathName(), $imageName, $s3FolderName);
+                    S3::s3FileUpload($input['galleryImage']['galleryImage'][$i]->getPathName(), $imageName, $s3FolderName);
                     $name .= ',' . $imageName;
                 }
                 $allfile = trim($name, ",");
@@ -131,13 +132,9 @@ class BlogManagementController extends Controller {
             unset($input['blog_images']);
             $allfile = implode(',', $input['allgallery']);
         }
-
-
-        $cnt = WebBlogs::where(['blog_title' => $input['blog_title']])
-                        ->where('id', '!=', $id)->get()->count();
+        $cnt = WebBlogs::where(['blog_title' => $input['blog_title']])->where('id', '!=', $id)->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Blog title already exists'];
-            return json_encode($result);
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -148,10 +145,10 @@ class BlogManagementController extends Controller {
             unset($input['blogData']['galleryImage']);
             unset($input['blogData']['allgallery']);
             unset($input['blogData']['allbanner']);
-            $blogData = WebBlogs::where('id', '=', $id)->update($input['blogData']);
+            $blogData = WebBlogs::where('id', '=', $id)->update($input['blogData']);            
             $result = ['success' => true, 'result' => $blogData];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function removeBlogImage() {

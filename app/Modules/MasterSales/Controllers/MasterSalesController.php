@@ -775,7 +775,7 @@ class MasterSalesController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);      
         $filterData = $request['filterData']; 
-
+//echo "<pre>";print_r($filterData);exit;
         if (empty($filterData['loggedInUserID']))
             $loggedInUserId = Auth::guard('admin')->user()->id;
         else
@@ -793,20 +793,26 @@ class MasterSalesController extends Controller {
         $filterData["subsource_id"] = !empty($filterData['subsource_id']) ? implode(',', array_column($filterData['subsource_id'], 'id')) : "";
         $filterData["project_id"] = !empty($filterData['project_id']) ? implode(',', array_column($filterData['project_id'], 'id')) : "";
         $filterData["enquiry_locations"] = !empty($filterData['enquiry_locations']) ? implode(',', array_column($filterData['enquiry_locations'], 'id')) : "";
-        $filterData["parking_required"] = !empty($filterData['parking_required']) ? $filterData['parking_required'] : "";
-        $filterData["loan_required"] = !empty($filterData['loan_required']) ? $filterData['loan_required'] : "";
+        $filterData["parking_required"] = (!empty($filterData['parking_required']) || isset($filterData['parking_required'])) ? $filterData['parking_required'] : "";
+        $filterData["loan_required"] = (!empty($filterData['loan_required']) || isset($filterData['loan_required'])) ? $filterData['loan_required'] : "";
         $filterData["site_visited"] = !empty($filterData['site_visited']) ? $filterData['site_visited'] : "";
         $filterData["channel_id"] = !empty($filterData['channel_id']) ? $filterData['channel_id'] : "";
         $filterData["maxbudget"] = !empty($request['maxBudget']) ? $request['maxBudget'] : "0";
         $filterData["minbudget"] = !empty($request['minBudget']) ? $request['minBudget'] : "0";
+        $filterData["mobileNumber"] = !empty($filterData['mobileNumber']) ? $filterData['mobileNumber'] : "";
         $filterData["verifiedMobNo"] = !empty($filterData['verifiedMobNo']) ? $filterData['verifiedMobNo'] : "0";
         $filterData["verifiedEmailId"] = !empty($filterData['verifiedEmailId']) ? $filterData['verifiedEmailId'] : "0";
 
-        $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '(' . $loggedInUserId . ',"' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
-                        $filterData["emailId"] . '","' . $filterData["mobileNubmer"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
+//        echo 'CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
+//                        $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
+//                        $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
+//                        $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
+//                        $filterData["channel_id"] . '","0","' . $filterData['maxbudget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '");';exit;
+        $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
+                        $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
                         $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
                         $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
-                        $filterData["channel_id"] . '",' . $filterData["minbudget"] . ',' . $filterData["maxbudget"] . ',' . $filterData["verifiedMobNo"] . ',' . $filterData["verifiedEmailId"] . ')');
+                        $filterData["channel_id"] . '","0","' . $filterData['maxbudget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '");');
         $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
 
         if (count($getEnquiryDetails) != 0) {

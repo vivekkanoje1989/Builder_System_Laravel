@@ -67,7 +67,7 @@ class UserDocumentsController extends Controller {
 
                     $s3FolderName = 'Employee-Documents';
                     $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['documentUrl']['documentUrl']->getClientOriginalExtension();
-                    S3::s3FileUplod($input['documentUrl']['documentUrl']->getPathName(), $imageName, $s3FolderName);
+                    S3::s3FileUpload($input['documentUrl']['documentUrl']->getPathName(), $imageName, $s3FolderName);
                     $document_url = $imageName;
                 } else {
                     unset($input['documentUrl']);
@@ -101,7 +101,7 @@ class UserDocumentsController extends Controller {
 
                 $s3FolderName = 'Employee-Documents';
                 $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['documentUrl']['documentUrl']->getClientOriginalExtension();
-                S3::s3FileUplod($input['documentUrl']['documentUrl']->getPathName(), $imageName, $s3FolderName);
+                S3::s3FileUpload($input['documentUrl']['documentUrl']->getPathName(), $imageName, $s3FolderName);
                 $document_url = $imageName;
             } else {
                 unset($input['documentUrl']);

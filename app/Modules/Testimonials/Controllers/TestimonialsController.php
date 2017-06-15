@@ -67,7 +67,7 @@ class TestimonialsController extends Controller {
         $input = Input::all();
         $s3FolderName = '/Testimonial/';
         $fileName = 'testimonial_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['photo_url']->getClientOriginalExtension();
-        S3::s3FileUplod($input['photo_url']->getPathName(), $fileName, $s3FolderName);
+        S3::s3FileUpload($input['photo_url']->getPathName(), $fileName, $s3FolderName);
         
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
@@ -99,7 +99,7 @@ class TestimonialsController extends Controller {
                 $path = $s3FolderName . $getOldPhoto[0]['photo_url'];
                 S3::s3FileDelete($path);                                            
                 $imageName = "testimonial_".rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $fileName;
-                S3::s3FileUplod($input['photo_url']->getPathName(), $imageName, $s3FolderName);
+                S3::s3FileUpload($input['photo_url']->getPathName(), $imageName, $s3FolderName);
                 $fileName = trim($imageName, ",");
                 $input['photo_url'] = $fileName;
             } else {

@@ -39,7 +39,7 @@ class ThemesController extends Controller {
                 if ($originalName !== 'fileNotSelected') {
                     $s3FolderName = "Themes";
                     $imageName = 'theme_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['imageUrl']->getClientOriginalExtension();
-                    S3::s3FileUplod($input['imageUrl']->getPathName(), $imageName, $s3FolderName);
+                    S3::s3FileUpload($input['imageUrl']->getPathName(), $imageName, $s3FolderName);
                     $image_url = $imageName;
                     unset($input['imageUrl']);
                 } else {
@@ -75,7 +75,7 @@ class ThemesController extends Controller {
 
                     $s3FolderName = "Themes";
                     $imageName = 'theme_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['imageUrl']->getClientOriginalExtension();
-                    S3::s3FileUplod($input['imageUrl']->getPathName(), $imageName, $s3FolderName);
+                    S3::s3FileUpload($input['imageUrl']->getPathName(), $imageName, $s3FolderName);
                     $image_url = $imageName;
                     unset($input['imageUrl']);
                 } else {

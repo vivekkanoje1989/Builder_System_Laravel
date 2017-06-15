@@ -24,7 +24,6 @@ if(empty($_SESSION['client_info']) || empty( $_SESSION['aws_bucket_id']))
     if(!$connetion)
     {
         echo "<div style='text-align: center;margin-top: 100px;font-size: 35px;color: red;'>
-                $server_name == $uname == $password
                 A database connection could not be established. Please try again.
             </div>";
         exit;    

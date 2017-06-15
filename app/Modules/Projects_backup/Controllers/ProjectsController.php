@@ -147,12 +147,12 @@ class ProjectsController extends Controller {
                                 if ($isMultiple) {
                                     for ($i = 0; $i < count($input['projectImages'][$key]); $i++) {
                                         $imageName = 'project' . $input['projectId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['projectImages'][$key][$i]->getClientOriginalExtension();
-                                        S3::s3FileUplod($input['projectImages'][$key][$i]->getPathName(), $imageName, $s3FolderName);
+                                        S3::s3FileUpload($input['projectImages'][$key][$i]->getPathName(), $imageName, $s3FolderName);
                                         $name .= ',' . $imageName;
                                     }
                                 } else {
                                     $imageName = 'project' . $input['projectId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['projectImages'][$key]->getClientOriginalExtension();
-                                    S3::s3FileUplod($input['projectImages'][$key]->getPathName(), $imageName, $s3FolderName);
+                                    S3::s3FileUpload($input['projectImages'][$key]->getPathName(), $imageName, $s3FolderName);
                                     $name .= ',' . $imageName;
                                 }
                                 $input['projectData'][$key] = trim($name, ',');

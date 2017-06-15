@@ -298,7 +298,7 @@ app.controller('currentCountryListCtrl', function ($scope, Data) {
     $scope.onCountryChange = function () {//for state list
         $scope.stateList = "";
         Data.post('getStates', {
-            data: {countryId: $("#current_country_id").val()},
+            data: {countryId: 101},
         }).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;

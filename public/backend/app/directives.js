@@ -77,13 +77,13 @@ app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
                     data: {mobileData: mobile, passwordData: password, securityPasswordData: securityPassword},
                 }).then(function (response) {
                     +
-                            $timeout(function () {
-                                model.$setValidity('wrongCredentials', !!response.success);
-                                $scope.errMsg = response.message;
-                            }, 200);
-                            if(response.success){
-                                $scope.fullName = response.message.fullName;
-                            }
+                        $timeout(function () {
+                            model.$setValidity('wrongCredentials', !!response.success);
+                            $scope.errMsg = response.message;
+                        }, 200);
+                        if(response.success){
+                            $scope.fullName = response.message.fullName;
+                        }
                 });
             };
         }
@@ -254,8 +254,10 @@ app.directive("ngfSelect", [function () {
                         }
                         reader.readAsDataURL(file[0]);
                     } else {
+                        
                         $scope[ngModel.name + "_err"] = imgName + "is not a valid image file.";
-                        $scope[ngModel.name + "_preview"] = "";
+                        $scope[ngModel.name + "_preview"] = "";alert(ngModel.name);
+                        $("#"+ngModel.name).val("");
                         return false;
                     }
                 });

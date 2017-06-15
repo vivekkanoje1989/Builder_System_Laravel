@@ -21,7 +21,8 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 var data = {
                     'blog_title': $scope.title, 'blog_seo_url': $scope.blog_seo_url, 'blog_short_description': $scope.blog_short_description,
                     'blog_description': $scope.blog_description, 'meta_description': $scope.meta_description,
-                    'blog_publish': $scope.blog_publish, 'meta_keywords': $scope.meta_Keywords, 'blogImages': {'blog_banner_images': bannerImage}, 'galleryImage': {'galleryImage': galleryImage}}
+                    'blog_publish': $scope.blog_publish, 'meta_keywords': $scope.meta_Keywords, 'blogImages': {'blog_banner_images': bannerImage}, 
+                    'galleryImage': {'galleryImage': galleryImage},blog_code:$scope.code, blog_status:$scope.status}
             } else {
                 var url = '/manage-blog/update/' + $scope.blogId;
                 var successMsg = "Blog updated successfully.";
@@ -30,7 +31,8 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 }
                 var data = {'blog_title': $scope.title, 'blog_seo_url': $scope.blog_seo_url, 'blog_short_description': $scope.blog_short_description,
                     'blog_description': $scope.blog_description, 'meta_description': $scope.meta_description,
-                    'blog_publish': $scope.blog_publish, 'meta_keywords': $scope.meta_Keywords, 'blogImages': {'blog_banner_images': bannerImage}, 'galleryImage': {'galleryImage': galleryImage}, 'allgallery': $scope.imgs, 'allbanner': $scope.bannerImg
+                    'blog_publish': $scope.blog_publish, 'meta_keywords': $scope.meta_Keywords, 'blogImages': {'blog_banner_images': bannerImage},
+                    'galleryImage': {'galleryImage': galleryImage}, 'allgallery': $scope.imgs, 'allbanner': $scope.bannerImg, blog_code:$scope.code, blog_status:$scope.status
                 }
             }
             bannerImage.upload = Upload.upload({
@@ -38,9 +40,9 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 headers: {enctype: 'multipart/form-data'},
                 data: data
             });
-            bannerImage.upload.then(function (response) {
-                $scope.errormsg = response.errormsg;
-                $timeout(function () {
+            bannerImage.upload.then(function (response) {console.log(response);
+                $scope.errormsg = response.data.errormsg;
+                if(response.data.success){
                     if ($scope.blogId == '0')
                     {
                         toaster.pop('success', 'Manage blog', 'Record successfully created');
@@ -48,7 +50,8 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                         toaster.pop('success', 'Manage blog', 'Record successfully updated');
                     }
                     $state.go('manageblogIndex');
-                });
+                }
+                    
             }, function (response) {
                 if (response.status !== 200) {
                     toaster.pop('danger', 'Please Select image for upload');
@@ -71,6 +74,8 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 $scope.blog_banner_images = response.records.blog_banner_images;
                 $scope.blog_short_description = response.records.blog_short_description;
                 $scope.bannerImg = response.records.blog_banner_images;
+                $scope.code = response.records.blog_code;
+                $scope.status = response.records.blog_status;
                 $scope.blog_banner_images = "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Blog/blog_banner_images/" + response.records.blog_banner_images;
 
                 var arraydata = response.records.blog_images.split(',');

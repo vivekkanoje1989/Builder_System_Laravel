@@ -2168,7 +2168,7 @@ angular.module('app')
                                     templateUrl: '/contact-us/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Contact us'
+                                        label: 'Contact Us'
                                     },
                                     resolve: {
                                         deps:
@@ -2246,7 +2246,7 @@ angular.module('app')
                                     templateUrl: '/manage-blog/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Blogs'
+                                        label: 'Blog Management'
                                     },
                                     resolve: {
                                         deps:

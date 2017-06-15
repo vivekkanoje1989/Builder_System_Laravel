@@ -9,7 +9,7 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', function ($scope, 
         };
         $scope.initialModal = function (id, index) {
 
-            $scope.heading = 'Update office address';
+            $scope.heading = 'Edit Details';
             $scope.id = id;
             $scope.index = index;
                Data.post('contact-us/getContactUsRow',{id:$scope.id}).then(function (response) {

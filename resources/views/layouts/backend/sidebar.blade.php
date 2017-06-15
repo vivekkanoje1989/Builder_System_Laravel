@@ -63,6 +63,8 @@
         setTimeout(function(){  
             $("ul#cstmenu > li > a").click(function () {
                 $('ul#cstmenu > li > ul.submenu').not($(this).siblings()).slideUp();
+                $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();
+                $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).slideUp();
                 $(this).siblings("ul.submenu").slideToggle();
             });
 

@@ -24,7 +24,7 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                            <th style="width:10%">SR No.</th>
+                            <th style="width:10%">Sr. No.</th>
                             <th style="width: 40%">
                                 <a href="javascript:void(0);" ng-click="orderByField='page_name'; reverseSort = !reverseSort">Page Name 
                                     <span ng-show="orderByField == 'page_name'">

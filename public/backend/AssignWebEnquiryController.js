@@ -8,7 +8,7 @@ app.controller('autoassignEnquiriesCtrl', ['$scope', 'Data', function ($scope, D
             });
         };
 
-        $scope.doautoenquiriesAction = function () {
+        $scope.doautoenquiriesAction = function () { 
             $scope.errorMsg = '';
             Data.put('assign-enquiry/' + $scope.employee_id, {
                 employee_id: $scope.employee_id}).then(function (response) {

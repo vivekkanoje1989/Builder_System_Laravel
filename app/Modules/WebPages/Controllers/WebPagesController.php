@@ -80,7 +80,7 @@ class WebPagesController extends Controller {
         $s3FolderName = '/website/banner-images';
         for ($i = 0; $i < $input['totalImages']; $i++) {
             $imageName = 'website_' . $input['pageId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['uploadImage'][$i]->getClientOriginalExtension();
-            S3::s3FileUplod($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
+            S3::s3FileUpload($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
 
                 $name .= ',' . $imageName;
         }
@@ -114,7 +114,7 @@ class WebPagesController extends Controller {
         $s3FolderName = '/website/banner-images';
         for ($i = 0; $i < $input['totalImages']; $i++) {
             $imageName = 'website_' . $input['pageId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['uploadImage'][$i]->getClientOriginalExtension();
-            S3::s3FileUplod($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
+            S3::s3FileUpload($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
 
                 $name .= ',' . $imageName;
         }
@@ -159,7 +159,7 @@ class WebPagesController extends Controller {
         $s3FolderName = '/website/banner-images';
         for ($i = 0; $i < $input['totalImages']; $i++) {
             $imageName = 'website_' . $input['pageId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['uploadImage'][$i]->getClientOriginalExtension();
-            S3::s3FileUplod($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
+            S3::s3FileUpload($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
 
                 $name .= ',' . $imageName;
         }
@@ -220,7 +220,7 @@ class WebPagesController extends Controller {
         $s3FolderName = '/website/banner-images';
         for ($i = 0; $i < $input['totalImages']; $i++) {
             $imageName = 'website_' . $input['pageId'] . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['uploadImage'][$i]->getClientOriginalExtension();
-            S3::s3FileUplod($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
+            S3::s3FileUpload($input['uploadImage'][$i]->getPathName(), $imageName, $s3FolderName);
             $name .= ',' . $imageName;
         }
         $name = trim($name, ",");

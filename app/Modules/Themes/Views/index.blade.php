@@ -34,7 +34,7 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                            <th style="width:5%">SR No.</th> 
+                            <th style="width:5%">Sr. No.</th> 
                             <th style="width: 30%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'theme_name'; reverseSort = !reverseSort">Themes
                                     <span ng-show="orderByField == 'theme_name'">
@@ -50,7 +50,7 @@
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{ list.theme_name}}</td>   
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit Themes" style="display: block;" data-toggle="modal" data-target="#themesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.theme_name}}','{{list.image_url}}',{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit {{ list.theme_name}}" style="display: block;" data-toggle="modal" data-target="#themesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.theme_name}}','{{list.image_url}}',{{ itemsPerPage}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
@@ -101,6 +101,7 @@
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="themesForm.image_url.$error">
                                     <div ng-message="required">Image is required</div>
                                 </div>
+                                <span class="help-block">{{image_url_err}}</span>
                             </span>
                             <div class="img-div2" ng-if="image == '' " data-title="name" ng-repeat="list in image_url_preview">    
                                 <img ng-src="{{list}}" class="thumb photoPreview">

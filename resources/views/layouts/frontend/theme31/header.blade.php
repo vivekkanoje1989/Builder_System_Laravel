@@ -16,7 +16,7 @@
         <link href="/frontend/theme31/assets/css/theme.css" rel="stylesheet">
         <link href="/frontend/theme31/assets/css/style.css" rel="stylesheet">
         <script src="/frontend/theme31/assets/plugins/modernizr.custom.js"></script>
-        <script src='https://www.google.com/recaptcha/api.js'></script> 
+        <script src='/frontend/api.js'></script> <!-- recaptcha -->
     </head>
     <body id="home" class="wide" ng-app="app" ng-controller="webAppController">
         <div id="preloader">

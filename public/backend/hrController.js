@@ -4,6 +4,7 @@ app.controller('hrController', ['$rootScope','$scope', '$state', 'Data', 'Upload
         $scope.userData = {};
         $scope.roleData = {};
         $scope.listUsers = [];
+        $scope.userData.department_id = [];
         $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
                 $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
                 $scope.userData.current_state_id = $scope.userData.current_city_id =

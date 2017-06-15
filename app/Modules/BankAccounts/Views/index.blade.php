@@ -39,7 +39,7 @@
                         <tr>
                         <tr>
                             <th style="width:5%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">SR No.
+                                <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">Sr. No.
                                     <span ng-show="orderByField == 'id'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a></th>                       

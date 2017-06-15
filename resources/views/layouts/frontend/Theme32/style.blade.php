@@ -20,4 +20,4 @@
 <link rel="stylesheet" href="/frontend/Theme32/styles/main.css">
 <link href="/frontend/Theme32/styles/style.css" rel="stylesheet">
 <link rel="shortcut icon" href="/frontend/Theme32/favicon.png">
-<script src='https://www.google.com/recaptcha/api.js'></script>
+<script src='/frontend/api.js'></script> <!-- recaptcha -->

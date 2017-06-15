@@ -293,7 +293,7 @@ class CtMenuSetting extends Eloquent
                         //$welcome_tune = $wfileName;
                         
                             $s3FolderName ='caller_tunes';  
-                            $name = S3::s3FileUplod($input['welcome_tune_audio'], $s3FolderName,1);
+                            $name = S3::s3FileUpload($input['welcome_tune_audio'], $s3FolderName,1);
                             $name = trim($name, ",");
                             $welcome_tune = $name;
                         }else{
@@ -310,7 +310,7 @@ class CtMenuSetting extends Eloquent
                         //$input['hold_tune_audio']->move(base_path()."/common/tunes/", $hfileName);
                         //$hold_tune = $hfileName;
                             $s3FolderName ='caller_tunes';  
-                            $name = S3::s3FileUplod($input['hold_tune_audio'], $s3FolderName,1);
+                            $name = S3::s3FileUpload($input['hold_tune_audio'], $s3FolderName,1);
                             $name = trim($name, ",");
                             $hold_tune = $name;
                         }else{
@@ -328,7 +328,7 @@ class CtMenuSetting extends Eloquent
                         //$input['msc_welcome_tune_audio']->move(base_path()."/common/tunes/", $nwhfileName);
                         //$msc_welcome_tune = $nwhfileName;
                             $s3FolderName ='caller_tunes';  
-                            $name = S3::s3FileUplod($input['msc_welcome_tune_audio'], $s3FolderName,1);
+                            $name = S3::s3FileUpload($input['msc_welcome_tune_audio'], $s3FolderName,1);
                             $name = trim($name, ",");
                             $msc_welcome_tune = $name;
                         }else{

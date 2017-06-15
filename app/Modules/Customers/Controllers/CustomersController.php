@@ -54,7 +54,7 @@ class CustomersController extends Controller {
                 if ($originalName !== 'fileNotSelected') {
                     $s3FolderName = "Customer";
                     $imageName = 'customer_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['cust_image_file']->getClientOriginalExtension();
-                    S3::s3FileUplod($input['cust_image_file']->getPathName(), $imageName, $s3FolderName);
+                    S3::s3FileUpload($input['cust_image_file']->getPathName(), $imageName, $s3FolderName);
                     $image_file = $imageName;
                     unset($input['cust_image_file']);
                 } else {

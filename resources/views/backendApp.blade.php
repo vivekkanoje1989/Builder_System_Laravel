@@ -21,31 +21,32 @@
         <style>
             @@font-face {
                 font-family: 'WYekan';
-                src: url('/assets/fonts/BYekan.woff') format('woff');
+                src: url('/backend/assets/fonts/BYekan.woff') format('woff');
                 font-weight: normal;
                 font-style: normal;
             }
             input[capitalizeFirst]{ text-transform: capitalize; }
     	</style>
-        <link href="http://fonts.googleapis.com/earlyaccess/droidarabickufi.css" rel="stylesheet" type="text/css" />
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300"
-              rel="stylesheet" type="text/css">
+        <link href="/backend/assets/css/droidarabickufi.css" rel="stylesheet" type="text/css" />
+        <link href="/backend/assets/css/css.css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
+<!--        <link href="http://fonts.googleapis.com/earlyaccess/droidarabickufi.css" rel="stylesheet" type="text/css" />
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">-->
 
         <!--Beyond styles-->
         <link ng-if="!settings.rtl" href="/backend/assets/css/beyond.min.css" rel="stylesheet" />
         <link ng-if="settings.rtl" href="/backend/assets/css/beyond-rtl.min.css" rel="stylesheet" />
         <link href="/backend/assets/css/demo.min.css" rel="stylesheet" />
-         <link href="/backend/assets/css/intlTelInput.css" rel="stylesheet" />
+        <link href="/backend/assets/css/intlTelInput.css" rel="stylesheet" />
         <link href="/backend/assets/css/typicons.min.css" rel="stylesheet" />
         <link href="/backend/assets/css/animate.min.css" rel="stylesheet" />
         <link ng-href="{{settings.skin}}" rel="stylesheet" type="text/css" />
         <link href="/backend/assets/css/loader.css" rel="stylesheet" />
         
         <?php }else{ $getThemeName = config('global.themeName');?>
-        <title page-title>BMS Builder</title>       
-        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-route.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular-animate.min.js"></script>
+        <title page-title>BMS Builder</title>  
+        <script src="/frontend/angular.min.js"></script>
+        <script src="/frontend/angular-route.min.js"></script>
+        <script src="/frontend/angular-animate.min.js"></script>
         <script src="/backend/app/ng-file-upload.js"></script>
         <script src="/frontend/route.js"></script> 
         @include('layouts.frontend.'.$getThemeName.'.style') 
@@ -98,7 +99,8 @@
         <script src="/backend/app/config.router.js"></script>
         <script src="/backend/app/beyond.js"></script>
         <script src="/backend/app/data.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+        <script src="/js/angular-messages.js"></script>
+        <script src="/backend/lib/angular/angular-messages.min.js"></script>
         <script src="/backend/app/directives.js"></script>        
         <script src="/backend/adminController.js"></script>
         <script src="/backend/hrController.js"></script>
