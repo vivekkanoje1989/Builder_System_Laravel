@@ -77,7 +77,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
-                <form novalidate ng-submit="themesForm.$valid && doThemesAction(Theme.image_url)" name="themesForm">
+                <form novalidate ng-submit="themesForm.$valid && doThemesAction(theme.image_url,theme)" name="themesForm">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
 
                     <div class="modal-body">
@@ -86,21 +86,23 @@
 
                             <span class="input-icon icon-right">
                                 <label>Theme Name<span class="sp-err">*</span></label>
-                                <input type="text" class="form-control" ng-model="theme_name" name="theme_name" ng-change="errorMsg = null" required>
+                                <input type="text" class="form-control" ng-model="theme.theme_name" name="theme_name" ng-change="errorMsg = null" required>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="themesForm.theme_name.$error">
-                                    <div ng-message="required">Project type is required</div>
+                                    <div ng-message="required">Theme name is required</div>
                                     <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
+                                <div ng-if="theme_name" class="sp-err theme_name">{{theme_name}}</div>
                             </span>
                         </div>
                         <input type="hidden" class="form-control" ng-model="id" name="_id">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!themesForm.theme_name.$dirty && themesForm.theme_name.$invalid)}">
                             <span class="input-icon icon-right">
                                 <label>Theme Image<span class="sp-err">*</span></label>
-                                <input type="file" ngf-select   ng-model="Theme.image_url" name="image_url" id="image_url" ng-required="require" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                <input type="file" ngf-select   ng-model="theme.image_url" name="image_url" id="image_url"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="themesForm.image_url.$error">
                                     <div ng-message="required">Image is required</div>
                                 </div>
+                                <div ng-if="image_url" class="sp-err image_url">{{image_url}}</div>
                                 <span class="help-block">{{image_url_err}}</span>
                             </span>
                             <div class="img-div2" ng-if="image == '' " data-title="name" ng-repeat="list in image_url_preview">    

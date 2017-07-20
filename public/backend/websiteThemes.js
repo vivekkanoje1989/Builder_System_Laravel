@@ -1,11 +1,11 @@
-app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', function ($scope, Data, Upload, $timeout, toaster) {
+app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster','$parse', function ($scope, Data, Upload, $timeout, toaster,$parse) {
 
         $scope.noOfRows = 1;
+        $scope.theme = {};
         $scope.itemsPerPage = 30;
         $scope.manageThemes = function () {
             Data.post('website/getThemes').then(function (response) {
                 $scope.themesRow = response.records;
-                console.log($scope.themesRow)
 
             });
         };
@@ -15,7 +15,7 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             {
                 $scope.heading = 'Add Themes';
                 $scope.id = '0';
-                $scope.theme_name = '';
+                $scope.theme.theme_name = '';
                 $scope.action = 'Submit';
                 $scope.require = true;
                 $scope.image = '';
@@ -23,22 +23,25 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 $scope.require = false;
                 $scope.heading = 'Edit Themes';
                 $scope.id = id;
-                $scope.theme_name = theme_name;
+                $scope.theme.theme_name = theme_name;
                 $scope.image = image;
-               
+
                 $scope.action = 'Update';
             }
 
             $scope.sbtBtn = false;
             $scope.index = index * ($scope.noOfRows - 1) + (index1);
         }
-        $scope.doThemesAction = function (imageUrl) {
+        
+        
+        
+        $scope.doThemesAction = function (imageUrl, themeData) {
             $scope.errorMsg = '';
             if ($scope.id == '0')
             {
                 var url = '/website-themes/';
                 var data = {
-                    'theme_name': $scope.theme_name, 'imageUrl': imageUrl}
+                    'themeData': themeData, 'imageUrl': imageUrl}
             } else {
                 var url = '/website-themes/update/' + $scope.id;
 
@@ -46,7 +49,7 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                     imageUrl = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 }
                 var data = {
-                    'theme_name': $scope.theme_name, 'imageUrl': imageUrl, 'image': $scope.image}
+                    'themeData': themeData, 'imageUrl': imageUrl}
             }
             imageUrl.upload = Upload.upload({
                 url: url,
@@ -54,18 +57,14 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 data: data
             });
             imageUrl.upload.then(function (response) {
-               
+
                 if (response.data.success) {
                     $timeout(function () {
                         if ($scope.id == '0')
                         {
-                            $scope.themesRow.push({'theme_name': $scope.theme_name, 'id': response.data.lastinsertid, 'image_url': response.data.image});
                             toaster.pop('success', 'Manage website themes', 'Record successfully created');
 
                         } else {
-                            $scope.themesRow.splice($scope.index, 1);
-                            $scope.themesRow.splice($scope.index, 0, {
-                                theme_name: $scope.theme_name, id: $scope.id, 'image_url': response.data.image});
                             toaster.pop('success', 'Manage website themes', 'Record successfully updated');
                         }
                         $scope.image_url_preview = {};
@@ -73,6 +72,13 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                         $('#themesModal').modal('toggle');
                     });
                 } else {
+                    var obj = response.data.message;
+                    var selector = [];
+                    for (var key in obj) {
+                        var model = $parse(key);// Get the model
+                        model.assign($scope, obj[key][0]);// Assigns a value to it
+                        selector.push(key);
+                    }
                     $scope.errorMsg = response.data.errormsg;
                 }
             }, function (response) {

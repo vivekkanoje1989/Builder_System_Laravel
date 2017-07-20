@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>app/Modules/MasterSales/Views/index.blade.php</url>
-            <bookmark id="1">
-                <name/>
-                <line>0</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/beyond.min.css</file>
@@ -23,6 +15,24 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries_old.blade.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/manageBlogController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Controllers/BlogManagementController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/employeeDeviceController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Themes/Models/WebThemes.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Themes/Controllers/ThemesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDevice/Models/EmployeesDevice.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Themes/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDevice/Controllers/EmployeeDeviceController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDevice/Views/createEmployeeDevice.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/websiteThemes.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Views/update.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Models/WebBlogs.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+>>>>>>> a2fa1d70ada9bac04e77c4eccda727d3d542b0be
         </group>
     </open-files>
 </project-private>

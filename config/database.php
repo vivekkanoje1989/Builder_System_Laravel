@@ -90,6 +90,7 @@ return [
             ],
             'write' => [
                 'host' => 'localhost'
+
             ],
             'driver' => 'mysql',
             'port' => 3306,

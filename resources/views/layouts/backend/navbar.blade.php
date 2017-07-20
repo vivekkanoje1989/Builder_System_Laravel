@@ -230,7 +230,7 @@
                         <a class="login-area dropdown-toggle" data-toggle="dropdown" ng-controller="hrController">
                             <div class="avatar" title="View your public profile">
                                 <img ng-show="!imageURL" src="[[ Config('global.s3Path') ]]employee-photos/[[Auth::guard('admin')->user()->employee_photo_file_name;]]">
-                                <img ng-show="imageURL" src="[[ Config('global.s3Path') ]]employee-photos/{{imageURL}}">
+                                <!--<img ng-show="imageURL" src="[[ Config('global.s3Path') ]]employee-photos/{{imageURL}}">-->
                             </div>
                             <section>
                                 <h2><span class="profile"><span>[[Auth::guard('admin')->user()->first_name;]] [[Auth::guard('admin')->user()->last_name;]]</span></span></h2>
@@ -244,7 +244,7 @@
                             <li>
                                 <div class="avatar-area">
                                     <img ng-show="!imageURL" src="[[ Config('global.s3Path') ]]employee-photos/[[Auth::guard('admin')->user()->employee_photo_file_name;]]" class="avatar">
-                                    <img ng-show="imageURL" src="[[ Config('global.s3Path') ]]employee-photos/{{imageURL}}" class="avatar">
+                                    <!--<img ng-show="imageURL" src="[[ Config('global.s3Path') ]]employee-photos/{{imageURL}}" class="avatar">-->
                                     <!--<span class="caption">Change Photo</span>-->
                                 </div>
                             </li>
@@ -271,7 +271,7 @@
                                 </ul>
                             </li>
                             <!--/Theme Selector Area-->
-                            <li class="dropdown-footer" ng-controller="adminController">
+                            <li class="dropdown-footer" ng-controller="adminController" >
                                 <a href="" ng-click="logout(logoutData)">
                                     Sign out
                                 </a>

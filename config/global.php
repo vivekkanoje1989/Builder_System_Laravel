@@ -15,4 +15,5 @@ return [
     'themeName'=>'',
     'backendUrl' => 'office.php',
     'recordsPerPage' =>30,
+    'client_id' => 1,
 ];
