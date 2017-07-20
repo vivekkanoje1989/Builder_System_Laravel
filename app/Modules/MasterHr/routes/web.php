@@ -18,6 +18,8 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::post('/master-hr/checkUniqueEmpId', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@checkUniqueEmpId']);
     Route::put('/master-hr/{id}', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@update']);
     
+    Route::post('/master-hr/updatePassword', 'MasterHrController@updatePassword');
+    
     Route::post('/master-hr/checkRole', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@checkRole']); //get role id
     Route::post('/master-hr/manageUsers', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@manageUsers']);
     Route::post('/master-hr/editDepartments', ['middleware'=>'check-permission:030102', 'uses' => 'MasterHrController@editDepartments']);

@@ -1,4 +1,4 @@
-app.controller('hrController', ['$rootScope','$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster', function ($rootScope,$scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster) {
+app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster) {
         $scope.pageHeading = 'Create User';
         $scope.buttonLabel = 'Create';
         $scope.userData = {};
@@ -14,6 +14,7 @@ app.controller('hrController', ['$rootScope','$scope', '$state', 'Data', 'Upload
         $scope.disableCreateButton = false;
         $scope.currentPage = $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
+        $rootScope.imageURL = "";
         $scope.userData.high_security_password_type = 0;
         $scope.userData.current_country_id = $scope.userData.permenent_country_id = 101;
         var date = new Date($scope.userData.date_of_birth);
@@ -480,6 +481,7 @@ app.controller('hrController', ['$rootScope','$scope', '$state', 'Data', 'Upload
                 $scope.profilePhoto = response.profilePhoto;
             });
         }
+
         $scope.updateProfile = function (profileData)
         {
             var url = '/master-hr/updateProfileInfo';
@@ -491,13 +493,30 @@ app.controller('hrController', ['$rootScope','$scope', '$state', 'Data', 'Upload
             })
             profileData.employee_photo_file_name.upload.then(function (response)
             {
-                if (response.success == false){
+                if (response.success == false) {
                     toaster.pop('error', 'Profile', 'Please upload profile photo');
-                } else{
+                } else {
                     toaster.pop('success', 'Profile', 'Profile updated successfully');
                 }
                 $rootScope.imageURL = response.data.profilePhoto;
             }, function (response) {});
+        }
+
+        $scope.updatePassword = function (profileData)
+        {
+            console.log(profileData);
+            Data.post('master-hr/updatePassword', {
+                data: profileData,
+            }).then(function (response) {
+                if (!response.success) {
+                    toaster.pop('error', 'Profile', 'Something went wrong please try again later');
+                } else
+                {
+                    toaster.pop('success', 'Profile', 'Password has been changed as well as Mail and sms has been sent to you.');
+                    $state.go('dashboard');
+                }
+            });
+
         }
 
         $scope.changePasswordFlagFun = function (changePasswordflag)
@@ -513,11 +532,11 @@ app.controller('hrController', ['$rootScope','$scope', '$state', 'Data', 'Upload
         }
         $scope.quickEmployee = function (quickEmp)
         {
-            Data.post('master-hr/createQuickUser',{data: quickEmp}).then(function (response){
-                if (!response.success){
+            Data.post('master-hr/createQuickUser', {data: quickEmp}).then(function (response) {
+                if (!response.success) {
                     toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
                     $scope.errorMsg = response.errormsg;
-                } else{
+                } else {
                     toaster.pop('success', 'Manage Users', 'Record created successfully.');
                     $state.go('userIndex');
                 }

@@ -23,6 +23,7 @@ Route::get('/undercConstruction', function () {
     return view('layouts.backend.pageUnderConstruction');
 });
 Route::post('/checkUserCredentials', 'backend\Auth\LoginController@checkUserCredentials');
+Route::post('/getforgotpassword', 'backend\Auth\LoginController@getforgotpassword');
 Route::get('/layout', function () {
     return view('layouts.backend.layout');
 });

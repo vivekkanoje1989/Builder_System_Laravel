@@ -129,6 +129,7 @@ angular.module('app')
                                                                             '/js/intlTelInput.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/backend/hrController.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -185,6 +186,7 @@ angular.module('app')
                                                                 serie: true,
                                                                 files: [
                                                                     '/backend/app/controllers/accordion.js',
+                                                                    '/backend/hrController.js',
                                                                 ]
                                                             });
                                                         }
@@ -3687,6 +3689,7 @@ angular.module('app')
                                         label: 'Logout'
                                     }
                                 })
+                                
                                 .state('forgotPassword', {
                                     url: '/office/forgotPassword',
                                     templateUrl: '/password/resetLink/backend',

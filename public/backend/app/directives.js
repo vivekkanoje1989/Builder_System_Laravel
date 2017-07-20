@@ -82,7 +82,9 @@ app.directive('checkLoginCredentials', function ($timeout, $q, Data, $http) {
                             $scope.errMsg = response.message;
                         }, 200);
                         if(response.success){
+                           
                             $scope.fullName = response.message.fullName;
+                            $scope.user_profile = response.photo;
                         }
                 });
             };

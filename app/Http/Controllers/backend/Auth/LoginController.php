@@ -42,7 +42,8 @@ class LoginController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $result = "";
-        $checkEmail = Employee::getRecords(["id","first_name","last_name","password","high_security_password","employee_status"], ["username" => $request['data']['mobileData']]);//(select attributes, where conditions)
+        $checkEmail = Employee::getRecords(["id","first_name","last_name","password","high_security_password","employee_status","employee_photo_file_name"], ["username" => $request['data']['mobileData']]);//(select attributes, where conditions)
+       
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         
         if(empty($request['data']['passwordData'])){      
@@ -66,7 +67,7 @@ class LoginController extends Controller {
                         return json_encode($result);
                     }                
                 } 
-                $result = ['success' => true, "message" => ["fullName" => $checkEmail[0]->first_name." ".$checkEmail[0]->last_name]];
+                $result = ['success' => true, "message" => ["fullName" => $checkEmail[0]->first_name." ".$checkEmail[0]->last_name],"photo"=>$checkEmail[0]->employee_photo_file_name];
             }
             else{
                 $result = ['success' => false,'message' => 'Mobile does not exist!'];
@@ -74,14 +75,14 @@ class LoginController extends Controller {
         }
         elseif(empty($request['data']['securityPasswordData'])){   
             if (\Hash::check($request['data']['passwordData'], $checkEmail[0]->password)) {
-                $result = ['success' => true, "message" => ["fullName" => $checkEmail[0]->first_name." ".$checkEmail[0]->last_name]];                
+                $result = ['success' => true, "message" => ["fullName" => $checkEmail[0]->first_name." ".$checkEmail[0]->last_name],"photo"=>$checkEmail[0]->employee_photo_file_name];                
             }else {
                 $result = ['success' => false,'message' => 'Wrong Password!'];
             }
         }
         else{      
             if ($request['data']['securityPasswordData'] == $checkEmail[0]->high_security_password) {
-                $result = ['success' => true, "message" => ["fullName" => $checkEmail[0]->first_name." ".$checkEmail[0]->last_name]];                
+                $result = ['success' => true, "message" => ["fullName" => $checkEmail[0]->first_name." ".$checkEmail[0]->last_name],"photo"=>$checkEmail[0]->employee_photo_file_name];                
             }else {
                 $result = ['success' => false,'message' => 'Wrong Password!'];
             }
@@ -141,7 +142,8 @@ class LoginController extends Controller {
                 CommonFunctions::insertLoginLog($username, "", $empId, 1, 3, $platformType); //loginStatus = 1(login fail), loginFailureReason = 3(not authorised to access the system)
                 $result = ['success' => false,'message' => 'You are not authorised to access the system on this machine'];
             }
-        }     
+        }   
+       
         if ($employee_status == 1 && auth()->guard('admin')->attempt(['username' => $username, 'password' => $password],true)) { //username => mobile
             //update employee mobile_remember_token
             CommonFunctions::insertLoginLog($username, $password, $empId, 2, 0, $platformType); //loginStatus = 2(login), loginFailureReason = 0
@@ -168,6 +170,7 @@ class LoginController extends Controller {
     public function getLogout() {
         $empId = Auth()->guard('admin')->user()->id;
         $username = Auth()->guard('admin')->user()->username;
+       
         CommonFunctions::insertLoginLog($username, "-", $empId, 3, 0, $platformType = 1);//loginStatus = 3(logout)
         Auth()->guard('admin')->logout();
         $result = ['success' => true, 'message' => 'Successfully logged out'];

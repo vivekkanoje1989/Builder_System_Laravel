@@ -23,28 +23,38 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
     $scope.resetErrorMsg = function () {
         $scope.errorMsg = '';
     }
-    $scope.login = function (loginData,e) {
+    $scope.login = function (loginData) {
+        alert('ghfgh');
         Data.post('authenticate', {
             username: loginData.mobile, password: loginData.password,
         }).then(function (response) {
             if (response.success) {
                 $state.reload();
-                $scope.showloader();                
+                $scope.showloader();
+                $rootScope.authenticated = true;
                 $state.go('dashboard');
                 $scope.hideloader();
-                e.preventDefault();
+               
             } else {
                 $scope.errorMsg = response.message;
             }
         });
     };
+    
+        $scope.data = function () {
+        alert('fgfg');
+    }
+    
     $scope.logout = function (logoutData) {
+        $scope.showloader();
         Data.post('logout', {
             data: logoutData
         }).then(function (response) {
             if (response.success) {
                 $rootScope.authenticated = false;
                 $state.go('login');
+                window.location.reload();
+                $scope.hideloader();      
             } else {
                 $scope.errorMsg = response.message;
             }

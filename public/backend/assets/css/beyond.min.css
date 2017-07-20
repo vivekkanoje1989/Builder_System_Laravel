@@ -10338,8 +10338,6 @@ button.toast-close-button {
 
 .pagination>li.active>a,
 .pagination>li.active>a:hover {
-    //background-color: #2dc3e8;
-    //border-color: #2dc3e8;
     color: #fff;
     -webkit-text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
     text-shadow: 0 -1px 0 rgba(0, 0, 0, .25)
@@ -10716,7 +10714,7 @@ button.toast-close-button {
     }
     .flip-scroll thead tr {
         display: block;
-        border: !important
+        border: !important;
     }
     .flip-scroll thead.bordered-blue>tr>th {
         border-right: 3px solid #5db2ff !important

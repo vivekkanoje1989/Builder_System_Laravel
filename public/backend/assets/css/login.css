@@ -1,105 +1,234 @@
 /* new css */
-  .pos2{
-        position: absolute;
-        bottom: 3px;
-    }
-    .bord2{
-        border-bottom: 1px solid #dee0de;
-        position: relative;
-    }
-    .bms-logo{
-        max-width: 55px;
-        height: auto;
-    }
-    .foot-logo2{
-        border-radius: 50%;
-        height: 32px;
-        width: 32px;
-        margin-top:10px;
-    }
+.pos2{
+    position: absolute;
+    bottom: 3px;
+}
+.bord2{
+    border-bottom: 1px solid #dee0de;
+    position: relative;
+}
+.bms-logo{
+    max-width: 55px;
+    height: auto;
+}
+.foot-logo2{
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    margin-top:10px;
+}
+.foot-p2{
+    position: absolute;
+    bottom: 0;
+    right: 2%; 
+}
+.clnt-logo{
+    position: absolute;
+    left: 0;
+    max-height: 90px;
+    width: auto;
+}
+
+@media only screen and (max-width: 768px){
     .foot-p2{
-        position: absolute;
-        bottom: 0;
-        right: 2%; 
+        position: static;
     }
-    .clnt-logo{
-        position: absolute;
-        left: 0;
-        max-height: 90px;
-        width: auto;
-    }
-    
-    @media only screen and (max-width: 768px){
-        .foot-p2{
-            position: static;
-        }
-    }
-    @media only screen and (max-width: 1400px){
-        .foot-p2 p{
-            font-size: 10px;
-        }   
-    }
+}
+@media only screen and (max-width: 1400px){
+    .foot-p2 p{
+        font-size: 10px;
+    }   
+}
 
 /*end new css */
 
+/*archana*/
 
+.img-div {
+    margin-top: 2%;
+    color: #5a5757;
+    text-align: left;
+    padding: 0 10%;
+}
+.img-div h1{  
+    margin-left: 19.3%;
+    font-family: 'Josefin Sans', sans-serif;
+    margin-top: 13%;
+}
 
+#login-form .input-group {
+    margin-bottom: 5px;
+    width: 100%;
+    padding:0 !important;
+}
 
-
-
-
-
-
-
-
-
-
-
+#forgot-form .input-group {
+    margin-bottom: 5px;
+    width: 100%;
+    padding:0 !important;
+}
+.mar10 h5 {
+    color: #d5f3ea !important;
+    font-size: 18px !important;
+}
+.mar10 a{
+    color: #d5f3ea !important;
+    font-size: 16px !important;
+}
 .mar10{
-        margin: 10px 0; 
-    }
-    .for-btn{
+    margin: 30px 0; 
+}
+
+.left-div{
+    max-width: 475px; 
+    margin-top: 9%;
+}
+.in-tag{
+    background-color: transparent !important;
+    border-top: 0px !important;
+    border-left: 0px !important;
+    border-right: 0px !important;
+    font-weight: 600;
+    height: 40px;
+    font-size: 15px !important;
+    padding: 0 !important;
+    color: #d5f3ea !important;
+}
+.in-tag:focus {
+    border: none !important;
+    outline: 0 none !important;
+    box-shadow: none !important;
+    border-bottom: 2px solid #d52d3a !important;
+    color: #d5f3ea !important;
+}
+.usr-name {
+    font-size: 22px;
+    text-transform: capitalize;
+    color: #fff;
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+}
+.log-usr {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    box-shadow: 0 3px 10px #333;
+    margin-bottom: 50px;
+}
+.half-1 {
+    height: 100%;
+    background: rgba(0, 168, 118, 0.19);
+    position: absolute;
+    right: 0;
+}
+.group-div button {
+    cursor: pointer;
+    text-align: center;
+    color: green;
+    font-size: 15px;
+    text-transform: uppercase;
+    border: none;
+    background: transparent;
+    border-bottom: 3px solid #6ca042;
+}
+.w3-btn {
+    background: #fff;
+    margin-bottom: 15px;
+    width: 115px;
+    height: 40px;
+    font-size: 15px;
+    border: none;
+    color: #00a876;
+    font-weight: 600;
+}
+.w3-btn {
+    background: #d5f3ea !important;
+    color: #666 !important;
+    box-shadow: none;
+}
+.w3-btn:hover {
+    background: rgba(65, 65, 65, 0.68) !important;
+    color: #fff !important;
+    box-shadow: none;
+}
+.footer-a {
+    color: #d5f3ea !important;
+    font-size: 12px;
+    text-decoration: none !important;
+    margin-left: 8px;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 25px;
+}
+.bms-logo {
+    max-height: 55px;
+    width: auto;
+    background: #d8efe8;
+    padding: 8px;
+    border-radius: 5px;
+}
+.foot-div2 {
+    font-size: 13px;
+    background: transparent;
+    padding: 15px;
+    border: none;
+    margin-top: 3px;
+}
+.left-logo-div{
+    margin-top: 90%;
+}
+.v2 {
+    margin-left: 19.3%;
+    font-family: 'Josefin Sans', sans-serif;
+    margin-top: 13%;
+}
+.loding-img {
+    margin-top: 3%;
+    margin-left: 34%;
+}
+
+
+
+.for-btn{
     background: #444 !important;
     color: #fff !important;
     padding: 2px 10px !important;
     border: none !important;
     font-size: 13px !important;
-    }
-    .for-p{
-        margin: 20px 0;
-    }
-    .for-a{
-        color: #444;
-        font-size: 13px;
-        text-decoration: none;
-    }
-    .w3-animate-right{position:relative;-webkit-animation:animateright 0.4s;animation:animateright 0.4s}
-    @-webkit-keyframes animateright{from{right:-300px;opacity:0} to{right:0;opacity:1}}
-    @keyframes animateright{from{right:-300px;opacity:0} to{right:0;opacity:1}}
+}
+.for-p{
+    margin: 20px 0;
+}
+.for-a{
+    color: #444;
+    font-size: 13px;
+    text-decoration: none;
+}
+.w3-animate-right{position:relative;-webkit-animation:animateright 0.4s;animation:animateright 0.4s}
+@-webkit-keyframes animateright{from{right:-300px;opacity:0} to{right:0;opacity:1}}
+@keyframes animateright{from{right:-300px;opacity:0} to{right:0;opacity:1}}
 
-    .sub-page-bg{
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        background:rgba(103, 101, 101, 0.59);
-    }
-    .page-bg{
+.sub-page-bg{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    /*        background:rgba(103, 101, 101, 0.59);*/
+}
+/*    .page-bg{
         background: url(http://cdn.wonderfulengineering.com/wp-content/uploads/2014/01/building-wallpaper-5.jpg) no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
+        
+        background-repeat: no-repeat;
         background-size: cover;
+        min-height: 100%; 
         position: absolute;
-        height: 100%;
         width: 100%;
-    }
-    #forgot-form, #otp-form{
-        display:none ;
-    }
-    .group-div span{
+    }*/
+#forgot-form, #otp-form{
+    display:none ;
+}
+/*    .group-div span{
         border-bottom: 1px solid green;
-    }
-    .group-div button{
+    }*/
+/*    .group-div button{
         cursor: pointer;
         text-align: center;
         color: green;
@@ -108,50 +237,48 @@
         border: none;
         background: transparent;
         border-bottom: 1px solid green;
-    }
-    .group-div label{
-        position: relative;
-        top: 13px;
-        left: 11px;
-        background: #fff;
-        font-size: 13px;
+    }*/
+.group-div label{
+    position: relative;
+    top: 13px;
+    left: 11px;
+    background: #fff;
+    font-size: 13px;
 
-    }
-    .group-div input{
-        width: 100%;
-        border: 1px solid #ddd;
-        height: 35px;
-        padding: 10px;
-        color: #000;
-    }
-    .log-usr-img{
-        width:100px;
-        height:100px;
-        border-radius: 50%;
-    }
-    .login-div{
-        padding: 50px;
-    }
+}
+.group-div input{
+    width: 100%;
+    border: 1px solid #ddd;
+    height: 35px;
+    padding: 10px;
+    color: #000;
+}
+.log-usr-img{
+    width:100px;
+    height:100px;
+    border-radius: 50%;
+}
+
+.div-wdt{
+    max-width: 90%;
+    margin: 0 auto;
+    position: relative;
+    top: 65px;
+}
+.div-bg{
+    background:#fff;
+    box-shadow: 0 0 10px #ccc;
+    position: relative;
+}
+
+
+@media screen and (max-width:1400px){
     .div-wdt{
-        max-width: 90%;
-        margin: 0 auto;
-        position: relative;
-        top: 65px;
+        top: 35px;
     }
-    .div-bg{
-        background:#fff;
-        box-shadow: 0 0 10px #ccc;
-        position: relative;
+}
+@media screen and (max-width:1000px){
+    h3 {
+        font-size: 17px;
     }
-
-
-    @media screen and (max-width:1400px){
-        .div-wdt{
-            top: 35px;
-        }
-    }
-    @media screen and (max-width:1000px){
-        h3 {
-            font-size: 17px;
-        }
-    }
+}
