@@ -3,7 +3,7 @@
 Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'namespace' => 'App\Modules\MasterHr\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
-    Route::get('/master-hr/getTeamLead/{id}', 'MasterHrController@getTeamLead');    
+   
     
     Route::get('/master-hr/orgchart', ['middleware'=>'check-permission:030105', 'uses' => 'MasterHrController@orgchart']); // show page
     Route::get('/master-hr/getChartData', ['middleware'=>'check-permission:030105', 'uses' => 'MasterHrController@getChartData']); //show chart

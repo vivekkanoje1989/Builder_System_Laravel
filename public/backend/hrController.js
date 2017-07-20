@@ -81,6 +81,37 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.applyClassMobile = 'ng-inactive';
             }
         }
+        
+            $scope.validatePMobile = function (mobNoSplit) {
+               
+            var firstDigit = mobNoSplit.substring(0, 1);
+
+            if (firstDigit == "0") {
+                $scope.errPersonalMobile = "First digit of mobile number should not be 0";
+                $scope.applyClassPMobile = 'ng-active';
+//                $scope.userContactForm.$valid = false;
+                $scope.contact = false;
+
+            }
+            if (mobNoSplit == "0000000000") {
+
+                $scope.errPersonalMobile = "Invalid mobile number";
+                $scope.applyClassMobile = 'ng-active';
+                $scope.contact = false;
+//                $scope.userContactForm = false;
+            } else if (mobNoSplit == "1234567890") {
+                $scope.errPersonalMobile = "Invalid mobile number";
+                $scope.applyClassPMobile = 'ng-active';
+                $scope.contact = false;
+            } else
+            {
+                $scope.errPersonalMobile = "";
+                $scope.applyClassPMobile = 'ng-inactive';
+                $scope.contact = true;
+            }
+
+
+        }
 
         $scope.copyToUsername = function (value) {
             if (typeof value !== "undefined") {
@@ -284,6 +315,13 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         };
+
+        $scope.manageQuickUsers = function () {
+            $scope.userData.personal_mobile1_calling_code = '+91';
+            $scope.userData.office_mobile_calling_code = '+91';
+            $scope.userData.personal_mobile1 = '';
+            $scope.userData.office_mobile_no = '';
+        }
 
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
@@ -530,27 +568,45 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             else
                 $scope.passwordValidation = false;
         }
+//        $scope.quickEmployee = function (quickEmp)
+//        {
+//            Data.post('master-hr/createQuickUser', {data: quickEmp}).then(function (response) {
+//                if (!response.success) {
+//                    toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
+//                    $scope.errorMsg = response.errormsg;
+//                } else {
+//                    toaster.pop('success', 'Manage Users', 'Record created successfully.');
+//                    $state.go('userIndex');
+//                }
+//            });
+//        }
         $scope.quickEmployee = function (quickEmp)
         {
-            Data.post('master-hr/createQuickUser', {data: quickEmp}).then(function (response) {
-                if (!response.success) {
-                    toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
-                    $scope.errorMsg = response.errormsg;
-                } else {
-                    toaster.pop('success', 'Manage Users', 'Record created successfully.');
-                    $state.go('userIndex');
-                }
-            });
-        }
+          
+            var date = new Date(quickEmp.joining_date);
+            quickEmp.joining_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+            $scope.isDisabled = true;
+            Data.post('master-hr/createQuickUser',
+                    {
+                        data: quickEmp
+                    })
+                    .then(function (response)
+                    {
+                        if (!response.success)
+                        {
+                            toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
+                            $scope.isDisabled = false;
+                            $scope.errorMsg = response.errormsg;
+                        } else
+                        {
+                            $scope.isDisabled = true;
+                            toaster.pop('success', 'Manage Users', 'Employee registeration successfully');
+                            $state.go('userIndex');
+                        }
+                    });
+        };
+
+
         /****************** Rohit *********************/
     }]);
 
-app.controller('teamLeadCtrl', function ($scope, Data) {
-    Data.get('master-hr/getTeamLead/' + $("#empId").val()).then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $scope.teamLeads = response.records;
-        }
-    });
-});

@@ -27,5 +27,22 @@ class WebThemes extends Eloquent {
         'updated_browser',
         'updated_mac_id',
     ];
+      public static function validationMessages() {
+        $messages = array(
+            'theme_name.required' => 'Please enter theme name.',
+            'image_url.required' => 'Please select image.',
+          
+        );
+        return $messages;
+    }
+
+    public static function validationRules() {
+        $rules = array(
+            'theme_name' => 'required',
+            'image_url' => 'required',
+            
+        );
+        return $rules;
+    }
 
 }

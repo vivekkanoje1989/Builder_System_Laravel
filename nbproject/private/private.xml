@@ -3,16 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/login.css</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/directives.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/manageBlogController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Controllers/BlogManagementController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/employeeDeviceController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Themes/Models/WebThemes.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Themes/Controllers/ThemesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDevice/Models/EmployeesDevice.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Themes/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDevice/Controllers/EmployeeDeviceController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDevice/Views/createEmployeeDevice.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/websiteThemes.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Views/update.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/profile.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/Auth/LoginController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Models/WebBlogs.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Views/create.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
         </group>
     </open-files>
 </project-private>

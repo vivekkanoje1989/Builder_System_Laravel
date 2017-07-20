@@ -256,20 +256,20 @@ class MasterHrController extends Controller {
         return view("MasterHr::create")->with("empId", $id);
     }
 
-    public function editDepartments() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();
-        $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);
-        $getDepartments = MlstBmsbDepartment::whereNotIn('id', $explodeDepartment)->get();
-        if (!empty($getDepartments)) {
-            $result = ['success' => true, 'records' => $getDepartments];
-            return $result;
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
+//    public function editDepartments() {
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+//        $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();
+//        $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);
+//        $getDepartments = MlstBmsbDepartment::whereNotIn('id', $explodeDepartment)->get();
+//        if (!empty($getDepartments)) {
+//            $result = ['success' => true, 'records' => $getDepartments];
+//            return $result;
+//        } else {
+//            $result = ['success' => false, 'message' => 'Something went wrong'];
+//            return json_encode($result);
+//        }
+//    }
 
     public function getDepartmentsToEdit() {
         $postdata = file_get_contents("php://input");
@@ -676,21 +676,7 @@ class MasterHrController extends Controller {
         }
     }
 
-    public function getTeamLead($id) {
-        $designation = MlstBmsbDesignation::with('employeeName')->get();
-        foreach ($designation as $desg) {
-            if (!empty($desg['employeeName'])) {
-                $employee[] = ['id' => $desg['employeeName']['id'], 'first_name' => $desg['employeeName']['first_name'], 'last_name' => $desg['employeeName']['last_name'], 'designation_name' => $desg['designation']];
-            }
-        }
-        if (!empty($employee)) {
-            $result = ['success' => true, 'records' => $employee];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
-        }
-    }
+   
 
     /*     * *************** END (Organization Chart) ******************** */
 
@@ -818,31 +804,152 @@ class MasterHrController extends Controller {
         return view("MasterHr::quickuser")->with("empId", Auth::guard('admin')->user()->id);
     }
 
+//    public function createQuickUser() {
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+//
+//        if (!empty($request['data']['loggedInUserId'])) {
+//            $loggedInUserId = $request['data']['loggedInUserId'];
+//        } else {
+//            $request['data']['loggedInUserId'] = Auth::guard('admin')->user()->id;
+//            $loggedInUserId = $request['data']['loggedInUserId'];
+//        }
+//
+//        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+//        $role_id = $request['data']['roleId'];
+//        $role = EmployeeRole::where('id', $role_id)->first();
+//
+//        $employee = new Employee();
+//        $employee->client_id = 1;
+//        $employee->title_id = $request['data']['title_id'];
+//        $employee->employee_status = $request['data']['employee_status'];
+//        $employee->first_name = $request['data']['first_name'];
+//        $employee->last_name = $request['data']['last_name'];
+//        $personalMobileNo1 = explode("-", $request['data']['personal_mobile1']);
+//        $employee->personal_mobile1_calling_code = (int) $personalMobileNo1[0];
+//        $employee->personal_mobile1 = $personalMobileNo1[1];
+//
+//        if (!empty($request['data']['personal_mobile2'])) {
+//            $personalMobileNo2 = explode("-", $request['data']['personal_mobile2']);
+//            if (!empty($personalMobileNo2[1])) {
+//                $personal_mobile2_calling_code = (int) $personalMobileNo2[0];
+//                $employee->personal_mobile2 = !empty($personalMobileNo2[1]) ? $personalMobileNo2[1] : NULL;
+//                $employee->personal_mobile2_calling_code = !empty($personal_mobile2_calling_code) ? $personal_mobile2_calling_code : NULL;
+//            }
+//        }
+//
+//        $officeMobileNo = explode("-", $request['data']['office_mobile_no']);
+//        if (!empty($officeMobileNo[1])) {
+//            $employee->office_mobile_calling_code = (int) $officeMobileNo[0];
+//            $employee->office_mobile_no = $officeMobileNo[1];
+//        }
+//
+//        if (!empty($request['data']['personal_landline_no'])) {
+//            $landlineNo = explode("-", $request['data']['personal_landline_no']);
+//            if (!empty($landlineNo[1])) {
+//                $employee->personal_landline_no = (!empty($landlineNo[1])) ? $landlineNo[1] : "";
+//                $employee->personal_landline_calling_code = !empty($landlineNo[1]) ? (int) $landlineNo[0] : NULL;
+//            }
+//        }
+//
+//        if (!empty($request['data']['personal_email1']))
+//            $employee->personal_email1 = $request['data']['personal_email1'];
+//
+//        if (!empty($request['data']['office_email_id']))
+//            $employee->office_email_id = $request['data']['office_email_id'];
+//
+//        $latest_employee = Employee::latest('id')->first();
+//        if (!empty($latest_employee->employee_id)) {
+//            $employee->employee_id = $latest_employee->employee_id + 1;
+//        } else {
+//            $employee->employee_id = 1;
+//        }
+//
+//        $employee->designation_id = $request['data']['designation_id'];
+//        $employee->reporting_to_id = $request['data']['reporting_to_id'];
+//        $employee->team_lead_id = $request['data']['team_lead_id'];
+//        $employee->employee_submenus = $role->employee_submenus;
+//        $employee->client_id = config('global.client_id');
+//        $employee->client_role_id = 1;
+//        $employee->high_security_password_type = 1;
+//        $employee->high_security_password = 1234;
+//        $employee->created_date = $create['created_date'];
+//        $employee->created_by = $create['created_by'];
+//        $employee->created_IP = $create['created_IP'];
+//        $employee->created_browser = $create['created_browser'];
+//        $employee->created_mac_id = $create['created_mac_id'];
+//        $password = substr($request['data']['username'], 0, 6);
+//        $username = $request['data']['username'];
+//        $employee->password = \Hash::make($password);
+//        $employee->username = $username;
+//        $employee->save();
+//
+//        $employeelog = $employee->getAttributes();
+//        $employeelog['main_record_id'] = $employee->id;
+//        $employeelog['record_type'] = 1;
+//        $employeelog['record_restore_status'] = 1;
+//        EmployeesLog::create($employeelog);
+//
+//        if (!empty($employee->id)) {
+//            $templatedata['employee_id'] = $employee->id;
+//            $templatedata['client_id'] = config('global.client_id');
+//            $templatedata['event_id_customer'] = 0;
+//            $templatedata['event_id_employee'] = 7;
+//            $templatedata['customer_id'] = 0;
+//            $templatedata['model_id'] = 0;
+//
+//            $templatedata['arrExtra'][0] = array(
+//                '[#username#]',
+//                '[#password#]',
+//                '[#secuiry_password#]'
+//            );
+//            $templatedata['arrExtra'][1] = array(
+//                $username,
+//                $password,
+//                '1234'
+//            );
+//            $result = CommonFunctions::templateData($templatedata);
+//            $res = ['success' => true, 'message' => 'Employee registeration successfully', "empId" => $employee->id];
+//        } else {
+//            $result = ['success' => false, 'message' => 'something went wrong. try again later'];
+//        }
+//        return json_encode($result);
+//    }
+
     public function createQuickUser() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
+        $departmentData = [];
         if (!empty($request['data']['loggedInUserId'])) {
             $loggedInUserId = $request['data']['loggedInUserId'];
         } else {
             $request['data']['loggedInUserId'] = Auth::guard('admin')->user()->id;
             $loggedInUserId = $request['data']['loggedInUserId'];
         }
-
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-        $role_id = $request['data']['roleId'];
-        $role = EmployeeRole::where('id', $role_id)->first();
 
         $employee = new Employee();
-        $employee->client_id = 1;
         $employee->title_id = $request['data']['title_id'];
         $employee->employee_status = $request['data']['employee_status'];
         $employee->first_name = $request['data']['first_name'];
         $employee->last_name = $request['data']['last_name'];
-        $personalMobileNo1 = explode("-", $request['data']['personal_mobile1']);
-        $employee->personal_mobile1_calling_code = (int) $personalMobileNo1[0];
-        $employee->personal_mobile1 = $personalMobileNo1[1];
+        if (!empty($request['data']['personal_mobile1_calling_code']))
+            $employee->personal_mobile1_calling_code = $request['data']['personal_mobile1_calling_code'];
+        else
+            $employee->personal_mobile1_calling_code = '91';
 
+        $employee->personal_mobile1 = $request['data']['personal_mobile1'];
+        $employee->joining_date = $request['data']['joining_date'];
+
+        if (!empty($request['data']['department_id'])) {
+            foreach ($request['data']['department_id'] as $department_id) {
+
+                $department = $department_id['id'];
+                array_push($departmentData, $department);
+            }
+            $department_id = implode(',', $departmentData);
+            $employee->department_id = $department_id;
+        }
         if (!empty($request['data']['personal_mobile2'])) {
             $personalMobileNo2 = explode("-", $request['data']['personal_mobile2']);
             if (!empty($personalMobileNo2[1])) {
@@ -852,11 +959,8 @@ class MasterHrController extends Controller {
             }
         }
 
-        $officeMobileNo = explode("-", $request['data']['office_mobile_no']);
-        if (!empty($officeMobileNo[1])) {
-            $employee->office_mobile_calling_code = (int) $officeMobileNo[0];
-            $employee->office_mobile_no = $officeMobileNo[1];
-        }
+        $employee->office_mobile_no = $request['data']['office_mobile_no'];
+        $request['data']['office_mobile_calling_code'] = '91';
 
         if (!empty($request['data']['personal_landline_no'])) {
             $landlineNo = explode("-", $request['data']['personal_landline_no']);
@@ -872,18 +976,44 @@ class MasterHrController extends Controller {
         if (!empty($request['data']['office_email_id']))
             $employee->office_email_id = $request['data']['office_email_id'];
 
-        $latest_employee = Employee::latest('id')->first();
-        if (!empty($latest_employee->employee_id)) {
-            $employee->employee_id = $latest_employee->employee_id + 1;
-        } else {
-            $employee->employee_id = 1;
+        $designation_id = 0;
+        if (!empty($request['data']['designation_id']['id']))
+            $designation_id = $request['data']['designation_id']['id'];
+        else if (!empty($request['data']['designation_id']))
+            $designation_id = $request['data']['designation_id'];
+
+        $team_lead_id = 0;
+        if (!empty($request['data']['team_to_id']['id']))
+            $team_lead_id = $request['data']['team_to_id']['id'];
+        else if (!empty($request['data']['team_lead_id']))
+            $team_lead_id = $request['data']['team_lead_id'];
+
+        $reporting_to_id = 0;
+        if (!empty($request['data']['reporting_to_id']['id']))
+            $reporting_to_id = $request['data']['reporting_to_id']['id'];
+        else if (!empty($request['data']['reporting_to_id']))
+            $reporting_to_id = $request['data']['reporting_to_id'];
+
+        $employee->designation_id = $designation_id;
+        $employee->reporting_to_id = $reporting_to_id;
+        $employee->team_lead_id = $team_lead_id;
+
+        $employee_submenus = array();
+        if (!empty($request['data']['roleId']['id'])) {
+            $employee_submenus = $request['data']['roleId']['employee_submenus'];
+        } else if (!empty($request['data']['roleId'])) {
+            $role_id = $request['data']['roleId'];
+            $role = EmployeeRole::where('id', $role_id)->first();
+            $employee_submenus = $role->employee_submenus;
         }
 
-        $employee->designation_id = $request['data']['designation_id'];
-        $employee->reporting_to_id = $request['data']['reporting_to_id'];
-        $employee->team_lead_id = $request['data']['team_lead_id'];
-        $employee->employee_submenus = $role->employee_submenus;
+        if (!empty($employee_submenus))
+            $employee->employee_submenus = $employee_submenus;
+        else
+            $employee->employee_submenus = '["0101","0102","0103","0104","0105","0106","0107"]';
+
         $employee->client_id = config('global.client_id');
+
         $employee->client_role_id = 1;
         $employee->high_security_password_type = 1;
         $employee->high_security_password = 1234;
@@ -892,12 +1022,11 @@ class MasterHrController extends Controller {
         $employee->created_IP = $create['created_IP'];
         $employee->created_browser = $create['created_browser'];
         $employee->created_mac_id = $create['created_mac_id'];
-        $password = substr($request['data']['username'], 0, 6);
-        $username = $request['data']['username'];
-        $employee->password = \Hash::make($password);
+        //$password = substr($request['data']['personal_mobile1'], 0, 6);
+        $username = $request['data']['personal_mobile1'];
+        //$employee->password = \Hash::make($password);
         $employee->username = $username;
         $employee->save();
-
         $employeelog = $employee->getAttributes();
         $employeelog['main_record_id'] = $employee->id;
         $employeelog['record_type'] = 1;
@@ -905,29 +1034,33 @@ class MasterHrController extends Controller {
         EmployeesLog::create($employeelog);
 
         if (!empty($employee->id)) {
+            $id = base64_encode($employee->id);
+            $server_url = $_SERVER['HTTP_HOST'] . '/website/registration/' . $id;
+            //$return_val = $this->shortenUrl($server_url); //live
+            $return_val = $server_url; //localhost
+
             $templatedata['employee_id'] = $employee->id;
-            $templatedata['client_id'] = config('global.client_id');
             $templatedata['event_id_customer'] = 0;
             $templatedata['event_id_employee'] = 7;
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 0;
+            $templatedata['template_setting_employee'] = 25;
             $templatedata['customer_id'] = 0;
             $templatedata['model_id'] = 0;
-
             $templatedata['arrExtra'][0] = array(
-                '[#username#]',
-                '[#password#]',
-                '[#secuiry_password#]'
+                '[#employeeRegistrationLink#]'
             );
             $templatedata['arrExtra'][1] = array(
-                $username,
-                $password,
-                '1234'
+                //$return_val['id'],
+                $return_val
             );
             $result = CommonFunctions::templateData($templatedata);
-            $res = ['success' => true, 'message' => 'Employee registeration successfully', "empId" => $employee->id];
+            $res = ['success' => true, 'message' => 'Employee registered successfully', "empId" => $employee->id];
+            return json_encode($res);
         } else {
             $result = ['success' => false, 'message' => 'something went wrong. try again later'];
+            return json_encode($result);
         }
-        return json_encode($result);
     }
 
     protected function guard() {

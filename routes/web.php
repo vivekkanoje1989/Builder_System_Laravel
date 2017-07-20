@@ -157,7 +157,10 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/getCities', 'backend\AdminController@getCities');
     Route::post('/getLocations', 'backend\AdminController@getLocations');
     Route::post('/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');   
+    Route::post('/checkUniqueMobile1', 'backend\AdminController@checkUniqueMobile1');
     Route::post('/checkUniqueMobile', 'backend\AdminController@checkUniqueMobile');
+     Route::get('/getTeamLead/{id}', 'backend\AdminController@getTeamLead');    
+      Route::post('/editDepartments', 'backend\AdminController@editDepartments');
     Route::post('/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');        
     Route::post('/getSalesEnqSubStatus', 'backend\AdminController@getSalesEnqSubStatus'); //geeta
     Route::post('/getSalesEnqSubCategory', 'backend\AdminController@getSalesEnqSubCategory'); //geeta

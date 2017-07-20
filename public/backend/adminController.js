@@ -219,7 +219,7 @@ app.controller('professionCtrl', function ($scope, Data) {
 app.controller('departmentCtrl', function ($scope, Data, $timeout) {
     $scope.departments = [];
     var empId = $("#empId").val();
-    if (empId === "0") {
+    if (empId === "0" || empId === undefined) {
 
         Data.get('getDepartments').then(function (response) {
             if (!response.success) {
@@ -230,7 +230,7 @@ app.controller('departmentCtrl', function ($scope, Data, $timeout) {
         });
     } else {
         $timeout(function () {
-            Data.post('master-hr/editDepartments', {data: empId}).then(function (response) {
+            Data.post('editDepartments', {data: empId}).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
@@ -498,6 +498,18 @@ app.controller('vehiclemodelCtrl', function ($scope, Data) {
             $scope.errorMsg = response.message;
         } else {
             $scope.vehiclemodels = response.records;
+        }
+    });
+});
+
+
+app.controller('teamLeadCtrl', function ($scope, Data) {
+    Data.get('getTeamLead/' + $("#empId").val()).then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.teamLeads = response.records;
+            console.log($scope.teamLeads );
         }
     });
 });

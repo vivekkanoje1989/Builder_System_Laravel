@@ -398,7 +398,67 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+    public function checkUniqueMobile1() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $id = $request['data']['id'];
+        $mobileData = $request['data']['mobileData'];
 
+        if ($id == 0) {
+            $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')
+                    ->where('personal_mobile1', $mobileData)
+                    ->orWhere('office_mobile_no', $mobileData)
+                    ->first();
+        } else {
+            $checkMobile = Employee::select('personal_mobile1', 'office_mobile_no')
+                    ->where(function($query) use ($mobileData) {
+                        $query->where('personal_mobile1', $mobileData)
+                        ->orWhere('office_mobile_no', $mobileData);
+                    })
+                    ->where('id', '<>', $id)
+                    ->first();
+        }
+
+        if (empty($checkMobile)) {
+            $result = ['success' => true];
+        } else {
+            $result = ['success' => false];
+        }
+        return json_encode($result);
+    }
+
+     public function getTeamLead($id) {
+        $designation = MlstBmsbDesignation::with('employeeName')->get();
+        foreach ($designation as $desg) {
+            if (!empty($desg['employeeName'])) {
+                $employee[] = ['id' => $desg['employeeName']['id'], 'first_name' => $desg['employeeName']['first_name'], 'last_name' => $desg['employeeName']['last_name'], 'designation_name' => $desg['designation']];
+            }
+        }
+        if (!empty($employee)) {
+            $result = ['success' => true, 'records' => $employee];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+    
+     public function editDepartments() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $getDepartmentsFromEmployee = Employee::select('department_id')->where('id', $request['data'])->get();
+        $explodeDepartment = explode(",", $getDepartmentsFromEmployee[0]->department_id);
+        $getDepartments = MlstBmsbDepartment::whereNotIn('id', $explodeDepartment)->get();
+        if (!empty($getDepartments)) {
+            $result = ['success' => true, 'records' => $getDepartments];
+            return $result;
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    
     public function getEnquirySource() {
         $getSource = MlstBmsbEnquirySalesSource::where("status",1)->get();
         if (!empty($getSource)) {
