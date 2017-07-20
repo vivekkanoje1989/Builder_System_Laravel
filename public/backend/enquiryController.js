@@ -1,38 +1,40 @@
-app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', function ($scope, Data, $timeout, toaster) {
+app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$filter', '$stateParams', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $filter, $stateParams) {
         $scope.projectsDetails = [];
         $scope.searchData = {};
         $scope.filterData = {};
         $scope.listsIndex = {};
-        $scope.itemsPerPage = 30;
+        $scope.itemsPerPage = 3;
         $scope.noOfRows = 1;
         $scope.historyList = {};
         $scope.divText = true;
         $scope.btnExport = true;
         $scope.dnExcelSheet = false;
-        $scope.pageHeading = '';
-        
-        $scope.locations = [];        
+        $scope.pagetitle;
+        $scope.pageNumber = 1;
+        $scope.locations = [];
         $scope.projectList = [];
         $scope.subSourceList = [];
         $scope.salesEnqSubCategoryList = [];
+        $scope.getProcName = $scope.type = $scope.getFunctionName  ='';
+        $scope.flagForChange = 0;
         
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };
-        
-        $scope.clearToDate = function(){
+
+        $scope.clearToDate = function () {
             $scope.filterData.toDate = '';
         }
-        
+
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
 
-        $scope.refreshSlider = function(){
-            $timeout(function(){
-                $scope.$broadcast('rzSliderForceRender');    
-            },200);
+        $scope.refreshSlider = function () {
+            $timeout(function () {
+                $scope.$broadcast('rzSliderForceRender');
+            }, 200);
         }
 
         $scope.initHistoryDataModal = function (enquiry_id) {
@@ -43,29 +45,66 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
                     $scope.historyList = angular.copy(response.records);
                 }
             });
-        }    
-        $scope.exportReport = function(result){            
-            Data.post('master-sales/exportToExcel',{result:result, reportName:$scope.pageHeading.replace(/ /g,"_")}).then(function (response) {
-                $("#downloadExcel").attr("href",response.fileUrl);
+        }
+        $scope.exportReport = function (result) {
+            Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.pageHeading.replace(/ /g, "_")}).then(function (response) {
+                $("#downloadExcel").attr("href", response.fileUrl);
                 $scope.sheetName = response.sheetName;
-                
-                    $scope.btnExport = false;
-                    $scope.dnExcelSheet = true;
-                    //$timeout(function(){
-                    //angular.element('#downloadExcel').siblings('#exportExcel').trigger('click');
-                    //window.open($('#downloadExcel').attr('href'),"_blank");
+
+                $scope.btnExport = false;
+                $scope.dnExcelSheet = true;
+                //$timeout(function(){
+                //angular.element('#downloadExcel').siblings('#exportExcel').trigger('click');
+                //window.open($('#downloadExcel').attr('href'),"_blank");
 //                  angular.element('#downloadExcel').trigger('click');
-                    
-               // },500);
+
+                // },500);
             });
         }
 
         /****************************ENQUIRIES****************************/
-        $scope.getTotalEnquiries = function ()
+        $scope.pageChanged = function (pageNo, functionName, id, type) {
+            $('#all_chk_reassign_enq').prop('checked', false);
+            $scope.BulkReasign = false;
+            $(".chk_reassign_enq").prop('checked', false);
+            $scope.BulkReasign = false;
+            $scope.flagForChange++;
+            $scope.Bulkflag = [];
+           if ($scope.flagForChange == 1 && $scope.BulkReasign == false)
+            {
+                if ($scope.filterData && Object.keys($scope.filterData).length > 2) {
+                    $scope.getFilteredData($scope.filterData, pageNo, $scope.itemsPerPage);
+                } else {
+                    $scope[functionName](id, type, pageNo, $scope.itemsPerPage);
+                }
+            }
+            $scope.pageNumber = pageNo;
+        }       
+
+        $scope.getTotalEnquiries = function (id, type, pageNumber, itemPerPage)
         {
-            $scope.pageHeading = "Total Enquiries";              
-            Data.post('master-sales/getTotalEnquiries').then(function (response) {
-                $scope.listsIndex = response;
+            $scope.itemsPerPage = itemPerPage;
+            $scope.type = type;
+            //$scope.listType = listType;
+            if (type == 0) {
+                $scope.report_name = "Total Enquiries";
+                $scope.pagetitle = "My Total Enquiries";
+            } else {
+                $scope.report_name = "Teams Total Enquiries";
+                $scope.pagetitle = "Team`s Total Enquiries ";
+            }            
+            Data.post('master-sales/getTotalEnquiries', {
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.enquiries = response.records;
+                    $scope.enquiriesLength = response.totalCount;
+                } else
+                {
+                    $scope.enquiries = '';
+                    $scope.enquiriesLength = 0;
+                }
+                $scope.flagForChange = 0;
             });
         }
         $scope.getLostEnquiries = function ()
@@ -83,13 +122,32 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
             });
         }
         /****************************ENQUIRIES****************************/
-        
+
         /****************************FOLLOWUPS****************************/
-        $scope.showTodaysFollowups = function ()
+        $scope.todaysFollowups = function (id, type, pageNumber, itemPerPage)
         {
-            $scope.pageHeading = "Today's Followups";
-            Data.post('master-sales/getTodaysFollowups').then(function (response) {
-                $scope.listsIndex = response;
+            $scope.itemsPerPage = itemPerPage;
+            $scope.type = type;
+            //$scope.listType = listType;
+            if (type == 0) {
+                $scope.report_name = "Today's Followups";
+                $scope.pagetitle = "My Today's Followups";
+            } else {
+                $scope.report_name = "Team`s Today's Followups";
+                $scope.pagetitle = "Team`s Today's Followups";
+            }            
+            Data.post('master-sales/getTodaysFollowups', {
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.enquiries = response.records;
+                    $scope.enquiriesLength = response.totalCount;
+                } else
+                {
+                    $scope.enquiries = '';
+                    $scope.enquiriesLength = 0;
+                }
+                $scope.flagForChange = 0;
             });
         }
         $scope.showPendingsFollowups = function ()
@@ -107,7 +165,7 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
             });
         }
         /****************************FOLLOWUPS****************************/
-        
+
         /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
         $scope.getTeamTotalEnquiries = function ()
         {
@@ -159,43 +217,44 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
         $scope.email_id_arr = [];
         $scope.custInfo = $scope.editableCustInfo = $scope.source = false;
         var d = new Date();
-        $scope.hstep = 1;$scope.mstep = 15; 
+        $scope.hstep = 1;
+        $scope.mstep = 15;
         $scope.enquiryId = $scope.followupId = $scope.customerId = '';
-        
-        $scope.text = function(){
+
+        $scope.text = function () {
             $scope.divText = true;
             $scope.divSms = false;
             $scope.divEmail = false;
             $scope.email_id_arr = $scope.mobile_number = [];
             $scope.remarkData.msgRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
-            $('.clsMobile').prop("checked",false);
-            $('.clsEmail').prop("checked",false);
+            $('.clsMobile').prop("checked", false);
+            $('.clsEmail').prop("checked", false);
             $scope.sbtBtn1 = $scope.sbtBtn2 = false;
         }
-        $scope.sms = function(){
+        $scope.sms = function () {
             $scope.divText = false;
             $scope.divSms = true;
             $scope.divEmail = false;
             $scope.email_id_arr = [];
             $scope.remarkData.textRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
-            $('.clsEmail').prop("checked",false);
+            $('.clsEmail').prop("checked", false);
             $scope.sbtBtn2 = $scope.sbtBtn3 = false;
         }
-        $scope.email = function(){
+        $scope.email = function () {
             $scope.divText = false;
             $scope.divSms = false;
             $scope.divEmail = true;
             $scope.mobile_number = [];
             $scope.remarkData.msgRemark = $scope.remarkData.textRemark = '';
-            $('.clsMobile').prop("checked",false);
+            $('.clsMobile').prop("checked", false);
             $scope.sbtBtn1 = $scope.sbtBtn3 = false;
-        }       
-        
-        $scope.todayRemark = function(enquiryId,followupId,customerId){
-            Data.post('master-sales/getDataForTodayRemark',{enquiryId:enquiryId}).then(function (response) {
-                if(!response.success){
+        }
+
+        $scope.todayRemark = function (enquiryId, followupId, customerId) {
+            Data.post('master-sales/getDataForTodayRemark', {enquiryId: enquiryId}).then(function (response) {
+                if (!response.success) {
                     $scope.errorMsg = response.errorMsg;
-                }else{
+                } else {
                     var setTime = response.data[0].next_followup_time.split(":");
                     var setMin = setTime[1].split(" ");
                     d.setHours(setTime[0]);
@@ -211,38 +270,38 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
                     $timeout(function () {
                         $scope.remarkData.project_id = response.data.selectedProjects;
                         $scope.remarkData.block_id = response.data.selectedBlocks;
-                    },500);
-                    if($scope.remarkData.customer_fname !== ''){
+                    }, 500);
+                    if ($scope.remarkData.customer_fname !== '') {
                         $scope.custInfo = true;
                         $scope.editableCustInfo = false;
-                    }else{
+                    } else {
                         $scope.custInfo = false;
                         $scope.editableCustInfo = true;
                     }
-                    if($scope.remarkData.sales_source_id !== '' || $scope.remarkData.sales_source_id !== 0){
+                    if ($scope.remarkData.sales_source_id !== '' || $scope.remarkData.sales_source_id !== 0) {
                         $scope.source = false;
-                    }else{
+                    } else {
                         $scope.source = true;
                     }
                     $scope.enquiryId = enquiryId;
                     $scope.followupId = followupId;
                     $scope.customerId = customerId;
-                    
-                    Data.post('getSalesEnqSubCategory',{categoryId:response.data[0].sales_category_id}).then(function (response) {
+
+                    Data.post('getSalesEnqSubCategory', {categoryId: response.data[0].sales_category_id}).then(function (response) {
                         if (!response.success) {
                             $scope.errorMsg = response.message;
                         } else {
                             $scope.salesEnqSubCategoryList = response.records;
                         }
                     });
-                    Data.post('getSalesEnqSubStatus',{statusId:response.data[0].sales_status_id}).then(function (response) {
+                    Data.post('getSalesEnqSubStatus', {statusId: response.data[0].sales_status_id}).then(function (response) {
                         if (!response.success) {
                             $scope.errorMsg = response.message;
                         } else {
                             $scope.salesEnqSubStatusList = response.records;
                         }
                     });
-                }                
+                }
             });
         }
         $scope.checkProjectLength = function () {
@@ -253,7 +312,7 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
                 $scope.emptyProjectId = false;
                 $scope.applyClassProject = 'ng-inactive';
             }
-        };   
+        };
         $scope.checkBlockLength = function () {
             if ($scope.remarkData.block_id.length === 0) {
                 $scope.emptyBlockId = true;
@@ -262,135 +321,140 @@ app.controller('enquiryController', ['$scope', 'Data', '$timeout', 'toaster', fu
                 $scope.emptyBlockId = false;
                 $scope.applyClassProject = 'ng-inactive';
             }
-        };   
-        
-        $scope.checkedMobileNo = function(mobileNo,inc){
-            if ($('#mob_'+inc).is(':checked')) {
+        };
+
+        $scope.checkedMobileNo = function (mobileNo, inc) {
+            if ($('#mob_' + inc).is(':checked')) {
                 $scope.mobile_number.push(mobileNo);
-            }else{
+            } else {
                 var mobIndex = $scope.mobile_number.indexOf(mobileNo);
                 if (mobIndex > -1) {
-                   $scope.mobile_number.splice(mobIndex, 1);
+                    $scope.mobile_number.splice(mobIndex, 1);
                 }
             }
         }
-        $scope.checkedEmailId = function(emailId,inc){
-            if ($('#email_'+inc).is(':checked')) {
+        $scope.checkedEmailId = function (emailId, inc) {
+            if ($('#email_' + inc).is(':checked')) {
                 $scope.email_id_arr.push(emailId);
-            }else{
+            } else {
                 var mobIndex = $scope.email_id_arr.indexOf(emailId);
                 if (mobIndex > -1) {
-                   $scope.email_id_arr.splice(mobIndex, 1);
+                    $scope.email_id_arr.splice(mobIndex, 1);
                 }
             }
         }
-        $scope.insertRemark = function(modalData){
-            if($scope.editableCustInfo === true){
-                var custInfo = {title_id:modalData.title_id,customer_fname:modalData.customer_fname,customer_lname:modalData.customer_lname};
+        $scope.insertRemark = function (modalData) {
+            if ($scope.editableCustInfo === true) {
+                var custInfo = {title_id: modalData.title_id, customer_fname: modalData.customer_fname, customer_lname: modalData.customer_lname};
             }
-            if($scope.source === true){
-                var sourceInfo = {source_id:modalData.source_id,sales_subsource_id:modalData.sales_subsource_id,sales_source_description:modalData.sales_source_description,};
+            if ($scope.source === true) {
+                var sourceInfo = {source_id: modalData.source_id, sales_subsource_id: modalData.sales_subsource_id, sales_source_description: modalData.sales_source_description, };
             }
-            
-            var data = {enquiry_id:$scope.enquiryId, 
-                followupId:$scope.followupId, 
-                customerId:$scope.customerId, 
-                sales_category_id:modalData.sales_category_id,
-                sales_subcategory_id:modalData.sales_subcategory_id,
-                followup_by_employee_id:modalData.followup_by_employee_id,
-                next_followup_date:modalData.next_followup_date,
-                next_followup_time:modalData.next_followup_time,
-                sales_status_id:modalData.sales_status_id,
-                sales_substatus_id:modalData.sales_substatus_id,
-                project_id:modalData.project_id,
-                block_id:modalData.block_id,
-                title_id:modalData.title_id,
-                first_name:modalData.first_name,
-                last_name:modalData.last_name,
-                source_id:modalData.source_id,
-                subsource_id:modalData.subsource_id,
-                source_description:modalData.source_description,                
-                textRemark:modalData.textRemark,
+
+            var data = {enquiry_id: $scope.enquiryId,
+                followupId: $scope.followupId,
+                customerId: $scope.customerId,
+                sales_category_id: modalData.sales_category_id,
+                sales_subcategory_id: modalData.sales_subcategory_id,
+                followup_by_employee_id: modalData.followup_by_employee_id,
+                next_followup_date: modalData.next_followup_date,
+                next_followup_time: modalData.next_followup_time,
+                sales_status_id: modalData.sales_status_id,
+                sales_substatus_id: modalData.sales_substatus_id,
+                project_id: modalData.project_id,
+                block_id: modalData.block_id,
+                title_id: modalData.title_id,
+                first_name: modalData.first_name,
+                last_name: modalData.last_name,
+                source_id: modalData.source_id,
+                subsource_id: modalData.subsource_id,
+                source_description: modalData.source_description,
+                textRemark: modalData.textRemark,
                 mobileNumber: $scope.mobile_number,
-                msgRemark:modalData.msgRemark,
-                email_id:modalData.email_id,
-                email_id_arr:$scope.email_id_arr,
-                email_content:modalData.email_content,
-                subject:modalData.subject
+                msgRemark: modalData.msgRemark,
+                email_id: modalData.email_id,
+                email_id_arr: $scope.email_id_arr,
+                email_content: modalData.email_content,
+                subject: modalData.subject
             };
 
-            Data.post('master-sales/insertTodayRemark',{data:data,custInfo:custInfo,sourceInfo:sourceInfo}).then(function (response) {
-                if(!response.success){
+            Data.post('master-sales/insertTodayRemark', {data: data, custInfo: custInfo, sourceInfo: sourceInfo}).then(function (response) {
+                if (!response.success) {
                     $scope.errorMsg = response.errorMsg;
-                }else{
+                } else {
                     $('#todaysRemarkModal').modal('toggle');
                     toaster.pop('success', '', response.message);
-                }                
+                }
             });
         };
-          
+
+
+        /**************************Budget Range Bar*************************/
+        $scope.min = 3000000;
+        $scope.max = 7000000;
+        $scope.visSlider = {
+            options: {
+                floor: 200000,
+                ceil: 20000000,
+                step: 1
+            }
+        };
+
+        $scope.rangeValidateMin = function (minVal) {
+            if (typeof minVal == 'undefined' || minVal < 200000) {
+                $scope.min = 200000;
+            } else if (minVal > 20000000) {
+                $scope.min = 20000000;
+            } else if (minVal > $scope.max) {
+                $scope.min = $scope.max;
+            }
+        }
+        $scope.rangeValidateMax = function (maxVal) {
+            if (typeof maxVal == 'undefined' || maxVal > 20000000) {
+                $scope.max = 20000000;
+            } else if (maxVal < 200000) {
+                $scope.max = $scope.min;
+            } else if (maxVal < $scope.min) {
+                $scope.max = $scope.min;
+            }
+
+        }
+        /**************************Budget Range Bar*************************/
         
-    /**************************Budget Range Bar*************************/
-    $scope.min = 3000000;
-    $scope.max = 7000000;
-    $scope.visSlider = {
-        options: {
-            floor: 200000,
-            ceil: 20000000,
-            step: 1
+        $scope.procName = function (procedureName, functionName) {
+            $scope.getProcName = angular.copy(procedureName);
+            $scope.getFunctionName = angular.copy(functionName);
         }
-    };
-
-    $scope.rangeValidateMin = function(minVal){
-        if(typeof minVal == 'undefined' || minVal < 200000){
-            $scope.min = 200000;
-        }
-        else if(minVal > 20000000){
-             $scope.min = 20000000;
-        }
-        else if(minVal > $scope.max){
-             $scope.min = $scope.max;
-        }
-    }
-    $scope.rangeValidateMax = function(maxVal){
-        if(typeof maxVal == 'undefined' || maxVal > 20000000){
-            $scope.max = 20000000;
-        }
-        else if(maxVal < 200000){
-             $scope.max = $scope.min;
-        }
-        else if(maxVal < $scope.min){
-             $scope.max = $scope.min;
-        }
-
-    }
-    /**************************Budget Range Bar*************************/
-    $scope.getProcName = $scope.getFunctionName = '';
-
-    $scope.procName = function (procedureName,functionName){
-        $scope.getProcName = angular.copy(procedureName);
-        $scope.getFunctionName = angular.copy(functionName);
-    } 
-    $scope.getFilteredData = function (filterData,minBudget,maxBudget)
-    {
-        if(filterData.verifiedMobNo == true)
-            filterData.verifiedMobNo = 1;
-        else 
-            filterData.verifiedMobNo = 0;
-        if(typeof filterData.fromDate !== 'undefined'){
-            var fdate = new Date(filterData.fromDate);
-            $scope.filterData.fromDate = (fdate.getFullYear() + '-' + ("0" + (fdate.getMonth() + 1)).slice(-2) + '-' + fdate.getDate());
-        }else if(typeof filterData.toDate !== 'undefined'){
-            var tdate = new Date(filterData.toDate);
-            $scope.filterData.toDate = (tdate.getFullYear() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate());
+        $scope.getFilteredData = function (filterData, minBudget, maxBudget,page,recordsperpage)
+        {
+            //alert(page+':'+$scope.type);
+            if (filterData.verifiedMobNo == true)
+                filterData.verifiedMobNo = 1;
+            else
+                filterData.verifiedMobNo = 0;
+            if (typeof filterData.fromDate !== 'undefined') {
+                var fdate = new Date(filterData.fromDate);
+                $scope.filterData.fromDate = (fdate.getFullYear() + '-' + ("0" + (fdate.getMonth() + 1)).slice(-2) + '-' + fdate.getDate());
+            } else if (typeof filterData.toDate !== 'undefined') {
+                var tdate = new Date(filterData.toDate);
+                $scope.filterData.toDate = (tdate.getFullYear() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate());
+            }           
+            Data.post('master-sales/filteredData', {filterData: filterData, minBudget: minBudget, pageNumber: page, itemPerPage: recordsperpage,maxBudget: maxBudget, getProcName: $scope.getProcName,teamType:$scope.type}).then(function (response) {
+                $scope.enquiries = response.records;
+                $scope.enquiriesLength = response.totalCount;
+                $('#showFilterModal').modal('hide');
+                $scope.showFilterData = $scope.filterData;
+            });
+        }       
+        $scope.removeDataFromFilter = function (keyvalue) {
+            $scope.showloader();
+            delete $scope.filterData[keyvalue];
+            $scope.getFilteredData($scope.filterData,0,0, 1, 30);
+            $scope.hideloader();
+            return false;
         }
         
-        Data.post('master-sales/filteredData', {filterData: filterData,minBudget:minBudget,maxBudget:maxBudget,getProcName:$scope.getProcName}).then(function (response) {
-            $scope.listsIndex = response;
-            $('#showFilterModal').modal('toggle');
-        });
-    }
-}]);
+    }]);
 
 app.controller('getEmployeesCtrl', function ($scope, Data) {
     Data.get('master-sales/getEmployees').then(function (response) {
@@ -427,18 +491,32 @@ app.controller('enquiryCityCtrl', function ($scope, Data) {
             $scope.cityList = response.records;
         }
     });
-    
+
     $scope.changeLocations = function (cityId)
     {
-        Data.post('master-sales/getAllLocations', {city_id: cityId,}).then(function (response) {
+        Data.post('master-sales/getAllLocations', {city_id: cityId, }).then(function (response) {
             $scope.locations = response.records;
         });
     }
 });
 
-app.filter('myDateFormat', function myDateFormat($filter){
-  return function(text){
-    var  tempdate= new Date(text.replace(/-/g,"/"));
-    return $filter('date')(tempdate, "dd-MM-yyyy");
-  }
+app.filter('myDateFormat', function myDateFormat($filter) {
+    return function (text) {
+        var tempdate = new Date(text.replace(/-/g, "/"));
+        return $filter('date')(tempdate, "dd-MM-yyyy");
+    }
+});
+
+app.filter('removeHTMLTags', function () {
+    return function (text) {
+        return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+    };
+});
+
+
+app.filter('split', function () {
+    return function (input, splitChar, splitIndex) {
+        // do some bounds checking here to ensure it has that index
+        return input.split(splitChar)[splitIndex];
+    }
 });

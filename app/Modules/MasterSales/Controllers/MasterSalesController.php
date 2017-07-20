@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Modules\MasterSales\Controllers;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -25,7 +27,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Classes\S3;
 
 class MasterSalesController extends Controller {
+
     public $allusers;
+
     /**
      * Display a listing of the resource.
      *
@@ -131,36 +135,40 @@ class MasterSalesController extends Controller {
      * @return Response
      */
     public function edit($id) {
-       
+        
     }
-    
-    public function addEnquiryDetailRow(){
+
+    public function addEnquiryDetailRow() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $request = array_merge($request, $create);
         $recInserted = EnquiryDetail::create($request);
-        if(1){
+        if (1) {
             $result = ['success' => true, "enqId" => $recInserted->id];
-        }else{
+        } else {
             $result = ['success' => false];
-        }        
+        }
         return response()->json($result);
     }
-    public function delEnquiryDetailRow(){
+
+    public function delEnquiryDetailRow() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         EnquiryDetail::where('id', $request['enquiryDetailId'])->delete();
         $result = ['success' => true];
         return response()->json($result);
     }
+
     public function editCustomer($cid) {
         return view("MasterSales::index")->with(["editCustomerId" => $cid]);
     }
-    public function editEnquiry($cid,$eid) {
-        return view("MasterSales::index")->with(["editCustomerId" => $cid,"editEnquiryId" => $eid]);
+
+    public function editEnquiry($cid, $eid) {
+        return view("MasterSales::index")->with(["editCustomerId" => $cid, "editEnquiryId" => $eid]);
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -173,7 +181,7 @@ class MasterSalesController extends Controller {
             $originalContactValues = CustomersContact::where('customer_id', $id)->get();
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
-            
+
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -189,9 +197,9 @@ class MasterSalesController extends Controller {
             } else {
                 $loggedInUserId = $input['customerData']['loggedInUserId'];
             }
-            
+
             unset($input['customerData']['loggedInUserId']);
-            unset($input['customerData']['id']);            
+            unset($input['customerData']['id']);
 
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
@@ -206,13 +214,13 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['loggedInUserId']);
                 unset($input['customerData']['id']);
             }
-            
+
             $input['customerData']['birth_date'] = date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] = date('Y-m-d', strtotime($input['customerData']['marriage_date']));
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
-            
+
             $updateCustomer = Customer::where('id', $id)->update($input['customerData']); //insert data into employees table
             $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['customerData']);
             $implodeArr = implode(",", array_keys($getResult));
@@ -242,7 +250,6 @@ class MasterSalesController extends Controller {
                             $calling_code = (int) $mobileNumber[0];
                             $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? $calling_code : "";
                             $contacts['mobile_number'] = !empty($mobileNumber[1]) ? (int) $mobileNumber[1] : "";
-                            
                         }
                         if (!empty($contacts['landline_number'])) {
                             $landlineNumber = explode("-", $contacts['landline_number']);
@@ -252,7 +259,7 @@ class MasterSalesController extends Controller {
                         }
                     }
                     $checkMobileNumber = CustomersContact::where(['customer_id' => $id, "mobile_number" => $contacts['mobile_number']])->get();
-                    
+
                     if (!empty($contacts['id'])) {//for existing mobile number
                         $contacts['updated_date'] = date('Y-m-d', strtotime($contacts['created_date']));
                         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -278,7 +285,7 @@ class MasterSalesController extends Controller {
                         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                         $contacts = array_merge($contacts, $create);
                         CustomersContact::create($contacts); //insert data into customer_contacts table
-                    }                    
+                    }
                     $i++;
                 }
             }
@@ -301,7 +308,7 @@ class MasterSalesController extends Controller {
     }
 
     public function getCustomerDetails() {
-        try{
+        try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $customerMobileNo = !empty($request['data']['customerMobileNo']) ? $request['data']['customerMobileNo'] : "0";
@@ -315,8 +322,8 @@ class MasterSalesController extends Controller {
                 unset($getCustomerPersonalDetails[0]['aadhar_number']);
                 unset($getCustomerPersonalDetails[0]['image_file']);
 
-                $getCustomerEnquiryDetails = DB::select('CALL proc_get_customer_open_enquiries(' . $getCustomerContacts[0]->customer_id .')');
-                $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+                $getCustomerEnquiryDetails = DB::select('CALL proc_get_customer_open_enquiries(' . $getCustomerContacts[0]->customer_id . ')');
+                $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
 
                 if (count($getCustomerEnquiryDetails) == 0 || isset($request['data']['showCustomer'])) {
                     $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'flag' => 0];
@@ -331,17 +338,17 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    
+
     public function getEnquiryDetails() {
-        try{
+        try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $enquiryId = !empty($request['data']['enquiryId']) ? $request['data']['enquiryId'] : "0";
             $customerId = !empty($request['data']['customerId']) ? $request['data']['customerId'] : "0";
             $getEnquiryDetails = DB::select('CALL proc_get_enquiry_details(' . $customerId . ',' . $enquiryId . ')');
-            if(count($getEnquiryDetails) > 0){
-                $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails),true);
-                $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();                
+            if (count($getEnquiryDetails) > 0) {
+                $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
+                $getCityID = lstEnquiryLocations::select("city_id")->where('id', '=', $getEnquiryDetails[0]['enquiry_locations'])->get();
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getEnquiryDetails[0]['customer_id'])->get();
                 $getCustomerContacts = CustomersContact::where('customer_id', '=', $getEnquiryDetails[0]['customer_id'])->get();
 
@@ -353,7 +360,7 @@ class MasterSalesController extends Controller {
 
                 if (count($getEnquiryDetails) != 0) {
                     $projectDetails = array();
-                    for($i=0; $i < count($getEnquiryDetails); $i++){
+                    for ($i = 0; $i < count($getEnquiryDetails); $i++) {
                         $projectDetails[$i]['id'] = $getEnquiryDetails[$i]['enqdetails_id'];
                         $projectDetails[$i]['project_id'] = $getEnquiryDetails[$i]['project_id'];
                         $projectDetails[$i]['block_id'] = $getEnquiryDetails[$i]['block_id'];
@@ -364,7 +371,7 @@ class MasterSalesController extends Controller {
                     }
                     $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, "enquiryDetails" => $getEnquiryDetails, "projectDetails" => $projectDetails, "city_id" => $getCityID[0]["city_id"]];
                 }
-            }else{
+            } else {
                 $result = ['success' => false];
             }
         } catch (\Exception $ex) {
@@ -372,8 +379,9 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
+
     public function getCustomerDataWithId() {
-        try{
+        try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $data = Customer::where('id', $request['data']['customerId'])->get();
@@ -388,8 +396,9 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
+
     public function checkMobileExist() {
-        try{
+        try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $mobileNumber = $request['data']['mobileNumber'];
@@ -409,35 +418,35 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    
-    public function getEnquiryHistory(){
-        try{
+
+    public function getEnquiryHistory() {
+        try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
             $enquiryId = $input['enquiryId'];
             $historyList = DB::table('enquiry_followups as ef')
-                        ->leftjoin('employees as e', 'e.id', '=', 'ef.followup_by_employee_id')
-                        ->leftjoin('laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as mess', 'mess.id', '=', 'ef.sales_status_id')
-                        ->leftjoin('laravel_developement_master_edynamics.mlst_enquiry_sales_categories as mesc', 'mesc.id', '=', 'ef.sales_category_id')
-                        ->select('ef.*',DB::raw('DATE_FORMAT(ef.followup_date_time, "%d-%m-%Y at %h:%i %p") as last_followup_date'),DB::raw('DATE_FORMAT(ef.next_followup_date, "%d-%m-%Y") as next_followup_date'),DB::raw('DATE_FORMAT(ef.next_followup_time, "%h:%i %p") as next_followup_time'),
-                            'e.first_name','e.last_name','mess.sales_status','mesc.enquiry_category')
-                        ->where('ef.enquiry_id',$enquiryId)
-                        ->orderBy('ef.id','asc  ')
-                        ->get();
+                    ->leftjoin('employees as e', 'e.id', '=', 'ef.followup_by_employee_id')
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as mess', 'mess.id', '=', 'ef.sales_status_id')
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_enquiry_sales_categories as mesc', 'mesc.id', '=', 'ef.sales_category_id')
+                    ->select('ef.*', DB::raw('DATE_FORMAT(ef.followup_date_time, "%d-%m-%Y at %h:%i %p") as last_followup_date'), DB::raw('DATE_FORMAT(ef.next_followup_date, "%d-%m-%Y") as next_followup_date'), DB::raw('DATE_FORMAT(ef.next_followup_time, "%h:%i %p") as next_followup_time'), 'e.first_name', 'e.last_name', 'mess.sales_status', 'mesc.enquiry_category')
+                    ->where('ef.enquiry_id', $enquiryId)
+                    ->orderBy('ef.id', 'asc  ')
+                    ->get();
 
-            if($historyList){
-                $result = ['success' => true , 'records'=>$historyList];
-            }else{
-                $result = ['success' => false , 'records'=>$historyList];
+            if ($historyList) {
+                $result = ['success' => true, 'records' => $historyList];
+            } else {
+                $result = ['success' => false, 'records' => $historyList];
             }
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
         return response()->json($result);
     }
+
     // insert new enquiry 
     public function saveEnquiry() {
-        try{
+        try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
 
@@ -447,7 +456,7 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-            $customerInfo = Customer::select('source_id','subsource_id','source_description')->where('id', $request['customer_id'])->get();
+            $customerInfo = Customer::select('source_id', 'subsource_id', 'source_description')->where('id', $request['customer_id'])->get();
 
             /*  insert enquiry  */
             $request['enquiryData'] = array_merge($request['enquiryData'], $create);
@@ -457,7 +466,7 @@ class MasterSalesController extends Controller {
 
             if (!empty($request['enquiryData']['sales_channel_id'])) {
                 $request['enquiryData']['sales_channel_id'] = $request['enquiryData']['sales_channel_id'];
-            }else {
+            } else {
                 $request['enquiryData']['sales_channel_id'] = 3;
             }
             $request['enquiryData']['sales_source_id'] = $customerInfo[0]['source_id'];
@@ -469,13 +478,13 @@ class MasterSalesController extends Controller {
             }
             if (!empty($request['enquiryData']['enquiry_locations'])) {
                 $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
-                    return $el['id'];
-                }, $request['enquiryData']['enquiry_locations']));
+                            return $el['id'];
+                        }, $request['enquiryData']['enquiry_locations']));
             }
             $next_followup_date = $request['enquiryData']['next_followup_date'];
             $next_followup_time = date('H:i:s', strtotime($request['enquiryData']['next_followup_time']));
 
-            unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],$request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],$request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time']);
+            unset($request['enquiryData']['project_id'], $request['enquiryData']['block_id'], $request['enquiryData']['sub_block_id'], $request['enquiryData']['enquiry_category_id'], $request['enquiryData']['city_id'], $request['enquiryData']['csrfToken'], $request['enquiryData']['next_followup_date'], $request['enquiryData']['next_followup_time']);
             $insertEnquiry = Enquiry::create($request['enquiryData']);
 
             if ($insertEnquiry) {
@@ -486,7 +495,7 @@ class MasterSalesController extends Controller {
                         $projectDetail['enquiry_id'] = $insertEnquiry->id;
                         EnquiryDetail::create($projectDetail);
                     }
-                } 
+                }
 
                 /* fill  follow up details */
                 $request['followupDetails']['enquiry_id'] = $insertEnquiry->id;
@@ -494,27 +503,24 @@ class MasterSalesController extends Controller {
                 $request['followupDetails']['followup_by_employee_id'] = $request['enquiryData']['followup_by_employee_id'];
                 $request['followupDetails']['followup_entered_through'] = "0";
                 $request['followupDetails']['remarks'] = $request['enquiryData']['remarks'];
-                $request['followupDetails']['call_recording_log_type'] = $request['followupDetails']['call_recording_id'] = 
-                $request['followupDetails']['finance_category_id'] = $request['followupDetails']['finance_subcategory_id']= 
-                $request['followupDetails']['finance_status_id'] = $request['followupDetails']['finance_substatus_id'] = 0;
-                $request['followupDetails']['next_followup_date'] = $next_followup_date;   
+                $request['followupDetails']['call_recording_log_type'] = $request['followupDetails']['call_recording_id'] = $request['followupDetails']['finance_category_id'] = $request['followupDetails']['finance_subcategory_id'] = $request['followupDetails']['finance_status_id'] = $request['followupDetails']['finance_substatus_id'] = 0;
+                $request['followupDetails']['next_followup_date'] = $next_followup_date;
 
                 if (isset($next_followup_time)) {
                     $request['followupDetails']['next_followup_time'] = $next_followup_time;
                 } else {
                     $request['followupDetails']['next_followup_time'] = date('H:i:s');
-                }            
-                $checkEnquiryExist = Enquiry::selectRaw('max(id) as maxenqid')->where('customer_id',$request['customer_id'])->get();
-                if(!empty($checkEnquiryExist[0]['maxenqid'])){         
-                    EnquiryFollowup::where('id',$checkEnquiryExist[0]['maxenqid'])->update(['actual_followup_date_time' => date('Y-m-d H:m:s')]);
-                }            
-                $request['followupDetails']['actual_followup_date_time'] = "0000-00-00 00:00:00";            
+                }
+                $checkEnquiryExist = Enquiry::selectRaw('max(id) as maxenqid')->where('customer_id', $request['customer_id'])->get();
+                if (!empty($checkEnquiryExist[0]['maxenqid'])) {
+                    EnquiryFollowup::where('id', $checkEnquiryExist[0]['maxenqid'])->update(['actual_followup_date_time' => date('Y-m-d H:m:s')]);
+                }
+                $request['followupDetails']['actual_followup_date_time'] = "0000-00-00 00:00:00";
                 $request['followupDetails']['sales_category_id'] = $request['enquiryData']['sales_category_id'];
-                $request['followupDetails']['sales_subcategory_id'] = $request['followupDetails']['sales_status_id'] = 
-                $request['followupDetails']['sales_substatus_id'] = 1;
+                $request['followupDetails']['sales_subcategory_id'] = $request['followupDetails']['sales_status_id'] = $request['followupDetails']['sales_substatus_id'] = 1;
 
                 $request['followupDetails'] = array_merge($request['followupDetails'], $create);
-                EnquiryFollowup ::create($request['followupDetails']); 
+                EnquiryFollowup ::create($request['followupDetails']);
 
                 $result = ['success' => true, 'message' => 'Record Inserted Successfully.'];
             } else {
@@ -525,27 +531,24 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
+
     public function updateEnquiry() {
-        try{
+        try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-           
-            if (empty($request['enquiryData']['loggedInUserId'])) { 
+
+            if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
                 $loggedInUserId = $request['enquiryData']['loggedInUserId'];
             }
 
-            unset($request['enquiryData']['project_id'],$request['enquiryData']['block_id'],$request['enquiryData']['sub_block_id'],
-                    $request['enquiryData']['enquiry_category_id'],$request['enquiryData']['city_id'],$request['enquiryData']['csrfToken'],
-                    $request['enquiryData']['next_followup_date'],$request['enquiryData']['next_followup_time'],
-                    $request['enquiryData']['project_name'],$request['enquiryData']['block_name'],$request['enquiryData']['block_sub_type'],
-                    $request['enquiryData']['followup_by_employee_id'],$request['enquiryData']['remarks'],$request['enquiryData']['enqdetails_id'],$request['enquiryData']['loggedInUserId']);
+            unset($request['enquiryData']['project_id'], $request['enquiryData']['block_id'], $request['enquiryData']['sub_block_id'], $request['enquiryData']['enquiry_category_id'], $request['enquiryData']['city_id'], $request['enquiryData']['csrfToken'], $request['enquiryData']['next_followup_date'], $request['enquiryData']['next_followup_time'], $request['enquiryData']['project_name'], $request['enquiryData']['block_name'], $request['enquiryData']['block_sub_type'], $request['enquiryData']['followup_by_employee_id'], $request['enquiryData']['remarks'], $request['enquiryData']['enqdetails_id'], $request['enquiryData']['loggedInUserId']);
 
             /*  update enquiry  */
             if (!empty($request['enquiryData']['sales_channel_id'])) {
                 $request['enquiryData']['sales_channel_id'] = $request['enquiryData']['sales_channel_id'];
-            }else {
+            } else {
                 $request['enquiryData']['sales_channel_id'] = 3;
             }
             if (!empty($request['enquiryData']['property_possession_date'])) {
@@ -556,7 +559,7 @@ class MasterSalesController extends Controller {
                             return $el['id'];
                         }, $request['enquiryData']['enquiry_locations']));
             }
-            
+
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $request['enquiryData'] = array_merge($request['enquiryData'], $update);
 
@@ -568,19 +571,19 @@ class MasterSalesController extends Controller {
 
             $update = Enquiry::where('id', $request['enquiryData']['id'])->update($request['enquiryData']);
 
-            if (!empty($request['projectEnquiryDetails'])) {                
+            if (!empty($request['projectEnquiryDetails'])) {
                 foreach ($request['projectEnquiryDetails'] as $projectDetail) {
-                    $getProjectId = EnquiryDetail::select("id")->where(['enquiry_id'=>$request['enquiryData']['id'],'project_id' => $projectDetail['project_id'], 'block_id' => $projectDetail['block_id'],'sub_block_id' => $projectDetail['sub_block_id']])->get();
-                    if(empty($getProjectId[0]['id'])){
+                    $getProjectId = EnquiryDetail::select("id")->where(['enquiry_id' => $request['enquiryData']['id'], 'project_id' => $projectDetail['project_id'], 'block_id' => $projectDetail['block_id'], 'sub_block_id' => $projectDetail['sub_block_id']])->get();
+                    if (empty($getProjectId[0]['id'])) {
                         $projectDetail['enquiry_id'] = $request['enquiryData']['id'];
                         EnquiryDetail::create($projectDetail);
                     }
                 }
-            } 
-            
-            if($update){
+            }
+
+            if ($update) {
                 $result = ['success' => true, 'message' => 'Record updated Successfully.'];
-            }else{
+            } else {
                 $result = ['success' => false, 'message' => 'Record not updated.'];
             }
         } catch (\Exception $ex) {
@@ -602,7 +605,7 @@ class MasterSalesController extends Controller {
     }
 
     public function getFinanceEmployees() {
-        try{
+        try {
             $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id', 'department_id')->where("department_id", 'like', '%,11%')
                             ->orWhere("department_id", 'like', '%11%')
                             ->orWhere("department_id", 'like', '%11,%')->get();
@@ -639,36 +642,36 @@ class MasterSalesController extends Controller {
         return response()->json($result);
     }
 
-    public function getDataForTodayRemark(){
-        try{
+    public function getDataForTodayRemark() {
+        try {
             $postdata = file_get_contents("php://input");
-            $request = json_decode($postdata, true);               
-            $getRemarkDetails = DB::select('CALL proc_get_today_remark('.$request['enquiryId'].')');
-            $decodeRemarkDetails = json_decode( json_encode($getRemarkDetails), true);
+            $request = json_decode($postdata, true);
+            $getRemarkDetails = DB::select('CALL proc_get_today_remark(' . $request['enquiryId'] . ')');
+            $decodeRemarkDetails = json_decode(json_encode($getRemarkDetails), true);
             $projectId = $blockId = $emailId = array();
-            if(!empty($decodeRemarkDetails[0]['project_block_id'])){
+            if (!empty($decodeRemarkDetails[0]['project_block_id'])) {
                 $explodeComma = explode(",", $decodeRemarkDetails[0]['project_block_id']);
-                if(!empty($explodeComma)){
-                    foreach($explodeComma as $value){
+                if (!empty($explodeComma)) {
+                    foreach ($explodeComma as $value) {
                         $explodeDash = explode("-", $value);
-                        $projectId[] = $explodeDash[0];  
-                        $blockId[] = $explodeDash[1];  
+                        $projectId[] = $explodeDash[0];
+                        $blockId[] = $explodeDash[1];
                     }
                 }
             }
-           
-            if(!empty($decodeRemarkDetails[0]['customer_mobile_no'])){
+
+            if (!empty($decodeRemarkDetails[0]['customer_mobile_no'])) {
                 $mobileNumber = explode(",", $decodeRemarkDetails[0]['customer_mobile_no']);
                 $mobileNumber = array_unique($mobileNumber);
-            } 
-            if(!empty($decodeRemarkDetails[0]['customer_email_id'])){
+            }
+            if (!empty($decodeRemarkDetails[0]['customer_email_id'])) {
                 $emailId = explode(",", $decodeRemarkDetails[0]['customer_email_id']);
                 $emailId = array_values(array_filter($emailId));
                 $emailId = array_unique($emailId);
             }
-            $getProjects = Project::select("id","project_name")->whereIn('id', $projectId)->get();
-            $getBlocks = MlstBmsbBlockType::select("id","block_name")->whereIn('id', $blockId)->get();
-            
+            $getProjects = Project::select("id", "project_name")->whereIn('id', $projectId)->get();
+            $getBlocks = MlstBmsbBlockType::select("id", "block_name")->whereIn('id', $blockId)->get();
+
             $decodeRemarkDetails['selectedProjects'] = $getProjects;
             $decodeRemarkDetails['selectedBlocks'] = $getBlocks;
             $decodeRemarkDetails['mobileNumber'] = $mobileNumber;
@@ -683,39 +686,39 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    public function insertTodayRemark(){
-        try{
+
+    public function insertTodayRemark() {
+        try {
             $postdata = file_get_contents("php://input");
-            $request = json_decode($postdata, true);  
+            $request = json_decode($postdata, true);
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $input = $request['data'];
             $enquiryId = $input['enquiry_id'];
             $followupId = $input['followupId'];
             $customerId = $input['customerId'];
-            if(!empty($input['title_id']) && !empty($input['first_name']) && !empty($input['last_name'])){
+            if (!empty($input['title_id']) && !empty($input['first_name']) && !empty($input['last_name'])) {
                 $titleId = $input['title_id'];
                 $firstName = $input['first_name'];
                 $lastName = $input['last_name'];
             }
-            if(!empty($input['source_id']) && !empty($input['subsource_id']) && !empty($input['source_description'])){
+            if (!empty($input['source_id']) && !empty($input['subsource_id']) && !empty($input['source_description'])) {
                 $sourceId = $input['source_id'];
                 $subSourceId = $input['subsource_id'];
                 $sourceDescription = $input['source_description'];
             }
 
-            if(!empty($input))
-            {
+            if (!empty($input)) {
                 $todayDate = date('Y-m-d H:i:s');
-                EnquiryFollowup::where('id',$followupId)->update(["actual_followup_date_time" => $todayDate]);                
+                EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDate]);
                 $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
                 $input['next_followup_time'] = date('H:i:s', strtotime($input['next_followup_time']));
-                $input['actual_followup_date_time'] = "0000-00-00 00:00:00";    
-                if($input['textRemark'] !== ''){
-                   $input['remarks'] = $input['textRemark']; 
-                   $msg = 'Remark inserted successfully';
-                }else if($input['msgRemark'] !== ''){
+                $input['actual_followup_date_time'] = "0000-00-00 00:00:00";
+                if ($input['textRemark'] !== '') {
+                    $input['remarks'] = $input['textRemark'];
+                    $msg = 'Remark inserted successfully';
+                } else if ($input['msgRemark'] !== '') {
                     $input['remarks'] = $input['msgRemark'];
-                    
+
                     $implodeMobileNo = implode(",", $input['mobileNumber']);
                     $mobileNo = $implodeMobileNo;
                     $customer = "No";
@@ -723,64 +726,70 @@ class MasterSalesController extends Controller {
                     $sendingType = 0; //always 0 for T_SMS
                     $smsType = "T_SMS";
                     $smsBody = $input['msgRemark'];
-                    $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
-                    $decodeResult = json_decode($result,true);
-                    $msg = $decodeResult["message"]; 
-                }else{
-                    $input['remarks'] = $input['email_content']; 
-                    $implodeEmailId = implode(",",$input['email_id_arr']);
+                    $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational, $sendingType, $smsType);
+                    $decodeResult = json_decode($result, true);
+                    $msg = $decodeResult["message"];
+                } else {
+                    $input['remarks'] = $input['email_content'];
+                    $implodeEmailId = implode(",", $input['email_id_arr']);
                     $userName = "support@edynamics.co.in";
                     $password = "edsupport@2016#";
                     $mailBody = $input['email_content'];
                     $companyName = config('global.companyName');
                     $subject = $input['subject'];
-                    $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => $implodeEmailId , "cc" => ""];
-                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);   
-                    if($sentSuccessfully)
+                    $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => $implodeEmailId, "cc" => ""];
+                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
+                    if ($sentSuccessfully)
                         $msg = "Email sent successfully";
-                    else{
+                    else {
                         $msg = "Email not sent successfully";
                     }
-                        
                 }
-                unset($input['followupId'],$input['customerId'],$input['title_id'],
-                        $input['first_name'],$input['last_name'],$input['source_id'],
-                        $input['subsource_id'],$input['source_description'],
-                        $input['textRemark'],$input['msgRemark'], $input['email_content'],$input['subject']);
-                
+                unset($input['followupId'], $input['customerId'], $input['title_id'], $input['first_name'], $input['last_name'], $input['source_id'], $input['subsource_id'], $input['source_description'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject']);
+
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                 $input = array_merge($input, $create);
                 $insertFollowup = EnquiryFollowup::create($input);
             }
-            if(!empty($request['custInfo'])){
-                Customer::where('id',$customerId)->update(["title_id" => $titleId, "first_name" => $firstName, "last_name" => $lastName]);
+            if (!empty($request['custInfo'])) {
+                Customer::where('id', $customerId)->update(["title_id" => $titleId, "first_name" => $firstName, "last_name" => $lastName]);
             }
-            if(!empty($request['sourceInfo'])){
-                Customer::where('id',$customerId)->update(["source_id" => $sourceId, "subsource_id" => $subSourceId, "source_description" => $sourceDescription]);
-                Enquiry::where('id',$enquiryId)->update(["sales_source_id" => $sourceId, "sales_subsource_id" => $subSourceId, "sales_source_description" => $sourceDescription]);
+            if (!empty($request['sourceInfo'])) {
+                Customer::where('id', $customerId)->update(["source_id" => $sourceId, "subsource_id" => $subSourceId, "source_description" => $sourceDescription]);
+                Enquiry::where('id', $enquiryId)->update(["sales_source_id" => $sourceId, "sales_subsource_id" => $subSourceId, "sales_source_description" => $sourceDescription]);
             }
-            if($insertFollowup){
+            if ($insertFollowup) {
                 $result = ['success' => true, 'message' => $msg];
-            }else{
-                $result = ['success' => false , 'message' => 'Remark not inserted'];
+            } else {
+                $result = ['success' => false, 'message' => 'Remark not inserted'];
             }
-            
         } catch (Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
         return response()->json($result);
     }
 
-    public static function filteredData(){
+    public function filteredData() {
         $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);      
-        $filterData = $request['filterData']; 
-//echo "<pre>";print_r($filterData);exit;
-        if (empty($filterData['loggedInUserID']))
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-        else
-            $loggedInUserId = $filterData['loggedInUserID'];
-        
+        $request = json_decode($postdata, true);
+        $filterData = $request['filterData'];
+        if ($request['teamType'] == 0) { // total
+            if (empty($request['empId']))
+                $loggedInUserId = Auth::guard('admin')->user()->id;
+            else
+                $loggedInUserId = $request['empId'];
+        } else { // team total
+            if (empty($request['empId']))
+                $loggedInUserId = Auth::guard('admin')->user()->id;
+            else
+                $loggedInUserId = $request['empId'];
+            $this->allusers = array();
+            $this->getTeamIds($loggedInUserId);
+            $alluser = $this->allusers;
+            $loggedInUserId = implode(',', $alluser);
+        }
+
+        $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
         $filterData["fname"] = !empty($filterData['fname']) ? $filterData['fname'] : "";
         $filterData["lname"] = !empty($filterData['lname']) ? $filterData['lname'] : "";
         $filterData["emailId"] = !empty($filterData['emailId']) ? $filterData['emailId'] : "";
@@ -803,89 +812,63 @@ class MasterSalesController extends Controller {
         $filterData["verifiedMobNo"] = !empty($filterData['verifiedMobNo']) ? $filterData['verifiedMobNo'] : "0";
         $filterData["verifiedEmailId"] = !empty($filterData['verifiedEmailId']) ? $filterData['verifiedEmailId'] : "0";
 
-//        echo 'CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
-//                        $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
-//                        $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
-//                        $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
-//                        $filterData["channel_id"] . '","0","' . $filterData['maxbudget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '");';exit;
         $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
                         $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
                         $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
                         $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
-                        $filterData["channel_id"] . '","0","' . $filterData['maxbudget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '");');
+                        $filterData["channel_id"] . '","0","' . $filterData['maxbudget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
+        $cnt = DB::select('select FOUND_ROWS() totalCount');
         $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
 
         if (count($getEnquiryDetails) != 0) {
-            $result = ['success' => true, 'records' => $getEnquiryDetails];
+            $result = ['success' => true, 'records' => $getEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
         } else {
             $result = ['success' => false, 'records' => 'No Records Found'];
         }
         return response()->json($result);
     }
-    /*********************** ENQUIRY LISTING *************************/
-    
+
+    /*     * ********************* ENQUIRY LISTING ************************ */
+
+    public function totalEnquiry($type) {
+        return view("MasterSales::totalEnquiries")->with("type", $type);
+    }
+
     public function getTotalEnquiries() { // get all enquiries
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        
-        if (empty($request['loggedInUserID']))
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-        else
-            $loggedInUserId = $request['loggedInUserID'];
-        
-//        ('CALL proc_get_total_enquiries(login_user_id,customer_fname,customer_lname,email_id,mobile_number,from_date,to_date,
-//        sales_category_id,sales_subcategory_id,enquiry_source,enquiry_subsource,parking_required,finance_required,project_id,
-//        enquiry_location,sales_channel_id,minbudget,maxbudget)')
-
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_total_enquiries('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-
-        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
-        if (count($getCustomerEnquiryDetails) != 0) {
-            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
-        } else {
-            $result = ['success' => false, 'records' => 'No Records Found'];
+        try {
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            if ($request['teamType'] == 0) { // total
+                if (empty($request['empId']))
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                else
+                    $loggedInUserId = $request['empId'];
+            } else { // team total
+                if (empty($request['empId']))
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                else
+                    $loggedInUserId = $request['empId'];
+                $this->allusers = array();
+                $this->getTeamIds($loggedInUserId);
+                $alluser = $this->allusers;
+                $loggedInUserId = implode(',', $alluser);
+            }
+            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $cnt = DB::select('select FOUND_ROWS() as totalCount');
+            $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
+            if (count($getTotalEnquiryDetails) != 0) {
+                $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
+            } else {
+                $result = ['success' => false, 'records' => 'No Records Found'];
+            }
+        } catch (Exception $ex) {
+            $result = ['success' => false, 'status' => 412, 'message' => $ex->getMessage()];
         }
         return response()->json($result);
     }
-   
-    public function getLostEnquiries() {// get lost enquiries
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        
-        if (empty($request['loggedInUserID']))
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-        else
-            $loggedInUserId = $request['loggedInUserID'];
-        
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_lost_enquiries('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
-        
-        if (count($getCustomerEnquiryDetails) != 0) {
-            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
-        } else {
-            $result = ['success' => false, 'records' => 'No Records Found'];
-        }
-        return response()->json($result);
-    }
-
-    public function getClosedEnquiries() {// get booked enquiries
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        
-        if (empty($request['loggedInUserID']))
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-        else
-            $loggedInUserId = $request['loggedInUserID'];
-        
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_closed_enquiries('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
-        
-        if (count($getCustomerEnquiryDetails) != 0) {
-            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
-        } else {
-            $result = ['success' => false, 'records' => 'No Records Found'];
-        }
-        return response()->json($result);
+    public function showTodaysFollowups($type) {
+        return view("MasterSales::todaysfollowups")->with("type", $type);
     }
 
     public function getTodaysFollowups() {// Todays Followups 
@@ -897,28 +880,70 @@ class MasterSalesController extends Controller {
         else
             $loggedInUserId = $request['loggedInUserID'];
         
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_today_followups('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);       
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        $getTodaysFollowups = DB::select('CALL proc_get_today_followups("' . $loggedInUserId .'","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,'.$startFrom.','.$request['itemPerPage'].')');
+        $cnt = DB::select('select FOUND_ROWS() as totalCount');
+        $getTodaysFollowups = json_decode(json_encode($getTodaysFollowups), true);
 
-        if (count($getCustomerEnquiryDetails) != 0) {
-            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
+        if (count($getTodaysFollowups) != 0) {
+            $result = ['success' => true, 'records' => $getTodaysFollowups,'totalCount'=>$cnt[0]->totalCount];
         } else {
             $result = ['success' => false, 'records' => 'No record Found'];
         }
         return response()->json($result);
     }
-    
-    public function getPreviousFollowups() {// Previous Followups 
+
+    public function getLostEnquiries() {// get lost enquiries
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        
+
         if (empty($request['loggedInUserID']))
             $loggedInUserId = Auth::guard('admin')->user()->id;
         else
             $loggedInUserId = $request['loggedInUserID'];
-        
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_lost_enquiries(' . $loggedInUserId . ',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
+
+        if (count($getCustomerEnquiryDetails) != 0) {
+            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
+        } else {
+            $result = ['success' => false, 'records' => 'No Records Found'];
+        }
+        return response()->json($result);
+    }
+
+    public function getClosedEnquiries() {// get booked enquiries
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_closed_enquiries(' . $loggedInUserId . ',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
+
+        if (count($getCustomerEnquiryDetails) != 0) {
+            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
+        } else {
+            $result = ['success' => false, 'records' => 'No Records Found'];
+        }
+        return response()->json($result);
+    }
+
+    public function getPreviousFollowups() {// Previous Followups 
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        if (empty($request['loggedInUserID']))
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        else
+            $loggedInUserId = $request['loggedInUserID'];
+
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups(' . $loggedInUserId . ',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
 
         if (count($getCustomerEnquiryDetails) != 0 && !empty($getCustomerEnquiryDetails[0]['id'])) {
             $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
@@ -927,18 +952,18 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-        
+
     public function getPendingFollowups() {// Pending Followups 
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        
+
         if (empty($request['loggedInUserID']))
             $loggedInUserId = Auth::guard('admin')->user()->id;
         else
             $loggedInUserId = $request['loggedInUserID'];
-        
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_pending_followups('.$loggedInUserId .',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $getCustomerEnquiryDetails = json_decode( json_encode($getCustomerEnquiryDetails), true);
+
+        $getCustomerEnquiryDetails = DB::select('CALL proc_get_pending_followups(' . $loggedInUserId . ',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
 
         if (count($getCustomerEnquiryDetails) != 0) {
             $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
@@ -947,8 +972,9 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    
-    /********************** TEAM ENQUIRIES *****************************/
+
+    /*     * ******************** TEAM ENQUIRIES **************************** */
+
     public function getTeamIds($id) {
         $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
         if (!empty($admin)) {
@@ -960,7 +986,7 @@ class MasterSalesController extends Controller {
             return;
         }
     }
-    
+
     public function getTeamTotalEnquiries() {
 
         if (empty($request['loggedInUserID']))
@@ -972,9 +998,9 @@ class MasterSalesController extends Controller {
         $this->getTeamIds($loggedInUserId);
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
-        $enquiries = DB::select('CALL proc_get_total_enquiries(\'"'.$empTeamIds .'"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $enquiries = json_decode( json_encode($enquiries), true);
-        
+        $enquiries = DB::select('CALL proc_get_total_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = json_decode(json_encode($enquiries), true);
+
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
         } else {
@@ -982,7 +1008,7 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    
+
     public function getTeamlostEnquiries() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -996,9 +1022,9 @@ class MasterSalesController extends Controller {
         $this->getTeamIds($loggedInUserId);
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
-      
-        $enquiries = DB::select('CALL proc_get_lost_enquiries(\'"'.$empTeamIds .'"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $enquiries = json_decode( json_encode($enquiries), true);
+
+        $enquiries = DB::select('CALL proc_get_lost_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = json_decode(json_encode($enquiries), true);
 
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
@@ -1007,7 +1033,7 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    
+
     public function getTeamClosedEnquiries() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -1022,9 +1048,9 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
 
-        $enquiries = DB::select('CALL proc_get_closed_enquiries(\'"'.$empTeamIds .'"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $enquiries = json_decode( json_encode($enquiries), true);
-        
+        $enquiries = DB::select('CALL proc_get_closed_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = json_decode(json_encode($enquiries), true);
+
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
         } else {
@@ -1032,11 +1058,11 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    
+
     public function getTeamTodayFollowups() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        
+
         if (empty($request['loggedInUserID']))
             $loggedInUserId = Auth::guard('admin')->user()->id;
         else
@@ -1047,9 +1073,9 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
 
-        $enquiries = DB::select('CALL proc_get_today_followups(\'"'.$empTeamIds .'"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $enquiries = json_decode( json_encode($enquiries), true);
-        
+        $enquiries = DB::select('CALL proc_get_today_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = json_decode(json_encode($enquiries), true);
+
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
         } else {
@@ -1057,11 +1083,11 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    
+
     public function getTeamPendingFollowups() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        
+
         if (empty($request['loggedInUserID']))
             $loggedInUserId = Auth::guard('admin')->user()->id;
         else
@@ -1071,10 +1097,10 @@ class MasterSalesController extends Controller {
         $this->getTeamIds($loggedInUserId);
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
-        
-        $enquiries = DB::select('CALL proc_get_pending_followups(\'"'.$empTeamIds .'"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $enquiries = json_decode( json_encode($enquiries), true);
-        
+
+        $enquiries = DB::select('CALL proc_get_pending_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = json_decode(json_encode($enquiries), true);
+
         if (count($enquiries) != 0) {
             $result = ['success' => true, 'records' => $enquiries];
         } else {
@@ -1082,11 +1108,11 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    
+
     public function getTeamPreviousFollowups() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        
+
         if (empty($request['loggedInUserID']))
             $loggedInUserId = Auth::guard('admin')->user()->id;
         else
@@ -1096,9 +1122,9 @@ class MasterSalesController extends Controller {
         $this->getTeamIds($loggedInUserId);
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
-        
-        $enquiries = DB::select('CALL proc_get_previous_followups(\'"'.$empTeamIds .'"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $enquiries = json_decode( json_encode($enquiries), true);
+
+        $enquiries = DB::select('CALL proc_get_previous_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = json_decode(json_encode($enquiries), true);
 
         if (count($enquiries) > 0 && !empty($enquiries[0]['id'])) {
             $result = ['success' => true, 'records' => $enquiries];
@@ -1107,20 +1133,19 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-           
-    public function exportToExcel()
-    {
+
+    public function exportToExcel() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $data = $request['result'];   
+        $data = $request['result'];
 
         $reportName = $request['reportName'];
         $currentDate = date('_d_m_Y_h_A');
         $fileName = $reportName . $currentDate . "_by_" . Auth::guard('admin')->user()->first_name . "_" . Auth::guard('admin')->user()->last_name;
-        
+
         $getS3Url = config('global.s3Path');
-        ob_end_clean();        
-        Excel::create($fileName, function($excel) use ($data,$reportName) {
+        ob_end_clean();
+        Excel::create($fileName, function($excel) use ($data, $reportName) {
             $excel->sheet($reportName, function($sheet) use ($data, $reportName) {
                 $sheet->mergeCells('A1:P1');
                 $sheet->setHeight("1", 45);
@@ -1128,54 +1153,56 @@ class MasterSalesController extends Controller {
                     $cells->setAlignment('center');
                     $cells->setFontColor('#315AD7');
                     $cells->setBackground('#D6D6D6');
-                    $cells->setBorder('thick', 'thick', 'thick', 'thick');// Set all borders (top, right, bottom, left)
+                    $cells->setBorder('thick', 'thick', 'thick', 'thick'); // Set all borders (top, right, bottom, left)
                     $cells->setFont(array(
-                        'family'     => 'Calibri',
-                        'size'       => '25',
+                        'family' => 'Calibri',
+                        'size' => '25',
                     ));
                 });
-               
+
                 $sheet->mergeCells('A2:P2');
-                
+
                 $title = str_replace('_', ' ', $reportName);
-                $sheet->row(1, array('BMS BUILDER - '.$title));
+                $sheet->row(1, array('BMS BUILDER - ' . $title));
 
                 // setting column names for data - you can of course set it manually
-                $sheet->appendRow(["Sr.No","Date of enquiry","Customer Details","Mobile Numbers","Landline Number",
-                    "Email Ids","Project Details","Enquiry Category","Last Followup By","Last Followup Remarks",
-                    "Next Followup","Enquiry Status","Enquiry Source","Enquiry Sub Source","Enquiry Source Description","Enquiry Owner"]); // column names
+                $sheet->appendRow(["Sr.No", "Date of enquiry", "Customer Details", "Mobile Numbers", "Landline Number",
+                    "Email Ids", "Project Details", "Enquiry Category", "Last Followup By", "Last Followup Remarks",
+                    "Next Followup", "Enquiry Status", "Enquiry Source", "Enquiry Sub Source", "Enquiry Source Description", "Enquiry Owner"]); // column names
                 $sheet->row(3, function ($row) {
                     $row->setAlignment('center');
                     $row->setBackground('#f9c955');
                     $row->setFont(array(
-                        'family'     => 'Calibri',
-                        'size'       => '12',
+                        'family' => 'Calibri',
+                        'size' => '12',
                     ));
                 });
-                
+
                 $i = 1;
                 // putting users data as next rows
                 foreach ($data as $user) {
                     $srno = ["srno" => $i++];
-                    $getFilterData = [$user["sales_enquiry_date"],$user["customer_fname"]." ".$user["customer_lname"],
-                    $user["group_mobile_number"],$user["group_landline_number"],$user["group_email_id"],$user["project_block_name"],
-                    $user["enquiry_category"],$user["last_followup_date"],
-                    $user["remarks"],$user["next_followup_date"]." ".$user["next_followup_time"],
-                    $user["sales_status"],$user["sales_source_id"],$user["sales_subsource_id"],
-                    $user["sales_source_description"],$user["owner_fname"]." ".$user["owner_lname"]];
-                    
-                    $user = array_merge($srno,$getFilterData);
+                    $getFilterData = [$user["sales_enquiry_date"], $user["customer_fname"] . " " . $user["customer_lname"],
+                        $user["group_mobile_number"], $user["group_landline_number"], $user["group_email_id"], $user["project_block_name"],
+                        $user["enquiry_category"], $user["last_followup_date"],
+                        $user["remarks"], $user["next_followup_date"] . " " . $user["next_followup_time"],
+                        $user["sales_status"], $user["sales_source_id"], $user["sales_subsource_id"],
+                        $user["sales_source_description"], $user["owner_fname"] . " " . $user["owner_lname"]];
+
+                    $user = array_merge($srno, $getFilterData);
                     $sheet->appendRow($user);
                 }
             });
         })->save('XLS', "downloads/");
-        
-        $file_url = 'http://localhost/Builder_System_Laravel/public/downloads/'.$fileName.".xls";
 
-        $result = ['success' => true, 'sheetName' => $fileName.".xls", "fileUrl" => $file_url];
+        $file_url = 'http://localhost/Builder_System_Laravel/public/downloads/' . $fileName . ".xls";
+
+        $result = ['success' => true, 'sheetName' => $fileName . ".xls", "fileUrl" => $file_url];
         return response()->json($result);
     }
+
     public function updateCustomer($id) {
         return view('MasterSales::updateCustomer')->with('id', $id);
     }
+
 }

@@ -1,5 +1,5 @@
 'use strict';
-app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', function ($scope, Data, Upload, $timeout, toaster) {
+app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster','$parse', function ($scope, Data, Upload, $timeout, toaster,$parse) {
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.subId = '0';
@@ -50,7 +50,15 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             imageData.upload.then(function (response) {
                 $timeout(function () {
                     if (!response.data.success) {
-                        toaster.pop('error', 'Banner Image', 'Image not uploaded');
+                        var obj = response.data.message;
+                        var selector = [];
+                        for (var key in obj) {
+                            var model = $parse(key);// Get the model
+                            model.assign($scope, obj[key][0]);// Assigns a value to it
+                            selector.push(key);
+                        }
+                        
+                        //toaster.pop('error', 'Banner Image', 'Image not uploaded');
                     } else
                     {
                         Data.post('web-pages/getImages', {

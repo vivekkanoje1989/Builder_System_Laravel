@@ -2,6 +2,9 @@
 
 Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'namespace' => 'App\Modules\MasterSales\Controllers'), function() {
     $getUrl = config('global.getUrl');
+    Route::get('/dirPagination', function () {
+        return View::make('backend.dirPagination');
+    });
     Route::get('/MasterSales/createEnquiry', function () {
         return View::make('MasterSales::createEnquiry');
     });
@@ -19,11 +22,15 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     });
     Route::get('/MasterSales/showFilter', function () {
         return View::make('MasterSales::showFilter');
+    });    
+    Route::get('/MasterSales/scheduletestdrive', function () {
+        return View::make('MasterSales::scheduletestdrive');
     });
+
     /****************************ENQUIRIES****************************/
-    Route::get('/master-sales/totalEnquiries', function () {
-        return view('MasterSales::totalEnquiries');
-    });
+//    Route::get('/master-sales/totalEnquiries', function () {
+//        return view('MasterSales::totalEnquiries');
+//    });
     Route::get('/master-sales/lostEnquiries', function () {
         return view('MasterSales::lostEnquiries');
     });
@@ -33,9 +40,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     /****************************ENQUIRIES****************************/
     
     /****************************FOLLOWUPS****************************/
-    Route::get('/master-sales/showTodaysFollowups', function () {
-        return view('MasterSales::todaysFollowups');
-    });
+//    Route::get('/master-sales/showTodaysFollowups', function () {
+//        return view('MasterSales::todaysFollowups');
+//    });
     Route::get('/master-sales/showPendingFollowups', function () {
         return view('MasterSales::pendingFollowup');
     });
@@ -45,9 +52,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     /****************************FOLLOWUPS****************************/
     
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
-    Route::get('/master-sales/teamTotalEnquiries', function () {
-        return view('MasterSales::teamTotalEnquiries');
-    });
+//    Route::get('/master-sales/teamTotalEnquiries', function () {
+//        return view('MasterSales::teamTotalEnquiries');
+//    });
     Route::get('/master-sales/teamLostEnquiries', function () {
         return view('MasterSales::teamLostEnquiries');
     });
@@ -63,8 +70,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/teamPreviousFollowups', function () {
         return view('MasterSales::teamPreviousFollowups');
     });    
-    /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
-    
+    /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/    
     Route::get('/master-sales/updateCustomer/{id}', 'MasterSalesController@updateCustomer'); //update customer data
     Route::get('/master-sales/getEmployees', 'MasterSalesController@getEmployees');  // get all employees    
     Route::get('/master-sales/getEnquiryCity', 'MasterSalesController@getEnquiryCity'); // get enquiry city from table 
@@ -90,13 +96,15 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/filteredData', 'MasterSalesController@filteredData');//filtered data
     
     /****************************ENQUIRIES****************************/
+    Route::get('/master-sales/totalEnquiry/{type}', 'MasterSalesController@totalEnquiry'); // get total enq with type
     Route::post('/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing
     Route::post('/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries'); // get all lost enquiries
     Route::post('/master-sales/getClosedEnquiries', 'MasterSalesController@getClosedEnquiries'); // getCloseEnquiries
     /****************************ENQUIRIES****************************/
     
     /****************************FOLLOWUPS****************************/
-    Route::post('/master-sales/getTodaysFollowups', 'MasterSalesController@getTodaysFollowups'); // get TodaysFollowups
+    Route::get('/master-sales/showTodaysFollowups/{type}', 'MasterSalesController@showTodaysFollowups');// today followups with type
+    Route::post('/master-sales/getTodaysFollowups', 'MasterSalesController@getTodaysFollowups'); // get TodaysFollowups    
     Route::post('/master-sales/getPendingFollowups', 'MasterSalesController@getPendingFollowups'); // get getPendingFollowups
     Route::post('/master-sales/getPreviousFollowups', 'MasterSalesController@getPreviousFollowups'); // get getPreviousFollowups
     /****************************FOLLOWUPS****************************/

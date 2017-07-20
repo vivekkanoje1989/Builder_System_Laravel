@@ -990,7 +990,7 @@ angular.module('app')
                                 })
                                 .state('enquiries', {
                                     url: '/sales/totalenquiries',
-                                    templateUrl: '/master-sales/totalEnquiries',
+                                    templateUrl: '/master-sales/totalEnquiry/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Total Enquiries'
@@ -1085,7 +1085,7 @@ angular.module('app')
                                 .state('todaysfollowups', {
                                     url: '/sales/todaysfollowups',
                                     templateUrl: function () {
-                                        return '/master-sales/showTodaysFollowups';
+                                        return '/master-sales/showTodaysFollowups/0';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1096,7 +1096,7 @@ angular.module('app')
                                         [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load('toaster').then(
+                                                return $ocLazyLoad.load(['ui.select','toaster']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
@@ -1105,6 +1105,7 @@ angular.module('app')
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
                                                                     '/backend/app/controllers/timepicker.js',
+                                                                    '/backend/app/controllers/select.js',  
                                                                 ]
                                                             });
                                                         }
@@ -1176,8 +1177,8 @@ angular.module('app')
                                     }
                                 })
                                 .state('teamtotalenquiries', {
-                                    url: '/sales/teamtotalenquiries',
-                                    templateUrl: '/master-sales/teamTotalEnquiries',
+                                    url: '/sales/teamtotalEnquiries',
+                                    templateUrl: '/master-sales/totalEnquiry/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Team Total Enquiries'
@@ -1187,7 +1188,7 @@ angular.module('app')
                                         [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load('toaster').then(
+                                                return $ocLazyLoad.load(['ui.select','toaster']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
@@ -1196,6 +1197,7 @@ angular.module('app')
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
                                                                     '/backend/app/controllers/timepicker.js',
+                                                                    '/backend/app/controllers/select.js',   
                                                                 ]
                                                             }
                                                             );
@@ -1271,7 +1273,7 @@ angular.module('app')
                                 .state('teamtodayfollowups', {
                                     url: '/sales/teamtodayfollowups',
                                     templateUrl: function () {
-                                        return '/master-sales/teamTodayFollowups';
+                                        return '/master-sales/showTodaysFollowups/1';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1282,7 +1284,7 @@ angular.module('app')
                                         [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load('toaster').then(
+                                                return $ocLazyLoad.load(['ui.select','toaster']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
@@ -1291,6 +1293,7 @@ angular.module('app')
                                                                     '/backend/enquiryController.js',
                                                                     '/backend/app/controllers/datepicker.js',
                                                                     '/backend/app/controllers/timepicker.js',
+                                                                    '/backend/app/controllers/select.js',  
                                                                 ]
                                                             });
                                                         }
