@@ -137,7 +137,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $scope.modalSbtBtn = false;
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
-        $scope.createCustomer = function (enteredData, customerPhoto) {            
+        $scope.createCustomer = function (enteredData, customerPhoto) { 
+            alert('fh');
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");

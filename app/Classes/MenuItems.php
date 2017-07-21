@@ -315,12 +315,12 @@ class MenuItems {
                             2 => array('id' => '0110102', 'name' => 'Manage Templates', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             3 => array('id' => '0110103', 'name' => 'Out-bound Call Log', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
-                    2 => array('id' => '01102', 'name' => 'Call Logs', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
+                    2 => array('id' => '01102', 'name' => 'Call Logs', 'icon' => '', 'micon' => 'img/callLog.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
                         'submenu_ids' => '0110201,0110202,0110203,0110204', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '0110201', 'name' => 'My Incoming Call Logs', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '0110202', 'name' => 'My Outgoing Call Logs', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '0110203', 'name' => 'Team\'s Incoming Call Logs', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            4 => array('id' => '0110204', 'name' => 'Team\'s Outgoing Call Logs', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '0110201', 'name' => 'My Incoming Call Logs', 'micon' => 'img/incoming.call.png', 'icon' => '', 'url' => '/cloudcallinglogs/myIncomingLogs', 'slug' => 'inboundLogs', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '0110202', 'name' => 'My Outgoing Call Logs', 'micon' => 'img/Myoutgoingcalls.png', 'icon' => '', 'url' => '/cloudcallinglogs/myOutgoingLogs', 'slug' => 'outboundLogs', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '0110203', 'name' => 'Team`s Incoming Call Logs', 'micon' => 'img/Teamincomingcalls.png', 'icon' => '', 'url' => '/cloudcallinglogs/teamIncomingLogs', 'slug' => 'teaminboundLogs', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            4 => array('id' => '0110204', 'name' => 'Team`s Outgoing Call Logs', 'micon' => 'img/Teamoutgoingcalls.png', 'icon' => '', 'url' => '/cloudcallinglogs/teamOutgoingLogs', 'slug' => 'teamoutboundLogs', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     3 => array('id' => '01103', 'name' => 'Telephony Registration', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                         'submenu_ids' => '0110301', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
