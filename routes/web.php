@@ -165,6 +165,9 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/getSalesEnqSubStatus', 'backend\AdminController@getSalesEnqSubStatus'); //geeta
     Route::post('/getSalesEnqSubCategory', 'backend\AdminController@getSalesEnqSubCategory'); //geeta
     Route::post('/checkOldPassword', 'backend\AdminController@checkOldPassword');
+     Route::get('/dirPagination', function () {
+        return View::make('backend.dirPagination');
+    });
     /***********************************MANDAR*******************************/
     Route::get('/getClient', 'backend\AdminController@getClient');
     Route::get('/getVehiclebrands', 'backend\AdminController@getVehiclebrands');

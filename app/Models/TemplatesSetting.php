@@ -72,7 +72,9 @@ class TemplatesSetting extends Eloquent
 
 	protected $fillable = [
 		'client_id',
+		'templates_event_id',
 		'sr_no',
+		'template_for',
 		'template_type',
 		'template_category',
 		'default_template_id',
@@ -97,6 +99,12 @@ class TemplatesSetting extends Eloquent
 		'updated_by',
 		'updated_IP',
 		'updated_browser',
-		'updated_mac_id'
+		'updated_mac_id',
+		'deleted_status',
+		'deleted_date',
+		'deleted_by',
+		'deleted_IP',
+		'deleted_browser',
+		'deleted_mac_id'
 	];
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Http\UploadedFile;
 use File;
 use DB;
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\CtTuneType;
 use App\Models\CtForwardingType;
@@ -33,6 +34,8 @@ use App\Models\TemplatesCustom;
 use App\Models\TemplatesDefault;
 use App\Models\EmailConfiguration;
 use App\Classes\Gupshup;
+use App\Models\CtLogsOutbound;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CloudCallingLogsController extends Controller {
 
@@ -102,6 +105,930 @@ class CloudCallingLogsController extends Controller {
             echo $body;
             exit;
         }
+    }
+
+    public function myIncomingLogs() {
+        return view("CloudTelephony::inboundlogs")->with("loggedInUserId", Auth::guard('admin')->user()->id);
+    }
+
+    public function teamIncomingLogs() {
+        return view("CloudTelephony::teaminboundlogs")->with("loggedInUserId", Auth::guard('admin')->user()->id);
+    }
+
+    public function myInboundLogs() {
+
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        if (!empty($request["employee_id"])) {
+            $emp_id = $request["employee_id"];
+            if ($request['filterFlag'] == 1) {
+                CloudCallingLogsController::$procname = "proc_team_inboundlogs";
+                return $this->filteredData();
+                exit;
+            }
+        } else {
+            $emp_id = Auth::guard('admin')->user()->id;
+        }
+        $getInboundLoglist = array();
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        $getCountInboundLogs = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsc_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
+                ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
+                ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
+                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
+                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                ->orderBy('ct_logs_inbounds.id', 'DESC')
+                ->where('ct_logs_inbounds.employee_id', $emp_id)
+                ->count();
+
+        $getInboundLogs = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsc_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
+                ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
+                ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
+                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
+                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                ->orderBy('ct_logs_inbounds.id', 'DESC')
+                ->select('ct_logs_inbounds.id', 'ct_logs_inbounds.call_log_push_url', DB::raw('DATE_FORMAT(ct_logs_inbounds.call_date, "%d-%m-%Y") as call_date'), DB::raw('DATE_FORMAT(ct_logs_inbounds.call_time, "%h:%i %p") as call_time'), 'ct_logs_inbounds.customer_call_status', 'ct_logs_inbounds.customer_call_duration', 'ct_logs_inbounds.virtual_number', 'ct_logs_inbounds.customer_number', 'ct_logs_inbounds.call_recording_url', 'emp.first_name', 'emp.last_name', 'ls.sales_source_name', 'subs.sub_source', 'cust.first_name as cfirst_name', 'cust.last_name as clast_name', 'emp.title_id as emp_title_id', 'cust.title_id as cust_title_id')
+                ->where('ct_logs_inbounds.employee_id', $emp_id)
+                ->take($request['itemPerPage'])->offset($startFrom)
+                ->get();
+
+
+        $i = 0;
+        if (!empty($getInboundLogs)) {
+            foreach ($getInboundLogs as $getInboundLog) {
+                $url = '';
+                $arrs = explode('&', $getInboundLog->call_log_push_url);
+                foreach ($arrs as $arr => $value) {
+                    $dada = explode('=', $value);
+                    if ($dada[0] == 'recording_url' && $dada[1] != '') {
+                        $url = $dada[1];
+                    }
+                }
+                $getInboundLogs[$i]->call_recording_url = $url; //config('global.s3Path') . '/recorded_file/' . $getInboundLog->call_recording_url;
+                $getInboundLogs[$i]->employee_name = $getInboundLog->first_name . ' ' . $getInboundLog->last_name;
+                $getInboundLogs[$i]->customer_name = $getInboundLog->cfirst_name . ' ' . $getInboundLog->clast_name;
+                $getInboundLogs[$i]->emptitle_id = $getInboundLog->emp_title_id;
+                $getInboundLogs[$i]->custtitle_id = $getInboundLog->cust_title_id;
+
+                unset($getInboundLogs[$i]->first_name);
+                unset($getInboundLogs[$i]->last_name);
+                unset($getInboundLogs[$i]->cfirst_name);
+                unset($getInboundLogs[$i]->clast_name);
+                unset($getInboundLogs[$i]->emp_title_id);
+                unset($getInboundLogs[$i]->cust_title_id);
+                $i++;
+            }
+        }
+        if (!empty($getInboundLogs[0])) {
+            $result = ['success' => true, 'records' => $getInboundLogs, 'totalCount' => $getCountInboundLogs];
+        } else {
+            $result = ['success' => false, 'records' => $getInboundLogs, 'totalCount' => $getCountInboundLogs];
+        }
+        return json_encode($result);
+    }
+
+    public function teamInboundLogs() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $c_id = array();
+        $ids = [];
+        if (!empty($request["employee_id"])) {
+            $emp_id = $request["employee_id"];
+            if ($request['filterFlag'] == 1) {
+                CloudCallingLogsController::$procname = "proc_team_inboundlogs";
+                return $this->filteredData();
+                exit;
+            }
+        } else {
+            $emp_id = Auth::guard('admin')->user()->id;
+        }
+        $admin = \App\Models\backend\Employee::where(['team_lead_id' => $emp_id])->get();
+
+        for ($i = 0; $i < count($admin); $i++) {
+            $ids[] = $admin[$i]['id'];
+        }
+
+        $getInboundLoglist = array();
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        $getCountInboundLogs = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsc_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
+                ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
+                ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
+                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
+                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                ->orderBy('ct_logs_inbounds.id', 'DESC')
+                ->whereIN('ct_logs_inbounds.employee_id', $ids)
+                ->count();
+
+        $getInboundLogs = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsc_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
+                ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
+                ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
+                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
+                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                ->orderBy('ct_logs_inbounds.id', 'DESC')
+                ->select('ct_logs_inbounds.id', 'ct_logs_inbounds.call_log_push_url', DB::raw('DATE_FORMAT(ct_logs_inbounds.call_date, "%d-%m-%Y") as call_date'), DB::raw('DATE_FORMAT(ct_logs_inbounds.call_time, "%h:%i %p") as call_time'), 'ct_logs_inbounds.customer_call_status', 'ct_logs_inbounds.customer_call_duration', 'ct_logs_inbounds.virtual_number', 'ct_logs_inbounds.customer_number', 'ct_logs_inbounds.call_recording_url', 'emp.first_name', 'emp.last_name', 'ls.sales_source_name', 'subs.sub_source', 'cust.first_name as cfirst_name', 'cust.last_name as clast_name', 'emp.title_id as emp_title_id', 'cust.title_id as cust_title_id')
+                ->whereIN('ct_logs_inbounds.employee_id', $ids)
+                ->take($request['itemPerPage'])->offset($startFrom)
+                ->get();
+        $i = 0;
+        if (!empty($getInboundLogs)) {
+            foreach ($getInboundLogs as $getInboundLog) {
+                $url = '';
+                $arrs = explode('&', $getInboundLog->call_log_push_url);
+                foreach ($arrs as $arr => $value) {
+                    $dada = explode('=', $value);
+                    if ($dada[0] == 'recording_url' && $dada[1] != '') {
+                        $url = $dada[1];
+                    }
+                }
+                $getInboundLogs[$i]->call_recording_url = $url; //config('global.s3Path') . '/recorded_file/' . $getInboundLog->call_recording_url;
+                $getInboundLogs[$i]->employee_name = $getInboundLog->first_name . ' ' . $getInboundLog->last_name;
+                $getInboundLogs[$i]->customer_name = $getInboundLog->cfirst_name . ' ' . $getInboundLog->clast_name;
+                $getInboundLogs[$i]->emptitle_id = $getInboundLog->emp_title_id;
+                $getInboundLogs[$i]->custtitle_id = $getInboundLog->cust_title_id;
+                unset($getInboundLogs[$i]->first_name);
+                unset($getInboundLogs[$i]->last_name);
+                unset($getInboundLogs[$i]->cfirst_name);
+                unset($getInboundLogs[$i]->clast_name);
+                unset($getInboundLogs[$i]->emp_title_id);
+                unset($getInboundLogs[$i]->cust_title_id);
+                $i++;
+            }
+        }
+
+
+        if (!empty($getInboundLogs[0])) {
+            $result = ['success' => true, 'records' => $getInboundLogs, 'totalCount' => $getCountInboundLogs];
+        } else {
+            $result = ['success' => false, 'records' => $getInboundLogs, 'totalCount' => $getCountInboundLogs];
+        }
+        return json_encode($result);
+    }
+
+//    public function tuserid($id) {
+//
+//        $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
+//        if (!empty($admin)) {
+//
+//            foreach ($admin as $item) {
+//
+//                $this->allusers[$item->id] = $item->id;
+//
+//                $this->tuserid($item->id);
+//            }
+//        } else {
+//            return;
+//        }
+//    }
+
+    public function filteredData() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+//        $this->allusers = array();
+        $filterData = $request['filterData'];
+        $ids = [];
+
+        if (empty($request['employee_id'])) { // For Web
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            if ($request['isTeamType'] == 1) {
+//                $this->tuserid($loggedInUserId);
+//                $alluser = $this->allusers;
+                $admin = \App\Models\backend\Employee::where(['team_lead_id' => $loggedInUserId])->get();
+
+                for ($i = 0; $i < count($admin); $i++) {
+                    $ids[] = $admin[$i]['id'];
+                }
+                $loggedInUserId = !empty($ids) ? implode(',', $ids) : $loggedInUserId;
+            }
+            if (!empty($filterData["virtual_no"])) {
+                $virtualNumber = explode("_", $filterData["virtual_no"]);
+            }
+            if (!empty($filterData["callstatus"])) {
+                $callstatus = explode("_", $filterData["callstatus"]);
+            }
+
+
+            $filterData["virtual_no"] = !empty($filterData["virtual_no"]) ? $virtualNumber[0] : "";
+            $filterData["callstatus"] = !empty($filterData['callstatus']) ? $callstatus[0] : "";
+        } else { // For App
+            $request["getProcName"] = CloudCallingLogsController::$procname;
+            $loggedInUserId = $request['employee_id'];
+            if (!empty($request['isTeamType']) && $request['isTeamType'] == 1) {
+//                $this->tuserid($loggedInUserId);
+//                $alluser = $this->allusers;
+                $admin = \App\Models\backend\Employee::where(['team_lead_id' => $loggedInUserId])->get();
+
+                for ($i = 0; $i < count($admin); $i++) {
+                    $ids[] = $admin[$i]['id'];
+                }
+                $loggedInUserId = !empty($ids) ? implode(',', $ids) : $loggedInUserId;
+            }
+            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+                $loggedInUserId = implode(',', array_map(function($el) {
+                            return $el['id'];
+                        }, $filterData['empId']));
+            }
+            $filterData["virtual_no"] = !empty($filterData["virtual_no"]) ? $filterData["virtual_no"] : "";
+            $filterData["callstatus"] = !empty($filterData['callstatus']) ? $filterData["callstatus"] : "";
+            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        }
+        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+            $loggedInUserId = implode(',', array_map(function($el) {
+                        return $el['id'];
+                    }, $filterData['empId']));
+        }
+
+        $filterData["fromDate"] = !empty($filterData['fromDate']) ? date('Y-m-d', strtotime($filterData['fromDate'])) : "";
+        $filterData["toDate"] = !empty($filterData['toDate']) ? date('Y-m-d', strtotime($filterData['toDate'])) : "";
+
+
+
+        $getInboundLogs = DB::select('CALL' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fromDate"] . '","' .
+                        $filterData["toDate"] . '","' . $filterData["callstatus"] . '","' . $filterData["virtual_no"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+
+        $enqCnt = DB::select("select FOUND_ROWS() totalCount");
+        $enqCnt = $enqCnt[0]->totalCount;
+
+        $i = 0;
+        if (!empty($getInboundLogs)) {
+            foreach ($getInboundLogs as $getInboundLog) {
+                $url = '';
+                $arrs = explode('&', $getInboundLog->call_log_push_url);
+                foreach ($arrs as $arr => $value) {
+                    $dada = explode('=', $value);
+                    if ($dada[0] == 'recording_url' && $dada[1] != '') {
+                        $url = $dada[1];
+                    }
+                }
+                $getInboundLogs[$i]->call_recording_url = $url; //config('global.s3Path') . '/recorded_file/' . $getInboundLog->call_recording_url;
+                $getInboundLogs[$i]->employee_name = $getInboundLog->first_name . ' ' . $getInboundLog->last_name;
+                $getInboundLogs[$i]->customer_name = $getInboundLog->cfirst_name . ' ' . $getInboundLog->clast_name;
+                $getInboundLogs[$i]->emptitle_id = $getInboundLog->emp_title_id;
+                $getInboundLogs[$i]->custtitle_id = $getInboundLog->cust_title_id;
+                unset($getInboundLogs[$i]->first_name);
+                unset($getInboundLogs[$i]->last_name);
+                unset($getInboundLogs[$i]->cfirst_name);
+                unset($getInboundLogs[$i]->clast_name);
+                unset($getInboundLogs[$i]->emp_title_id);
+                unset($getInboundLogs[$i]->cust_title_id);
+                $i++;
+            }
+        }
+
+
+        if (!empty($getInboundLogs)) {
+            $result = ['success' => true, 'records' => $getInboundLogs, 'totalCount' => $enqCnt];
+        } else {
+            $result = ['success' => false, 'records' => $getInboundLogs, 'totalCount' => $enqCnt];
+        }
+        return json_encode($result);
+    }
+
+    public function filteredoutboundData() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+//        $this->allusers = array();
+        $ids = [];
+        $filterData = $request['filterData'];
+        if (empty($request['employee_id'])) { // For Web
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            if ($request['isTeamType'] == 1) {
+//                $this->tuserid($loggedInUserId);
+//                $alluser = $this->allusers;
+                $admin = \App\Models\backend\Employee::where(['team_lead_id' => $loggedInUserId])->get();
+
+                for ($i = 0; $i < count($admin); $i++) {
+                    $ids[] = $admin[$i]['id'];
+                }
+                $loggedInUserId = !empty($ids) ? implode(',', $ids) : $loggedInUserId;
+            }
+
+            $filterData["customer_number"] = !empty($filterData["customer_number"]) ? $filterData["customer_number"] : "";
+            $filterData["callstatus"] = !empty($filterData['callstatus']) ? $filterData["callstatus"] : "";
+        } else { // For App
+            $request["getProcName"] = CloudCallingLogsController::$procname;
+            $loggedInUserId = $request['employee_id'];
+            if (!empty($request['isTeamType']) && $request['isTeamType'] == 1) {
+//                $this->tuserid($loggedInUserId);
+//                $alluser = $this->allusers;
+
+                $admin = \App\Models\backend\Employee::where(['team_lead_id' => $loggedInUserId])->get();
+
+                for ($i = 0; $i < count($admin); $i++) {
+                    $ids[] = $admin[$i]['id'];
+                }
+                $loggedInUserId = !empty($ids) ? implode(',', $ids) : $loggedInUserId;
+            }
+            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+                $loggedInUserId = implode(',', array_map(function($el) {
+                            return $el['id'];
+                        }, $filterData['empId']));
+            }
+
+            $filterData["customer_number"] = !empty($filterData["customer_number"]) ? $filterData["customer_number"] : "";
+            $filterData["callstatus"] = !empty($filterData['callstatus']) ? $filterData["callstatus"] : "";
+            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        }
+        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+            $loggedInUserId = implode(',', array_map(function($el) {
+                        return $el['id'];
+                    }, $filterData['empId']));
+        }
+
+        $filterData["fromDate"] = !empty($filterData['fromDate']) ? date('Y-m-d', strtotime($filterData['fromDate'])) : "";
+        $filterData["toDate"] = !empty($filterData['toDate']) ? date('Y-m-d', strtotime($filterData['toDate'])) : "";
+
+
+        $getOutboundLogs = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fromDate"] . '","' .
+                        $filterData["toDate"] . '","' . $filterData["callstatus"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '","' . $filterData["customer_number"] . '")');
+
+        $Cnt = DB::select("select FOUND_ROWS() totalCount");
+        $logCnt = $Cnt[0]->totalCount;
+
+        $i = 0;
+        if (!empty($getOutboundLogs)) {
+            foreach ($getOutboundLogs as $getOutboundLog) {
+                $url = '';
+                $arrs = explode('&', $getOutboundLog->call_log_push_url);
+                foreach ($arrs as $arr => $value) {
+                    $dada = explode('=', $value);
+                    if ($dada[0] == 'recording_url' && $dada[1] != '') {
+                        $url = $dada[1];
+                    }
+                }
+                $getOutboundLogs[$i]->call_recording_url = $url; //config('global.s3Path') . '/recorded_file/' . $getOutboundLog->call_recording_url;
+                $getOutboundLogs[$i]->employee_name = $getOutboundLog->first_name . ' ' . $getOutboundLog->last_name;
+                $getOutboundLogs[$i]->customer_name = $getOutboundLog->cfirst_name . ' ' . $getOutboundLog->clast_name;
+                $getOutboundLogs[$i]->emptitle_id = $getOutboundLog->emp_title_id;
+                $getOutboundLogs[$i]->custtitle_id = $getOutboundLog->cust_title_id;
+                unset($getOutboundLogs[$i]->first_name);
+                unset($getOutboundLogs[$i]->last_name);
+                unset($getOutboundLogs[$i]->cfirst_name);
+                unset($getOutboundLogs[$i]->clast_name);
+                unset($getOutboundLogs[$i]->emp_title_id);
+                unset($getOutboundLogs[$i]->cust_title_id);
+                $i++;
+            }
+        }
+        if (!empty($getOutboundLogs)) {
+            $result = ['success' => true, 'records' => $getOutboundLogs, 'totalCount' => $logCnt];
+        } else {
+            $result = ['success' => false, 'records' => $getOutboundLogs, 'totalCount' => $logCnt];
+        }
+        return json_encode($result);
+    }
+
+    public function myOutgoingLogs() {
+        return view("CloudTelephony::outboundlogs")->with("loggedInUserId", Auth::guard('admin')->user()->id);
+    }
+
+    public function teamOutgoingLogs() {
+        return view("CloudTelephony::teamoutboundlogs")->with("loggedInUserId", Auth::guard('admin')->user()->id);
+    }
+
+    public function myOutboundLogs() {
+
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        if (!empty($request["employee_id"])) {
+            $emp_id = $request["employee_id"];
+            if ($request['filterFlag'] == 1) {
+                CloudCallingLogsController::$procname = "proc_team_outboundlogs";
+                return $this->filteredoutboundData();
+                exit;
+            }
+        } else {
+            $emp_id = Auth::guard('admin')->user()->id;
+        }
+        $getOutboundLoglist = array();
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        $getCountOutboundLogs = CtLogsOutbound::leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_outbounds.employee_id')
+                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_outbounds.customer_number')
+                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                ->orderBy('ct_logs_outbounds.id', 'DESC')
+                ->where('ct_logs_outbounds.employee_id', $emp_id)
+                ->count();
+
+        $getOutboundLogs = CtLogsOutbound::leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_outbounds.employee_id')
+                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_outbounds.customer_number')
+                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                ->orderBy('ct_logs_outbounds.id', 'DESC')
+                ->select('ct_logs_outbounds.id', 'ct_logs_outbounds.call_log_push_url', DB::raw('DATE_FORMAT(ct_logs_outbounds.call_date, "%d-%m-%Y") as call_date'), DB::raw('DATE_FORMAT(ct_logs_outbounds.call_time, "%h:%i %p") as call_time'), 'ct_logs_outbounds.customer_call_status', 'ct_logs_outbounds.customer_call_duration', 'ct_logs_outbounds.customer_number', 'ct_logs_outbounds.call_recording_url', 'emp.first_name', 'emp.last_name', 'cust.first_name as cfirst_name', 'cust.last_name as clast_name', 'emp.title_id as emp_title_id', 'cust.title_id as cust_title_id')
+                ->where('ct_logs_outbounds.employee_id', $emp_id)
+                ->take($request['itemPerPage'])->offset($startFrom)
+                ->get();
+        $i = 0;
+        if (!empty($getOutboundLogs)) {
+            foreach ($getOutboundLogs as $getOutboundLog) {
+                $url = '';
+                $arrs = explode('&', $getOutboundLog->call_log_push_url);
+                foreach ($arrs as $arr => $value) {
+                    $dada = explode('=', $value);
+                    if ($dada[0] == 'recording_url' && $dada[1] != '') {
+                        $url = $dada[1];
+                    }
+                }
+                $getOutboundLogs[$i]->call_recording_url = $url; //config('global.s3Path') . '/recorded_file/' . $getOutboundLog->call_recording_url;
+                $getOutboundLogs[$i]->employee_name = $getOutboundLog->first_name . ' ' . $getOutboundLog->last_name;
+                $getOutboundLogs[$i]->customer_name = $getOutboundLog->cfirst_name . ' ' . $getOutboundLog->clast_name;
+                $getOutboundLogs[$i]->emptitle_id = $getOutboundLog->emp_title_id;
+                $getOutboundLogs[$i]->custtitle_id = $getOutboundLog->cust_title_id;
+                unset($getOutboundLogs[$i]->first_name);
+                unset($getOutboundLogs[$i]->last_name);
+                unset($getOutboundLogs[$i]->cfirst_name);
+                unset($getOutboundLogs[$i]->clast_name);
+                unset($getOutboundLogs[$i]->emp_title_id);
+                unset($getOutboundLogs[$i]->cust_title_id);
+                $i++;
+            }
+        }
+
+        if (!empty($getOutboundLogs)) {
+            $result = ['success' => true, 'records' => $getOutboundLogs, 'totalCount' => $getCountOutboundLogs];
+        } else {
+            $result = ['success' => false, 'records' => $getOutboundLogs, 'totalCount' => $getCountOutboundLogs];
+        }
+
+
+        return json_encode($result);
+    }
+
+    public function teamOutboundLogs() {
+
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $ids = [];
+        if (!empty($request["employee_id"])) {
+            $emp_id = $request["employee_id"];
+            if ($request['filterFlag'] == 1) {
+                CloudCallingLogsController::$procname = "proc_team_outboundlogs";
+                return $this->filteredoutboundData();
+                exit;
+            }
+        } else {
+            $emp_id = Auth::guard('admin')->user()->id;
+        }
+
+        $admin = \App\Models\backend\Employee::where(['team_lead_id' => $emp_id])->get();
+
+        for ($i = 0; $i < count($admin); $i++) {
+            $ids[] = $admin[$i]['id'];
+        }
+
+//        $this->tuserid($emp_id);
+//        $alluser = $this->allusers;
+        $getOutboundLoglist = array();
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        $getCountOutboundLogs = CtLogsOutbound::leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_outbounds.employee_id')
+                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_outbounds.customer_number')
+                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                ->orderBy('ct_logs_outbounds.id', 'DESC')
+                ->whereIN('ct_logs_outbounds.employee_id', $ids)
+                ->count();
+
+        $getOutboundLogs = CtLogsOutbound::leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_outbounds.employee_id')
+                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_outbounds.customer_number')
+                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                ->orderBy('ct_logs_outbounds.id', 'DESC')
+                ->select('ct_logs_outbounds.id', 'ct_logs_outbounds.call_log_push_url', DB::raw('DATE_FORMAT(ct_logs_outbounds.call_date, "%d-%m-%Y") as call_date'), DB::raw('DATE_FORMAT(ct_logs_outbounds.call_time, "%h:%i %p") as call_time'), 'ct_logs_outbounds.customer_call_status', 'ct_logs_outbounds.customer_call_duration', 'ct_logs_outbounds.customer_number', 'ct_logs_outbounds.call_recording_url', 'emp.first_name', 'emp.last_name', 'cust.first_name as cfirst_name', 'cust.last_name as clast_name', 'emp.title_id as emp_title_id', 'cust.title_id as cust_title_id')
+                ->whereIN('ct_logs_outbounds.employee_id', $ids)
+                ->take($request['itemPerPage'])->offset($startFrom)
+                ->get();
+        $i = 0;
+        if (!empty($getOutboundLogs)) {
+            foreach ($getOutboundLogs as $getOutboundLog) {
+                $url = '';
+                $arrs = explode('&', $getOutboundLog->call_log_push_url);
+                foreach ($arrs as $arr => $value) {
+                    $dada = explode('=', $value);
+                    if ($dada[0] == 'recording_url' && $dada[1] != '') {
+                        $url = $dada[1];
+                    }
+                }
+                $getOutboundLogs[$i]->call_recording_url = $url; //config('global.s3Path') . '/recorded_file/' . $getOutboundLog->call_recording_url;
+                $getOutboundLogs[$i]->employee_name = $getOutboundLog->first_name . ' ' . $getOutboundLog->last_name;
+                $getOutboundLogs[$i]->customer_name = $getOutboundLog->cfirst_name . ' ' . $getOutboundLog->clast_name;
+                $getOutboundLogs[$i]->emptitle_id = $getOutboundLog->emp_title_id;
+                $getOutboundLogs[$i]->custtitle_id = $getOutboundLog->cust_title_id;
+                unset($getOutboundLogs[$i]->first_name);
+                unset($getOutboundLogs[$i]->last_name);
+                unset($getOutboundLogs[$i]->cfirst_name);
+                unset($getOutboundLogs[$i]->clast_name);
+                unset($getOutboundLogs[$i]->emp_title_id);
+                unset($getOutboundLogs[$i]->cust_title_id);
+                $i++;
+            }
+        }
+        if (!empty($getOutboundLogs)) {
+            $result = ['success' => true, 'records' => $getOutboundLogs, 'totalCount' => $getCountOutboundLogs];
+        } else {
+            $result = ['success' => false, 'records' => $getOutboundLogs, 'totalCount' => $getCountOutboundLogs];
+        }
+        return json_encode($result);
+    }
+
+    public function inLogexportToExcel() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $data = $request['result'];
+        // echo '<pre>';print_r($data); exit;
+        $reportName = $request['reportName'];
+        $currentDate = date('_d_m_Y_h_i_s_A');
+
+        if (!empty($request['first_name']))
+            $first_name = $request['first_name'];
+        else
+            $first_name = Auth::guard('admin')->user()->first_name;
+
+        if (!empty($request['last_name']))
+            $last_name = $request['last_name'];
+        else
+            $last_name = Auth::guard('admin')->user()->last_name;
+
+        $fileName = $reportName . $currentDate . "_by_" . $first_name . "_" . $last_name;
+
+        ob_end_clean();
+        Excel::create($fileName, function($excel) use ($data, $reportName) {
+            $excel->sheet($reportName, function($sheet) use ($data, $reportName) {
+                $sheet->mergeCells('A1:L1');
+                $sheet->setHeight("1", 45);
+                $sheet->cells('A1:L1', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontColor('#161515');
+                    $cells->setBackground('#50a7ff');
+                    $cells->setBorder('thick', 'thick', 'thick', 'thick'); // Set all borders (top, right, bottom, left)
+                    $cells->setFont(array(
+                        'family' => 'Calibri',
+                        'size' => '22',
+                    ));
+                });
+
+                $sheet->mergeCells('A2:L2');
+
+                $title = str_replace('_', ' ', $reportName);
+                $sheet->row(1, array('LMS Auto - ' . $title));
+
+                $sheet->appendRow(["Sr.No", "Call Date & Time", "Virtual Number", "Caller Number", "Title", "Customer Name", "Call Status", "Title", "Call Answered By",
+                    "Call Duration", "Source Name", "Sub Source"]);
+
+
+                $sheet->row(3, function ($row) {
+                    $row->setAlignment('center');
+                    $row->setBackground('#77b9fb');
+                    $row->setFont(array(
+                        'family' => 'Calibri',
+                        'size' => '12',
+                    ));
+                });
+
+                $i = 1;
+                // putting users data as next rows
+                foreach ($data as $user) {
+                    $srno = ["srno" => $i++];
+
+                    if (!empty($user['enquiry_subsource'])) {
+                        $subsource = $user['enquiry_subsource'];
+                    } else {
+                        $subsource = "--";
+                    }
+                    if (!empty($user['customer_name'])) {
+                        $customer_name = $user['customer_name'];
+                    } else {
+                        $customer_name = "--";
+                    }
+
+                    if (!empty($user['employee_name'])) {
+                        $employee_name = $user['employee_name'];
+                    } else {
+                        $employee_name = "--";
+                    }
+                    if (!empty($user['virtual_number'])) {
+                        $virtual_number = $user['virtual_number'];
+                    } else {
+                        $virtual_number = "--";
+                    }
+
+                    if (!empty($user['customer_call_status'])) {
+                        $customer_call_status = $user['customer_call_status'];
+                    } else {
+                        $customer_call_status = "--";
+                    }
+
+
+
+                    if (!empty($user['emptitle_id'])) {
+                        $emptitle = \App\Models\MlstTitle::select('title')->where('id', '=', $user['emptitle_id'])->first();
+                        if (!empty($emptitle->title))
+                            $emp_title = $emptitle->title;
+                        else
+                            $emp_title = " ";
+                    }else {
+                        $emp_title = " ";
+                    }
+
+                    if (!empty($user['custtitle_id'])) {
+                        $custtitle = \App\Models\MlstTitle::select('title')->where('id', '=', $user['custtitle_id'])->first();
+                        if (!empty($custtitle->title))
+                            $cust_title = $custtitle->title;
+                        else
+                            $cust_title = " ";
+                    }else {
+                        $cust_title = " ";
+                    }
+
+                    if (Auth::guard('admin')->user()->customer_contact_numbers == 0) {
+                        $mobileno = "91-xxxxxx" . substr($user["customer_number"], strlen($user["customer_number"]) - 4);
+                    } else {
+                        $mobileno = $user["customer_number"];
+                    }
+
+                    $getFilterData = [
+                        $user["call_date"] . " " . $user["call_time"],
+                        $virtual_number,
+                        $mobileno,
+                        $cust_title,
+                        $customer_name,
+                        $customer_call_status,
+                        $emp_title,
+                        $employee_name,
+                        $user['customer_call_duration'],
+                        $user['sales_source_name'],
+                        $subsource,
+                    ];
+
+                    $user = array_merge($srno, $getFilterData);
+
+
+                    $sheet->appendRow($user);
+                }
+            });
+        })->save('XLS', "downloads/");
+
+        /* save file in aws */
+        $folderName = "/sales/calllogexportReport/";
+
+        $basepath = base_path() . "/public/downloads/" . $fileName . ".xls";
+
+        $fileName = $fileName . ".xls";
+
+        $awsFile = S3::s3FileUpload($basepath, $fileName, $folderName);
+
+        \File::delete($basepath);
+        /* end aws file */
+
+        $file_url = config('global.s3Path') . $folderName . $fileName;
+        if (!empty($request['loggedInUserId']))
+            $loggedInUserId = $request['loggedInUserId'];
+        else
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+
+
+        $exportdate = date('d-m-Y');
+        $exporttime = date('H:i:s');
+        $ReportName = str_replace('_', ' ', $reportName);
+
+        $templatedata['employee_id'] = $loggedInUserId;
+//        $templatedata['event_id_customer'] = 0;
+//        $templatedata['event_id_employee'] = 12;
+        $templatedata['client_id'] = config('global.client_id');
+        $templatedata['template_setting_customer'] = 0;
+        $templatedata['template_setting_employee'] = 30;
+        $templatedata['customer_id'] = 0;
+        $templatedata['model_id'] = 0;
+        $templatedata['emp_attached_file'] = $file_url;
+        $templatedata['arrExtra'][0] = array(
+            '[#exportFromSection#]',
+            '[#exportDate#]',
+            '[#exportTime#]',
+        );
+        $templatedata['arrExtra'][1] = array(
+            $ReportName,
+            $exportdate,
+            $exporttime,
+        );
+
+        $Templateresult = CommonFunctions::templateData($templatedata);
+        $result = ['success' => true, 'sheetName' => $fileName, "fileUrl" => $file_url, 'message' => "Data exported successfully.."];
+
+        return response()->json($result);
+    }
+
+    public function outLogexportToExcel() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $data = $request['result'];
+        // echo '<pre>';print_r($data); exit;
+        $reportName = $request['reportName'];
+        $currentDate = date('_d_m_Y_h_i_s_A');
+
+        if (!empty($request['first_name']))
+            $first_name = $request['first_name'];
+        else
+            $first_name = Auth::guard('admin')->user()->first_name;
+
+        if (!empty($request['last_name']))
+            $last_name = $request['last_name'];
+        else
+            $last_name = Auth::guard('admin')->user()->last_name;
+
+        $fileName = $reportName . $currentDate . "_by_" . $first_name . "_" . $last_name;
+
+        ob_end_clean();
+        Excel::create($fileName, function($excel) use ($data, $reportName) {
+            $excel->sheet($reportName, function($sheet) use ($data, $reportName) {
+                $sheet->mergeCells('A1:I1');
+                $sheet->setHeight("1", 45);
+                $sheet->cells('A1:I1', function($cells) {
+                    $cells->setAlignment('center');
+                    $cells->setFontColor('#161515');
+                    $cells->setBackground('#50a7ff');
+                    $cells->setBorder('thick', 'thick', 'thick', 'thick'); // Set all borders (top, right, bottom, left)
+                    $cells->setFont(array(
+                        'family' => 'Calibri',
+                        'size' => '22',
+                    ));
+                });
+
+                $sheet->mergeCells('A2:I2');
+
+                $title = str_replace('_', ' ', $reportName);
+                $sheet->row(1, array('LMS Auto - ' . $title));
+
+                $sheet->appendRow(["Sr.No", "Call Date & Time", "Customer Number", "Title", "Customer Name", "Call Status", "Title", "Call By",
+                    "Call Duration"]);
+
+
+                $sheet->row(3, function ($row) {
+                    $row->setAlignment('center');
+                    $row->setBackground('#77b9fb');
+                    $row->setFont(array(
+                        'family' => 'Calibri',
+                        'size' => '10',
+                    ));
+                });
+
+                $i = 1;
+                // putting users data as next rows
+                foreach ($data as $user) {
+                    $srno = ["srno" => $i++];
+
+                    if (!empty($user['customer_name'])) {
+                        $customer_name = $user['customer_name'];
+                    } else {
+                        $customer_name = "--";
+                    }
+
+                    if (!empty($user['employee_name'])) {
+                        $employee_name = $user['employee_name'];
+                    } else {
+                        $employee_name = "--";
+                    }
+
+
+                    if (!empty($user['customer_call_status'])) {
+                        $customer_call_status = $user['customer_call_status'];
+                    } else {
+                        $customer_call_status = "--";
+                    }
+
+                    if (!empty($user['emptitle_id'])) {
+                        $emptitle = \App\Models\MlstTitle::select('title')->where('id', '=', $user['emptitle_id'])->first();
+                        if (!empty($emptitle->title))
+                            $emp_title = $emptitle->title;
+                        else
+                            $emp_title = " ";
+                    }else {
+                        $emp_title = " ";
+                    }
+
+                    if (!empty($user['custtitle_id'])) {
+                        $custtitle = \App\Models\MlstTitle::select('title')->where('id', '=', $user['custtitle_id'])->first();
+                        if (!empty($custtitle->title))
+                            $cust_title = $custtitle->title;
+                        else
+                            $cust_title = " ";
+                    }else {
+                        $cust_title = " ";
+                    }
+
+                    if (Auth::guard('admin')->user()->customer_contact_numbers == 0) {
+                        $mobileno = "91-xxxxxx" . substr($user["customer_number"], strlen($user["customer_number"]) - 4);
+                    } else {
+                        $mobileno = $user["customer_number"];
+                    }
+
+
+                    $getFilterData = [
+                        $user["call_date"] . " " . $user["call_time"],
+                        $mobileno,
+                        $cust_title,
+                        $customer_name,
+                        $customer_call_status,
+                        $emp_title,
+                        $employee_name,
+                        $user['customer_call_duration'],
+                    ];
+
+                    $user = array_merge($srno, $getFilterData);
+
+
+                    $sheet->appendRow($user);
+                }
+            });
+        })->save('XLS', "downloads/");
+
+        /* save file in aws */
+        $folderName = "/sales/calllogexportReport/";
+
+        $basepath = base_path() . "/public/downloads/" . $fileName . ".xls";
+
+        $fileName = $fileName . ".xls";
+
+        $awsFile = S3::s3FileUpload($basepath, $fileName, $folderName);
+
+        \File::delete($basepath);
+        /* end aws file */
+
+        $file_url = config('global.s3Path') . $folderName . $fileName;
+        if (!empty($request['loggedInUserId']))
+            $loggedInUserId = $request['loggedInUserId'];
+        else
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+
+
+        $exportdate = date('d-m-Y');
+        $exporttime = date('H:i:s');
+        $ReportName = str_replace('_', ' ', $reportName);
+
+        $templatedata['employee_id'] = $loggedInUserId;
+        $templatedata['client_id'] = config('global.client_id');
+        $templatedata['template_setting_customer'] = 0;
+        $templatedata['template_setting_employee'] = 30;
+        $templatedata['customer_id'] = 0;
+        $templatedata['model_id'] = 0;
+        $templatedata['emp_attached_file'] = $file_url;
+        $templatedata['arrExtra'][0] = array(
+            '[#exportFromSection#]',
+            '[#exportDate#]',
+            '[#exportTime#]',
+        );
+        $templatedata['arrExtra'][1] = array(
+            $ReportName,
+            $exportdate,
+            $exporttime,
+        );
+
+        $Templateresult = CommonFunctions::templateData($templatedata);
+
+        $result = ['success' => true, 'sheetName' => $fileName, "fileUrl" => $file_url, 'message' => "Data exported successfully.."];
+
+        return response()->json($result);
+    }
+
+    public function getTeamEmployees() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $ids = [];
+        if (empty($request['empId'])) {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        } else {
+            $loggedInUserId = $request['empId'];
+        }
+
+//        $this->tuserid($loggedInUserId);
+//        $alluser = $this->allusers;
+
+        $admin = \App\Models\backend\Employee::where(['team_lead_id' => $loggedInUserId])->get();
+
+        for ($i = 0; $i < count($admin); $i++) {
+            $ids[] = $admin[$i]['id'];
+        }
+
+        if (!empty($ids)) {
+            $client_id = config('global.client_id');
+            $getEmployees = Employee::whereIn('id', $ids)
+                    ->where([["client_id", "=", $client_id], ["employee_status", "=", 1]])
+                    ->select('id', 'first_name', 'last_name', 'designation_id', 'team_lead_id')
+                    ->get();
+
+            if (!empty($getEmployees)) {
+                $result = ['success' => true, 'records' => $getEmployees];
+            } else {
+                $result = ['success' => false, 'message' => 'Something went wrong'];
+            }
+            return json_encode($result);
+        }
+    }
+
+    public function getVirtualnumbers() {
+        $virtualNumbers = CtSetting::select('id', 'virtual_display_number', 'forwarding_number_knowlarity')->get();
+        $callStatus = array('Connected' => 'Connected', 'Missed' => 'Missed', 'Non Working Hours Call' => 'Non Working Hours Call', 'NotConnected' => 'NotConnected');
+        if (!empty($virtualNumbers)) {
+            $result = ['success' => true, 'records' => $virtualNumbers, 'callstatus' => $callStatus];
+        } else {
+            $result = ['success' => true, 'message' => "Something Went Wrong !!"];
+        }
+
+        return json_encode($result);
     }
 
     function _getStatusCodeMessage($status) {
@@ -246,17 +1173,17 @@ class CloudCallingLogsController extends Controller {
 
     public function Index() {
         date_default_timezone_set('Asia/Kolkata');
-            $h = date('h');
-            $a = date('A');
-            if ($h >= 05 and $h < 12 and $a == 'AM')
-                $greeting_msg = "Good Morning";
-            else if (( $h == 12 || $h < 04 ) and $a == 'PM')
-                $greeting_msg = "Good Afternoon";
-            else if ($h >= 04 and $h < 10 and $a == 'PM')
-                $greeting_msg = "Good Evening";
-            else
-                $greeting_msg = '';
-        
+        $h = date('h');
+        $a = date('A');
+        if ($h >= 05 and $h < 12 and $a == 'AM')
+            $greeting_msg = "Good Morning";
+        else if (( $h == 12 || $h < 04 ) and $a == 'PM')
+            $greeting_msg = "Good Afternoon";
+        else if ($h >= 04 and $h < 10 and $a == 'PM')
+            $greeting_msg = "Good Evening";
+        else
+            $greeting_msg = '';
+
         $alertdata['customer_id'] = 1;
         $alertdata['employee_id'] = 1;
         $alertdata['client_id'] = 1;
@@ -271,558 +1198,503 @@ class CloudCallingLogsController extends Controller {
 
         $alertsdata = CommonFunctions::templateData($alertdata); //Yii::$app->LMS->Template($alertdata);
         exit;
-    if(!empty($_GET)){
-        $call_date = $_GET['date'];
-        $call_time = $_GET['time'];
-        $virtual_number = $_GET['knumber'];
-        $caller_number = $_GET['caller_number'];
-        $caller_duration = $_GET['conversation_duration'];
-        $agent_list = $_GET['agent_list'];
-        $call_connected_to = $_GET['agent_connected'];
-        $call_status = $_GET['call_status'];
-        $call_recording_url = $_GET['recording_url'];
-        $caller_circle = $_GET['caller_circle'];
-        $enquiry_flag = $_GET['enquiry_flag'];
-        
-        if(!empty($_GET['ivr_type']))
-            $ivr_type = $_GET['ivr_type'];
-        else
-            $ivr_type = 1;
-        
-        $extension = $_GET['extension_no'];
-        $sub_extension = $_GET['sub_extension_no'];
-        
-        if(!empty($_GET['bridged_number']))
-            $bridged_number = $_GET['bridged_number'];
-        else
-            $bridged_number = "";
-        
-        
-        if(!empty($_GET['bridge_join_time']) && !empty($_GET['bridge_hangup_time'])){
-            $bridge_join_time = strtotime($_GET['bridge_join_time']);
-            $bridge_hangup_time = strtotime($_GET['bridge_hangup_time']);
-            $duration = $bridge_hangup_time - $bridge_join_time;
-            $bridging_duration = gmdate("H:i:s", $duration);
-            
-        }else{
-            $bridging_duration = "";
-        }
-        if(!empty($_GET['caller_operator']))
-            $caller_operator = $_GET['caller_operator'];
-        else
-            $caller_operator ="";
-            
-        if (is_numeric($bridged_number)) {
-            $bridged_number = substr($bridged_number, -10);
-        } else {
-            $bridged_number = 'NA';
-        }
+        if (!empty($_GET)) {
+            $call_date = $_GET['date'];
+            $call_time = $_GET['time'];
+            $virtual_number = $_GET['knumber'];
+            $caller_number = $_GET['caller_number'];
+            $caller_duration = $_GET['conversation_duration'];
+            $agent_list = $_GET['agent_list'];
+            $call_connected_to = $_GET['agent_connected'];
+            $call_status = $_GET['call_status'];
+            $call_recording_url = $_GET['recording_url'];
+            $caller_circle = $_GET['caller_circle'];
+            $enquiry_flag = $_GET['enquiry_flag'];
 
-        
-        
+            if (!empty($_GET['ivr_type']))
+                $ivr_type = $_GET['ivr_type'];
+            else
+                $ivr_type = 1;
 
-        $virtual_number = substr($virtual_number, -12);
-        $caller_number = substr($caller_number, -10);
-        $call_connected_to = substr($call_connected_to, -10);
+            $extension = $_GET['extension_no'];
+            $sub_extension = $_GET['sub_extension_no'];
 
-        $model_id = 0;
-
-        $source_id = 0;
-        $source_description = '';
-        $basepath = base_path()."/common/tunes/";
-        
-        $model = new CtLogsInbound;
-        $model->call_date = $call_date;
-        $model->call_time = $call_time;
-        $model->virtual_number = $virtual_number;
-        $model->customer_number = $caller_number;
-        $model->customer_call_duration = $caller_duration;
-        $model->employee_list = $agent_list;
-        $model->employee_number = $call_connected_to;
-        $model->customer_call_status = $call_status;
-
-        $model->customer_circle = $caller_circle;
-        $model->enquiry_flag = $enquiry_flag;
-        $model->extension_number = $extension;
-
-        $model->bridge_employee_number = $bridged_number;
-        $model->bridge_call_duration = $bridging_duration;
-        $model->customer_operator = $caller_operator;
-        // start recording move code sip
-        $file_path = $call_recording_url;
-        $url_file_path = urldecode($file_path);
-        $file_name = basename($url_file_path) . '.mp3';
-
-        if ($call_status == 'Connected') {
-            $model->call_recording_url = $file_name;
-        }
-        $model->total_call_duration = $caller_duration;
-        $model->call_log_push_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-        $model->call_push_url_date_time = date('Y-m-d H:i:s');
-        $model->save();
-
-       
-        //$svirtual_model = CloudVirtualNumberModel::find()->where(['virtual_number' => $virtual_number])->one();
-
-        /*    if (!empty($extension)) {
-          if ($call_status == 'NotConnected' && $ivr_type == 4 && $svirtual_model->missedcall_setting != 1) {
-
-          $virtual_menu_model = CloudCallingMenuModel::find()->where(['cvn_id' => $svirtual_model->cvn_id])
-          ->where(['extension_no' => $extension])->one();
-
-          $model->client_id = $svirtual_model->client_id;
-
-          $model->save(false);
-
-          $mobile_number = $this->getMissedcall_agent($svirtual_model->missed_call_alert_user,$model->virtual_number,$ext=$extension);
-          $agent = @explode(',',$mobile_number);
-          $model->call_connected_to =$agent[0];//[0];// $obj_employee_missed->mobile_no;
-          $model->save(false);
-          $service_emp = EmployeeModel::find()->where(['username' => $model->call_connected_to,'client_id' => $svirtual_model->client_id])->one();
-          if (!empty($caller_number)) {
-          $service_cust_no = substr($caller_number, -10);
-          $service_customer_model = ServiceCustomerModel::find()->where(['mobile_1' => $service_cust_no])->one();
-          //$service_emp_no = substr($call_connected_to, -10);
-
-          $service_client_id = $service_emp->client_id;
-          $appointment_status = ServiceApptStatusModel::find()->where([ 'status' => 'Upcoming'])->one();
-
-          $service_client = ClientsModel::find()->where(['id' => $service_client_id])->one();
-          $i = 1;
-
-          while ($i < 10) {
-          $appointment_setting_model = ServiceAppointmentSettingModel::find()->where(['client_id' => $service_client_id])->one();
-          date_default_timezone_set('Asia/Kolkata');
-
-          $interval = $appointment_setting_model->interval; //in min
-          $start_time = $appointment_setting_model->start_time;
-          $start_time = date('H:i:s', strtotime($start_time));
-          $end_time = $appointment_setting_model->end_time;
-          $end_time = date('H:i:s', strtotime($end_time));
-          $off_day = $appointment_setting_model->weekly_off_day;
-          $next_date = date("Y-m-d", strtotime("+$i day"));
-
-          $day = date("l", strtotime($next_date));
-
-          if ($off_day == $day) {
-          $i++;
-          $next_date = date("Y-m-d", strtotime("+$i day"));
-          }
-
-          $booked_slot = "SELECT sa.appointment_time,count(sa.appointment_time) as appcount FROM service_appointment sa JOIN service_client_customer scc ON sa.service_customer_id = scc.service_customer_id where sa.appointment_date = '$next_date' AND scc.client_id ='$service_client_id' GROUP BY sa.appointment_time ORDER BY sa.appointment_time ASC";
-          $booked_slot = ServiceAppointmentModel::getDb()->createCommand($booked_slot)->queryAll();
-
-          $time_slot = array();
-
-          while ($start_time <= $end_time) {
-
-          $current_date = date('Y-m-d');
-          $current_time = date('H:i');
+            if (!empty($_GET['bridged_number']))
+                $bridged_number = $_GET['bridged_number'];
+            else
+                $bridged_number = "";
 
 
-          if ($appdate == $current_date) {
-          $start_h = date('H:i', strtotime($start_time));
-          if ($start_h >= $current_time) {
-          $time_slot[] = $start_time;
-          }
-          $start_time = date("H:i:s", strtotime("+$interval minutes", strtotime($start_time)));
-          } else {
-          $time_slot[] = $start_time;
-          $start_time = date("H:i:s", strtotime("+$interval minutes", strtotime($start_time)));
-          }
-          }
-          $booked_time = array();
-          foreach ($booked_slot as $booked) {
-          if (($booked['appcount'] == $appointment_setting_model->vehicle_per_interval)) {
-          $booked_time[] = $booked['appointment_time'];
-          }
-          }
-
-          $final_time_slot_diff = array_diff($time_slot, $booked_time);
-          $final_time_slot = array();
-
-          foreach ($final_time_slot_diff as $final_time_slot_row) {
-          $final_time_slot[] = date('h:i A', strtotime($final_time_slot_row));
-          }
-
-          if (!empty($final_time_slot)) {
-          $appointment_date = $next_date;
-          $appointment_time = $final_time_slot[0];
-          break;
-          } else {
-          $i++;
-          continue;
-          }
-          }
-
-          if (empty($service_customer_model)) {
-          $sflag = 0;
-          $service_customer_model = new ServiceCustomerModel;
-          $service_customer_model->mobile_1 = $service_cust_no;
-          $service_customer_model->title_id = 1;
-          $service_customer_model->date_added = date('Y-m-d H:i:s');
-          $service_customer_model->addedby_employee_id = $service_emp->id; //default employee
-          $service_customer_model->save(false);
-
-          //client's customer insertion
-          $client_cus_model = new ServiceClientCustomerModel;
-          $client_cus_model->client_id = $service_client_id;
-          $client_cus_model->service_customer_id = $service_customer_model->id;
-          $client_cus_model->save(false);
-
-          $service_appointment_model = new ServiceAppointmentModel;
-          $service_appointment_model->service_customer_id = $service_customer_model->id;
-          $service_appointment_model->service_vehicles_id = 0;
-          $service_appointment_model->appointment_date = $appointment_date;
-          $service_appointment_model->appointment_time = $appointment_time;
-          $service_appointment_model->appointment_through = "cloud _telephony";
-          $service_appointment_model->pickup_drop_required = "no";
-
-          $service_appointment_model->pickup_address_id = 0;
-
-          $service_appointment_model->appointment_status = $appointment_status->id;
-
-          $service_appointment_model->save(false);
-          } else {
-
-          $service_vehicle = \common\models\ServiceVehiclesModel::find()->where(['service_customer_id' => $service_customer_model->id])->all();
-          //print_r($service_vehicle);
-          $cnt = count($service_vehicle);
-          //echo $service_vehicle[0]['id'];exit;
-          if ($cnt == 1) {
-          $vehicle_id = $service_vehicle[0]['id'];
-          //echo $vehicle_id;exit;
-          } else {
-          $vehicle_id = 0;
-          //echo $vehicle_id;exit;
-          }
-          $stoday = date('Y-m-d');
-          $service_appointment_model = ServiceAppointmentModel::find()->where(['service_customer_id' => $service_customer_model])
-          ->andWhere(['>=', 'appointment_date', $stoday])->one();
-
-          if (empty($service_appointment_model)) {
-          $sflag = 0;
-          $service_appointment_model = new ServiceAppointmentModel;
-          $service_appointment_model->service_customer_id = $service_customer_model->id;
-          $service_appointment_model->service_vehicles_id = $vehicle_id;
-          $service_appointment_model->appointment_date = $appointment_date;
-          $service_appointment_model->appointment_time = $appointment_time;
-          $service_appointment_model->appointment_through = "cloud _telephony";
-          $service_appointment_model->pickup_drop_required = "no";
-
-          $service_appointment_model->pickup_address_id = 0;
-
-          $service_appointment_model->appointment_status = $appointment_status->id;
-
-          $service_appointment_model->save(false);
-          } else {
-          $sflag = 1;
-          }
-          }
-
-          $access_key = $service_client->access_key;
-          //$email_id = "";
-          $shorturl = $_SERVER['HTTP_HOST'] . '/office.php/site/updateappointment?mobile_no=' . $service_cust_no . '&email_id=' . $service_customer_model->email_1 . '&access_key=' . $access_key;
-
-          $longUrl = $shorturl;
-          $return_val = $this->shortenUrl($longUrl);
-          $shorturl = $return_val['id'];
-          date_default_timezone_set('Asia/Kolkata');
-          $h = date('h');
-          $a = date('A');
-          if ($h >= 05 and $h < 12 and $a == 'AM')
-          $greeting_msg = "Good Morning";
-          else if (( $h == 12 || $h < 04 ) and $a == 'PM')
-          $greeting_msg = "Good Afternoon";
-          else if ($h >= 04 and $h < 10 and $a == 'PM')
-          $greeting_msg = "Good Evening";
-          else
-          $greeting_msg = '';
-          if ($sflag == 0) {
-          $alert_settings_customer = \common\models\AlertsSettingsModel::find()->where(['client_id' => $service_client_id,'event_id' => 27])->one();
-          if($alert_settings_customer->alert_type == 0){
-          $sms_template_customer = \common\models\AlertsDefaultModel::find()->where(['event_id' => $alert_settings_customer->event_id])->one();
-          }else{
-          $sms_template_customer = \common\models\AlertsCustomModel::find()->where(['client_id' => $alert_settings_customer->client_id, 'event_id' => $alert_settings_customer->event_id])->one();
-          }
-
-          $alert_settings_employee = \common\models\AlertsSettingsModel::find()->where(['client_id' => $service_client_id,'event_id' => 28])->one();
-          if($alert_settings_employee->alert_type == 0){
-          $sms_template_employee = \common\models\AlertsDefaultModel::find()->where(['event_id' => $alert_settings_employee->event_id])->one();
-          };
-
-          $template_emp = $sms_template_employee->sms_body;
-          $arr_static_tags_search_emp = array(
-          '[#greeting#]',
-          '[#employeeName#]',
-          '[#custName#]',
-          '[#custMobile#]',
-          '[#companyMktName#]',
-          '[#appointmentDate#]',
-          '[#appointmentTime#]',
-          '[#custFormLink#]'
-          );
-
-          $arr_static_tags_replace_emp = array(
-          $greeting_msg,
-          $service_emp->fullname,
-          $service_customer_model->first_name . ' ' . $service_customer_model->last_name,
-          $service_customer_model->mobile_1,
-          $service_client->marketing_name,
-          date('Y-m-d', strtotime($service_appointment_model->appointment_date)),
-          date('h:i A', strtotime($service_appointment_model->appointment_time)),
-          $shorturl
-          );
-          $template_emp = str_replace($arr_static_tags_search_emp, $arr_static_tags_replace_emp, $template_emp);
-
-          Yii::$app->LMS->sendSMST($smsbody = $template_emp, $mobile_no = $service_emp->username, $user_id = $service_emp->id, $customer = 'No', $customer_id = 0);
-
-          $template_cust = $sms_template_customer->sms_body;
-          $sms_template_cust = str_replace($arr_static_tags_search_emp, $arr_static_tags_replace_emp, $template_cust);
-          Yii::$app->LMS->sendSMST($smsbody = $sms_template_cust, $mobile_no = $service_customer_model->mobile_1, $user_id = $service_emp->id, $customer = 'Yes', $customer_id = $service_customer_model->id);
-          } elseif ($sflag == 1) {
-          $alert_settings_customer = \common\models\AlertsSettingsModel::find()->where(['client_id' => $service_client_id,'event_id' => 29])->one();
-          if($alert_settings_customer->alert_type == 0){
-          $sms_template_customer = \common\models\AlertsDefaultModel::find()->where(['event_id' => $alert_settings_customer->event_id])->one();
-          }else{
-          $sms_template_customer = \common\models\AlertsCustomModel::find()->where(['client_id' => $alert_settings_customer->client_id, 'event_id' => $alert_settings_customer->event_id])->one();
-          }
-
-          $arr_static_tags_search_emp = array(
-          '[#greeting#]',
-          '[#employeeName#]',
-          '[#custName#]',
-          '[#custMobile#]',
-          '[#companyMktName#]',
-          '[#appointmentDate#]',
-          '[#appointmentTime#]',
-          '[#custFormLink#]'
-          );
-
-          $arr_static_tags_replace_emp = array(
-          $greeting_msg,
-          $service_emp->fullname,
-          $service_customer_model->first_name . ' ' . $service_customer_model->last_name,
-          $service_customer_model->mobile_1,
-          $service_client->marketing_name,
-          date('Y-m-d', strtotime($service_appointment_model->appointment_date)),
-          date('h:i A', strtotime($service_appointment_model->appointment_time)),
-          $shorturl
-          );
-          $template_cust = $sms_template_customer->sms_body;
-          $sms_template_cust = str_replace($arr_static_tags_search_emp, $arr_static_tags_replace_emp, $template_cust);
-          Yii::$app->LMS->sendSMST($smsbody = $sms_template_cust, $mobile_no = $service_customer_model->mobile_1, $user_id = $service_emp->id, $customer = 'Yes', $customer_id = $service_customer_model->id);
-          }
-          header("Content-type: text/xml; charset=utf-8");
-          echo '<?xml version="1.0" encoding="utf-8"?><response><status>Data Updated Successfully</status></response>';
-          exit;
-          }
-          }
-          } */
-
-
-        //Upload mp3
-        $url = '';
-        $arrs = explode('&', $model->call_log_push_url);
-        foreach ($arrs as $arr => $value) {
-            $dada = explode('=', $value);
-            if ($dada[0] == 'recording_url' && $dada[1] != '') {
-                $url = $dada[1];
+            if (!empty($_GET['bridge_join_time']) && !empty($_GET['bridge_hangup_time'])) {
+                $bridge_join_time = strtotime($_GET['bridge_join_time']);
+                $bridge_hangup_time = strtotime($_GET['bridge_hangup_time']);
+                $duration = $bridge_hangup_time - $bridge_join_time;
+                $bridging_duration = gmdate("H:i:s", $duration);
+            } else {
+                $bridging_duration = "";
             }
-        }
-        if ($url != '' && strpos($url, "http") !== false) {
-            try {
-                $org_file_path = urldecode($url);
-                $live_file = basename($org_file_path) . '.mp3';
-                $temp_file = $basepath . $model->call_recording_url;
+            if (!empty($_GET['caller_operator']))
+                $caller_operator = $_GET['caller_operator'];
+            else
+                $caller_operator = "";
 
-                //file_put_contents($temp_file, fopen($org_file_path, 'r'));
-                //$temp_file = $basepath . $live_file;
-                $model->call_recording_url = $live_file;
-                $model->call_recording_url_status = 1;
-                $model->save();
-               // $s3FolderName ='recorded_file';  
-               // $name = S3::s3FileUpload($org_file_path, $live_file,$s3FolderName);
-               
-            } catch (Exception $e) {
-                //  echo 'Caught exception: ',  $e->getMessage(), "\n";
+            if (is_numeric($bridged_number)) {
+                $bridged_number = substr($bridged_number, -10);
+            } else {
+                $bridged_number = 'NA';
             }
-        }
-        // end recording move code
 
-        if ($model->virtual_number != '') {
-            $obj_virtual_number = CtSetting::where("virtual_number", $model->virtual_number)->first();
-            $source_id = $obj_virtual_number->source_id;
-            $source_description = $obj_virtual_number->source_disc;
-            $model->source_id = $source_id;
-            $model->client_id = $obj_virtual_number->client_id;
-            $client_id = $model->client_id;
+
+
+
+            $virtual_number = substr($virtual_number, -12);
+            $caller_number = substr($caller_number, -10);
+            $call_connected_to = substr($call_connected_to, -10);
+
+            $model_id = 0;
+
+            $source_id = 0;
+            $source_description = '';
+            $basepath = base_path() . "/common/tunes/";
+
+            $model = new CtLogsInbound;
+            $model->call_date = $call_date;
+            $model->call_time = $call_time;
+            $model->virtual_number = $virtual_number;
+            $model->customer_number = $caller_number;
+            $model->customer_call_duration = $caller_duration;
+            $model->employee_list = $agent_list;
+            $model->employee_number = $call_connected_to;
+            $model->customer_call_status = $call_status;
+
+            $model->customer_circle = $caller_circle;
+            $model->enquiry_flag = $enquiry_flag;
+            $model->extension_number = $extension;
+
+            $model->bridge_employee_number = $bridged_number;
+            $model->bridge_call_duration = $bridging_duration;
+            $model->customer_operator = $caller_operator;
+            // start recording move code sip
+            $file_path = $call_recording_url;
+            $url_file_path = urldecode($file_path);
+            $file_name = basename($url_file_path) . '.mp3';
+
+            if ($call_status == 'Connected') {
+                $model->call_recording_url = $file_name;
+            }
+            $model->total_call_duration = $caller_duration;
+            $model->call_log_push_url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+            $model->call_push_url_date_time = date('Y-m-d H:i:s');
             $model->save();
 
-            if ($call_status == 'Missed' and $model->extension_number == 'None') {
-                $mobile_number = $this->getMissedcall_agent($obj_virtual_number->msc_default_employee_id, $model->virtual_number, $ext = 0);
-                $agent = @explode(',', $mobile_number);
-                $model->employee_number = $agent[0]; //[0];// $obj_employee_missed->mobile_no;
+
+            //$svirtual_model = CloudVirtualNumberModel::find()->where(['virtual_number' => $virtual_number])->one();
+
+            /*    if (!empty($extension)) {
+              if ($call_status == 'NotConnected' && $ivr_type == 4 && $svirtual_model->missedcall_setting != 1) {
+
+              $virtual_menu_model = CloudCallingMenuModel::find()->where(['cvn_id' => $svirtual_model->cvn_id])
+              ->where(['extension_no' => $extension])->one();
+
+              $model->client_id = $svirtual_model->client_id;
+
+              $model->save(false);
+
+              $mobile_number = $this->getMissedcall_agent($svirtual_model->missed_call_alert_user,$model->virtual_number,$ext=$extension);
+              $agent = @explode(',',$mobile_number);
+              $model->call_connected_to =$agent[0];//[0];// $obj_employee_missed->mobile_no;
+              $model->save(false);
+              $service_emp = EmployeeModel::find()->where(['username' => $model->call_connected_to,'client_id' => $svirtual_model->client_id])->one();
+              if (!empty($caller_number)) {
+              $service_cust_no = substr($caller_number, -10);
+              $service_customer_model = ServiceCustomerModel::find()->where(['mobile_1' => $service_cust_no])->one();
+              //$service_emp_no = substr($call_connected_to, -10);
+
+              $service_client_id = $service_emp->client_id;
+              $appointment_status = ServiceApptStatusModel::find()->where([ 'status' => 'Upcoming'])->one();
+
+              $service_client = ClientsModel::find()->where(['id' => $service_client_id])->one();
+              $i = 1;
+
+              while ($i < 10) {
+              $appointment_setting_model = ServiceAppointmentSettingModel::find()->where(['client_id' => $service_client_id])->one();
+              date_default_timezone_set('Asia/Kolkata');
+
+              $interval = $appointment_setting_model->interval; //in min
+              $start_time = $appointment_setting_model->start_time;
+              $start_time = date('H:i:s', strtotime($start_time));
+              $end_time = $appointment_setting_model->end_time;
+              $end_time = date('H:i:s', strtotime($end_time));
+              $off_day = $appointment_setting_model->weekly_off_day;
+              $next_date = date("Y-m-d", strtotime("+$i day"));
+
+              $day = date("l", strtotime($next_date));
+
+              if ($off_day == $day) {
+              $i++;
+              $next_date = date("Y-m-d", strtotime("+$i day"));
+              }
+
+              $booked_slot = "SELECT sa.appointment_time,count(sa.appointment_time) as appcount FROM service_appointment sa JOIN service_client_customer scc ON sa.service_customer_id = scc.service_customer_id where sa.appointment_date = '$next_date' AND scc.client_id ='$service_client_id' GROUP BY sa.appointment_time ORDER BY sa.appointment_time ASC";
+              $booked_slot = ServiceAppointmentModel::getDb()->createCommand($booked_slot)->queryAll();
+
+              $time_slot = array();
+
+              while ($start_time <= $end_time) {
+
+              $current_date = date('Y-m-d');
+              $current_time = date('H:i');
+
+
+              if ($appdate == $current_date) {
+              $start_h = date('H:i', strtotime($start_time));
+              if ($start_h >= $current_time) {
+              $time_slot[] = $start_time;
+              }
+              $start_time = date("H:i:s", strtotime("+$interval minutes", strtotime($start_time)));
+              } else {
+              $time_slot[] = $start_time;
+              $start_time = date("H:i:s", strtotime("+$interval minutes", strtotime($start_time)));
+              }
+              }
+              $booked_time = array();
+              foreach ($booked_slot as $booked) {
+              if (($booked['appcount'] == $appointment_setting_model->vehicle_per_interval)) {
+              $booked_time[] = $booked['appointment_time'];
+              }
+              }
+
+              $final_time_slot_diff = array_diff($time_slot, $booked_time);
+              $final_time_slot = array();
+
+              foreach ($final_time_slot_diff as $final_time_slot_row) {
+              $final_time_slot[] = date('h:i A', strtotime($final_time_slot_row));
+              }
+
+              if (!empty($final_time_slot)) {
+              $appointment_date = $next_date;
+              $appointment_time = $final_time_slot[0];
+              break;
+              } else {
+              $i++;
+              continue;
+              }
+              }
+
+              if (empty($service_customer_model)) {
+              $sflag = 0;
+              $service_customer_model = new ServiceCustomerModel;
+              $service_customer_model->mobile_1 = $service_cust_no;
+              $service_customer_model->title_id = 1;
+              $service_customer_model->date_added = date('Y-m-d H:i:s');
+              $service_customer_model->addedby_employee_id = $service_emp->id; //default employee
+              $service_customer_model->save(false);
+
+              //client's customer insertion
+              $client_cus_model = new ServiceClientCustomerModel;
+              $client_cus_model->client_id = $service_client_id;
+              $client_cus_model->service_customer_id = $service_customer_model->id;
+              $client_cus_model->save(false);
+
+              $service_appointment_model = new ServiceAppointmentModel;
+              $service_appointment_model->service_customer_id = $service_customer_model->id;
+              $service_appointment_model->service_vehicles_id = 0;
+              $service_appointment_model->appointment_date = $appointment_date;
+              $service_appointment_model->appointment_time = $appointment_time;
+              $service_appointment_model->appointment_through = "cloud _telephony";
+              $service_appointment_model->pickup_drop_required = "no";
+
+              $service_appointment_model->pickup_address_id = 0;
+
+              $service_appointment_model->appointment_status = $appointment_status->id;
+
+              $service_appointment_model->save(false);
+              } else {
+
+              $service_vehicle = \common\models\ServiceVehiclesModel::find()->where(['service_customer_id' => $service_customer_model->id])->all();
+              //print_r($service_vehicle);
+              $cnt = count($service_vehicle);
+              //echo $service_vehicle[0]['id'];exit;
+              if ($cnt == 1) {
+              $vehicle_id = $service_vehicle[0]['id'];
+              //echo $vehicle_id;exit;
+              } else {
+              $vehicle_id = 0;
+              //echo $vehicle_id;exit;
+              }
+              $stoday = date('Y-m-d');
+              $service_appointment_model = ServiceAppointmentModel::find()->where(['service_customer_id' => $service_customer_model])
+              ->andWhere(['>=', 'appointment_date', $stoday])->one();
+
+              if (empty($service_appointment_model)) {
+              $sflag = 0;
+              $service_appointment_model = new ServiceAppointmentModel;
+              $service_appointment_model->service_customer_id = $service_customer_model->id;
+              $service_appointment_model->service_vehicles_id = $vehicle_id;
+              $service_appointment_model->appointment_date = $appointment_date;
+              $service_appointment_model->appointment_time = $appointment_time;
+              $service_appointment_model->appointment_through = "cloud _telephony";
+              $service_appointment_model->pickup_drop_required = "no";
+
+              $service_appointment_model->pickup_address_id = 0;
+
+              $service_appointment_model->appointment_status = $appointment_status->id;
+
+              $service_appointment_model->save(false);
+              } else {
+              $sflag = 1;
+              }
+              }
+
+              $access_key = $service_client->access_key;
+              //$email_id = "";
+              $shorturl = $_SERVER['HTTP_HOST'] . '/office.php/site/updateappointment?mobile_no=' . $service_cust_no . '&email_id=' . $service_customer_model->email_1 . '&access_key=' . $access_key;
+
+              $longUrl = $shorturl;
+              $return_val = $this->shortenUrl($longUrl);
+              $shorturl = $return_val['id'];
+              date_default_timezone_set('Asia/Kolkata');
+              $h = date('h');
+              $a = date('A');
+              if ($h >= 05 and $h < 12 and $a == 'AM')
+              $greeting_msg = "Good Morning";
+              else if (( $h == 12 || $h < 04 ) and $a == 'PM')
+              $greeting_msg = "Good Afternoon";
+              else if ($h >= 04 and $h < 10 and $a == 'PM')
+              $greeting_msg = "Good Evening";
+              else
+              $greeting_msg = '';
+              if ($sflag == 0) {
+              $alert_settings_customer = \common\models\AlertsSettingsModel::find()->where(['client_id' => $service_client_id,'event_id' => 27])->one();
+              if($alert_settings_customer->alert_type == 0){
+              $sms_template_customer = \common\models\AlertsDefaultModel::find()->where(['event_id' => $alert_settings_customer->event_id])->one();
+              }else{
+              $sms_template_customer = \common\models\AlertsCustomModel::find()->where(['client_id' => $alert_settings_customer->client_id, 'event_id' => $alert_settings_customer->event_id])->one();
+              }
+
+              $alert_settings_employee = \common\models\AlertsSettingsModel::find()->where(['client_id' => $service_client_id,'event_id' => 28])->one();
+              if($alert_settings_employee->alert_type == 0){
+              $sms_template_employee = \common\models\AlertsDefaultModel::find()->where(['event_id' => $alert_settings_employee->event_id])->one();
+              };
+
+              $template_emp = $sms_template_employee->sms_body;
+              $arr_static_tags_search_emp = array(
+              '[#greeting#]',
+              '[#employeeName#]',
+              '[#custName#]',
+              '[#custMobile#]',
+              '[#companyMktName#]',
+              '[#appointmentDate#]',
+              '[#appointmentTime#]',
+              '[#custFormLink#]'
+              );
+
+              $arr_static_tags_replace_emp = array(
+              $greeting_msg,
+              $service_emp->fullname,
+              $service_customer_model->first_name . ' ' . $service_customer_model->last_name,
+              $service_customer_model->mobile_1,
+              $service_client->marketing_name,
+              date('Y-m-d', strtotime($service_appointment_model->appointment_date)),
+              date('h:i A', strtotime($service_appointment_model->appointment_time)),
+              $shorturl
+              );
+              $template_emp = str_replace($arr_static_tags_search_emp, $arr_static_tags_replace_emp, $template_emp);
+
+              Yii::$app->LMS->sendSMST($smsbody = $template_emp, $mobile_no = $service_emp->username, $user_id = $service_emp->id, $customer = 'No', $customer_id = 0);
+
+              $template_cust = $sms_template_customer->sms_body;
+              $sms_template_cust = str_replace($arr_static_tags_search_emp, $arr_static_tags_replace_emp, $template_cust);
+              Yii::$app->LMS->sendSMST($smsbody = $sms_template_cust, $mobile_no = $service_customer_model->mobile_1, $user_id = $service_emp->id, $customer = 'Yes', $customer_id = $service_customer_model->id);
+              } elseif ($sflag == 1) {
+              $alert_settings_customer = \common\models\AlertsSettingsModel::find()->where(['client_id' => $service_client_id,'event_id' => 29])->one();
+              if($alert_settings_customer->alert_type == 0){
+              $sms_template_customer = \common\models\AlertsDefaultModel::find()->where(['event_id' => $alert_settings_customer->event_id])->one();
+              }else{
+              $sms_template_customer = \common\models\AlertsCustomModel::find()->where(['client_id' => $alert_settings_customer->client_id, 'event_id' => $alert_settings_customer->event_id])->one();
+              }
+
+              $arr_static_tags_search_emp = array(
+              '[#greeting#]',
+              '[#employeeName#]',
+              '[#custName#]',
+              '[#custMobile#]',
+              '[#companyMktName#]',
+              '[#appointmentDate#]',
+              '[#appointmentTime#]',
+              '[#custFormLink#]'
+              );
+
+              $arr_static_tags_replace_emp = array(
+              $greeting_msg,
+              $service_emp->fullname,
+              $service_customer_model->first_name . ' ' . $service_customer_model->last_name,
+              $service_customer_model->mobile_1,
+              $service_client->marketing_name,
+              date('Y-m-d', strtotime($service_appointment_model->appointment_date)),
+              date('h:i A', strtotime($service_appointment_model->appointment_time)),
+              $shorturl
+              );
+              $template_cust = $sms_template_customer->sms_body;
+              $sms_template_cust = str_replace($arr_static_tags_search_emp, $arr_static_tags_replace_emp, $template_cust);
+              Yii::$app->LMS->sendSMST($smsbody = $sms_template_cust, $mobile_no = $service_customer_model->mobile_1, $user_id = $service_emp->id, $customer = 'Yes', $customer_id = $service_customer_model->id);
+              }
+              header("Content-type: text/xml; charset=utf-8");
+              echo '<?xml version="1.0" encoding="utf-8"?><response><status>Data Updated Successfully</status></response>';
+              exit;
+              }
+              }
+              } */
+
+
+            //Upload mp3
+            $url = '';
+            $arrs = explode('&', $model->call_log_push_url);
+            foreach ($arrs as $arr => $value) {
+                $dada = explode('=', $value);
+                if ($dada[0] == 'recording_url' && $dada[1] != '') {
+                    $url = $dada[1];
+                }
+            }
+            if ($url != '' && strpos($url, "http") !== false) {
+                try {
+                    $org_file_path = urldecode($url);
+                    $live_file = basename($org_file_path) . '.mp3';
+                    $temp_file = $basepath . $model->call_recording_url;
+
+                    //file_put_contents($temp_file, fopen($org_file_path, 'r'));
+                    //$temp_file = $basepath . $live_file;
+                    $model->call_recording_url = $live_file;
+                    $model->call_recording_url_status = 1;
+                    $model->save();
+                    // $s3FolderName ='recorded_file';  
+                    // $name = S3::s3FileUpload($org_file_path, $live_file,$s3FolderName);
+                } catch (Exception $e) {
+                    //  echo 'Caught exception: ',  $e->getMessage(), "\n";
+                }
+            }
+            // end recording move code
+
+            if ($model->virtual_number != '') {
+                $obj_virtual_number = CtSetting::where("virtual_number", $model->virtual_number)->first();
+                $source_id = $obj_virtual_number->source_id;
+                $source_description = $obj_virtual_number->source_disc;
+                $model->source_id = $source_id;
+                $model->client_id = $obj_virtual_number->client_id;
+                $client_id = $model->client_id;
                 $model->save();
-            } else if ($model->extension_number != 'None' && $ivr_type != 4) {
-                $obj_extension = CtMenuSetting::find()->Where(array('ct_settings_id' => $obj_virtual_number->id, 'ext_number' => $model->extension_number))->first();
-                if (($call_status == 'Missed' || $call_status == 'NotConnected') and $model->extension_number != 'None') {
-                    $mobile_number = $this->getMissedcall_agent($obj_extension->employees, $model->virtual_number, $ext = $model->extension_number);
+
+                if ($call_status == 'Missed' and $model->extension_number == 'None') {
+                    $mobile_number = $this->getMissedcall_agent($obj_virtual_number->msc_default_employee_id, $model->virtual_number, $ext = 0);
+                    $agent = @explode(',', $mobile_number);
+                    $model->employee_number = $agent[0]; //[0];// $obj_employee_missed->mobile_no;
+                    $model->save();
+                } else if ($model->extension_number != 'None' && $ivr_type != 4) {
+                    $obj_extension = CtMenuSetting::find()->Where(array('ct_settings_id' => $obj_virtual_number->id, 'ext_number' => $model->extension_number))->first();
+                    if (($call_status == 'Missed' || $call_status == 'NotConnected') and $model->extension_number != 'None') {
+                        $mobile_number = $this->getMissedcall_agent($obj_extension->employees, $model->virtual_number, $ext = $model->extension_number);
+                        $agent = @explode(',', $mobile_number);
+                        $model->employee_number = $agent[0]; //[0];// $obj_employee_missed->mobile_no;
+                        $model->save();
+                    }
+                } else if ($call_status == 'NotConnected' and $obj_virtual_number->msc_facility_status == 1) {
+                    $mobile_number = $this->getMissedcall_agent($obj_virtual_number->msc_default_employee_id, $model->virtual_number, $ext = 0);
                     $agent = @explode(',', $mobile_number);
                     $model->employee_number = $agent[0]; //[0];// $obj_employee_missed->mobile_no;
                     $model->save();
                 }
-            } else if ($call_status == 'NotConnected' and $obj_virtual_number->msc_facility_status == 1) {
-                $mobile_number = $this->getMissedcall_agent($obj_virtual_number->msc_default_employee_id, $model->virtual_number, $ext = 0);
-                $agent = @explode(',', $mobile_number);
-                $model->employee_number = $agent[0]; //[0];// $obj_employee_missed->mobile_no;
-                $model->save();
-            }
-        }
-        
-        // start enquiry inserting code
-
-        if ($call_status == 'Connected' || $call_status == 'Missed' || $call_status == 'NotConnected') {
-
-            $obj_employee = Employee::where(array('username' => $model->bridge_employee_number, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
-            
-            if (empty($obj_employee)) {
-                $obj_employee = Employee::where(array('username' => $model->employee_number, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
-                
-            } else if (empty($obj_employee)) {
-
-                $mobile_number = $this->getMissedcall_agent($obj_virtual_number->msc_default_employee_id, $model->virtual_number, $ext = 0);
-                $agent = @explode(',', $mobile_number);
-                $model->employee_number = $agent[0]; //[0];// $obj_employee_missed->mobile_no;
-                $model->save();
-
-                $obj_employee = Employee::where(array('username' => $model->employee_number, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
             }
 
+            // start enquiry inserting code
 
-            if (!empty($obj_employee)) {
+            if ($call_status == 'Connected' || $call_status == 'Missed' || $call_status == 'NotConnected') {
 
-                if ($call_status == 'Connected' || $call_status == 'Missed' || $call_status == 'NotConnected' || $call_status == 'Invalid agent list') {
-                    $model->employee_id = $obj_employee->id;
+                $obj_employee = Employee::where(array('username' => $model->bridge_employee_number, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
+
+                if (empty($obj_employee)) {
+                    $obj_employee = Employee::where(array('username' => $model->employee_number, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
+                } else if (empty($obj_employee)) {
+
+                    $mobile_number = $this->getMissedcall_agent($obj_virtual_number->msc_default_employee_id, $model->virtual_number, $ext = 0);
+                    $agent = @explode(',', $mobile_number);
+                    $model->employee_number = $agent[0]; //[0];// $obj_employee_missed->mobile_no;
                     $model->save();
-                }
-                
-                $obj_customer = '';
-                $obj_customer = CustomersContact::where(array('mobile_number' => $model->customer_number, 'client_id' => $obj_virtual_number->client_id))->first();
-                
-                if (empty($obj_customer))
-                    $obj_customer = CustomersContact::where(array('mobile_number' => $model->landline_number, 'client_id' => $obj_virtual_number->client_id))->first();
 
-                
-                // existing customer
-                if (!empty($obj_customer)) {
-                    $obj_enquiry = Enquiry::where('customer_id', $obj_customer->customer_id)->orderBy('id','SORT_DESC')->first();  //Open
-                    if (!empty($obj_enquiry) and $obj_virtual_number->alert_to_enq_owner == 0 and $call_status == 'Missed' || $call_status == 'NotConnected' || $call_status == 'Invalid agent list') {
-                        $obj_employee = Employee::where(array('username' => $model->employee_number, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
-                        //print_r($obj_employee);exit;
-                    } else if (!empty($obj_enquiry) and $obj_virtual_number->alert_to_enq_owner == 1 and $call_status == 'Missed' || $call_status == 'NotConnected' || $call_status == 'Invalid agent list') {
-                        $obj_employee_temp = Employee::where(array('id' => $obj_enquiry->sales_employee_id, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
-                        if (!empty($obj_employee_temp)) {
-                            $obj_employee = Employee::where(array('id' => $obj_enquiry->sales_employee_id, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
-                            $model->employee_number = $obj_employee->username; //[0];// $obj_employee_missed->mobile_no;
-                            $model->save();
-                        }
-                    }
-                    
+                    $obj_employee = Employee::where(array('username' => $model->employee_number, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
+                }
+
+
+                if (!empty($obj_employee)) {
+
                     if ($call_status == 'Connected' || $call_status == 'Missed' || $call_status == 'NotConnected' || $call_status == 'Invalid agent list') {
                         $model->employee_id = $obj_employee->id;
                         $model->save();
                     }
-                    
-                    if (!empty($obj_enquiry) and $call_status == 'Connected' and $obj_virtual_number->ec_call_status == 0) {
-                        if ($obj_enquiry->sales_employee_id == $model->employee_id) {
-                            
-                            if ($obj_virtual_number->open_enquiry_owner_emp_action == 1) {
-                                
-                                // new enquiry	
-                                $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
 
-                                $exist = 1;
-                                //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-                                // start new Folloups
+                    $obj_customer = '';
+                    $obj_customer = CustomersContact::where(array('mobile_number' => $model->customer_number, 'client_id' => $obj_virtual_number->client_id))->first();
 
-                                $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
-                            } else {
-                                
-                                $exist = 1;
-                                //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-                                $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
-                            }
-                        } else {
-                           
-                            if ($obj_virtual_number->open_enquiry_other_emp_action == 1) {
-                               
-                                $obj_enquiry->sales_employee_id = $model->employee_id;
-                                $obj_enquiry->save();
-                                $exist = 1;
-                                
-                                //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-                                // start new Folloups													   
-                                $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
-                            } else if ($obj_virtual_number->open_enquiry_other_emp_action == 2) {
-                                // new enquiry	
-                                $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
-                                // end new enquiry		
-                                // start new Project enquiry								
-                                // $this->insertEnquiryProject( $obj_enquiry, $project_id, $block_id );					
-                                // end new Project enquiry	
-                                $exist = 1;
-                                //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-                                // start new Folloups
+                    if (empty($obj_customer))
+                        $obj_customer = CustomersContact::where(array('mobile_number' => $model->landline_number, 'client_id' => $obj_virtual_number->client_id))->first();
 
-                                $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
-                            } else {
 
-                                $exist = 1;
-                                //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-                                $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
+                    // existing customer
+                    if (!empty($obj_customer)) {
+                        $obj_enquiry = Enquiry::where('customer_id', $obj_customer->customer_id)->orderBy('id', 'SORT_DESC')->first();  //Open
+                        if (!empty($obj_enquiry) and $obj_virtual_number->alert_to_enq_owner == 0 and $call_status == 'Missed' || $call_status == 'NotConnected' || $call_status == 'Invalid agent list') {
+                            $obj_employee = Employee::where(array('username' => $model->employee_number, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
+                            //print_r($obj_employee);exit;
+                        } else if (!empty($obj_enquiry) and $obj_virtual_number->alert_to_enq_owner == 1 and $call_status == 'Missed' || $call_status == 'NotConnected' || $call_status == 'Invalid agent list') {
+                            $obj_employee_temp = Employee::where(array('id' => $obj_enquiry->sales_employee_id, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
+                            if (!empty($obj_employee_temp)) {
+                                $obj_employee = Employee::where(array('id' => $obj_enquiry->sales_employee_id, 'client_id' => $obj_virtual_number->client_id, 'employee_status' => 1))->first();
+                                $model->employee_number = $obj_employee->username; //[0];// $obj_employee_missed->mobile_no;
+                                $model->save();
                             }
                         }
-                    } else if (!empty($obj_enquiry)) {
-                        $exist = 1;
-                        //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-                        $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
-                    } else {
-                        $obj_enquiry = Enquiry::where('customer_id', $obj_customer->customer_id)->orderBy('id','SORT_DESC')->first(); //Lost
 
-                        if (!empty($obj_enquiry)) {
+                        if ($call_status == 'Connected' || $call_status == 'Missed' || $call_status == 'NotConnected' || $call_status == 'Invalid agent list') {
+                            $model->employee_id = $obj_employee->id;
+                            $model->save();
+                        }
 
+                        if (!empty($obj_enquiry) and $call_status == 'Connected' and $obj_virtual_number->ec_call_status == 0) {
                             if ($obj_enquiry->sales_employee_id == $model->employee_id) {
-                                if ($obj_virtual_number->lost_enquiry_owner_emp_action == 1) {
+
+                                if ($obj_virtual_number->open_enquiry_owner_emp_action == 1) {
+
                                     // new enquiry	
                                     $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
 
                                     $exist = 1;
                                     //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-
+                                    // start new Folloups
 
                                     $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
                                 } else {
 
                                     $exist = 1;
-                                    //$obj_enquiry->enq_status = 'Open';
-                                    //$obj_enquiry->save(false);
                                     //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
                                     $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
                                 }
                             } else {
-                                if ($obj_virtual_number->lost_enquiry_other_emp_action == 1) {
 
-                                    //$obj_enquiry->enq_status = 'Open';
-                                    //$obj_enquiry->save(false);
+                                if ($obj_virtual_number->open_enquiry_other_emp_action == 1) {
+
+                                    $obj_enquiry->sales_employee_id = $model->employee_id;
+                                    $obj_enquiry->save();
                                     $exist = 1;
+
                                     //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
                                     // start new Folloups													   
                                     $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
-                                } else if ($obj_virtual_number->lost_enquiry_other_emp_action == 2) {
-                                    $obj_enquiry->sales_employee_id = $model->employee_id;
-                                    //$obj_enquiry->enq_status = 'Open';
-                                    $obj_enquiry->save(false);
+                                } else if ($obj_virtual_number->open_enquiry_other_emp_action == 2) {
+                                    // new enquiry	
+                                    $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
+                                    // end new enquiry		
+                                    // start new Project enquiry								
+                                    // $this->insertEnquiryProject( $obj_enquiry, $project_id, $block_id );					
+                                    // end new Project enquiry	
                                     $exist = 1;
                                     //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
                                     // start new Folloups
@@ -830,31 +1702,82 @@ class CloudCallingLogsController extends Controller {
                                     $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
                                 } else {
 
-                                    // new enquiry	
-                                    $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
-
                                     $exist = 1;
                                     //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-                                    // start new Folloups
-
                                     $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
                                 }
                             }
-                        } else {
-                            // start new enquiry
-                            $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
-
+                        } else if (!empty($obj_enquiry)) {
                             $exist = 1;
                             //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-
-                            // start new Folloups
-
                             $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
-                            // end new Folloups	
+                        } else {
+                            $obj_enquiry = Enquiry::where('customer_id', $obj_customer->customer_id)->orderBy('id', 'SORT_DESC')->first(); //Lost
+
+                            if (!empty($obj_enquiry)) {
+
+                                if ($obj_enquiry->sales_employee_id == $model->employee_id) {
+                                    if ($obj_virtual_number->lost_enquiry_owner_emp_action == 1) {
+                                        // new enquiry	
+                                        $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
+
+                                        $exist = 1;
+                                        //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
+
+
+                                        $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
+                                    } else {
+
+                                        $exist = 1;
+                                        //$obj_enquiry->enq_status = 'Open';
+                                        //$obj_enquiry->save(false);
+                                        //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
+                                        $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
+                                    }
+                                } else {
+                                    if ($obj_virtual_number->lost_enquiry_other_emp_action == 1) {
+
+                                        //$obj_enquiry->enq_status = 'Open';
+                                        //$obj_enquiry->save(false);
+                                        $exist = 1;
+                                        //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
+                                        // start new Folloups													   
+                                        $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
+                                    } else if ($obj_virtual_number->lost_enquiry_other_emp_action == 2) {
+                                        $obj_enquiry->sales_employee_id = $model->employee_id;
+                                        //$obj_enquiry->enq_status = 'Open';
+                                        $obj_enquiry->save(false);
+                                        $exist = 1;
+                                        //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
+                                        // start new Folloups
+
+                                        $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
+                                    } else {
+
+                                        // new enquiry	
+                                        $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
+
+                                        $exist = 1;
+                                        //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
+                                        // start new Folloups
+
+                                        $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
+                                    }
+                                }
+                            } else {
+                                // start new enquiry
+                                $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
+
+                                $exist = 1;
+                                //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
+                                // start new Folloups
+
+                                $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
+                                // end new Folloups	
+                            }
                         }
-                    }
-                } else if ($model->enquiry_flag == 1 and  $call_status == 'Connected') {
-                    // start new customer
+                    } else if ($model->enquiry_flag == 1 and $call_status == 'Connected') {
+                        // start new customer
                         $obj_customer_info = new Customer();
                         $obj_customer_info->source_id = $source_id;
                         $obj_customer_info->subsource_id = $obj_virtual_number->sub_source_id;
@@ -870,28 +1793,60 @@ class CloudCallingLogsController extends Controller {
                         $obj_customer->mobile_number_lable = 1;
                         $obj_customer->mobile_number = $model->customer_number;
                         $obj_customer->save();
-                        
-                    $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
-                    $exist = 0;
-                    //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-                    // start new Folloups
 
-                    $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
-                    // end new Folloups	
-                } else if ($call_status == 'Missed' || $call_status == 'NotConnected' || $call_status == 'Connected' || $call_status == 'Invalid agent list') {
-                    
-                    //for ivr type 4
-                    if ($call_status == 'NotConnected' and $ivr_type == 4) {
-                        if ($model->extension_number != 'None') {
-                            $enquiry_status = CtMenuSetting::where(array('ct_settings_id' => $obj_virtual_number->id, 'extension_no' => $model->extension_number))->first();
-                            $enq_status = $enquiry_status->msc_call_insert_enquiry;
-                            
-                        } else if ($model->extension_number == 'None') {
-                            $enquiry_status = CtSetting::where('id', $obj_virtual_number->id)->first();
-                            $enq_status = $enquiry_status->missed_call_insert_enquiry;
+                        $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
+                        $exist = 0;
+                        //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
+                        // start new Folloups
+
+                        $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
+                        // end new Folloups	
+                    } else if ($call_status == 'Missed' || $call_status == 'NotConnected' || $call_status == 'Connected' || $call_status == 'Invalid agent list') {
+
+                        //for ivr type 4
+                        if ($call_status == 'NotConnected' and $ivr_type == 4) {
+                            if ($model->extension_number != 'None') {
+                                $enquiry_status = CtMenuSetting::where(array('ct_settings_id' => $obj_virtual_number->id, 'extension_no' => $model->extension_number))->first();
+                                $enq_status = $enquiry_status->msc_call_insert_enquiry;
+                            } else if ($model->extension_number == 'None') {
+                                $enquiry_status = CtSetting::where('id', $obj_virtual_number->id)->first();
+                                $enq_status = $enquiry_status->missed_call_insert_enquiry;
+                            }
+
+                            if ($enq_status == 1) {
+                                // start new customer
+                                $obj_customer_info = new Customer();
+                                $obj_customer_info->source_id = $source_id;
+                                $obj_customer_info->subsource_id = $obj_virtual_number->sub_source_id;
+                                $obj_customer_info->source_description = $obj_virtual_number->source_disc;
+                                $obj_customer_info->client_id = $client_id;
+                                $obj_customer_info->created_by = $model->employee_id;
+                                $obj_customer_info->created_date = date('Y-m-d');
+                                $obj_customer_info->save();
+
+                                $obj_customer = new CustomersContact();
+                                $obj_customer->client_id = $client_id;
+                                $obj_customer->customer_id = $obj_customer_info->id;
+                                $obj_customer->mobile_number_lable = 1;
+                                $obj_customer->mobile_number = $model->customer_number;
+                                $obj_customer->save();
+
+                                $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
+
+                                $exist = 0;
+                                //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
+                                // start new Folloups
+
+                                $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
+                                // end new Folloups
+                            } else {
+                                $exist = 0;
+                                $this->sendMissedSms($model, $obj_employee, $exist);
+                            }
+                            //end ivr 4
                         }
-                        
-                        if ($enq_status == 1) {
+
+                        if ($obj_virtual_number->missed_call_insert_enquiry == 1) {
                             // start new customer
                             $obj_customer_info = new Customer();
                             $obj_customer_info->source_id = $source_id;
@@ -901,69 +1856,35 @@ class CloudCallingLogsController extends Controller {
                             $obj_customer_info->created_by = $model->employee_id;
                             $obj_customer_info->created_date = date('Y-m-d');
                             $obj_customer_info->save();
-                            
+
                             $obj_customer = new CustomersContact();
                             $obj_customer->client_id = $client_id;
                             $obj_customer->customer_id = $obj_customer_info->id;
                             $obj_customer->mobile_number_lable = 1;
                             $obj_customer->mobile_number = $model->customer_number;
                             $obj_customer->save();
-                            
+                            // end new customer
+                            // start new enquiry
                             $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
-                            
+
+
                             $exist = 0;
-                            //$this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $model_id, $exist);
-                            
+                            $this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer, $obj_customer_info, $model_id, $exist);
                             // start new Folloups
 
                             $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
                             // end new Folloups
                         } else {
-                            $exist = 0;
-                            $this->sendMissedSms($model, $obj_employee, $exist);
+                            // don't insert enquiry
+                            //$this->sendMissedSms($model, $obj_employee, 0);
+                            header("Content-type: text/xml; charset=utf-8");
+                            echo '<?xml version="1.0" encoding="utf-8"?><response><status>Data Updated Successfully</status></response>';
+                            exit;
                         }
-                        //end ivr 4
-                    }
-                    
-                    if ($obj_virtual_number->missed_call_insert_enquiry == 1) {
-                        // start new customer
-                            $obj_customer_info = new Customer();
-                            $obj_customer_info->source_id = $source_id;
-                            $obj_customer_info->subsource_id = $obj_virtual_number->sub_source_id;
-                            $obj_customer_info->source_description = $obj_virtual_number->source_disc;
-                            $obj_customer_info->client_id = $client_id;
-                            $obj_customer_info->created_by = $model->employee_id;
-                            $obj_customer_info->created_date = date('Y-m-d');
-                            $obj_customer_info->save();
-                            
-                            $obj_customer = new CustomersContact();
-                            $obj_customer->client_id = $client_id;
-                            $obj_customer->customer_id = $obj_customer_info->id;
-                            $obj_customer->mobile_number_lable = 1;
-                            $obj_customer->mobile_number = $model->customer_number;
-                            $obj_customer->save();
-                        // end new customer
-                        // start new enquiry
-                        $obj_enquiry = $this->insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description, $obj_virtual_number);
-                        
-
-                        $exist = 0;
-                        $this->sendEmailAndSms($model, $obj_employee, $obj_enquiry, $obj_customer,$obj_customer_info, $model_id, $exist);
-                        // start new Folloups
-
-                        $this->insertFollowups($obj_enquiry, $obj_employee, $obj_customer, $exist, $model, $obj_virtual_number);
-                        // end new Folloups
-                    } else {
-                        // don't insert enquiry
-                        //$this->sendMissedSms($model, $obj_employee, 0);
-                        header("Content-type: text/xml; charset=utf-8");
-                        echo '<?xml version="1.0" encoding="utf-8"?><response><status>Data Updated Successfully</status></response>';
-                        exit;
                     }
                 }
             }
         }
-    }
         // end enquiry inserting code
     }
 
@@ -1087,11 +2008,11 @@ class CloudCallingLogsController extends Controller {
     }
 
     public function insertEnquiry($obj_customer, $obj_employee, $source_id, $source_description = '', $cloud_virtual_no_model) {
-        
+
         $clientmodel = ClientInfo::where(['id' => $cloud_virtual_no_model->client_id])->first();
-        
+
         $obj_enquiry = new Enquiry();
-        $obj_enquiry->client_id =  $obj_employee->client_id;
+        $obj_enquiry->client_id = $obj_employee->client_id;
         $obj_enquiry->created_at = date('Y-m-d H:i:s'); //enquiry created date(in_date in LMS, created)
         $obj_enquiry->created_date = date('Y-m-d');
         $obj_enquiry->updated_date = date("Y-m-d");
@@ -1114,7 +2035,7 @@ class CloudCallingLogsController extends Controller {
         $obj_enquiry->enquiry_finance_status_id = 0;
         $obj_enquiry->enquiry_exchange_status_id = 0;
         $obj_enquiry->save();
-        
+
         return $obj_enquiry;
     }
 
@@ -1125,14 +2046,14 @@ class CloudCallingLogsController extends Controller {
         $obj_followups->ct_logs_inbounds_id = $model->id;
         $obj_followups->client_id = $obj_employee->client_id;
         $obj_followups->enquiry_id = $obj_enquiry->id;
-        $previous_followups = EnquiryFollowup::where('enquiry_id' , $obj_enquiry->id)->orderBy('id', 'DESC')->first();
-        if(!empty($previous_followups))
+        $previous_followups = EnquiryFollowup::where('enquiry_id', $obj_enquiry->id)->orderBy('id', 'DESC')->first();
+        if (!empty($previous_followups))
             $obj_followups->enquiry_category_id = $previous_followups->enquiry_category_id;
         else
             $obj_followups->enquiry_category_id = 1;
-        
-        $obj_followups->followup_by_employee_id = $obj_employee->id;	
-        
+
+        $obj_followups->followup_by_employee_id = $obj_employee->id;
+
         if ($model->customer_call_status == 'Missed' || $model->customer_call_status == 'NotConnected') {
             if ($exist == 1) {
                 $obj_followups->remarks = 'You have missed a call from ' . ' ' . $customerinfo->first_name . ' ' . $customerinfo->last_name . ' ( ' . $obj_customer->mobile_number . ' ) Please call Back ASAP.';
@@ -1444,131 +2365,130 @@ class CloudCallingLogsController extends Controller {
 
 
         //$string = rand(1111111111, 9999999999);
-       // $shortenquirytoken = new \common\models\ShortEnquiryTokenModel();
+        // $shortenquirytoken = new \common\models\ShortEnquiryTokenModel();
         //$shortenquirytoken->token = $string;
         //$shortenquirytoken->save(false);
 
         $server_url = 'http://businessapps.co.in';
         //$next_url = $server_url . "customer_info_form?t=" . urlencode($string) . "&d=" . urlencode(base64_encode($obj_customer->id)) . "&eq=" . urlencode(base64_encode($obj_enquiry->id));
-
         //$longUrl = $next_url;
         $return_val = $this->shortenUrl($server_url);
         $short_url_result = $return_val['id'];
-        
+
         $customer_sms_body = $template_customer->sms_body;
         $customer_email_body = $template_customer->email_body;
         $employee_sms_body = $template_employee->sms_body;
         $employee_email_body = $template_employee->email_body;
 
         $arr_static_tags_search = array(
-                    '[#greeting#],',
-                    '[#custFormLink#]',
-                    '[#employeeName#]',
-                    '[#employeeMobile#]',
-                    '[#companyMktName#]',
-                    '[#custMobile#]',
-                    '[#custName#]'
-                );
-               
-                $arr_static_tags_replace = array(
-                    $greeting_msg,
-                    $short_url_result,
-                    $obj_employee->first_name. ' '. $obj_employee->last_name,
-                    $obj_employee->username,
-                    "LMS Auto Test",
-                    $obj_customer->mobile_number,
-                    $obj_customer_info->first_name.' '.$obj_customer_info->last_name
-                ); 
-                
-                $cust_template_email = str_replace($arr_static_tags_search, $arr_static_tags_replace, $customer_email_body);
-                $cust_template_sms = str_replace($arr_static_tags_search, $arr_static_tags_replace, $customer_sms_body);
-                $emp_template_email = str_replace($arr_static_tags_search, $arr_static_tags_replace, $employee_email_body);
-                $emp_template_sms = str_replace($arr_static_tags_search, $arr_static_tags_replace, $employee_sms_body);
-                
-                $email_config = EmailConfiguration::where('client_id',1)->first();
-                $userName = base64_decode($email_config->email);
-                $password = base64_decode($email_config->password);
-                $companyName = "LMS Auto Test";
-                
-                
-                //$smsresult = Gupshup::sendSMS($smsbody, $mobile, $smstype);
-                $loggedInUserId = 1;
-                $isInternational = 0; //0 OR 1
-                $sendingType = 1; //always 0 for T_SMS
-                $smsType = "T_SMS";
-                
-                if($template_settings_customer->email_status == 1){
-                        
-                        $subject = $customer_email_body->email_subject;
-                        $data = ['mailBody' => $cust_template_email, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $obj_customer->email_id];
-                        $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-                }
-                if($template_settings_customer->sms_status == 1){
-                    $mobile = $obj_customer->mobile_number;
-                    $customer = "Yes";
-                    $customerId = $obj_customer_info->id;
-                    $result = Gupshup::sendSMS($cust_template_sms, $mobile, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
-                    //print_r($result);exit;
-                }
-                
-                if($template_settings_employee->email_status == 1){
-                    $subject = $template_employee->email_subject;
-                    $data = ['mailBody' => $emp_template_email, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $obj_employee->email, "cc" => "saloni@nextedgegroup.co.in"];
-                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-                }
-                if($template_settings_employee->sms_status == 1){
-                    $mobile = $obj_employee->username;
-                    $customer = "No";
-                    $customerId = 0;
-                    $result = Gupshup::sendSMS($emp_template_sms, $mobile, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
-                }
-    /*    $alertdata['customer_id'] = $obj_customer->id;
-        $alertdata['employee_id'] = $obj_employee->id;
-        $alertdata['client_id'] = $obj_employee->client_id;
-        $alertdata['email_body'] = $alert_customer->email_body;
-        $alertdata['sms_body'] = $alert_customer->sms_body;
-        $alertdata['arrExtra'][0] = array(
-            '[#greeting#]',
+            '[#greeting#],',
             '[#custFormLink#]',
+            '[#employeeName#]',
+            '[#employeeMobile#]',
+            '[#companyMktName#]',
+            '[#custMobile#]',
+            '[#custName#]'
         );
-        $alertdata['arrExtra'][1] = array(
+
+        $arr_static_tags_replace = array(
             $greeting_msg,
             $short_url_result,
+            $obj_employee->first_name . ' ' . $obj_employee->last_name,
+            $obj_employee->username,
+            "LMS Auto Test",
+            $obj_customer->mobile_number,
+            $obj_customer_info->first_name . ' ' . $obj_customer_info->last_name
         );
 
-        $alertsdata = Yii::$app->LMS->Template($alertdata);
+        $cust_template_email = str_replace($arr_static_tags_search, $arr_static_tags_replace, $customer_email_body);
+        $cust_template_sms = str_replace($arr_static_tags_search, $arr_static_tags_replace, $customer_sms_body);
+        $emp_template_email = str_replace($arr_static_tags_search, $arr_static_tags_replace, $employee_email_body);
+        $emp_template_sms = str_replace($arr_static_tags_search, $arr_static_tags_replace, $employee_sms_body);
 
-        if ($alert_settings_customer->email_status == 1) {
-            $data['from'] = $obj_employee->company_email;
-            $data['to'] = $obj_customer->email_1;
-            $data['subject'] = $alert_customer->email_subject;
-            $data['body'] = $alertsdata[0];
-            $result = Yii::$app->LMS->sendMail($data, $alert_settings_customer, $obj_employee->id, $obj_customer->id);
+        $email_config = EmailConfiguration::where('client_id', 1)->first();
+        $userName = base64_decode($email_config->email);
+        $password = base64_decode($email_config->password);
+        $companyName = "LMS Auto Test";
+
+
+        //$smsresult = Gupshup::sendSMS($smsbody, $mobile, $smstype);
+        $loggedInUserId = 1;
+        $isInternational = 0; //0 OR 1
+        $sendingType = 1; //always 0 for T_SMS
+        $smsType = "T_SMS";
+
+        if ($template_settings_customer->email_status == 1) {
+
+            $subject = $customer_email_body->email_subject;
+            $data = ['mailBody' => $cust_template_email, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $obj_customer->email_id];
+            $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
         }
-        if ($alert_settings_customer->sms_status == 1) {
-            Yii::$app->LMS->sendSMST($alertsdata[1], $obj_customer->mobile_1, $alert_settings_customer, $obj_employee->id, $customer = 'Yes', $obj_customer->id);
+        if ($template_settings_customer->sms_status == 1) {
+            $mobile = $obj_customer->mobile_number;
+            $customer = "Yes";
+            $customerId = $obj_customer_info->id;
+            $result = Gupshup::sendSMS($cust_template_sms, $mobile, $loggedInUserId, $customer, $customerId, $isInternational, $sendingType, $smsType);
+            //print_r($result);exit;
         }
 
-
-        //employee
-
-        $alertdata_employee['customer_id'] = $obj_customer->id;
-        $alertdata_employee['employee_id'] = $obj_employee->id;
-        $alertdata_employee['client_id'] = $obj_employee->client_id;
-        $alertdata_employee['email_body'] = $alert_employee->email_body;
-        $alertdata_employee['sms_body'] = $alert_employee->sms_body;
-        $alertdata_employee = Yii::$app->LMS->Template($alertdata_employee);
-
-        if ($alert_settings_employee->email_status == 1) {
-            $data['from'] = $obj_employee->company_email;
-            $data['to'] = $obj_employee->company_email;
-            $data['subject'] = $alert_employee->email_subject;
-            $data['body'] = $alertdata_employee[0];
-            $result = Yii::$app->LMS->sendMail($data, $alert_settings_employee, $obj_employee->id, $obj_customer->id);
+        if ($template_settings_employee->email_status == 1) {
+            $subject = $template_employee->email_subject;
+            $data = ['mailBody' => $emp_template_email, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $obj_employee->email, "cc" => "saloni@nextedgegroup.co.in"];
+            $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
         }
-        if ($alert_settings_employee->sms_status == 1) {
-            Yii::$app->LMS->sendSMST($alertdata_employee[1], $obj_employee->username, $alert_settings_employee, $obj_employee->id, $customer = 'No', 0);
-        }*/
+        if ($template_settings_employee->sms_status == 1) {
+            $mobile = $obj_employee->username;
+            $customer = "No";
+            $customerId = 0;
+            $result = Gupshup::sendSMS($emp_template_sms, $mobile, $loggedInUserId, $customer, $customerId, $isInternational, $sendingType, $smsType);
+        }
+        /*    $alertdata['customer_id'] = $obj_customer->id;
+          $alertdata['employee_id'] = $obj_employee->id;
+          $alertdata['client_id'] = $obj_employee->client_id;
+          $alertdata['email_body'] = $alert_customer->email_body;
+          $alertdata['sms_body'] = $alert_customer->sms_body;
+          $alertdata['arrExtra'][0] = array(
+          '[#greeting#]',
+          '[#custFormLink#]',
+          );
+          $alertdata['arrExtra'][1] = array(
+          $greeting_msg,
+          $short_url_result,
+          );
+
+          $alertsdata = Yii::$app->LMS->Template($alertdata);
+
+          if ($alert_settings_customer->email_status == 1) {
+          $data['from'] = $obj_employee->company_email;
+          $data['to'] = $obj_customer->email_1;
+          $data['subject'] = $alert_customer->email_subject;
+          $data['body'] = $alertsdata[0];
+          $result = Yii::$app->LMS->sendMail($data, $alert_settings_customer, $obj_employee->id, $obj_customer->id);
+          }
+          if ($alert_settings_customer->sms_status == 1) {
+          Yii::$app->LMS->sendSMST($alertsdata[1], $obj_customer->mobile_1, $alert_settings_customer, $obj_employee->id, $customer = 'Yes', $obj_customer->id);
+          }
+
+
+          //employee
+
+          $alertdata_employee['customer_id'] = $obj_customer->id;
+          $alertdata_employee['employee_id'] = $obj_employee->id;
+          $alertdata_employee['client_id'] = $obj_employee->client_id;
+          $alertdata_employee['email_body'] = $alert_employee->email_body;
+          $alertdata_employee['sms_body'] = $alert_employee->sms_body;
+          $alertdata_employee = Yii::$app->LMS->Template($alertdata_employee);
+
+          if ($alert_settings_employee->email_status == 1) {
+          $data['from'] = $obj_employee->company_email;
+          $data['to'] = $obj_employee->company_email;
+          $data['subject'] = $alert_employee->email_subject;
+          $data['body'] = $alertdata_employee[0];
+          $result = Yii::$app->LMS->sendMail($data, $alert_settings_employee, $obj_employee->id, $obj_customer->id);
+          }
+          if ($alert_settings_employee->sms_status == 1) {
+          Yii::$app->LMS->sendSMST($alertdata_employee[1], $obj_employee->username, $alert_settings_employee, $obj_employee->id, $customer = 'No', 0);
+          } */
     }
 
     /**
