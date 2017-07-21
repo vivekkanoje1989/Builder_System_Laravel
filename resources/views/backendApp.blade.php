@@ -61,6 +61,7 @@
                 <div class="rect3"></div>
                 <div class="rect4"></div>
                 <div class="rect5"></div>
+                <!--<b class="loadermsg">Please Wait...</b>-->
             </div>
         </div>    
         @include('layouts.backend.layout')

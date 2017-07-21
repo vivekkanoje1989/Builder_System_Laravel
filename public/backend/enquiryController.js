@@ -17,7 +17,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.salesEnqSubCategoryList = [];
         $scope.getProcName = $scope.type = $scope.getFunctionName  ='';
         $scope.flagForChange = 0;
-        
+        $scope.minBudget = $scope.maxBudget = 0;
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };
@@ -63,17 +63,12 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         /****************************ENQUIRIES****************************/
-        $scope.pageChanged = function (pageNo, functionName, id, type) {
-            $('#all_chk_reassign_enq').prop('checked', false);
-            $scope.BulkReasign = false;
-            $(".chk_reassign_enq").prop('checked', false);
-            $scope.BulkReasign = false;
+        $scope.pageChanged = function (pageNo, functionName, id, type,newpage) {
             $scope.flagForChange++;
-            $scope.Bulkflag = [];
-           if ($scope.flagForChange == 1 && $scope.BulkReasign == false)
+            if ($scope.flagForChange == 1)
             {
-                if ($scope.filterData && Object.keys($scope.filterData).length > 2) {
-                    $scope.getFilteredData($scope.filterData, pageNo, $scope.itemsPerPage);
+                if ($scope.filterData && Object.keys($scope.filterData).length > 1) {
+                    $scope.getFilteredData($scope.filterData,$scope.minBudget,$scope.maxBudget,pageNo, $scope.itemsPerPage);
                 } else {
                     $scope[functionName](id, type, pageNo, $scope.itemsPerPage);
                 }
@@ -85,6 +80,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
+            $scope.showloader();
             //$scope.listType = listType;
             if (type == 0) {
                 $scope.report_name = "Total Enquiries";
@@ -104,6 +100,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
+                $scope.hideloader();
                 $scope.flagForChange = 0;
             });
         }
@@ -150,11 +147,30 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.flagForChange = 0;
             });
         }
-        $scope.showPendingsFollowups = function ()
-        {
-            $scope.pageHeading = "Pending Followups";
-            Data.post('master-sales/getPendingFollowups').then(function (response) {
-                $scope.listsIndex = response;
+        $scope.pendingsFollowups = function (id, type, pageNumber, itemPerPage)
+        {            
+            $scope.itemsPerPage = itemPerPage;
+            $scope.type = type;
+            //$scope.listType = listType;
+            if (type == 0) {
+                $scope.report_name = "Pending Followups";
+                $scope.pagetitle = "My Pending Followups";
+            } else {
+                $scope.report_name = "Team`s Pending Followups";
+                $scope.pagetitle = "Team`s Pending Followups";
+            }            
+            Data.post('master-sales/getPendingFollowups', {
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.enquiries = response.records;
+                    $scope.enquiriesLength = response.totalCount;
+                } else
+                {
+                    $scope.enquiries = '';
+                    $scope.enquiriesLength = 0;
+                }
+                $scope.flagForChange = 0;
             });
         }
         $scope.showPreviousFollowups = function ()
@@ -427,7 +443,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.getFilteredData = function (filterData, minBudget, maxBudget,page,recordsperpage)
         {
-            //alert(page+':'+$scope.type);
+            //alert(page+':'+$scope.type+"item"+$scope.itemsPerPage);
+            $scope.showloader();
             if (filterData.verifiedMobNo == true)
                 filterData.verifiedMobNo = 1;
             else
@@ -439,11 +456,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 var tdate = new Date(filterData.toDate);
                 $scope.filterData.toDate = (tdate.getFullYear() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate());
             }           
-            Data.post('master-sales/filteredData', {filterData: filterData, minBudget: minBudget, pageNumber: page, itemPerPage: recordsperpage,maxBudget: maxBudget, getProcName: $scope.getProcName,teamType:$scope.type}).then(function (response) {
+            Data.post('master-sales/filteredData', {filterData: filterData, minBudget: minBudget, pageNumber: page, itemPerPage: $scope.itemsPerPage,maxBudget: maxBudget, getProcName: $scope.getProcName,teamType:$scope.type}).then(function (response) {
                 $scope.enquiries = response.records;
                 $scope.enquiriesLength = response.totalCount;
                 $('#showFilterModal').modal('hide');
+                $scope.hideloader();
                 $scope.showFilterData = $scope.filterData;
+                $scope.flagForChange = 0;
             });
         }       
         $scope.removeDataFromFilter = function (keyvalue) {

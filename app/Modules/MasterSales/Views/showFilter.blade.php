@@ -1,3 +1,13 @@
+<style>
+  .select2-container-multi .select2-choices {
+    position: relative;
+    min-height: 32px !important;
+  }
+  .ui-select-multiple input.ui-select-search {
+    width: 100% !important;
+    position: absolute;
+  }
+</style>
 <link href="css/rzslider.min.css" rel="stylesheet" />
 <div class="modal fade" id="showFilterModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-lg">
@@ -47,7 +57,7 @@
                                                 <span class="input-icon icon-right">
                                                     <select ng-model="filterData.category_id" name="category_id" class="form-control" ng-change="getSubCategory(filterData.category_id)">
                                                         <option value="">Select category</option>
-                                                        <option ng-repeat="list in salesEnqCategoryList track by $index" value="{{list.id}}">{{list.enquiry_category}}</option>
+                                                        <option ng-repeat="list in salesEnqCategoryList track by $index" value="{{list.id}}_{{list.enquiry_category}}">{{list.enquiry_category}}</option>
                                                     </select>
                                                     <i class="fa fa-sort-desc"></i>
                                                 </span>
@@ -75,7 +85,7 @@
                                                 <span class="input-icon icon-right">
                                                     <select ng-model="filterData.source_id" name="source_id" class="form-control" ng-change="onEnquirySourceChange(filterData.source_id)">
                                                         <option value="">Select Source</option>
-                                                        <option ng-repeat="source in sourceList track by $index" value="{{source.id}}">{{source.sales_source_name}}</option>
+                                                        <option ng-repeat="source in sourceList track by $index" value="{{source.id}}_{{source.sales_source_name}}">{{source.sales_source_name}}</option>
                                                     </select>
                                                     <i class="fa fa-sort-desc"></i>
                                                 </span>

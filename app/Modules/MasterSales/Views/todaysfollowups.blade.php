@@ -1,3 +1,16 @@
+<style>    
+     .close {
+        color:black;
+    }
+.alert.alert-info {
+    border-color: 1px solid #d9d9d9;
+    /* background: rgba(173, 181, 185, 0.81); */
+    background-color: #f5f5f5;
+    border: 1px solid #d9d9d9;
+    color: black;
+    padding: 5px;
+}
+</style>
 <div class="row" ng-controller="enquiryController" ng-init="todaysFollowups('', [[$type]],1, [[config('global.recordsPerPage')]])" >
     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '[[ csrf_token() ]]'">
     <div class="col-xs-12 col-md-12">
@@ -39,19 +52,19 @@
                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}"> 
                                <div class="alert alert-info fade in">
                                    <button class="close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
-                                   <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'model_id' || key === 'status_id'">{{  value.substring(value.indexOf("_")+1) }}</strong>
-                                   <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'>{{ $index +1 }}) {{   emp.first_name  }}  {{ emp.last_name }} </strong>
-                                   <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'>{{ $index +1 }}) {{   subcat.enquiry_sales_subcategory  }}  </strong>
-                                   <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'> {{ $index +1 }}){{ substatus.enquiry_sales_substatus }} </strong>
-                                   <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'>{{ $index +1 }}) {{ subsource.enquiry_subsource }} </strong>
-                                   <strong ng-if="key === 'test_drive_given' && value == 1 " data-toggle="tooltip" title="Test Drive"> <strong>Test Drive Given:</strong>Yes</strong>
+                                   <strong ng-if="key === 'category_id' || key === 'source_id' || key == 'status_id' "><strong>{{  key.substring(0, key.indexOf('_')) }} :</strong>{{  value.substring(value.indexOf("_")+1) }}</strong>
+                                   <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'> {{ $index +1 }}){{   emp.first_name  }}  {{ emp.last_name }} </strong>
+                                   <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'> {{ $index +1 }}){{   subcat.enquiry_sales_subcategory  }}</strong>
+                                   <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'> {{ $index +1 }}){{ subsource.enquiry_subsource }} </strong>
+                                   <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'>{{ $index +1 }}) {{ substatus.enquiry_sales_substatus }} </strong>
+                                   <strong ng-if="key === 'project_id' " ng-repeat='project in value track by $index'>{{ $index +1 }}) {{ project.project_name }} </strong>                                                                      
                                    <strong ng-if="key === 'verifiedEmailId' && value == 1 "> <strong>Verified Email ID:</strong>Yes</strong>
                                    <strong ng-if="key === 'verifiedMobNo' && value == 1  " data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile No:</strong>Yes</strong>
                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                                   <strong ng-if="key != 'status_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'model_id' && key != 'test_drive_given' && key != 'employee_id' " data-toggle="tooltip" title="{{ key }}"> {{ value}}</strong>
+                                   <strong ng-if="key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
                                </div>
                            </div>
-                       </b>                        
+                       </b>                       
                    </div>
                </div>
                 <br>     
@@ -122,7 +135,7 @@
 
                                 <hr class="enq-hr-line">
 
-                                <div class="floatLeft">
+                                <div>
                                     <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
                                 </div>                    
                                 <hr class="enq-hr-line">
@@ -177,8 +190,6 @@
                                         <span ng-if="enquiry_sales_subcategory_length  > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
                                         <hr class="enq-hr-line">
                                     </span>
-                                   
-                                
                                 </div>
                                <div>                                   
                                     <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != '' " data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
@@ -241,7 +252,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" align="center">Enquiry History</h4>
                         </div>
-                        <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
+                        <!--<div data-ng-include=" '/MasterSales/enquiryHistory'"></div>-->
                         <div class="modal-footer" align="center">
                         </div>
                     </div>
@@ -257,7 +268,7 @@
                             <h4 class="modal-title" align="center">Today's Remarks</h4>
                         </div>
 
-                        <div data-ng-include=" '/MasterSales/todaysRemark' "></div>
+                        <!--<div data-ng-include=" '/MasterSales/todaysRemark' "></div>-->
                         <div class="modal-footer" align="center">
                         </div>
                     </div>
