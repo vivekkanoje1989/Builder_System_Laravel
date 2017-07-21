@@ -1,91 +1,69 @@
-<style>
-    
-     .close {
-/*        float:right;
-        pointer: cursur;
-        display:inline-block;
-        padding: 3px;
-        background:#ccc;*/
-        color:black;
-
-    }
-.alert.alert-info {
-    border-color: 1px solid #d9d9d9;
-    /* background: rgba(173, 181, 185, 0.81); */
-    background-color: #f5f5f5;
-    border: 1px solid #d9d9d9;
-    color: black;
-    padding: 5px;
-    }
-</style>
-<div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('',[[$type]],1,30);">
+<div class="row" ng-controller="enquiryController" ng-init="todaysFollowups('', [[$type]],1, [[config('global.recordsPerPage')]])" >
+    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '[[ csrf_token() ]]'">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">{{pagetitle}}</span>
+              <span class="widget-caption">{{pagetitle}}</span>          
             </div>
             <div class="widget-body table-responsive">
-                <div class="row">
-                    <div class="col-sm-6 col-xs-12" style="float:left">
+                 <div class="row">
+                    <div class="col-sm-6 col-xs-12" style="float:left">                        
                         <div class="col-sm-3 center">
-                            <input type="text" minlength="1" maxlength="3" placeholder="Records per page" ng-model="itemsPerPage" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control">
-                        </div>  
-                        
+                            <input type="text" minlength="1" maxlength="3" placeholder="Records per page" ng-model="itemsPerPage"  ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control">
+                        </div> 
                         <div class="col-sm-3"  ng-if="BulkReasign">
                         <button type="button"  class="btn btn-primary"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">
                                      Bulk Reassign</button>
                         </div>
                         <div class="col-sm-3 center">
-                            <button type="button" class="btn btn-primary ng-click-active"  data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_get_total_enquiries')">
+                            <button type="button" class="btn btn-primary ng-click-active"  data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_get_today_followups')">
                                 <i class="btn-label fa fa-filter"></i>Show Filter</button>
                         </div>
-                        <div class="col-sm-3 center" ng-if="enquiriesLength != 0 ">
+                        <div ng-if="enquiriesLength != 0 " class="col-sm-3 center">
                             <a href="" class="btn btn-primary" id="downloadExcel" download="{{fileUrl}}"  ng-show="dnExcelSheet">
                                 <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
                             <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary" ng-click="exportReport(enquiries)" ng-show="btnExport">
                                 <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                             </a> 
-                        </div>
-                              
-                <br>   
-                    </div>
+                        </div>                                       
+                    </div>                       
                     <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
                         <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                        <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]])" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
+                        <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'todaysFollowups','', [[$type]])" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                     </div>
-                </div>               
+                </div> 
                 <hr>
                 <div class="row" style="border:2px;" id="filter-show">
-                    <!--<div class="col-sm-12 col-xs-12">-->
+                   <div class="col-sm-12 col-xs-12">
                        <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}"> 
                                <div class="alert alert-info fade in">
                                    <button class="close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
-                                   <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'model_id' || key == 'status_id' ">{{  value.substring(value.indexOf("_")+1) }}</strong>
-                                   <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'> {{ $index +1 }}){{   emp.first_name  }}  {{ emp.last_name }} </strong>
-                                   <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'> {{ $index +1 }}){{   subcat.enquiry_sales_subcategory  }}</strong>
-                                   <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'> {{ $index +1 }}){{ subsource.enquiry_subsource }} </strong>
-                                   <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'>{{ $index +1 }}) {{ substatus.enquiry_sales_substatus }} </strong>
+                                   <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'model_id' || key === 'status_id'">{{  value.substring(value.indexOf("_")+1) }}</strong>
+                                   <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'>{{ $index +1 }}) {{   emp.first_name  }}  {{ emp.last_name }} </strong>
+                                   <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'>{{ $index +1 }}) {{   subcat.enquiry_sales_subcategory  }}  </strong>
+                                   <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'> {{ $index +1 }}){{ substatus.enquiry_sales_substatus }} </strong>
+                                   <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'>{{ $index +1 }}) {{ subsource.enquiry_subsource }} </strong>
                                    <strong ng-if="key === 'test_drive_given' && value == 1 " data-toggle="tooltip" title="Test Drive"> <strong>Test Drive Given:</strong>Yes</strong>
                                    <strong ng-if="key === 'verifiedEmailId' && value == 1 "> <strong>Verified Email ID:</strong>Yes</strong>
                                    <strong ng-if="key === 'verifiedMobNo' && value == 1  " data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile No:</strong>Yes</strong>
                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                                   <strong ng-if="key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'model_id' && key != 'test_drive_given' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}"> {{ value}}</strong>
+                                   <strong ng-if="key != 'status_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'model_id' && key != 'test_drive_given' && key != 'employee_id' " data-toggle="tooltip" title="{{ key }}"> {{ value}}</strong>
                                </div>
                            </div>
                        </b>                        
-                   <!--</div>-->
-               </div>                             
-                <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">
+                   </div>
+               </div>
+                <br>     
+                <table class="table table-hover table-striped table-bordered" at-config="config" ng-if="enquiriesLength">
                     <thead>
                         <tr>
                             <th class="enq-table-th">SR / 
                                 <label>
-                                    <input type="checkbox" ng-click='checkAll(all_chk_reassign[pageNumber])' ng-model="all_chk_reassign[pageNumber]" name="all_chk_reassign_enq" id="all_chk_reassign_enq">
+                                   
+                                    <input type="checkbox"  ng-click='checkAll(all_chk_reassign[pageNumber])' ng-model="all_chk_reassign[pageNumber]" name="all_chk_reassign_enq" id="all_chk_reassign_enq">
                                     <span class="text"></span>
-
-                                </label>
-
+                                </label> 
                             </th>
                             <th class="enq-table-th">Customer</th>
                             <th class="enq-table-th">Enquiry</th>
@@ -93,15 +71,15 @@
                             <th class="enq-table-th">Next</th>
                         </tr>
                     </thead>
-                    <tbody>                        
-                        <tr dir-paginate="enquiry in filtered=( enquiries | filter:search)  | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength}}">
-                            <td width="6%" style="vertical-align:middle">
+                    <tbody>
+
+                        <tr dir-paginate="enquiry in  enquiries | filter:search | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength}}">
+                             <td width="6%" style="vertical-align:middle">
                                 <center>
                                     {{itemsPerPage * (pageNumber - 1) + $index + 1}}<br> 
-
-                                    <label> 
-                                        <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq">
-
+                                <label>
+                                        
+                                         <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq">   
                                         <span class="text"></span>
                                 </label>                                
                                 </center>
@@ -129,7 +107,7 @@
                                             +91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}
                                         </span>
                                     </p>
-                                    <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email !='' " ng-init="all_email_list=enquiry.email.split(',');" >
+                                    <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' " ng-init="all_email_list=enquiry.email.split(',');" >
                                         
                                         <span ng-repeat="emailobj in all_email_list | limitTo:2">
                                                 {{emailobj}}
@@ -140,14 +118,15 @@
                                         </span>
                                         
                                     </p>
-                                </div>                               
+                                </div>
+
                                 <hr class="enq-hr-line">
-                                <div>
+
+                                <div class="floatLeft">
                                     <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
                                 </div>                    
                                 <hr class="enq-hr-line">
                                 <div>
-                                    <br>
                                     <span ng-if="enquiry.sales_source_name != '' && enquiry.enquiry_sub_source != null "
                                           ng-init="sourceleng = enquiry.sales_source_name.length + enquiry.enquiry_sub_source.length; source = enquiry.sales_source_name +' / '+ enquiry.enquiry_sub_source ">
                                         <strong>Source : </strong>
@@ -166,8 +145,8 @@
                                     <span data-toggle="tooltip" title="{{enquiry.area}}">    {{enquiry.area | limitTo : 45}} </span>
                                     <span ng-if="enquiry.area  > 45" data-toggle="tooltip" title="{{enquiry.area}}">...</span>
                                 </div>
-                            </td>                            
-                            
+                            </td>
+
                             <td width="20%">
                                 <div>
                                         <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus == null"> 
@@ -179,7 +158,7 @@
                                     
                                         <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus != null" ng-init="enquiry_status_length = enquiry.sales_status.length + enquiry.enquiry_sales_substatus.length; enquiry_status = enquiry.sales_status +' / '+ enquiry.enquiry_sales_substatus "> 
                                                 <b>Status : </b>  
-                                                <span data-toggle="tooltip" title="{{enquiry_status}}/{{ enquiry.enquiry_sales_substatus }}">{{ enquiry_status  | limitTo : 45 }}</span>
+                                                <span data-toggle="tooltip" title="{{enquiry_status}}">{{ enquiry_status  | limitTo : 45 }}</span>
                                                 <span ng-if="enquiry_status_length > 45" data-toggle="tooltip" title="{{enquiry_status}}">...</span>
                                 <hr class="enq-hr-line">
                                         </span>
@@ -201,7 +180,7 @@
                                    
                                 
                                 </div>
-                                <div>                                   
+                               <div>                                   
                                     <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != '' " data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
                                         <b>Project :</b>
                                          {{enquiry.project_block_name | limitTo : 45 }}
@@ -228,32 +207,31 @@
                                 <div>
                                     <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                                 </div>
-                                
+
                             </td>
                             <td width="20%">
                                 <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            
                                 <hr class="enq-hr-line">
                                 <div>
-                                    <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="gettodayremarksEnquiry({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
-                                    <a href="javascript:void(0)" ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
-                                    <!--<a href="javascript:void(0)"  ><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Add Test Drive</a><br/>-->
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#todayremarkDataModal" ng-click="gettodayremarksEnquiry({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remark</a><br/>
                                     <a href="javascript:void(0)"  ><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Quotation</a><br/>
                                 </div>
 
                             </td>
                         </tr>
+                        <tr ng-show="(enquiries|filter:search).length == 0">
+                            <td colspan="7" align="center">Record Not Found</td>   
+                        </tr>
                     </tbody>
                 </table>
                 <hr>
-                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]])" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
-            <div ng-if="enquiriesLength == 0 ">
-                <div>
-                    <center><b>No Enquiries Found</b></center>
-                </div>
+                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'todaysFollowups','', [[$type]])" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
+                <div ng-if="enquiriesLength == 0 ">
+                    <div>
+                        <center><b>No Enquiries Found</b></center>
             </div>
-
                 </div>
-           
+                    </div>
             <!-- Today history model =============================================================================-->
             <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
@@ -270,7 +248,7 @@
                 </div>
             </div>
             <!-- Today remark model =============================================================================-->
-            <div class="modal fade" id="todayremarkDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
+            <div class="modal fade" id="todayremarkDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -279,17 +257,14 @@
                             <h4 class="modal-title" align="center">Today's Remarks</h4>
                         </div>
 
-                        <div data-ng-include=" '/MasterSales/todaysRemark'"></div>
+                        <div data-ng-include=" '/MasterSales/todaysRemark' "></div>
                         <div class="modal-footer" align="center">
                         </div>
                     </div>
                 </div>
-            </div>        
+            </div>          
+            <div data-ng-include="'/MasterSales/showFilter'"></div>
+            <!--<div data-ng-include="'/MasterSales/blukreassign'"></div>--> 
+        </div>
     </div>
-    <div data-ng-include="'/MasterSales/showFilter'"></div>
-    <!--<div data-ng-include="'/MasterSales/blukreassign'"></div>--> 
-
 </div>
-</div>
-
-

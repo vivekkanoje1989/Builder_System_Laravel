@@ -1,5 +1,5 @@
 <link href="css/rzslider.min.css" rel="stylesheet" />
-<div class="modal fade" id="showFilterModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="showFilterModal" role="dialog" tabindex='-1'>
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header navbar-inner">
@@ -11,7 +11,7 @@
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <tabset justified="true">
                             <tab heading="Enquiry Filters">
-                                <form name="enquiryFilter" role="form" ng-submit="getFilteredData(filterData,min,max,1,30)">
+                                <form name="enquiryFilter" role="form" ng-submit="getFilteredData(filterData,min,max)">
                                     <div class="row">
                                         <div class="col-sm-6 col-sx-12" ng-controller="DatepickerDemoCtrl">
                                             <div class="form-group">
@@ -128,7 +128,6 @@
                                                     </div>
                                                     <div class="col-sm-6 col-md-6 col-xs-12">
                                                         <div class="form-group multi-sel-div">
-                                                            <span class="input-icon icon-right">
                                                             <ui-select multiple ng-model="filterData.enquiry_locations" name="enquiry_locations" theme="select2" ng-disabled="disabled" style="width:100%;">
                                                                 <ui-select-match placeholder='Select Locations'>{{$item.location}}</ui-select-match>
                                                                 <ui-select-choices repeat="list in locations | filter:$select.search">
@@ -136,7 +135,6 @@
                                                                 </ui-select-choices>
                                                             </ui-select>
                                                             <i class="fa fa-sort-desc"></i>
-                                                            </span>
                                                         </div>
                                                     </div>    
                                                 </span>
@@ -199,19 +197,21 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-6 col-sx-6">
-                                            <div class="form-group">
-                                                <label for="">Budget Min Value </label>
-                                                <input type="text" ng-model="min" name="min" class="form-control" maxlength="8" ng-change="rangeValidateMin(min)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                                            <div class="col-sm-6 col-sx-6">
+                                                <div class="form-group">
+                                                    <label for="">Budget Min Value </label>
+                                                    <input type="text" ng-model="min" name="min" class="form-control" maxlength="8" ng-change="rangeValidateMin(min)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6 col-sx-6">
-                                            <div class="form-group">
-                                                <label for="">Budget Max Value </label>
-                                                <input type="text" ng-model="max" name="max" class="form-control" maxlength="8" ng-change="rangeValidateMax(max)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                            <div class="col-sm-6 col-sx-6">
+                                                <div class="form-group">
+                                                    <label for="">Budget Max Value </label>
+                                                    <input type="text" ng-model="max" name="max" class="form-control" maxlength="8" ng-change="rangeValidateMax(max)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                </div>
                                             </div>
+                                            <rzslider rz-slider-model="min" rz-slider-high="max" rz-slider-options="visSlider.options"></rzslider>
                                         </div>
-                                        <rzslider rz-slider-model="min" rz-slider-high="max" rz-slider-options="visSlider.options"></rzslider>                                        
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12 col-sx-12" align="right">
@@ -225,7 +225,7 @@
                                 </form>
                             </tab>
                             <tab heading="Customer Filters">
-                                <form name="enquiryFilter" role="form" ng-submit="getFilteredData(filterData,min,max,1,30)">
+                                <form name="enquiryFilter" role="form" ng-submit="getFilteredData(filterData,min,max)">
                                     <div class="row">
                                         <div class="col-sm-6 col-sx-6">
                                             <div class="form-group">
@@ -290,4 +290,3 @@
         </div>
     </div>
 </div>
-

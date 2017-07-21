@@ -38,11 +38,12 @@
                                                 <div class="form-group">
                                                     <label for="">Page Title<span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
-                                                        <input type="text" ng-model="contentPage.page_title" name="page_title" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="60" required>
+                                                        <input type="text" ng-model="contentPage.page_title" name="page_title" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="60" >
                                                         <i class="fa fa-address-card"></i>
                                                         <div ng-messages="contentPageForm.page_title.$error">
                                                             <div ng-message="required" class="err">Page title is required.</div>
                                                         </div>
+                                                        <div ng-if="page_title" class="errMsg page_title">{{page_title}}</div>
                                                     </span>
                                                 </div>
                                             </div>

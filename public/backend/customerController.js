@@ -174,7 +174,9 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             var model = $parse(key);// Get the model
                             model.assign($scope, obj[key][0]);// Assigns a value to it
                             selector.push(key);
+                            
                         }
+                        
                         if (sessionAttribute === null || sessionAttribute === '') {
                             $window.sessionStorage.setItem("sessionAttribute", JSON.stringify(selector));
                         } else {

@@ -15,6 +15,7 @@ return [
     's3Path' => "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/",
     'themeName' => '',
     'backendUrl' => 'office.php',
+    'recordsPerPage' =>30,
     'client_id' => 1,
     'recordsPerPage' => 30,
 ];
