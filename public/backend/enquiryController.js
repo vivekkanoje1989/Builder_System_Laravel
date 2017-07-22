@@ -104,20 +104,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.flagForChange = 0;
             });
         }
-        $scope.getLostEnquiries = function ()
-        {
-            $scope.pageHeading = "Lost Enquiries";
-            Data.post('master-sales/getLostEnquiries').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getClosedEnquiries = function ()
-        {
-            $scope.pageHeading = "Closed Enquiries";
-            Data.post('master-sales/getClosedEnquiries').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
+        
         /****************************ENQUIRIES****************************/
 
         /****************************FOLLOWUPS****************************/
@@ -173,11 +160,83 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.flagForChange = 0;
             });
         }
-        $scope.showPreviousFollowups = function ()
+        $scope.previousFollowups = function (id, type, pageNumber, itemPerPage)
         {
-            $scope.pageHeading = "Previous Followups";
-            Data.post('master-sales/getPreviousFollowups').then(function (response) {
-                $scope.listsIndex = response;
+            $scope.itemsPerPage = itemPerPage;
+            $scope.type = type;
+            //$scope.listType = listType;
+            if (type == 0) {
+                $scope.report_name = "Previous Followups";
+                $scope.pagetitle = "My Previous Followups";
+            } else {
+                $scope.report_name = "Team`s Previous Followups";
+                $scope.pagetitle = "Team`s Previous Followups";
+            }            
+            Data.post('master-sales/previousFollowups', {
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.enquiries = response.records;
+                    $scope.enquiriesLength = response.totalCount;
+                } else
+                {
+                    $scope.enquiries = '';
+                    $scope.enquiriesLength = 0;
+                }
+                $scope.flagForChange = 0;
+            });
+        }
+        $scope.lostEnquiries = function (id, type, pageNumber, itemPerPage)
+        {
+            $scope.itemsPerPage = itemPerPage;
+            $scope.type = type;
+            //$scope.listType = listType;
+            if (type == 0) {
+                $scope.report_name = "Lost Enquiries";
+                $scope.pagetitle = "My Lost Enquiries";
+            } else {
+                $scope.report_name = "Team`s Lost Enquiries";
+                $scope.pagetitle = "Team`s Lost Enquiries";
+            }            
+            Data.post('master-sales/getLostEnquiries', {
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.enquiries = response.records;
+                    $scope.enquiriesLength = response.totalCount;
+                } else
+                {
+                    $scope.enquiries = '';
+                    $scope.enquiriesLength = 0;
+                }
+                $scope.flagForChange = 0;
+            });
+        }
+        $scope.bookedEnquiries = function (id, type, pageNumber, itemPerPage)
+        {
+            $scope.itemsPerPage = itemPerPage;
+            $scope.type = type;
+            //$scope.listType = listType;
+            if (type == 0) {
+                $scope.report_name = "Booked Enquiries";
+                $scope.pagetitle = "My Booked Enquiries";
+            } else {
+                $scope.report_name = "Team`s Booked Enquiries";
+                $scope.pagetitle = "Team`s Booked Enquiries";
+            }            
+            Data.post('master-sales/getBookedEnquiries', {
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+            }).then(function (response) {
+                console.log(response);
+                if (response.success) {
+                    $scope.enquiries = response.records;
+                    $scope.enquiriesLength = response.totalCount;
+                } else
+                {
+                    $scope.enquiries = '';
+                    $scope.enquiriesLength = 0;
+                }
+                $scope.flagForChange = 0;
             });
         }
         /****************************FOLLOWUPS****************************/
@@ -457,8 +516,14 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.filterData.toDate = (tdate.getFullYear() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate());
             }           
             Data.post('master-sales/filteredData', {filterData: filterData, minBudget: minBudget, pageNumber: page, itemPerPage: $scope.itemsPerPage,maxBudget: maxBudget, getProcName: $scope.getProcName,teamType:$scope.type}).then(function (response) {
-                $scope.enquiries = response.records;
-                $scope.enquiriesLength = response.totalCount;
+                if (response.success) {
+                    $scope.enquiries = response.records;
+                    $scope.enquiriesLength = response.totalCount;
+                } else
+                {
+                    $scope.enquiries = '';
+                    $scope.enquiriesLength = 0;
+                }
                 $('#showFilterModal').modal('hide');
                 $scope.hideloader();
                 $scope.showFilterData = $scope.filterData;

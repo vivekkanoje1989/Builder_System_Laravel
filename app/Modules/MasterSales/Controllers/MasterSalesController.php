@@ -931,48 +931,81 @@ class MasterSalesController extends Controller {
         return response()->json($result);
     }
 
-    public function showPendingFollowups($type) {
-        return view("MasterSales::pendingFollowup")->with("type", $type);
+    public function lostEnquiries($type) {
+        return view("MasterSales::lostenquiries")->with("type", $type);
     }
 
     public function getLostEnquiries() {// get lost enquiries
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
+        try {
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
 
-        if (empty($request['loggedInUserID']))
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-        else
-            $loggedInUserId = $request['loggedInUserID'];
+           if ($request['teamType'] == 0) { // total
+                if (empty($request['empId']))
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                else
+                    $loggedInUserId = $request['empId'];
+            } else { // team total
+                if (empty($request['empId']))
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                else
+                    $loggedInUserId = $request['empId'];
+                $this->allusers = array();
+                $this->getTeamIds($loggedInUserId);
+                $alluser = $this->allusers;
+                $loggedInUserId = implode(',', $alluser);
+            }
+            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId .'","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,'.$startFrom.','.$request['itemPerPage'].')');
+            $cnt = DB::select('select FOUND_ROWS() as totalCount');
+            $getlostEnquiryDetails = json_decode(json_encode($getlostEnquiryDetails), true);
 
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_lost_enquiries(' . $loggedInUserId . ',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
-
-        if (count($getCustomerEnquiryDetails) != 0) {
-            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
-        } else {
-            $result = ['success' => false, 'records' => 'No Records Found'];
+            if (count($getlostEnquiryDetails) != 0) {
+                $result = ['success' => true, 'records' => $getlostEnquiryDetails ,'totalCount' => $cnt[0]->totalCount];
+            } else {
+                $result = ['success' => false, 'records' => 'No Records Found'];
+            }
+        } catch (Exception $ex) {
+            $result = ['success' => false, 'status' => 412, 'message' => $ex->getMessage()];
         }
         return response()->json($result);
     }
 
-    public function getClosedEnquiries() {// get booked enquiries
+    public function bookedEnquiries($type) {
+        return view("MasterSales::bookedenquiry")->with("type", $type);
+    }
+    public function getBookedEnquiries() {// get booked enquiries
+        try{            
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+        if ($request['teamType'] == 0) { // total
+                if (empty($request['empId']))
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                else
+                    $loggedInUserId = $request['empId'];
+            } else { // team total
+                if (empty($request['empId']))
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                else
+                    $loggedInUserId = $request['empId'];
+                $this->allusers = array();
+                $this->getTeamIds($loggedInUserId);
+                $alluser = $this->allusers;
+                $loggedInUserId = implode(',', $alluser);
+            }
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,'.$startFrom.','.$request['itemPerPage'].')');
+        $getbookedEnquiryDetails = json_decode(json_encode($getbookedEnquiryDetails), true);
 
-        if (empty($request['loggedInUserID']))
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-        else
-            $loggedInUserId = $request['loggedInUserID'];
-
-        $getCustomerEnquiryDetails = DB::select('CALL proc_get_closed_enquiries(' . $loggedInUserId . ',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-        $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
-
-        if (count($getCustomerEnquiryDetails) != 0) {
-            $result = ['success' => true, 'records' => $getCustomerEnquiryDetails];
+        if (count($getbookedEnquiryDetails) != 0) {
+            $result = ['success' => true, 'records' => $getbookedEnquiryDetails];
         } else {
             $result = ['success' => false, 'records' => 'No Records Found'];
+        }        
+        } catch (Exception $ex) {
+            $result = ['success' => false, 'status' => 412, 'message' => $ex->getMessage()];
         }
-        return response()->json($result);
+        return response()->json($result);        
     }
 
     public function showPreviousFollowups($type) {
@@ -1002,7 +1035,7 @@ class MasterSalesController extends Controller {
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
 
-            $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups(' . $loggedInUserId . ',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
             if (count($getCustomerEnquiryDetails) != 0 && !empty($getCustomerEnquiryDetails[0]['id'])) {
@@ -1014,6 +1047,10 @@ class MasterSalesController extends Controller {
             $result = ['success' => false, 'status' => 412, 'message' => $ex->getMessage()];
         }
         return response()->json($result);
+    }
+
+    public function showPendingFollowups($type) {
+        return view("MasterSales::pendingFollowup")->with("type", $type);
     }
 
     public function getPendingFollowups() {// Pending Followups 
