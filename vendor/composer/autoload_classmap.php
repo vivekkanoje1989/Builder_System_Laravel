@@ -13,6 +13,7 @@ return array(
     'CreateBlogManagementsTable' => $baseDir . '/database/migrations/2017_03_18_104247_create_blog_managements_table.php',
     'CreateBlogStagesTable' => $baseDir . '/database/migrations/2017_03_16_104343_create_blog_stages_table.php',
     'CreateBloodGroupsTable' => $baseDir . '/database/migrations/2017_03_16_114232_create_blood_groups_table.php',
+    'CreateBmsConsumptionsTable' => $baseDir . '/database/migrations/2017_07_22_144823_create_bms_consumptions_table.php',
     'CreateCareerManagementsTable' => $baseDir . '/database/migrations/2017_03_24_120812_create_career_managements_table.php',
     'CreateCompaniesTable' => $baseDir . '/database/migrations/2017_04_18_181039_create_companies_table.php',
     'CreateContactUsesTable' => $baseDir . '/database/migrations/2017_03_17_184202_create_contact_uses_table.php',

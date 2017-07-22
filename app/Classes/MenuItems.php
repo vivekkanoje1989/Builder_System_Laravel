@@ -107,7 +107,7 @@ class MenuItems {
                     )),
                 3 => array('id' => '0203', 'name' => 'BMS Consumption', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                     'submenu_ids' => '020301,020302,020303', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                        1 => array('id' => '020301', 'name' => 'SMS Consumption', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        1 => array('id' => '020301', 'name' => 'SMS Consumption', 'icon' => '', 'url' => '/bmsConsumption/smsConsumption', 'slug' => 'smsConsumption', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         2 => array('id' => '020302', 'name' => 'Calls Consumption', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         3 => array('id' => '020303', 'name' => 'Email Consumption', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     )),

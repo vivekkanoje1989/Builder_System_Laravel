@@ -1,4 +1,4 @@
-<div class="modal fade" id="showFilterModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false"  ng-controller="cloudtelephonyController">
+<div class="modal fade" id="showFilterModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header navbar-inner">

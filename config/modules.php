@@ -55,5 +55,6 @@ return [
         "PressRelease",
         "Events",
         "Reports",
+        "BmsConsumption",
     ),
 ];
