@@ -2,16 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/var/www/html/Builder_System_Laravel/config/app.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/cloudtelephonyController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/inboundlogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/routes.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Controllers/CloudCallingLogsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/teamoutboundlogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/showFilter.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

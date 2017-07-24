@@ -10,10 +10,17 @@ Route::group(array('module' => 'BmsConsumption', 'middleware' => ['web'], 'names
     Route::get('/bmsConsumption/smsReport', 'BmsConsumptionController@smsReport');
     Route::get('/bmsConsumption/smsLogs', 'BmsConsumptionController@smsLogs');
     Route::post('/bmsConsumption/allSmsLogs', 'BmsConsumptionController@allSmsLogs');
+    Route::post('/bmsConsumption/allSmsReports', 'BmsConsumptionController@allSmsReports');
     Route::get('/bmsConsumption/smsLogDetails/{id}', 'BmsConsumptionController@smsLogDetails');
+    Route::post('/bmsConsumption/smsLogData', 'BmsConsumptionController@smsLogData');
+    Route::post('/bmsConsumption/filteredData', 'BmsConsumptionController@filteredData');
+    Route::post('/bmsConsumption/filterReportData', 'BmsConsumptionController@filterReportData');
     
     
-//     Route::get('/BmsConsumption/smsLogDetails', function () {
-//        return View::make('BmsConsumption::smsLogDetails');
-//    });
+     Route::get('/BmsConsumption/showSmsLogFilter', function () {
+        return View::make('BmsConsumption::showSmsLogFilter');
+    });
+     Route::get('/BmsConsumption/showSmsReportLogFilter', function () {
+        return View::make('BmsConsumption::showSmsReportLogFilter');
+    });
 });	

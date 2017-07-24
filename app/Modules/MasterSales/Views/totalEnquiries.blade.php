@@ -1,11 +1,5 @@
-<style>
-    
+<style>    
      .close {
-/*        float:right;
-        pointer: cursur;
-        display:inline-block;
-        padding: 3px;
-        background:#ccc;*/
         color:black;
 
     }
@@ -45,36 +39,33 @@
                             <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary" ng-click="exportReport(enquiries)" ng-show="btnExport">
                                 <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                             </a> 
-                        </div>
-                              
+                        </div>                              
                 <br>   
                     </div>
                     <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
                         <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                        <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]])" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
+                        <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                     </div>
                 </div>               
                 <hr>
                 <div class="row" style="border:2px;" id="filter-show">
-                    <!--<div class="col-sm-12 col-xs-12">-->
                        <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}"> 
                                <div class="alert alert-info fade in">
                                    <button class="close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
-                                   <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'model_id' || key == 'status_id' ">{{  value.substring(value.indexOf("_")+1) }}</strong>
+                                   <strong ng-if="key === 'category_id' || key === 'source_id' || key == 'status_id' "><strong>{{  key.substring(0, key.indexOf('_')) }} :</strong>{{  value.substring(value.indexOf("_")+1) }}</strong>
                                    <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'> {{ $index +1 }}){{   emp.first_name  }}  {{ emp.last_name }} </strong>
                                    <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'> {{ $index +1 }}){{   subcat.enquiry_sales_subcategory  }}</strong>
                                    <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'> {{ $index +1 }}){{ subsource.enquiry_subsource }} </strong>
                                    <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'>{{ $index +1 }}) {{ substatus.enquiry_sales_substatus }} </strong>
-                                   <strong ng-if="key === 'test_drive_given' && value == 1 " data-toggle="tooltip" title="Test Drive"> <strong>Test Drive Given:</strong>Yes</strong>
+                                   <strong ng-if="key === 'project_id' " ng-repeat='project in value track by $index'>{{ $index +1 }}) {{ project.project_name }} </strong>                                                                      
                                    <strong ng-if="key === 'verifiedEmailId' && value == 1 "> <strong>Verified Email ID:</strong>Yes</strong>
                                    <strong ng-if="key === 'verifiedMobNo' && value == 1  " data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile No:</strong>Yes</strong>
                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                                   <strong ng-if="key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'model_id' && key != 'test_drive_given' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}"> {{ value}}</strong>
+                                   <strong ng-if="key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
                                </div>
                            </div>
-                       </b>                        
-                   <!--</div>-->
+                       </b>  
                </div>                             
                 <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">
                     <thead>
@@ -179,7 +170,7 @@
                                     
                                         <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus != null" ng-init="enquiry_status_length = enquiry.sales_status.length + enquiry.enquiry_sales_substatus.length; enquiry_status = enquiry.sales_status +' / '+ enquiry.enquiry_sales_substatus "> 
                                                 <b>Status : </b>  
-                                                <span data-toggle="tooltip" title="{{enquiry_status}}/{{ enquiry.enquiry_sales_substatus }}">{{ enquiry_status  | limitTo : 45 }}</span>
+                                                <span data-toggle="tooltip" title="{{enquiry_status}}">{{ enquiry_status  | limitTo : 45 }}</span>
                                                 <span ng-if="enquiry_status_length > 45" data-toggle="tooltip" title="{{enquiry_status}}">...</span>
                                 <hr class="enq-hr-line">
                                         </span>
@@ -245,7 +236,7 @@
                     </tbody>
                 </table>
                 <hr>
-                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]])" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
+                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
             <div ng-if="enquiriesLength == 0 ">
                 <div>
                     <center><b>No Enquiries Found</b></center>

@@ -70,25 +70,25 @@
                             <th style="width:5%">Sr. No.</th>
                             <th style="width: 15%">Sent Date & Time</th>
                             <th style="width: 10%">Transaction Id</th>
-                            <th style="width: 15%">SMS Body</th>
-                            <th style="width: 10%">SMS Type</th>
-                            <th style="width: 10%">Success</th>
-                            <th style="width: 10%">Fail</th>
-                            <th style="width: 10%">Total</th>
+                            <th style="width: 35%">SMS Body</th>
+                            <th style="width: 5%">SMS Type</th>
+                            <th style="width: 5%">Success</th>
+                            <th style="width: 5%">Fail</th>
+                            <th style="width: 5%">Total</th>
                             <th style="width: 5%">Credits</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="smslog" dir-paginate="smsLog in smsLogsList | filter:search | itemsPerPage: itemsPerPage" total-items="{{ smsLogLength}}">
                             <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>  
-                            <td>{{ smsLog.sent_date_time}}</td>
+                            <td>{{ smsLog.dateTime}}</td>
                             <td><a href="[[ config('global.backendUrl') ]]#/bmsConsumption/smsLogDetails/{{smsLog.externalId1}}">{{ smsLog.externalId1}}</a></td>
                             <td>{{ smsLog.sms_body}}</td>
                             <td>{{ smsLog.sms_type}}</td>
-                            <td>{{ smsLog.sms_type}}</td>
-                            <td>{{ smsLog.total}}</td>
-                            <td>{{ smsLog.sms_type}}</td>
-                            <td>{{ smsLog.id}}</td>
+                            <td>{{ successSms}}</td>
+                            <td>{{ failSms}}</td>
+                            <td>{{ totalSms}}</td>
+                            <td>{{ credits }}</td>
                         </tr>
                         <tr>
                             <td colspan="8"  ng-show="(smsLogsList|filter:search).length == 0" align="center">Record Not Found</td>   

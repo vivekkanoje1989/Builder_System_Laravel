@@ -616,6 +616,8 @@ angular.module('app')
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/smsConsumptionController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     }
                                                                     );
@@ -625,11 +627,11 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                
+
                                 .state('smsDetails', {
                                     url: '/bmsConsumption/smsLogDetails/:transactionId',
                                     templateUrl: function (stateParams) {
-                                        return '/bmsConsumption/smsLogDetails' + stateParams.transactionId;
+                                        return '/bmsConsumption/smsLogDetails/' + stateParams.transactionId;
                                     },
                                     controller: 'smsController',
                                     requiredLogin: true,
@@ -648,6 +650,8 @@ angular.module('app')
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/smsConsumptionController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -1205,7 +1209,7 @@ angular.module('app')
                                 .state('pendingfollowups', {
                                     url: '/sales/pendingfollowups',
                                     templateUrl: function () {
-                                        return '/master-sales/showPendingFollowups';
+                                        return '/master-sales/showPendingFollowups/0';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1216,7 +1220,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1225,6 +1229,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1236,7 +1241,7 @@ angular.module('app')
                                 .state('previousfollowups', {
                                     url: '/sales/previousfollowups',
                                     templateUrl: function () {
-                                        return '/master-sales/showPreviousFollowups';
+                                        return '/master-sales/showPreviousFollowups/0';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1247,7 +1252,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1256,6 +1261,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1394,7 +1400,7 @@ angular.module('app')
                                 .state('teampendingfollowups', {
                                     url: '/sales/teampendingfollowups',
                                     templateUrl: function () {
-                                        return '/master-sales/teamPendingFollowups';
+                                        return '/master-sales/showPendingFollowups/1';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1405,7 +1411,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1414,6 +1420,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1425,7 +1432,7 @@ angular.module('app')
                                 .state('teampreviousfollowups', {
                                     url: '/sales/teampreviousfollowups',
                                     templateUrl: function () {
-                                        return '/master-sales/teamPreviousFollowups';
+                                        return '/master-sales/showPreviousFollowups/1';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1436,7 +1443,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1445,6 +1452,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 }

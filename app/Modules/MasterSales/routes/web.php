@@ -43,12 +43,12 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
 //    Route::get('/master-sales/showTodaysFollowups', function () {
 //        return view('MasterSales::todaysFollowups');
 //    });
-    Route::get('/master-sales/showPendingFollowups', function () {
-        return view('MasterSales::pendingFollowup');
-    });
-    Route::get('/master-sales/showPreviousFollowups', function () {
-        return view('MasterSales::previousFollowup');
-    });
+//    Route::get('/master-sales/showPendingFollowups', function () {
+//        return view('MasterSales::pendingFollowup');
+//    });
+//    Route::get('/master-sales/showPreviousFollowups', function () {
+//        return view('MasterSales::previousFollowup');
+//    });
     /****************************FOLLOWUPS****************************/
     
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
@@ -104,6 +104,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     
     /****************************FOLLOWUPS****************************/
     Route::get('/master-sales/showTodaysFollowups/{type}', 'MasterSalesController@showTodaysFollowups');// today followups with type
+    Route::get('/master-sales/showPendingFollowups/{type}', 'MasterSalesController@showPendingFollowups');// pending followups with type
+    Route::get('/master-sales/showPreviousFollowups/{type}', 'MasterSalesController@showPreviousFollowups');// pending followups with type
     Route::post('/master-sales/getTodaysFollowups', 'MasterSalesController@getTodaysFollowups'); // get TodaysFollowups    
     Route::post('/master-sales/getPendingFollowups', 'MasterSalesController@getPendingFollowups'); // get getPendingFollowups
     Route::post('/master-sales/getPreviousFollowups', 'MasterSalesController@getPreviousFollowups'); // get getPreviousFollowups
