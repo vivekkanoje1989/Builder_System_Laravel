@@ -28,11 +28,6 @@
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-blue">
                 <span class="widget-caption">Source Name</span>
-                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
             </div>
             <div class="widget-body no-padding">
 

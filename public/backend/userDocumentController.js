@@ -10,14 +10,15 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
         $scope.getUserDocumentsLists = function (employee_id)
         {
             $scope.errorMsgg = '';
-            if (employee_id == 'undefined') {
+            if (typeof employee_id == 'undefined') {
                 $scope.showDiv = false;
             } else {
                 $scope.showDiv = true;
+            
+                Data.post('user-document/userDocumentLists', {'employee_id': employee_id}).then(function (response) {
+                    $scope.documentRow = response.result;
+                });
             }
-            Data.post('user-document/userDocumentLists', {'employee_id': employee_id}).then(function (response) {
-                $scope.documentRow = response.result;
-            });
         };
         $scope.updateDocument = function (list, index)
         {

@@ -1,3 +1,6 @@
+.btn-right{
+    float: right; 
+}
 .enq-hr-line{
         margin-top: 5px !important;
         margin-bottom: 8px !important;
@@ -10,9 +13,13 @@
 }
 .foldr-main{
     float: left;
+    margin: 15px 12px 20px 11px;
+    width: 11%;
+        
+    /*float: left;
     margin-right: 20px;
     margin-bottom: 20px;
-    width: 175px;
+    width: 175px;*/
 }
 .foldr-icon-div{
     position: absolute !important;
@@ -4137,8 +4144,9 @@ a:active {
     margin: 0;
     float: left;
     text-align: left;
-    font-weight: 400 !important;
-    font-size: 13px
+    /*font-weight: 400 !important;*/
+    font-weight: bold !important;
+    font-size: 13px;
 }
 
 .widget-header.lined {

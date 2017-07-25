@@ -49,24 +49,26 @@
 </style>
 <div class="row" ng-controller="storageCtrl" ng-init="allImages('<?php echo $folderId; ?>'); getSharedEmployees('<?php echo $folderId; ?>'); getSubDirectory('<?php echo $folderId; ?>');" >  
     <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
-                <span class="widget-caption">My Storage</span>
-                <a href="" data-toggle="modal" data-target="#folderModel" ng-click="initialModal()" class="btn btn-primary">Upload new folder</a> 
-                <a href="" data-toggle="modal" data-target="#storageModel" ng-click="initialModal()" class="btn btn-primary">Upload new file</a>
-                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">My Storage</span>                
             </div>
-            <div class="widget-body table-responsive">     
+            <div class="widget-body table-responsive">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                                <a href="" data-toggle="modal" data-target="#folderModel" ng-click="initialModal()" class="btn btn-primary btn-right" style="margin-left:10px;">Upload new folder</a> 
+                                <a href="" data-toggle="modal" data-target="#storageModel" ng-click="initialModal()" class="btn btn-primary btn-right">Upload new file</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>   
 
-                <label>Folders</label>
-                <hr/> 
+                <h5 class="row-title ng-scope" ng-if="subDirectories != ''"><i class="fa fa-folder-open-o"></i>Folders</h5> 
                 <div class="row" >   
                     <div class="foldr-main" ng-repeat="imgs in subDirectories track by $index | unique:'imgs' ">
-
                         <div class="databox databoxone databox-halved radius-bordered databox-shadowed databox-vertical">
                             <div class="databox-top bg-darkorange no-padding">
                                 <div class="databox-icon" style="margin-top:5px;">
@@ -95,14 +97,10 @@
                         <br/><br/>
                     </div>
                 </div>    
-
-
-                Images
-                <hr/>
-
-
+                <hr>
+                <h5 class="row-title ng-scope" ng-if="folderImages != ''"><i class="fa fa-picture-o"></i>Images</h5>
                 <div class="row">
-                    <div class="col-md-2" ng-repeat="imgs in folderImages track by $index | unique:'imgs' " style="margin:0 0 25px 0;">
+                    <div class="col-md-2" ng-repeat="imgs in folderImages track by $index | unique:'imgs' " style="margin:15px 0 25px 0;">
                         <div class="img-wrap"> 
                             <a data-reveal-id="sharing_files" ng-click="imageShared(imgs.id); getSharedImagesEmployees(imgs.id);"  data-toggle="modal" data-target="#sharedImageModel" >
                                 <img title="Share" ng-src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
@@ -218,7 +216,7 @@
                             </span>
                         </div>     
                         <div class="modal-footer" align="center">
-                            <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                            <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
                         </div> 
                     </div>
                 </form>           
@@ -268,7 +266,7 @@
                             </span>
                         </div>
                         <div class="modal-footer" align="center">
-                            <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                            <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
                         </div>
                     </div>
                 </form>                    

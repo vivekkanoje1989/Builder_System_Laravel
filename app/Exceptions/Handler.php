@@ -47,6 +47,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        /*if ($exception instanceof TokenMismatchException){
+            Auth()->guard('admin')->logout();
+            \Session::flush();
+            return response()->json(['error' => 'Unauthenticated.'], 200);
+        }*/
         return parent::render($request, $exception);
     }
     
@@ -64,6 +69,13 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
+        /*if ($request->expectsJson()) {
+            return response()->json(['error' => 'Unauthenticated.'], 200);
+        }
+        Auth()->guard('admin')->logout();
+        \Session::flush();
+        return response()->json(['error' => 'Unauthenticated.'], 200);
+        return redirect('/sessiontimeout');*/
         if ($request->expectsJson()) {
             return redirect('/sessiontimeout');
 //            return response()->json(['error' => 'Unauthenticated.'], 401);

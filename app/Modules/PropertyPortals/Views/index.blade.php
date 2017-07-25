@@ -1,14 +1,9 @@
 <div class="row" ng-controller="propertyPortalsController" ng-init="portalTypeList()">
     <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Property Portals</span>                
-                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
-            </div>            
+            </div>
             <div class="widget-body table-responsive">
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
@@ -32,6 +27,5 @@
             </div>
         </div>
     </div>
-
 </div> 
 

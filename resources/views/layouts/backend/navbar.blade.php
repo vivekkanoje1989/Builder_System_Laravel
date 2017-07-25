@@ -17,11 +17,11 @@
         <div class="navbar-header pull-right">
             <div class="navbar-account">
                 <ul class="account-area">
-                    <li>
+<!--                    <li>
                         <a class=" dropdown-toggle" data-toggle="dropdown" title="Help" href="#">
                             <i class="icon fa fa-warning"></i>
                         </a>
-                        <!--Notification Dropdown-->
+                        Notification Dropdown
                         <ul class="pull-right dropdown-menu dropdown-arrow dropdown-notifications">
                             <li>
                                 <a href="#">
@@ -97,14 +97,14 @@
                                 </span>
                             </li>
                         </ul>
-                        <!--/Notification Dropdown-->
+                        /Notification Dropdown
                     </li>
                     <li>
                         <a class="dropdown-toggle" data-toggle="dropdown" title="Mails" href="#">
                             <i class="icon fa fa-envelope"></i>
                             <span class="badge">3</span>
                         </a>
-                        <!--Messages Dropdown-->
+                        Messages Dropdown
                         <ul class="pull-right dropdown-menu dropdown-arrow dropdown-messages">
                             <li>
                                 <a href="#">
@@ -164,7 +164,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <!--/Messages Dropdown-->
+                        /Messages Dropdown
                     </li>
 
                     <li>
@@ -172,7 +172,7 @@
                             <i class="icon fa fa-tasks"></i>
                             <span class="badge">4</span>
                         </a>
-                        <!--Tasks Dropdown-->
+                        Tasks Dropdown
                         <ul class="pull-right dropdown-menu dropdown-tasks dropdown-arrow ">
                             <li class="dropdown-header bordered-darkorange">
                                 <i class="fa fa-tasks"></i>
@@ -221,11 +221,11 @@
                                 <button class="btn btn-xs btn-default shiny darkorange icon-only pull-right"><i class="fa fa-check"></i></button>
                             </li>
                         </ul>
-                        <!--/Tasks Dropdown-->
+                        /Tasks Dropdown
                     </li>
                     <li>
                         <a chat-link class="wave in" title="Chat"></a>
-                    </li>
+                    </li>-->
                     <li>
                         <a class="login-area dropdown-toggle" data-toggle="dropdown" ng-controller="hrController">
                             <div class="avatar" title="View your public profile">
@@ -286,8 +286,10 @@
                     <!--Note: notice that setting div must start right after account area list.
                     no space must be between these elements-->
                     <!-- Settings -->
-                </ul><div class="setting">
-                </div><div class="setting-container">
+                </ul>
+<!--                <div class="setting">
+                </div>-->
+                <div class="setting-container">
                     <label>
                         <input type="checkbox" id="checkbox_fixednavbar" ng-model="settings.fixed.navbar">
                         <span class="text">Fixed Navbar</span>

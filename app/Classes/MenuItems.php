@@ -102,7 +102,7 @@ class MenuItems {
                         )),
                     11 => array('id' => '0202011', 'name' => 'Bank Accounts', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                         'submenu_ids' => '020201101', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '020201101', 'name' => 'Manage Bank Accounts', 'icon' => '', 'url' => '/bankAccounts/index', 'slug' => 'bankAccountsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '020201101', 'name' => 'Manage Bank Accounts', 'icon' => '', 'url' => '/bank-accounts/index', 'slug' => 'bankAccountsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     )),
                 3 => array('id' => '0203', 'name' => 'BMS Consumption', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,

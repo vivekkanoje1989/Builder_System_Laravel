@@ -1,26 +1,35 @@
 <div class="row" ng-controller="locationCtrl" ng-init="manageLocation()">  
     <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
-                <span class="widget-caption">Manage Location</span>
-                <a href="" data-toggle="modal" data-target="#LocationModal" ng-click="initialModal(0, '', '', '', '')" class="btn btn-info">Create New Location</a>&nbsp;&nbsp;&nbsp;
-                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">Manage Location</span>                
             </div>
-            <div class="widget-body table-responsive">     
+            <div class="widget-body table-responsive">
                 <div class="row">
-                    <div class="col-sm-3 col-xs-12">
-                        <label for="search">Search:</label>
-                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                    <div class="col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="search">Search:</label>
+                            <span class="input-icon icon-right">
+                                <input type="text" ng-model="search" name="search" class="form-control">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </span>
+                        </div>
                     </div>
                     <div class="col-sm-3 col-xs-12">
-                        <label for="search">Records per page:</label>
-                        <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
+                        <div class="form-group">
+                            <label for="search">Records per page:</label>
+                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
+                        </div>
                     </div>
-                </div><br>           
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                                <a href="" data-toggle="modal" data-target="#LocationModal" ng-click="initialModal(0, '', '', '', '')" class="btn btn-primary btn-right">Create New Location</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>           
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>

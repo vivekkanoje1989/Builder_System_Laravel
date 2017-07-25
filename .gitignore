@@ -1,15 +1,9 @@
+/config/database.php
+/dbcredentials
 /node_modules
 /.idea
 Homestead.json
 Homestead.yaml
-<<<<<<< HEAD
 /vendor/
 /nbproject/private/
-=======
-<<<<<<< HEAD
 /vendor/
-/nbproject/private/
-=======
-/vendor/
->>>>>>> 038ab028d7f9e7141251f0284df769d847a40480
->>>>>>> 080011715598c475dc4cc36bfbef87eb2d7c1ce9

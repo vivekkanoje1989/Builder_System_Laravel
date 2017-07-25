@@ -1,19 +1,22 @@
 <div class="row" ng-controller="storageCtrl" ng-init="getStorageList()">  
     <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
-                <span class="widget-caption">My Storage</span>
-                <a href="" data-toggle="modal" data-target="#storageModel"  class="btn btn-primary">Upload new</a> &nbsp;&nbsp;&nbsp;
-                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">My Storage</span>                
             </div>
-            <div class="widget-body table-responsive">     
+            <div class="widget-body table-responsive">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                                <a href="" data-toggle="modal" data-target="#storageModel" class="btn btn-primary btn-right" style="margin-right: 20px;">Upload new</a>
+                            </span>
+                        </div>
+                    </div>
+                </div> 
 
                 <div class="foldr-main" ng-repeat="imgs in directories track by $index | unique:'imgs' ">
-
                     <div class="databox databox-lg databox-halved radius-bordered databox-shadowed databox-vertical">
                         <div class="databox-top bg-gray-custom no-padding">
                             <div class="databox-icon" style="margin-top:5px;">
@@ -60,7 +63,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
                     </div> 
                 </form>           
             </div>
@@ -110,7 +113,7 @@
                             </span>
                         </div>
                         <div class="modal-footer" align="center">
-                            <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                            <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
                         </div>
                     </div>
                 </form>                    

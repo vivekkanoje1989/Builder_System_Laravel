@@ -48,22 +48,14 @@
 </style>
 <div class="row" ng-controller="storageCtrl" ng-init="getmyStorageList(); getMySharedImages();">  
     <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
-                <span class="widget-caption">Shared with Me</span>
-                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">Shared with Me</span>                
             </div>
-
-            <div class="widget-body table-responsive">     
-                <label>Folders</label>
-                <hr/>
-                <div class="row" >
+            <div class="widget-body table-responsive" >     
+                <h5 class="row-title ng-scope" ng-if="directories != ''"><i class="fa fa-folder-open-o"></i>Folders</h5>
+                <div class="row" ng-if="directories != ''">
                     <div class="foldr-main" ng-repeat="imgs in directories track by $index | unique:'imgs' ">
-
                         <div class="databox databoxone databox-halved radius-bordered databox-shadowed databox-vertical">
                             <div class="databox-top bg-gray-custom no-padding">
                                 <div class="databox-icon" style="margin-top:5px;">
@@ -84,9 +76,9 @@
                         </div>
                     </div>
                 </div>     
-                    <label>Images</label>
-                    <hr/>
-                    <div class="row">
+                <hr>
+                <h5 class="row-title ng-scope" ng-if="myImageStore != ''"><i class="fa fa-picture-o"></i>Images</h5>
+                    <div class="row" ng-if="myImageStore != ''">
                         <div class="col-md-2" ng-repeat="imgs in myImageStore track by $index | unique:'imgs' " style="margin:0 0 25px 0;">
                             <div class="img-wrap"> 
                                 <a  data-reveal-id="sharing_files" ng-click="imageShared(imgs.id); getSharedImagesEmployees(imgs.id)"  data-toggle="modal" data-target="#imageModel" >
