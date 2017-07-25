@@ -1115,7 +1115,7 @@ angular.module('app')
                                 .state('lostenquiries', {
                                     url: '/sales/lostenquiries',
                                     templateUrl: function () {
-                                        return '/master-sales/lostEnquiries';
+                                        return '/master-sales/lostEnquiries/0';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1126,7 +1126,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select','toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1135,6 +1135,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1143,21 +1144,21 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state('closedenquiries', {
-                                    url: '/sales/closedenquiries',
+                                .state('bookedenquiries', {
+                                    url: '/sales/bookedenquiries',
                                     templateUrl: function () {
-                                        return '/master-sales/closeEnquiries';
+                                        return '/master-sales/bookedEnquiries/0';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Closed Enquiry'
+                                        label: 'Booked Enquiry'
                                     },
                                     resolve: {
                                         deps:
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select','toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1166,6 +1167,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1305,7 +1307,7 @@ angular.module('app')
                                 .state('teamlostenquiries', {
                                     url: '/sales/teamlostenquiries',
                                     templateUrl: function () {
-                                        return '/master-sales/teamLostEnquiries';
+                                        return '/master-sales/lostEnquiries/1';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1316,7 +1318,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select','toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1325,6 +1327,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
+                                                                             '/backend/app/controllers/select.js', 
                                                                         ]
                                                                     });
                                                                 }
@@ -1333,21 +1336,21 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                .state('teamclosedenquiries', {
-                                    url: '/sales/teamclosedenquiries',
+                                .state('teambookedenquiries', {
+                                    url: '/sales/teambookedenquiries',
                                     templateUrl: function () {
-                                        return '/master-sales/teamClosedEnquiries';
+                                        return '/master-sales/bookedEnquiries/1';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team Closed Enquiry'
+                                        label: 'Team Booked Enquiry'
                                     },
                                     resolve: {
                                         deps:
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select','toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1356,6 +1359,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js', 
                                                                         ]
                                                                     });
                                                                 }

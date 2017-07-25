@@ -2,6 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/showSmsLogFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/smsConsumptionController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/smsLogs.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/smsReport.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/showSmsReportLogFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/smsLogDetails.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Controllers/BmsConsumptionController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/routes/web.php</file>
+        </group>
     </open-files>
 </project-private>

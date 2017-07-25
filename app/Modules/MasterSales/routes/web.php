@@ -31,9 +31,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
 //    Route::get('/master-sales/totalEnquiries', function () {
 //        return view('MasterSales::totalEnquiries');
 //    });
-    Route::get('/master-sales/lostEnquiries', function () {
-        return view('MasterSales::lostEnquiries');
-    });
+//    Route::get('/master-sales/lostEnquiries', function () {
+//        return view('MasterSales::lostEnquiries');
+//    });
     Route::get('/master-sales/closeEnquiries', function () {
         return view('MasterSales::closeEnquiries');
     });
@@ -98,8 +98,10 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     /****************************ENQUIRIES****************************/
     Route::get('/master-sales/totalEnquiry/{type}', 'MasterSalesController@totalEnquiry'); // get total enq with type
     Route::post('/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing
-    Route::post('/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries'); // get all lost enquiries
-    Route::post('/master-sales/getClosedEnquiries', 'MasterSalesController@getClosedEnquiries'); // getCloseEnquiries
+    Route::get('/master-sales/lostEnquiries/{type}', 'MasterSalesController@lostEnquiries'); // get all lost enquiries
+    Route::post('/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries'); // get lost enquiries listing
+    Route::get('/master-sales/bookedEnquiries/{type}', 'MasterSalesController@bookedEnquiries'); // get all booked enquiries 
+    Route::post('/master-sales/getBookedEnquiries', 'MasterSalesController@getBookedEnquiries'); // get Booked  Enquiries
     /****************************ENQUIRIES****************************/
     
     /****************************FOLLOWUPS****************************/
@@ -108,7 +110,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/showPreviousFollowups/{type}', 'MasterSalesController@showPreviousFollowups');// pending followups with type
     Route::post('/master-sales/getTodaysFollowups', 'MasterSalesController@getTodaysFollowups'); // get TodaysFollowups    
     Route::post('/master-sales/getPendingFollowups', 'MasterSalesController@getPendingFollowups'); // get getPendingFollowups
-    Route::post('/master-sales/getPreviousFollowups', 'MasterSalesController@getPreviousFollowups'); // get getPreviousFollowups
+    Route::post('/master-sales/previousFollowups', 'MasterSalesController@previousFollowups'); // get getPreviousFollowups
     /****************************FOLLOWUPS****************************/
     
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/

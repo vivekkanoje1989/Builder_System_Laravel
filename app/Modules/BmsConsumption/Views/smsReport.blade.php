@@ -20,7 +20,7 @@
 </style>
 <div class="row" ng-controller="smsController" ng-init="smsLogsReport([[$loggedInUserId]], 1, [[config('global.recordsPerPage')]])">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6">   
             <div class="widget">
                 <div class="widget-header ">
                     <span class="widget-caption">Sms Logs</span>

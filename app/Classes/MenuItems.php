@@ -140,7 +140,7 @@ class MenuItems {
                         4 => array('id' => '040104', 'name' => 'Previous Followups', 'icon' => '', 'url' => '/sales/previousfollowups', 'slug' => 'previousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         5 => array('id' => '040105', 'name' => 'Total Enquiries', 'icon' => '', 'url' => '/sales/totalenquiries', 'slug' => 'enquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         6 => array('id' => '040106', 'name' => 'Lost Enquiries', 'icon' => '', 'url' => '/sales/lostenquiries', 'slug' => 'lostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        7 => array('id' => '040107', 'name' => 'Closed Enquiries', 'icon' => '', 'url' => '/sales/closedenquiries', 'slug' => 'closedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        7 => array('id' => '040107', 'name' => 'Booked Enquiries', 'icon' => '', 'url' => '/sales/bookedenquiries', 'slug' => 'bookedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         8 => array('id' => '040108', 'name' => 'Reassigned Enquiries', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         9 => array('id' => '040109', 'name' => 'Team\'s Enquiries', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
                             'submenu_ids' => '04010901,04010902,04010903,04010904,04010905,04010906', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
@@ -149,7 +149,7 @@ class MenuItems {
                             3 => array('id' => '04010903', 'name' => 'Previous Followups', 'icon' => '', 'url' => '/sales/teampreviousfollowups', 'slug' => 'teampreviousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             4 => array('id' => '04010904', 'name' => 'Total Enquiries', 'icon' => '', 'url' => '/sales/teamtotalenquiries', 'slug' => 'teamtotalenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             5 => array('id' => '04010905', 'name' => 'Lost Enquiries', 'icon' => '', 'url' => '/sales/teamlostenquiries', 'slug' => 'teamlostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            6 => array('id' => '04010906', 'name' => 'Closed Enquiries', 'icon' => '', 'url' => '/sales/teamclosedenquiries', 'slug' => 'teamclosedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            6 => array('id' => '04010906', 'name' => 'Booked Enquiries', 'icon' => '', 'url' => '/sales/teambookedenquiries', 'slug' => 'teambookedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     )),
                     2 => array('id' => '0402', 'name' => 'Deal Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
