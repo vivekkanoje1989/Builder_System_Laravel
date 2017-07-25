@@ -283,6 +283,7 @@ class CloudCallingLogsController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
 //        $this->allusers = array();
+       // print_r($request);exit;
         $filterData = $request['filterData'];
         $ids = [];
 
@@ -341,7 +342,7 @@ class CloudCallingLogsController extends Controller {
 
 
 
-        $getInboundLogs = DB::select('CALL' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fromDate"] . '","' .
+        $getInboundLogs = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fromDate"] . '","' .
                         $filterData["toDate"] . '","' . $filterData["callstatus"] . '","' . $filterData["virtual_no"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
 
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");

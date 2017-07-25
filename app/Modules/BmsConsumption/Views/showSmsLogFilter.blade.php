@@ -1,4 +1,4 @@
-<div class="modal fade" id="showFilterModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
+<div class="modal fade" id="showSmsFilterModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header navbar-inner">
@@ -11,24 +11,6 @@
 
 
                         <form name="calllogsFilter" role="form" ng-submit="filteredData(filterData, 1, [[ config('global.recordsPerPage') ]])">
-                            <div class="row" ng-controller="employeesWiseTeamCtrl">
-                                <div class="col-sm-6 col-sx-12" ng-if="employeesData.length > 0 && type == 1">
-                                    <div class="form-group">
-                                        <label for="">Select Call Answered By</label>
-                                        <span class="input-icon icon-right">
-                                            <ui-select multiple ng-model="filterData.empId" name="empId" theme="select2"  style="width: 100%;">
-                                                <ui-select-match placeholder='Select Employee'>{{ $item.first_name}} {{$item.last_name}}</ui-select-match>
-                                                <ui-select-choices repeat="list in employeesData | filter:$select.search " ng-hide="!$select.open">
-                                                    <span>
-                                                        {{ list.first_name}} {{ list.last_name}}
-                                                    </span>
-                                                </ui-select-choices>
-                                            </ui-select>
-                                            <i class="fa fa-sort-desc"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-sm-6 col-xs-12" ng-controller="DatepickerDemoCtrl">
                                     <div class="form-group">
@@ -57,29 +39,36 @@
                                     </div>
                                 </div>
                             </div>                                   
-                            <div class="row" ng-controller="virtualnumberCtrl">
+                            <div class="row">
                                 <div class="col-sm-6 col-xs-12">
                                     <div class="form-group">
-                                        <label for="">Virtual Number</label>
+                                        <label for="">Mobile Number</label>
                                         <span class="input-icon icon-right">
-                                            <select ng-model="filterData.virtual_no" name="virtual_no" class="form-control">
-                                                <option value="">Select virtual number</option>
-                                                <option ng-repeat="list in virtualnolist track by $index" value="{{list.forwarding_number_knowlarity}}">{{list.virtual_display_number}}</option>
-                                            </select>
-                                            <i class="fa fa-sort-desc"></i>
+                                            <input type="text" name="mobile_number" ng-model="filterData.mobile_number" class="form-control">
                                         </span>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-6 col-xs-12">
                                     <div class="form-group">
-                                        <label for="">Call Status</label>
+                                        <label for="">Sms Type</label>
                                         <span class="input-icon icon-right">
-                                            <select ng-model="filterData.callstatus" name="callstatus" class="form-control">
-                                                <option value="">Select call status</option>
-                                                <option ng-repeat="status in statuscall track by $index" value="{{status}}">{{status}}</option>
+                                            <select ng-model="filterData.sms_type" name="sms_type" class="form-control">
+                                                <option value=""> Sms Type</option>
+                                                <option value="0">Regular Sms</option>
+                                                <option value="1">Flash Sms</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label for="">Transaction Id</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" name="externalId1" ng-model="filterData.externalId1" class="form-control">
                                         </span>
                                     </div>
                                 </div>
@@ -94,9 +83,6 @@
                                 </div>
                             </div>
                         </form>
-
-
-
                     </div>
                 </div>
             </div>

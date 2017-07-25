@@ -51,3 +51,4 @@ Route::group(array('module' => 'CloudTelephony', 'middleware' => ['auth:admin'],
         return View::make('CloudTelephony::showoutboundFilter');
     });
 });
+

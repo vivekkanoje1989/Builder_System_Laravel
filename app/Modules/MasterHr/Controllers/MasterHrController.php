@@ -822,7 +822,7 @@ class MasterHrController extends Controller {
             if (!empty($request['data']['password'])) {
                 $password = $request['data']['password'];
                 $employee->password = \Hash::make($password);
-
+                
                 $templatedata['employee_id'] = $employee->id;
                 $templatedata['client_id'] = $employee->client_id;
                 $templatedata['template_setting_customer'] = 0;
@@ -845,6 +845,7 @@ class MasterHrController extends Controller {
                     $password
                 );
                 $result = CommonFunctions::templateData($templatedata);
+              
                 if ($employee->update()) {
                     $result = ['success' => true];
                     return json_encode($result);
