@@ -40,10 +40,6 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         });
     };
     
-        $scope.data = function () {
-        alert('fgfg');
-    }
-    
     $scope.logout = function (logoutData) {
         $scope.showloader();
         Data.post('logout', {

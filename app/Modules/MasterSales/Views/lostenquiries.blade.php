@@ -40,7 +40,7 @@
                    </div> 
                     </div>
                     <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
-                       <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{filtered.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
+                       <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
                         <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'lostEnquiries','', [[$type]], newPageNumber)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                     </div>
                 </div> 
@@ -80,7 +80,7 @@
                             <th class="enq-table-th">Customer</th>
                             <th class="enq-table-th">Enquiry</th>
                             <th class="enq-table-th">History</th>
-                            <th class="enq-table-th">Next</th>
+                            <th class="enq-table-th">Lost Reason</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -209,7 +209,15 @@
 
                             </td>
                             <td width="20%">
-                                <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            
+                                <!--<div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>-->
+                                <span ng-if="enquiry.reason != null && enquiry.reason != '' " data-toggle="tooltip" title="{{enquiry.reason}}">
+                                    {{enquiry.reason | limitTo : 45 }}
+                                        <span ng-if="enquiry.sub_reason != null && enquiry.sub_reason != '' " data-toggle="tooltip" title="{{enquiry.sub_reason }}">
+                                          -{{ enquiry.sub_reason | limitTo : 45 }}                                        
+                                        </span>
+                                    <span ng-if="enquiry.reason  > 45" data-toggle="tooltip" title="{{enquiry.reason}}">...</span>                                                                        
+                                     <hr class="enq-hr-line">
+                                </span> 
                             </td>
                         </tr>
                         <tr ng-show="(enquiries|filter:search).length == 0">

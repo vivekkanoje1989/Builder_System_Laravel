@@ -31,20 +31,25 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/lib/jquery/charts/sparkline/jquery.sparkline.js',
-                                                        '/backend/lib/jquery/charts/easypiechart/jquery.easypiechart.js',
-                                                        '/backend/lib/jquery/charts/flot/jquery.flot.js',
-                                                        '/backend/lib/jquery/charts/flot/jquery.flot.resize.js',
-                                                        '/backend/lib/jquery/charts/flot/jquery.flot.pie.js',
-                                                        '/backend/lib/jquery/charts/flot/jquery.flot.tooltip.js',
-                                                        '/backend/lib/jquery/charts/flot/jquery.flot.orderBars.js',
-                                                        '/backend/app/controllers/dashboard.js',
-                                                        '/backend/app/directives/realtimechart.js'
-                                                    ]
-                                                });
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/lib/jquery/charts/sparkline/jquery.sparkline.js',
+                                                                    '/backend/lib/jquery/charts/easypiechart/jquery.easypiechart.js',
+                                                                    '/backend/lib/jquery/charts/flot/jquery.flot.js',
+                                                                    '/backend/lib/jquery/charts/flot/jquery.flot.resize.js',
+                                                                    '/backend/lib/jquery/charts/flot/jquery.flot.pie.js',
+                                                                    '/backend/lib/jquery/charts/flot/jquery.flot.tooltip.js',
+                                                                    '/backend/lib/jquery/charts/flot/jquery.flot.orderBars.js',
+                                                                    '/backend/app/controllers/dashboard.js',
+                                                                    '/backend/app/directives/realtimechart.js'
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
                                             }
                                         ]
                                     }
@@ -3226,7 +3231,7 @@ angular.module('app')
 
 
                                 .state('companiesIndex', {
-                                    url: '/manage-company/index',
+                                    url: '/companies/index',
                                     templateUrl: '/manage-companies/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -3254,7 +3259,7 @@ angular.module('app')
                                     }
                                 })
                                 .state('companiesCreate', {
-                                    url: '/manage-companies/create',
+                                    url: '/companies/create',
                                     templateUrl: '/manage-companies/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -3282,7 +3287,7 @@ angular.module('app')
                                 })
 
                                 .state('companiesUpdate', {
-                                    url: '/manage-companies/edit/:companyId',
+                                    url: '/companies/edit/:companyId',
                                     templateUrl: function (stateParams) {
 
                                         return '/manage-companies/' + stateParams.companyId + '/edit';

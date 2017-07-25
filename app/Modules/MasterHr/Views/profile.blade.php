@@ -1,4 +1,12 @@
-<div   ng-controller="hrController" ng-init="getProfile()">
+<style>
+    .img-cstdiv{
+        position: fixed;
+    }
+    .photoPreview{
+        width: 40% !important;
+    }
+</style>
+<div ng-controller="hrController" ng-init="getProfile()">
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <form ng-submit="frmProfile.$valid && updateProfile(profileData)"  name="frmProfile"  novalidate enctype="multipart/form-data"  >
@@ -21,7 +29,7 @@
                                         </span>        
                                     </div>
                                 </div>
-                                 <div class="col-sm-4">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label id="lblfn" for="">First Name</label>
                                         <span class="input-icon icon-right">
@@ -38,31 +46,30 @@
                                     </div>
                                 </div>
                             </div>
-                           
+
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-12">
                                     <div class="form-group">
                                         <label id="lblpp" for="">Profile picture<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select name="employee_photo_file_name" id="employee_photo_file_name"   ng-model="profileData.employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" required> 
-                                        <div ng-show="btnProfile"   ng-messages="frmProfile.employee_photo_file_name.$error" class="help-block">
+                                            <div ng-show="btnProfile"   ng-messages="frmProfile.employee_photo_file_name.$error" class="help-block">
                                                 <div id="err_pp" ng-message="required" class="sp-err">Profile picture cannot be blank.</div>
-                                        </div>
-                                        <!--Profile picture cannot be blank.-->
-                                        <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
-                                               <img ng-src="{{list}}" class="thumb photoPreview">
-                                           </div>
-                                        <div ng-show="(!employee_photo_file_name_preview) && (flagProfilePhoto == 1)">
-                                            <img ng-src="{{ profilePhoto}}" class="thumb photoPreview"/>
-                                        </div>
-                                    </span>  
+                                            </div>
+                                            <div class="img-cstdiv" ng-repeat="list in employee_photo_file_name_preview">    
+                                                <img ng-src="{{list}}" class="thumb photoPreview">
+                                            </div>
+                                            <div class="img-cstdiv" ng-show="(!employee_photo_file_name_preview) && (flagProfilePhoto == 1)">
+                                                <img ng-src="{{ profilePhoto}}" class="thumb photoPreview"/>
+                                            </div>
+                                        </span>  
                                     </div>
                                 </div>
                             </div> 
-                             
+
                             <div class="row">
                                 <div class="col-lg-12 cl-xs-12" align="center">
-                                    <button type="submit" class="btn btn-primary" id="btn_update_profile" ng-click="btnProfile = true">Update Profile</button>
+                                    <button type="submit" class="btn btn-primary" id="btn_update_profile" ng-click="btnProfile = true" style="margin-top: 7%;">Update Profile</button>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +86,7 @@
                     </div>
                     <div class="widget-body">
                         <div id="pricing-form">
-                            
+
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -93,7 +100,7 @@
                                     <div class="form-group">
                                         <label id="lbloldpassword" for="">Old Password <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                                <input type="password" check-old-password ng-model="profileData.oldPassword" id="oldPassword"  name="oldPassword" maxlength="15" class="form-control" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
+                                            <input type="password" check-old-password ng-model="profileData.oldPassword" id="oldPassword"  name="oldPassword" maxlength="15" class="form-control" required ng-model-options="{ allowInvalid: true, debounce: 300 }">
                                             <div ng-show="btnfrmPassword"   ng-messages="frmPassword.oldPassword.$error" class="help-block">
                                                 <div id="err_old_required" ng-message="required" class="sp-err">Old password cannot be blank.</div>
                                                 <div id="err_old_pass_match" ng-message="compareOldPassword" class="sp-err">Password could not be matched</div>
@@ -111,13 +118,13 @@
                                             <div ng-show="btnfrmPassword" ng-messages="frmPassword.password.$error" class="help-block">
                                                 <div id="err_new_pass_blank" ng-message="required" class="sp-err" >New Password cannot be blank.</div>
                                                 <div id="err_new_pass_pattern" ng-message="pattern" class="sp-err" >Password must contain at least one uppercase letter, one lowercase letter, one number and one special character</div>
-                                                
+
                                             </div>
                                         </span>                                
                                     </div>
                                 </div>
-                                
-                                 <div class="col-sm-6" >
+
+                                <div class="col-sm-6" >
                                     <div class="form-group" >
                                         <label id="lblconfirmpassowrd" for="">Confirm Password<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
@@ -131,12 +138,11 @@
                                     </div>
                                 </div>                                
                             </div>    
-                                
+
                             <div class="row">
                                 <div class="col-lg-12 cl-xs-12" align="center">
-                                     <br><br> <br><br>
+                                    <br><br> <br>
                                     <button type="submit" class="btn btn-primary" id="btn_chang_password" ng-click="btnfrmPassword = true">Change Password</button>
-                                   
                                 </div>
                             </div>
                         </div>
@@ -145,5 +151,5 @@
             </form>
         </div>
     </div>
-    
+
 </div>    
