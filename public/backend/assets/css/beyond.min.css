@@ -2490,7 +2490,6 @@ a:active {
 
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu.dropdown-login-area>li.edit a {
     color: #999;
-    display: inline-block;
     clear: none;
     font-size: 13px
 }

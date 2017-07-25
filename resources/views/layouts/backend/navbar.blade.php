@@ -238,8 +238,8 @@
                         </a>
                         <!--Login Area Dropdown-->
                         <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
-                            <li class="username"><a>[[Auth::guard('admin')->user()->first_name;]]</a></li>
-                            <li class="email"><a>[[Auth::guard('admin')->user()->username;]]</a></li>
+                            <li class="username" ><a>[[Auth::guard('admin')->user()->first_name;]]</a></li>
+                            <li class="email" ><a style="color:black;">[[Auth::guard('admin')->user()->username;]]</a></li>
                             <!--Avatar Area-->
                             <li>
                                 <div class="avatar-area">
@@ -250,7 +250,7 @@
                             </li>
                             <!--Avatar Area-->
                             <li class="edit">
-                                <a href="office.php#/user/profile" class="pull-left">Profile</a>
+                                <a href="office.php#/user/profile" class="text-center" style="color:black;">Manage Profile</a>
                                 <!--<a href="#" class="pull-right">Setting</a>-->
                             </li>
                             <!--Theme Selector Area-->
