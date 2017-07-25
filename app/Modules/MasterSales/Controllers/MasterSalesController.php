@@ -58,7 +58,6 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
-
             if (empty($input)) {
                 $input = Input::all();
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -774,6 +773,7 @@ class MasterSalesController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $filterData = $request['filterData'];
+        //print_r($request);exit;
         if (empty($request['empId'])) { // For Web
             $loggedInUserId = Auth::guard('admin')->user()->id;
             if ($request['teamType'] == 1) {
@@ -791,12 +791,16 @@ class MasterSalesController extends Controller {
             if (!empty($filterData["status_id"])) {
                 $status = explode("_", $filterData["status_id"]);
             }
+             if (!empty($filterData["city_id"])) {
+                $city = explode("_", $filterData["city_id"]);
+            }
 //             if (!empty($filterData["lostReason_id"])) {
 //                $reason = explode("_", $filterData["lostReason_id"]);
 //            }
             $filterData["category_id"] = !empty($filterData["category_id"]) ? $category[0] : "";
             $filterData["source_id"] = !empty($filterData['source_id']) ? $source[0] : "";
             $filterData['status_id'] = !empty($filterData['status_id']) ? $status[0] : "";
+            $filterData['city_id'] = !empty($filterData['status_id']) ? $city[0] : "";
             //$filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $reason[0] : "";
         } else { // For App
             $request["getProcName"] = MasterSalesController::$procname;
@@ -811,8 +815,9 @@ class MasterSalesController extends Controller {
             $filterData["source_id"] = !empty($filterData['source_id']) ? $filterData["source_id"] : "";
             $filterData["status_id"] = !empty($filterData['status_id']) ? $filterData["status_id"] : "";
             // $filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $filterData['status_id'] : "";
-        }
-
+        }        
+        //$filterData["project_id"] = !empty($filterData['project_id']) ? implode(',', array_column($filterData['project_id'], 'id')) : "";
+        
         $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
         $filterData["fname"] = !empty($filterData['fname']) ? $filterData['fname'] : "";
         $filterData["lname"] = !empty($filterData['lname']) ? $filterData['lname'] : "";
@@ -828,17 +833,18 @@ class MasterSalesController extends Controller {
         $filterData["loan_required"] = (!empty($filterData['loan_required']) || isset($filterData['loan_required'])) ? $filterData['loan_required'] : "";
         $filterData["site_visited"] = !empty($filterData['site_visited']) ? $filterData['site_visited'] : "";
         $filterData["channel_id"] = !empty($filterData['channel_id']) ? $filterData['channel_id'] : "";
-        $filterData["maxbudget"] = !empty($request['maxBudget']) ? $request['maxBudget'] : "0";
-        $filterData["minbudget"] = !empty($request['minBudget']) ? $request['minBudget'] : "0";
+        $filterData["maxbudget"] = !empty($request['maxBudget']) ? $request['maxBudget'] : 0;
+        $filterData["minbudget"] = !empty($request['minBudget']) ? $request['minBudget'] : 0;
         $filterData["mobileNumber"] = !empty($filterData['mobileNumber']) ? $filterData['mobileNumber'] : "";
-        $filterData["verifiedMobNo"] = !empty($filterData['verifiedMobNo']) ? $filterData['verifiedMobNo'] : "0";
-        $filterData["verifiedEmailId"] = !empty($filterData['verifiedEmailId']) ? $filterData['verifiedEmailId'] : "0";
-
+        $filterData["verifiedMobNo"] = !empty($filterData['verifiedMobNo']) ? $filterData['verifiedMobNo'] : "";
+        $filterData["verifiedEmailId"] = !empty($filterData['verifiedEmailId']) ? $filterData['verifiedEmailId'] : "";
+        //print_r($filterData);exit;
         $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
                         $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
                         $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
                         $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
-                        $filterData["channel_id"] . '","0","' . $filterData['maxbudget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
+                        $filterData["channel_id"] . '","' . $filterData['minbudget'] . '","' . $filterData['maxbudget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
+        //print_r($getEnquiryDetails);exit;
         $cnt = DB::select('select FOUND_ROWS() totalCount');
         $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
 
@@ -995,10 +1001,11 @@ class MasterSalesController extends Controller {
             }
         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
         $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,'.$startFrom.','.$request['itemPerPage'].')');
+        $cnt = DB::select('select FOUND_ROWS() as totalCount');
         $getbookedEnquiryDetails = json_decode(json_encode($getbookedEnquiryDetails), true);
 
         if (count($getbookedEnquiryDetails) != 0) {
-            $result = ['success' => true, 'records' => $getbookedEnquiryDetails];
+            $result = ['success' => true, 'records' => $getbookedEnquiryDetails ,'totalCount' => $cnt[0]->totalCount];
         } else {
             $result = ['success' => false, 'records' => 'No Records Found'];
         }        
