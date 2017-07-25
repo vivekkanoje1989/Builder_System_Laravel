@@ -46,23 +46,34 @@
                         <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
                         <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                     </div>
-                </div>               
+                </div>               {{ showFilterData }}
                 <hr>
                 <div class="row" style="border:2px;" id="filter-show">
-                       <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
-                           <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}"> 
+                       <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate' ">                         
+                           <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}">
                                <div class="alert alert-info fade in">
                                    <button class="close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
-                                   <strong ng-if="key === 'category_id' || key === 'source_id' || key == 'status_id' "><strong>{{  key.substring(0, key.indexOf('_')) }} :</strong>{{  value.substring(value.indexOf("_")+1) }}</strong>
+                                   <strong ng-if="key === 'channel_id' || key === 'city_id' || key === 'category_id' || key === 'source_id' || key == 'status_id' "><strong>{{  key.substring(0, key.indexOf('_')) }} :</strong>{{  value.substring(value.indexOf("_")+1) }}</strong>
                                    <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'> {{ $index +1 }}){{   emp.first_name  }}  {{ emp.last_name }} </strong>
                                    <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'> {{ $index +1 }}){{   subcat.enquiry_sales_subcategory  }}</strong>
-                                   <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'> {{ $index +1 }}){{ subsource.enquiry_subsource }} </strong>
+                                   <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'> {{ $index +1 }}){{ subsource.sub_source }} </strong>
                                    <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'>{{ $index +1 }}) {{ substatus.enquiry_sales_substatus }} </strong>
-                                   <strong ng-if="key === 'project_id' " ng-repeat='project in value track by $index'>{{ $index +1 }}) {{ project.project_name }} </strong>                                                                      
-                                   <strong ng-if="key === 'verifiedEmailId' && value == 1 "> <strong>Verified Email ID:</strong>Yes</strong>
-                                   <strong ng-if="key === 'verifiedMobNo' && value == 1  " data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile No:</strong>Yes</strong>
+                                   <strong ng-if="key === 'enquiry_locations' " ng-repeat='loc in value track by $index'>{{ $index +1 }}) {{ loc.location }} </strong>
+                                   <strong ng-if="key === 'project_id' " ng-repeat='project in value track by $index'>{{ $index +1 }}) {{ project.project_name }} </strong>
+                                   <strong ng-if="key === 'verifiedEmailId'"> <strong>Verified Email ID:</strong>Yes</strong>
+                                   <strong ng-if="key === 'verifiedMobNo'" data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile:</strong>Yes</strong>
+                                   <strong ng-if="key === 'site_visited' " data-toggle="tooltip" title="Site Visited"> <strong ng-if="value == 1">Site Visit:Yes</strong>
+                                       <strong ng-if="value == 0">Site Visit:No</strong>
+                                   </strong>
+                                   <strong ng-if="key === 'loan_required' " data-toggle="tooltip" title="Loan Required"> <strong ng-if="value == 1">Loan Required:Yes</strong>
+                                       <strong ng-if="value == 0">Loan Required:No</strong>
+                                   </strong>
+                                   <strong ng-if="key === 'parking_required' " data-toggle="tooltip" title="Parking Required"> <strong ng-if="value == 1">Parking Required:Yes</strong>
+                                       <strong ng-if="value == 0">Parking Required:No</strong>
+                                   </strong>
                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                                   <strong ng-if="key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
+                                   <!--<strong ng-if="key != 'channel_id' && key != 'city_id' && key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>-->
+                                   <strong ng-if="key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
                                </div>
                            </div>
                        </b>  
@@ -196,14 +207,17 @@
                                     <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != '' " data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
                                         <b>Project :</b>
                                          {{enquiry.project_block_name | limitTo : 45 }}
-                                        <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                        
-                                         <hr class="enq-hr-line">
+                                        <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                                                                 
                                     </span>
-                                </div>
+                                     <div ng-if="enquiry.parking_required != null">
+                                        <span ng-if="enquiry.parking_required == 0"><b>Parking Required :</b> No</span>
+                                        <span ng-if="enquiry.parking_required == 1"><b>Parking Required :</b> Yes</span>                                    
+                                    </div> 
+                                    <hr class="enq-hr-line">
+                                </div>                                                              
                                 <div>
                                     <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id }}/eid/{{ enquiry.id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
-                                </div>                              
-                                
+                                </div>                                                              
                             </td>
                             <td width="30%">
                                 <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
@@ -214,7 +228,16 @@
                                 <div><b>By {{enquiry.followupby_fname}} {{enquiry.followupby_lname}} : </b>
                                         <span data-toggle="tooltip" title="{{enquiry.remarks | removeHTMLTags}}">{{enquiry.remarks | limitTo : 100 | removeHTMLTags }}
                                             <span ng-if="enquiry.remarks.length  >100" data-toggle="tooltip" title="{{enquiry.remarks | removeHTMLTags}}">...</span>
-                                        </span></div>
+                                        </span>
+                                </div>
+                                <div>
+<!--                                     <span ng-if="enquiry.location_name != null && enquiry.location_name != '' " data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+                                        <b>Preferred Location :</b>
+                                         {{enquiry.location_name | limitTo : 45 }}
+                                        <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                        
+                                         <hr class="enq-hr-line">
+                                    </span>-->
+                                </div>                                
                                 <hr class="enq-hr-line">
                                 <div>
                                     <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>

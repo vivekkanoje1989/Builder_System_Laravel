@@ -16,7 +16,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
     Route::post('api/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details
     Route::put('api/master-sales/updateEnquiry/{id}', 'MasterSalesController@updateEnquiry'); //updateEnquiry
     /****************************ENQUIRIES****************************/
-    Route::post('api/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing
+    Route::post('api/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing    
     Route::post('api/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries'); // get all lost enquiries
     Route::post('api/master-sales/getClosedEnquiries', 'MasterSalesController@getClosedEnquiries'); // getCloseEnquiries
     /****************************ENQUIRIES****************************/

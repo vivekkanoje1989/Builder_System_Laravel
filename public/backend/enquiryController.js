@@ -465,8 +465,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
 
         /**************************Budget Range Bar*************************/
-        $scope.min = 3000000;
-        $scope.max = 7000000;
+        $scope.min = 0;
+        $scope.max = 0;
         $scope.visSlider = {
             options: {
                 floor: 200000,
@@ -502,12 +502,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.getFilteredData = function (filterData, minBudget, maxBudget,page,recordsperpage)
         {
+            
             //alert(page+':'+$scope.type+"item"+$scope.itemsPerPage);
             $scope.showloader();
-            if (filterData.verifiedMobNo == true)
-                filterData.verifiedMobNo = 1;
-            else
-                filterData.verifiedMobNo = 0;
             if (typeof filterData.fromDate !== 'undefined') {
                 var fdate = new Date(filterData.fromDate);
                 $scope.filterData.fromDate = (fdate.getFullYear() + '-' + ("0" + (fdate.getMonth() + 1)).slice(-2) + '-' + fdate.getDate());
@@ -532,8 +529,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }       
         $scope.removeDataFromFilter = function (keyvalue) {
             $scope.showloader();
+            console.log($scope.filterData[keyvalue]);
+            ///var myJSON = JSON.parse($scope.filterData);
+            var dt = typeof($scope.filterData[keyvalue]);
+            alert(dt);
             delete $scope.filterData[keyvalue];
-            $scope.getFilteredData($scope.filterData,0,0, 1, 30);
+           // delete myJSON[keyvalue];            
+            $scope.getFilteredData($scope.filterData,$scope.min,$scope.max, 1, 30);
             $scope.hideloader();
             return false;
         }

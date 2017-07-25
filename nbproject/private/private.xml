@@ -2,6 +2,40 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/api.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bookedenquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/pendingFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/beyond.min.css</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EnquiryLocations/Models/lstEnquiryLocations.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryListing.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/routes/api.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/lostenquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/Auth/LoginController.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/showSmsLogFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/smsConsumptionController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/smsLogs.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/smsReport.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/showSmsReportLogFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Views/smsLogDetails.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/Controllers/BmsConsumptionController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BmsConsumption/routes/web.php</file>
+>>>>>>> c0c2108c74cfe7d7f9fd7af6a77ebea4891768d5
+        </group>
+>>>>>>> 1cfef93c4c3d5449163dca21732b06799c558915
     </open-files>
 </project-private>

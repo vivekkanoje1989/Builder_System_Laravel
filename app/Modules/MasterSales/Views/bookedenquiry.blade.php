@@ -135,7 +135,7 @@
 
                                 <hr class="enq-hr-line">
 
-                                <div class="floatLeft">
+                                <div>
                                     <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
                                 </div>                    
                                 <hr class="enq-hr-line">

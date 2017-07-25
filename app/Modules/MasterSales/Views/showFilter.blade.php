@@ -130,7 +130,7 @@
                                                             <span class="input-icon icon-right">
                                                                 <select class="form-control" ng-model="filterData.city_id" name="city_id" ng-change="changeLocations(filterData.city_id)">
                                                                     <option value="">Select Preferred city</option>     
-                                                                    <option ng-repeat="list in cityList" value="{{list.city_id}}">{{ list.get_city_name.name}}</option>
+                                                                    <option ng-repeat="list in cityList" value="{{list.city_id}}_{{ list.get_city_name.name}}">{{ list.get_city_name.name}}</option>
                                                                 </select>
                                                                 <i class="fa fa-sort-desc"></i>
                                                             </span>
@@ -201,7 +201,7 @@
                                                 <span class="input-icon icon-right">
                                                     <select ng-model="filterData.channel_id" name="channel_id" class="form-control">
                                                         <option value="">Select Channel</option>
-                                                        <option ng-repeat="list in channelList track by $index" value="{{list.id}}">{{list.channel_name}}</option>
+                                                        <option ng-repeat="list in channelList track by $index" value="{{list.id}}_{{list.channel_name}}">{{list.channel_name}}</option>
                                                     </select>
                                                     <i class="fa fa-sort-desc"></i>
                                                 </span>
