@@ -496,7 +496,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     var datalength = Object.keys(response).length;
                     for (var i = 0; i < datalength; i++)
                     {
-                        arr.push([{v: "'" + response[i]['v'] + "'", f: "'" + response[i]['f']}, "'" + response[i]['teamId'] + "'", response[i]['designation_id']]);
+                        arr.push([{v: "'" + response[i]['v'] + "'", f: response[i]['f']}, "'" + response[i]['teamId'] + "'", response[i]['designation_id']]);
                     }
                     data.addRows(arr);
                     // Create the chart.

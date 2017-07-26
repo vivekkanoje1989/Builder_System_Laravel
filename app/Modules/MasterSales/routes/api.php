@@ -18,13 +18,13 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
     /****************************ENQUIRIES****************************/
     Route::post('api/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing    
     Route::post('api/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries'); // get all lost enquiries
-    Route::post('api/master-sales/getClosedEnquiries', 'MasterSalesController@getClosedEnquiries'); // getCloseEnquiries
+    Route::post('api/master-sales/getBookedEnquiries', 'MasterSalesController@getBookedEnquiries'); // getCloseEnquiries
     /****************************ENQUIRIES****************************/
     
     /****************************FOLLOWUPS****************************/
     Route::post('api/master-sales/getTodaysFollowups', 'MasterSalesController@getTodaysFollowups'); // get TodaysFollowups
     Route::post('api/master-sales/getPendingFollowups', 'MasterSalesController@getPendingFollowups'); // get getPendingFollowups
-    Route::post('api/master-sales/getPreviousFollowups', 'MasterSalesController@getPreviousFollowups'); // get getPreviousFollowups
+    Route::post('api/master-sales/previousFollowups', 'MasterSalesController@previousFollowups'); // get getPreviousFollowups
     /****************************FOLLOWUPS****************************/
     
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/

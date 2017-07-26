@@ -792,7 +792,7 @@ class MasterSalesController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $filterData = $request['filterData'];
-        //print_r($request);exit;
+        //  print_r($request);exit;
         if (empty($request['empId'])) { // For Web
             $loggedInUserId = Auth::guard('admin')->user()->id;
             if ($request['teamType'] == 1) {

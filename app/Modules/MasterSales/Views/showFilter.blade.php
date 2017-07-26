@@ -220,7 +220,7 @@
                                                 <label for="">Budget Max Value </label>
                                                 <input type="text" ng-model="max" name="max" class="form-control" maxlength="8" ng-change="rangeValidateMax(max)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                             </div>
-                                        </div>
+                                        </div>                                       
                                         <rzslider rz-slider-model="min" rz-slider-high="max" rz-slider-options="visSlider.options"></rzslider>                                        
                                     </div>
                                     <div class="row">
