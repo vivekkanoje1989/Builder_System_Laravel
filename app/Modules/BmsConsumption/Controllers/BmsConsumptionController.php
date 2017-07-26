@@ -223,8 +223,34 @@ class BmsConsumptionController extends Controller {
         $getSmsLogs = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fromDate"] . '","' .
                         $filterData["toDate"] . '","' . $filterData["mobile_number"] . '","' . $filterData["externalId1"] . '","' . $filterData["sms_type"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
         for ($i = 0; $i < count($getSmsLogs); $i++) {
+             $transactionId[] = $getSmsLogs[$i]->externalId1;
             $getSmsLogs[$i]->dateTime = date('d-m-Y h:i A', strtotime($getSmsLogs[$i]->sent_date_time));
         }
+        
+        for ($k = 0; $k < count($transactionId); $k++) {
+            $getSmslist = SmsLog::where('externalId1', $transactionId[$k])->get();
+            $getListcnt = count($getSmslist);
+            $sum = 0;
+            $count = 0;
+            for ($j = 0; $j < $getListcnt; $j++) {
+                if (trim($getSmslist[$j]['status']) == "success") {
+                    $count++;
+                }
+                $credit = $getSmslist[$j]['credits_deducted'];
+                 $sum = $sum + $credit;
+            }
+            $data['successSms'] = $count;
+            $data['credits'] = $sum;
+            $data['failSms'] = count($getSmslist) - $data['successSms'];
+            $data['totalSms'] = count($getSmslist);
+            $getDetails[] = $data;
+           
+        }
+        
+         for($m=0;$m<count($getDetails);$m++){
+             $getSmsLogs[$m]->smsDetails=$getDetails[$m];
+         }
+        
 
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = $enqCnt[0]->totalCount;
