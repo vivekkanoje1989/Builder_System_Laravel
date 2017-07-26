@@ -17,6 +17,12 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">{{pagetitle}}</span>
+                <div class="widget-buttons">
+                    <a href="" widget-maximize=""><i class="fa fa-expand"></i></a>
+                    <a href="" widget-collapse=""><i class="fa fa-minus"></i></a>
+                    <a href="" widget-dispose=""><i class="fa fa-times"></i></a>
+                    <!--<li><a chat-link=""  class="wave in" title="Filter"><i class="icon glyphicon glyphicon-filter"></i></a></li>-->
+                </div>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">
@@ -40,17 +46,17 @@
                                 <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                             </a> 
                         </div>                              
-                <br>   
+                <br>
                     </div>
                     <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
                         <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
                         <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                     </div>
-                </div>               {{ showFilterData }}
+                </div>
                 <hr>
                 <div class="row" style="border:2px;" id="filter-show">
-                       <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate' ">                         
-                           <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}">
+                       <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
+                           <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}" ng-if="value != ''">
                                <div class="alert alert-info fade in">
                                    <button class="close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
                                    <strong ng-if="key === 'channel_id' || key === 'city_id' || key === 'category_id' || key === 'source_id' || key == 'status_id' "><strong>{{  key.substring(0, key.indexOf('_')) }} :</strong>{{  value.substring(value.indexOf("_")+1) }}</strong>
@@ -59,13 +65,13 @@
                                    <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'> {{ $index +1 }}){{ subsource.sub_source }} </strong>
                                    <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'>{{ $index +1 }}) {{ substatus.enquiry_sales_substatus }} </strong>
                                    <strong ng-if="key === 'enquiry_locations' " ng-repeat='loc in value track by $index'>{{ $index +1 }}) {{ loc.location }} </strong>
-                                   <strong ng-if="key === 'project_id' " ng-repeat='project in value track by $index'>{{ $index +1 }}) {{ project.project_name }} </strong>
+                                   <strong ng-if="key === 'project_id'" ng-repeat='project in value track by $index'>{{ $index +1 }}) {{ project.project_name }}</strong>
                                    <strong ng-if="key === 'verifiedEmailId'"> <strong>Verified Email ID:</strong>Yes</strong>
                                    <strong ng-if="key === 'verifiedMobNo'" data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile:</strong>Yes</strong>
                                    <strong ng-if="key === 'site_visited' " data-toggle="tooltip" title="Site Visited"> <strong ng-if="value == 1">Site Visit:Yes</strong>
                                        <strong ng-if="value == 0">Site Visit:No</strong>
                                    </strong>
-                                   <strong ng-if="key === 'loan_required' " data-toggle="tooltip" title="Loan Required"> <strong ng-if="value == 1">Loan Required:Yes</strong>
+                                   <strong ng-if="key === 'loan_required'" data-toggle="tooltip" title="Loan Required"> <strong ng-if="value == 1">Loan Required:Yes</strong>
                                        <strong ng-if="value == 0">Loan Required:No</strong>
                                    </strong>
                                    <strong ng-if="key === 'parking_required' " data-toggle="tooltip" title="Parking Required"> <strong ng-if="value == 1">Parking Required:Yes</strong>
@@ -76,7 +82,17 @@
                                    <strong ng-if="key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
                                </div>
                            </div>
-                       </b>  
+                       </b>
+                    <b ng-if="min != 0 || max != 0 ">
+                        <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}" ng-if="value != ''">
+                            <div class="alert alert-info fade in">
+                               <button class="close" ng-click=" removeDataFromFilter('min');" data-dismiss="alert"> ×</button>
+                               <strong>
+                                   Budget Limit : {{ min }} To {{ max }}
+                               </strong>
+                            </div>
+                        </div>
+                    </b>
                </div>                             
                 <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">
                     <thead>

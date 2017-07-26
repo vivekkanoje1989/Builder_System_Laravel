@@ -282,9 +282,9 @@ class AdminController extends Controller {
         $subBlocksList = ProjectBlock::select("id","project_id","block_type_id","block_sub_type")->get();
         $enquiryFinanceTieup = EnquiryFinanceTieup::where("status",1)->get(); 
         $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->where("status",1)->get();
-        $salesEnqSubCategoryList = EnquirySalesSubcategory::select('id','enquiry_sales_subcategory')->where("status",1)->get();
+        $salesEnqSubCategoryList = EnquirySalesSubcategory::select('id','enquiry_sales_subcategory','enquiry_sales_category_id')->where("status",1)->get();
         $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->where("status",1)->get();
-        $salesEnqSubStatusList = EnquirySalesSubstatus::select('id','enquiry_sales_substatus')->where("status",1)->get();
+        $salesEnqSubStatusList = EnquirySalesSubstatus::select('id','enquiry_sales_substatus','enquiry_sales_status_id')->where("status",1)->get();
         $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id','=',101)->get();
         
         if (!empty($getTitle)) {

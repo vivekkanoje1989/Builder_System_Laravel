@@ -684,16 +684,15 @@ class MasterHrController extends Controller {
     }
 
     public function getChartData() {
-
         $input = Employee::whereIn('employee_status', [1, 2])
-                ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
+                ->leftJoin('lmsauto_master_final.mlst_lmsa_designations', 'employees.designation_id', '=', 'lmsauto_master_final.mlst_lmsa_designations.id')
                 ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
                 ->orderBy('team_lead_id')
                 ->get();
         $data = array();
         foreach ($input as $key => $team) {
             $obj = Employee::where('employees.id', $team['id'])
-                    ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
+                    ->leftJoin('lmsauto_master_final.mlst_lmsa_designations', 'employees.designation_id', '=', 'lmsauto_master_final.mlst_lmsa_designations.id')
                     ->whereIn('employee_status', [1, 2])
                     ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
                     ->get();
@@ -703,19 +702,25 @@ class MasterHrController extends Controller {
                     $team['employee_photo_file_name'] = 'http://icons.iconarchive.com/icons/alecive/flatwoken/96/Apps-User-Online-icon.png';
                 } else {
                     $team['employee_photo_file_name'] = 'https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/employee-photos/' . $team['employee_photo_file_name'];
+                    // $team['employee_photo_file_name'] ='https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/hr/employee-photos/1492516782.jpg';
                 }
                 if ($team['employee_status'] == 2) {
-                    $data[$key]['f'] = '<center class="forAppCss"><img ng-src="' . $team['employee_photo_file_name'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:red">Temporary Suspended</b></div>';
+                    $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #fd4949;"><div class="myblock" style="background-color: rgba(253, 42, 42, 0.85);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
                 } else {
-                    $data[$key]['f'] = '<center class="forAppCss"><img ng-src="' . $team['employee_photo_file_name'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:Green">Active</b></div>';
+                    $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #2dc3e8;"><div class="myblock" style="background-color: rgb(45, 195, 232);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
                 }
-                $data[$key]['teamId'] = $team['team_lead_id'];
+                if ($team['team_lead_id'] == '0') {
+                    $data[$key]['teamId'] = $team['id'];
+                } else {
+                    $data[$key]['teamId'] = $team['team_lead_id'];
+                }
+                //$data[$key]['teamId'] = $team['team_lead_id'];
                 $data[$key]['designation'] = $team['designation'];
             }
         }
         return $data;
     }
-
+    
     public function photoUpload() {
         $folderName = 'employee-photos';
         $ext = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
