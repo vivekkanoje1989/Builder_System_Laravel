@@ -22,6 +22,7 @@
 <div class="row">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="userDocumentController" ng-init="getEmployees(); manageEmployeeDocuments();" >
+            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>User Documents</h5>
             <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
                 <div id="user-form">
                     <form role="form" name="userForm" method="post"  ng-submit="userForm.$valid && createUserDocuments(userData.documentUrl, userData)"   novalidate enctype="multipart/form-data">
@@ -32,10 +33,10 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group">
-                                            <label for="">User</label>
+                                            <label for="">User List</label>
                                             <span class="input-icon icon-right">                                    
                                                 <select class="form-control" ng-model="userData.employee_id" name="employee_id"  required ng-change="getUserDocumentsLists(userData.employee_id)">
-                                                    <option value="">Select User</option>
+                                                    <option value="">Please Select User</option>
                                                     <option  ng-repeat="itemone in employeeRow"  value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
@@ -92,7 +93,7 @@
                                         <div  ng-show="document_url" style="margin-top:18px;">
                                             <div  class="img-div2" data-title="name">   
                                                 <i class="fa fa-times rem-icon" ng-if="document_url" ng-click="removeImg('{{document_url}}',{{id}})"></i>
-                                                <img ng-if="document_url" src="[[ Session::get('s3Path') ]]Employee-Documents/{{document_url}}" style="width: 60px;height: 60px;">
+                                                <img ng-if="document_url" ng-src="[[ Session::get('s3Path') ]]Employee-Documents/{{document_url}}" style="width: 60px;height: 60px;">
                                             </div>
                                         </div>
                                     </div>

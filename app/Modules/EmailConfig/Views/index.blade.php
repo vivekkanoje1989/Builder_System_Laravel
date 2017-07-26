@@ -1,16 +1,10 @@
 <div class="row" ng-controller="emailconfigCtrl" ng-init="manageEmailConfig('index')">
     <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
-                <span class="widget-caption">Configure Email Accounts</span>
-                <a class="btn btn-primary" href="[[ config('global.backendUrl') ]]#/emailConfig/create/">Create Account</a>
-                <div class="widget-buttons">                    
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">Configure Email Accounts</span>                
             </div>
-            <div class="widget-body table-responsive">                
+            <div class="widget-body table-responsive"><br/>             
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>

@@ -19,11 +19,12 @@
     }
 </style>
 <div class="row" ng-controller="smsController" ng-init="smsLogsDetails([[$transactionId]], 1, [[config('global.recordsPerPage')]])">
-    
+
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Sms Logs</span>
+                <span class="widget-caption">
+                    Details View Of Transaction Id :- [[$transactionId]] </span>
             </div>
             <div class="widget-body table-responsive">
                 <table class="table table-hover table-striped table-bordered" at-config="config">
@@ -46,35 +47,35 @@
                         <tr class="smslog" dir-paginate="smsLogDetails in smsLogsDetails | filter:search | itemsPerPage: itemsPerPage" total-items="{{ smsLogLength}}">
                             <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>  
                             <td>{{ smsLogDetails.dateTime}}</td>
-                            <td>{{ smsLogDetails.mobile_number}}</td>
+                            <td>{{ smsLogDetails.mobile}}</td>
                             <td>{{ smsLogDetails.sms_body}}</td>
-                            <td>{{ smsLogDetails.sms_type}}</td>
+                            <td>-</td>
                             <td>{{ employee_name}}</td>
                             <td>{{ smsLogDetails.sms_type}}</td>
                             <td>{{ smsLogDetails.status}}</td>
                             <td>{{ smsLogDetails.dateTime}}</td>
                             <td>{{ smsLogDetails.status}}</td>
                             <td>{{ smsLogDetails.credits_deducted}}</td>
-                           
+
                         </tr>
                         <tr>
                             <td colspan="8"  ng-show="(smsLogsDetails|filter:search).length == 0" align="center">Record Not Found</td>   
                         </tr>
                     </tbody>
                 </table><br>
-<!--                <div class="DTTTFooter">
-                    <div class="col-sm-6">
-                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'smsLogsLists')" template-url="/dirPagination"></dir-pagination-controls>
-                        </div>
-                    </div>
-                </div>-->
+                <!--                <div class="DTTTFooter">
+                                    <div class="col-sm-6">
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'smsLogsLists')" template-url="/dirPagination"></dir-pagination-controls>
+                                        </div>
+                                    </div>
+                                </div>-->
             </div>
         </div>
     </div>
-    
+
 </div>
 

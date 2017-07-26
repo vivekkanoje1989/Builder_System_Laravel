@@ -40,14 +40,14 @@
                                 </div>
                             </div>                                   
                             <div class="row">
-                                <div class="col-sm-6 col-xs-12">
+<!--                                <div class="col-sm-6 col-xs-12">
                                     <div class="form-group">
                                         <label for="">Mobile Number</label>
                                         <span class="input-icon icon-right">
                                             <input type="text" name="mobile_number" ng-model="filterData.mobile_number" class="form-control">
                                         </span>
                                     </div>
-                                </div>
+                                </div>-->
 
                                 <div class="col-sm-6 col-xs-12">
                                     <div class="form-group">
@@ -62,8 +62,8 @@
                                         </span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
+<!--                            </div>
+                            <div class="row">-->
                                 <div class="col-sm-6 col-xs-12">
                                     <div class="form-group">
                                         <label for="">Transaction Id</label>

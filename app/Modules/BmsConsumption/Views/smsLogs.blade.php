@@ -21,9 +21,6 @@
 <div class="row" ng-controller="smsController" ng-init="smsLogsLists([[$loggedInUserId]], 1, [[config('global.recordsPerPage')]])">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
-            <div class="widget-header ">
-                <span class="widget-caption">Sms Logs</span>
-            </div>
             <div class="widget-body table-responsive">
                 <div class="row">
                     <div class="col-sm-2 ">
@@ -53,7 +50,7 @@
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                 <div class="alert alert-info fade in">
                                     <button class="close" ng-click="removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
-                                    <strong ng-if="key === 'transactionId'" data-toggle="tooltip" title="Transaction Id"><strong>Transaction Id : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'externalId1'" data-toggle="tooltip" title="Transaction Id"><strong>Transaction Id : </strong> {{ value}}</strong>
                                     <strong ng-if="key === 'smsType'" data-toggle="tooltip" title="SMS Type"><strong>SMS Type : </strong> {{ value}}</strong>
                                     <strong ng-if="key === 'mobileNo'"><strong>Mobile Number : </strong>{{ value}}</strong>
                                     <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Log Date"><strong>SMS Date : </strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
@@ -85,10 +82,10 @@
                             <td><a href="[[ config('global.backendUrl') ]]#/bmsConsumption/smsLogDetails/{{smsLog.externalId1}}">{{ smsLog.externalId1}}</a></td>
                             <td>{{ smsLog.sms_body}}</td>
                             <td>{{ smsLog.sms_type}}</td>
-                            <td>{{ successSms}}</td>
-                            <td>{{ failSms}}</td>
-                            <td>{{ totalSms}}</td>
-                            <td>{{ credits }}</td>
+                            <td>{{ smsLog.smsDetails.successSms}}</td>
+                            <td>{{ smsLog.smsDetails.failSms}}</td>
+                            <td>{{ smsLog.smsDetails.totalSms}}</td>
+                            <td>{{ smsLog.smsDetails.credits }}</td>
                         </tr>
                         <tr>
                             <td colspan="8"  ng-show="(smsLogsList|filter:search).length == 0" align="center">Record Not Found</td>   

@@ -1,18 +1,11 @@
 <div class="row" ng-controller="storageCtrl" ng-init="getRecycleList()">  
     <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
-                <span class="widget-caption">Recycle bin</span>
-
-                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">Recycle bin</span>                
             </div>
             <div class="widget-body table-responsive">      
                 <div class="foldr-main" ng-repeat="imgs in recycleDirectories track by $index | unique:'imgs' ">
-
                     <div class="databox databox-lg databox-halved radius-bordered databox-shadowed databox-vertical">
                         <div class="databox-top bg-gray-custom no-padding">
                             <div class="databox-icon" style="margin-top:5px;">

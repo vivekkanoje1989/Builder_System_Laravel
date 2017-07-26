@@ -24,7 +24,6 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         $scope.errorMsg = '';
     }
     $scope.login = function (loginData) {
-        alert('ghfgh');
         Data.post('authenticate', {
             username: loginData.mobile, password: loginData.password,
         }).then(function (response) {
@@ -40,10 +39,6 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
             }
         });
     };
-    
-        $scope.data = function () {
-        alert('fgfg');
-    }
     
     $scope.logout = function (logoutData) {
         $scope.showloader();
