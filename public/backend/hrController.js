@@ -542,7 +542,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.updatePassword = function (profileData)
         {
-            console.log(profileData);
             Data.post('master-hr/updatePassword', {
                 data: profileData,
             }).then(function (response) {

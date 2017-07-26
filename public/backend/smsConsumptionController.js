@@ -26,9 +26,9 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             });
         };
 
-        $scope.smsLogsDetails = function (transactionId, pageNumber, itemPerPage) {
+        $scope.smsLogsDetails = function (transactionId, pageNumber) {
             Data.post('bmsConsumption/smsLogData', {
-                id: transactionId, pageNumber: pageNumber, itemPerPage: itemPerPage,
+                id: transactionId, pageNumber: pageNumber,
             }).then(function (response) {
                 if (response.success) {
                     $scope.smsLogsDetails = response.records;
