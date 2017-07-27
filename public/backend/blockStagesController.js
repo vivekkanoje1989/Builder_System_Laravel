@@ -1,7 +1,8 @@
-app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster','$parse', function ($scope, Data, $rootScope, $timeout, toaster, $parse) {
+app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$parse', function ($scope, Data, $rootScope, $timeout, toaster, $parse) {
         $scope.block = [];
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
+        $scope.submitbtn = false;
         $scope.blockStages = function () {
             Data.post('block-stages/manageBlockStages').then(function (response) {
                 $scope.BlockStageRow = response.records;
@@ -30,7 +31,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
         }
         $scope.doblockstagesAction = function (block) {
             $scope.errorMsg = '';
-
+            $scope.submitbtn = true;
             if ($scope.id === 0) //for create
             {
                 Data.post('block-stages/', {
@@ -50,11 +51,12 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                         toaster.pop('success', 'Manage block stages', "Record created successfully");
                         $('#blockstagesModal').modal('toggle');
                         $scope.BlockStageRow.push({'block_stage_name': response.result.block_stage_name, 'id': response.lastinsertid, 'project_type_id': response.result.project_type_id});
+                        $scope.submitbtn = false;
                     }
                 });
             } else { //for update
                 console.log(block);
-                Data.put('block-stages/'+$scope.id, {
+                Data.put('block-stages/' + $scope.id, {
                     block: block, id: $scope.id}).then(function (response) {
                     if (!response.success)
                     {
