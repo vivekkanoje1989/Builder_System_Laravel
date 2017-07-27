@@ -1,8 +1,10 @@
-app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state', 'toaster', function ($scope, Data, $rootScope, $timeout, $state, toaster) {
+app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state', 'toaster','$parse', function ($scope, Data, $rootScope, $timeout, $state, toaster, $parse) {
 
         $scope.display_portal = 1;
         $scope.id = 0;
         $scope.itemsPerPage = 30;
+        $scope.editjob = false;
+        $scope.createJob = false;
         $scope.noOfRows = 1;
         $scope.career = {};
         $scope.manageCareers = function () {
@@ -10,7 +12,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                 $scope.careerRow = response.records;
             });
         };
-        $scope.clearToDate = function()
+        $scope.clearToDate = function ()
         {
             $scope.career.application_close_date = '';
         }
@@ -37,20 +39,31 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
         }
 
         $scope.dojobPostingAction = function (career) {
+            $scope.editjob = true;
+            $scope.createJob = true;
             var date = new Date(career.application_start_date);
-            $scope.application_start_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+            $scope.applicationStart_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             var date = new Date(career.application_close_date);
-            $scope.application_close_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+            $scope.applicationClose_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             $scope.errorMsg = '';
             if ($scope.id === 0) //for create
             {
                 Data.post('manage-job/', {
-                    job_title: career.job_title, job_eligibility: career.job_eligibility, job_locations: career.job_locations, job_role: career.job_role, application_start_date: $scope.application_start_date, application_close_date: $scope.application_close_date, number_of_positions: career.number_of_positions, job_responsibilities: career.job_responsibilities}).then(function (response) {
+                    job_title: career.job_title, job_eligibility: career.job_eligibility, job_locations: career.job_locations, job_role: career.job_role, application_start_date: $scope.applicationStart_date, application_close_date: $scope.applicationClose_date, number_of_positions: career.number_of_positions, job_responsibilities: career.job_responsibilities}).then(function (response) {
 
                     if (!response.success)
                     {
+                        $scope.createJob = false;
                         $scope.errorMsg = response.errormsg;
+                        var obj = response.message;
+                        var selector = [];
+                        for (var key in obj) {
+                            var model = $parse(key);// Get the model
+                            model.assign($scope, obj[key][0]);// Assigns a value to it
+                            selector.push(key);
+                        }
                     } else {
+
                         toaster.pop('success', 'Careers', 'Job post created successfully');
                         $state.go('manageJobIndex');
                     }
@@ -58,11 +71,20 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
             } else { //for update
 
                 Data.put('manage-job/' + $scope.id, {
-                    job_title: career.job_title, job_eligibility: career.job_eligibility, job_locations: career.job_locations, job_role: career.job_role, application_start_date: $scope.application_start_date, application_close_date: $scope.app_closing_date, number_of_positions: career.number_of_positions, job_responsibilities: career.job_responsibilities}).then(function (response) {
+                    job_title: career.job_title, job_eligibility: career.job_eligibility, job_locations: career.job_locations, job_role: career.job_role, application_start_date: $scope.applicationStart_date, application_close_date: $scope.applicationClose_date, number_of_positions: career.number_of_positions, job_responsibilities: career.job_responsibilities}).then(function (response) {
 
                     if (!response.success)
                     {
+                        
+                        $scope.editjob = false;
                         $scope.errorMsg = response.errormsg;
+                        var obj = response.message;
+                        var selector = [];
+                        for (var key in obj) {
+                            var model = $parse(key);// Get the model
+                            model.assign($scope, obj[key][0]);// Assigns a value to it
+                            selector.push(key);
+                        }
                     } else {
                         toaster.pop('success', 'Careers', 'Job post updated successfully');
                         $state.go('manageJobIndex');

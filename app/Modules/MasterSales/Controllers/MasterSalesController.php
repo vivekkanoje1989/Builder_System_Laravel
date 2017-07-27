@@ -653,6 +653,7 @@ class MasterSalesController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $getlocations = lstEnquiryLocations::where('city_id', $request['city_id'])->select('id', 'country_id', 'state_id', 'city_id', 'location')->get();
+      
         if (!empty($getlocations)) {
             $result = ['success' => true, 'records' => $getlocations];
         } else {

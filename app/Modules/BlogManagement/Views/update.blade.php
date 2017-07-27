@@ -84,14 +84,14 @@
                                     </div>
                                     <div class="col-sm-3 col-xs-12">
                                         <div class="form-group">
-                                            <label>Gallery image </label>
+                                            <label>Gallery image <span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
                                                 <input type="file" multiple ngf-select ng-model="blogData.blog_images" name="blog_images" id="blog_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                             </span>
                                             <span class="help-block">{{galleryImage_err}}</span>
                                         </div>
                                          <!--<img ng-if="!employee_photo_file_name_preview" ng-src="[[ Config('global.s3Path') ]]employee-photos/{{imgUrl}}" class="thumb photoPreview">-->
-                                        <div class="img-div2" data-title="name" ng-repeat="list in blog_images_preview">    
+                                        <div class="img-div2" data-title="name" ng-repeat="list in blog_images_preview" >    
                                             <img ng-src="{{list}}" class="thumb photoPreview">
                                         </div>
                                     </div>
@@ -169,7 +169,7 @@
                                         </div>
                                     </div> 
                                 </div>
-                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
+                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="updateBlog">Update</button>
                             </form>
                         </div>
                     </div>

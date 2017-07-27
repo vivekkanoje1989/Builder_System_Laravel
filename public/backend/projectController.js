@@ -11,7 +11,7 @@ app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$ti
                 $scope.projectSbtBtn = true;
                 toaster.pop('success', 'Project Details', 'Project created successfully');
                 $timeout(function () {
-                    $state.go('createProjectsIndex');
+                    $state.go('manageProjectIndex');
                 },1000);
             }
         });
@@ -119,7 +119,9 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
     }    
     $scope.showWebPage = function(id)
     {
-        $state.go('projectWebPage'); 
+        $scope.showloader();
+        $state.go('projectWebPage');
+        $scope.hideloader();
         $timeout(function () {
             $("#project_id").val(id);
             $("#project_id").change();

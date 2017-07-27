@@ -86,8 +86,8 @@
                                 <input type="text" class="form-control" ng-model="payment_heading" name="payment_heading"  required>
 
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.payment_heading.$error">
-                                    <div ng-message="required">Payment heading is required</div>
-                                    <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
+                                    <div ng-message="required" class='sp-err'>Payment heading is required</div>
+                                    <div ng-if="errorMsg" class="sp-err">{{errorMsg}}</div>
                                 </div>
                                 <br/>
                             </span>
@@ -120,8 +120,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.payment_heading.$error">
-                                            <div ng-message="required">Tax heading is required</div>
+                                        <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.tax_heading.$error">
+                                            <div ng-message="required" class="sp-err">Tax heading is required</div>
 
                                         </div>
                                     </span>
@@ -153,7 +153,7 @@
                                             </div>
                                         </div>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.date_dependent_tax.$error">
-                                            <div ng-message="required">Date dependants is required</div>
+                                            <div ng-message="required" class="sp-err">Date dependants is required</div>
 
                                         </div>
                                     </span>
@@ -188,7 +188,7 @@
                                             </div>
                                         </div>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.tax_applicable.$error">
-                                            <div ng-message="required">Tax applicable is required</div>
+                                            <div ng-message="required" class="sp-err">Tax applicable is required</div>
 
                                         </div>
                                     </span>
@@ -197,7 +197,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">{{action}}</button>
+                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="payHeading">{{action}}</button>
                     </div> 
                 </form>           
             </div>

@@ -105,6 +105,7 @@
         <script src="/backend/app/directives.js"></script>        
         <script src="/backend/adminController.js"></script>
         <script src="/backend/hrController.js"></script>
+        <script src="/backend/customerController.js"></script>
         <script src="/backend/smsConsumptionController.js"></script>
         
         <!--mandar-->

@@ -195,7 +195,7 @@
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!contactUsForm.country_id.$dirty && contactUsForm.country_id.$invalid) }">
                                     <label>Pin Code<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="pin_code" name="pin_code"  maxlength="9" minlength="9" required>
+                                        <input type="text" class="form-control" ng-model="pin_code" name="pin_code"  maxlength="6" minlength="6" required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="contactUsForm.pin_code.$error">
                                             <div ng-message="required">Pin code is required</div>
                                             <div ng-message="minlength">Pin code must be 6 digits</div>
@@ -228,7 +228,7 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12 col-xs-12 " align="center">
-                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
+                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="contactUs">Update</button>
                             </div>
                         </div>
                     </div>                    

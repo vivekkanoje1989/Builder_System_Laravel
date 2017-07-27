@@ -1,6 +1,7 @@
-app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster','$parse', function ($scope, Data, Upload, $timeout, toaster,$parse) {
+app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$location', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $location) {
 
         $scope.noOfRows = 1;
+        $scope.webTheme = false;
         $scope.theme = {};
         $scope.itemsPerPage = 30;
         $scope.manageThemes = function () {
@@ -32,10 +33,11 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             $scope.sbtBtn = false;
             $scope.index = index * ($scope.noOfRows - 1) + (index1);
         }
-        
-        
-        
+
+
+
         $scope.doThemesAction = function (imageUrl, themeData) {
+            $scope.webTheme = true;
             $scope.errorMsg = '';
             if ($scope.id == '0')
             {
@@ -57,8 +59,9 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 data: data
             });
             imageUrl.upload.then(function (response) {
-
+                $scope.webTheme = false;
                 if (response.data.success) {
+
                     $timeout(function () {
                         if ($scope.id == '0')
                         {
@@ -70,7 +73,10 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                         $scope.image_url_preview = {};
                         $scope.Theme = {};
                         $('#themesModal').modal('toggle');
+//                        $location.path('/website/themes');
+                        $window.location.reload();
                     });
+
                 } else {
                     var obj = response.data.message;
                     var selector = [];

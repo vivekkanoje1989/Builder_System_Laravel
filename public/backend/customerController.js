@@ -1,10 +1,10 @@
 'use strict';
 app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$location', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $location) {
         $scope.pageHeading = 'New Enquiry';
-        $scope.customerData = {};
+        $scope.customerData = [];
         $scope.contactData = {};
         $scope.searchData = {};
-        $scope.enquiryData = {};
+        $scope.enquiryData = [];
         $scope.btnLabelC = $scope.btnLabelE = "Save";
         $scope.projectsDetails = [];
         $scope.locations = [];
@@ -139,7 +139,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
         $scope.createCustomer = function (enteredData, customerPhoto) {
-            alert('fh');
+           
             sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             if (sessionContactData === null || sessionContactData === '') {
                 $('#errContactDetails').text(" - Please add contact details");
@@ -358,6 +358,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 city_id: response.city_id,
                             }).then(function (response) {
                                 $scope.locations = response.records;
+                                console.log($scope.locations);
                                 for (var i = 0; i < $scope.locations.length; i++) {
                                     if ($scope.locations[i]['id'] == location) {
                                         selectedLocations.push($scope.locations[i]);
@@ -423,25 +424,26 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 //        };
         $scope.saveEnquiryData = function (enquiryData)
         {
+            
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
 
             if (typeof $scope.enquiryData.id === 'undefined') {
+                var enqData = enquiryData;
                 Data.post('master-sales/saveEnquiry', {
-                    enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
+                    enquiryData1: enqData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
                 }).then(function (response) {
-                    console.log(response);
                     if (response.success) {
                         toaster.pop('success', 'Enquiry', response.message);
                         $scope.disableFinishButton = true;
                     }
-                    var obj = response.data.message;
-                    var selector = [];
-                    for (var key in obj) {
-                        var model = $parse(key);// Get the model
-                        model.assign($scope, obj[key][0]);// Assigns a value to it
-                        selector.push(key);
-                    }
+//                    var obj = response.data.message;
+//                    var selector = [];
+//                    for (var key in obj) {
+//                        var model = $parse(key);// Get the model
+//                        model.assign($scope, obj[key][0]);// Assigns a value to it
+//                        selector.push(key);
+//                    }
                 });
             } else {
                 Data.put('master-sales/updateEnquiry/' + $scope.enquiryData.id, {

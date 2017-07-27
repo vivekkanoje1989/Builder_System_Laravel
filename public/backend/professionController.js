@@ -2,6 +2,7 @@ app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
+        $scope.profBtn = false;
         $scope.manageProfession = function () {
             Data.post('manage-profession/manageProfession').then(function (response) {
                 $scope.professionRow = response.records;
@@ -26,8 +27,10 @@ app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($
         }
         $scope.doprofessionAction = function () {
             $scope.errorMsg = '';
+            $scope.profBtn = true;
             if ($scope.id == 0) //for create
             {
+                $scope.profBtn = false;
                 Data.post('manage-profession/', {
                     profession: $scope.profession, 'status': $scope.status}).then(function (response) {
                     if (!response.success)
@@ -40,7 +43,7 @@ app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($
                     }
                 });
             } else { //for update
-
+                $scope.profBtn = false;
                 Data.put('manage-profession/' + $scope.id, {
                     profession: $scope.profession, 'status': $scope.status, id: $scope.id}).then(function (response) {
                     if (!response.success)
