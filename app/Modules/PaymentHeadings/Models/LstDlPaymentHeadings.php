@@ -28,4 +28,24 @@ class LstDlPaymentHeadings extends Model {
         'updated_mac_id',
     ];
 
+    public static function validationMessages() {
+        $messages = array(
+            'payment_heading.required' => 'Please enter payment heading.',
+            'tax_heading.required' => 'Please select tax heading.',
+            'date_dependent_tax.required' => 'Please select date dependants.',
+            'tax_applicable' => 'Please select tax applicable.'
+        );
+        return $messages;
+    }
+
+    public static function validationRules() {
+        $rules = array(
+            'payment_heading' => 'required',
+            'tax_heading' => 'required',
+            'date_dependent_tax' => 'required',
+            'tax_applicable' => 'required'
+        );
+        return $rules;
+    }
+
 }

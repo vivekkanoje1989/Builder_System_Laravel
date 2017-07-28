@@ -39,6 +39,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
 
                     if (!response.success)
                     {
+                        $scope.submitbtn = false;
                         var obj = response.data.message;
                         var selector = [];
                         for (var key in obj) {
@@ -55,7 +56,6 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                     }
                 });
             } else { //for update
-                console.log(block);
                 Data.put('block-stages/' + $scope.id, {
                     block: block, id: $scope.id}).then(function (response) {
                     if (!response.success)

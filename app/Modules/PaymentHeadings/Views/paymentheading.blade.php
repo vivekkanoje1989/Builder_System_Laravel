@@ -44,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="list in PaymentHeadingRow| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
+                        <tr role="row" dir-paginate="list in paymentDetails| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>             
                             <td>{{ list.payment_heading}}</td> 
                             <td class="fa-div">
@@ -75,7 +75,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
-                <form novalidate ng-submit="paymentheadingForm.$valid && dopaymentheadingAction()" name="paymentheadingForm">
+                <form novalidate ng-submit="paymentheadingForm.$valid && dopaymentheadingAction(paymentData)" name="paymentheadingForm">
                      <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                    
                     <div class="modal-body">
@@ -83,12 +83,13 @@
                             <input type="hidden" class="form-control" ng-model="id" name="id">
                             <span class="input-icon icon-right">
                                 <label>Payment heading<span class="sp-err">*</span></label>
-                                <input type="text" class="form-control" ng-model="payment_heading" name="payment_heading"  required>
+                                <input type="text" class="form-control" ng-model="paymentData.payment_heading" name="payment_heading"  required>
 
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.payment_heading.$error">
                                     <div ng-message="required" class='sp-err'>Payment heading is required</div>
                                     <div ng-if="errorMsg" class="sp-err">{{errorMsg}}</div>
                                 </div>
+                                <div ng-if="payment_heading" class="sp-err payment_heading">{{payment_heading}}</div>
                                 <br/>
                             </span>
                         </div>
@@ -105,7 +106,7 @@
                                                 <div class="control-group">
                                                     <div class="radio">
                                                         <label>
-                                                            <input name="tax_heading" type="radio" ng-model="tax_heading" value="1" class="colored-blue" required>
+                                                            <input name="tax_heading" type="radio" ng-model="paymentData.tax_heading" value="1" class="colored-blue" required>
                                                             <span class="text">Yes </span>
                                                         </label>
                                                     </div>
@@ -114,7 +115,7 @@
                                             <div class="col-md-3">   
                                                 <div class="radio">
                                                     <label>
-                                                        <input name="tax_heading" type="radio" ng-model="tax_heading" value="0" class="colored-danger" required>
+                                                        <input name="tax_heading" type="radio" ng-model="paymentData.tax_heading" value="0" class="colored-danger" required>
                                                         <span class="text"> No  </span>
                                                     </label>
                                                 </div>
@@ -122,8 +123,8 @@
                                         </div>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.tax_heading.$error">
                                             <div ng-message="required" class="sp-err">Tax heading is required</div>
-
                                         </div>
+                                        <div ng-if="tax_heading" class="sp-err tax_heading">{{tax_heading}}</div>
                                     </span>
                                 </div>    
                             </div>
@@ -137,7 +138,7 @@
                                                 <div class="control-group">
                                                     <div class="radio">
                                                         <label>
-                                                            <input name="date_dependent_tax" type="radio" ng-model="date_dependent_tax" value="1" class="colored-blue" required>
+                                                            <input name="date_dependent_tax" type="radio" ng-model="paymentData.date_dependent_tax" value="1" class="colored-blue" >
                                                             <span class="text">Yes </span>
                                                         </label>
                                                     </div>
@@ -146,7 +147,7 @@
                                             <div class="col-md-3">
                                                 <div class="radio">
                                                     <label>
-                                                        <input name="date_dependent_tax" type="radio" ng-model="date_dependent_tax" value="0" class="colored-danger" required>
+                                                        <input name="date_dependent_tax" type="radio" ng-model="paymentData.date_dependent_tax" value="0" class="colored-danger" >
                                                         <span class="text"> No  </span>
                                                     </label>
                                                 </div>
@@ -154,8 +155,8 @@
                                         </div>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.date_dependent_tax.$error">
                                             <div ng-message="required" class="sp-err">Date dependants is required</div>
-
                                         </div>
+                                         <div ng-if="date_dependent_tax" class="sp-err date_dependent_tax">{{date_dependent_tax}}</div>
                                     </span>
 
                                 </div>    
@@ -172,7 +173,7 @@
                                                 <div class="control-group">
                                                     <div class="radio">
                                                         <label>
-                                                            <input name="tax_applicable" type="radio" ng-model="tax_applicable" value="1" class="colored-blue" required>
+                                                            <input name="tax_applicable" type="radio" ng-model="paymentData.tax_applicable" value="1" class="colored-blue" required>
                                                             <span class="text">Yes </span>
                                                         </label>
                                                     </div>
@@ -181,7 +182,7 @@
                                             <div class="col-md-6">
                                                 <div class="radio">
                                                     <label>
-                                                        <input name="tax_applicable" type="radio" ng-model="tax_applicable" value="0" class="colored-danger" required>
+                                                        <input name="tax_applicable" type="radio" ng-model="paymentData.tax_applicable" value="0" class="colored-danger" required>
                                                         <span class="text"> No  </span>
                                                     </label>
                                                 </div>
@@ -189,8 +190,8 @@
                                         </div>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="paymentheadingForm.tax_applicable.$error">
                                             <div ng-message="required" class="sp-err">Tax applicable is required</div>
-
                                         </div>
+                                         <div ng-if="tax_applicable" class="sp-err tax_applicable">{{tax_applicable}}</div>
                                     </span>
                                 </div>      
                             </div>
