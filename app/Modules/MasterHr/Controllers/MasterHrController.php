@@ -97,7 +97,7 @@ class MasterHrController extends Controller {
                 $value->title = $title->title;
 
                 if (!empty($value->employee_photo_file_name)) {
-                    $value->employee_photo_file_name = config('global.s3Path') . '/Employee-Photos/' . $value->employee_photo_file_name;
+                    $value->employee_photo_file_name = config('global.s3Path') . 'employee-photos/' . $value->employee_photo_file_name;
                 } else {
                     $value->employee_photo_file_name = '';
                 }
@@ -119,7 +119,7 @@ class MasterHrController extends Controller {
             $response = $empModel->getAttributes();
 
             if (!empty($empModel->employee_photo_file_name)) {
-                $response['employee_photo_file_name'] = config('global.s3Path') . '/Employee-Photos/' . $empModel->employee_photo_file_name;
+                $response['employee_photo_file_name'] = config('global.s3Path') . 'employee-photos/' . $empModel->employee_photo_file_name;
             } else {
                 $response['employee_photo_file_name'] = "";
             }
