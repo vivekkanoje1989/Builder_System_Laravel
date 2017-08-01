@@ -105,6 +105,7 @@
                                                 <div id="err_old_required" ng-message="required" class="sp-err">Old password cannot be blank.</div>
                                                 <div id="err_old_pass_match" ng-message="compareOldPassword" class="sp-err">Password could not be matched</div>
                                             </div>
+                                            <div ng-if="oldPassword" class="sp-err oldPassword">{{oldPassword}}</div>
                                         </span>                                
                                     </div>
                                 </div>
@@ -120,6 +121,7 @@
                                                 <div id="err_new_pass_pattern" ng-message="pattern" class="sp-err" >Password must contain at least one uppercase letter, one lowercase letter, one number and one special character</div>
 
                                             </div>
+                                             <div ng-if="password" class="sp-err password">{{password}}</div>
                                         </span>                                
                                     </div>
                                 </div>
@@ -134,6 +136,7 @@
                                                 <div id="err_cof_pass_compareto" ng-message="compareTo" class="sp-err">Must match new password and confirm password.</div>
                                                 <div id="err_cof_pass_minlength" ng-message="minlength" class="sp-err">Minimum 8 Characters Allowed.</div>
                                             </div>
+                                            <div ng-if="password_confirmation" class="sp-err password_confirmation">{{password_confirmation}}</div>
                                         </span>                                
                                     </div>
                                 </div>                                

@@ -58,8 +58,10 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
+            
             if (empty($input)) {
                 $input = Input::all();
+                
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
                 $loggedInUserId = $input['customerData']['loggedInUserId'];
@@ -75,6 +77,8 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
+            $input['customerData']['pan_number'] = '';
+            $input['customerData']['aadhar_number'] = '';
             $input['customerData']['birth_date'] = date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] = date('Y-m-d', strtotime($input['customerData']['marriage_date']));
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
@@ -231,6 +235,7 @@ class MasterSalesController extends Controller {
                 $input['customerData']['record_type'] = 2;
                 $input['customerData']['column_names'] = $implodeArr;
                 $input['customerData']['record_restore_status'] = 1;
+               
                 CustomersLog::create($input['customerData']);
             }
             if (!empty($input['customerContacts'])) {

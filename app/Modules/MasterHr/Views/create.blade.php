@@ -182,6 +182,7 @@
                         </div>                                                
                     </div>
                     <div class="row">
+                        <input type="hidden" ng-model="userData.pan_number" name="pan_number">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="button" class="btn btn-primary btn-nxt1" ng-click="step1=true">Next</button>
                         </div>

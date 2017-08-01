@@ -1,7 +1,10 @@
-app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', function ($scope, Data, Upload, toaster, $state) {
+app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', '$parse', '$timeout', function ($scope, Data, Upload, toaster, $state, $parse,$timeout) {
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
+        $scope.CompanyData = [];
+        $scope.stationary = [];
+        $scope.document = [];
         $scope.firmBtn = false;
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
@@ -23,7 +26,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 $scope.CompanyData.gst_number = response.result.gst_number;
                 $scope.CompanyData.firm_url = response.result.firm_url;
                 $scope.CompanyData.domain_name = response.result.domain_name;
-                $scope.CompanyData.main_office_addr = response.result.office_address;
+                $scope.CompanyData.office_address = response.result.office_address;
                 $scope.CompanyData.cloud_telephoney_client = response.result.cloud_telephoney_client;
                 $scope.firm_logo = 'https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Company/firmlogo/' + response.result.firm_logo;
                 $scope.documents = [];
@@ -41,18 +44,16 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 });
             });
         }
-        $scope.docompanyscreateAction = function (FirmLogo, CompanyData)
+        $scope.docompanyscreateAction = function (FirmLogo, CompanyData,documents,Stationary)
         {
-            $scope.showloader();
+           
             $scope.firmBtn = true;
             $scope.errorMsg = '';
             $scope.allimages = '';
             if ($scope.id == 0) {
                 var url = '/manage-companies/';
                 var data = {
-                    'bank_account': CompanyData.bank_account, 'legal_name': CompanyData.legal_name, 'punch_line': CompanyData.punch_line, 'pan_number': CompanyData.pan_num, 'main_office_addr': CompanyData.main_office_addr,
-                    'cloud_telephoney_client': CompanyData.cloud_telephoney_client, 'gst_number': CompanyData.gst_number, 'domain_name': CompanyData.domain_name,
-                    'service_tax_number': CompanyData.service_tax_number, 'sms_alice': CompanyData.sms_alice, 'vat_num': CompanyData.vat_num,
+                    'CompanyData':CompanyData,
                     'FirmLogo': {'FirmLogo': FirmLogo}, 'stationary': $scope.Stationary, 'documents': $scope.documents}
             } else {
                 if (typeof FirmLogo === 'undefined') {
@@ -60,9 +61,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 }
                 var url = '/manage-companies/updateCompany';
                 var data = {'id': $scope.id,
-                    'bank_account': CompanyData.bank_account, 'legal_name': CompanyData.legal_name, 'punch_line': CompanyData.punch_line, 'pan_number': CompanyData.pan_num, 'main_office_addr': CompanyData.main_office_addr,
-                    'cloud_telephoney_client': CompanyData.cloud_telephoney_client, 'gst_number': CompanyData.gst_number, 'domain_name': CompanyData.domain_name,
-                    'service_tax_number': CompanyData.service_tax_number, 'sms_alice': CompanyData.sms_alice, 'vat_num': CompanyData.vat_num,
+                      'CompanyData':CompanyData,
                     'FirmLogo': {'FirmLogo': FirmLogo}, 'stationary': $scope.Stationary, 'documents': $scope.documents}
             }
 
@@ -72,9 +71,8 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 data: data
             });
             FirmLogo.upload.then(function (response) {
-                $scope.hideloader();
                 $scope.firmBtn = false;
-                if (response.status) {
+                if (response.data.status == true) {
                     $state.go('companiesIndex');
                     $timeout(function () {
                         if ($scope.id == 0) {
@@ -85,10 +83,20 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                     }, 1500);
 
                 } else {
+                    var obj = response.data.message;
+                    var selector = [];
+//                    var sessionAttribute = $window.sessionStorage.getItem("sessionAttribute");
+                    for (var key in obj) {
+                        var model = $parse(key);// Get the model
+                        model.assign($scope, obj[key][0]);// Assigns a value to it
+                        selector.push(key);
+
+                    }
+                    $scope.firmBtn = false;
                     $scope.errorMsg = response.data.errormsg;
                 }
             }, function (response) {
-                 $scope.hideloader();
+                $scope.hideloader();
                 if (response.status !== 200) {
                     $scope.err_msg = "Please Select image for upload";
                 }

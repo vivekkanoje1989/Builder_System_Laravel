@@ -3,18 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Controllers/TestimonialsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/create.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Controllers/CareerManagementController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/careerManagementController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/update.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Views/show.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/testimonialsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Views/update.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Models/WebTestimonials.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Views/create.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CareerManagement/Models/WebCareers.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/FirmsAndPartnersController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Controllers/BlogManagementController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/quickuser.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Models/Companies.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/edit.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/profile.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Controllers/CompaniesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Models/backend/Employee.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Models/WebBlogs.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
         </group>
     </open-files>
 </project-private>
