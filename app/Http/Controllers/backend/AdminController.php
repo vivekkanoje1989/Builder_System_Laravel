@@ -41,6 +41,7 @@ use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\SystemConfig;
 use App\Classes\S3;
 use App\Classes\CommonFunctions;
+use App\Modules\BlockStages\Models\LstDlBlockStages;
 
 class AdminController extends Controller {
 
@@ -443,6 +444,16 @@ class AdminController extends Controller {
         }
     }
     
+     public function manageBlockStages() {
+        $getBlockstage = LstDlBlockStages::all();
+        if (!empty($getBlockstage)) {
+            $result = ['success' => true, 'records' => $getBlockstage, 'totalCount' =>count($getBlockstage)];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
      public function editDepartments() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);

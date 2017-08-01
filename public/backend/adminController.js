@@ -497,6 +497,12 @@ app.controller('vehiclemodelCtrl', function ($scope, Data) {
     });
 });
 
+app.controller('blockStageCtrl', function ($scope, Data) {
+            Data.get('manageBlockStages').then(function (response) {
+                $scope.blockStages = response.records;
+            });
+});
+
 
 app.controller('teamLeadCtrl', function ($scope, Data) {
     Data.get('getTeamLead/' + $("#empId").val()).then(function (response) {

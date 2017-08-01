@@ -1,13 +1,65 @@
 app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 'toaster', '$parse', function ($scope, Data, $rootScope, $timeout, toaster, $parse) {
-        $scope.block = [];
+        $scope.block = {};
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.submitbtn = false;
-        $scope.blockStages = function () {
-            Data.post('block-stages/manageBlockStages').then(function (response) {
+
+        $scope.pageNumber = 1;
+        $scope.pageChanged = function (pageNo, functionName, id) {
+            $scope[functionName](id, pageNo, $scope.itemsPerPage);
+            $scope.pageNumber = pageNo;
+        };
+
+        $scope.blockStages = function (empId, pageNumber, itemPerPage) {
+             $scope.showloader();
+            Data.post('block-stages/manageBlockStages', {
+                id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
+            }).then(function (response) {
+                 $scope.hideloader();
                 $scope.BlockStageRow = response.records;
+                $scope.BlockStageLength = response.totalCount;
             });
         };
+
+        $scope.getProcName = $scope.type = '';
+        $scope.procName = function (procedureName, isTeam) {
+            $scope.getProcName = angular.copy(procedureName);
+            $scope.type = angular.copy(isTeam);
+        }
+
+
+        $scope.filterData = {};
+        $scope.data = {};
+
+        $scope.filteredData = function (data, page, noOfRecords) {
+            $scope.showloader();
+            page = noOfRecords * (page - 1);
+            Data.post('block-stages/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
+                if (response.success)
+                {
+                    $scope.BlockStageRow = response.records;
+                    $scope.BlockStageLength = response.totalCount;
+                } else
+                {
+                    $scope.BlockStageRow = response.records;
+                    $scope.BlockStageLength = 0;
+                }
+                $('#showFilterModal').modal('hide');
+                $scope.showFilterData = $scope.filterData;
+                $scope.hideloader();
+                return false;
+
+            });
+        }
+
+        $scope.removeDataFromFilter = function (keyvalue)
+        {
+            delete $scope.filterData[keyvalue];
+            $scope.filteredData($scope.filterData, 1, 30);
+        }
+
+
+
         $scope.initialModal = function (id, blockStage, project_type_id, index, index1) {
             if (id == 0)
             {
@@ -36,7 +88,6 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
             {
                 Data.post('block-stages/', {
                     block: block}).then(function (response) {
-
                     if (!response.success)
                     {
                         $scope.submitbtn = false;
@@ -74,6 +125,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                         $scope.BlockStageRow.splice($scope.index, 0, {
                             block_stage_name: $scope.block.block_stage_name, id: $scope.id, 'project_type_id': $scope.block.project_type_id});
                         $('#blockstagesModal').modal('toggle');
+                         $scope.submitbtn = false;
                         // $scope.success("Block stage details updated successfully");
                     }
                 });

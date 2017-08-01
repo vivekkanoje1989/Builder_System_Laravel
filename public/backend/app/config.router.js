@@ -1850,6 +1850,8 @@ angular.module('app')
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/bloodGroupsController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     }
                                                                     );

@@ -1,7 +1,7 @@
 'use strict';
-app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeout', function ($scope, $state, Data, $timeout) {
-        $scope.lstAllEmployees=[];
-        $scope.portalTypeList = function(){
+app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeout','$parse', function ($scope, $state, Data, $timeout, $parse) {
+        $scope.lstAllEmployees = [];
+        $scope.portalTypeList = function () {
             Data.get('getPropertyPortalType').then(function (response) {
                 $scope.listPortals = response.records;
             });
@@ -55,13 +55,13 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
                 });
 
                 Data.post('propertyportals/getProperyAlias', {
-                    Data: {portalId: portalAccountId, portalTypeId:portalTypeId,id:0}
+                    Data: {portalId: portalAccountId, portalTypeId: portalTypeId, id: 0}
                 }).then(function (response) {
                     $scope.aliasLists = response.records;
                 });
             }
         }
-        $scope.addEditProjects = function (modalData,index)
+        $scope.addEditProjects = function (modalData, index)
         {
             var empname = '';
             var ids = '';
@@ -96,21 +96,20 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
             }
             if (status === true)
             {
-               if(index > 0)
-               {
-                   	$scope.aliasLists.splice($scope.index - 1, 1);
-                       $scope.aliasLists.splice($scope.index - 1, 0, {
-                           project_id: modalData.project_id, project_alias:  modalData.project_alias,  project_employee_name: empname,project_employee_id: ids});
-               }
-               else
-               {
-                $scope.aliasLists.push({
-                    project_id: modalData.project_id,
-                    project_alias: modalData.project_alias,
-                    project_employee_name: empname,
-                    project_employee_id: ids
-                });   
-               }                
+                if (index > 0)
+                {
+                    $scope.aliasLists.splice($scope.index - 1, 1);
+                    $scope.aliasLists.splice($scope.index - 1, 0, {
+                        project_id: modalData.project_id, project_alias: modalData.project_alias, project_employee_name: empname, project_employee_id: ids});
+                } else
+                {
+                    $scope.aliasLists.push({
+                        project_id: modalData.project_id,
+                        project_alias: modalData.project_alias,
+                        project_employee_name: empname,
+                        project_employee_id: ids
+                    });
+                }
             } else
             {
                 alert("Project alredy Add");
@@ -127,7 +126,12 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
             }).then(function (response) { // FLASH MSG
                 if (!response.success)
                 {
-
+                    var obj = response.message;
+                    $('.errMsg').text('');
+                    for (var key in obj) {
+                        var model = $parse(key);// Get the model
+                        model.assign($scope, obj[key][0]);// Assigns a value to it
+                    }
                 } else
                 {
                     $timeout(function () {
@@ -156,25 +160,24 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
         {
             // $scope.modal='';
         }
-        $scope.getUpdatePropertAlias = function(id,portaltypeid,portalid)
+        $scope.getUpdatePropertAlias = function (id, portaltypeid, portalid)
         {
-            alert(id+":"+portaltypeid+":"+portalid);
+            alert(id + ":" + portaltypeid + ":" + portalid);
             Data.post('propertyportals/getProperyAlias', {
-                    Data: {portalId: portalid, portalTypeId:portaltypeid,id:id}
-                }).then(function (response) {
-                    console.log(response.records[0]['project_employee_id']);
-                    $scope.modal = response.records[0];
-                    $scope.modal.employee_id =response.records[0]['project_employee_id'];
-                });
+                Data: {portalId: portalid, portalTypeId: portaltypeid, id: id}
+            }).then(function (response) {
+                $scope.modal = response.records[0];
+                $scope.modal.employee_id = response.records[0]['project_employee_id'];
+            });
         }
-        $scope.clearPopup =function()
+        $scope.clearPopup = function ()
         {
-           $scope.modal={};
+            $scope.modal = {};
         }
     }]);
 
 app.controller('assignEmployeeCtrl', function ($scope, Data, $timeout) {
-    $scope.lstAllEmployees=[];
+    $scope.lstAllEmployees = [];
     $timeout(function () {
         Data.get('propertyportals/getAllEmployees').then(function (response) {
             if (!response.success) {

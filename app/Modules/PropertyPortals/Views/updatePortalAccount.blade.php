@@ -20,11 +20,12 @@
                                 <div class="form-group">
                                     <label for="">Friendly Account Name <span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="portalData.portal_name" name="portal_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
+                                        <input type="text" ng-model="portalData.portal_name" name="portal_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
                                         <i class="fa fa-address-card"></i>
                                         <div ng-messages="portalAccountForm.friendly_account_name.$error">
                                             <div ng-message="required">This field is required.</div>
                                         </div>
+                                         <div ng-if="portal_name" class="sp-err portal_name">{{portal_name}}</div>
                                     </span>
                                 </div>
                             </div>
@@ -77,6 +78,7 @@
                                                 <span class="text">Project Specific Employee</span>
                                             </label>
                                         </div>
+                                        <div ng-if="enquiry_alocation_types" class="sp-err enquiry_alocation_types">{{enquiry_alocation_types}}</div>
                                     </span>
 
                                 </div> 
@@ -85,14 +87,15 @@
                                 <div class="form-group multi-sel-div" class="form-control" ng-controller="assignEmployeeCtrl" style="width: 100%;">
                                     <label for="">Select Common Employee <span class="sp-err">*</span></label>	
                                     <ui-select multiple='true' class="form-control" ng-model="portalData.employee_id" name="employee_id" theme="" ng-disabled="disabled" style="width: 300px;" ng-required ng-change="checkPortalEmployees()" required>
-                                        <ui-select-match placeholder="Select Employees">{{$item.first_name}} {{$item.last_name}}</ui-select-match>
+                                        <ui-select-match placeholder="Select Employees">{{$item.first_name}}  {{$item.last_name}}</ui-select-match>
                                         <ui-select-choices repeat="list in lstAllEmployees | filter:$select.search ">
-                                            {{list.first_name}} {{list.last_name}}
+                                            {{list.first_name  }}  {{list.last_name}}
                                         </ui-select-choices>
                                     </ui-select>
                                     <div ng-show="emptyEmployeeId" >
                                         This field is required.
                                     </div>
+                                     <div ng-if="employee_id" class="sp-err employee_id">{{employee_id}}</div>
                                 </div>                           
                             </div>
                             <div class="col-sm-3 col-xs-6">
@@ -171,7 +174,7 @@
                                 <select class="form-control" ng-model="modal.project_id">
                                     <option value="1">Happy Home</option>
                                     <option value="2">Country Yard</option>
-                                    <option value="3">Sankheshwar</option>
+                                    <option value="3">Sankeshwar</option>
                                     <option value="4">Dream castle</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>

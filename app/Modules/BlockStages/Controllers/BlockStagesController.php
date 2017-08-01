@@ -15,13 +15,29 @@ use Validator;
 class BlockStagesController extends Controller {
 
     public function index() {
-        return view("BlockStages::index");
+        return view("BlockStages::index")->with("loggedInUserId", Auth::guard('admin')->user()->id);
     }
 
     public function manageBlockStages() {
+         $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        if (!empty($request["employee_id"])) {
+            $emp_id = $request["employee_id"];
+            if ($request['filterFlag'] == 1) {
+                BlockStagesController::$procname = "proc_block_stage";
+                return $this->filteredData();
+                exit;
+            }
+        } else {
+            $emp_id = Auth::guard('admin')->user()->id;
+        }
+         
+         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        $getBlockstages = LstDlBlockStages::take($request['itemPerPage'])->offset($startFrom)->get();
+        
         $getBlockstage = LstDlBlockStages::all();
         if (!empty($getBlockstage)) {
-            $result = ['success' => true, 'records' => $getBlockstage];
+            $result = ['success' => true, 'records' => $getBlockstages, 'totalCount' =>count($getBlockstage)];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -29,6 +45,54 @@ class BlockStagesController extends Controller {
         }
     }
 
+    public function filteredData() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $filterData = $request['filterData'];
+        $ids = [];
+
+        if (empty($request['employee_id'])) { // For Web
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+         
+            $filterData["block_stage_name"] = !empty($filterData["block_stage_name"]) ? $filterData["block_stage_name"] : " ";
+        } else { // For App
+            $request["getProcName"] = BlockStagesController::$procname;
+            $loggedInUserId = $request['employee_id'];
+           
+            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+                $loggedInUserId = implode(',', array_map(function($el) {
+                            return $el['id'];
+                        }, $filterData['empId']));
+            }
+            $filterData["block_stage_name"] = !empty($filterData["block_stage_name"]) ? $filterData["block_stage_name"] : " ";
+            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        }
+        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+            $loggedInUserId = implode(',', array_map(function($el) {
+                        return $el['id'];
+                    }, $filterData['empId']));
+        }
+        $getBlockStages = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["block_stage_name"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+       
+        $enqCnt = DB::select("select FOUND_ROWS() totalCount");
+        $enqCnt = $enqCnt[0]->totalCount;
+        $i = 0;
+        if (!empty($getBlockStages)) {
+            foreach ($getBlockStages as $getInboundLog) {
+               $getBlockStages[$i]->block_stage_name = $getInboundLog->block_stage_name;
+                $i++;
+            }
+        }
+
+
+        if (!empty($getBlockStages)) {
+            $result = ['success' => true, 'records' => $getBlockStages, 'totalCount' => $enqCnt];
+        } else {
+            $result = ['success' => false, 'records' => $getBlockStages, 'totalCount' => $enqCnt];
+        }
+        return json_encode($result);
+    }
+    
     public function manageProjectTypes() {
 
         $getTypes = MlstBmsbProjectTypes::all();

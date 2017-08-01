@@ -22,9 +22,10 @@
                                     <span class="input-icon icon-right">
                                         <input type="text" ng-model="portalData.portal_name" name="portal_name" class="form-control" maxlength="15" required>
                                         <i class="fa fa-address-card"></i>
-                                        <div ng-messages="portalAccountForm.friendly_account_name.$error">
-                                            <div ng-message="required">This field is required.</div>
+                                        <div ng-messages="portalAccountForm.portal_name.$error">
+                                            <div ng-message="required" class="sp-err">This field is required.</div>
                                         </div>
+                                        <div ng-if="portal_name" class="sp-err portal_name">{{portal_name}}</div>
                                     </span>
                                 </div>
                             </div>
@@ -35,7 +36,7 @@
                                         <input type="text" ng-model="portalData.username" name="username" class="form-control" maxlength="15">
                                         <i class="fa fa-user"></i>
                                         <div ng-messages="portalAccountForm.first_name.$error">
-                                            <div ng-message="required">This field is required.</div>
+                                            <div ng-message="required" class="sp-err">This field is required.</div>
                                         </div>
                                     </span>                                
                                 </div>
@@ -77,7 +78,9 @@
                                                 <span class="text">Project Specific Employee</span>
                                             </label>
                                         </div>
+                                         <div ng-if="enquiry_alocation_types" class="sp-err enquiry_alocation_types">{{enquiry_alocation_types}}</div>
                                     </span>
+                                   
                                 </div> 
                             </div>
                             <div class="col-sm-3 col-xs-12" ng-show="portalData.enquiry_alocation_types == '0'">                            
@@ -89,10 +92,11 @@
                                             {{list.first_name}} {{list.last_name}}
                                         </ui-select-choices>
                                     </ui-select>
-                                    <div ng-show="emptyEmployeeId" >
+                                    <div ng-show="emptyEmployeeId" class="sp-err" >
                                         This field is required.
                                     </div>
-                                </div>{{ portalData.employee_id }}
+                                     <div ng-if="employee_id" class="sp-err employee_id">{{employee_id}}</div>
+                                </div>
                             </div>
                             <div class="col-sm-3 col-xs-6">
                                 <div class="form-group">
@@ -184,9 +188,10 @@
                                         </ui-select-choices>
                                     </ui-select>
                                    
-                                    <div ng-show="isEmptyEmployeeId" >
+                                    <div ng-show="isEmptyEmployeeId" class="sp-err">
                                         This field is required.
-                                    </div>                                    
+                                    </div>
+                                    <div ng-if="employee_id" class="sp-err employee_id">{{employee_id}}</div>
                                 </div> 
                             </span>
                         </div>                
