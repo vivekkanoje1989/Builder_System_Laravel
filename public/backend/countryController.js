@@ -1,7 +1,6 @@
-app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
+app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.itemsPerPage = 30;
-
         $scope.pageNumber = 1;
 
         $scope.pageChanged = function (pageNo, functionName, id) {
@@ -58,7 +57,6 @@ app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
 
 
         $scope.initialModal = function (id, name, index, index1, phonecode, sortname) {
-
             if (id == 0)
             {
                 $scope.action = 'Submit';
@@ -91,6 +89,7 @@ app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
                         $scope.countryRow.push({'name': $scope.name, 'id': response.lastinsertid, 'sortname': $scope.sortname, 'phonecode': $scope.phonecode});
                         $('#countryModal').modal('toggle');
                         //$scope.success("Country details created successfully");
+                         toaster.pop('success', 'Manage Country', 'Record Created Successfully' );
                     }
                 });
             } else { //for update
@@ -106,6 +105,7 @@ app.controller('countryCtrl', ['$scope', 'Data', function ($scope, Data) {
                         $scope.countryRow.splice($scope.index - 1, 0, {
                             name: $scope.name, id: $scope.id, name: $scope.name, 'sortname': $scope.sortname, 'phonecode': $scope.phonecode});
                         $('#countryModal').modal('toggle');
+                        toaster.pop('success', 'Manage Country', 'Record Updated Successfully' );
                     }
                 });
             }

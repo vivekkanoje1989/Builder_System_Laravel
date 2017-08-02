@@ -16,22 +16,158 @@ use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 class EnquiryLocationsController extends Controller {
 
     public function index() {
-        return view("EnquiryLocations::index");
+        return view("EnquiryLocations::index")->with("loggedInUserId", Auth::guard('admin')->user()->id);
     }
+
     public function enquiryLocation() {
-        $getLocation = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        if (!empty($request["employee_id"])) {
+            $emp_id = $request["employee_id"];
+            if ($request['filterFlag'] == 1) {
+                ManageStatesController::$procname = "proc_manage_states";
+                return $this->filteredData();
+                exit;
+            }
+        } else {
+            $emp_id = Auth::guard('admin')->user()->id;
+        }
+
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        $getLocations = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
                 ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
                 ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
                 ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
                 ->get();
+        $getLocation = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                ->take($request['itemPerPage'])->offset($startFrom)
+                ->get();
+        
         if (!empty($getLocation)) {
-            $result = ['success' => true, 'records' => $getLocation];
+            $result = ['success' => true, 'records' => $getLocation, 'totalCount' => count($getLocations)];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
+
+    public function filteredData() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $filterData = $request['filterData'];
+
+        if (empty($request['employee_id'])) { // For Web
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+
+            $filterData["location"] = !empty($filterData["location"]) ? $filterData["location"] : "";
+            $filterData["city_name"] = !empty($filterData["city_name"]) ? $filterData["city_name"] : "";
+        } else { // For App
+            $request["getProcName"] = ManageStatesController::$procname;
+            $loggedInUserId = $request['employee_id'];
+
+            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+                $loggedInUserId = implode(',', array_map(function($el) {
+                            return $el['id'];
+                        }, $filterData['empId']));
+            }
+            $filterData["location"] = !empty($filterData["location"]) ? $filterData["location"] : "";
+            $filterData["city_name"] = !empty($filterData["city_name"]) ? $filterData["city_name"] : "";
+            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        }
+//        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+//            $loggedInUserId = implode(',', array_map(function($el) {
+//                        return $el['id'];
+//                    }, $filterData['empId']));
+//        }
+//        $getStates = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["name"] . '","' . $filterData["country_name"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+
+        if ($filterData["location"] != "") {
+            $getLocations = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->where('lst_enquiry_locations.location', $filterData["location"])
+                    ->take($request['itemPerPage'])->offset($startFrom)
+                    ->get();
+
+            $getLocation = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->where('lst_enquiry_locations.location', $filterData["location"])
+                    ->get();
+            $enqCnt = count($getLocation);
+        } else if ($filterData["city_name"] != "") {
+            $getLocations = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->where('mlst_cities.name', $filterData["city_name"])
+                    ->take($request['itemPerPage'])->offset($startFrom)
+                    ->get();
+
+            $getLocation = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->where('mlst_cities.name', $filterData["city_name"])
+                    ->get();
+            $enqCnt = count($getLocation);
+        } else if ($filterData["location"] != "" || $filterData["city_name"] != "") {
+            $getLocations = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->where('mlst_cities.name', $filterData["city_name"])
+                    ->where('lst_enquiry_locations.location', $filterData["location"])
+                    ->take($request['itemPerPage'])->offset($startFrom)
+                    ->get();
+
+            $getLocation = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->where('mlst_cities.name', $filterData["city_name"])
+                    ->where('lst_enquiry_locations.location', $filterData["location"])
+                    ->get();
+            $enqCnt = count($getLocation);
+        } else {
+            $getLocation = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->get();
+            $getLocations = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->take($request['itemPerPage'])->offset($startFrom)
+                    ->get();
+            $enqCnt = count($getLocation);
+        }
+
+        $i = 0;
+        if (!empty($getLocations)) {
+            foreach ($getLocations as $getInboundLog) {
+                $getLocations[$i]->location = $getInboundLog->location;
+                $getLocations[$i]->city_name = $getInboundLog->city_name;
+                $i++;
+            }
+        }
+        if (!empty($getLocations)) {
+            $result = ['success' => true, 'records' => $getLocations, 'totalCount' => $enqCnt];
+        } else {
+            $result = ['success' => false, 'records' => $getLocations, 'totalCount' => $enqCnt];
+        }
+        return json_encode($result);
+    }
+
     public function manageStates() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -115,10 +251,10 @@ class EnquiryLocationsController extends Controller {
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['locationData'] = array_merge($request, $update);
             $result = lstEnquiryLocations::where('id', $id)->update($input['locationData']);
-           $getCity = MlstCities::where('id', $request['city_id'])
+            $getCity = MlstCities::where('id', $request['city_id'])
                     ->select('name')
                     ->first();
-            $result = ['success' => true, 'result' => $result,'city' => $getCity['name']];
+            $result = ['success' => true, 'result' => $result, 'city' => $getCity['name']];
             return json_encode($result);
         }
     }
