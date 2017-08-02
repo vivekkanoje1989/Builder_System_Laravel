@@ -38,4 +38,24 @@ class Companies extends Model {
         'updated_browser'
     ];
 
+    public static function validationMessages() {
+        $messages = array(
+            'legal_name.required' => 'Please enter legal name.',
+            'punch_line.required' => 'Please enter punch line.',
+            'cloud_telephoney_client.required' => 'Please select status.',
+            'office_address' => 'Please enter address.'
+        );
+        return $messages;
+    }
+
+    public static function validationRules() {
+        $rules = array(
+            'legal_name' => 'required',
+            'punch_line' => 'required',
+            'cloud_telephoney_client' => 'required',
+            'office_address' => 'required'
+        );
+        return $rules;
+    }
+
 }

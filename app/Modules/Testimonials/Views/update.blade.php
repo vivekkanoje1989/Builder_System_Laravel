@@ -91,7 +91,7 @@
                                         <div class="form-group"  ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.approve_status.$dirty && testimonialsForm.approve_status.$invalid) }">
                                             <label>Approve status <span class="sp-err" >*</span></label>
                                             <span class="input-icon icon-right">
-                                                <select name="status" ng-model="approve_status" name="testimonial.approve_status" class="form-control" >
+                                                <select name="status" ng-model="testimonial.approve_status" name="approve_status"  class="form-control" >
                                                     <option value="">Please select status</option>
                                                     <option value="1">Approved</option> 
                                                     <option value="0">Disapproved</option>

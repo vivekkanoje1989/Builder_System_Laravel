@@ -4,6 +4,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.userData = {};
         $scope.roleData = {};
         $scope.listUsers = [];
+        $scope.parentId = {};
         $scope.userData.department_id = [];
         $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
                 $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
@@ -14,7 +15,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.disableCreateButton = false;
         $scope.currentPage = $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
-        $rootScope.imageURL = "";
+//        $rootScope.imageURL = "";
         $scope.userData.high_security_password_type = 0;
         $scope.userData.current_country_id = $scope.userData.permenent_country_id = 101;
         var date = new Date($scope.userData.date_of_birth);
@@ -81,9 +82,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.applyClassMobile = 'ng-inactive';
             }
         }
-        
-            $scope.validatePMobile = function (mobNoSplit) {
-               
+
+        $scope.validatePMobile = function (mobNoSplit) {
+
             var firstDigit = mobNoSplit.substring(0, 1);
 
             if (firstDigit == "0") {
@@ -371,11 +372,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 notify: true //reinitialise object
             });
         }
+
         $scope.accessControl = function (moduleType, empId, checkboxid, parentId, submenuId) {
             var isChecked = $("#" + checkboxid).prop("checked");
             var obj = $("#" + checkboxid);
             var level = $("#" + checkboxid).attr("data-level");
-
+//            console.log(submenuId);
             if (isChecked)
             {
                 if (level === "first") {
@@ -384,6 +386,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         var str = $(this).attr('id');
                         var afterUnderscore = str.substr(str.indexOf("_") + 1);
                         submenuId.push(parseInt(afterUnderscore));
+                        $scope.parentId = parentId;
+
                     });
                 } else if (level === "second") {
                     var flag = [];
@@ -393,6 +397,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         else
                             flag.push(false);
                     });
+                    if ($.inArray(false, flag) === 1)
+                        $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', true);
                     if ($.inArray(false, flag) === -1)
                         $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', true);
 
@@ -402,6 +408,17 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         var afterUnderscore = str.substr(str.indexOf("_") + 1);
                         submenuId.push(parseInt(afterUnderscore));
                     });
+                    $scope.parentId = parentId;
+//                    if ($.inArray(true, flag) === -1) {
+//                        $scope.parentId = parentId;
+//                        console.log(parentId);
+//                    } else {
+//                        $scope.parentId[0] = parentId[1];
+//                        console.log($scope.parentId);
+//                    }
+//                    
+//                     console.log(parentId);
+//                    console.log(submenuId);
                 } else if (level === "third") {
                     var flag = [];
                     $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="third"]'))).each(function () {
@@ -410,14 +427,20 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         else
                             flag.push(false);
                     });
+//                   
+//                    if ($.inArray(false, flag) === 1)
+//                        $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
+//                        $(obj.parent().parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', true);
                     if ($.inArray(false, flag) === -1)
                         $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
+                    $scope.parentId = parentId;
                 }
             } else
             {
                 if (level === "first") {
                     $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
                     $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', false);
+
                     $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).each(function () {
                         var str = $(this).attr('id');
                         var afterUnderscore = str.substr(str.indexOf("_") + 1);
@@ -428,7 +451,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         var str = $(this).attr('id');
                         var afterUnderscore = str.substr(str.indexOf("_") + 1);
                         submenuId.push(parseInt(afterUnderscore));
+
                     });
+                    $scope.parentId = parentId;
+
+
                 } else if (level === "second") {
                     var flag = [];
                     $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="second"]'))).each(function () {
@@ -437,6 +464,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         else
                             flag.push(false);
                     });
+
                     if ($.inArray(true, flag) === -1)
                         $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', false);
 
@@ -445,7 +473,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         var str = $(this).attr('id');
                         var afterUnderscore = str.substr(str.indexOf("_") + 1);
                         submenuId.push(parseInt(afterUnderscore));
+
                     });
+
+                    if ($.inArray(true, flag) === -1) {
+                        $scope.parentId = parentId;
+                    } else {
+                        $scope.parentId[0] = parentId[1];
+                    }
+
+
                 } else if (level === "third") {
                     var flag = [];
                     $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="third"]'))).each(function () {
@@ -456,10 +493,19 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     });
                     if ($.inArray(true, flag) === -1)
                         $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
+
+
+                    if ($.inArray(true, flag) === -1) {
+                        $scope.parentId[0] = parentId[1];
+                    } else {
+                        $scope.parentId[0] = '';
+                    }
+
                 }
+
             }
             Data.post('master-hr/accessControl', {
-                data: {empId: empId, parentId: parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType}
+                data: {empId: empId, parentId: $scope.parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType}
             }).then(function (response) {
                 if (response) {
                     $scope.totalPermissions = response.totalPermissions;
@@ -531,13 +577,15 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             })
             profileData.employee_photo_file_name.upload.then(function (response)
             {
+
                 if (response.success == false) {
                     toaster.pop('error', 'Profile', 'Please upload profile photo');
                 } else {
                     toaster.pop('success', 'Profile', 'Profile updated successfully');
                 }
                 $rootScope.imageURL = response.data.profilePhoto;
-            }, function (response) {});
+            });
+
         }
 
         $scope.updatePassword = function (profileData)
@@ -567,21 +615,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             else
                 $scope.passwordValidation = false;
         }
-//        $scope.quickEmployee = function (quickEmp)
-//        {
-//            Data.post('master-hr/createQuickUser', {data: quickEmp}).then(function (response) {
-//                if (!response.success) {
-//                    toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
-//                    $scope.errorMsg = response.errormsg;
-//                } else {
-//                    toaster.pop('success', 'Manage Users', 'Record created successfully.');
-//                    $state.go('userIndex');
-//                }
-//            });
-//        }
+
         $scope.quickEmployee = function (quickEmp)
         {
-          
             var date = new Date(quickEmp.joining_date);
             quickEmp.joining_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             $scope.isDisabled = true;
@@ -593,13 +629,21 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     {
                         if (!response.success)
                         {
-                            toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
                             $scope.isDisabled = false;
+                            var obj = response.message;
+                            var selector = [];
+                            for (var key in obj) {
+                                var model = $parse(key);// Get the model
+                                model.assign($scope, obj[key][0]);// Assigns a value to it
+                                selector.push(key);
+                            }
+                            toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
+
                             $scope.errorMsg = response.errormsg;
                         } else
                         {
                             $scope.isDisabled = true;
-                            toaster.pop('success', 'Manage Users', 'Employee registeration successfully');
+                            toaster.pop('success', 'Manage Users', 'Employee registration successfully');
                             $state.go('userIndex');
                         }
                     });

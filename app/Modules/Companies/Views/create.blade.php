@@ -13,7 +13,7 @@
                 <div class="widget flat radius-bordered">
                     <div class="widget-body">
                         <div id="registration-form">
-                            <form  ng-submit="companysForm.$valid && docompanyscreateAction(CompanyData.firm_logo, CompanyData)" name="companysForm"  novalidate enctype="multipart/form-data">
+                            <form  ng-submit="companysForm.$valid && docompanyscreateAction(CompanyData.firm_logo, CompanyData, document, stationary)" name="companysForm"  novalidate enctype="multipart/form-data">
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                                 <input type="hidden" ng-model="id" name="id"  class="form-control">
                                 <div class="form-title">
@@ -29,6 +29,7 @@
                                                     <div ng-message="required">Legal name is required</div>
                                                     <div ng-if="errorMsg">{{errorMsg}}</div>
                                                 </div>
+                                                <div ng-if="legal_name" class="sp-err legal_name">{{legal_name}}</div>
                                                 <br/>
                                             </span>
                                         </div>
@@ -41,6 +42,7 @@
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.punch_line.$error">
                                                     <div ng-message="required">Punch Line is required</div>
                                                 </div>
+                                                <div ng-if="punch_line" class="sp-err punch_line">{{punch_line}}</div>
                                             </span>
                                         </div> 
                                     </div>
@@ -57,7 +59,11 @@
                                         <div class="form-group">
                                             <label>Pan Number</label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="CompanyData.pan_num" name="pan_num" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                <input type="text" class="form-control" ng-model="CompanyData.pan_num" name="pan_num" maxlength="10" minlength="10">
+                                                <div ng-show="sbtBtn" ng-messages="companysForm.pan_num.$error" class="help-block">
+                                                    <div ng-message="maxlength" class="sp-err">Please enter maximum 10 Characters.</div> 
+                                                    <div ng-message="minlength" class="sp-err">Please enter minimum 10 Characters.</div> 
+                                                </div>
                                                 <br/>
                                             </span>
                                         </div>    
@@ -93,6 +99,7 @@
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.cloud_telephoney_client.$error">
                                                     <div ng-message="required">Please select this field</div>
                                                 </div>
+                                                <div ng-if="cloud_telephoney_client" class="sp-err cloud_telephoney_client">{{cloud_telephoney_client}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -115,18 +122,20 @@
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.firm_logo.$error">
                                                     <div ng-message="required">Logo is required</div>
                                                 </div>
+                                                <div ng-if="firm_logo" class="sp-err firm_logo">{{firm_logo}}</div>
                                             </span>
                                         </div> 
                                     </div>
                                     <div class="col-sm-3 col-xs-12 ">
                                         <div class="form-group">
-                                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.main_office_addr.$dirty && companysForm.main_office_addr.$invalid) }">   
+                                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.office_address.$dirty && companysForm.office_address.$invalid) }">   
                                                 <label>Main Office Address<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <textarea ng-model="CompanyData.main_office_addr" required name="main_office_addr" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
-                                                    <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.main_office_addr.$error">
+                                                    <textarea ng-model="CompanyData.office_address" required name="office_address" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
+                                                    <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.office_address.$error">
                                                         <div ng-message="required">Main Office Address is required</div>
                                                     </div>  
+                                                    <div ng-if="office_address" class="sp-err office_address">{{office_address}}</div>
                                                     <br/>
                                                 </span>
                                             </div>    

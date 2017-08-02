@@ -147,17 +147,19 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             } else {
                 sessionContactData = JSON.parse($window.sessionStorage.getItem("sessionContactData"));
             }
+            
+            
             var customerData = {};
-            customerData = angular.fromJson(angular.toJson(enteredData));
+            customerData = (angular.toJson(enteredData));
             if (typeof customerPhoto === 'string' || typeof customerPhoto === 'undefined') {
                 customerPhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
             if ($scope.searchData.customerId === 0 || $scope.searchData.customerId === '') {
                 var url = '/master-sales';
-                var data = {customerData: customerData, image_file: customerPhoto, customerContacts: sessionContactData};
+                var data = {customerData: enteredData, image_file: customerPhoto, customerContacts: sessionContactData};
             } else {
                 var url = '/master-sales/' + $scope.searchData.customerId;
-                var data = {_method: "PUT", customerData: customerData, image_file: customerPhoto, customerContacts: sessionContactData};
+                var data = {_method: "PUT", customerData: enteredData, image_file: customerPhoto, customerContacts: sessionContactData};
             }
 
             customerPhoto.upload = Upload.upload({

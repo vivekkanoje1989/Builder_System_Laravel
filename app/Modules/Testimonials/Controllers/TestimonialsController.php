@@ -131,9 +131,10 @@ class TestimonialsController extends Controller {
         unset($input['_method']);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-        $input['testimonialsData'] = array_merge($input, $update);
+        $input['testimonialsData'] = array_merge($input['testimonial'], $update);
         $updateTestimonials = WebTestimonials::where('testimonial_id', $input['testimonial_id'])->update($input['testimonialsData']);
-        $result = ['success' => true, "records" => $updateTestimonials];
+       
+        $result = ['success' => true, "records" => $input['testimonialsData']];
         echo json_encode($result);
     }
 
