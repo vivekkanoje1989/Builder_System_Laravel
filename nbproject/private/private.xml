@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCountry/Controllers/ManageCountryController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/bloodGroupsController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
@@ -18,6 +19,40 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCountry/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlockStages/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/countryController.js</file>
+=======
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/api.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/reassignEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createCustomer.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/FirmsAndPartnersController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Controllers/BlogManagementController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/quickuser.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Models/Companies.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/edit.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/profile.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Controllers/CompaniesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Models/backend/Employee.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Models/WebBlogs.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+>>>>>>> 6d3c5646b37710bc602cc7e54c0317b46bdb3e16
+>>>>>>> fb492f65adc48fc42346a8208827d9c61720f319
         </group>
     </open-files>
 </project-private>

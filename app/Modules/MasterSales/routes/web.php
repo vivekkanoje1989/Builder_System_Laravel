@@ -98,6 +98,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     /****************************ENQUIRIES****************************/
     Route::get('/master-sales/totalEnquiry/{type}', 'MasterSalesController@totalEnquiry'); // get total enq with type
     Route::post('/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing
+    Route::get('/master-sales/reassignEnquiry/{type}', 'MasterSalesController@reassignEnquiry'); //  reassign enquiries
+    Route::post('/master-sales/getReassignEnquiry', 'MasterSalesController@getReassignEnquiry'); // listing for reassign enquiries
     Route::get('/master-sales/lostEnquiries/{type}', 'MasterSalesController@lostEnquiries'); // get all lost enquiries
     Route::post('/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries'); // get lost enquiries listing
     Route::get('/master-sales/bookedEnquiries/{type}', 'MasterSalesController@bookedEnquiries'); // get all booked enquiries 

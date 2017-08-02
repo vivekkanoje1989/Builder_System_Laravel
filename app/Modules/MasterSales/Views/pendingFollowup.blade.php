@@ -118,7 +118,7 @@
                             </td>
                             <td width="7%"> 
                                 <div style="color: #f73131">
-                                    {{enquiry.pending_from}}
+                                    <?php echo "Pending from \n"; ?>  {{enquiry.pending_from }}  <?php echo "\n days"; ?>
                                 </div>
                             </td>
                             <td width="20%">

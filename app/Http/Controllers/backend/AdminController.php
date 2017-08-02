@@ -287,14 +287,14 @@ class AdminController extends Controller {
         $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->where("status",1)->get();
         $salesEnqSubStatusList = EnquirySalesSubstatus::select('id','enquiry_sales_substatus','enquiry_sales_status_id')->where("status",1)->get();
         $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id','=',101)->get();
-        
+        $channelList = MlstEnquirySalesChannel::select('id','channel_name')->get();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 
                 'getMlstProfession' => $getMlstProfession,'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,
                 "blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup,
                 'enquiryLocation'=>$getEnquiryLocation,'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
-                'salesEnqStatusList' => $salesEnqStatusList,'salesEnqSubStatusList' => $salesEnqSubStatusList];
+                'salesEnqStatusList' => $salesEnqStatusList,'salesEnqSubStatusList' => $salesEnqSubStatusList,'channelList' => $channelList];
             return json_encode($result);
 
         } else {

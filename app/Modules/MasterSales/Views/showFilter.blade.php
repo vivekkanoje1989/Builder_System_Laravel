@@ -55,7 +55,7 @@
                                             <div class="form-group">
                                                 <label for="">Enquiry Category</label>
                                                 <span class="input-icon icon-right">
-                                                    <select ng-model="filterData.category_id" name="category_id" class="form-control" ng-change="getSubCategory(filterData.category_id)">
+                                                    <select ng-model="filterData.category_id" name="category_id" class="form-control" ng-change="getFilterSubCategory(filterData.category_id)">
                                                         <option value="">Select category</option>
                                                         <option ng-repeat="list in salesEnqCategoryList track by $index" value="{{list.id}}_{{list.enquiry_category}}">{{list.enquiry_category}}</option>
                                                     </select>
@@ -83,7 +83,7 @@
                                             <div class="form-group">
                                                 <label for="">Enquiry Source</label>
                                                 <span class="input-icon icon-right">
-                                                    <select ng-model="filterData.source_id" name="source_id" class="form-control" ng-change="onEnquirySourceChange(filterData.source_id)">
+                                                    <select ng-model="filterData.source_id" name="source_id" class="form-control" ng-change="onEnquiryFilterSourceChange(filterData.source_id)">
                                                         <option value="">Select Source</option>
                                                         <option ng-repeat="source in sourceList track by $index" value="{{source.id}}_{{source.sales_source_name}}">{{source.sales_source_name}}</option>
                                                     </select>
