@@ -176,11 +176,12 @@ class LoginController extends Controller {
     public function getLogout() {
         $empId = Auth()->guard('admin')->user()->id;
         $username = Auth()->guard('admin')->user()->username;
-       
+        $_SESSION =array();
+        //$GLOBALS = array();
         CommonFunctions::insertLoginLog($username, "-", $empId, 3, 0, $platformType = 1);//loginStatus = 3(logout)
         Auth()->guard('admin')->logout();
         \Session::flush();
         $result = ['success' => true, 'message' => 'Successfully logged out'];
-        echo json_encode($result);
+        echo json_encode($result);        
     }
 }

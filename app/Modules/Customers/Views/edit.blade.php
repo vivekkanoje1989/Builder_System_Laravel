@@ -5,6 +5,7 @@
     .help-block {
         margin-top: 0px !important; 
         margin-bottom: 0px !important; 
+        color:red;
     }
     input[capitalizeFirst]{ text-transform: capitalize; }
 </style>
@@ -31,6 +32,7 @@
                                     <div ng-show="sbtBtn" ng-messages="customerForm.title_id.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
+                                    <div ng-if="title_id" class="sp-err title_id">{{title_id}}</div>
                                 </span>
                             </div>
                         </div>
@@ -38,12 +40,13 @@
                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!customerForm.first_name.$dirty && customerForm.first_name.$invalid)}">
                                 <label for="">First Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="customerData.first_name" name="first_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
+                                    <input type="text" ng-model="customerData.first_name" name="first_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15"  required>
                                     <i class="fa fa-user"></i>
                                     <div ng-show="sbtBtn" ng-messages="customerForm.first_name.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                         <div ng-message="maxlength">First name not more than 15 characters long.</div>
                                     </div>
+                                     <div ng-if="first_name" class="sp-err first_name">{{first_name}}</div>
                                 </span>                                
                             </div>
                         </div>
@@ -66,6 +69,7 @@
                                         <div ng-message="required">This field is required.</div>
                                         <div ng-message="maxlength">First name not more than 15 characters long.</div>
                                     </div>
+                                    <div ng-if="last_name" class="sp-err first_name">{{last_name}}</div>
                                 </span>
                             </div>
                         </div>
@@ -83,6 +87,7 @@
                                     <div ng-show="sbtBtn" ng-messages="customerForm.gender.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
+                                    <div ng-if="gender_id" class="sp-err gender_id">{{gender_id}}</div>
                                 </span>
                             </div>
                         </div>
@@ -98,6 +103,7 @@
                                     <div ng-show="sbtBtn" ng-messages="customerForm.profession_id.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
+                                    <div ng-if="profession_id" class="sp-err profession_id">{{profession_id}}</div>
                                 </span>
                             </div>
                         </div>
@@ -112,6 +118,7 @@
                                     <div ng-show="sbtBtn" ng-messages="customerForm.monthly_income.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
+                                    <div ng-if="monthly_income" class="sp-err monthly_income">{{monthly_income}}</div>
                                 </div>
                             </div>
                         </div>                        
@@ -119,14 +126,15 @@
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group">
                                 <div class="form-group">
-                                    <label for="">Aadhar Card Number</label>
+                                    <label for="">Aadhar Card Number<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" ng-maxlength="12" ng-minlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" ng-maxlength="12" ng-minlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                         <div ng-show="sbtBtn" ng-messages="customerForm.aadhar_number.$error" class="help-block">
                                             <div ng-message="required">This field is required.</div>
                                             <div ng-message="minlength">Aadhar card number must be 12 digits.</div>
                                             <div ng-message="maxlength">Aadhar card number must be 12 digits.</div>
                                         </div>
+                                        <div ng-if="aadhar_number" class="sp-err aadhar_number">{{aadhar_number}}</div>
                                     </span>
                                 </div>
                             </div>
@@ -156,6 +164,7 @@
                                 <div ng-show="sbtBtn" ng-messages="customerForm.birth_date.$error" class="help-block">
                                     <div ng-message="required">This field is required.</div>
                                 </div>
+                                 <div ng-if="birth_date" class="sp-err birth_date">{{birth_date}}</div>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
@@ -184,6 +193,7 @@
                                 <div ng-show="sbtBtn" ng-messages="customerForm.sms_privacy_status.$error" class="help-block">
                                     <div ng-message="required">This field is required.</div>
                                 </div>
+                                <div ng-if="sms_privacy_status" class="sp-err sms_privacy_status">{{sms_privacy_status}}</div>
                             </div>
                         </div>
                     </div>
@@ -203,6 +213,7 @@
                                 <div ng-show="sbtBtn" ng-messages="customerForm.email_privacy_status.$error" class="help-block">
                                     <div ng-message="required">This field is required.</div>
                                 </div>
+                                <div ng-if="email_privacy_status" class="sp-err email_privacy_status">{{email_privacy_status}}</div>
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
@@ -217,6 +228,7 @@
                                     <div ng-show="sbtBtn" ng-messages="customerForm.source_id.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
                                     </div>
+                                    <div ng-if="source_id" class="sp-err source_id">{{source_id}}</div>
                                 </span>
                             </div>
                         </div>
@@ -242,6 +254,7 @@
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.source_description.$error">
                                     <div ng-message="required">Source Description is required.</div>
                                 </div>
+                                 <div ng-if="source_description" class="sp-err source_description">{{source_description}}</div>
                                 <br/>
                             </div>
                         </div>

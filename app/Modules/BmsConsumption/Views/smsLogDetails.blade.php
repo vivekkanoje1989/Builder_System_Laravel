@@ -18,7 +18,7 @@
         text-align:center;
     }
 </style>
-<div class="row" ng-controller="smsController" ng-init="smsLogsDetails([[$transactionId]], 1, [[config('global.recordsPerPage')]])">
+<div class="row" ng-controller="smsController" ng-init="smsLogsDetails([[$transactionId]], 1)">
 
     <div class="col-xs-12 col-md-12">
         <div class="widget">

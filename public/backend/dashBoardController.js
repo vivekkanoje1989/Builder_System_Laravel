@@ -1,6 +1,8 @@
 app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function ($scope, Data, toaster, $state) {
 
         $scope.itemsPerPage = 30;
+        $scope.reqLeave = false;
+        $scope.reqOtherLeave = false;
         $scope.noOfRows = 1;
         $scope.request = {};
         $scope.getEmployees = function () {
@@ -8,7 +10,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function
                 $scope.employeeRow = response.records;
             });
         };
-        $scope.clearToDate = function()
+        $scope.clearToDate = function ()
         {
             $scope.request.to_date = '';
         }
@@ -37,14 +39,16 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function
             });
         };
         $scope.dorequestLeaveAction = function (request) {
-
+            $scope.reqLeave = true;
             var date = new Date(request.from_date);
             $scope.from_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             var date = new Date(request.to_date);
             $scope.to_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             Data.post('request-leave/', {
                 uid: $scope.request.application_to, cc: $scope.request.application_cc, from_date: $scope.from_date, to_date: $scope.to_date, req_desc: request.req_desc, request_type: "Leave", status: "1"}).then(function (response) {
+
                 if (response.status) {
+                    $scope.reqLeave = false;
                     toaster.pop('success', 'Manage request', "Request created successfully");
                     $state.go('myRequestIndex');
                 }
@@ -52,10 +56,12 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function
         };
         $scope.doOtherApprovalAction = function (request)
         {
+            $scope.reqOtherLeave = true;
             Data.post('request-approval/other', {
                 uid: request.application_to, cc: request.application_cc, req_desc: request.req_desc, request_type: "Approval", status: "1"}).then(function (response) {
-                if (response.status) {
 
+                if (response.status) {
+                    $scope.reqOtherLeave = false;
                     toaster.pop('success', 'Manage request', "Request created successfully");
                     $state.go('myRequestIndex');
                 }

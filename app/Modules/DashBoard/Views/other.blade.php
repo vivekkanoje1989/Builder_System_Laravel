@@ -56,7 +56,7 @@
                                         </div>  
                                     </div>
                                 </div>
-                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
+                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="reqOtherLeave">Submit</button>
                             </form>
                         </div>
                     </div>

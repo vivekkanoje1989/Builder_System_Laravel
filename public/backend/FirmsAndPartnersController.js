@@ -2,6 +2,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
+        $scope.firmBtn = false;
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
                 $scope.CompanyRow = response.result;
@@ -42,6 +43,8 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         }
         $scope.docompanyscreateAction = function (FirmLogo, CompanyData)
         {
+            $scope.showloader();
+            $scope.firmBtn = true;
             $scope.errorMsg = '';
             $scope.allimages = '';
             if ($scope.id == 0) {
@@ -69,17 +72,23 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 data: data
             });
             FirmLogo.upload.then(function (response) {
+                $scope.hideloader();
+                $scope.firmBtn = false;
                 if (response.status) {
                     $state.go('companiesIndex');
-                    if ($scope.id == 0) {
-                        toaster.pop('success', 'Manage Companies', 'Record successfully created');
-                    } else {
-                        toaster.pop('success', 'Manage Companies', 'Record Updated created');
-                    }
+                    $timeout(function () {
+                        if ($scope.id == 0) {
+                            toaster.pop('success', 'Manage Companies', 'Record successfully created');
+                        } else {
+                            toaster.pop('success', 'Manage Companies', 'Record Updated created');
+                        }
+                    }, 1500);
+
                 } else {
                     $scope.errorMsg = response.data.errormsg;
                 }
             }, function (response) {
+                 $scope.hideloader();
                 if (response.status !== 200) {
                     $scope.err_msg = "Please Select image for upload";
                 }
@@ -104,10 +113,10 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
     }]);
 
 app.controller('bankAccountCtrl', ['$scope', 'Data', function ($scope, Data) {
-    $scope.bankAccountRow = [];
-    $scope.manageBankAccounts = function () {
-        Data.get('manage-companies/manageBankAccount').then(function (response) {
-            $scope.bankAccountRow = response.records;
-        });
-    };
-}]);
+        $scope.bankAccountRow = [];
+        $scope.manageBankAccounts = function () {
+            Data.get('manage-companies/manageBankAccount').then(function (response) {
+                $scope.bankAccountRow = response.records;
+            });
+        };
+    }]);

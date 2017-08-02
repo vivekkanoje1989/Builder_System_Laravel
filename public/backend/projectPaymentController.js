@@ -1,6 +1,7 @@
 app.controller('paymentHeadingController', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
     $scope.itemsPerPage = 30;
     $scope.noOfRows = 1;
+    $scope.payHeading = false;
     $scope.managePaymentHeading = function () {
         Data.get('payment-headings/managePaymentHeading').then(function (response) {
             $scope.PaymentHeadingRow = response.records;
@@ -33,8 +34,10 @@ app.controller('paymentHeadingController', ['$scope', 'Data', 'toaster', functio
     }
     $scope.dopaymentheadingAction = function () {
         $scope.errorMsg = '';
+         $scope.payHeading = true;
         if ($scope.id === 0) //for create
         {
+             $scope.payHeading = false;
             Data.post('payment-headings/', {payment_heading: $scope.payment_heading, tax_heading: $scope.tax_heading, date_dependent_tax: $scope.date_dependent_tax, tax_applicable: $scope.tax_applicable}).then(function (response) {
                 if (!response.success)
                 {
@@ -47,6 +50,7 @@ app.controller('paymentHeadingController', ['$scope', 'Data', 'toaster', functio
                 }
             });
         } else { //for update
+             $scope.payHeading = false;
             Data.put('payment-headings/' + $scope.id, {
                 payment_heading: $scope.payment_heading, tax_heading: $scope.tax_heading, date_dependent_tax: $scope.date_dependent_tax, tax_applicable: $scope.tax_applicable}).then(function (response) {
                 if (!response.success)

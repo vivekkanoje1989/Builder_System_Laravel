@@ -96,8 +96,8 @@
                                 <input type="text" class="form-control" ng-model="designation" name="designation"  ng-change="errorMsg = null" required>
 
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="designationsForm.designation.$error">
-                                    <div ng-message="required">Designation title is required</div>
-                                    <div ng-if="errorMsg">{{errorMsg}}</div>
+                                    <div ng-message="required" class="sp-err">Designation title is required</div>
+                                    <div ng-if="errorMsg" class="sp-err">{{errorMsg}}</div>
                                 </div>
                             </span>
                         </div>
@@ -112,13 +112,13 @@
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="designationsForm.status.$error">
-                                    <div ng-message="required">Status is required</div>
+                                    <div ng-message="required" class="sp-err">Status is required</div>
                                 </div>
                             </span>
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="desig_btn">Submit</button>
                     </div> 
                 </form>           
             </div>

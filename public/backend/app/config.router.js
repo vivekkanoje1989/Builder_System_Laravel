@@ -1085,6 +1085,38 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                
+                                .state('reassignenquiries', {
+                                    url: '/sales/reassignenquiries',
+                                    templateUrl: '/master-sales/reassignEnquiry/0',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Reassign Enquiries'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'textAngular', 'toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/enquiryController.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
                                 .state('enquiries', {
                                     url: '/sales/totalenquiries',
                                     templateUrl: '/master-sales/totalEnquiry/0',

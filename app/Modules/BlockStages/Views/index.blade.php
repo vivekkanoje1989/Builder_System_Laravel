@@ -76,7 +76,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
-                <form novalidate ng-submit="blockStagesForm.$valid && doblockstagesAction()" name="blockStagesForm">
+                <form novalidate ng-submit="blockStagesForm.$valid && doblockstagesAction(block)" name="blockStagesForm">
                    <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken='<?php echo csrf_token(); ?>'" class="form-control">
                    
                     <div class="modal-body">
@@ -84,7 +84,7 @@
                             <input type="hidden" class="form-control" ng-model="id" name="id">
                             <span class="input-icon icon-right">
                                 <label>Project type<span class="sp-err">*</span></label>
-                                <select class="form-control" ng-model="project_type_id" name="project_type_id" required>
+                                <select class="form-control" ng-model="block.project_type_id" name="project_type_id" required>
                                     <option value="">Select project type</option>
                                     <option  ng-repeat="item in ProjectTypesRow" value="{{item.id}}">{{item.project_type}}</option>
                                 </select>
@@ -92,23 +92,25 @@
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="blockStagesForm.project_type_id.$error">
                                     <div ng-message="required">Project type is required</div>
                                 </div>
+                               <div ng-if="project_type_id" class="sp-err project_type_id">{{project_type_id}}</div>
                             </span>
                         </div>
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blockStagesForm.block_stages.$dirty && blockStagesForm.block_stages.$invalid) && (!blockStagesForm.project_type_id.$dirty && blockStagesForm.project_type_id.$invalid)}">
 
                             <span class="input-icon icon-right">
                                    <label>Block stage<span class="sp-err">*</span></label>
-                                <input type="text" class="form-control" ng-model="block_stages" name="block_stages" ng-change="errorMsg = null" required>
+                                <input type="text" class="form-control" ng-model="block.block_stage_name" name="block_stage_name" ng-change="errorMsg = null" required>
                                 
-                                <div class="help-block" ng-show="sbtBtn" ng-messages="blockStagesForm.block_stages.$error">
+                                <div class="help-block" ng-show="sbtBtn" ng-messages="blockStagesForm.block_stage_name.$error">
                                     <div ng-message="required">Block stage is required</div>
                                     <div ng-if="errorMsg" class="err">{{errorMsg}}</div>
                                 </div>
+                                <div ng-if="block_stage_name" class="sp-err block_stages">{{block_stage_name}}</div>
                             </span>
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">{{action}}</button>
+                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="submitbtn">{{action}}</button>
                     </div> 
                 </form>           
             </div>

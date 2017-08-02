@@ -39,7 +39,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.initHistoryDataModal = function (enquiry_id) {
-            Data.post('master-sales/getEnquiryHistory', {
+             Data.post('master-sales/getEnquiryHistory', {
                 enquiryId: enquiry_id,
             }).then(function (response) {
                 if (response.success) {
@@ -80,6 +80,34 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             }
             $scope.pageNumber = pageNo;
+        }
+        $scope.reassignEnquiries = function (id, type, pageNumber, itemPerPage)
+        {
+            $scope.itemsPerPage = itemPerPage;
+            $scope.type = type;
+            $scope.showloader();
+            //$scope.listType = listType;
+            if (type == 0) {
+                $scope.report_name = "Reassign Enquiries";
+                $scope.pagetitle = "My Reassign Enquiries";
+            } else {
+                $scope.report_name = "Teams Reassign Enquiries";
+                $scope.pagetitle = "Team`s Reassign Enquiries ";
+            }            
+            Data.post('master-sales/getReassignEnquiry', {
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.enquiries = response.records;
+                    $scope.enquiriesLength = response.totalCount;
+                } else
+                {
+                    $scope.enquiries = '';
+                    $scope.enquiriesLength = 0;
+                }
+                $scope.hideloader();
+                $scope.flagForChange = 0;
+            });
         }
         $scope.getTotalEnquiries = function (id, type, pageNumber, itemPerPage)
         {

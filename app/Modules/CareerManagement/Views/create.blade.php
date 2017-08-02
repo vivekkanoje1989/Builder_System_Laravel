@@ -21,6 +21,7 @@
                                                         <div ng-message="required">Job title is required</div>
                                                         <div ng-if="errorMsg" class="sp-err">{{errorMsg}}</div>
                                                     </div>
+                                                     <div ng-if="job_title" class="sp-err job_title">{{job_title}}</div>
                                                     <br/>
                                                 </span>
                                             </div>
@@ -30,10 +31,11 @@
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_locations.$dirty && jobPosting.job_locations.$invalid) }">
                                             <label>Job Location <span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="career.job_locations" name="job_locations"  required oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
+                                                <input type="text" class="form-control" ng-model="career.job_locations" name="job_locations" required  oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_locations.$error">
                                                     <div ng-message="required">Job location is required</div>
                                                 </div>
+                                                <div ng-if="job_locations" class="sp-err job_locations">{{job_locations}}</div>
                                                 <br/>
                                             </span>
                                         </div>
@@ -48,6 +50,7 @@
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_eligibility.$error">
                                                 <div ng-message="required">Eligibility criteria is required</div>
                                             </div>
+                                            <div ng-if="job_eligibility" class="sp-err job_eligibility">{{job_eligibility}}</div>
                                             <br/>
                                         </div> 
                                     </div>
@@ -56,9 +59,10 @@
                                             <label>Job Role <span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
                                                 <input type="text" class="form-control" ng-model="career.job_role" name="job_role"  required>
-                                                <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_locations.$error">
+                                                <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_role.$error">
                                                     <div ng-message="required">Job role is required</div>
                                                 </div>
+                                                <div ng-if="job_role" class="sp-err job_role">{{job_role}}</div>
                                                 <br/>
                                             </span>
                                         </div>
@@ -74,6 +78,7 @@
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_responsibilities.$error">
                                                         <div ng-message="required"> Job responsibilities is required</div>
                                                     </div>
+                                                     <div ng-if="job_responsibilities" class="sp-err job_responsibilities">{{job_responsibilities}}</div>
                                                     <br/>
                                                 </span>
                                             </div>
@@ -91,6 +96,7 @@
                                             <div  class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.application_start_date.$error">
                                                 <div ng-message="required">Application starting date is required.</div>
                                             </div>
+                                            <div ng-if="application_start_date" class="sp-err application_start_date">{{application_start_date}}</div>
                                         </div>
                                     </div>
 
@@ -106,6 +112,7 @@
                                             <div  class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.application_close_date.$error">
                                                 <div ng-message="required">Application closing date is required.</div>
                                             </div>
+                                             <div ng-if="application_close_date" class="sp-err application_close_date">{{application_close_date}}</div>
                                         </div>
                                     </div>
 
@@ -117,13 +124,14 @@
                                                 <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.number_of_positions.$error">
                                                     <div ng-message="required">Number of position is required</div>
                                                 </div>
+                                                <div ng-if="number_of_positions" class="sp-err number_of_positions">{{number_of_positions}}</div>
                                                 <br/>
                                             </span>
                                         </div>
                                     </div>
                                 </div>    
 
-                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
+                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="createJob">Submit</button>
                             </form>
                         </div>
                     </div>

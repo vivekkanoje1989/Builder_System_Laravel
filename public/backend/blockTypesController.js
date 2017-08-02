@@ -2,6 +2,7 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
+        $scope.manageBlockType = false;
         $scope.manageBlockTypes = function () {
             Data.post('block-types/manageBlockTypes').then(function (response) {
                 $scope.BlockTypesRow = response.records;
@@ -31,8 +32,10 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
         }
         $scope.doblocktypesAction = function () {
             $scope.errorMsg = '';
+            $scope.manageBlockType = true;
             if ($scope.id === 0) //for create
             {
+                $scope.manageBlockType = false;
                 Data.post('block-types/', {block_id: $scope.block_name,
                     project_type_id: $scope.project_type_id, block_name: $scope.block_name}).then(function (response) {
 
@@ -47,6 +50,7 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
                     }
                 });
             } else { //for update
+                $scope.manageBlockType = false;
                 Data.put('block-types/' + $scope.id, {
                     project_type_id: $scope.project_type_id, block_name: $scope.block_name, id: $scope.id}).then(function (response) {
                     if (!response.success)
