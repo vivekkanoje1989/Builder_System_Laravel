@@ -1,26 +1,39 @@
-<div class="row" ng-controller="enquiryLocationCtrl" ng-init="enquiryLocation(); manageCountry()">  
+<style>
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
+</style>
+<div class="row" ng-controller="enquiryLocationCtrl" ng-init="enquiryLocation([[$loggedInUserId]], 1, [[config('global.recordsPerPage')]]); manageCountry()">  
     <div class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Enquiry Location</span>                
             </div>
             <div class="widget-body table-responsive">
+                 <div class="row">
+                    <div class="col-sm-2 ">
+                        <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-change="enquiryLocation([[$loggedInUserId]],{{pageNumber}}, itemsPerPage)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_manage_states', 0)">
+                            <i class="btn-label fa fa-filter"></i>Show Filter</button>
+                    </div>
+                    <div class="col-sm-6  dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                        <span ng-if="enquiryLocationRowLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{enquiryLocationRow.length}} Logs Out Of Total {{enquiryLocationRowLength}} Logs&nbsp;</span>
+                        <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'enquiryLocation', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
+                    </div>
+                </div>
                 <div class="row">
-                    <div class="col-md-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="search">Search:</label>
-                            <span class="input-icon icon-right">
-                                <input type="text" ng-model="search" name="search" class="form-control">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="search">Records per page:</label>
-                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
-                        </div>
-                    </div>
+                    <div class="col-sm-6 col-xs-12"></div>
                     <div class="col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
@@ -29,27 +42,35 @@
                             </span>
                         </div>
                     </div>
-                </div>         
+                </div> 
+                 <!-- filter data--> 
+                <div class="row" style="border:2px;" id="filter-show">
+                    <div class="col-sm-12 col-xs-12">
+                        <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate'">
+                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                <div class="alert alert-info fade in">
+                                    <button class="close" ng-click="removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <strong ng-if="key === 'empId'" ng-repeat='emp in value track by $index'> {{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}} </strong>
+                                    <strong ng-if="key === 'city_name'" data-toggle="tooltip" title="City Name"><strong> City Name : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'location'" data-toggle="tooltip" title="Location"><strong> Location : </strong> {{ value}}</strong>
+                                </div>
+                            </div>
+                        </b>                        
+                    </div>
+                </div>
+                <!-- filter data-->
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
                             <th style="width:5%">Sr No.</th>
-                            <th style="width:25%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'city'; reverseSort = !reverseSort">City
-                                    <span ng-show="orderByField == 'city'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th> 
-                            <th style="width:25%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'location'; reverseSort = !reverseSort">Location
-                                    <span ng-show="orderByField == 'location'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                </a></th>                           
+                            <th style="width:25%">City</th> 
+                            <th style="width:25%">Location</th>                           
                             <th style="width: 5%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="list in enquiryLocationRow| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                            <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
+                        <tr role="row" dir-paginate="list in enquiryLocationRow| filter:search | itemsPerPage:itemsPerPage" total-items="{{ enquiryLocationRowLength}}">
+                            <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>   
                             <td>{{ list.city_name}}</td> 
                             <td>{{ list.location}}</td>                          
                             <td class="fa-div">
@@ -60,14 +81,15 @@
                 </table>
                 <div class="DTTTFooter">
                     <div class="col-sm-6">
-                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
                     </div>
                     <div class="col-sm-6">
                         <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'enquiryLocation', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
                         </div>
                     </div>
                 </div>
+                <div data-ng-include="'/EnquiryLocations/showFilter'"></div>
             </div>
         </div>
     </div>

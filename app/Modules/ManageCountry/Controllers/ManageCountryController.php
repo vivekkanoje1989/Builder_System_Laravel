@@ -18,11 +18,11 @@ class ManageCountryController extends Controller {
     }
 
     public function manageCountry() {
-        
+
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        
-         if (!empty($request["employee_id"])) {
+
+        if (!empty($request["employee_id"])) {
             $emp_id = $request["employee_id"];
             if ($request['filterFlag'] == 1) {
                 ManageCountryController::$procname = "proc_manage_country";
@@ -32,23 +32,21 @@ class ManageCountryController extends Controller {
         } else {
             $emp_id = Auth::guard('admin')->user()->id;
         }
-        
-         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
         $getCountries = MlstCountries::take($request['itemPerPage'])->offset($startFrom)->get();
-        
-        
         $getCountry = MlstCountries::all();
 
         if (!empty($getCountry)) {
-            $result = ['success' => true, 'records' => $getCountries, 'totalCount' =>count($getCountry)];
+            $result = ['success' => true, 'records' => $getCountries, 'totalCount' => count($getCountry)];
             return json_encode($result);
         } else {
-            $result = ['success' => false, 'records' => $getCountries, 'totalCount' =>count($getCountry),'message' => 'Something went wrong'];
+            $result = ['success' => false, 'records' => $getCountries, 'totalCount' => count($getCountry), 'message' => 'Something went wrong'];
             return json_encode($result);
         }
     }
-    
-     public function filteredData() {
+
+    public function filteredData() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $filterData = $request['filterData'];
@@ -56,12 +54,12 @@ class ManageCountryController extends Controller {
 
         if (empty($request['employee_id'])) { // For Web
             $loggedInUserId = Auth::guard('admin')->user()->id;
-         
+
             $filterData["name"] = !empty($filterData["name"]) ? $filterData["name"] : "";
         } else { // For App
             $request["getProcName"] = ManageCountryController::$procname;
             $loggedInUserId = $request['employee_id'];
-           
+
             if (isset($filterData['empId']) && !empty($filterData['empId'])) {
                 $loggedInUserId = implode(',', array_map(function($el) {
                             return $el['id'];
@@ -75,14 +73,25 @@ class ManageCountryController extends Controller {
                         return $el['id'];
                     }, $filterData['empId']));
         }
-        $getCountries = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["name"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
-       
-        $enqCnt = DB::select("select FOUND_ROWS() totalCount");
-        $enqCnt = $enqCnt[0]->totalCount;
+//        $getCountries = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["name"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+        if ($filterData["name"] != "") {
+
+            $getCountries = MlstCountries::orderBy('id', 'DESC')
+                    ->where('name', $filterData["name"])
+                    ->take($request['itemPerPage'])->offset($startFrom)
+                    ->get();
+              $enqCnt = count($getCountries);
+        } else {
+            $getCountry = MlstCountries::all();
+             $enqCnt = count($getCountry);
+            $getCountries = MlstCountries::take($request['itemPerPage'])->offset($startFrom)->get();
+        }
+
         $i = 0;
         if (!empty($getCountries)) {
             foreach ($getCountries as $getInboundLog) {
-               $getCountries[$i]->name = $getInboundLog->name;
+                $getCountries[$i]->name = $getInboundLog->name;
                 $i++;
             }
         }
