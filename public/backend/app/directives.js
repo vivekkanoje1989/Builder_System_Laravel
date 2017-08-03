@@ -107,9 +107,11 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                 return Data.post('master-sales/getCustomerDetails', {
                     data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId},
                 }).then(function (response) {
-                    if (response.success) { //response true  
+                    if (response.success) { //response true
+                        alert(response.flag);
                         if (response.flag === 0)//if customer exist
                         {
+                            alert("exist");
                             $scope.showDiv = false;
                             $scope.showDivCustomer = true;
                             $scope.btnLabelC = "Update";

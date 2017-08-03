@@ -41,6 +41,7 @@ use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\SystemConfig;
 use App\Classes\S3;
 use App\Classes\CommonFunctions;
+use App\Modules\BlockStages\Models\LstDlBlockStages;
 
 class AdminController extends Controller {
 
@@ -104,9 +105,9 @@ class AdminController extends Controller {
             $permission = json_decode($employeeSubmenus[0]->employee_submenus,true);
         }else{//for web app
             $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
-            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get(); 
-            session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
-            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
+//            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get(); 
+//            session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
+//            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
         }
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();
@@ -282,18 +283,18 @@ class AdminController extends Controller {
         $subBlocksList = ProjectBlock::select("id","project_id","block_type_id","block_sub_type")->get();
         $enquiryFinanceTieup = EnquiryFinanceTieup::where("status",1)->get(); 
         $salesEnqCategoryList = MlstEnquirySalesCategory::select('id','enquiry_category')->where("status",1)->get();
-        $salesEnqSubCategoryList = EnquirySalesSubcategory::select('id','enquiry_sales_subcategory')->where("status",1)->get();
+        $salesEnqSubCategoryList = EnquirySalesSubcategory::select('id','enquiry_sales_subcategory','enquiry_sales_category_id')->where("status",1)->get();
         $salesEnqStatusList = MlstEnquirySalesStatus::select('id','sales_status')->where("status",1)->get();
-        $salesEnqSubStatusList = EnquirySalesSubstatus::select('id','enquiry_sales_substatus')->where("status",1)->get();
+        $salesEnqSubStatusList = EnquirySalesSubstatus::select('id','enquiry_sales_substatus','enquiry_sales_status_id')->where("status",1)->get();
         $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id','=',101)->get();
-        
+        $channelList = MlstEnquirySalesChannel::select('id','channel_name')->get();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource, 
                 'getMlstProfession' => $getMlstProfession,'getMlstBmsbDesignation' => $getMlstBmsbDesignation,'states'=> $getStates,
                 "blocks"=>$blockTypeList,"projects"=>$projectList,'subblocks'=>$subBlocksList,'agencyList'=>$enquiryFinanceTieup,
                 'enquiryLocation'=>$getEnquiryLocation,'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
-                'salesEnqStatusList' => $salesEnqStatusList,'salesEnqSubStatusList' => $salesEnqSubStatusList];
+                'salesEnqStatusList' => $salesEnqStatusList,'salesEnqSubStatusList' => $salesEnqSubStatusList,'channelList' => $channelList];
             return json_encode($result);
 
         } else {
@@ -443,6 +444,16 @@ class AdminController extends Controller {
         }
     }
     
+     public function manageBlockStages() {
+        $getBlockstage = LstDlBlockStages::all();
+        if (!empty($getBlockstage)) {
+            $result = ['success' => true, 'records' => $getBlockstage, 'totalCount' =>count($getBlockstage)];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
      public function editDepartments() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);

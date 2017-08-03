@@ -10,4 +10,5 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['api'], 'namespace' 
     Route::post('api/master-hr/getMenuLists', 'MasterHrController@getMenuLists');
     Route::post('api/master-hr/appAccessControl', 'MasterHrController@appAccessControl');
     Route::post('api/master-hr/appProfile', 'MasterHrController@appProfile');
+    Route::post('api/master-hr/updatePassword', 'MasterHrController@updatePassword');
 });	

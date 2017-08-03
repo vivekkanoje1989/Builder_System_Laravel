@@ -19,20 +19,16 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                 if (response.success) {
                     $scope.smsLogsList = response.records;
                     $scope.smsLogLength = response.totalCount;
-                    $scope.successSms = response.successSms;
-                    $scope.failSms = response.failSms;
-                    $scope.totalSms = response.totalSms;
-                    $scope.credits = response.credits;
-
+//                    $scope.credits = response.credits;
                 } else {
                     $scope.errorMsg = response.message;
                 }
             });
         };
 
-        $scope.smsLogsDetails = function (transactionId, pageNumber, itemPerPage) {
+        $scope.smsLogsDetails = function (transactionId, pageNumber) {
             Data.post('bmsConsumption/smsLogData', {
-                id: transactionId, pageNumber: pageNumber, itemPerPage: itemPerPage,
+                id: transactionId, pageNumber: pageNumber,
             }).then(function (response) {
                 if (response.success) {
                     $scope.smsLogsDetails = response.records;
@@ -46,10 +42,8 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
         $scope.getProcName = $scope.type = '';
         $scope.procName = function (procedureName, isTeam) {
-
             $scope.getProcName = angular.copy(procedureName);
             $scope.type = angular.copy(isTeam);
-
         }
 
 
@@ -83,10 +77,10 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             delete $scope.filterData[keyvalue];
             $scope.filteredData($scope.filterData, 1, 30);
         }
-        
+
         $scope.removeReportDataFromFilter = function (keyvalue)
         {
-            delete $scope.filterData[keyvalue];
+            delete $scope.filterReportData[keyvalue];
             $scope.filteredReportData($scope.filterReportData, 1, 30);
         }
 
@@ -99,8 +93,13 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     $scope.totalSms = response.records;
                     $scope.smsPercentage = response.logsInPercentage;
                     $scope.smsReportLength = response.totalCount;
+                    for (var j = 0; j < $scope.totalSms.length; j++) {
+                        $scope.fail = response.records[j].fail;
+                    }
+
                 } else
                 {
+                    $scope.smsPercentage = response.logsInPercentage;
                     $scope.smsReportLength = 0;
                 }
 
@@ -118,7 +117,34 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             }).then(function (response) {
                 $scope.smsPercentage = response.logInPercentage;
                 $scope.totalSms = response.records;
-                $scope.total = response.records.total;
+
+
+                $scope.fail = response.records[0].fail;
+                if ($scope.fail == 0) {
+                    $scope.failP = '0';
+                } else {
+                    $scope.failP = '100';
+                }
+
+                $scope.categorylabels = ["Delivered", "Undelivered"];
+                $scope.categorydata = [$scope.totalSms[0].success, $scope.totalSms[0].fail];
+                $scope.categorycolors = ['#DCDCDC', '#FFA500'];
+                $scope.categoryoptions = {
+                    cutoutPercentage: 60,
+                    animation: {
+                        animatescale: true
+                    }
+                };
+
+                $scope.categorylabels1 = ["Operator issue"];
+                $scope.categorydata1 = [$scope.fail];
+                $scope.categorycolors1 = ['#00ADF9'];
+                $scope.categoryoptions = {
+                    cutoutPercentage: 60,
+                    animation: {
+                        animatescale: true
+                    }
+                };
             });
         }
 

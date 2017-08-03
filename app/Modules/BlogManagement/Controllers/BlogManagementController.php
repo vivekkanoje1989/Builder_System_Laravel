@@ -158,6 +158,7 @@ class BlogManagementController extends Controller {
         $cnt = WebBlogs::where(['blog_title' => $input['blogData']['blog_title']])->where('id', '!=', $id)->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'Blog title already exists'];
+            return json_encode($result, true);
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $create = CommonFunctions::updateMainTableRecords($loggedInUserId);

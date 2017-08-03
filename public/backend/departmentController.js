@@ -2,6 +2,7 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
         $scope.departmentData = {};
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
+        $scope.deptBtn = false;
         $scope.manageDepartment = function () {
             Data.post('manage-department/manageDepartment').then(function (response) {
                 $scope.departmentRow = response.records;
@@ -25,8 +26,10 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
 
         $scope.doDepartmentAction = function (deptData) {
             $scope.errorMsg = '';
+            $scope.deptBtn = true;
             if ($scope.id === 0) //for create
             {
+                $scope.deptBtn = false;
                 Data.post('manage-department/', {
                     department_name: deptData.department_name, vertical_id: deptData.vertical_id, }).then(function (response) {
                     if (!response.success)
@@ -40,6 +43,7 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
                     }
                 });
             } else { //for update
+                $scope.deptBtn = false;
                 Data.put('manage-department/' + $scope.id, {
                     department_name: deptData.department_name, vertical_id: deptData.vertical_id, id: $scope.id}).then(function (response) {
                     if (!response.success)

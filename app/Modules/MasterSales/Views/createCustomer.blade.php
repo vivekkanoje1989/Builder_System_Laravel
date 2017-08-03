@@ -28,7 +28,7 @@
                         <div class="form-group">
                             <label for="">First Name<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
+                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" required capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
                                 <i class="fa fa-user"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.first_name.$error" class="help-block errMsg">
                                     <div ng-message="required">Please enter first name</div>
@@ -67,7 +67,7 @@
                         <div class="form-group">
                             <label for="">Gender<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select ng-model="customerData.gender_id" name="gender_id" ng-controller="genderCtrl" class="form-control" >
+                                <select ng-model="customerData.gender_id" name="gender_id" ng-controller="genderCtrl" class="form-control" required>
                                     <option value="">Select Gender</option>
                                     <option ng-repeat="genderList in genders track by $index" value="{{genderList.id}}" ng-selected="{{ genderList.id == customerData.gender}}">{{genderList.gender}}</option>
                                 </select>
@@ -218,7 +218,7 @@
                     </div>
                 </div>                                
             </div> 
-            <hr class="wide col-md-12" />   
+            <hr class="wide col-md-12" /> 
         </div> 
         <div class="col-xs-12 col-md-12" ng-if="showDivCustomer">
             <div class="widget">                                

@@ -2,6 +2,7 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
+        $scope.proTypeBtn = false;
         $scope.manageProjectTypes = function () {
             Data.post('project-types/manageProjectTypes').then(function (response) {
                 $scope.ProjectTypesRow = response.records;
@@ -23,9 +24,11 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
             $scope.index = index * ($scope.noOfRows - 1) + (index1);
         }
         $scope.doProjectTypesAction = function () {
+            $scope.proTypeBtn = true;
             $scope.errorMsg = '';
             if ($scope.id == 0) //for create
             {
+                $scope.proTypeBtn = false;
                 Data.post('project-types/', {
                     project_type: $scope.project_type}).then(function (response) {
                     if (!response.success){
@@ -38,6 +41,7 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
                     }
                 });
             } else { //for update
+                $scope.proTypeBtn = false;
                 Data.put('project-types/' + $scope.id, {
                     project_type: $scope.project_type, id: $scope.id}).then(function (response) {
                     if (!response.success)

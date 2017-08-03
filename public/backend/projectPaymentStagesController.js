@@ -2,6 +2,7 @@ app.controller('projectpaymentController', ['$scope', 'Data', 'toaster', functio
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
+        $scope.proPayStage = false;
         $scope.fix_stage = 1;
         $scope.manageProjectPaymentStages = function () {
             Data.post('project-payment/manageProjectPaymentStages').then(function (response) {
@@ -33,8 +34,10 @@ app.controller('projectpaymentController', ['$scope', 'Data', 'toaster', functio
         }
         $scope.doprojectpaymentAction = function () {
             $scope.errorMsg = '';
+            $scope.proPayStage = true;
             if ($scope.id == 0) //for create
             {
+                $scope.proPayStage = false;
                 Data.post('project-payment', {
                     stage_name: $scope.stage_name, project_type_id: $scope.project_type_id, fix_stage: $scope.fix_stage}).then(function (response) {
 
@@ -49,6 +52,7 @@ app.controller('projectpaymentController', ['$scope', 'Data', 'toaster', functio
                     }
                 });
             } else { //for update
+                $scope.proPayStage = false;
                 Data.put('project-payment/' + $scope.id, {
                     stage_name: $scope.stage_name, id: $scope.id, project_type_id: $scope.project_type_id, fix_stage: $scope.fix_stage}).then(function (response) {
                     if (!response.success)

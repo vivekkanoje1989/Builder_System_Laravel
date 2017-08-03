@@ -33,8 +33,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" ng-repeat="list in roleList">
-                            <td>{{$index+1}}</td>
+                        <tr role="row" dir-paginate="list in roleList | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <td>{{ itemsPerPage * (noOfRows-1)+$index+1 }}</td>
                             <td>{{list.role_name}}</td>
                             <td class="fa-div">
                                 <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/role/permissions/{{ list.id }}"><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
@@ -42,6 +42,16 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="DTTTFooter">
+                    <div class="col-sm-6">
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

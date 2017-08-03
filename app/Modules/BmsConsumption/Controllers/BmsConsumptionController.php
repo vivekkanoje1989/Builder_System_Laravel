@@ -69,7 +69,6 @@ class BmsConsumptionController extends Controller {
                 ->whereMonth('created_at', '=', $currentMonth)
                 ->where('employee_id', '=', $emp_id)
                 ->get();
-
         $successSms = SmsLog::whereYear('created_at', '=', $currentYear)
                 ->whereMonth('created_at', '=', $currentMonth)
                 ->where('employee_id', '=', $emp_id)
@@ -79,11 +78,13 @@ class BmsConsumptionController extends Controller {
         $reportData['success'] = count($successSms);
         $reportData['fail'] = $reportData['total'] - $reportData['success'];
         $smsReport[] = $reportData;
-        $reportDataP['successPercentage'] = ($reportData['success'] / $reportData['total']) * 100;
-        $reportDataP['failPercentage'] = ($reportData['fail'] / $reportData['total']) * 100;
-        $reportDataP['totalPercentage'] = ($reportData['total'] / $reportData['total']) * 100;
-        $smsPercentage[] = $reportDataP;
-
+        if ($reportData['total'] != 0) {
+            $reportDataP['successPercentage'] = round(($reportData['success'] / $reportData['total']) * 100);
+            $reportDataP['failPercentage'] = round(($reportData['fail'] / $reportData['total']) * 100);
+            $reportDataP['totalPercentage'] = round(($reportData['total'] / $reportData['total']) * 100);
+             $smsPercentage[] = $reportDataP;
+        }
+       
         if (!empty($reportData)) {
             $result = ['success' => true, 'records' => $smsReport, 'logInPercentage' => $smsPercentage];
         } else {
@@ -107,33 +108,51 @@ class BmsConsumptionController extends Controller {
         }
         $getSmsLoglist = array();
         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        $getSmsLogs = SmsLog::where('employee_id', $emp_id)->groupBy('externalId1')->orderBy('id', 'desc')->get();
-        $getCountSms = count($getSmsLogs);
-//    
+        $getCount = SmsLog::where('employee_id', $emp_id)
+                ->groupBy('externalId1')
+                ->orderBy('id', 'desc')
+                ->get();
+        $getCountSms = count($getCount);
+        $getSmsLogs = SmsLog::where('employee_id', $emp_id)
+                ->groupBy('externalId1')
+                ->orderBy('id', 'desc')
+                ->take($request['itemPerPage'])->offset($startFrom)
+                ->get();
+        $cnt = count($getSmsLogs);
         $getSmsLog = [];
         $getSmsLog = array();
         $transactionId = [];
-        for ($i = 0; $i < $getCountSms; $i++) {
+        for ($i = 0; $i < $cnt; $i++) {
             $transactionId[] = $getSmsLogs[$i]['externalId1'];
             $getSmsLogs[$i]['dateTime'] = date('d-m-Y h:i A', strtotime($getSmsLogs[$i]['sent_date_time']));
         }
-        $getSmslist = SmsLog::where('externalId1', $transactionId)->get();
 
-        $count = 0;
-        $sum = 0;
-        for ($j = 0; $j < count($getSmslist); $j++) {
-            if (trim($getSmslist[$j]['status']) == "success") {
-                $count++;
+
+        for ($k = 0; $k < count($transactionId); $k++) {
+            $getSmslist = SmsLog::where('externalId1', $transactionId[$k])->get();
+            $getListcnt = count($getSmslist);
+            $sum = 0;
+            $count = 0;
+            for ($j = 0; $j < $getListcnt; $j++) {
+                if (trim($getSmslist[$j]['status']) == "success") {
+                    $count++;
+                }
+                $credit = $getSmslist[$j]['credits_deducted'];
+                $sum = $sum + $credit;
             }
-            $credit = $getSmslist[$j]['credits_deducted'];
-            $sum = $sum + $credit;
+            $data['successSms'] = $count;
+            $data['credits'] = $sum;
+            $data['failSms'] = count($getSmslist) - $data['successSms'];
+            $data['totalSms'] = count($getSmslist);
+            $getDetails[] = $data;
         }
-        $successSms = $count;
-        $failSms = count($getSmslist) - $successSms;
-        $totalSms = count($getSmslist);
+
+        for ($m = 0; $m < count($getDetails); $m++) {
+            $getSmsLogs[$m]['smsDetails'] = $getDetails[$m];
+        }
 
         if (!empty($getSmsLogs)) {
-            $result = ['success' => true, 'records' => $getSmsLogs, 'totalCount' => $getCountSms, 'successSms' => $successSms, 'failSms' => $failSms, 'totalSms' => $totalSms, 'credits' => $sum];
+            $result = ['success' => true, 'records' => $getSmsLogs, 'totalCount' => $getCountSms];
         } else {
             $result = ['success' => false, 'records' => $getSmsLogs, 'totalCount' => $getCountSms];
         }
@@ -151,11 +170,13 @@ class BmsConsumptionController extends Controller {
         for ($i = 0; $i < count($getSmslist); $i++) {
             $employee_id = $getSmslist[$i]['employee_id'];
             $getSmslist[$i]['dateTime'] = date('d-m-Y h:i A', strtotime($getSmslist[$i]['sent_date_time']));
-            
+            $getSmslist[$i]['mobile_code'] = substr($getSmslist[$i]['mobile_number'], 0, 2);
+            $mobile_first = substr($getSmslist[$i]['mobile_number'], 3, 2);
+            $mobile_last = substr($getSmslist[$i]['mobile_number'], 11, 2);
+            $getSmslist[$i]['mobile'] = $mobile_first . 'xxxxxx' . $mobile_last;
         }
         $getEmpName = Employee::where('id', $employee_id)->get();
         $employee_name = $getEmpName[0]['first_name'] . ' ' . $getEmpName[0]['last_name'];
-
 
 //       
         if (!empty($getSmslist)) {
@@ -202,17 +223,44 @@ class BmsConsumptionController extends Controller {
 
 
         $getSmsLogs = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fromDate"] . '","' .
-                        $filterData["toDate"] . '","' . $filterData["mobile_number"] . '","' . $filterData["externalId1"] . '","' . $filterData["sms_type"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
-
+                        $filterData["toDate"] . '","' . $filterData["externalId1"] . '","' . $filterData["sms_type"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = $enqCnt[0]->totalCount;
+//        print_r(count($getSmsLogs));
+        for ($i = 0; $i < count($getSmsLogs); $i++) {
+            $transactionId[] = $getSmsLogs[$i]->externalId1;
+            $getSmsLogs[$i]->dateTime = date('d-m-Y h:i A', strtotime($getSmsLogs[$i]->sent_date_time));
+        }
+
+        for ($k = 0; $k < count($transactionId); $k++) {
+            $getSmslist = SmsLog::where('externalId1', $transactionId[$k])->get();
+            $getListcnt = count($getSmslist);
+            $sum = 0;
+            $count = 0;
+            for ($j = 0; $j < $getListcnt; $j++) {
+                if (trim($getSmslist[$j]['status']) == "success") {
+                    $count++;
+                }
+                $credit = $getSmslist[$j]['credits_deducted'];
+                $sum = $sum + $credit;
+            }
+            $data['successSms'] = $count;
+            $data['credits'] = $sum;
+            $data['failSms'] = count($getSmslist) - $data['successSms'];
+            $data['totalSms'] = count($getSmslist);
+            $getDetails[] = $data;
+        }
+
+        for ($m = 0; $m < count($getDetails); $m++) {
+            $getSmsLogs[$m]->smsDetails = $getDetails[$m];
+        }
 
         $i = 0;
 
         if (!empty($getSmsLogs)) {
-            $result = ['success' => true, 'records' => $getSmsLogs, 'totalCount' => $enqCnt];
+            $result = ['success' => true, 'records' => $getSmsLogs, 'totalCount' => count($getSmsLogs)];
         } else {
-            $result = ['success' => false, 'records' => $getSmsLogs, 'totalCount' => $enqCnt];
+            $result = ['success' => false, 'records' => $getSmsLogs, 'totalCount' => count($getSmsLogs)];
         }
         return json_encode($result);
     }
@@ -260,38 +308,38 @@ class BmsConsumptionController extends Controller {
                 $count++;
             }
         }
-        $getSmsReportLogs['total'] = $totalRecords;
-        $getSmsReportLogs['success'] = $count;
-        $getSmsReportLogs['fail'] = $totalRecords - $getSmsReportLogs['success'];
-        $reportFilterData[] = $getSmsReportLogs;
 
-        if ($getSmsReportLogs['success'] != 0) {
-            $reportDataP['successPercentage'] = ($getSmsReportLogs['success'] / $getSmsReportLogs['total']) * 100;
-        } else {
-            $reportDataP['successPercentage'] = 0;
-        }
+        if ($totalRecords != 0) {
+            $getSmsReportLogs['total'] = $totalRecords;
+            $getSmsReportLogs['success'] = $count;
+            $getSmsReportLogs['fail'] = $totalRecords - $getSmsReportLogs['success'];
+            $reportFilterData[] = $getSmsReportLogs;
+            if ($getSmsReportLogs['success'] != 0) {
+                $reportDataP['successPercentage'] = round(($getSmsReportLogs['success'] / $getSmsReportLogs['total']) * 100);
+            } else {
+                $reportDataP['successPercentage'] = 0;
+            }
 
-        if ($getSmsReportLogs['fail'] != 0) {
-            $reportDataP['failPercentage'] = ($getSmsReportLogs['fail'] / $getSmsReportLogs['total']) * 100;
-        } else {
-            $reportDataP['failPercentage'] = 0;
+            if ($getSmsReportLogs['fail'] != 0) {
+                $reportDataP['failPercentage'] = round(($getSmsReportLogs['fail'] / $getSmsReportLogs['total']) * 100);
+            } else {
+                $reportDataP['failPercentage'] = 0;
+            }
+            if ($getSmsReportLogs['total'] != 0) {
+                $reportDataP['totalPercentage'] = round(($getSmsReportLogs['total'] / $getSmsReportLogs['total']) * 100);
+            } else {
+                $getSmsReportLogs['totalPercentage'] = 0;
+            }
+            $smsPercentage[] = $reportDataP;
         }
-        if ($getSmsReportLogs['total'] != 0) {
-            $reportDataP['totalPercentage'] = ($getSmsReportLogs['total'] / $getSmsReportLogs['total']) * 100;
-        }else{
-            $getSmsReportLogs['totalPercentage']= 0;
-        }
-        $smsPercentage[] = $reportDataP;
-
 
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = $enqCnt[0]->totalCount;
-
         $i = 0;
         if ($totalRecords != 0) {
             $result = ['success' => true, 'records' => $reportFilterData, 'logsInPercentage' => $smsPercentage, 'totalCount' => $enqCnt];
         } else {
-            $result = ['success' => false];
+            $result = ['success' => false, 'records' => $reportFilterData, 'logsInPercentage' => $smsPercentage, 'totalCount' => $enqCnt];
         }
         return json_encode($result);
     }

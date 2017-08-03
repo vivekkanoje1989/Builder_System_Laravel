@@ -218,7 +218,7 @@ class Employee extends Authenticatable {
             'username.required' => 'Please enter user name',
             'username.numeric' => 'Please enter user name numeric',
             'password.numeric' => 'Please enter password numeric',
-            'password.required' => 'Please enter password',
+//            'password.required' => 'Please enter password',
             'designation_id.required' => 'Please enter designation_id',
             'department_id.required' => 'Please enter department',
             'team_lead_id.required' => 'Please select team lead',
@@ -253,7 +253,7 @@ class Employee extends Authenticatable {
     public static function validationRules() {
         $rules = array(
             'username' => 'required|numeric',
-            'password' => 'required|max:6',
+//            'password' => 'required|max:6',
             'designation_id' => 'required',
             'department_id' => 'required',
             'team_lead_id' => 'required',
@@ -283,6 +283,40 @@ class Employee extends Authenticatable {
             'joining_date' => 'required|date',
         );
         return $rules;
+    }
+    
+     public static function validationRules1() {
+        $rules = array(
+            
+            'designation_id' => 'required',
+            'department_id' => 'required',
+            'team_lead_id' => 'required',
+            'reporting_to_id' => 'required',
+            'title_id' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'personal_mobile1' => 'required',
+            'personal_email1' => 'required|email|unique:employees',
+            'joining_date' => 'required|date',
+        );
+        return $rules;
+    }
+    
+     public static function validationMessages1() {
+        $messages = array(
+            
+            'designation_id.required' => 'Please enter designation_id',
+            'department_id.required' => 'Please enter department',
+            'team_lead_id.required' => 'Please select team lead',
+            'reporting_to_id.required' => 'Please enter reporting to',
+            'title_id.required' => 'Please enter title_id',
+            'first_name.required' => 'Please enter first name',
+            'last_name.required' => 'Please enter last name',
+            'personal_mobile1.required' => 'Please enter personal mobile number.',
+            'personal_email1.required' => 'Please enter email.',
+            'joining_date' => 'Please enter joining date.'
+        );
+        return $messages;
     }
     
     public function designationName()

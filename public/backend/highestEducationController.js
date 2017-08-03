@@ -1,6 +1,7 @@
 app.controller('highestEducationCtrl', ['$scope', 'Data', function ($scope, Data) {
 
         $scope.itemsPerPage = 30;
+        $scope.eduBtn = false;
         $scope.noOfRows = 1;
         $scope.manageHighestEducation = function () {
             Data.post('highest-education/manageHighestEducation').then(function (response) {
@@ -9,7 +10,7 @@ app.controller('highestEducationCtrl', ['$scope', 'Data', function ($scope, Data
             });
         };
         $scope.initialModal = function (id, education, status, index, index1) {
-       
+
             if (id == 0)
             {
                 $scope.heading = 'Add Highest Education';
@@ -30,38 +31,40 @@ app.controller('highestEducationCtrl', ['$scope', 'Data', function ($scope, Data
         }
         $scope.doHighestEducationAction = function () {
             $scope.errorMsg = '';
+            $scope.eduBtn = true;
             if ($scope.id == '0') //for create
             {
+                $scope.eduBtn = false;
                 Data.post('highest-education/', {
-                    education: $scope.education,'status':$scope.status,}).then(function (response) {
-               
+                    education: $scope.education, 'status': $scope.status, }).then(function (response) {
+
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                        $scope.educationRow.push({'education': $scope.education,'status':$scope.status, 'id': response.lastinsertid});
+                        $scope.educationRow.push({'education': $scope.education, 'status': $scope.status, 'id': response.lastinsertid});
                         $('#highesteducModal').modal('toggle');
                         // $scope.success("Education details Created successfully"); 
                     }
                 });
             } else { //for update
-
+                $scope.eduBtn = false;
                 Data.put('highest-education/' + $scope.id, {
-                    education: $scope.education,'status':$scope.status}).then(function (response) {
+                    education: $scope.education, 'status': $scope.status}).then(function (response) {
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
                         $scope.educationRow.splice($scope.index, 1);
                         $scope.educationRow.splice($scope.index, 0, {
-                            education: $scope.education,'status':$scope.status, id: $scope.id});
+                            education: $scope.education, 'status': $scope.status, id: $scope.id});
                         $('#highesteducModal').modal('toggle');
                         //$scope.success("Education details updated successfully"); 
                     }
                 });
             }
         }
-       
+
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

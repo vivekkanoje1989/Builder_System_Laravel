@@ -119,6 +119,17 @@ app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
         }
     });
     $scope.getSubCategory = function(categoryId){
+         Data.post('getSalesEnqSubCategory',{categoryId:categoryId}).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.salesEnqSubCategoryList = response.records;
+            }
+        });
+    }
+     $scope.getFilterSubCategory = function(categoryId){
+        var data = categoryId.split("_");
+        categoryId = data[0];
         Data.post('getSalesEnqSubCategory',{categoryId:categoryId}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
@@ -146,6 +157,18 @@ app.controller('salesEnqStatusCtrl', function ($scope, Data) {
             }
         });
     }
+    $scope.getFilterSubStatus = function(statusId){
+        var data = statusId.split("_");
+        statusId = data[0];
+        Data.post('getSalesEnqSubStatus',{statusId:statusId}).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.salesEnqSubStatusList = response.records;
+            }
+        });
+    }
+    
 });
 
 app.controller('projectCtrl', function ($scope, Data) {
@@ -428,6 +451,19 @@ app.controller('enquirySourceCtrl', function ($scope, Data) {
             }
         });
     };
+    $scope.onEnquiryFilterSourceChange = function (sourceId) {
+        var data = sourceId.split("_");
+        sourceId= data[0];
+        Data.post('getEnquirySubSource', {
+            data: {sourceId: sourceId}}).then(function (response) {
+            $scope.subSourceList = '';
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.subSourceList = response.records;
+            }
+        });
+    };
 });
 app.controller('channelCtrl', function ($scope, Data) {
     Data.get('getChannelList').then(function (response) {
@@ -495,6 +531,12 @@ app.controller('vehiclemodelCtrl', function ($scope, Data) {
             $scope.vehiclemodels = response.records;
         }
     });
+});
+
+app.controller('blockStageCtrl', function ($scope, Data) {
+            Data.get('manageBlockStages').then(function (response) {
+                $scope.blockStages = response.records;
+            });
 });
 
 

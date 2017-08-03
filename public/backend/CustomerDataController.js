@@ -1,4 +1,4 @@
-app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload', '$state', function ($scope, Data, $timeout, toaster, Upload, $state) {
+app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload', '$state','$parse', function ($scope, Data, $timeout, toaster, Upload, $state, $parse) {
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
@@ -39,11 +39,20 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
                 data: data
             });
             cust_image_file.upload.then(function (response) {
-                $scope.errormsg = response.errormsg;
-                $timeout(function () {
-                    toaster.pop('success', 'Customer data', 'Record successfully updated');
-                    $state.go('customersIndex');
-                });
+                if (response.data.status) {
+                    $scope.errormsg = response.errormsg;
+                    $timeout(function () {
+                        toaster.pop('success', 'Customer data', 'Record successfully updated');
+                        $state.go('customersIndex');
+                    });
+                }
+                var obj = response.data.message;
+                var selector = [];
+                for (var key in obj) {
+                    var model = $parse(key);// Get the model
+                    model.assign($scope, obj[key][0]);// Assigns a value to it
+                    selector.push(key);
+                }
             }, function (response) {
                 if (response.status !== 200) {
                     $scope.err_msg = "Please Select image for upload";

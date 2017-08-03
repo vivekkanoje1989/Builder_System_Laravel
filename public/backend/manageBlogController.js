@@ -4,6 +4,8 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         $scope.blogId = 0;
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
+        $scope.createBlog = false;
+        $scope.updateBlog = false;
         $scope.blogData = {};
         $scope.manageBlogs = function () {
             Data.post('manage-blog/manageBlogs').then(function (response) {
@@ -12,6 +14,9 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         };
         $scope.doblogscreateAction = function (bannerImage, galleryImage, blogData) {
             $scope.errorMsg = '';
+            $scope.createBlog = true;
+            $scope.updateBlog = true;
+            $scope.showloader();
             $scope.allimages = '';
             if (typeof bannerImage === 'undefined') {
                 bannerImage = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
@@ -22,6 +27,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 var data = {
                     'blogData': blogData, 'blogImages': {'blog_banner_images': bannerImage},
                     'galleryImage': {'galleryImage': galleryImage}, blog_code: $scope.code, blog_status: $scope.status}
+
             } else {
                 var url = '/manage-blog/update/' + $scope.blogId;
                 var successMsg = "Blog updated successfully.";
@@ -38,16 +44,23 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 data: data
             });
             bannerImage.upload.then(function (response) {
+                $scope.createBlog = false;
+                $scope.updateBlog = false;
                 $scope.errormsg = response.data.errormsg;
                 if (response.data.success) {
-                    if ($scope.blogId == '0')
-                    {
-                        toaster.pop('success', 'Manage blog', 'Record successfully created');
-                    } else {
-                        toaster.pop('success', 'Manage blog', 'Record successfully updated');
-                    }
+                    $scope.hideloader();
+                    $timeout(function () {
+                        if ($scope.blogId == '0')
+                        {
+                            toaster.pop('success', 'Manage blog', 'Record successfully created');
+                        } else {
+                            toaster.pop('success', 'Manage blog', 'Record successfully updated');
+                        }
+                    }, 1500);
                     $state.go('manageblogIndex');
+
                 }
+                $scope.hideloader();
                 var obj = response.data.message;
                 var selector = [];
                 for (var key in obj) {
@@ -57,7 +70,12 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 }
             }, function (response) {
                 if (response.status !== 200) {
-                    toaster.pop('danger', 'Please Select image for upload');
+                    $scope.hideloader();
+                    $scope.createBlog = false;
+                    $scope.updateBlog = false;
+                    $timeout(function () {
+                        toaster.pop('danger', 'Please Select gallery image for upload');
+                    }, 1500);
                     $scope.err_msg = "Please Select image for upload";
                 }
             });
@@ -72,7 +90,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
 
                 var arraydata = response.records.blog_banner_images.split(',');
                 $scope.bannerImage_preview = arraydata;
-                
+
                 var arraydata1 = response.records.blog_images.split(',');
                 $scope.blog_images_preview = arraydata1;
             });

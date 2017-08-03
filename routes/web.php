@@ -153,6 +153,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     
     Route::post('/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
     Route::post('/getSubBlocks', 'backend\AdminController@getSubBlocks'); //geeta
+    Route::get('/manageBlockStages', 'backend\AdminController@manageBlockStages'); //archana
     Route::post('/getStates', 'backend\AdminController@getStates');
     Route::post('/getCities', 'backend\AdminController@getCities');
     Route::post('/getLocations', 'backend\AdminController@getLocations');

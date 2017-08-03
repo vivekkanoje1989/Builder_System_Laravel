@@ -4,6 +4,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.userData = {};
         $scope.roleData = {};
         $scope.listUsers = [];
+        $scope.parentId = {};
         $scope.userData.department_id = [];
         $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
                 $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
@@ -20,7 +21,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         var date = new Date($scope.userData.date_of_birth);
         $scope.userData.date_of_birth = ((date.getFullYear() - 100) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
         $scope.userData.date_of_birth = ("1990-01-01");
-
+        $rootScope.menuId = [];
+        $rootScope.roleMenuList = [];
+        
         $scope.validateMobileNumber = function (value) {
             var regex = /^(\+\d{1,4}-)\d{10}$/;
             if (!regex.test(value)) {
@@ -81,9 +84,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.applyClassMobile = 'ng-inactive';
             }
         }
-        
-            $scope.validatePMobile = function (mobNoSplit) {
-               
+
+        $scope.validatePMobile = function (mobNoSplit) {
+
             var firstDigit = mobNoSplit.substring(0, 1);
 
             if (firstDigit == "0") {
@@ -341,7 +344,33 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }
+        
         $scope.userPermissions = function (moduleType, id) {
+            if (id == '0') {
+                var getData = {moduleType: moduleType};
+            } else {
+                var getData = {id: id, moduleType: moduleType}
+            }
+            Data.post('master-hr/getMenuLists', {
+                data: getData,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.menuItems = response.getMenu;
+                    var array = $.map(response.menuId, function (value, index) {
+                        return [value];
+                    });
+                    $rootScope.menuId = array;
+
+                    $scope.totalPermissions = response.totalPermissions;
+                    $scope.empName = response.empName;
+                    $scope.role_name = response.role_name;
+                } else {
+                    $scope.errorMsg = response.message;
+                }
+            });
+        }
+        
+        /*$scope.userPermissions = function (moduleType, id) {
             Data.post('master-hr/getMenuLists', {
                 data: {id: id, moduleType: moduleType},
             }).then(function (response) {
@@ -352,7 +381,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     $scope.errorMsg = response.message;
                 }
             });
-        }
+        }*/
 
         $scope.updatePermissions = function (empId, roleId) {
             Data.post('master-hr/updatePermissions', {
@@ -371,13 +400,191 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 notify: true //reinitialise object
             });
         }
+
         $scope.accessControl = function (moduleType, empId, checkboxid, parentId, submenuId) {
             var isChecked = $("#" + checkboxid).prop("checked");
             var obj = $("#" + checkboxid);
             var level = $("#" + checkboxid).attr("data-level");
-
+//            console.log(submenuId);
             if (isChecked)
             {
+                if (level === "first") {
+                    $(obj.parent().parent().find('input[type=checkbox][data-level="second"], input[type=checkbox][data-level="third"]')).prop('checked', true);
+                    $(obj.parent().parent().find('input[type=checkbox][data-level="second"],input[type=checkbox][data-level="third"]')).each(function () {
+                        var str = $(this).attr('id');
+                        var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                        submenuId.push(parseInt(afterUnderscore));
+                        $scope.parentId = parentId;
+
+                    });
+                } else if (level === "second") {
+                    var flag = [];
+                    $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="second"]'))).each(function () {//for loop thr' data-level second, check if all data-level=second checkbox is checked then check data-level=first checkbox
+                        if ($(this).is(':checked'))
+                            flag.push(true);
+                        else
+                            flag.push(false);
+                    });
+                    if ($.inArray(false, flag) === 1)
+                        $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', true);
+                    if ($.inArray(false, flag) === -1)
+                        $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', true);
+
+                    $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', true);
+                    $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).each(function () {
+                        var str = $(this).attr('id');
+                        var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                        submenuId.push(parseInt(afterUnderscore));
+                    });
+                    $scope.parentId = parentId;
+//                    if ($.inArray(true, flag) === -1) {
+//                        $scope.parentId = parentId;
+//                        console.log(parentId);
+//                    } else {
+//                        $scope.parentId[0] = parentId[1];
+//                        console.log($scope.parentId);
+//                    }
+//                    
+//                     console.log(parentId);
+//                    console.log(submenuId);
+                } else if (level === "third") {
+                    var flag = [];
+                    $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="third"]'))).each(function () {
+                        if ($(this).is(':checked'))
+                            flag.push(true);
+                        else
+                            flag.push(false);
+                    });
+//                   
+//                    if ($.inArray(false, flag) === 1)
+//                        $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
+//                        $(obj.parent().parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', true);
+                    if ($.inArray(false, flag) === -1)
+                        $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
+                    $scope.parentId = parentId;
+                }
+            } else
+            {
+                if (level === "first") {
+                    $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
+                    $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', false);
+
+                    $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).each(function () {
+                        var str = $(this).attr('id');
+                        var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                        submenuId.push(parseInt(afterUnderscore));
+
+                    });
+                    $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).each(function () {
+                        var str = $(this).attr('id');
+                        var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                        submenuId.push(parseInt(afterUnderscore));
+
+                    });
+                    $scope.parentId = parentId;
+
+
+                } else if (level === "second") {
+                    var flag = [];
+                    $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="second"]'))).each(function () {
+                        if ($(this).is(':checked'))
+                            flag.push(true);
+                        else
+                            flag.push(false);
+                    });
+
+                    if ($.inArray(true, flag) === -1)
+                        $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="first"]')).prop('checked', false);
+
+                    $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', false);
+                    $(obj.parent().find('input[type=checkbox][data-level="third"]')).each(function () {
+                        var str = $(this).attr('id');
+                        var afterUnderscore = str.substr(str.indexOf("_") + 1);
+                        submenuId.push(parseInt(afterUnderscore));
+
+                    });
+
+                    if ($.inArray(true, flag) === -1) {
+                        $scope.parentId = parentId;
+                    } else {
+                        $scope.parentId[0] = parentId[1];
+                    }
+
+
+                } else if (level === "third") {
+                    var flag = [];
+                    $($(obj.parent().parent().parent().find('li input[type=checkbox][data-level="third"]'))).each(function () {
+                        if ($(this).is(':checked'))
+                            flag.push(true);
+                        else
+                            flag.push(false);
+                    });
+                    if ($.inArray(true, flag) === -1)
+                        $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
+
+
+                    if ($.inArray(true, flag) === -1) {
+                        $scope.parentId[0] = parentId[1];
+                    } else {
+                        $scope.parentId[0] = '';
+                    }
+
+                }
+
+            }
+            Data.post('master-hr/accessControl', {
+                data: {empId: empId, parentId: $scope.parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType}
+            }).then(function (response) {
+                if (response) {
+                    $scope.totalPermissions = response.totalPermissions;
+                } else {
+                    $scope.errorMsg = response.message;
+                }
+            });
+        }
+        /****************** Roles *********************/
+        $scope.manageRoles = function () {
+            Data.get('master-hr/getRoles').then(function (response) {
+                if (response.success) {
+                    $scope.roleList = response.list;
+                } else {
+                    $scope.errorMsg = response.message;
+                }
+            });
+        }
+        $scope.createRole = function (RoleData) {
+            Data.post('master-hr/createUserRole', {
+                data: {role_name: RoleData.role_name, masterRole: $rootScope.roleMenuList.menuId}
+            }).then(function (response) {
+                if (response.success) {
+                    toaster.pop('success', 'Role permissions', 'Record created successfully');
+                    $state.go('manageRoles');
+                } else {
+                    toaster.pop('error', 'Create Role', 'something wrong');
+                }
+            });
+        }
+        $scope.updateRole = function (RoleData, roleId, role_name) {
+            Data.post('master-hr/updateUserRole', {
+                data: {roleId: roleId, masterRole: $rootScope.roleMenuList.menuId, role_name: role_name}
+            }).then(function (response) {
+                if (response.success) {
+                    toaster.pop('success', 'Role Permissions', 'Record updated successfully');
+                    $state.go('manageRoles');
+                } else {
+                    toaster.pop('error', 'Create Role', 'something wrong');
+                }
+            });
+        }
+
+        $scope.addRolePermissions = function (moduleType, checkboxid, parentId, submenuId) {
+
+            var isChecked = $("#" + checkboxid).prop("checked");
+            var obj = $("#" + checkboxid);
+            var level = $("#" + checkboxid).attr("data-level");
+
+            if (isChecked) {
+                $scope.totalPermissions = $scope.totalPermissions + 1;
                 if (level === "first") {
                     $(obj.parent().parent().find('input[type=checkbox][data-level="second"], input[type=checkbox][data-level="third"]')).prop('checked', true);
                     $(obj.parent().parent().find('input[type=checkbox][data-level="second"],input[type=checkbox][data-level="third"]')).each(function () {
@@ -413,8 +620,39 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     if ($.inArray(false, flag) === -1)
                         $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', true);
                 }
-            } else
-            {
+
+                if (parentId.length > 0) {
+                    parentId.map(function (num) {
+                        var digit = num.toString()[0];
+                        if (digit !== 0) {
+                            num = '0' + num;
+                        }
+                        $rootScope.menuId.push(num);
+                    });
+                } else {
+                    var digit = parentId.toString()[0];
+                    if (digit !== 0) {
+                        parentId = '0' + parentId;
+                    }
+                    $rootScope.menuId.push(parentId[0]);
+                }
+                if (submenuId.length > 0) {
+                    submenuId.map(function (num) {
+                        var digit = num.toString()[0];
+                        if (digit !== 0) {
+                            num = '0' + num;
+                        }
+                        $rootScope.menuId.push(num);
+                    });
+                } else {
+                    var digit = submenuId.toString()[0];
+                    if (digit !== 0) {
+                        submenuId = '0' + submenuId;
+                    }
+                    $rootScope.menuId.push(submenuId[0]);
+                }
+            } else {
+                $scope.totalPermissions = $scope.totalPermissions - 1;
                 if (level === "first") {
                     $(obj.parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
                     $(obj.parent().parent().find('input[type=checkbox][data-level="third"]')).prop('checked', false);
@@ -457,26 +695,33 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     if ($.inArray(true, flag) === -1)
                         $(obj.parent().parent().parent().parent().find('input[type=checkbox][data-level="second"]')).prop('checked', false);
                 }
+
+                if (submenuId.length == 1) {
+                    var digit = submenuId.toString()[0];
+                    if (digit !== 0) {
+                        $rootScope.menuId.splice($rootScope.menuId.indexOf(0 + submenuId), 1);
+                    } else
+                        $rootScope.menuId.splice($rootScope.menuId.indexOf(submenuId), 1);
+                } else {
+                    submenuId.map(function (num) {
+                        var digit = num.toString()[0];
+                        if (digit !== 0) {
+                            num = '0' + num;
+                        }
+                        position = $.inArray(num, $rootScope.menuId);
+                        if (position != -1) {
+                            $rootScope.menuId.splice(position, 1);
+                        }
+                    });
+                    parentIdPosition = $.inArray(parentId[0], $rootScope.menuId);
+                    $rootScope.menuId.splice(parentIdPosition, 1);
+                }
             }
-            Data.post('master-hr/accessControl', {
-                data: {empId: empId, parentId: parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType}
-            }).then(function (response) {
-                if (response) {
-                    $scope.totalPermissions = response.totalPermissions;
-                } else {
-                    $scope.errorMsg = response.message;
-                }
+            $rootScope.menuId = $rootScope.menuId.filter(function (item, index, inputArray) {
+
+                return inputArray.indexOf(item) == index;
             });
-        }
-        /****************** Roles *********************/
-        $scope.manageRoles = function () {
-            Data.get('master-hr/getRoles').then(function (response) {
-                if (response.success) {
-                    $scope.roleList = response.list;
-                } else {
-                    $scope.errorMsg = response.message;
-                }
-            });
+            $rootScope.roleMenuList = {menuId: $rootScope.menuId};
         }
         /****************** Roles *********************/
         /****************** Organization Chart *********************/
@@ -496,7 +741,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     var datalength = Object.keys(response).length;
                     for (var i = 0; i < datalength; i++)
                     {
-                        arr.push([{v: "'" + response[i]['v'] + "'", f: "'" + response[i]['f']}, "'" + response[i]['teamId'] + "'", response[i]['designation_id']]);
+                        arr.push([{v: "'" + response[i]['v'] + "'", f: response[i]['f']}, "'" + response[i]['teamId'] + "'", response[i]['designation_id']]);
                     }
                     data.addRows(arr);
                     // Create the chart.
@@ -534,15 +779,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 if (response.success == false) {
                     toaster.pop('error', 'Profile', 'Please upload profile photo');
                 } else {
+                    $rootScope.imageUrl = response.data.profilePhoto;
                     toaster.pop('success', 'Profile', 'Profile updated successfully');
                 }
-                $rootScope.imageURL = response.data.profilePhoto;
-            }, function (response) {});
+//                $rootScope.imageURL = response.data.profilePhoto;
+            });
+
         }
 
         $scope.updatePassword = function (profileData)
         {
-            console.log(profileData);
             Data.post('master-hr/updatePassword', {
                 data: profileData,
             }).then(function (response) {
@@ -568,21 +814,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             else
                 $scope.passwordValidation = false;
         }
-//        $scope.quickEmployee = function (quickEmp)
-//        {
-//            Data.post('master-hr/createQuickUser', {data: quickEmp}).then(function (response) {
-//                if (!response.success) {
-//                    toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
-//                    $scope.errorMsg = response.errormsg;
-//                } else {
-//                    toaster.pop('success', 'Manage Users', 'Record created successfully.');
-//                    $state.go('userIndex');
-//                }
-//            });
-//        }
+
         $scope.quickEmployee = function (quickEmp)
         {
-          
             var date = new Date(quickEmp.joining_date);
             quickEmp.joining_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             $scope.isDisabled = true;
@@ -594,13 +828,21 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     {
                         if (!response.success)
                         {
-                            toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
                             $scope.isDisabled = false;
+                            var obj = response.message;
+                            var selector = [];
+                            for (var key in obj) {
+                                var model = $parse(key);// Get the model
+                                model.assign($scope, obj[key][0]);// Assigns a value to it
+                                selector.push(key);
+                            }
+                            toaster.pop('error', 'Manage Users', 'Something went wrong. try again later');
+
                             $scope.errorMsg = response.errormsg;
                         } else
                         {
                             $scope.isDisabled = true;
-                            toaster.pop('success', 'Manage Users', 'Employee registeration successfully');
+                            toaster.pop('success', 'Manage Users', 'Employee registration successfully');
                             $state.go('userIndex');
                         }
                     });

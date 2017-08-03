@@ -2,6 +2,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.projectsDetails = [];
         $scope.searchData = {};
         $scope.filterData = {};
+        $scope.tempFilterData = {};
         $scope.listsIndex = {};
         $scope.itemsPerPage = 3;
         $scope.noOfRows = 1;
@@ -17,7 +18,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.salesEnqSubCategoryList = [];
         $scope.getProcName = $scope.type = $scope.getFunctionName  ='';
         $scope.flagForChange = 0;
-        $scope.minBudget = $scope.maxBudget = 0;
+        $scope.minBudget = $scope.maxBudget = 0;        
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };
@@ -38,7 +39,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.initHistoryDataModal = function (enquiry_id) {
-            Data.post('master-sales/getEnquiryHistory', {
+             Data.post('master-sales/getEnquiryHistory', {
                 enquiryId: enquiry_id,
             }).then(function (response) {
                 if (response.success) {
@@ -61,21 +62,47 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 // },500);
             });
         }
-
         /****************************ENQUIRIES****************************/
-        $scope.pageChanged = function (pageNo, functionName, id, type,newpage) {
-            $scope.flagForChange++;
+        $scope.pageChanged = function(pageNo, functionName, id, type,newpage) {
+            $scope.flagForChange++;            
             if ($scope.flagForChange == 1)
             {
-                if ($scope.filterData && Object.keys($scope.filterData).length > 1) {
+                if (($scope.filterData && Object.keys($scope.filterData).length > 0) || ($scope.maxBudget > 0)) {
                     $scope.getFilteredData($scope.filterData,$scope.minBudget,$scope.maxBudget,pageNo, $scope.itemsPerPage);
                 } else {
                     $scope[functionName](id, type, pageNo, $scope.itemsPerPage);
                 }
             }
             $scope.pageNumber = pageNo;
-        }       
-
+        }
+        $scope.reassignEnquiries = function (id, type, pageNumber, itemPerPage)
+        {
+            $scope.itemsPerPage = itemPerPage;
+            $scope.type = type;
+            $scope.showloader();
+            //$scope.listType = listType;
+            if (type == 0) {
+                $scope.report_name = "Reassign Enquiries";
+                $scope.pagetitle = "My Reassign Enquiries";
+            } else {
+                $scope.report_name = "Teams Reassign Enquiries";
+                $scope.pagetitle = "Team`s Reassign Enquiries ";
+            }            
+            Data.post('master-sales/getReassignEnquiry', {
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.enquiries = response.records;
+                    $scope.enquiriesLength = response.totalCount;
+                } else
+                {
+                    $scope.enquiries = '';
+                    $scope.enquiriesLength = 0;
+                }
+                $scope.hideloader();
+                $scope.flagForChange = 0;
+            });
+        }
         $scope.getTotalEnquiries = function (id, type, pageNumber, itemPerPage)
         {
             $scope.itemsPerPage = itemPerPage;
@@ -227,8 +254,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             Data.post('master-sales/getBookedEnquiries', {
                 empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
             }).then(function (response) {
-                console.log(response);
-                if (response.success) {
+                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
                 } else
@@ -502,8 +528,14 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         $scope.getFilteredData = function (filterData, minBudget, maxBudget,page,recordsperpage)
         {
-            
-            //alert(page+':'+$scope.type+"item"+$scope.itemsPerPage);
+            Object.keys($scope.filterData).forEach(function(key) {                
+                if($scope.filterData[key] == '')
+                {
+                   delete $scope.filterData[key]; 
+                }                   
+            });            
+            $scope.minBudget = $scope.min=minBudget;
+            $scope.maxBudget = $scope.max=maxBudget;
             $scope.showloader();
             if (typeof filterData.fromDate !== 'undefined') {
                 var fdate = new Date(filterData.fromDate);
@@ -526,18 +558,22 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.showFilterData = $scope.filterData;
                 $scope.flagForChange = 0;
             });
-        }       
+        }      
+        
         $scope.removeDataFromFilter = function (keyvalue) {
-            $scope.showloader();
-            console.log($scope.filterData[keyvalue]);
-            ///var myJSON = JSON.parse($scope.filterData);
-            var dt = typeof($scope.filterData[keyvalue]);
-            alert(dt);
-            delete $scope.filterData[keyvalue];
-           // delete myJSON[keyvalue];            
+            $scope.showloader();           
+           
+   
+            if(keyvalue === 'min')
+            {
+              $scope.minBudget = $scope.min = $scope.maxBudget = $scope.max=maxBudget = 0;
+                $scope.min = 0;
+                $scope.max = 0;
+            }
+            delete $scope.filterData[keyvalue];            
             $scope.getFilteredData($scope.filterData,$scope.min,$scope.max, 1, 30);
-            $scope.hideloader();
-            return false;
+            $scope.hideloader(); 
+            return false;           
         }
         
     }]);

@@ -70,7 +70,7 @@
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">
                                         <div class="form-group">
-                                            <label>Banner image</label>
+                                            <label>Banner image </label>
                                             <span class="input-icon icon-right">
                                                 <input type="file" ngf-select   ng-model="blogData.blog_banner_images" name="blog_banner_images" id="bannerImage" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" ngf-model-invalid="errorFile" >
                                             </span>
@@ -166,7 +166,7 @@
                                         </div>
                                     </div> 
                                 </div>
-                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
+                                <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="createBlog">Submit</button>
                             </form>
                         </div>
                     </div>

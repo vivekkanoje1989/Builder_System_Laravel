@@ -31,6 +31,10 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::post('/master-hr/updatePermissions', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@updatePermissions']);
     Route::get('/master-hr/rolePermissions/{id}', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@rolePermissions']); //show user permission page
     
+    Route::get('/master-hr/createrole', 'MasterHrController@createRole');
+    Route::post('/master-hr/createUserRole', 'MasterHrController@createUserRole'); //create user role
+    Route::post('/master-hr/updateUserRole', 'MasterHrController@updateUserRole'); //update user role
+    
     Route::post('/master-hr/getProfileInfo', 'MasterHrController@getProfileInfo'); 
     Route::post('/master-hr/updateProfileInfo', 'MasterHrController@updateProfileInfo');
     Route::get('/master-hr/profile', 'MasterHrController@profile');

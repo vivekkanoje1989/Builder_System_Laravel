@@ -48,26 +48,45 @@
                 </div>
                 <hr>
                 <div class="row" style="border:2px;" id="filter-show">
-                    <div class="col-sm-12 col-xs-12">
-                        <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
-                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}"> 
-                                <div class="alert alert-info fade in">
+                       <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
+                           <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}" ng-if="value != ''">
+                               <div class="alert alert-info fade in">
                                    <button class="close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
-                                   <strong ng-if="key === 'category_id' || key === 'source_id' || key == 'status_id' "><strong>{{  key.substring(0, key.indexOf('_')) }} :</strong>{{  value.substring(value.indexOf("_")+1) }}</strong>
+                                   <strong ng-if="key === 'channel_id' || key === 'city_id' || key === 'category_id' || key === 'source_id' || key == 'status_id' "><strong>{{  key.substring(0, key.indexOf('_')) }} :</strong>{{  value.substring(value.indexOf("_")+1) }}</strong>
                                    <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'> {{ $index +1 }}){{   emp.first_name  }}  {{ emp.last_name }} </strong>
                                    <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'> {{ $index +1 }}){{   subcat.enquiry_sales_subcategory  }}</strong>
-                                   <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'> {{ $index +1 }}){{ subsource.enquiry_subsource }} </strong>
+                                   <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'> {{ $index +1 }}){{ subsource.sub_source }} </strong>
                                    <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'>{{ $index +1 }}) {{ substatus.enquiry_sales_substatus }} </strong>
-                                   <strong ng-if="key === 'project_id' " ng-repeat='project in value track by $index'>{{ $index +1 }}) {{ project.project_name }} </strong>                                                                      
-                                   <strong ng-if="key === 'verifiedEmailId' && value == 1 "> <strong>Verified Email ID:</strong>Yes</strong>
-                                   <strong ng-if="key === 'verifiedMobNo' && value == 1  " data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile No:</strong>Yes</strong>
+                                   <strong ng-if="key === 'enquiry_locations' " ng-repeat='loc in value track by $index'>{{ $index +1 }}) {{ loc.location }} </strong>
+                                   <strong ng-if="key === 'project_id'" ng-repeat='project in value track by $index'>{{ $index +1 }}) {{ project.project_name }}</strong>
+                                   <strong ng-if="key === 'verifiedEmailId'"> <strong>Verified Email ID:</strong>Yes</strong>
+                                   <strong ng-if="key === 'verifiedMobNo'" data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile:</strong>Yes</strong>
+                                   <strong ng-if="key === 'site_visited' " data-toggle="tooltip" title="Site Visited"> <strong ng-if="value == 1">Site Visit:Yes</strong>
+                                       <strong ng-if="value == 0">Site Visit:No</strong>
+                                   </strong>
+                                   <strong ng-if="key === 'loan_required'" data-toggle="tooltip" title="Loan Required"> <strong ng-if="value == 1">Loan Required:Yes</strong>
+                                       <strong ng-if="value == 0">Loan Required:No</strong>
+                                   </strong>
+                                   <strong ng-if="key === 'parking_required' " data-toggle="tooltip" title="Parking Required"> <strong ng-if="value == 1">Parking Required:Yes</strong>
+                                       <strong ng-if="value == 0">Parking Required:No</strong>
+                                   </strong>
                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                                   <strong ng-if="key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
+                                   <!--<strong ng-if="key != 'channel_id' && key != 'city_id' && key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>-->
+                                   <strong ng-if="key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
                                </div>
+                           </div>
+                       </b>
+                    <b ng-if="min != 0 || max != 0 ">
+                        <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}" ng-if="value != ''">
+                            <div class="alert alert-info fade in">
+                               <button class="close" ng-click=" removeDataFromFilter('min');" data-dismiss="alert"> ×</button>
+                               <strong>
+                                   Budget Limit : {{ min }} To {{ max }}
+                               </strong>
                             </div>
-                        </b>                        
-                    </div>
-                </div>
+                        </div>
+                    </b>
+               </div> 
                 <br>               
                  <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">
                     <thead>                        
@@ -99,7 +118,7 @@
                             </td>
                             <td width="7%"> 
                                 <div style="color: #f73131">
-                                    {{enquiry.pending_from}}
+                                    <?php echo "Pending from \n"; ?>  {{enquiry.pending_from }}  <?php echo "\n days"; ?>
                                 </div>
                             </td>
                             <td width="20%">
@@ -137,9 +156,7 @@
                                         
                                     </p>
                                 </div>
-
                                 <hr class="enq-hr-line">
-
                                 <div>
                                     <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
                                 </div>                    
@@ -164,7 +181,6 @@
                                     <span ng-if="enquiry.area  > 45" data-toggle="tooltip" title="{{enquiry.area}}">...</span>
                                 </div>
                             </td>
-
                             <td width="20%">
                                 <div>
                                         <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus == null"> 
@@ -172,8 +188,7 @@
                                             <span data-toggle="tooltip" title="{{enquiry.sales_status}}">{{ enquiry.sales_status  | limitTo : 45 }}</span>
                                             <span ng-if="enquiry.sales_status  > 45" data-toggle="tooltip" title="{{enquiry.sales_status}}">...</span>
                                 <hr class="enq-hr-line">
-                                        </span>
-                                    
+                                        </span>                                  
                                         <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus != null" ng-init="enquiry_status_length = enquiry.sales_status.length + enquiry.enquiry_sales_substatus.length; enquiry_status = enquiry.sales_status +' / '+ enquiry.enquiry_sales_substatus "> 
                                                 <b>Status : </b>  
                                                 <span data-toggle="tooltip" title="{{enquiry_status}}">{{ enquiry_status  | limitTo : 45 }}</span>
@@ -201,7 +216,11 @@
                                         <b>Project :</b>
                                          {{enquiry.project_block_name | limitTo : 45 }}
                                         <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                        
-                                         <hr class="enq-hr-line">
+                                        <div ng-if="enquiry.parking_required != null">
+                                        <span ng-if="enquiry.parking_required == 0"><b>Parking Required :</b> No</span>
+                                        <span ng-if="enquiry.parking_required == 1"><b>Parking Required :</b> Yes</span>                                    
+                                    </div>
+                                        <hr class="enq-hr-line">
                                     </span>
                                 </div>
                                 <div>

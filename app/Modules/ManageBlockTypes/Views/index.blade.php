@@ -37,13 +37,13 @@
                             <th style="width:35%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'project_name'; reverseSort = !reverseSort">Project type
                                     <span ng-show="orderByField == 'project_name'">
-                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a>
                             </th> 
                             <th style="width:35%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'block_name'; reverseSort = !reverseSort">Block type
                                     <span ng-show="orderByField == 'block_name'">
-                                    <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                 </a>
                             </th> 
                             <th style="width: 5%">Actions</th>
@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         <div class="modal-footer" align="center">
-                            <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">{{action}}</button>
+                            <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="manageBlockType">{{action}}</button>
                         </div> 
                 </form>           
             </div>
@@ -121,4 +121,6 @@
     </div>
 
 </div>
+</div>
+
 

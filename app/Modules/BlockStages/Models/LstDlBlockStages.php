@@ -32,4 +32,22 @@ class LstDlBlockStages extends Eloquent
                 'created_mac_id',
                 
 	];
+        
+         public static function validationMessages() {
+        $messages = array(
+            'block_stage_name.required' => 'Please enter block stage',
+            'project_type_id.required' => 'Please select project type'
+            
+        );
+        return $messages;
+    }
+
+    public static function validationRules() {
+        $rules = array(
+            'block_stage_name' => 'required',
+            'project_type_id' => 'required'
+           
+        );
+        return $rules;
+    }
 }

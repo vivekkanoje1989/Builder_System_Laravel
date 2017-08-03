@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true">Submit</button>
+                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true" ng-disabled="reqForMe">Submit</button>
                     </div> 
                 </form>           
             </div>

@@ -49,6 +49,11 @@ class MasterSalesController extends Controller {
         return view("MasterSales::index");
     }
 
+    public function createQuickEnquiry()
+    {
+        return view("MasterSales::quickEnquiry");
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -58,8 +63,10 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
+            
             if (empty($input)) {
                 $input = Input::all();
+                
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
                 $loggedInUserId = $input['customerData']['loggedInUserId'];
@@ -75,6 +82,8 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
+            $input['customerData']['pan_number'] = '';
+            $input['customerData']['aadhar_number'] = '';
             $input['customerData']['birth_date'] = date('Y-m-d', strtotime($input['customerData']['birth_date']));
             $input['customerData']['marriage_date'] = date('Y-m-d', strtotime($input['customerData']['marriage_date']));
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
@@ -231,6 +240,7 @@ class MasterSalesController extends Controller {
                 $input['customerData']['record_type'] = 2;
                 $input['customerData']['column_names'] = $implodeArr;
                 $input['customerData']['record_restore_status'] = 1;
+               
                 CustomersLog::create($input['customerData']);
             }
             if (!empty($input['customerContacts'])) {
@@ -447,9 +457,18 @@ class MasterSalesController extends Controller {
     // insert new enquiry 
     public function saveEnquiry() {
         try {
+//            $validationRules = Enquiry::validationRules();
+//            $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-
+//            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+//            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
+//                $validator = Validator::make($request['enquiryData'], $validationRules, $validationMessages);
+//                if ($validator->fails()) {
+//                    $result = ['success' => false, 'message' => $validator->messages()];
+//                    return json_encode($result, true);
+//                }
+//            }
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
@@ -534,9 +553,19 @@ class MasterSalesController extends Controller {
 
     public function updateEnquiry() {
         try {
+            $validationRules = Enquiry::validationRules();
+            $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
 
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
+            if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
+                $validator = Validator::make($request['enquiryData'], $validationRules, $validationMessages);
+                if ($validator->fails()) {
+                    $result = ['success' => false, 'message' => $validator->messages()];
+                    return json_encode($result, true);
+                }
+            }
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
@@ -634,6 +663,7 @@ class MasterSalesController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $getlocations = lstEnquiryLocations::where('city_id', $request['city_id'])->select('id', 'country_id', 'state_id', 'city_id', 'location')->get();
+
         if (!empty($getlocations)) {
             $result = ['success' => true, 'records' => $getlocations];
         } else {
@@ -773,7 +803,7 @@ class MasterSalesController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $filterData = $request['filterData'];
-        //print_r($request);exit;
+        //  print_r($request);exit;
         if (empty($request['empId'])) { // For Web
             $loggedInUserId = Auth::guard('admin')->user()->id;
             if ($request['teamType'] == 1) {
@@ -791,7 +821,7 @@ class MasterSalesController extends Controller {
             if (!empty($filterData["status_id"])) {
                 $status = explode("_", $filterData["status_id"]);
             }
-             if (!empty($filterData["city_id"])) {
+            if (!empty($filterData["city_id"])) {
                 $city = explode("_", $filterData["city_id"]);
             }
 //             if (!empty($filterData["lostReason_id"])) {
@@ -815,9 +845,9 @@ class MasterSalesController extends Controller {
             $filterData["source_id"] = !empty($filterData['source_id']) ? $filterData["source_id"] : "";
             $filterData["status_id"] = !empty($filterData['status_id']) ? $filterData["status_id"] : "";
             // $filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $filterData['status_id'] : "";
-        }        
+        }
         //$filterData["project_id"] = !empty($filterData['project_id']) ? implode(',', array_column($filterData['project_id'], 'id')) : "";
-        
+
         $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
         $filterData["fname"] = !empty($filterData['fname']) ? $filterData['fname'] : "";
         $filterData["lname"] = !empty($filterData['lname']) ? $filterData['lname'] : "";
@@ -857,6 +887,44 @@ class MasterSalesController extends Controller {
     }
 
     /*     * ********************* ENQUIRY LISTING ************************ */
+
+    public function reassignEnquiry($type) {
+        return view("MasterSales::reassignEnquiries")->with("type", $type);
+    }
+
+    public function getReassignEnquiry() { // get all enquiries
+        try {
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            if ($request['teamType'] == 0) { // total
+                if (empty($request['empId']))
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                else
+                    $loggedInUserId = $request['empId'];
+            } else { // team total
+                if (empty($request['empId']))
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                else
+                    $loggedInUserId = $request['empId'];
+                $this->allusers = array();
+                $this->getTeamIds($loggedInUserId);
+                $alluser = $this->allusers;
+                $loggedInUserId = implode(',', $alluser);
+            }
+            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $cnt = DB::select('select FOUND_ROWS() as totalCount');
+            $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
+            if (count($getTotalEnquiryDetails) != 0) {
+                $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
+            } else {
+                $result = ['success' => false, 'records' => 'No Records Found'];
+            }
+        } catch (Exception $ex) {
+            $result = ['success' => false, 'status' => 412, 'message' => $ex->getMessage()];
+        }
+        return response()->json($result);
+    }
 
     public function totalEnquiry($type) {
         return view("MasterSales::totalEnquiries")->with("type", $type);
@@ -946,7 +1014,7 @@ class MasterSalesController extends Controller {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
 
-           if ($request['teamType'] == 0) { // total
+            if ($request['teamType'] == 0) { // total
                 if (empty($request['empId']))
                     $loggedInUserId = Auth::guard('admin')->user()->id;
                 else
@@ -962,12 +1030,12 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = implode(',', $alluser);
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId .'","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,'.$startFrom.','.$request['itemPerPage'].')');
+            $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getlostEnquiryDetails = json_decode(json_encode($getlostEnquiryDetails), true);
 
             if (count($getlostEnquiryDetails) != 0) {
-                $result = ['success' => true, 'records' => $getlostEnquiryDetails ,'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getlostEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No Records Found'];
             }
@@ -980,11 +1048,12 @@ class MasterSalesController extends Controller {
     public function bookedEnquiries($type) {
         return view("MasterSales::bookedenquiry")->with("type", $type);
     }
+
     public function getBookedEnquiries() {// get booked enquiries
-        try{            
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        if ($request['teamType'] == 0) { // total
+        try {
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            if ($request['teamType'] == 0) { // total
                 if (empty($request['empId']))
                     $loggedInUserId = Auth::guard('admin')->user()->id;
                 else
@@ -999,20 +1068,20 @@ class MasterSalesController extends Controller {
                 $alluser = $this->allusers;
                 $loggedInUserId = implode(',', $alluser);
             }
-        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,'.$startFrom.','.$request['itemPerPage'].')');
-        $cnt = DB::select('select FOUND_ROWS() as totalCount');
-        $getbookedEnquiryDetails = json_decode(json_encode($getbookedEnquiryDetails), true);
+            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $cnt = DB::select('select FOUND_ROWS() as totalCount');
+            $getbookedEnquiryDetails = json_decode(json_encode($getbookedEnquiryDetails), true);
 
-        if (count($getbookedEnquiryDetails) != 0) {
-            $result = ['success' => true, 'records' => $getbookedEnquiryDetails ,'totalCount' => $cnt[0]->totalCount];
-        } else {
-            $result = ['success' => false, 'records' => 'No Records Found'];
-        }        
+            if (count($getbookedEnquiryDetails) != 0) {
+                $result = ['success' => true, 'records' => $getbookedEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
+            } else {
+                $result = ['success' => false, 'records' => 'No Records Found'];
+            }
         } catch (Exception $ex) {
             $result = ['success' => false, 'status' => 412, 'message' => $ex->getMessage()];
         }
-        return response()->json($result);        
+        return response()->json($result);
     }
 
     public function showPreviousFollowups($type) {

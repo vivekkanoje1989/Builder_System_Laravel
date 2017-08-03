@@ -17,6 +17,7 @@
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block">
                                     <div ng-message="required">Please select enquiry date</div>
                                 </div>
+                                <div ng-if="sales_enquiry_date" class="sp-err blog_title">{{sales_enquiry_date}}</div>
                                 </p>
                             </div>
                         </div>
@@ -33,6 +34,7 @@
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_category_id.$error" class="help-block enqFormBtn">
                                     <div ng-message="required">Please select enquiry category</div>
                                 </div>
+                                <div ng-if="sales_category_id" class="sp-err blog_title">{{sales_category_id}}</div>
                             </span>
                         </div>
                     </div>
@@ -52,10 +54,11 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.remarks.$dirty && enquiryForm.remarks.$invalid)}">
                             <label for="">Remark <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <textarea class="form-control" ng-model="enquiryData.remarks" name="remarks" required ng-disabled="disableDataOnEnqUpdate"></textarea>
+                                <textarea class="form-control" ng-model="enquiryData.remarks" name="remarks"  ng-disabled="disableDataOnEnqUpdate"></textarea>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.remarks.$error" class="help-block enqFormBtn">
                                     <div ng-message="required">Please enter remarks</div>
                                 </div>
+                                <div ng-if="remarks" class="sp-err remarks">{{remarks}}</div>
                             </span>
                         </div>
                     </div> 
@@ -75,6 +78,7 @@
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.followup_by_employee_id.$error" class="help-block enqFormBtn">
                                     <div ng-message="required">Please select followup employee</div>
                                 </div>
+                                <div ng-if="followup_by_employee_id" class="sp-err blog_title">{{followup_by_employee_id}}</div>
                             </span>
                         </div>
                     </div>                      
@@ -88,8 +92,9 @@
                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.next_followup_date.$error" class="help-block enqFormBtn">
-                                    <div ng-message="required">Please select followup date</div>
+<!--                                    <div ng-message="required">Please select followup date</div>-->
                                 </div>
+                                <div ng-if="next_followup_date" class="sp-err blog_title">{{next_followup_date}}</div>
                                 </p>
                             </div>
                         </div>
@@ -133,6 +138,7 @@
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.parking_type.$error" class="help-block">
                                     <div ng-message="required">Please select parking type</div>
                                 </div>
+                                 <div ng-if="parking_type" class="sp-err blog_title">{{parking_type}}</div>
                             </span>
                         </div>
                     </div>
@@ -249,6 +255,7 @@
                             <div ng-show="step" ng-messages="enquiryForm.enquiry_locations.$error" class="help-block step">
                                 <div ng-message="required">Please select location</div>
                             </div>
+                             <div ng-if="enquiry_locations" class="sp-err blog_title">{{enquiry_locations}}</div>
                         </div>
                     </div>                    
                     <div class="col-sm-3 col-xs-6">
@@ -275,9 +282,9 @@
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
-                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block">
+<!--                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block">
                                     <div ng-message="required">Please select tentative possession date</div>
-                                </div>
+                                </div>-->
                                 </p>
                             </div>                               
                         </div> 

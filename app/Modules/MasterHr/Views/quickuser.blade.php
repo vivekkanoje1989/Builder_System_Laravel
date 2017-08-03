@@ -27,6 +27,7 @@
                                             <div ng-show="btnQukEmp" ng-messages="frmQuickEmp.title_id.$error" class="help-block">
                                                 <div ng-message="required" class="sp-err">This field is required.</div>
                                             </div>
+                                            <div ng-if="title_id" class="sp-err title_id">{{title_id}}</div>
                                         </span>
                                     </div>
                                 </div>
@@ -40,6 +41,7 @@
                                                 <div ng-message="required" class="sp-err">This field is required.</div>
                                                 <div ng-message="maxlength" class="sp-err">Maximum 15 Character are Allowed.</div> 
                                             </div>
+                                             <div ng-if="first_name" class="sp-err first_name">{{first_name}}</div>
                                         </span>                                
                                     </div>  
                                 </div> 
@@ -53,6 +55,7 @@
                                                 <div ng-message="required" class="sp-err"> This field is required.</div>
                                                 <div ng-message="maxlength" class="sp-err">Maximum 15 Character are Allowed.</div>
                                             </div>
+                                             <div ng-if="last_name" class="sp-err last_name">{{last_name}}</div>
                                         </span>
                                     </div>
                                 </div> 
@@ -69,6 +72,7 @@
                                                 <div ng-message="uniqueMobile" class="sp-err">Number already exists enter different number</div>
                                                 <div class="sp-err">{{ errPersonalMobile}}</div>
                                             </div>
+                                            <div ng-if="personal_mobile1" class="sp-err personal_mobile1">{{personal_mobile1}}</div>
                                         </span>
                                     </div>
                                 </div>
@@ -89,6 +93,7 @@
                                                 <div ng-message="maxlength" class="sp-err">Maximum 45 Character are Allowed.</div>
                                                 <div ng-message="uniqueEmail" class="sp-err">Email address exist. Please enter another email address!</div>
                                             </div>
+                                             <div ng-if="personal_email1" class="sp-err personal_email1">{{personal_email1}}</div>
                                         </span>
                                     </div>
                                 </div>                                
@@ -103,6 +108,7 @@
                                                 <div class="sp-err">{{ errOfficeMobile}}</div>
                                                 <div class="sp-err">{{ errOfficeNOMobile}}</div>
                                             </div>
+                                            <div ng-if="office_mobile_no" class="sp-err office_mobile_no">{{office_mobile_no}}</div>
                                         </span>                               
                                     </div> 
                                 </div>
@@ -117,6 +123,7 @@
                                                 <div ng-message="pattern" class="sp-err">Invalid email address.</div>
                                                 <div ng-message="maxlength" class="sp-err">Maximum 45 Character are Allowed.</div>
                                             </div>
+                                              <div ng-if="office_email_id" class="sp-err office_email_id">{{office_email_id}}</div>
                                         </span>
                                     </div>
                                 </div>
@@ -132,6 +139,7 @@
                                         <div ng-show="btnQukEmp" ng-messages="frmQuickEmp.designation_id.$error" class="help-block">
                                             <div ng-message="required" class="sp-err">This field is required.</div>
                                         </div>
+                                         <div ng-if="designation_id" class="sp-err designation_id">{{designation_id}}</div>
                                     </div>
                                 </div>
                             </div> 
@@ -151,9 +159,9 @@
                                         <div ng-show="btnQukEmp" ng-messages="frmQuickEmp.reporting_to_id.$error" class="help-block">
                                             <div ng-message="required" class="sp-err">This field is required.</div>
                                         </div>
+                                         <div ng-if="reporting_to_id" class="sp-err reporting_to_id">{{reporting_to_id}}</div>
                                     </div>
                                 </div>
-
                                 <div class="col-sm-3 col-xs-12">
                                     <div class="form-group"  ng-controller="teamLeadCtrl">
                                         <label for="">Team lead <span class="sp-err">*</span></label>	
@@ -166,6 +174,7 @@
                                         <div ng-show="btnQukEmp" ng-messages="frmQuickEmp.team_to_id.$error" class="help-block">
                                             <div ng-message="required" class="sp-err">This field is required.</div>
                                         </div>
+                                        <div ng-if="team_lead_id" class="sp-err team_lead_id">{{team_lead_id}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-12">
@@ -180,17 +189,19 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-6">
-                                    <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (step4 && (!userJobForm.department_id.$dirty && userJobForm.department_id.$invalid)) && emptyDepartmentId}" ng-controller="departmentCtrl">
+                                    <div class="form-group multi-sel-div" ng-class="{ 'has-error' : (btnQukEmp && (!userData.department_id.$dirty && userData.department_id.$invalid)) && emptyDepartmentId}" ng-controller="departmentCtrl">
                                         <label for="">Select Departments <span class="sp-err">*</span></label>	
-                                        <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required="true"  ng-change="checkDepartment(1)">
+                                        <ui-select multiple ng-model="userData.department_id" name="department_id" theme="select2" ng-disabled="disabled" style="width: 300px;"   ng-change="checkDepartment(1)">
                                             <ui-select-match>{{$item.department_name}}</ui-select-match>
                                             <ui-select-choices repeat="list in departments | filter:$select.search">
                                                 {{list.department_name}} 
                                             </ui-select-choices>
                                         </ui-select>
-                                        <div ng-show="btnQukEmp" class="help-block {{ applyClassDepartment}}">
+                                        <div ng-show="btnQukEmp" class="sp-err" ng-if="userData.department_id.length==0 || userData.department_id.length == null">This field is required.</div>
+<!--                                        <div ng-show="btnQukEmp" class="help-block {{ applyClassDepartment}}">
                                             <p class="sp-err">This field is required.</p>
-                                        </div>
+                                        </div>-->
+                                         <div ng-if="department_id" class="sp-err department_id">{{department_id}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -208,6 +219,7 @@
                                             <div ng-show="btnQukEmp" ng-messages="frmQuickEmp.joining_date.$error" class="help-block step4">
                                                 <div ng-message="required" class="sp-err">This field is required.</div>
                                             </div>
+                                            <div ng-if="joining_date" class="sp-err joining_date">{{joining_date}}</div>
                                         </div>
                                     </div>
                                 </div>
