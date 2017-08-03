@@ -90,7 +90,7 @@ class MasterHrController extends Controller {
         $empModel = Employee::where('mobile_remember_token', $authkey)->first();
         if (!empty($empModel)) {
             $teams = array();
-            $validate = Employee::where('client_id', $empModel->client_id)->get();
+                $validate = Employee::where('client_id', $empModel->client_id)->get();
             $client = \App\Models\ClientInfo::where(['id' => $empModel->client_id])->first();
             foreach ($validate as $value) {
                 $title = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $value->title_id)->select('title')->first();

@@ -1,13 +1,5 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace App\Classes;
-
 class MenuItems {
     public static function getMenuItems() {
         $getUrl = config('global.getUrl');
@@ -132,17 +124,18 @@ class MenuItems {
                 )),
                 4 => array('name' => 'Sales', 'icon' => 'sale-img menu-icon-sz','micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'sales', 'has_submenu' => true, 'total_submenu' => 4,
                 'submenu_ids' => '0401,0402,0403,0404', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '0401', 'name' => 'Enquiry Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 9,
-                        'submenu_ids' => '040101,040102,040103,040104,040105,040106,040107,040108,040109', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
+                    1 => array('id' => '0401', 'name' => 'Enquiry Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 10,
+                        'submenu_ids' => '040101,040102,040103,040104,040105,040106,040107,040108,040109,0401010', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
                         1 => array('id' => '040101', 'name' => 'New Enquiry','micon' => 'img/newEnq.png', 'icon' => '', 'url' => '/sales/create', 'slug' => 'salesCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        2 => array('id' => '040102', 'name' => 'Today\'s Followups', 'micon' => 'img/myFollow.png','icon' => '', 'url' => '/sales/todaysfollowups', 'slug' => 'todaysfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        3 => array('id' => '040103', 'name' => 'Pending Followups','micon' => 'img/pendingFollow.png', 'icon' => '', 'url' => '/sales/pendingfollowups', 'slug' => 'pendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        4 => array('id' => '040104', 'name' => 'Previous Followups', 'icon' => '','micon' => 'img/previousFollow.png',  'url' => '/sales/previousfollowups', 'slug' => 'previousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        5 => array('id' => '040105', 'name' => 'Total Enquiries', 'icon' => '','micon' => 'img/totalEnq.png', 'url' => '/sales/totalenquiries', 'slug' => 'enquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        6 => array('id' => '040106', 'name' => 'Lost Enquiries', 'icon' => '', 'micon' => 'img/lostEnq.png', 'url' => '/sales/lostenquiries', 'slug' => 'lostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        7 => array('id' => '040107', 'name' => 'Booked Enquiries', 'icon' => '','micon' => 'img/bookedEnq.png',  'url' => '/sales/bookedenquiries', 'slug' => 'bookedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        8 => array('id' => '040108', 'name' => 'My Reassigned Enquiries', 'icon' => '','micon' => 'img/reasignEnq.png', 'url' => '/sales/reassignenquiries', 'slug' => 'reassignenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        9 => array('id' => '040109', 'name' => 'Team\'s Enquiries', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
+                        2 => array('id' => '040102', 'name' => 'Quick Enquiry','micon' => 'img/newEnq.png', 'icon' => '', 'url' => '/sales/createQuickEnquiry', 'slug' => 'createQuickEnquiry', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        3 => array('id' => '040103', 'name' => 'Today\'s Followups', 'micon' => 'img/myFollow.png','icon' => '', 'url' => '/sales/todaysfollowups', 'slug' => 'todaysfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        4 => array('id' => '040104', 'name' => 'Pending Followups','micon' => 'img/pendingFollow.png', 'icon' => '', 'url' => '/sales/pendingfollowups', 'slug' => 'pendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        5 => array('id' => '040105', 'name' => 'Previous Followups', 'icon' => '','micon' => 'img/previousFollow.png',  'url' => '/sales/previousfollowups', 'slug' => 'previousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        6 => array('id' => '040106', 'name' => 'Total Enquiries', 'icon' => '','micon' => 'img/totalEnq.png', 'url' => '/sales/totalenquiries', 'slug' => 'enquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        7 => array('id' => '040107', 'name' => 'Lost Enquiries', 'icon' => '', 'micon' => 'img/lostEnq.png', 'url' => '/sales/lostenquiries', 'slug' => 'lostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        8 => array('id' => '040108', 'name' => 'Booked Enquiries', 'icon' => '','micon' => 'img/bookedEnq.png',  'url' => '/sales/bookedenquiries', 'slug' => 'bookedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        9 => array('id' => '040109', 'name' => 'My Reassigned Enquiries', 'icon' => '','micon' => 'img/reasignEnq.png', 'url' => '/sales/reassignenquiries', 'slug' => 'reassignenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        10 => array('id' => '0401010', 'name' => 'Team\'s Enquiries', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
                             'submenu_ids' => '04010901,04010902,04010903,04010904,04010905,04010906', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
                             1 => array('id' => '04010901', 'name' => 'Todays Followups', 'icon' => '','micon' => 'img/Team_todays_follow_ups.png', 'url' => '/sales/teamtodayfollowups', 'slug' => 'teamtodayfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             2 => array('id' => '04010902', 'name' => 'Pending Followups', 'icon' => '','micon' => 'img/Team_pending_follow_ups.png', 'url' => '/sales/teampendingfollowups', 'slug' => 'teampendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),

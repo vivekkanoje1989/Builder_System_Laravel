@@ -425,8 +425,8 @@
                 </div>
             </div>
             <!-- Enquiry History Modal -->
-            <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
-            <div data-ng-include="'/MasterSales/todaysRemark'"></div>
+            <!--<div data-ng-include=" '/MasterSales/enquiryHistory'"></div>-->
+            <!--<div data-ng-include="'/MasterSales/todaysRemark'"></div>-->
         </div>
     </div>
 </div>
