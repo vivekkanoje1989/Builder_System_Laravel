@@ -49,6 +49,11 @@ class MasterSalesController extends Controller {
         return view("MasterSales::index");
     }
 
+    public function createQuickEnquiry()
+    {
+        return view("MasterSales::quickEnquiry");
+    }
+
     /**
      * Store a newly created resource in storage.
      *

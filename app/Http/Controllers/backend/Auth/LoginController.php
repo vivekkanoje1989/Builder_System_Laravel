@@ -90,6 +90,33 @@ class LoginController extends Controller {
         return json_encode($result);
     }
     
+    
+    public function checkDomainExists(){
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        if(!empty($request['website_url'])){
+            $websiteurl = "http://".$request['website_url'];
+            $clientExists = \App\Models\ClientInfo::select('id','company_logo')->where('website',$websiteurl)->first();
+            $client_logo = "";
+            if(empty($clientExists)){
+                $websiteurl = "https://".$request['website_url'];
+                $clientExists = \App\Models\ClientInfo::select('id','company_logo')->where('website',$websiteurl)->first();
+                
+            }
+            if(!empty($clientExists->id)){
+                $client_logo = config('global.s3Path') . '/client/' . $clientExists->id . '/' . $clientExists->company_logo;
+                        
+                $result = ['success' => true,'client_id' => $clientExists->id,"client_logo" => $client_logo];
+            }else{
+            $result = ['success' => false,'message' => 'Please check domain & try again'];
+        }
+            
+        }else{
+            $result = ['success' => false,'message' => 'Please check domain & try again'];
+        }
+        return json_encode($result);
+    }
+    
     public function getSession(Request $request) {     
         if (Auth::guard('admin')->check()) {            
             $authUser = Auth()->guard('admin')->user();
@@ -122,7 +149,7 @@ class LoginController extends Controller {
         return Session::token();
     }
 
-    public function authenticate(Request $request) {         
+    public function authenticate(Request $request) {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $username = $request['username'];
@@ -153,8 +180,8 @@ class LoginController extends Controller {
                 'mobile_remember_token' => $authkey,'menu_change_status' => 0]);
             }
             CommonFunctions::insertLoginLog($username, $password, $empId, 2, 0, $platformType); //loginStatus = 2(login), loginFailureReason = 0
-            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get();            
-            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']);                
+//            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get();
+//            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']);                
             $result = ['success' => true, 'message' => 'Successfully logged in', 'loggedInUserId' => $empId];
         } else {
             if ($employee_status === 2) {

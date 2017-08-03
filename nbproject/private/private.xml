@@ -3,6 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
+=======
+<<<<<<< HEAD
+>>>>>>> 5df300c84e35cb482a93476845ebbdef0ecd00d6
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCountry/Controllers/ManageCountryController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/discountHeadingController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageLocation/routes/web.php</file>
@@ -24,6 +31,36 @@
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/statesController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageCountry/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/countryController.js</file>
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+>>>>>>> 3ce8c8a002d4648e5f3ee5d4f3d335805a216550
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/api.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/directives.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/reassignEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/Auth/LoginController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/quickEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+<<<<<<< HEAD
+=======
+>>>>>>> 6d3c5646b37710bc602cc7e54c0317b46bdb3e16
+>>>>>>> fb492f65adc48fc42346a8208827d9c61720f319
+>>>>>>> 3ce8c8a002d4648e5f3ee5d4f3d335805a216550
+>>>>>>> 5df300c84e35cb482a93476845ebbdef0ecd00d6
         </group>
     </open-files>
 </project-private>

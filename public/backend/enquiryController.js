@@ -64,13 +64,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         /****************************ENQUIRIES****************************/
         $scope.pageChanged = function(pageNo, functionName, id, type,newpage) {
-            $scope.flagForChange++;
-            Object.keys($scope.filterData).forEach(function(key) {                
-                if($scope.filterData[key] == '')
-                {
-                   delete $scope.filterData[key]; 
-                }                   
-            });
+            $scope.flagForChange++;            
             if ($scope.flagForChange == 1)
             {
                 if (($scope.filterData && Object.keys($scope.filterData).length > 0) || ($scope.maxBudget > 0)) {

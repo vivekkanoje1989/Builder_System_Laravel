@@ -105,9 +105,9 @@ class AdminController extends Controller {
             $permission = json_decode($employeeSubmenus[0]->employee_submenus,true);
         }else{//for web app
             $permission = json_decode(Auth()->guard('admin')->user()->employee_submenus,true);
-            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get(); 
-            session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
-            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
+//            $session = SystemConfig::where('id',Auth()->guard('admin')->user()->id)->get(); 
+//            session(['submenus' => Auth()->guard('admin')->user()->employee_submenus]); 
+//            session(['s3Path' => 'https://s3.'.$session[0]->region.'.amazonaws.com/'.$session[0]->aws_bucket_id.'/']); 
         }
         $getMenu = MenuItems::getMenuItems();
         $menuItem = $accessToActions = array();

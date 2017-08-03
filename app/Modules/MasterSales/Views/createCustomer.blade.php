@@ -218,7 +218,7 @@
                     </div>
                 </div>                                
             </div> 
-            <hr class="wide col-md-12" />   
+            <hr class="wide col-md-12" /> 
         </div> 
         <div class="col-xs-12 col-md-12" ng-if="showDivCustomer">
             <div class="widget">                                

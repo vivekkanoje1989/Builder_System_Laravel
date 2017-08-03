@@ -26,18 +26,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/MasterSales/scheduletestdrive', function () {
         return View::make('MasterSales::scheduletestdrive');
     });
-
-    /****************************ENQUIRIES****************************/
-//    Route::get('/master-sales/totalEnquiries', function () {
-//        return view('MasterSales::totalEnquiries');
-//    });
-//    Route::get('/master-sales/lostEnquiries', function () {
-//        return view('MasterSales::lostEnquiries');
-//    });
-    Route::get('/master-sales/closeEnquiries', function () {
-        return view('MasterSales::closeEnquiries');
-    });
-    /****************************ENQUIRIES****************************/
+    Route::get('/master-sales/createQuickEnquiry','MasterSalesController@createQuickEnquiry');
+ 
     
     /****************************FOLLOWUPS****************************/
 //    Route::get('/master-sales/showTodaysFollowups', function () {

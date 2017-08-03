@@ -262,6 +262,39 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                .state('createQuickEnquiry', {
+                                    url: '/sales/quickEnquiry',
+                                    templateUrl: '/master-sales/createQuickEnquiry',                                    
+                                    controller: 'customerController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Quick Enquiry'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customerController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            //'/backend/enquiryController.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select.js',
+                                                                        ]
+                                                                    });
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
+                                
                                 /*.state('enquiryCreate', {
                                  url: '/sales/createEnquiry/:customerId',
                                  templateUrl: function (stateParams) {
