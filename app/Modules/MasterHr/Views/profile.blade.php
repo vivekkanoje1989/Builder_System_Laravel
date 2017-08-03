@@ -2,9 +2,7 @@
     .img-cstdiv{
         position: fixed;
     }
-    .photoPreview{
-        width: 40% !important;
-    }
+   
 </style>
 <div ng-controller="hrController" ng-init="getProfile()">
     <div class="row">
@@ -136,7 +134,7 @@
                                                 <div id="err_cof_pass_compareto" ng-message="compareTo" class="sp-err">Must match new password and confirm password.</div>
                                                 <div id="err_cof_pass_minlength" ng-message="minlength" class="sp-err">Minimum 8 Characters Allowed.</div>
                                             </div>
-                                            <div ng-if="password_confirmation" class="sp-err password_confirmation">{{password_confirmation}}</div>
+                                         
                                         </span>                                
                                     </div>
                                 </div>                                

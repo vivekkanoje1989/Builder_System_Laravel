@@ -3,6 +3,7 @@ $GLOBALS['server_name'] = "";
 $config = ltrim($_SERVER['HTTP_HOST'], "www.") . '.php';
 $path = '../dbcredentials/' . $config;
 include ($path);
+
 $GLOBALS['uname'] = $uname;
 $GLOBALS['password'] = $password;
 $GLOBALS['dbname'] = $dbname;
