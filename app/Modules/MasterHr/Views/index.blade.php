@@ -3,6 +3,7 @@
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Users</span>
+                <a href="#/user/showpermissions" class="btn btn-info">Permissions</a>&nbsp;&nbsp;&nbsp;
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">

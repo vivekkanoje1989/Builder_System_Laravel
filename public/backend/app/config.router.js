@@ -142,6 +142,34 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                .state('showpermissions', {
+                                    url: '/user/showpermissions',
+                                    templateUrl: '/master-hr/showpermissions',
+                                    controller: 'hrController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Permissions',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/hrController.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
                                 .state('manageRoles', {
                                     url: '/user/manageroles',
                                     templateUrl: '/master-hr/manageRolesPermission',

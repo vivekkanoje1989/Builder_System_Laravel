@@ -19,9 +19,11 @@ use App\Classes\S3;
 use App\Modules\MasterHr\Models\EmployeeRole;
 use App\Models\MlstBmsbDesignation;
 use Session;
+use App\Models\MlstTitle;
 
 class MasterHrController extends Controller {
 
+    public static $empArr;
     public function __construct() {
 
         /* $routeName = \Route::getCurrentRoute()->getActionName();
@@ -439,7 +441,11 @@ class MasterHrController extends Controller {
     public function destroy($id) {
         //
     }
-
+    
+    public function showpermissions(){
+        return view("MasterHr::showpermissions");
+    }
+    
     public function userPermissions($id) {
         return view("MasterHr::userpermissions")->with("empId", $id);
     }
@@ -594,7 +600,184 @@ class MasterHrController extends Controller {
             return $getMenu;
         }
     }
+    
+    static public function getEmpName($arr1,$arr2){
+        if(!empty($arr2)){
+            foreach($arr2 as $k=>$v){
+                if($k == $arr1){
+                    MasterHrController::$empArr = $arr2[$k]; 
 
+                }
+            }
+        }
+       return MasterHrController::$empArr;
+    }
+
+    public function getMenuListsForEmployee() {
+        
+        $getMenu = MenuItems::getMenuItems();
+        $getEmployees = Employee::select('id','title_id', 'first_name', 'last_name', 'designation_id', 'employee_submenus')->get();
+
+        if (!empty($getEmployees)) {            
+            $i = 0;
+            $employee_submenus = $empchild1 = $arr =  $arr1 = [];
+            foreach($getEmployees as $keyemp => $emp){ $menuItem = array();  $arr = [];
+                $emptitle = MlstTitle::select('title')->where('id', '=', $emp['title_id'])->first();               
+                $empdesignation = MlstBmsbDesignation::select('designation')->where(['id'=> $emp['designation_id'],'status' => 1])->first();
+                
+                if(!empty($empdesignation)){
+                    $empFullName = $emptitle->title . " " . $emp['first_name'] . " " . $emp['last_name']."-".$empdesignation->designation;
+                }
+                $employee_submenus = json_decode($emp['employee_submenus'],true);
+                    foreach ($getMenu as $key => $menu) {$arr = $arr1 = [];
+                        $submenu_ids = explode(',', $menu['submenu_ids']);
+
+                        foreach ($menu['submenu'] as $k1 => $child1) {
+                            if(is_array($employee_submenus) && in_array($child1['id'], $employee_submenus)){
+                                $empchild1[$child1['id']][$emp['id']] = $empFullName;
+                                $menu['submenu'][$k1]['emp']=MasterHrController::getEmpName($child1['id'],$empchild1);
+                            }else{
+                                $menu['submenu'][$k1]['emp'] = MasterHrController::getEmpName($child1['id'],$empchild1);
+                            }
+
+                            if (!empty($child1['submenu'])) {                                             
+                                
+                                foreach ($child1['submenu'] as $k2 => $child2) {  
+                                    if(is_array($employee_submenus) && in_array($child2['id'], $employee_submenus) ){
+                                        $empchild1[$child2['id']][$emp['id']] = $empFullName;    
+                                        $menu['submenu'][$k1]['submenu'][$k2]['emp'] = MasterHrController::getEmpName($child2['id'],$empchild1);
+                                    }else{
+                                        $menu['submenu'][$k1]['submenu'][$k2]['emp'] = MasterHrController::getEmpName($child2['id'],$empchild1);
+                                    }
+                                    if (!empty($child2['submenu'])) {
+                                        
+                                        foreach ($child2['submenu'] as $k3 => $child3) {                                      
+                                            if(is_array($employee_submenus) && in_array($child3['id'], $employee_submenus)){
+                                                $empchild1[$child3['id']][$emp['id']] = $empFullName;    
+                                                $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['emp'] = MasterHrController::getEmpName($child3['id'],$empchild1); 
+                                            }else{
+                                                $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['emp'] = MasterHrController::getEmpName($child3['id'],$empchild1); 
+                                            }
+                                            if (!empty($child3['submenu'])) {
+                                                
+                                                if(is_array($employee_submenus) && in_array($child3['id'], $employee_submenus)){
+                                                    $empchild1[$child3['id']][$emp['id']] = $empFullName;    
+                                                    $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['emp'] = MasterHrController::getEmpName($child3['id'],$empchild1); 
+                                                }else{
+                                                    $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['emp'] = MasterHrController::getEmpName($child3['id'],$empchild1); 
+                                                }                                           
+                                            }
+                                        }
+                                    }   
+                                }  
+                            } 
+                        }
+                        $menuItem[] = $menu;                         
+                    }
+                $i++;
+            }         
+            ksort($menuItem);
+            $result = ['success' => true, "getMenu" => $menuItem, "empdetail" => $empchild1];
+        } 
+        return json_encode($result);
+    }
+    public function removeEmpID(){
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        if (!empty($input)) {
+           
+            $getSubMenus = Employee::select('employee_submenus')->where('id', $input['empId'])->get();
+            
+            $getMenuItem = $tempMenuItem = [];
+            if ($getSubMenus[0]['employee_submenus'] != '') {
+                $getMenuItem = $tempMenuItem = json_decode($getSubMenus[0]['employee_submenus'], true);
+            }
+            $parentId = $submenuId = $getAllParent = $removeId = $arrdiff3 = $arrdiff2 = array();
+            
+            $submenuId = array_map(function($el) {
+                $firstdigit = substr($el, 0, 1);
+                if($firstdigit !== '0')
+                    return '0' . $el;
+                else
+                    return $el;
+            }, $input['submenuId']);
+            if (!empty($input['parentId'])) {
+                $getMenu = MenuItems::getMenuItems();
+                
+                $parentId = array_map(function($el) {
+                    $firstdigit = substr($el, 0, 1);
+                    if($firstdigit !== '0')
+                        return '0' . $el;
+                    else
+                        return $el;
+                }, $input['parentId']);                
+            }
+            
+            if(!empty($input['allChild2Id'])){ //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
+                $allChild2Id = array_map(function($el) {
+                    $firstdigit = substr($el, 0, 1);
+                    if($firstdigit !== '0')
+                        return '0' . $el;
+                    else
+                        return $el;
+                }, $input['allChild2Id']);
+                
+                if(!empty($input['allChild3Id'])){
+                    if(($key = array_search($parentId[1], $tempMenuItem)) !== false) {
+                        unset($tempMenuItem[$key]);
+                    }
+                }else{
+                    if(($key = array_search($submenuId[0], $tempMenuItem)) !== false) {
+                        unset($tempMenuItem[$key]);
+                    }
+                }
+                foreach($allChild2Id as $chk2 => $ch2){
+                    if(in_array($ch2, $tempMenuItem)){
+                        $arrdiff2[] = $ch2;
+                    }
+                } 
+                if(count($arrdiff2) == 0){
+                    $removeId[] = $parentId[0];
+                }
+                
+            }
+            if(!empty($input['allChild3Id'])){ //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
+                $allChild3Id = array_map(function($el) {
+                    $firstdigit = substr($el, 0, 1);
+                    if($firstdigit !== '0')
+                        return '0' . $el;
+                    else
+                        return $el;
+                }, $input['allChild3Id']);
+                
+                if(($key = array_search($submenuId[0], $tempMenuItem)) !== false) {
+                    unset($tempMenuItem[$key]);
+                }
+                
+                foreach($allChild3Id as $chk3 => $ch3){
+                    if(in_array($ch3, $tempMenuItem)){
+                        $arrdiff3[] = $ch3;
+                    }
+                }
+                if(count($arrdiff3) == 0){
+                    $removeId[] = $parentId[1];
+                }
+            }
+            
+            $menuArr = array_merge($removeId, $submenuId);
+
+            if (!empty($getMenuItem)) {
+                $menuArr = array_unique(array_diff($getMenuItem, $menuArr)); //merge elements
+            }
+
+            asort($menuArr);
+            $jsonArr = json_encode($menuArr, true);
+            Employee::where('id', $input['empId'])->update(array('employee_submenus' => $jsonArr,'menu_change_status' => 1));
+            $result = ['success' => true];
+            return json_encode($result);            
+        }
+    }
+    
     public function getMenuLists() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
@@ -768,15 +951,25 @@ class MasterHrController extends Controller {
             if ($getSubMenus[0]['employee_submenus'] != '') {
                 $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'], true);
             }
-            $parentId = $submenuId = array();
+//            $parentId = $submenuId = array();
+            
+            $parentId = $submenuId = $getAllParent = $removeId = $arrdiff3 = $arrdiff2 = array();
             if (!empty($input['data']['isChecked'])) { //checkbox checked
                 if (!empty($input['data']['parentId'])) {
                     $parentId = array_map(function($el) {
-                        return '0' . $el;
+                        $firstdigit = substr($el, 0, 1);
+                        if ($firstdigit !== '0')
+                            return '0' . $el;
+                        else
+                           return $el;
                     }, $input['data']['parentId']);
                 }
                 $submenuId = array_map(function($el) {
-                    return '0' . $el;
+                        $firstdigit = substr($el, 0, 1);
+                        if ($firstdigit !== '0')
+                            return '0' . $el;
+                        else
+                           return $el;
                 }, $input['data']['submenuId']);
 
                 $menuArr = array_merge($parentId, $submenuId);
@@ -786,7 +979,7 @@ class MasterHrController extends Controller {
                 asort($menuArr);
                 $jsonArr = json_encode($menuArr, true);
             } else {//checkbox unchecked    
-                if (!empty($input['data']['parentId'])) {
+                /*if (!empty($input['data']['parentId'])) {
                     $parentId = array_map(function($el) {
                         return '0' . $el;
                     }, $input['data']['parentId']);
@@ -796,8 +989,82 @@ class MasterHrController extends Controller {
                     return '0' . $el;
                 }, $input['data']['submenuId']);
 
-                $menuArr = array_merge($parentId, $submenuId);
-//print_R($menuArr);
+                $menuArr = array_merge($parentId, $submenuId);*/
+                
+                /**************************************************************************/
+                $submenuId = array_map(function($el) {
+                       $firstdigit = substr($el, 0, 1);
+                       if ($firstdigit !== '0')
+                           return '0' . $el;
+                       else
+                           return $el;
+                   }, $input['data']['submenuId']);
+                   if (!empty($input['data']['parentId'])) {
+                       $getMenu = MenuItems::getMenuItems();
+
+                       $parentId = array_map(function($el) {
+                           $firstdigit = substr($el, 0, 1);
+                           if ($firstdigit !== '0')
+                               return '0' . $el;
+                           else
+                               return $el;
+                       }, $input['data']['parentId']);
+                   }
+
+                   if (!empty($input['data']['allChild2Id'])) { //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
+                       $allChild2Id = array_map(function($el) {
+                           $firstdigit = substr($el, 0, 1);
+                           if ($firstdigit !== '0')
+                               return '0' . $el;
+                           else
+                               return $el;
+                       }, $input['data']['allChild2Id']);
+
+                       if (!empty($input['data']['allChild3Id'])) {
+                           if (($key = array_search($parentId[1], $tempMenuItem)) !== false) {
+                               unset($tempMenuItem[$key]);
+                           }
+                       } else {
+                           if (($key = array_search($submenuId[0], $tempMenuItem)) !== false) {
+                               unset($tempMenuItem[$key]);
+                           }
+                       }
+                       foreach ($allChild2Id as $chk2 => $ch2) {
+                           if (in_array($ch2, $tempMenuItem)) {
+                               $arrdiff2[] = $ch2;
+                           }
+                       }
+                       if (count($arrdiff2) == 0) {
+                           $removeId[] = $parentId[0];
+                       }
+                   }
+                   if (!empty($input['data']['allChild3Id'])) { //[01401,0140102],[014010205], [0140101,0140102], [014010201,014010202,014010203,014010204,014010205]
+                       $allChild3Id = array_map(function($el) {
+                           $firstdigit = substr($el, 0, 1);
+                           if ($firstdigit !== '0')
+                               return '0' . $el;
+                           else
+                               return $el;
+                       }, $input['data']['allChild3Id']);
+
+                       if (($key = array_search($submenuId[0], $tempMenuItem)) !== false) {
+                           unset($tempMenuItem[$key]);
+                       }
+
+                       foreach ($allChild3Id as $chk3 => $ch3) {
+                           if (in_array($ch3, $tempMenuItem)) {
+                               $arrdiff3[] = $ch3;
+                           }
+                       }
+                       if (count($arrdiff3) == 0) {
+                           $removeId[] = $parentId[1];
+                       }
+                   }
+
+                   $menuArr = array_merge($removeId, $submenuId);
+                   /************************************************************************ */
+
+                   
                 if (!empty($getMenuItem)) {
                     $menuArr = array_unique(array_diff($getMenuItem, $menuArr)); //merge elements
                 }

@@ -382,7 +382,28 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }*/
+        $scope.showPermissions = function () { //permission wise employees
 
+            Data.get('master-hr/getMenuListsForEmployee').then(function (response) {
+                if (response.success) {
+                    $scope.menuItems = response.getMenu;
+                } else {
+                    $scope.errorMsg = response.message;
+                }
+            });
+        }
+        $scope.removeEmpID = function(empId,parentId,submenuId,allChild2Id,allChild3Id){
+       
+            Data.post('master-hr/removeEmpID',
+            {empId:empId,parentId:parentId,submenuId:submenuId,allChild2Id:allChild2Id,allChild3Id:allChild3Id}).then(function (response) {
+                if (!response.success) {
+                    toaster.pop('error', '', 'Something went wrong');
+                } else {
+                    toaster.pop('success', '', 'Employee removed successfully');
+                }
+            });
+        }
+        
         $scope.updatePermissions = function (empId, roleId) {
             Data.post('master-hr/updatePermissions', {
                 data: {empId: empId, roleId: roleId},
@@ -401,7 +422,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         }
 
-        $scope.accessControl = function (moduleType, empId, checkboxid, parentId, submenuId) {
+        $scope.accessControl = function (moduleType, empId, checkboxid, parentId, submenuId, allChild2Id, allChild3Id) {
             var isChecked = $("#" + checkboxid).prop("checked");
             var obj = $("#" + checkboxid);
             var level = $("#" + checkboxid).attr("data-level");
@@ -533,7 +554,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
             }
             Data.post('master-hr/accessControl', {
-                data: {empId: empId, parentId: $scope.parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType}
+                data: {empId: empId, parentId: $scope.parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType,allChild2Id:allChild2Id,allChild3Id:allChild3Id}
             }).then(function (response) {
                 if (response) {
                     $scope.totalPermissions = response.totalPermissions;
@@ -852,3 +873,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         /****************** Rohit *********************/
     }]);
 
+app.filter('split', function () {
+    return function (input, splitChar, splitIndex) {
+        // do some bounds checking here to ensure it has that index
+        return input.split(splitChar)[splitIndex];
+    }
+});

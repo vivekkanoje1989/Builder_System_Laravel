@@ -35,6 +35,10 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::post('/master-hr/createUserRole', 'MasterHrController@createUserRole'); //create user role
     Route::post('/master-hr/updateUserRole', 'MasterHrController@updateUserRole'); //update user role
     
+    Route::get('/master-hr/showpermissions', 'MasterHrController@showpermissions'); 
+    Route::get('/master-hr/getMenuListsForEmployee', 'MasterHrController@getMenuListsForEmployee'); 
+    Route::post('/master-hr/removeEmpID', 'MasterHrController@removeEmpID'); 
+    
     Route::post('/master-hr/getProfileInfo', 'MasterHrController@getProfileInfo'); 
     Route::post('/master-hr/updateProfileInfo', 'MasterHrController@updateProfileInfo');
     Route::get('/master-hr/profile', 'MasterHrController@profile');
