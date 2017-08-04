@@ -103,6 +103,8 @@ angular.module('app')
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/hrController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4114,7 +4116,7 @@ angular.module('app')
                                 /****************************Rohit*********************************/
                                 .state('quickUser', {
                                     url: '/user/quickuser',
-                                    templateUrl: '/master-hr/showQuickUser',
+                                    templateUrl: '/master-hr/quickuser',
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {

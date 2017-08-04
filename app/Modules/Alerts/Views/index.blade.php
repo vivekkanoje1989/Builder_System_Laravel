@@ -1,118 +1,141 @@
 <style>
-	.toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;margin-left: 15px;}
+    .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;margin-left: 15px;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;margin-left: 15px;}
 </style>
-<div class="row" ng-controller="alertsController" ng-init="manageAlerts('','index')">
+<div class="row" ng-controller="alertsController" ng-init="manageAlerts('', 'index')">
     <div class="col-xs-12 col-md-12">
-        <div class="widget flat radius-bordered">
-            <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Alerts</span>
+        <div class="widget">
+            <div class="widget-header ">
+                <span class="widget-caption">Manage Templates Settings</span>
+
+
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">
-                    <div class="col-sm-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="search">Search:</label>
-                            <span class="input-icon icon-right">
-                                <input type="text" ng-model="search" name="search" class="form-control">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </span>
-                        </div>
+
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Search:</label>
+                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
                     </div>
-                    <div class="col-sm-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="search">Records per page:</label>
-                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
-                        </div>
+
+                    <div class="col-sm-6 col-xs-12">
+                        <label for="search">Records per page:</label>
+                        <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:25%;" class="form-control" ng-model="itemsPerPage">
                     </div>
-                </div>
+
+                </div><br>
+
+
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                            <th style="width:5%">Sr. No.</th>
-                            <th style="width: 5%">
-                                <a href="javascript:void(0);" ng-click="orderByField='id'; reverseSort = !reverseSort">Id 
-                                    <span ng-show="orderByField == 'id'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
+                            <th style="width:3%">Sr. No.</th>
+                            <th style="width: 15%">
+                                Template For
+                            </th>
+                            <th style="width: 7%">
+                                Template To     
+                            </th>
+                            <th style="width: 7%">
+                                Template Category Default/Custom
+                            </th>
+                            <th style="width: 15%">
+                                Custom Template Name
+                            </th>
+
+                            <th style="width: 10%">
+                                SMS Off/On
                             </th>
                             <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='first_name'; reverseSort = !reverseSort">Alert For
-                                    <span ng-show="orderByField == 'first_name'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
+                                Email Off/On                                
                             </th>
                             <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='designation'; reverseSort = !reverseSort">Alter Category Default/Custom
-                                    <span ng-show="orderByField == 'designation'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
+                                Department                                
                             </th>
-                            <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='reporting_to_id'; reverseSort = !reverseSort">Alert To 
-                                    <span ng-show="orderByField == 'reporting_to_id'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
-                            <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='team_lead_id'; reverseSort = !reverseSort">SMS On/Off
-                                    <span ng-show="orderByField == 'team_lead_id'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
-                            <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='department_name'; reverseSort = !reverseSort">Email On/Off
-                                    <span ng-show="orderByField == 'department_name'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
-                            <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='joining_date'; reverseSort = !reverseSort">Module
-                                    <span ng-show="orderByField == 'joining_date'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
-                            <th style="width: 10%">Actions</th>
+                            <th style="width: 10%">Action</th>
+
                         </tr>
                     </thead>
+
                     <tbody>
-                        <tr role="row" dir-paginate="listAlert in listAlerts | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                            <td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>
-                            <td>{{ listAlert.id }}</td>
-                            <td>{{ listAlert.event_name }}</td>
-                            <td ng-if="listAlert.template_category == 1 && listAlert.template_for == 1">Custome
-                                <span class="fa fa-toggle-on toggleClassActive" ng-click="changeTemplateStatus(0,$index,listAlert.id)"></span>
+                        <tr role="row" dir-paginate="listAlert in listAlerts | filter:search | itemsPerPage:itemsPerPage ">
+                            <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
+                            <td ng-init='(listAlert.template_type == 1)? template_type_list[listAlert.id] = 1 : template_type_list[listAlert.id] = 0'>{{ listAlert.event_name}}
+                                <span ng-init='(listAlert.email_status == 1)? template_email_status_list[listAlert.id] = 1 : template_email_status_list[listAlert.id] = 0'></span>
+                                <span ng-init='(listAlert.sms_status == 1)? template_sms_status_list[listAlert.id] = 1 : template_sms_status_list[listAlert.id] = 0'></span>
                             </td>
-                            <td ng-if="listAlert.template_category == 0 && listAlert.template_for == 1"> Default
-                                <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-click="changeTemplateStatus(1,$index,listAlert.id)"></span>
-                            </td>
-                            <td ng-if="listAlert.template_category == 0 && listAlert.template_for == 0"><b> Default Only </b></td>
                             <td ng-if="listAlert.template_for == 1">Customer</td>
                             <td ng-if="listAlert.template_for == 0">Employee</td>
-                            <td ng-if="listAlert.sms_status == 1">
-                         		<span class="fa fa-toggle-on toggleClassActive" ng-click="changeSmsStatus(0,$index,listAlert.id);"></span>
+                            <td ng-if="listAlert.template_for == 1 && template_type_list[listAlert.id] == 1">
+                                <span class="fa fa-toggle-on toggleClassActive" ng-click="changeTemplateStatus(0, $index, listAlert.id)"></span>
                             </td>
-                            <td ng-if="listAlert.sms_status == 0">
-                            	<span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-click="changeSmsStatus(1,$index,listAlert.id);"></span>
+
+                            <td ng-if="listAlert.template_for == 1 && template_type_list[listAlert.id] == 0"> 
+                                <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-click="changeTemplateStatus(1, $index, listAlert.id)"></span>
                             </td>
-                            <td ng-if="listAlert.email_status == 1"> 
-                            	<span class="fa fa-toggle-on toggleClassActive" ng-click="changeEmailStatus(0,$index,listAlert.id);"></span>
+
+
+
+                            <td ng-if="listAlert.template_for == 1 && template_type_list[listAlert.id] == 1">
+
+                                <span ng-if='displayinit' ng-init='custom_template_disable[listAlert.id] = 1; custom_template_name[listAlert.id] = listAlert.friendly_name'></span>
+                                <span style="cursor: pointer;" ng-click="custom_template_dropdown_dispaly(listAlert.id, 0)">
+                                    <div  ng-show='custom_template_name[listAlert.id] != null' class="alert alert-warning fade in" style="background:#e2e2e2;border-color: #5cb85c;">
+                                        <button class="close">
+                                            ×
+                                        </button>
+                                        {{custom_template_name[listAlert.id]}}
+                                    </div>
+                                </span>
+                                <div ng-hide='custom_template_disable[listAlert.id] == 1'>
+                                    <button class="close btn-default purple" style="margin-top: -10px;position: absolute;margin-left: 244px;z-index: 0;" ng-click="custom_template_dropdown_dispaly(listAlert.id, 1)">
+                                        ×
+                                    </button>
+                                    <ui-select ng-model="custom_template_id[listAlert.id]" theme="select2" style='width: 90%;'  ng-change="update_custome_template($index, listAlert.id)" >                                        
+                                        <ui-select-match placeholder="Select or search a custom template">{{$select.selected.friendly_name}}</ui-select-match>
+                                        <ui-select-choices repeat="item in custom_template_list | filter: $select.search">
+                                            <div ng-bind-html="item.friendly_name | highlight: $select.search" ></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <span>
+                                        <br>
+                                        <a class="btn btn-default purple" target="_blank" style="margin-top: 5px;" href="[[ config('global.backendUrl') ]]#/customalerts/create"><i class="fa fa-plus"></i> Add Custom Template</a>
+                                    </span>
+
+                                </div>
                             </td>
-                            <td ng-if="listAlert.email_status == 0">
-                            	<span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-click="changeEmailStatus(1,$index,listAlert.id);"></span>
+                            <td ng-if="listAlert.template_for == 1 && template_type_list[listAlert.id] == 0"> </td>
+                            <td ng-if="listAlert.template_category == 0 && listAlert.template_for == 0"><b> Default Only </b></td>
+
+
+                            <td ng-if="listAlert.template_category == 0 && listAlert.template_for == 0"><b> Default Only </b></td>
+
+                            <td ng-if="template_sms_status_list[listAlert.id] == 1">
+                                <span class="fa fa-toggle-on toggleClassActive" ng-click="changeSmsStatus(0, $index, listAlert.id);"></span>
                             </td>
-                            <td>{{ listAlert.module_names }}</td>
+                            <td ng-if="template_sms_status_list[listAlert.id] == 0">
+                                <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-click="changeSmsStatus(1, $index, listAlert.id);"></span>
+                            </td>
+
+
+
+
+
+
+                            <td ng-if="template_email_status_list[listAlert.id] == 1"> 
+                                <span class="fa fa-toggle-on toggleClassActive" ng-click="changeEmailStatus(0, $index, listAlert.id);"></span>
+                            </td>
+                            <td ng-if="template_email_status_list[listAlert.id] == 0">
+                                <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-click="changeEmailStatus(1, $index, listAlert.id);"></span>
+                            </td>
+                            <td>{{ listAlert.module_names}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
-                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/alerts/update/{{ listAlert.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                <!--div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div-->
+                                <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/alerts/update/{{ listAlert.id}}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                             </td>
+                        </tr>
+                        <tr>
+                            <td colspan="15"  ng-show="(listAlerts|filter:search).length == 0" align="center">Record Not Found</td>   
                         </tr>
                     </tbody>
                 </table>

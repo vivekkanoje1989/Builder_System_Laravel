@@ -57,6 +57,7 @@ app.controller('statesCtrl', ['$scope', 'Data', function ($scope, Data) {
                 $('#showFilterModal').modal('hide');
                 $scope.showFilterData = $scope.filterData;
                 $scope.hideloader();
+                $scope.flagForChange = 0;
                 return false;
 
             });

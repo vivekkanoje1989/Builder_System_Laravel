@@ -63,7 +63,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : step2 && (!frmQuickEmp.personal_mobile1.$dirty && frmQuickEmp.personal_mobile1.$invalid)}">
                                         <label for="">Personal Mobile Number<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right"> 
-                                            <input type="text" ng-model="userData.personal_mobile1" ng-minlength="10" maxlength="10"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile1" check-unique-mobiles id="personal_mobile1" class="form-control"  ng-model-options="{ allowInvalid: true, debounce: 300 }"  ng-change="copyToUsername(userData.personal_mobile1); validatePMobile(userData.personal_mobile1, 'errPersonalMobile');"  required>
+                                            <input type="text" ng-model="userData.personal_mobile1" ng-minlength="10" maxlength="10"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile1" check-unique-mobile id="personal_mobile1" class="form-control"  ng-model-options="{ allowInvalid: true, debounce: 300 }"  ng-change="copyToUsername(userData.personal_mobile1); validatePMobile(userData.personal_mobile1, 'errPersonalMobile');"  required>
                                             <i class="fa fa-phone"></i>
                                             <div ng-show="btnQukEmp || errPersonalMobile" ng-messages="frmQuickEmp.personal_mobile1.$error" class="help-block step2 {{ applyClassPMobile}}">
                                                 <div ng-message="required" class="sp-err">This field is required.</div>
@@ -148,12 +148,12 @@
                         <div class="col-sm-12 col-xs-12">
                             <div class="row">  
                                 <div class="col-sm-3 col-xs-12">
-                                    <div class="form-group"  ng-controller="teamLeadCtrl">
+                                    <div class="form-group"  ng-controller="teamLeadCtrlforQuick">
                                         <label for=""> Report To <span class="sp-err">*</span></label>	
                                         <ui-select ng-model="userData.reporting_to_id" required  name="reporting_to_id" id="reporting_to_id" theme="select2" style='width: 100%;' >                                        
-                                            <ui-select-match placeholder="Select or Search  Report To">{{$select.selected.first_name + ' ' + $select.selected.last_name + ' ' + '(' + $select.selected.designation_name + ')'}}</ui-select-match>
-                                            <ui-select-choices repeat="reporting in teamLeads | filter: $select.search">
-                                                <div ng-bind-html="reporting.first_name+' '+ reporting.last_name + '('+ reporting.designation_name+')' | highlight: $select.search" ></div>
+                                            <ui-select-match placeholder="Select or Search  Report To">{{$select.selected.first_name + ' ' + $select.selected.last_name + ' ' + '(' + $select.selected.designation_name.designation + ')'}}</ui-select-match>
+                                            <ui-select-choices repeat="reporting in teamLeadsforQuick | filter: $select.search">
+                                                <div ng-bind-html="reporting.first_name+' '+ reporting.last_name + '('+ reporting.designation_name.designation+')' | highlight: $select.search" ></div>
                                             </ui-select-choices>
                                         </ui-select>
                                         <div ng-show="btnQukEmp" ng-messages="frmQuickEmp.reporting_to_id.$error" class="help-block">
@@ -163,12 +163,12 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-12">
-                                    <div class="form-group"  ng-controller="teamLeadCtrl">
+                                    <div class="form-group"  ng-controller="teamLeadCtrlforQuick">
                                         <label for="">Team lead <span class="sp-err">*</span></label>	
                                         <ui-select ng-model="userData.team_to_id" required name="team_to_id" id="team_to_id" theme="select2" style='width: 100%;' >                                        
-                                            <ui-select-match placeholder="Select or Search  Team lead">{{$select.selected.first_name + ' ' + $select.selected.last_name + ' ' + '(' + $select.selected.designation_name + ')'}}</ui-select-match>
-                                            <ui-select-choices repeat="team in teamLeads | filter: $select.search">
-                                                <div ng-bind-html="team.first_name+' '+ team.last_name + '('+ team.designation_name+')' | highlight: $select.search" ></div>
+                                            <ui-select-match placeholder="Select or Search  Team lead">{{$select.selected.first_name + ' ' + $select.selected.last_name + ' ' + '(' + $select.selected.designation_name.designation + ')'}}</ui-select-match>
+                                            <ui-select-choices repeat="team in teamLeadsforQuick | filter: $select.search">
+                                                <div ng-bind-html="team.first_name+' '+ team.last_name + '('+ team.designation_name.designation+')' | highlight: $select.search" ></div>
                                             </ui-select-choices>
                                         </ui-select>
                                         <div ng-show="btnQukEmp" ng-messages="frmQuickEmp.team_to_id.$error" class="help-block">

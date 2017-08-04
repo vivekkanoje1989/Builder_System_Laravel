@@ -11,34 +11,36 @@
         resize: none;
     }
 </style>
-<input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'"  class="form-control">
+<input type="hidden" ng-model="userForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="userForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
 <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-init="userForm.id = '[[ $empId ]]'" value="[[ $empId ]]" class="form-control">
 <div class="row" >
-    <input type="hidden" name="employeeId" id="employeeId"  value="[[$empId]]" >
-    <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="hrController" >
-        <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>New User</h5>
+    <input type="hidden" name="employeeId" id="employeeId"  value="[[$empId]]" ng-cloak="" >
+    <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="hrController"  >
+
+        <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Edit User</h5>
         <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
             <ul class="steps">
-                <li  class="wiredstep1 active"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
-                <li  class="wiredstep2"><span class="step btn-nxt1">2</span><span class="title">Contact Information</span> <span class="chevron"></span></li>
-                <li  class="wiredstep3"><span class="step btn-nxt2">3</span><span class="title">Educational & Other Details</span> <span class="chevron"></span></li>
-                <li  class="wiredstep4"><span class="step btn-nxt3">4</span><span class="title">Job Offer Details</span> <span class="chevron"></span></li>
-                <li  class="wiredstep5"><span class="step btn-nxt4">5</span><span class="title">User status</span> <span class="chevron"></span></li>
+                <li   ng-click="getStepDiv(1, steps, 1, steps.first_name)" id="step1" ng-class="{'complete':steps.first_name == 1}" class="user_steps wiredstep1"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
+                <li   ng-click="getStepDiv(2, steps, 1, steps.personal_email1)" id="step2" ng-class="{'complete':steps.personal_email1 == 1}" class="user_steps wiredstep2"><span class="step btn-nxt1">2</span><span class="title">Contact Information</span> <span class="chevron"></span></li>
+                <li   ng-click="getStepDiv(3, steps, 1, steps.highest_education_id)" id="step3" ng-class="{'complete':steps.highest_education_id == 1}" class="user_steps wiredstep3"><span class="step btn-nxt2">3</span></span><span class="title">Educational & Other Details</span> <span class="chevron"></span></li>
+                <li   ng-click="getStepDiv(4, steps, 1, steps.deptId)" ng-class="{'complete':steps.deptId == 1}" id="step4" class="user_steps wiredstep4"><span class="step btn-nxt3">4</span><span class="title">Job Offer Details</span> <span class="chevron"></span></li>
+                <li   ng-click="getStepDiv(5, steps, 1, steps.username);" ng-class="{'complete':steps.username == 1}" id="step5" class="user_steps step5 wiredstep5"><span class="step btn-nxt4">5</span><span class="title">User status</span> <span class="chevron"></span></li>
             </ul>
         </div>
-        <div class="step-content" id="WiredWizardsteps"  >
-            <div class="step-pane active" id="wiredstep1" >
-                <form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData, [[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]], 'edit');">
+        <div class="step-content" id="WiredWizardsteps">
+            <div class="step-pane active" id="wiredstep1" ng-show="stepId == 1" >
+                <form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userPersonalData, [[ $empId ]]);"  ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]], 'edit');"  >
+                            <input type="hidden" ng-model="userData.id" name="id" id="empId" ng-init="userForm.id = '[[ $empId ]]'" value="[[ $empId ]]" class="form-control">
                     <input type="hidden" name="employeeId" ng-model="employeeId" value="{{employeeId}}" >
-                    <div class="form-title">Personal Information</div>
+                    <div class="form-title">Personal Information of {{fullName}}</div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.title_id.$dirty && userForm.title_id.$invalid)}">
                                 <label for="">Title <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select ng-model="userData.title_id" ng-controller="titleCtrl" name="title_id" class="form-control" required="required">
+                                    <select ng-model="userPersonalData.title_id" ng-controller="titleCtrl" name="title_id" class="form-control" required="required">
                                         <option value="">Select Title</option>
-                                        <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == userData.title_id}}">{{t.title}}</option>
+                                        <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == userPersonalData.title_id}}">{{t.title}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.title_id.$error" class="help-block step1">
@@ -51,7 +53,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.first_name.$dirty && userForm.first_name.$invalid)}">
                                 <label for="">First Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.first_name" name="first_name" class="form-control"  capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')"    maxlength="15" required>
+                                    <input type="text" ng-model="userPersonalData.first_name" name="first_name" class="form-control"  capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')"    maxlength="15" required>
                                     <i class="fa fa-user"></i>
                                     <div ng-show="step1" ng-messages="userForm.first_name.$error" class="help-block step1">
                                         <div ng-message="required">This field is required.</div>
@@ -64,9 +66,8 @@
                             <div class="form-group">
                                 <label for="">Middle Name</label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.middle_name" name="middle_name" class="form-control" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" maxlength="15">
+                                    <input type="text" ng-model="userPersonalData.middle_name" name="middle_name" class="form-control" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" maxlength="15">
                                     <i class="fa fa-user"></i>
-
                                 </span>
                             </div>
                         </div>
@@ -74,7 +75,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.last_name.$dirty && userForm.last_name.$invalid)}">
                                 <label for="">Last Name <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userData.last_name" name="last_name" class="form-control"  maxlength="15" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')"  maxlength="15"  required>
+                                    <input type="text" ng-model="userPersonalData.last_name" name="last_name" class="form-control"  maxlength="15" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')"  maxlength="15"  required>
                                     <i class="fa fa-user"></i>
                                     <div ng-show="step1" ng-messages="userForm.last_name.$error" class="help-block step1">
                                         <div ng-message="required">This field is required.</div>
@@ -84,14 +85,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-sm-3 col-xs-6">
                             <label>Birth Date </label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="userData.birth_date" name="date_of_birth" id="date_of_birth" max-date="maxDates" class="form-control" datepicker-popup="{{format}}" is-open="opened"  datepicker-options="dateOptions" close-text="Close" readonly />
+                                    <input type="text" ng-model="userPersonalData.birth_date" name="date_of_birth"  id="date_of_birth" max-date="maxDates" class="form-control" datepicker-popup="{{format}}" is-open="opened"  datepicker-options="dateOptions" close-text="Close" readonly />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event,1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="open($event, 2)" show-button-bar="false"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
                             </div>
@@ -100,9 +101,9 @@
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.gender_id.$dirty && userForm.gender_id.$invalid)}">
                                 <label for="">Gender <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select ng-model="userData.gender_id" ng-controller="genderCtrl" name="gender_id" class="form-control" required>
+                                    <select ng-model="userPersonalData.gender_id" ng-controller="genderCtrl" name="gender_id" class="form-control" required>
                                         <option value="">Select Gender</option>
-                                        <option ng-repeat="genderList in genders track by $index" value="{{genderList.id}}" ng-selected="{{ genderList.id == userData.gender_id}}">{{genderList.gender}}</option>
+                                        <option ng-repeat="genderList in genders track by $index" value="{{genderList.id}}" ng-selected="{{ genderList.id == userPersonalData.gender_id}}">{{genderList.gender}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step1" ng-messages="userForm.gender_id.$error" class="help-block step1">
@@ -113,9 +114,9 @@
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.physic_status.$dirty && userForm.physic_status.$invalid)}">
-                                <label for="">Physic  <span class="sp-err">*</span></label>
+                                <label for="">physic <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right" required>
-                                    <select ng-model="userData.physic_status" name="physic_status" class="form-control"   placeholder="Select Physic"   required>
+                                    <select ng-model="userPersonalData.physic_status" name="physic_status" class="form-control"   placeholder="Select Physic"   required>
                                         <option value="">Select Physic Status</option>
                                         <option value="1">Normal</option>
                                         <option value="2">Handicap</option>
@@ -127,11 +128,12 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-xs-6"  ng-if="userData.physic_status == 2">
+                        <div class="col-sm-3 col-xs-6"  ng-if="userPersonalData.physic_status == 2">
                             <div class="form-group">
-                                <label for="">Physic  Description</label>
+                                <label for="">physic  Description</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="userData.physic_desc" name="physic_desc"  class="form-control" maxlength="50"  ></textarea>
+                                    <textarea ng-model="userPersonalData.physic_desc" name="physic_desc"  class="form-control" maxlength="50" ></textarea>
+
                                 </span>
                             </div>
                         </div>                        
@@ -141,9 +143,9 @@
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.blood_group_id.$dirty && userForm.blood_group_id.$invalid)}">
                                 <label for="">Blood Group </label>
                                 <span class="input-icon icon-right">
-                                    <select ng-model="userData.blood_group_id" ng-controller="bloodGroupCtrl" name="blood_group_id" class="form-control" >
+                                    <select ng-model="userPersonalData.blood_group_id" ng-controller="bloodGroupCtrl" name="blood_group_id" class="form-control" >
                                         <option value="">Select Blood Group</option>
-                                        <option ng-repeat="bloodGroup in bloodGroups track by $index" value="{{bloodGroup.id}}" ng-selected="{{ bloodGroup.id == userData.blood_group_id}}">{{bloodGroup.blood_group}}</option>
+                                        <option ng-repeat="bloodGroup in bloodGroups track by $index" value="{{bloodGroup.id}}" ng-selected="{{ bloodGroup.id == userPersonalData.blood_group_id}}">{{bloodGroup.blood_group}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
 
@@ -154,7 +156,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (userForm.marital_status.$invalid)}">
                                 <label for="">Marital Status <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select ng-model="userData.marital_status" name="marital_status" id="marital_status" class="form-control" required>
+                                    <select ng-model="userPersonalData.marital_status" name="marital_status" id="marital_status" class="form-control" required>
                                         <option value="">Select Marital Status</option>
                                         <option value="1">Single</option>
                                         <option value="2">Married</option>
@@ -166,42 +168,43 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-xs-6" ng-if="userData.marital_status == 2">
+                        <div class="col-sm-3 col-xs-6" ng-if="userPersonalData.marital_status == 2">
                             <div class="form-group" ng-class="{ 'has-error' : step1 && (!userForm.marriage_date.$dirty && userForm.marriage_date.$invalid)}">
                                 <label>Marriage Date</label>
                                 <div ng-controller="DatepickerDemoCtrl">
                                     <p class="input-group">
 
-                                        <input type="text" ng-model="userData.marriage_date" name="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date='dt' datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
+                                        <input type="text" ng-model="userPersonalData.marriage_date" name="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date='dt' datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </span>
                                     </p>
+
                                 </div>
                             </div>
                         </div>                                                
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
-                            <button type="submit" class="btn btn-primary btn-nxt1"  ng-click="step1 = true; getStepDiv(1, [[$empId]])"  >Next</button>
+                            <button type="submit" class="btn btn-primary btn-nxt1"  ng-click="step1 = true;"  >Next</button>
                         </div>
                     </div>
                 </form>
             </div>	
-            <div class="step-pane" id="wiredstep2" >	
-                 <form name="userContactForm" novalidate ng-submit="userContactForm.$valid && contact && createContactForm(userContact, [[$empId]])"   >
+            <div class="step-pane" id="wiredstep2" ng-show="stepId == 2">	
+                <form name="userContactForm" novalidate ng-submit="userContactForm.$valid && contact && createContactForm(userContact, [[$empId]])"   >
                     <div class="form-title">
-                        Contact Information
+                        Contact Information  of {{fullName}}
                     </div>
                     <div class="row">
                         <div class="col-sm-6 col-xs-12">
                             <div class="row">
                                 <div class="col-sm-2 col-xs-2">
                                     <div class="form-group" >
-                                        <label for="">Calling code</label>
+                                        <label for="">Country code</label>
                                         <span class="input-icon icon-right"> 
                                             <input type="text" disabled ng-model="userContact.personal_mobile1_calling_code" style="width:110px; height:34px;" name="personal_mobile1_calling_code"  id="personal_mobile1_calling_code" class="form-control" >
-                                           
+
                                         </span>
                                     </div>
                                 </div>
@@ -227,6 +230,7 @@
                                         <label for="">Country code</label>
                                         <span class="input-icon icon-right">
                                             <input type="text" disabled ng-model="userContact.office_mobile_calling_code" style="width:110px; height:34px;"  name="office_mobile_calling_code" id="office_mobile_calling_code" class="form-control" placeholder="+91-">
+
                                         </span>                               
                                     </div> 
                                 </div> 
@@ -251,12 +255,14 @@
                                         <label for="">Country code</label>
                                         <span class="input-icon icon-right">
                                             <input type="text" disabled ng-model="userContact.personal_mobile2_calling_code" style="width:110px; height:34px;" name="personal_mobile2_calling_code" id="personal_mobile2_calling_code" class="form-control" placeholder="+91-" ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userContact.personal_mobile2, 'errFamilyMobile')">
+
                                         </span>                               
                                     </div> 
                                 </div> 
+
                                 <div class="col-sm-4 col-xs-4">
                                     <div class="form-group">
-                                        <label for="">Family Member Mobile Number</label>
+                                        <label for="">Family Member Mobile No.</label>
                                         <span class="input-icon icon-right1">
                                             <input type="text" ng-model="userContact.personal_mobile2" maxlength="10" style="margin-left: -24px;" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_mobile2" id="personal_mobile2" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateMobileNumber(userContact.personal_mobile2, 'errFamilyMobile')">
                                             <i class="fa fa-phone"></i>
@@ -268,18 +274,19 @@
                                         </span>                               
                                     </div> 
                                 </div> 
+
                                 <div class="col-sm-2 col-xs-2">
                                     <div class="form-group">
-                                         <label for="">Country code</label>
+                                        <label for="">Country code</label>
                                         <span class="input-icon icon-right">
                                             <input type="text" disabled ng-model="userContact.personal_landline_calling_code" style="width:110px; height:34px;" name="personal_landline_calling_code" id="personal_landline_calling_code" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userContact.personal_landline_no)">
-               
+
                                         </span>                               
                                     </div> 
                                 </div>
                                 <div class="col-sm-4 col-xs-4">
                                     <div class="form-group">
-                                       <label for="">Landline Number</label>
+                                        <label for="">Landline Number</label>
                                         <span class="input-icon icon-right1">
                                             <input type="text" ng-model="userContact.personal_landline_no" ng-minlength="10" style="margin: 0px 0 0 -25px;" maxlength="10" ng-minlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_landline_no" id="personal_landline_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userContact.personal_landline_no)">
                                             <i class="fa fa-phone"></i>
@@ -430,6 +437,7 @@
                             <div class="form-title">
 
                                 Permanent Address  &nbsp;&nbsp;&nbsp;&nbsp;
+
                                 <span class="checkbox" style="display:inline-block;margin: 0;">
                                     <label>
                                         <input type="checkbox" id="copyContent" ng-model="copyContent" ng-change="checkboxSelected(copyContent)">
@@ -523,19 +531,20 @@
                     </div>
                 </form>
             </div>
-            <div class="step-pane" id="wiredstep3" >
-                <form name="usereducationForm" novalidate ng-submit="usereducationForm.$valid && invalidImage == '' &&  createEducationForm(userEducation, userEducation.employee_photo_file_name, [[ $empId ]]);" enctype="multipart/form-data">
+            <div class="step-pane" id="wiredstep3" ng-show="stepId == 3">
+                <form name="usereducationForm" novalidate ng-submit="usereducationForm.$valid && invalidImage == '' && createEducationForm(userEducation, userEducation.employee_photo_file_name, [[ $empId ]]);" enctype="multipart/form-data">
+
                     <div class="form-title">
-                        Educational & Other Details
+                        Educational & Other Details  of {{fullName}}
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step3 && (!usereducationForm.highest_education_id.$dirty && usereducationForm.highest_education_id.$invalid)}">
                                 <label for="">Highest Education <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <select ng-controller="educationListCtrl" ng-model="userEducation.highest_education_id"  name="highest_education_id" required class="form-control" >
+                                    <select ng-controller="educationListCtrl" ng-model="userEducation.highest_education_id" name="highest_education_id" required class="form-control" >
                                         <option value="">Select Education</option>
-                                        <option ng-repeat="list in educationList track by $index" value="{{list.id}}" ng-selected="{{ list.id == userData.highest_education_id}}">{{list.education}}</option>
+                                        <option ng-repeat="list in educationList track by $index" value="{{list.id}}" ng-selected="{{ list.id == userEducation.highest_education_id}}">{{list.education}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step3" ng-messages="usereducationForm.highest_education_id.$error" class="help-block step3">
@@ -548,31 +557,26 @@
                             <div class="form-group">
                                 <label for=""> Education Details</label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userEducation.education_details" name="education_details" capitalization    maxlength="50" class="form-control">
+                                    <input type="text" ng-model="userEducation.education_details" oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" name="education_details"   maxlength="50" class="form-control">
                                     <i class="fa fa-university"></i>
                                 </span>
                             </div>
                         </div>
-                         <div class="col-sm-3 col-xs-6">
+                        <div class="col-sm-3 col-xs-6">
                             <label for="">Employee Photo ( W 105 X H 120 )</label>
                             <span class="input-icon icon-right">
-                                <input type="file" ngf-select ng-model="userEducation.employee_photo_file_name" value="Select photo" ng-change="checkImageExtension(userEducation.employee_photo_file_name)" name="employee_photo_file_name"   ng-model-options="{ allowInvalid: true, debounce: 300 }"  id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" accept="image/x-png,image/gif,image/jpeg,image/bmp" >
+                                <input type="file" ngf-select ng-model="userEducation.employee_photo_file_name" id="employee_photo_file_name" value="Select photo" ng-change="checkImageExtension(userEducation.employee_photo_file_name)" name="employee_photo_file_name"   ng-model-options="{ allowInvalid: true, debounce: 300 }"  id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" accept="image/x-png,image/gif,image/jpeg,image/bmp" >
                                 <div ng-show="step3 || invalidImage" ng-messages="userEducation.employee_photo_file_name.$error" class="help-block step5">
                                     <div ng-if="invalidImage">{{invalidImage}}</div>
                                 </div>
                                 <img ng-src="{{image_source}}" class="thumb photoPreview"> 
+                                <div ng-if="imgUrl" > <img ng-if="employee_photo_file_name_preview.length != 1"  ng-src="<?php echo config('global.s3Path'); ?>/Employee-Photos/{{ imgUrl}}"  alt="{{ altName}}"  class="thumb photoPreview"/></div>
+
                             </span> 
                             <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    
                                 <img ng-src="{{list}}" class="thumb photoPreview">
                             </div>
                         </div>
-
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="form-group">
-                                <label for=""></label>
-                            </div>
-                        </div>
-
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
@@ -582,11 +586,10 @@
                     </div>
                 </form> 
             </div>	
-            <div class="step-pane" id="wiredstep4" >	
-                <form name="userJobForm" novalidate ng-submit="userJobForm.$valid && createJobForm(userJobData, [[ $empId ]])"  ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]], 'edit'); getEmpId([[$empId]]); ">
-
+            <div class="step-pane" id="wiredstep4" ng-show="stepId == 4">	
+                <form name="userJobForm" novalidate ng-submit="userJobForm.$valid && createJobForm(userJobData, [[ $empId ]])"  >
                     <div class="form-title">
-                        Job Offer Details
+                        Job Offer Details  of {{fullName}}
                     </div>
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
@@ -598,10 +601,12 @@
                                         {{list.department_name}} 
                                     </ui-select-choices>
                                 </ui-select>
-                                <div ng-show="emptyDepartmentId && userJobData.department_id == ''" class="help-block department step4 {{ applyClassDepartment}}">
+                                <div ng-show="emptyDepartmentId" class="help-block department step4 {{ applyClassDepartment}}">
                                     This field is required.
                                 </div>
                             </div>
+
+
                         </div>
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step4 && (!userJobForm.designation_id.$dirty && userJobForm.designation_id.$invalid)}">
@@ -609,7 +614,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userJobData.designation_id" name="designation_id" ng-controller="designationCtrl" class="form-control" required>
                                         <option value="">Please Select Designation</option>
-                                        <option ng-repeat="list in designationList track by $index" value="{{list.id}}" ng-selected="{{ userData.designation_id == list.id}}">{{list.designation}}</option>
+                                        <option ng-repeat="list in designationList track by $index" value="{{list.id}}" ng-selected="{{ userJobData.designation_id == list.id}}">{{list.designation}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userJobForm.designation_id.$error" class="help-block step4">
@@ -618,13 +623,13 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="col-sm-3 col-xs-6">
+                        <div class="col-sm-3 col-xs-6" ng-if="userId != '1'">
                             <div class="form-group" ng-class="{ 'has-error' : step4 && (!userJobForm.reporting_to_id.$dirty && userJobForm.reporting_to_id.$invalid)}">
                                 <label for="">Reporting To<span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
                                     <select ng-model="userJobData.reporting_to_id" name="reporting_to_id" ng-controller="teamLeadCtrl" class="form-control" required>
                                         <option value="">Please Select Reporting To</option>
-                                        <option ng-repeat="reporting in teamLeads track by $index" value="{{reporting.id}}" ng-selected="{{ userData.reporting_to_id == reporting.id}}">{{reporting.first_name}} {{ reporting.last_name}} ({{ reporting.designation_name.designation}})</option>
+                                        <option ng-repeat="reporting in teamLeads track by $index" value="{{reporting.id}}" ng-selected="{{ userJobData.reporting_to_id == reporting.id}}">{{reporting.first_name}} {{ reporting.last_name}} ({{ reporting.designation_name.designation}})</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userJobForm.reporting_to_id.$error" class="help-block step4">
@@ -638,7 +643,7 @@
                                 <label>Joining Date<span class="sp-err">*</span></label>
                                 <div ng-controller="DatepickerDemoCtrl">
                                     <p class="input-group">
-                                        <input type="text" ng-model="userJobData.joining_date" name="joining_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                        <input type="text" ng-model="userJobData.joining_date" name="joining_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </span>
@@ -657,7 +662,7 @@
                                 <span class="input-icon icon-right">
                                     <select ng-model="userJobData.team_lead_id" name="team_lead_id" ng-controller="teamLeadCtrl" class="form-control" required>
                                         <option value="">Please Select Team Lead</option>
-                                        <option ng-repeat="teamLead in teamLeads track by $index" value="{{teamLead.id}}" ng-selected="{{ userData.team_lead_id == teamLead.id}}">{{teamLead.first_name}} {{ teamLead.last_name}} ({{ teamLead.designation_name.designation}})</option>
+                                        <option ng-repeat="teamLead in teamLeads track by $index" value="{{teamLead.id}}" ng-selected="{{ userJobData.team_lead_id == teamLead.id}}">{{teamLead.first_name}} {{ teamLead.last_name}} ({{ teamLead.designation_name.designation}})</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                     <div ng-show="step4" ng-messages="userJobForm.team_lead_id.$error" class="help-block step4">
@@ -670,19 +675,18 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="button" class="btn btn-primary btn-pre4" ng-click="previous(3, 4)">Prev</button>
-                            <button type="submit" class="btn btn-primary btn-nxt6" ng-click="step4 = true; emptyDepartmentId = true;">Next</button>
+                            <button type="submit" class="btn btn-primary btn-nxt6" ng-click="step4 = true;">Next</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="step-pane" id="wiredstep5" >
+            <div class="step-pane" id="wiredstep5" ng-show="stepId == 5">
                 <form name="userStatusForm" novalidate ng-submit="userStatusForm.$valid && createStatusForm(userStatus, [[ $empId ]])"  >
                     <div class="form-title">                                           
-                        User status
+                        User status  of {{fullName}}
                     </div>
                     <div class="row">
                         <div  class="col-sm-3 col-xs-6" ng-if="userId != '0'">
-
                             <label>Status <span class="sp-err">*</span></label>
                             <div class="control-group">
                                 <div class="radio">
@@ -694,12 +698,27 @@
                                 <div class="radio">
                                     <label>
                                         <input name="form-field-radio" type="radio" ng-model="userStatus.employee_status" value="2" class="colored-danger">
-                                        <span class="text">Temporary Suspended </span>
+                                        <span class="text">  Temporary Suspended </span>
                                     </label>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userStatusForm.show_on_homepage.$dirty && userStatusForm.show_on_homepage.$invalid)}">
+                                <label>Show on website <span class="sp-err">*</span></label>
+                                <span class="input-icon icon-right">
+                                    <select name="show_on_homepage" id="show_on_homepage" ng-model="userStatus.show_on_homepage" class="form-control">
+                                        <option value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                    <i class="fa fa-sort-desc"></i>
+                                    <div ng-show="step5" ng-messages="userForm.show_on_homepage.$error" class="help-block step5">
+                                        <div ng-message="required">This field is required.</div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div> 
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userStatusForm.high_security_password_type.$dirty && userStatusForm.high_security_password_type.$invalid)}">
                                 <label>High security password type <span  class="sp-err">*</span></label>
@@ -720,7 +739,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userStatusForm.high_security_password.$dirty && userStatusForm.high_security_password.$invalid)}">
                                 <label>High security password <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="password" ng-model="userStatus.high_security_password" name="high_security_password" class="form-control" minlength="4" maxlength="4" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-required='userStatus.high_security_password_type == 1'>
+                                    <input type="text" ng-model="userStatus.high_security_password" name="high_security_password" class="form-control" minlength="4" maxlength="4" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-required='userStatus.high_security_password_type == 1'>
                                     <i class="fa fa-lock"></i>
                                     <div ng-show="step5" ng-messages="userStatusForm.high_security_password.$error" class="help-block step5">
                                         <div ng-message="required">This field is required.</div>
@@ -728,18 +747,8 @@
                                 </span>
                             </div>
                         </div>
-
-
-                        <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" >
-                                <label>User Name <span class="sp-err">*</span></label>
-                                <span class="input-icon icon-right">
-                                    <input type="text" ng-model="userStatus.username" name="username"  class="form-control" maxlength="10" disabled minlenght="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
-                                    <i class="fa fa-user"></i>
-                                </span>
-                            </div>
-                        </div> 
                     </div>
+
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userStatusForm.employee_id.$dirty && userStatusForm.employee_id.$invalid)}">
@@ -754,22 +763,16 @@
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-6">
-                            <div class="form-group" ng-class="{ 'has-error' : step5 && (!userStatusForm.show_on_homepage.$dirty && userStatusForm.show_on_homepage.$invalid)}">
-                                <label>Show on website <span class="sp-err">*</span></label>
+                            <div class="form-group" >
+                                <label>User Name</label>
                                 <span class="input-icon icon-right">
-                                    <select name="show_on_homepage" id="show_on_homepage" required ng-model="userStatus.show_on_homepage" class="form-control">
-                                        <option value="">Select</option>
-                                        <option value="1">Yes</option>
-                                        <option value="0">No</option>
-                                    </select>
-                                    <i class="fa fa-sort-desc"></i>
-                                    <div ng-show="step5" ng-messages="userStatusForm.show_on_homepage.$error" class="help-block step5">
-                                        <div ng-message="required">This field is required.</div>
-                                    </div>
+                                    <input type="text" ng-model="userStatus.username" name="username" disabled class="form-control" maxlength="10" minlenght="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  >
+                                    <i class="fa fa-user"></i>
+
                                 </span>
                             </div>
                         </div> 
-                    </div>
+                    </div>    
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <span class="progress" ng-show="userData.employee_photo_file_name.progress >= 0">
@@ -777,17 +780,16 @@
                             </span>
                             <span ng-show="userData.employee_photo_file_name.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5" ng-click="previous(4, 5)">Prev</button>
-                            <button type="submit" class="btn btn-primary btn-submit-last"  ng-click="step5 = true; employeeSId()" >Create</button>
+                            <button type="submit" class="btn btn-primary btn-submit-last"  ng-click="step5 = true">Update</button>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </div>
 </div>
 </form>
 <script>
-    /*  $(document).ready(function(){
+    /* $(document).ready(function(){
      $(".btn-nxt1").mouseup(function(e){
      if ($(".step1").hasClass("ng-active")) {
      e.preventDefault();
