@@ -16,7 +16,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             $scope.errorMsg = '';
             $scope.createBlog = true;
             $scope.updateBlog = true;
-            $scope.showloader();
+           
             $scope.allimages = '';
             if (typeof bannerImage === 'undefined') {
                 bannerImage = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
@@ -47,6 +47,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 $scope.createBlog = false;
                 $scope.updateBlog = false;
                 $scope.errormsg = response.data.errormsg;
+                $scope.showloader();
                 if (response.data.success) {
                     $scope.hideloader();
                     $timeout(function () {
@@ -58,23 +59,22 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                         }
                     }, 1500);
                     $state.go('manageblogIndex');
-
-                }
-                $scope.hideloader();
-                var obj = response.data.message;
-                var selector = [];
-                for (var key in obj) {
-                    var model = $parse(key);// Get the model
-                    model.assign($scope, obj[key][0]);// Assigns a value to it
-                    selector.push(key);
+                }else{
+                    $scope.hideloader();
+                    var obj = response.data.message;
+                    var selector = [];
+                    for (var key in obj) {
+                        var model = $parse(key);// Get the model
+                        model.assign($scope, obj[key][0]);// Assigns a value to it
+                        selector.push(key);
+                    }
                 }
             }, function (response) {
                 if (response.status !== 200) {
-                    $scope.hideloader();
                     $scope.createBlog = false;
                     $scope.updateBlog = false;
                     $timeout(function () {
-                        toaster.pop('danger', 'Please Select gallery image for upload');
+                        toaster.pop('error', 'Please Select gallery image for upload');
                     }, 1500);
                     $scope.err_msg = "Please Select image for upload";
                 }

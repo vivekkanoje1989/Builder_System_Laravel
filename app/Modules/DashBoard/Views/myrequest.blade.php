@@ -77,7 +77,7 @@
                             <td>{{list.first_name + " "+ list.last_name }}</td>
                             <td>{{list.from_date}}</td> 
                             <td>{{list.to_date}}</td>
-                            <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-info" ng-click="view_description({{list}})">View Description</a></td>
+                            <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-primary" ng-click="view_description({{list}})">View Description</a></td>
                             <td>{{list.status === 1 ? "Leave" : "Approved" }}</td>
                         </tr>
                     </tbody>

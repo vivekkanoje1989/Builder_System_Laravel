@@ -1,6 +1,12 @@
 'use strict';
 app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeout','$parse', function ($scope, $state, Data, $timeout, $parse) {
         $scope.lstAllEmployees = [];
+        $scope.noOfRows = 1;
+        $scope.itemsPerPage = 30;
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
         $scope.portalTypeList = function () {
             Data.get('getPropertyPortalType').then(function (response) {
                 $scope.listPortals = response.records;

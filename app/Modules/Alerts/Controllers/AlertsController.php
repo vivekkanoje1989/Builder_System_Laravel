@@ -149,7 +149,7 @@ class AlertsController extends Controller {
     }
 
     public function getEmployees() {
-        $employees = Employee::select('id', 'email')->get();
+        $employees = Employee::select('id', 'personal_email1')->get();
         if (!empty($employees)) {
             $result = ['success' => true, 'records' => $employees];
             return json_encode($result);
@@ -164,7 +164,7 @@ class AlertsController extends Controller {
         $request = json_decode($postdata, true);
         $empId = $request['data']['empId'];
         $arr = explode(",", $empId);
-        $getemps = Employee::whereIn('id', $arr)->select('id', 'email')->get();
+        $getemps = Employee::whereIn('id', $arr)->select('id', 'personal_email1')->get();
         if (!empty($getemps)) {
             $result = ['success' => true, 'records' => $getemps];
             return json_encode($result);
