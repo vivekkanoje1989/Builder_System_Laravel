@@ -213,7 +213,148 @@ class Employee extends Authenticatable {
         return json_decode($getEmployeeRecords);
     }
 
-    public static function validationMessages() {
+    public static function validationStep1() {
+        $messages = array(
+            'title_id.required' => 'Please enter title_id',
+            'first_name.required' => 'Please enter first name',
+            'last_name.required' => 'Please enter last name',
+            'gender_id.required' => 'Please enter gender_id',
+            'marital_status.required' => 'Please enter marital status',
+            'physic_status.required' => 'Please enter physic status',
+        );
+        return $messages;
+    }
+
+    public static function validationRulesstep1() {
+        $rules = array(
+            'title_id' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'gender_id' => 'required',
+            'marital_status' => 'required',
+            'physic_status' => 'required',
+        );
+        return $rules;
+    }
+
+    public static function validationStep2() {
+        $messages = array(
+            //  'username.required' => 'Please enter user name',
+            // 'username.numeric' => 'Please enter user name numeric',
+            //'password.numeric' => 'Please enter password numeric',
+            //'password.required' => 'Please enter password',
+            // 'designation_id.required' => 'Please enter designation_id',
+            //    'department_id.required' => 'Please enter department',
+//            'reporting_to_id.required' => 'Please enter reporting to',
+            // 'title_id.required' => 'Please enter title_id',
+            //  'first_name.required' => 'Please enter first name',
+            //  'last_name.required' => 'Please enter last name',
+            // 'date_of_birth.required' => 'Please enter birth date',
+            //  'gender_id.required' => 'Please enter gender_id',
+            //   'marital_status.required' => 'Please enter marital status',
+            //   'physic_status.required' => 'Please enter physic status',
+            'personal_mobile1.required' => 'Please enter personal mobile number',
+            'office_mobile_no.required' => 'Please enter office mobile number',
+            'current_country_id.required' => 'Please enter current country',
+            'current_state_id.required' => 'Please enter current state',
+            'current_city_id.required' => 'Please enter current city',
+            'current_pin.required' => 'Please enter current pin code',
+            'current_address.required' => 'Please enter current address',
+            'permenent_country_id.required' => 'Please enter permenent country',
+            'permenent_state_id' => 'Please enter permenent state',
+            'permenent_city_id' => 'Please enter permenent city',
+            'permenent_pin' => 'Please enter permenent pin code',
+            'permenent_address' => 'Please enter permenent address',
+                //  'highest_education_id' => 'Please enter highest education',
+                //  'joining_date' => 'Please enter joining date'
+        );
+        return $messages;
+    }
+
+    public static function validationRulesstep2() {
+        $rules = array(
+            // 'username' => 'required|numeric',
+            //'password' => 'required|max:6',
+            // 'designation_id' => 'required',
+            //'department_id' => 'required',
+//            'reporting_to_id' => 'required',
+            // 'title_id' => 'required',
+            // 'first_name' => 'required',
+            //'last_name' => 'required',
+            // 'date_of_birth' => 'required|date',
+            // 'gender_id' => 'required',
+            // 'marital_status' => 'required',
+            // //'blood_group_id' => 'required',
+            // 'physic_status' => 'required',
+            'personal_mobile1' => 'required',
+            //  'office_mobile_no' => 'required',
+            'personal_email1' => 'required|email',
+            'current_country_id' => 'required',
+            'current_state_id' => 'required',
+            'current_city_id' => 'required',
+            'current_pin' => 'required',
+            'current_address' => 'required',
+            'permenent_country_id' => 'required',
+            'permenent_state_id' => 'required',
+            'permenent_city_id' => 'required',
+            'permenent_pin' => 'required',
+            'permenent_address' => 'required',
+                //   'highest_education_id' => 'required',
+                //  'joining_date' => 'required|date',
+        );
+        return $rules;
+    }
+
+    public static function validationStep3() {
+        $messages = array(
+            'highest_education_id' => 'Please enter highest education',
+        );
+        return $messages;
+    }
+
+    public static function validationRulesstep3() {
+        $rules = array(
+            'highest_education_id' => 'required',
+        );
+        return $rules;
+    }
+
+    public static function validationStep4() {
+        $messages = array(
+            'designation_id.required' => 'Please enter designation_id',
+            'department_id.required' => 'Please enter department',
+            'joining_date' => 'Please enter joining date'
+        );
+        return $messages;
+    }
+
+    public static function validationRulesstep4() {
+        $rules = array(
+            'designation_id' => 'required',
+            'department_id' => 'required',
+            'joining_date' => 'required|date',
+        );
+        return $rules;
+    }
+
+    public static function validationStep5() {
+        $messages = array(
+            'high_security_password_type.required' => 'Please select High security password type',
+            'show_on_homepage.required' => 'Please select Display on website',
+        );
+        return $messages;
+    }
+    
+    public static function validationRulesstep5() {
+        $rules = array(
+            'high_security_password_type' => 'required',
+            'show_on_homepage' => 'required',
+        );
+        return $rules;
+    }
+    
+    
+     public static function validationMessages() {
         $messages = array(
             'username.required' => 'Please enter user name',
             'username.numeric' => 'Please enter user name numeric',
@@ -285,7 +426,7 @@ class Employee extends Authenticatable {
         return $rules;
     }
     
-     public static function validationRules1() {
+     public static function validationRulesQuick() {
         $rules = array(
             
             'designation_id' => 'required',
@@ -302,7 +443,7 @@ class Employee extends Authenticatable {
         return $rules;
     }
     
-     public static function validationMessages1() {
+     public static function validationMessagesQuick() {
         $messages = array(
             
             'designation_id.required' => 'Please enter designation_id',
@@ -318,11 +459,15 @@ class Employee extends Authenticatable {
         );
         return $messages;
     }
-    
-    public function designationName()
-    {
-        return $this->belongsTo('App\Models\MlstBmsbDesignation', 'id')->where("employees.designation_id", 'id'); //(designation model name, primary of designation model) 
+
+      public function designationName() {
+        //return $this->belongsTo('App\Models\MlstLmsaDesignation', 'id'); //(designation model name, primary of designation model) 
+        return $this->belongsTo('App\Models\MlstBmsbDesignation', 'designation_id')->select('id','designation');
     }
+//    public function designationName()
+//    {
+//        return $this->belongsTo('App\Models\MlstBmsbDesignation', 'id')->where("employees.designation_id", 'id'); //(designation model name, primary of designation model) 
+//    }
     
     public static function doAction($input) {
         if (!empty($input['userData']['departmentid'])) {

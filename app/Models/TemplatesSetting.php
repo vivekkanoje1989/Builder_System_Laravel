@@ -45,66 +45,74 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class TemplatesSetting extends Eloquent
-{
-	protected $casts = [
-		'client_id' => 'int',
-		'sr_no' => 'int',
-		'template_type' => 'int',
-		'template_category' => 'int',
-		'default_template_id' => 'int',
-		'custom_template_id' => 'int',
-		'from_mail_id' => 'int',
-		'sms_cc_employees' => 'int',
-		'email_cc_employees' => 'int',
-		'email_bcc_employees' => 'int',
-		'sms_status' => 'int',
-		'email_status' => 'int',
-		'status' => 'int',
-		'created_by' => 'int',
-		'updated_by' => 'int'
-	];
+class TemplatesSetting extends Eloquent {
 
-	protected $dates = [
-		'created_date',
-		'updated_date'
-	];
+    protected $casts = [
+        'client_id' => 'int',
+        'sr_no' => 'int',
+        'template_type' => 'int',
+        'template_category' => 'int',
+        'default_template_id' => 'int',
+        'custom_template_id' => 'int',
+        'from_mail_id' => 'int',
+        'sms_cc_employees' => 'int',
+        'email_cc_employees' => 'int',
+        'email_bcc_employees' => 'int',
+        'sms_status' => 'int',
+        'email_status' => 'int',
+        'status' => 'int',
+        'created_by' => 'int',
+        'updated_by' => 'int'
+    ];
+    protected $dates = [
+        'created_date',
+        'updated_date'
+    ];
+    protected $fillable = [
+        'client_id',
+        'templates_event_id',
+        'sr_no',
+        'template_for',
+        'template_type',
+        'template_category',
+        'default_template_id',
+        'custom_template_id',
+        'from_mail_id',
+        'sms_cc_employees',
+        'sms_cc_numbers',
+        'email_cc_employees',
+        'email_cc_ids',
+        'email_bcc_employees',
+        'email_bcc_ids',
+        'sms_status',
+        'email_status',
+        'submenu_ids',
+        'status',
+        'created_date',
+        'created_by',
+        'created_IP',
+        'created_browser',
+        'created_mac_id',
+        'updated_date',
+        'updated_by',
+        'updated_IP',
+        'updated_browser',
+        'updated_mac_id',
+        'deleted_status',
+        'deleted_date',
+        'deleted_by',
+        'deleted_IP',
+        'deleted_browser',
+        'deleted_mac_id'
+    ];
 
-	protected $fillable = [
-		'client_id',
-		'templates_event_id',
-		'sr_no',
-		'template_for',
-		'template_type',
-		'template_category',
-		'default_template_id',
-		'custom_template_id',
-		'from_mail_id',
-		'sms_cc_employees',
-		'sms_cc_numbers',
-		'email_cc_employees',
-		'email_cc_ids',
-		'email_bcc_employees',
-		'email_bcc_ids',
-		'sms_status',
-		'email_status',
-		'submenu_ids',
-		'status',
-		'created_date',
-		'created_by',
-		'created_IP',
-		'created_browser',
-		'created_mac_id',
-		'updated_date',
-		'updated_by',
-		'updated_IP',
-		'updated_browser',
-		'updated_mac_id',
-		'deleted_status',
-		'deleted_date',
-		'deleted_by',
-		'deleted_IP',
-		'deleted_browser',
-		'deleted_mac_id'
-	];
+    public static function getIds($array) {
+        $temp = [];
+        foreach ($array as $a) {
+            $temp[] = $a['id'];
+        }
+        $string = implode(',', $temp);
+        return $string;
+    }
+
 }

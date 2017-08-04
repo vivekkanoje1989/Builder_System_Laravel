@@ -7,23 +7,20 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
-                <span class="widget-caption">Manage Default Alerts</span>
-                <a href="[[ config('global.backendUrl') ]]#/dafaultalerts/create " class="btn btn-info">Create New Alert</a>&nbsp;&nbsp;&nbsp;
-                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
+                <span class="widget-caption">Manage Default Templates</span>
+                <!--a href="#/dafaultalerts/create " class="btn btn-info">Create New Alert</a-->&nbsp;&nbsp;&nbsp;
+                
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">
-                    <div class="col-sm-3 col-xs-12">
-                        <label for="search">Search:</label>
-                        <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                    <div class="col-sm-6 col-xs-12">
+                      <label for="search">Search:</label>
+                      <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
                     </div>
-                    <div class="col-sm-3 col-xs-12">
-                        <label for="search">Records per page:</label>
-                        <input type="number" min="1" max="50" style="width:30%;" class="form-control" ng-model="itemsPerPage">
+
+                    <div class="col-sm-6 col-xs-12">
+                      <label for="search">Records per page:</label>
+                      <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:25%;" class="form-control" ng-model="itemsPerPage">
                     </div>
                 </div><br>
                 <table class="table table-hover table-striped table-bordered" at-config="config">
@@ -31,14 +28,14 @@
                         <tr>
                             <th style="width:5%">Sr. No.</th>
                             <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='first_name'; reverseSort = !reverseSort">Alert To
+                                <a href="javascript:void(0);" ng-click="orderByField='first_name'; reverseSort = !reverseSort">Template For
                                     <span ng-show="orderByField == 'first_name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
                                 </a>
                             </th>
                             <th style="width: 10%">
-                                <a href="javascript:void(0);" ng-click="orderByField='first_name'; reverseSort = !reverseSort">Alert Name
+                                <a href="javascript:void(0);" ng-click="orderByField='first_name'; reverseSort = !reverseSort">Template To
                                     <span ng-show="orderByField == 'first_name'">
                                         <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                     </span>
@@ -57,14 +54,17 @@
                     <tbody>
                         <tr role="row" dir-paginate="listAlert in listdefaultAlerts | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                             <td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>
+                            <td>{{ listAlert.event_name }}</td>
                             <td ng-if="listAlert.template_for==1">Customer</td>
                             <td ng-if="listAlert.template_for==0">Employee</td>
-                            <td>{{ listAlert.event_name }}</td>
                             <td>{{ listAlert.email_subject | htmlToPlaintext }}</td>
                             <td class="fa-div">
                                  <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/defaultalerts/update/{{ listAlert.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="6"  ng-show="(listdefaultAlerts|filter:search).length==0" align="center">Record Not Found</td>   
+                       </tr>
                     </tbody>
                 </table>
                 <div class="DTTTFooter">

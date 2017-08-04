@@ -310,14 +310,42 @@ app.directive('checkUniqueMobile', function ($timeout, $q, Data) {
     }
 });
 
+//app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
+//    return {
+//        restrict: 'AE',
+//        require: 'ngModel',
+//        link: function ($scope, element, attributes, model) {
+//            model.$asyncValidators.uniqueMobile = function () {
+//                var defer = $q.defer()
+//                var personal_mobile1 = $scope.userData.personal_mobile1
+//           
+//                var emp_id = $("#employeeId").val();
+//                var employeeId = (typeof emp_id === "undefined" || emp_id === "0") ? "0" : emp_id
+//           
+//                return Data.post('checkUniqueMobile1', {
+//                    data: {mobileData: personal_mobile1, id: employeeId},
+//                }).then(function (response) {
+//                    $timeout(function () {
+//                        model.$setValidity('uniqueMobile', !!response.success);
+//                    }, 1000);
+//
+//                });
+//
+//            }
+//        }
+//    }
+//});
+
+
 app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
+
     return {
         restrict: 'AE',
         require: 'ngModel',
         link: function ($scope, element, attributes, model) {
             model.$asyncValidators.uniqueMobile = function () {
                 var defer = $q.defer()
-                var personal_mobile1 = $scope.userData.personal_mobile1
+                var personal_mobile1 = $scope.userContact.personal_mobile1
            
                 var emp_id = $("#employeeId").val();
                 var employeeId = (typeof emp_id === "undefined" || emp_id === "0") ? "0" : emp_id
@@ -325,6 +353,7 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
                 return Data.post('checkUniqueMobile1', {
                     data: {mobileData: personal_mobile1, id: employeeId},
                 }).then(function (response) {
+                    console.log(response);
                     $timeout(function () {
                         model.$setValidity('uniqueMobile', !!response.success);
                     }, 1000);

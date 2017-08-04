@@ -166,6 +166,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/getSalesEnqSubStatus', 'backend\AdminController@getSalesEnqSubStatus'); //geeta
     Route::post('/getSalesEnqSubCategory', 'backend\AdminController@getSalesEnqSubCategory'); //geeta
     Route::post('/checkOldPassword', 'backend\AdminController@checkOldPassword');
+     Route::post('/checkUniqueEmployeeId', 'backend\AdminController@checkUniqueEmployeeId');
      Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });

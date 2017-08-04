@@ -94,9 +94,12 @@ class LoginController extends Controller {
     public function checkDomainExists(){
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+        
         if(!empty($request['website_url'])){
             $websiteurl = "http://".$request['website_url'];
+           
             $clientExists = \App\Models\ClientInfo::select('id','company_logo')->where('website',$websiteurl)->first();
+          
             $client_logo = "";
             if(empty($clientExists)){
                 $websiteurl = "https://".$request['website_url'];
@@ -156,6 +159,7 @@ class LoginController extends Controller {
         $password = $request['password'];        
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         $checkUsername = Employee::getRecords(["id","employee_status"], ["username" => $username]);//(select attributes, where conditions)
+        
         $empId = $checkUsername[0]->id;
         $employee_status = $checkUsername[0]->employee_status;
         $platformType = 2;

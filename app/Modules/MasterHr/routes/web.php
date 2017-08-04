@@ -4,7 +4,6 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
 
     $getUrl = config('global.getUrl');
    
-    
     Route::get('/master-hr/orgchart', ['middleware'=>'check-permission:030105', 'uses' => 'MasterHrController@orgchart']); // show page
     Route::get('/master-hr/getChartData', ['middleware'=>'check-permission:030105', 'uses' => 'MasterHrController@getChartData']); //show chart
     Route::get('/master-hr/manageRolesPermission', ['middleware'=>'check-permission:030103', 'uses' => 'MasterHrController@manageRolesPermission']); //show manage role page
@@ -31,18 +30,16 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::post('/master-hr/updatePermissions', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@updatePermissions']);
     Route::get('/master-hr/rolePermissions/{id}', ['middleware'=>'check-permission:030101', 'uses' => 'MasterHrController@rolePermissions']); //show user permission page
     
-    Route::get('/master-hr/createrole', 'MasterHrController@createRole');
-    Route::post('/master-hr/createUserRole', 'MasterHrController@createUserRole'); //create user role
-    Route::post('/master-hr/updateUserRole', 'MasterHrController@updateUserRole'); //update user role
-    
-    Route::get('/master-hr/showpermissions', 'MasterHrController@showpermissions'); 
-    Route::get('/master-hr/getMenuListsForEmployee', 'MasterHrController@getMenuListsForEmployee'); 
-    Route::post('/master-hr/removeEmpID', 'MasterHrController@removeEmpID'); 
-    
     Route::post('/master-hr/getProfileInfo', 'MasterHrController@getProfileInfo'); 
     Route::post('/master-hr/updateProfileInfo', 'MasterHrController@updateProfileInfo');
     Route::get('/master-hr/profile', 'MasterHrController@profile');
+    Route::get('/master-hr/quickuser', 'MasterHrController@getquickuser');
+    Route::post('/master-hr/createquickuser', 'MasterHrController@createquickuser');
     
-    Route::get('/master-hr/showQuickUser', 'MasterHrController@showQuickUser');
-    Route::post('/master-hr/createQuickUser', 'MasterHrController@createQuickUser');
+//    Route::get('/master-hr/showQuickUser', 'MasterHrController@showQuickUser');
+//    Route::post('/master-hr/createQuickUser', 'MasterHrController@createQuickUser');
+       
+     Route::get('/MasterHr/showFilter', function () {
+        return View::make('MasterHr::showFilter');
+    });
 });

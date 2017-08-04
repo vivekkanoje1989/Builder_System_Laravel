@@ -263,35 +263,16 @@ class CloudCallingLogsController extends Controller {
         return json_encode($result);
     }
 
-//    public function tuserid($id) {
-//
-//        $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
-//        if (!empty($admin)) {
-//
-//            foreach ($admin as $item) {
-//
-//                $this->allusers[$item->id] = $item->id;
-//
-//                $this->tuserid($item->id);
-//            }
-//        } else {
-//            return;
-//        }
-//    }
 
     public function filteredData() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-//        $this->allusers = array();
-       // print_r($request);exit;
         $filterData = $request['filterData'];
         $ids = [];
 
         if (empty($request['employee_id'])) { // For Web
             $loggedInUserId = Auth::guard('admin')->user()->id;
             if ($request['isTeamType'] == 1) {
-//                $this->tuserid($loggedInUserId);
-//                $alluser = $this->allusers;
                 $admin = \App\Models\backend\Employee::where(['team_lead_id' => $loggedInUserId])->get();
 
                 for ($i = 0; $i < count($admin); $i++) {
@@ -313,8 +294,6 @@ class CloudCallingLogsController extends Controller {
             $request["getProcName"] = CloudCallingLogsController::$procname;
             $loggedInUserId = $request['employee_id'];
             if (!empty($request['isTeamType']) && $request['isTeamType'] == 1) {
-//                $this->tuserid($loggedInUserId);
-//                $alluser = $this->allusers;
                 $admin = \App\Models\backend\Employee::where(['team_lead_id' => $loggedInUserId])->get();
 
                 for ($i = 0; $i < count($admin); $i++) {

@@ -2,103 +2,105 @@
 app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams) {
     $scope.registration = {};
     $scope.errorMsg = '';
-    
+
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
         window.history.back();
         return false;
     }
-    
-    $scope.checkUsername = function (usernameData) {
-        Data.post('checkUsername', {
-            username: usernameData.mobile,
-        }).then(function (response) {
-            if (!response.success) {
-                $scope.errorMsg = response.message;
-            } else {
-                $scope.successMsg = response.message;
-            }
-        });
-    }
-    $scope.resetErrorMsg = function () {
-        $scope.errorMsg = '';
-    }
-    $scope.login = function (loginData) {
-        Data.post('authenticate', {
-            username: loginData.mobile, password: loginData.password,
-        }).then(function (response) {
-            if (response.success) {
-                $state.reload();
-                $scope.showloader();
-                $rootScope.authenticated = true;
-                $state.go('dashboard');
-                $scope.hideloader();
-               
-            } else {
-                $scope.errorMsg = response.message;
-            }
-        });
-    };
-    
-    $scope.logout = function (logoutData) {
-        $scope.showloader();
-        Data.post('logout', {
-            data: logoutData
-        }).then(function (response) {
-            if (response.success) {
-                $rootScope.authenticated = false;
-                $state.go('login');
-                window.location.reload();
-                $scope.hideloader();      
-            } else {
-                $scope.errorMsg = response.message;
-            }
-        });
-    }
-    $scope.signUp = function (registerationData) {
-        Data.post('saveRegister', {
-            data: registerationData
-        }).then(function (response) {
-            if (!response.success) {
-                $scope.errorMsg = response.message;
-            } else {
-                $state.go('login');
-                $state.reload();
-            }
-        });
-    };
-    $scope.sendResetLink = function (sendEmailData) {
-        Data.post('password/email', {
-            data: sendEmailData
-        }).then(function (response) {
-            if (!response.success) {
-                $scope.errorMsg = response.message;
-            } else {
-                $scope.successMsg = response.message;
-            }
-        });
-    }
-    $scope.resetPassword = function (resetData) {
-        Data.post('password/reset', {
-            data: resetData
-        }).then(function (response) {
-            if (!response.success) {
-                $scope.errorMsg = response.message;
-            } else {
-                $state.go('dashboard');
-            }
-        });
-    }
 
-    $rootScope.alert = function (type, msg) {
-        $rootScope.message = [];
-        $rootScope.message.push(msg);
-        $rootScope.alerts = {
-            class: type,
-            messages: $rootScope.message
+
+$scope.checkUsername = function (usernameData) {
+    Data.post('checkUsername', {
+        username: usernameData.mobile,
+    }).then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.successMsg = response.message;
         }
-    }    
-});
+    });
+}
+$scope.resetErrorMsg = function () {
+    $scope.errorMsg = '';
+}
+$scope.login = function (loginData) {
+    Data.post('authenticate', {
+        username: loginData.mobile, password: loginData.password,
+    }).then(function (response) {
+        if (response.success) {
+            $state.reload();
+            $scope.showloader();
+            $rootScope.authenticated = true;
+            $state.go('dashboard');
+            $scope.hideloader();
+
+        } else {
+            $scope.errorMsg = response.message;
+        }
+    });
+};
+
+$scope.logout = function (logoutData) {
+    $scope.showloader();
+    Data.post('logout', {
+        data: logoutData
+    }).then(function (response) {
+        if (response.success) {
+            $rootScope.authenticated = false;
+            $state.go('login');
+            window.location.reload();
+            $scope.hideloader();
+        } else {
+            $scope.errorMsg = response.message;
+        }
+    });
+}
+$scope.signUp = function (registerationData) {
+    Data.post('saveRegister', {
+        data: registerationData
+    }).then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $state.go('login');
+            $state.reload();
+        }
+    });
+};
+$scope.sendResetLink = function (sendEmailData) {
+    Data.post('password/email', {
+        data: sendEmailData
+    }).then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.successMsg = response.message;
+        }
+    });
+}
+$scope.resetPassword = function (resetData) {
+    Data.post('password/reset', {
+        data: resetData
+    }).then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $state.go('dashboard');
+        }
+    });
+}
+
+$rootScope.alert = function (type, msg) {
+    $rootScope.message = [];
+    $rootScope.message.push(msg);
+    $rootScope.alerts = {
+        class: type,
+        messages: $rootScope.message
+        }
+    }
+}
+);
 
 app.controller('amenitiesCtrl', function ($scope, Data) {
     $scope.amenitiesList = [];
@@ -118,8 +120,8 @@ app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
             $scope.salesEnqCategoryList = response.records;
         }
     });
-    $scope.getSubCategory = function(categoryId){
-         Data.post('getSalesEnqSubCategory',{categoryId:categoryId}).then(function (response) {
+    $scope.getSubCategory = function (categoryId) {
+        Data.post('getSalesEnqSubCategory', {categoryId: categoryId}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
@@ -127,10 +129,10 @@ app.controller('salesEnqCategoryCtrl', function ($scope, Data) {
             }
         });
     }
-     $scope.getFilterSubCategory = function(categoryId){
+    $scope.getFilterSubCategory = function (categoryId) {
         var data = categoryId.split("_");
         categoryId = data[0];
-        Data.post('getSalesEnqSubCategory',{categoryId:categoryId}).then(function (response) {
+        Data.post('getSalesEnqSubCategory', {categoryId: categoryId}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
@@ -148,8 +150,8 @@ app.controller('salesEnqStatusCtrl', function ($scope, Data) {
             $scope.salesEnqStatusList = response.records;
         }
     });
-    $scope.getSubStatus = function(statusId){
-        Data.post('getSalesEnqSubStatus',{statusId:statusId}).then(function (response) {
+    $scope.getSubStatus = function (statusId) {
+        Data.post('getSalesEnqSubStatus', {statusId: statusId}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
@@ -157,10 +159,10 @@ app.controller('salesEnqStatusCtrl', function ($scope, Data) {
             }
         });
     }
-    $scope.getFilterSubStatus = function(statusId){
+    $scope.getFilterSubStatus = function (statusId) {
         var data = statusId.split("_");
         statusId = data[0];
-        Data.post('getSalesEnqSubStatus',{statusId:statusId}).then(function (response) {
+        Data.post('getSalesEnqSubStatus', {statusId: statusId}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
@@ -168,7 +170,7 @@ app.controller('salesEnqStatusCtrl', function ($scope, Data) {
             }
         });
     }
-    
+
 });
 
 app.controller('projectCtrl', function ($scope, Data) {
@@ -279,9 +281,9 @@ app.controller('educationListCtrl', function ($scope, Data) {
 app.controller('blockTypeCtrl', function ($scope, Data) {
     $scope.blockTypeList = [];
     $scope.subBlockList = [];
-    $scope.getBlockTypes = function(projectId){
+    $scope.getBlockTypes = function (projectId) {
         projectId = $scope.enquiryData.project_id.split('_')[0];
-        Data.post('getBlockTypes',{projectId:projectId}).then(function (response) {
+        Data.post('getBlockTypes', {projectId: projectId}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
             } else {
@@ -393,37 +395,73 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
             }
         });
     };
+//    $scope.checkboxSelected = function (copy) {
+//        if (copy) {  // when checked
+//            $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
+//            $scope.userData.permenent_country_id = angular.copy($scope.userData.current_country_id);
+//            $scope.userData.permenent_pin = angular.copy($scope.userData.current_pin);
+//            Data.post('getStates', {
+//                data: {countryId: $scope.userData.current_country_id},
+//            }).then(function (response) {
+//                if (!response.success) {
+//                    $scope.errorMsg = response.message;
+//                } else {
+//                    $scope.stateList = response.records;
+//                    Data.post('getCities', {
+//                        data: {stateId: $scope.userData.current_state_id},
+//                    }).then(function (response) {
+//                        if (!response.success) {
+//                            $scope.errorMsg = response.message;
+//                        } else {
+//                            $scope.cityList = response.records;
+//                        }
+//                        $timeout(function () {
+//                            $("#permenent_state_id").val($scope.userData.current_state_id);
+//                            $("#permenent_city_id").val($scope.userData.current_city_id);
+//                            $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);
+//                            $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
+//                        }, 500);
+//                    });
+//                }
+//            });
+//        } else {
+//            $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
+//        }
+//    };
+    
+    
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
-            $scope.userData.permenent_address = angular.copy($scope.userData.current_address);
-            $scope.userData.permenent_country_id = angular.copy($scope.userData.current_country_id);
-            $scope.userData.permenent_pin = angular.copy($scope.userData.current_pin);
+            $scope.userContact.permenent_address = angular.copy($scope.userContact.current_address);
+            $scope.userContact.permenent_country_id = angular.copy($scope.userContact.current_country_id);
+            $scope.userContact.permenent_pin = angular.copy($scope.userContact.current_pin);
+
             Data.post('getStates', {
-                data: {countryId: $scope.userData.current_country_id},
+                data: {countryId: $scope.userContact.current_country_id},
             }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-                    $scope.stateList = response.records;
+                    $scope.stateTwoList = response.records;
                     Data.post('getCities', {
-                        data: {stateId: $scope.userData.current_state_id},
+                        data: {stateId: $scope.userContact.current_state_id},
                     }).then(function (response) {
                         if (!response.success) {
                             $scope.errorMsg = response.message;
                         } else {
-                            $scope.cityList = response.records;
+                            $scope.cityTwoList = response.records;
                         }
                         $timeout(function () {
-                            $("#permenent_state_id").val($scope.userData.current_state_id);
-                            $("#permenent_city_id").val($scope.userData.current_city_id);
-                            $scope.userData.permenent_state_id = angular.copy($scope.userData.current_state_id);
-                            $scope.userData.permenent_city_id = angular.copy($scope.userData.current_city_id);
+                            // $("#permenent_state_id").val($scope.userContact.current_state_id);
+                            // $("#permenent_city_id").val($scope.userContact.current_city_id);
+                            $scope.userContact.permenent_state_id = $scope.userContact.current_state_id;
+                            $scope.userContact.permenent_city_id = $scope.userContact.current_city_id;
                         }, 500);
                     });
                 }
             });
         } else {
-            $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
+            $scope.userContact.permenent_address = $scope.userContact.permenent_country_id = $scope.userContact.permenent_state_id = $scope.userContact.permenent_city_id = $scope.userContact.permenent_pin = "";
         }
     };
 });
@@ -453,7 +491,7 @@ app.controller('enquirySourceCtrl', function ($scope, Data) {
     };
     $scope.onEnquiryFilterSourceChange = function (sourceId) {
         var data = sourceId.split("_");
-        sourceId= data[0];
+        sourceId = data[0];
         Data.post('getEnquirySubSource', {
             data: {sourceId: sourceId}}).then(function (response) {
             $scope.subSourceList = '';
@@ -534,9 +572,9 @@ app.controller('vehiclemodelCtrl', function ($scope, Data) {
 });
 
 app.controller('blockStageCtrl', function ($scope, Data) {
-            Data.get('manageBlockStages').then(function (response) {
-                $scope.blockStages = response.records;
-            });
+    Data.get('manageBlockStages').then(function (response) {
+        $scope.blockStages = response.records;
+    });
 });
 
 
@@ -546,7 +584,7 @@ app.controller('teamLeadCtrl', function ($scope, Data) {
             $scope.errorMsg = response.message;
         } else {
             $scope.teamLeads = response.records;
-            console.log($scope.teamLeads );
+            console.log($scope.teamLeads);
         }
     });
 });

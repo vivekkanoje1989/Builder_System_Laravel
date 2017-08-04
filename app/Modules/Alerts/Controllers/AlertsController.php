@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Modules\Alerts\Controllers;
 
 use App\Http\Requests;
@@ -38,6 +39,25 @@ class AlertsController extends Controller {
     public function updateAlerts() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
+        
+        $count=count($request['alertData']['custom_template_id']);
+        if($request['alertData']['template_type']==1)
+        {    
+            if($count ==1 )
+                $custome_template_id = $request['alertData']['custom_template_id'];
+            else if($count == 3)
+                $custome_template_id = $request['alertData']['custom_template_id']['id'];
+            
+            
+            unset($request['alertData']['custom_template_id']);
+            
+            $request['alertData']['custom_template_id'] = $custome_template_id;
+        }
+        else 
+        {
+            $request['alertData']['custom_template_id'] = 0;
+        }
+        
         $request['alertData']['updated_date'] = date('Y-m-d');
         $request['alertData']['updated_by'] = Auth::guard('admin')->user()->id;
         $request['alertData']['updated_IP'] = $_SERVER['REMOTE_ADDR'];
@@ -46,6 +66,8 @@ class AlertsController extends Controller {
         unset($request['alertData']['event_name']);
         unset($request['alertData']['module_names']);
         unset($request['alertData']['id']);
+        unset($request['alertData']['sr_no']);      
+        unset($request['alertData']['friendly_name']);      
         $request['alertData']['email_cc_employees'] = TemplatesSetting::getIds($request['alertData']['email_cc_employees']);
         $request['alertData']['sms_cc_employees'] = TemplatesSetting::getIds($request['alertData']['sms_cc_employees']);
         $request['alertData']['email_bcc_employees'] = TemplatesSetting::getIds($request['alertData']['email_bcc_employees']);
@@ -55,7 +77,7 @@ class AlertsController extends Controller {
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $request['alertData']);
         $implodeArr = implode(",", array_keys($getResult));
         $result = TemplatesSettingsLog::where('id', $last->id)->update(['column_names' => $implodeArr]);
-        $data = ['success' => true, 'message' => 'Alerts Updated Succesfully'];
+        $data = ['success' => true, 'successMsg' => 'Template updated succesfully'];
         return json_encode($data);
     }
 
@@ -73,23 +95,28 @@ class AlertsController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $manageAlerts = [];
-
+        $master = config('global.masterdatabase');
         if (!empty($request['id']) && $request['id'] !== "0") { // for edit
             $manageAlerts = DB::table('templates_settings as ts')
-                    ->leftjoin('templates_events as te', 'ts.templates_event_id', '=', 'te.id')
-                    ->select('ts.*', 'te.event_name', 'te.module_names')
-                    ->where('ts.id', '=', $request['id'])
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'ts.templates_event_id', '=', 'te.id')
+                    ->leftjoin('templates_customs as tc', 'ts.custom_template_id', '=', 'tc.id')
+                    ->select('ts.*', 'te.event_name', 'te.module_names','tc.friendly_name')
+                    ->where('ts.id', '=', $request['id'])                    
                     ->get();
+            $customTemplate = TemplatesCustom::select('id','friendly_name','sr_no')->get();
+            
         } else if ($request['id'] === "") { // for index
             $manageAlerts = DB::table('templates_settings as ts')
-                    ->leftjoin('templates_events as te', 'ts.templates_event_id', '=', 'te.id')
-                    ->select('ts.*', 'te.event_name', 'te.module_names')
-                    ->where('ts.client_id', '=', 1)
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'ts.templates_event_id', '=', 'te.id')
+                    ->leftjoin('templates_customs as tc', 'ts.custom_template_id', '=', 'tc.id')
+                    ->select('ts.*', 'te.event_name', 'te.module_names','tc.friendly_name')
+                    ->where('ts.client_id', '=', config('global.client_id'))
                     ->get();
-            /* ->leftjoin(DB::raw('(SELECT login_date_time,employee_id FROM employees_login_logs ORDER BY id DESC limit 1) AS employees_login_logs'), 'employees.id', '=', 'employees_login_logs.employee_id') */
+            
+            $customTemplate = TemplatesCustom::select('id','friendly_name','sr_no')->get();
         }
         if ($manageAlerts) {
-            $result = ['success' => true, "records" => ["data" => $manageAlerts, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
+            $result = ['success' => true, "records" => ["data" => $manageAlerts, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts),'customTemplates'=>$customTemplate]];
             echo json_encode($result);
         }
     }
@@ -127,7 +154,8 @@ class AlertsController extends Controller {
     }
 
     public function getTemplatesEvents() {
-        $templatesEvents = DB::table('templates_events')->get();
+        $master = config('global.masterdatabase');
+        $templatesEvents = DB::table('laravel_developement_master_edynamics.mlst_bmsb_templates_events')->get();
         if (!empty($templatesEvents)) {
             $result = ['success' => true, 'records' => $templatesEvents];
             return json_encode($result);
@@ -149,7 +177,11 @@ class AlertsController extends Controller {
     }
 
     public function getEmployees() {
-        $employees = Employee::select('id', 'personal_email1')->get();
+        $employees = Employee::select('id', 'office_email_id','office_mobile_no','first_name','last_name')
+                     ->where('office_email_id', '<>','')
+                     ->where('office_mobile_no', '<>','')
+                     ->orderBy('first_name', 'ASC')
+                     ->get();
         if (!empty($employees)) {
             $result = ['success' => true, 'records' => $employees];
             return json_encode($result);
@@ -164,7 +196,12 @@ class AlertsController extends Controller {
         $request = json_decode($postdata, true);
         $empId = $request['data']['empId'];
         $arr = explode(",", $empId);
-        $getemps = Employee::whereIn('id', $arr)->select('id', 'personal_email1')->get();
+
+        $getemps = Employee::whereIn('id', $arr)->select('id', 'office_email_id', 'office_mobile_no','first_name','last_name')
+                                                ->where('office_email_id', '<>','')
+                                                ->where('office_mobile_no', '<>','')
+                                                 ->orderBy('first_name', 'ASC')
+                                                ->get();
         if (!empty($getemps)) {
             $result = ['success' => true, 'records' => $getemps];
             return json_encode($result);
@@ -174,18 +211,31 @@ class AlertsController extends Controller {
         }
     }
 
-    public function changeTemplateStatus() {
+//    public function changeTemplateStatus() {
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+//        $templateSettingData = TemplatesSetting::select('client_id')->where('id', '=', $request['id'])->first();
+//        $client_id = $templateSettingData->client_id;
+//        $templatecustomData = TemplatesCustom::select('*')->where('id', '=', $templateSettingData->custom_template_id)->first();
+//        $val = $request['val'];
+//        if (count($templatecustomData)) {
+//            $templateSettingData = TemplatesSetting::where('id', '=', $request['id'])->update(array('template_category' => $val));
+//            $result = ['success' => true, "successMsg" => "Alerts category has been changed."];
+//        } else {
+//            $result = ['success' => false, 'errorMsg' => 'Templete is not present.PLease add template and then change the settings'];
+//        }
+//        echo json_encode($result);
+//    }
+     public function changeTemplateStatus() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $templateSettingData = TemplatesSetting::select('client_id')->where('id', '=', $request['id'])->get();
-        $client_id = $templateSettingData[0]->client_id;
-        $templatecustomData = TemplatesCustom::select('*')->where('client_id', '=', $client_id)->get();
         $val = $request['val'];
-        if (count($templatecustomData)) {
-            $templateSettingData = TemplatesSetting::where('id', '=', $request['id'])->update(array('template_category' => $val));
+        if(!empty($request['id']))
+        {       
+            $templateSettingData = TemplatesSetting::where('id', '=', $request['id'])->update(array('template_type' => $val,'custom_template_id'=>$request['custom_template_id']));
             $result = ['success' => true, "successMsg" => "Alerts category has been changed."];
         } else {
-            $result = ['success' => false, 'errorMsg' => 'Templete is not present.PLease add template and then change the settings'];
+            $result = ['success' => false, 'errorMsg' => 'Something went wrong please try again later'];
         }
         echo json_encode($result);
     }
