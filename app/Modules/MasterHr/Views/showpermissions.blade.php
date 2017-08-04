@@ -19,7 +19,7 @@
 <div class="row" ng-controller="hrController" ng-init="showPermissions()">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12">
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Permissions</h5>
+            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Permission Wise Users</h5>
         </div>
         <div class="col-lg-12 col-sm-6 col-xs-12">
             <div class="widget">

@@ -952,7 +952,7 @@ class MasterHrController extends Controller {
                 $getMenuItem = json_decode($getSubMenus[0]['employee_submenus'], true);
             }
 //            $parentId = $submenuId = array();
-            
+            $tempMenuItem = $getMenuItem;
             $parentId = $submenuId = $getAllParent = $removeId = $arrdiff3 = $arrdiff2 = array();
             if (!empty($input['data']['isChecked'])) { //checkbox checked
                 if (!empty($input['data']['parentId'])) {

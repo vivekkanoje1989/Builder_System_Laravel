@@ -3,7 +3,7 @@
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Users</span>
-                <a href="#/user/showpermissions" class="btn btn-info">Permissions</a>&nbsp;&nbsp;&nbsp;
+                
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">
@@ -20,6 +20,14 @@
                         <div class="form-group">
                             <label for="search">Records per page:</label>
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                                <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-primary btn-right">Permission Wise Users</a>
+                            </span>
                         </div>
                     </div>
                 </div>

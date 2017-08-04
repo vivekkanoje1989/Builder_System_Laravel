@@ -233,13 +233,13 @@
                                 <img ng-if="imageUrl" ng-src="[[ config('global.s3Path').'employee-photos/{{imageUrl}}']]">
                             </div>
                             <section>
-                                <h2><span class="profile"><span>[[Auth::guard('admin')->user()->first_name;]] [[Auth::guard('admin')->user()->last_name;]]</span></span></h2>
+                                <h2><span class="profile"><strong>[[Auth::guard('admin')->user()->first_name;]] [[Auth::guard('admin')->user()->last_name;]]</strong></span></h2>
                             </section>
                         </a>
                         <!--Login Area Dropdown-->
                         <ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">
                             <li class="username" ><a>[[Auth::guard('admin')->user()->first_name;]]</a></li>
-                            <li class="email" ><a style="color:black;">[[Auth::guard('admin')->user()->username;]]</a></li>
+                            <li class="email" ><a style="color:black;"><strong>[[Auth::guard('admin')->user()->username;]]</strong></a></li>
                             <!--Avatar Area-->
                             <li>
                                 <div class="avatar-area">
@@ -249,7 +249,7 @@
                             </li>
                             <!--Avatar Area-->
                             <li class="edit">
-                                <a href="office.php#/user/profile" class="text-center" style="color:black;">Manage Profile</a>
+                                <a href="office.php#/user/profile" class="text-center" style="color:black;"><strong>Manage Profile</strong></a>
                                 <!--<a href="#" class="pull-right">Setting</a>-->
                             </li>
                             <!--Theme Selector Area-->
