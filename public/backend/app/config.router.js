@@ -144,6 +144,34 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                .state('showpermissions', {
+                                    url: '/user/showpermissions',
+                                    templateUrl: '/master-hr/showpermissions',
+                                    controller: 'hrController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Permissions',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/hrController.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
                                 .state('manageRoles', {
                                     url: '/user/manageroles',
                                     templateUrl: '/master-hr/manageRolesPermission',
@@ -169,6 +197,34 @@ angular.module('app')
                                                                 });
                                                     }
                                                 ]
+                                    }
+                                })
+                                .state('createrole', {
+                                    url: '/user/createrole',
+                                    templateUrl: '/master-hr/createrole',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create Role Permissions',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/app/controllers/select.js',
+                                                                '/backend/hrController.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('userPermissions', {

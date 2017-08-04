@@ -33,7 +33,17 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.pageNumber = 1;
         $rootScope.menuId = [];
         $rootScope.roleMenuList = [];
-
+        $scope.currentPage = $scope.itemsPerPage = 30;
+        $scope.noOfRows = 1;
+        $rootScope.imageURL = "";
+        $scope.userData.high_security_password_type = 0;
+        $scope.userData.current_country_id = $scope.userData.permenent_country_id = 101;
+        var date = new Date($scope.userData.date_of_birth);
+        $scope.userData.date_of_birth = ((date.getFullYear() - 100) + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
+        $scope.userData.date_of_birth = ("1990-01-01");
+        $rootScope.menuId = [];
+        $rootScope.roleMenuList = [];
+        
         $scope.validateMobileNumber = function (value) {
             var regex = /^(\+\d{1,4}-)\d{10}$/;
             if (!regex.test(value)) {
@@ -677,6 +687,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }
+
 //        $scope.userPermissions = function (moduleType, id) {
 //            Data.post('master-hr/getMenuLists', {
 //                data: {id: id, moduleType: moduleType},
@@ -689,6 +700,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //                }
 //            });
 //        }
+
 
         $scope.userPermissions = function (moduleType, id) {
             if (id == '0') {
@@ -714,7 +726,41 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }
+        
+        /*$scope.userPermissions = function (moduleType, id) {
+            Data.post('master-hr/getMenuLists', {
+                data: {id: id, moduleType: moduleType},
+            }).then(function (response) {
+                if (response.success) {
+                    $scope.menuItems = response.getMenu;
+                    $scope.totalPermissions = response.totalPermissions;
+                } else {
+                    $scope.errorMsg = response.message;
+                }
+            });
+        }*/
+        $scope.showPermissions = function () { //permission wise employees
 
+            Data.get('master-hr/getMenuListsForEmployee').then(function (response) {
+                if (response.success) {
+                    $scope.menuItems = response.getMenu;
+                } else {
+                    $scope.errorMsg = response.message;
+                }
+            });
+        }
+        $scope.removeEmpID = function(empId,parentId,submenuId,allChild2Id,allChild3Id){
+       
+            Data.post('master-hr/removeEmpID',
+            {empId:empId,parentId:parentId,submenuId:submenuId,allChild2Id:allChild2Id,allChild3Id:allChild3Id}).then(function (response) {
+                if (!response.success) {
+                    toaster.pop('error', '', 'Something went wrong');
+                } else {
+                    toaster.pop('success', '', 'Employee removed successfully');
+                }
+            });
+        }
+        
         $scope.updatePermissions = function (empId, roleId) {
             Data.post('master-hr/updatePermissions', {
                 data: {empId: empId, roleId: roleId},
@@ -733,7 +779,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         }
 
-        $scope.accessControl = function (moduleType, empId, checkboxid, parentId, submenuId) {
+        $scope.accessControl = function (moduleType, empId, checkboxid, parentId, submenuId, allChild2Id, allChild3Id) {
             var isChecked = $("#" + checkboxid).prop("checked");
             var obj = $("#" + checkboxid);
             var level = $("#" + checkboxid).attr("data-level");
@@ -865,7 +911,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
             }
             Data.post('master-hr/accessControl', {
-                data: {empId: empId, parentId: $scope.parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType}
+                data: {empId: empId, parentId: $scope.parentId, submenuId: submenuId, isChecked: isChecked, moduleType: moduleType,allChild2Id:allChild2Id,allChild3Id:allChild3Id}
             }).then(function (response) {
                 if (response) {
                     $scope.totalPermissions = response.totalPermissions;
@@ -884,7 +930,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }
-
+        
         $scope.createRole = function (RoleData) {
             Data.post('master-hr/createUserRole', {
                 data: {role_name: RoleData.role_name, masterRole: $rootScope.roleMenuList.menuId}
@@ -1127,14 +1173,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             })
             profileData.employee_photo_file_name.upload.then(function (response)
             {
-
                 if (response.success == false) {
                     toaster.pop('error', 'Profile', 'Please upload profile photo');
                 } else {
                     toaster.pop('success', 'Profile', 'Profile updated successfully');
                 }
                 $rootScope.imageURL = response.data.photo;
-
             });
 
         }
@@ -1571,7 +1615,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         };
     }]);
 
-
 app.controller('teamLeadCtrl', function ($scope, Data) {
     $scope.teamLeads = [];
     Data.get('master-hr/getTeamLead/' + $("#empId").val()).then(function (response) {
@@ -1618,4 +1661,10 @@ app.filter('highlight', function () {
     return function (obj, query) {
         return query && obj ? obj.toString().replace(new RegExp(escapeRegexp(query), 'gi'), '<span class="ui-select-highlight">$&</span>') : obj;
     };
+});
+app.filter('split', function () {
+    return function (input, splitChar, splitIndex) {
+        // do some bounds checking here to ensure it has that index
+        return input.split(splitChar)[splitIndex];
+    }
 });

@@ -61,6 +61,14 @@
                             </div>
                         </b>                        
                     </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                                <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-primary btn-right">Permission Wise Users</a>
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <!-- filter data-->
                 <br>
