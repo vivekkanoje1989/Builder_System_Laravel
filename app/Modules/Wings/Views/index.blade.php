@@ -70,7 +70,7 @@
                             <td>{{ listWing.stationary_name.stationary_set_name }}</td>
                             <td>{{ listWing.number_of_floors }}</td>                            
                             <td class="fa-div">                                
-                                <div class="fa-hover" tooltip-html-unsafe="Edit Wings" style="display: block;"><a href="#/wings/update/{{ listWing.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                                
+                                <div class="fa-hover" tooltip-html-unsafe="Edit Wings" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/wings/update/{{ listWing.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                                
                             </td>
                         </tr>
                     </tbody>

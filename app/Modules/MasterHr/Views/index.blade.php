@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-sm-2">
                         <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_user_filter', 0)">
-                            <i class="btn-label fa fa-filter"></i>Show Filter</button>
+                        <i class="btn-label fa fa-filter"></i>Show Filter</button>
                     </div>
                     <div class="col-sm-2">
                         <a href="" class="btn btn-primary" id="downloadExcel" download="{{fileUrl}}"  ng-show="dnExcelSheet">
@@ -34,7 +34,11 @@
                             <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                         </a> 
                     </div> 
-                    <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                    <div class="col-sm-2">
+                        <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-primary">
+                            Permission Wise Users</a>
+                    </div> 
+                    <div class="col-sm-4 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
                         <span ng-if="listUsersLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{listUsers.length}} Logs Out Of Total {{listUsersLength}} Logs&nbsp;</span>
                         <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageUsers', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
                     </div>
@@ -55,14 +59,6 @@
                                 </div>
                             </div>
                         </b>                        
-                    </div>
-                    <div class="col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label for=""></label>
-                            <span class="input-icon icon-right">
-                                <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-primary btn-right">Permission Wise Users</a>
-                            </span>
-                        </div>
                     </div>
                 </div>
                 <!-- filter data-->

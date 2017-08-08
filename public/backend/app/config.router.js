@@ -782,7 +782,33 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-
+                                .state('importEnquiryIndex', {
+                                    url: '/sales/importEnquiry',
+                                    templateUrl: '/master-sales/import',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Import Enquiry'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/enquiryController.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
                                 /************************************ UMA ******************************/
                                 .state('propertyPortalIndex', {
                                     url: '/portalaccounts/index',
