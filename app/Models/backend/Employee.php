@@ -498,28 +498,28 @@ class Employee extends Authenticatable {
         }
         $input['userData']['physic_desc'] = !empty($input['userData']['physic_desc']) ? $input['userData']['physic_desc'] : NULL;
 
-        $personalMobileNo1 = explode("-", $input['userData']['personal_mobile1']);
-        $input['userData']['personal_mobile1_calling_code'] = (int) $personalMobileNo1[0];
-        $input['userData']['personal_mobile1'] = $personalMobileNo1[1];
+//        $personalMobileNo1 = explode("-", $input['userData']['personal_mobile1']);
+//        $input['userData']['personal_mobile1_calling_code'] = (int) $personalMobileNo1[0];
+//        $input['userData']['personal_mobile1'] = $personalMobileNo1[1];
 
-        if (!empty($input['userData']['personal_mobile2'])) {
-            $personalMobileNo2 = explode("-", $input['userData']['personal_mobile2']);
-            $input['userData']['personal_mobile2_calling_code'] = (int) $personalMobileNo2[0];
-            $input['userData']['personal_mobile2'] = !empty($personalMobileNo2[1]) ? $personalMobileNo2[1] : NULL;
-            $input['userData']['personal_mobile2_calling_code'] = !empty($input['userData']['personal_mobile2']) ? $input['userData']['personal_mobile2_calling_code'] : NULL;
-        }
-
-        if (!empty($input['userData']['office_mobile_no'])) {
-            $officeMobileNo = explode("-", $input['userData']['office_mobile_no']);
-            $input['userData']['office_mobile_calling_code'] = (int) $officeMobileNo[0];
-            $input['userData']['office_mobile_no'] = $officeMobileNo[1];
-        }
-
-        if (!empty($input['userData']['personal_landline_no'])) {
-            $landlineNo = explode("-", $input['userData']['personal_landline_no']);
-            $input['userData']['personal_landline_calling_code'] = !empty($landlineNo[1]) ? (int) $landlineNo[0] : NULL;
-            $input['userData']['personal_landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] : "";
-        }
+//        if (!empty($input['userData']['personal_mobile2'])) {
+//            $personalMobileNo2 = explode("-", $input['userData']['personal_mobile2']);
+//            $input['userData']['personal_mobile2_calling_code'] = (int) $personalMobileNo2[0];
+//            $input['userData']['personal_mobile2'] = !empty($personalMobileNo2[1]) ? $personalMobileNo2[1] : NULL;
+//            $input['userData']['personal_mobile2_calling_code'] = !empty($input['userData']['personal_mobile2']) ? $input['userData']['personal_mobile2_calling_code'] : NULL;
+//        }
+//
+//        if (!empty($input['userData']['office_mobile_no'])) {
+//            $officeMobileNo = explode("-", $input['userData']['office_mobile_no']);
+//            $input['userData']['office_mobile_calling_code'] = (int) $officeMobileNo[0];
+//            $input['userData']['office_mobile_no'] = $officeMobileNo[1];
+//        }
+//
+//        if (!empty($input['userData']['personal_landline_no'])) {
+//            $landlineNo = explode("-", $input['userData']['personal_landline_no']);
+//            $input['userData']['personal_landline_calling_code'] = !empty($landlineNo[1]) ? (int) $landlineNo[0] : NULL;
+//            $input['userData']['personal_landline_no'] = (!empty($landlineNo[1])) ? $landlineNo[1] : "";
+//        }
         $input['userData']['education_details'] = !empty($input['userData']['education_details']) ? $input['userData']['education_details'] : "";
         $input['userData']['show_on_homepage'] = !empty($input['userData']['show_on_homepage']) ? $input['userData']['show_on_homepage'] : "1";
         $input['userData']['employee_submenus'] = !empty($input['userData']['employee_submenus']) ? $input['userData']['employee_submenus'] : '[]';

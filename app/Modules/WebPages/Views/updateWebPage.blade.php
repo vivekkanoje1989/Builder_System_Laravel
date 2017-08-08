@@ -16,7 +16,7 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Users</span>
+                <span class="widget-caption">Manage Web Pages</span>
             </div>
             <div class="widget-body">
                 <div class="tabbable">
@@ -208,7 +208,7 @@
                                             <div class="form-group">
                                                 <label for="">Seo Page Title<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.seo_page_title" name="seo_page_title" class="form-control">                                                             
+                                                    <input type="text" ng-model="subcontentPage.seo_page_titles" name="seo_page_titles" class="form-control">                                                             
                                                 </span>
                                             </div>
                                         </div> 
@@ -252,7 +252,7 @@
                                             <div class="form-group">
                                                 <label for="">Position<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.child_page_position" required  name =  "child_page_position" maxlength="2" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  name="parent_page_position" class="form-control">                                                             
+                                                    <input type="text" ng-model="subcontentPage.child_page_position" required  name ="child_page_position" maxlength="2" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  name="parent_page_position" class="form-control">                                                             
                                                 </span>
                                                 <div ng-if="sbtBtn"  ng-messages="imageMgntForm.child_page_position.$error">
                                                     <div ng-message="required" class="err">Page position is required.</div>
@@ -289,7 +289,7 @@
                                                 </div>
                                                 <div class="widget-body no-padding">
                                                     <div ng-controller="TextAngularCtrl">
-                                                        <div text-angular ng-model="subcontentPage.page_content" name="demo-editor1" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
+                                                        <div text-angular ng-model="subcontentPage.page_content" name="page_content" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text"></div>
                                                     </div>
                                                 </div>
                                             </div>
