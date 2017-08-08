@@ -2,25 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Controllers/CloudCallingLogsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/showFilter.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/showFilter.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/.env</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/cloudtelephonyController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/inboundlogs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/routes/api.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/routes/api.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
-        </group>
-=======
         <group/>
->>>>>>> 5329d9fe2bc3224bb3fafff5e2911c3479e10ede
     </open-files>
 </project-private>
