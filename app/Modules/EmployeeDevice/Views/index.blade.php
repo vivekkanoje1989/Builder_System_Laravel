@@ -2,7 +2,7 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Employee Device</span>                
+                <span class="widget-caption">Manage Device Information</span>                
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">

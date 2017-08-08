@@ -17,11 +17,6 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Users</span>
-                <!--                <a href="#/user/manageroles" ng-if="[[ $loggedInUserId ]] == 1" class="btn btn-info">Manage Roles</a>&nbsp;&nbsp;&nbsp;-->
-                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                </div>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">

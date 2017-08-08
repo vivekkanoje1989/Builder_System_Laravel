@@ -196,6 +196,7 @@ class AlertsController extends Controller {
         $request = json_decode($postdata, true);
         $empId = $request['data']['empId'];
         $arr = explode(",", $empId);
+
         $getemps = Employee::whereIn('id', $arr)->select('id', 'office_email_id', 'office_mobile_no','first_name','last_name')
                                                 ->where('office_email_id', '<>','')
                                                 ->where('office_mobile_no', '<>','')

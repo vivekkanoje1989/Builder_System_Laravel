@@ -46,7 +46,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="list in ProjectPaymentStagesRow| filter:search | orderBy:orderByField:reverseSort| itemsPerPage:itemsPerPage" >
+                        <tr role="row" dir-paginate="list in ProjectPaymentStagesRow | filter:search | orderBy:orderByField:reverseSort| itemsPerPage:itemsPerPage" >
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{ list.stage_name}}</td>   
                             <td class="fa-div">

@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
-                                <a title="Create blog" class="btn btn-primary btn-right" href="[[ config('global.backendUrl') ]]#/manage-blog/create" >Create Blog</a>
+                                <a title="Create blog" class="btn btn-primary btn-right" href="[[ config('global.backendUrl') ]]#/blog/create" >Create Blog</a>
                             </span>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                             <td>{{item.meta_description}}</td>
                             <td>{{item.meta_keywords}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal"><a href="[[ config('global.backendUrl') ]]#/manage-blog/update/{{ item.id}}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

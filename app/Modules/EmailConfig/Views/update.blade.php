@@ -1,15 +1,10 @@
 <div class="row" ng-controller="emailconfigCtrl" ng-init="manageEmailConfig([[$id]])">
-    <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
+    <div class="col-lg-12 col-md-12 col-xs-12">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">{{pageHeading}}</span>
-                <div class="widget-buttons">                   
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose></a>
-                </div>
             </div>
-            <div class="widget-body ">
+            <div class="widget-body">
                 <form name="emailConfigForm" novalidate ng-submit="emailConfigForm.$valid && createEmail(emailData, [[ $id ]])">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -86,18 +81,14 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12 col-sm-12 col-xs-12">
-                            <div class="col-sm-3 col-xs-6">
-                                <input type="submit" class="btn btn-primary" value="Create" id="sbt" ng-click="sbtbtn=true">
-                                <a href="[[ config('global.backendUrl') ]]#/emailConfig/index" class="btn btn-primary"><< Back</a>
-                            </div>
-                            <div class="col-sm-3 col-xs-6"></div>
-                            <div class="col-sm-3 col-xs-6"></div>
-                        </div>                        
+                        <div class="col-md-12 col-xs-12" align="right">
+                            <input type="submit" class="btn btn-primary" value="Create" id="sbt" ng-click="sbtbtn=true">
+                            <a href="[[ config('global.backendUrl') ]]#/emailConfig/index" class="btn btn-primary"><< Back To List</a>
+                        </div>
                     </div>
-                </form>
+                </form>    
             </div>
-        </div>
+	</div>
     </div>
 </div>
 <script>

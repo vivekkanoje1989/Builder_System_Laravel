@@ -11,6 +11,7 @@
     .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;margin-left: 15px;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;margin-left: 15px;}
 </style>
+
 <div class="row">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="alertsController">
@@ -188,62 +189,32 @@
                                             </span>
                                         </div>
                                     </div>
+                                </span>                                           
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="">SMS Status</label>
+                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="alertData.sms_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
+                                    <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-if="alertData.sms_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
                                 </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">BCC Email Ids(comma separated multiple Email Ids) </label>
-                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="alertData.email_bcc_ids" name="email_bcc_ids">
-                                                <i class="fa fa-user"></i>
-                                                <div ng-show="sbtBtn && alertFrom.email_bcc_ids.$invalid" ng-messages="alertFrom.email_bcc_ids.$error" class="help-block">
-                                                    <div ng-message="required" style="color: red !important;">This field is required</div>
-                                                </div> 
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">BCC Email Employees : </label>
-                                            <span class="input-icon icon-right">
-                                                <ui-select multiple ng-model="alertData.email_bcc_employees" name="sms_cc_employees" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required>
-                                                    <ui-select-match placeholder="Select Email">{{$item.office_email_id}}</ui-select-match>
-                                                    <ui-select-choices repeat="Employee in Employees | filter:$select.search">
-                                                        {{Employee.first_name}} {{Employee.last_name}} ( {{Employee.office_email_id}} )
-                                                    </ui-select-choices>
-                                                </ui-select>
-                                                <div ng-show="sbtBtn && alertFrom.email_bcc_employees.$invalid " ng-messages="alertFrom.email_bcc_employees.$error" class="help-block">
-                                                    <div ng-message="required" style="color: red !important;">This field is required</div>
-                                                </div>
-                                            </span>                                           
-                                        </div>
-                                    </div>
-                                </div>                                
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">SMS Status</label>
-                                                <span class="fa fa-toggle-on toggleClassActive" ng-if="alertData.sms_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
-                                                <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-if="alertData.sms_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label for="">Email Status</label>
-                                            <span class="fa fa-toggle-on toggleClassActive" ng-if="alertData.email_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
-                                            <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-if="alertData.email_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="">Email Status</label>
+                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="alertData.email_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
+                                    <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-if="alertData.email_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
                                 </div>
-                            </div> 
-                            <hr class="wide col-md-12" />
-                        </div>  
-                        <hr class="wide col-lg-12 col-xs-12 col-md-12"/>  
-                        <div class="col-lg-12 col-xs-12 col-md-12" align="center">
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="row">
+                        <div class="col-lg-12 col-xs-12 col-md-12">
                             <button type="submit" class="btn btn-primary" ng-click="sbtBtn=true">{{buttonLabel}}</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
