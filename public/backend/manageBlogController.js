@@ -16,7 +16,6 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             $scope.errorMsg = '';
             $scope.createBlog = true;
             $scope.updateBlog = true;
-           
             $scope.allimages = '';
             if (typeof bannerImage === 'undefined') {
                 bannerImage = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
@@ -33,6 +32,9 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 var successMsg = "Blog updated successfully.";
                 if (typeof bannerImage === 'string') {
                     bannerImage = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+                }
+                if (typeof galleryImage === 'string') {
+                    galleryImage = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 }
                 var data = {'blogData': blogData, 'blogImages': {'blog_banner_images': bannerImage},
                     'galleryImage': {'galleryImage': galleryImage}
@@ -85,8 +87,8 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             $scope.blogId = blogId;
             Data.post('manage-blog/getBlogsDetail', {blog_id: $scope.blogId}).then(function (response) {
                 $scope.blogData = response.records;
-                $scope.blogData.blog_banner_images = "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Blog/blog_banner_images/" + response.records.blog_banner_images;
-                $scope.blogData.blog_images = "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Blog/gallery_image/" + response.records.blog_images;
+                $scope.blogData.blog_banner_images =  response.records.blog_banner_images;
+                $scope.blogData.blog_images =  response.records.blog_images;
 
                 var arraydata = response.records.blog_banner_images.split(',');
                 $scope.bannerImage_preview = arraydata;

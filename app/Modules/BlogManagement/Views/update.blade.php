@@ -76,12 +76,12 @@
                                 <span class="help-block">{{bannerImage_err}}</span>
                             </div>
                             <div class="img-div2" data-title="name" ng-repeat="list in bannerImage_preview">    
-                                <img ng-src="{{list}}" class="thumb photoPreview">
+                                <img ng-src="[[ Config('global.s3Path') ]]Blog/blog_banner_images/{{list}}" class="thumb photoPreview">
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12">
                             <div class="form-group">
-                                <label>Gallery image <span class="sp-err">*</span></label>
+                                <label>Gallery image</label>
                                 <span class="input-icon icon-right">
                                     <input type="file" multiple ngf-select ng-model="blogData.blog_images" name="blog_images" id="blog_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                 </span>
@@ -89,7 +89,7 @@
                             </div>
                              <!--<img ng-if="!employee_photo_file_name_preview" ng-src="[[ Config('global.s3Path') ]]employee-photos/{{imgUrl}}" class="thumb photoPreview">-->
                             <div class="img-div2" data-title="name" ng-repeat="list in blog_images_preview" >    
-                                <img ng-src="{{list}}" class="thumb photoPreview">
+                                <img ng-src="[[ Config('global.s3Path') ]]Blog/gallery_image/{{list}}" class="thumb photoPreview">
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12 ">

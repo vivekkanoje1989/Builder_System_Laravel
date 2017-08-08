@@ -7,7 +7,7 @@ Route::group(array('module' => 'WebPages', 'middleware' => ['auth:admin'], 'name
     Route::resource('/web-pages', 'WebPagesController');
     Route::post('/web-pages/getEditWebPage', 'WebPagesController@getEditWebPage');// get update content page data
     Route::post('/web-pages/updateWebPage', 'WebPagesController@updateWebPage'); //update content management tab page
-    Route::post('/web-pages/updateSubWebPage', 'WebPagesController@updateSubWebPage'); //update content management tab page
+    Route::post('/web-pages/updateSubWebPages', 'WebPagesController@updateSubWebPage'); //update content management tab page
     Route::post('/web-pages/storeSubWebPage', 'WebPagesController@storeSubWebPage'); //update content management tab page
     Route::post('/web-pages/getImages', 'WebPagesController@getImages');
     Route::post('/web-pages/updateWebPageImage', 'WebPagesController@updateWebPageImage'); //upload and update images image management tab 
