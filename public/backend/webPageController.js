@@ -1,5 +1,5 @@
 'use strict';
-app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster','$parse', function ($scope, Data, Upload, $timeout, toaster,$parse) {
+app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', function ($scope, Data, Upload, $timeout, toaster, $parse) {
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.subId = '0';
@@ -7,11 +7,11 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.sbtBtn = false;
         $scope.subcontentPage = {};
 
-        $scope.pageChangeHandler = function(num) {
+        $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-        
+
         Data.get('web-pages/getWebPages').then(function (response) {
             $scope.listPages = response.records.data;
         });
@@ -35,7 +35,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
         $scope.updateWebPage = function (contentdata, allimg, imageData, pageId)
         {
-            
+
             if (typeof imageData === 'undefined') {
                 imageData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
@@ -59,7 +59,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                             model.assign($scope, obj[key][0]);// Assigns a value to it
                             selector.push(key);
                         }
-                        
+
                         //toaster.pop('error', 'Banner Image', 'Image not uploaded');
                     } else
                     {
@@ -79,12 +79,13 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
         }
 
-        $scope.editSubPage = function (list, index)
+        $scope.editSubPage = function (list, index, pageId)
         {
             $scope.subcontentPage = list;
-            if(list.banner_images != ''){
-            var banner = list.banner_images.split(',');
+            if (list.banner_images != '') {
+                var banner = list.banner_images.split(',');
             }
+
             $scope.subimgs = (banner);
             $scope.subId = list.id;
             $scope.index = index;
@@ -92,13 +93,13 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
         $scope.updateSubWebPage = function (subcontent, allimg, imageData, pageId)
         {
-          console.log(subcontent);
+
             if (typeof imageData === 'undefined') {
                 imageData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
             $scope.err_msg = '';
             var imgCount = document.getElementById("subbanner_images").files.length;
-            if ($scope.subId == 0){
+            if ($scope.subId == 0) {
                 var url = '/web-pages/storeSubWebPage';
                 var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount, subcontentPages: subcontent};
             } else {
@@ -127,15 +128,22 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 }
                 $scope.subcontentPage = {};
                 $scope.imageMgntForm.$setPristine();
-//                $scope.subImagePage.banner_images = '';
+                $scope.subImagePage.banner_images = '';
                 $scope.submitted = true;
-                    if (!response.data.success) {
-                        toaster.pop('error', 'Manage Webpage', 'Webpage failed to add');
-                    } else
-                    {
-                        toaster.pop('success', 'Manage Webpage', 'Sub Page Added successfully.');
-                    }
-               
+                if (!response.data.success) {
+                    toaster.pop('error', 'Manage Webpage', 'Webpage failed to add');
+                } else
+                {
+//                    Data.post('web-pages/getSubImages', {
+//                        Data: {pageId: pageId, },
+//                    }).then(function (response) {
+//                        var arraydata = response.records[0]['banner_images'].split(',');
+//                        $scope.subimgs = arraydata;
+//
+//                    });
+                    toaster.pop('success', 'Manage Webpage', 'Sub Page Added successfully.');
+                }
+
             }, function (response) {
                 if (response.status !== 200) {
                     $scope.errorMsg = "Something went wrong. Check your internet connection";
@@ -209,7 +217,8 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                         }
                     });
                 }
-            }         }
+            }
+        }
         $scope.removeSubImg = function (imgname, indeximg, pageId)
         {
             if (window.confirm("Are you sure want to remove this image?"))

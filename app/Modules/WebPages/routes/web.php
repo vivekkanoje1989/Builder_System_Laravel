@@ -10,6 +10,7 @@ Route::group(array('module' => 'WebPages', 'middleware' => ['auth:admin'], 'name
     Route::post('/web-pages/updateSubWebPages', 'WebPagesController@updateSubWebPage'); //update content management tab page
     Route::post('/web-pages/storeSubWebPage', 'WebPagesController@storeSubWebPage'); //update content management tab page
     Route::post('/web-pages/getImages', 'WebPagesController@getImages');
+    Route::post('/web-pages/getSubImages', 'WebPagesController@getSubImages');
     Route::post('/web-pages/updateWebPageImage', 'WebPagesController@updateWebPageImage'); //upload and update images image management tab 
     Route::post('/web-pages/removeWebPageImage', 'WebPagesController@removeWebPageImage');// remove image
     Route::post('/web-pages/removeSubWebPageImage', 'WebPagesController@removeSubWebPageImage');// remove image
