@@ -108,6 +108,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId},
                 }).then(function (response) {
                     if (response.success) { //response true
+
                         if (response.flag === 0)//if customer exist
                         {
                             $scope.showDiv = false;
@@ -115,6 +116,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.btnLabelC = "Update";
                             $scope.disableSource = true;  
                             $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
+                            $scope.customer_id = response.customerPersonalDetails[0].id;
                             $scope.contacts = angular.copy(response.customerContactDetails);
                             $scope.contactData = angular.copy(response.customerContactDetails);
                             $scope.customerData.marriage_date = $scope.customerData.birth_date = $filter('date')(new Date(), 'yyyy-MM-dd');
