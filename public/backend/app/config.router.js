@@ -103,6 +103,8 @@ angular.module('app')
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/hrController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -142,6 +144,34 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                .state('showpermissions', {
+                                    url: '/user/showpermissions',
+                                    templateUrl: '/master-hr/showpermissions',
+                                    controller: 'hrController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Permissions',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/hrController.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
                                 .state('manageRoles', {
                                     url: '/user/manageroles',
                                     templateUrl: '/master-hr/manageRolesPermission',
@@ -167,6 +197,34 @@ angular.module('app')
                                                                 });
                                                     }
                                                 ]
+                                    }
+                                })
+                                .state('createrole', {
+                                    url: '/user/createrole',
+                                    templateUrl: '/master-hr/createrole',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Create Role Permissions',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/app/controllers/select.js',
+                                                                '/backend/hrController.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('userPermissions', {
@@ -724,7 +782,33 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-
+                                .state('importEnquiryIndex', {
+                                    url: '/sales/importEnquiry',
+                                    templateUrl: '/master-sales/import',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Import Enquiry'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/enquiryController.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
                                 /************************************ UMA ******************************/
                                 .state('propertyPortalIndex', {
                                     url: '/portalaccounts/index',
@@ -738,7 +822,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['toaster','ui.select']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -746,6 +830,7 @@ angular.module('app')
                                                                             '/js/intlTelInput.js',
                                                                             '/backend/propertyPortalsController.js',
                                                                             '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     }
                                                                     );
@@ -770,12 +855,20 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/propertyPortalsController.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/propertyPortalsController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
                                             }
                                         ]
                                     }
@@ -795,12 +888,20 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/propertyPortalsController.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/propertyPortalsController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
                                             }
                                         ]
                                     }
@@ -820,12 +921,20 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/propertyPortalsController.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/propertyPortalsController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
                                             }
                                         ]
                                     }
@@ -1709,24 +1818,216 @@ angular.module('app')
                                     },
                                 })
 
-                                /**************************** Alerts Routing *****************************/
+//                                /**************************** Alerts Routing *****************************/
+//                                .state('alertsIndex', {
+//                                    url: '/alerts/index',
+//                                    templateUrl: '/alerts/',
+//                                    requiredLogin: true,
+//                                    ncyBreadcrumb: {
+//                                        label: 'Alerts'
+//                                    },
+//                                    resolve: {
+//                                        deps: [
+//                                            '$ocLazyLoad',
+//                                            function ($ocLazyLoad) {
+//                                                return $ocLazyLoad.load({
+//                                                    serie: true,
+//                                                    files: [
+//                                                        '/backend/alertsController.js',
+//                                                    ]
+//                                                });
+//                                            }
+//                                        ]
+//                                    }
+//                                })
+//                                .state('alertsUpdate', {
+//                                    url: '/alerts/update/:id',
+//                                    templateUrl: function (stateParams) {
+//                                        return '/alerts/' + stateParams.id + '/edit';
+//                                    },
+//                                    requiredLogin: true,
+//                                    ncyBreadcrumb: {
+//                                        label: 'Edit Alert',
+//                                        description: ''
+//                                    },
+//                                    resolve: {
+//                                        deps: [
+//                                            '$ocLazyLoad',
+//                                            function ($ocLazyLoad) {
+//                                                return $ocLazyLoad.load(['ui.select', {
+//                                                        serie: true,
+//                                                        files: [
+//                                                            '/backend/alertsController.js',
+//                                                            '/backend/app/controllers/select.js',
+//                                                        ]
+//                                                    }]);
+//                                            }
+//                                        ]
+//                                    }
+//                                })
+//                                .state('customalertsIndex', {
+//                                    url: '/customalerts/index',
+//                                    templateUrl: '/customalerts/',
+//                                    requiredLogin: true,
+//                                    ncyBreadcrumb: {
+//                                        label: 'Custome Alters'
+//                                    },
+//                                    resolve: {
+//                                        deps: [
+//                                            '$ocLazyLoad',
+//                                            function ($ocLazyLoad) {
+//                                                return $ocLazyLoad.load({
+//                                                    serie: true,
+//                                                    files: [
+//                                                        '/backend/customalertsController.js',
+//                                                    ]
+//                                                });
+//                                            }
+//                                        ]
+//                                    }
+//                                })
+//                                .state('customalertcreate', {
+//                                    url: '/customalerts/create',
+//                                    templateUrl: '/customalerts/create',
+//                                    requiredLogin: true,
+//                                    ncyBreadcrumb: {
+//                                        label: 'Create Custome Alert',
+//                                        description: ''
+//                                    },
+//                                    resolve: {
+//                                        deps: [
+//                                            '$ocLazyLoad',
+//                                            function ($ocLazyLoad) {
+//                                                return $ocLazyLoad.load(['ui.select', {
+//                                                        serie: true,
+//                                                        files: [
+//                                                            '/backend/customalertsController.js',
+//                                                            '/backend/app/controllers/select.js',
+//                                                        ]
+//                                                    }]);
+//                                            }
+//                                        ]
+//                                    }
+//                                })
+//                                .state('customalertsUpdate', {
+//                                    url: '/customalerts/update/:id',
+//                                    templateUrl: function (stateParams) {
+//                                        return '/customalerts/' + stateParams.id + '/edit';
+//                                    },
+//                                    requiredLogin: true,
+//                                    ncyBreadcrumb: {
+//                                        label: 'Edit Custome Alert',
+//                                        description: ''
+//                                    },
+//                                    resolve: {
+//                                        deps: [
+//                                            '$ocLazyLoad',
+//                                            function ($ocLazyLoad) {
+//                                                return $ocLazyLoad.load(['ui.select', {
+//                                                        serie: true,
+//                                                        files: [
+//                                                            '/backend/customalertsController.js',
+//                                                            '/backend/app/controllers/select.js',
+//                                                        ]
+//                                                    }]);
+//                                            }
+//                                        ]
+//                                    }
+//                                })
+//                                .state('defaultalertsIndex', {
+//                                    url: '/defaultalerts/index',
+//                                    templateUrl: '/defaultalerts/',
+//                                    requiredLogin: true,
+//                                    ncyBreadcrumb: {
+//                                        label: 'Custome Alters'
+//                                    },
+//                                    resolve: {
+//                                        deps: [
+//                                            '$ocLazyLoad',
+//                                            function ($ocLazyLoad) {
+//                                                return $ocLazyLoad.load({
+//                                                    serie: true,
+//                                                    files: [
+//                                                        '/backend/defaultalertsController.js',
+//                                                    ]
+//                                                });
+//                                            }
+//                                        ]
+//                                    }
+//                                })
+//                                .state('dafaultalertcreate', {
+//                                    url: '/dafaultalerts/create',
+//                                    templateUrl: '/defaultalerts/create',
+//                                    requiredLogin: true,
+//                                    ncyBreadcrumb: {
+//                                        label: 'Create Custome Alert',
+//                                        description: ''
+//                                    },
+//                                    resolve: {
+//                                        deps: [
+//                                            '$ocLazyLoad',
+//                                            function ($ocLazyLoad) {
+//                                                return $ocLazyLoad.load(['ui.select', {
+//                                                        serie: true,
+//                                                        files: [
+//                                                            '/backend/defaultalertsController.js',
+//                                                        ]
+//                                                    }]);
+//                                            }
+//                                        ]
+//                                    }
+//                                })
+//                                .state('defaultalertsUpdate', {
+//                                    url: '/defaultalerts/update/:id',
+//                                    templateUrl: function (stateParams) {
+//                                        return '/defaultalerts/' + stateParams.id + '/edit';
+//                                    },
+//                                    requiredLogin: true,
+//                                    ncyBreadcrumb: {
+//                                        label: 'Edit Default Alert',
+//                                        description: ''
+//                                    },
+//                                    resolve: {
+//                                        deps: [
+//                                            '$ocLazyLoad',
+//                                            function ($ocLazyLoad) {
+//                                                return $ocLazyLoad.load(['ui.select', {
+//                                                        serie: true,
+//                                                        files: [
+//                                                            '/backend/defaultalertsController.js',
+//                                                        ]
+//                                                    }]);
+//                                            }
+//                                        ]
+//                                    }
+//                                })
+//                                /**************************** Alerts Routing *****************************/
+
+
+ /**************************** Alerts Routing *****************************/
                                 .state('alertsIndex', {
                                     url: '/alerts/index',
                                     templateUrl: '/alerts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Alerts'
+                                        label: 'Template Settings'
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/alertsController.js',
-                                                    ]
-                                                });
+                                                return $ocLazyLoad.load(['textAngular', 'toaster', 'ui.select']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/select.js',
+                                                                    '/backend/alertsController.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+
                                             }
                                         ]
                                     }
@@ -1738,20 +2039,26 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Edit Alert',
+                                        label: 'Template Settings',
                                         description: ''
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/alertsController.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['ui.select','toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/alertsController.js',
+                                                                        '/backend/app/controllers/select.js',
+                                                                    ]
+                                                                });
+
+                                                        }
+                                                );
+
                                             }
                                         ]
                                     }
@@ -1761,18 +2068,22 @@ angular.module('app')
                                     templateUrl: '/customalerts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Custome Alters'
+                                        label: 'Manage Custom Templates'
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/customalertsController.js',
-                                                    ]
-                                                });
+                                                return $ocLazyLoad.load(['toaster','textAngular']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/customalertsController.js',
+                                                                    '/backend/app/controllers/textangular.js',
+                                                                ]
+                                                            });
+                                                        });
                                             }
                                         ]
                                     }
@@ -1782,20 +2093,24 @@ angular.module('app')
                                     templateUrl: '/customalerts/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Custome Alert',
+                                        label: 'Manage Custom Templates',
                                         description: ''
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/customalertsController.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['toaster','textAngular']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/customalertsController.js',
+                                                                        '/backend/app/controllers/select.js',
+                                                                        '/backend/app/controllers/textangular.js',
+                                                                    ]
+                                                                }]);
+                                                        });
                                             }
                                         ]
                                     }
@@ -1807,20 +2122,24 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Edit Custome Alert',
+                                        label: 'Manage Custom Templates',
                                         description: ''
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/customalertsController.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['toaster','textAngular']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/customalertsController.js',
+                                                                        '/backend/app/controllers/select.js',
+                                                                        '/backend/app/controllers/textangular.js',
+                                                                    ]
+                                                                }]);
+                                                        });
                                             }
                                         ]
                                     }
@@ -1830,18 +2149,21 @@ angular.module('app')
                                     templateUrl: '/defaultalerts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Custome Alters'
+                                        label: 'Manage Default Templates'
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load({
-                                                    serie: true,
-                                                    files: [
-                                                        '/backend/defaultalertsController.js',
-                                                    ]
-                                                });
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/defaultalertsController.js',
+                                                                ]
+                                                            });
+                                                        });
                                             }
                                         ]
                                     }
@@ -1851,19 +2173,22 @@ angular.module('app')
                                     templateUrl: '/defaultalerts/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Custome Alert',
+                                        label: 'Manage Custom Templates',
                                         description: ''
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/defaultalertsController.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/defaultalertsController.js',
+                                                                    ]
+                                                                }]);
+                                                        });
                                             }
                                         ]
                                     }
@@ -1875,25 +2200,27 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Edit Default Alert',
+                                        label: 'Manage Default Templates',
                                         description: ''
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/defaultalertsController.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/defaultalertsController.js',
+                                                                    ]
+                                                                }]);
+                                                        });
                                             }
                                         ]
                                     }
                                 })
                                 /**************************** Alerts Routing *****************************/
-
                                 /****************************MANDAR*********************************/
                                 /****************************MANOJ*********************************/
                                 .state('bloodGroupsIndex', {
@@ -2444,7 +2771,7 @@ angular.module('app')
                                     }
                                 })
                                 .state('createBlog', {
-                                    url: '/manage-blog/create',
+                                    url: '/blog/create',
                                     templateUrl: '/manage-blog/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -2472,7 +2799,7 @@ angular.module('app')
                                     }
                                 })
                                 .state('blogUpdate', {
-                                    url: '/manage-blog/update/:blogId',
+                                    url: '/blog/update/:blogId',
                                     templateUrl: function (stateParams) {
                                         return '/manage-blog/' + stateParams.blogId + '/edit';
                                     },
@@ -3899,7 +4226,7 @@ angular.module('app')
                                 /****************************Rohit*********************************/
                                 .state('quickUser', {
                                     url: '/user/quickuser',
-                                    templateUrl: '/master-hr/showQuickUser',
+                                    templateUrl: '/master-hr/quickuser',
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {

@@ -1,4 +1,4 @@
-app.controller('locationCtrl', ['$scope', 'Data', function ($scope, Data) {
+app.controller('locationCtrl', ['$scope', 'Data','toaster', function ($scope, Data, toaster) {
 
         $scope.itemsPerPage = 30;
         $scope.pageNumber = 1;
@@ -66,7 +66,6 @@ app.controller('locationCtrl', ['$scope', 'Data', function ($scope, Data) {
         }
 
         $scope.initialModal = function (id, name, index, index1, status) {
-            console.log(name);
             $scope.heading = 'Location';
             $scope.id = id;
             $scope.name = name;
@@ -78,19 +77,19 @@ app.controller('locationCtrl', ['$scope', 'Data', function ($scope, Data) {
             if ($scope.id === 0) //for create
             {
                 Data.post('manage-location/', {
-                    location_type: $scope.name, status: $scope.status}).then(function (response) {
+                    location: $scope.name, status: $scope.status}).then(function (response) {
                     if (!response.success)
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                        $scope.locationRow.push({'location_type': $scope.name, id: response.lastinsertid, status: $scope.status});
+                        $scope.locationRow.push({'location': $scope.name, id: response.lastinsertid, status: $scope.status});
                         $('#LocationModal').modal('toggle');
                         toaster.pop('success', 'Manage location', 'Record successfully created');
                     }
                 });
             } else { //for update
                 Data.put('manage-location/' + $scope.id, {
-                    location_type: $scope.name, id: $scope.id, status: $scope.status}).then(function (response) {
+                    location: $scope.name, id: $scope.id, status: $scope.status}).then(function (response) {
 
                     if (!response.success)
                     {
@@ -98,13 +97,15 @@ app.controller('locationCtrl', ['$scope', 'Data', function ($scope, Data) {
                     } else {
                         $scope.locationRow.splice($scope.index - 1, 1);
                         $scope.locationRow.splice($scope.index - 1, 0, {
-                            location_type: $scope.name, id: $scope.id, status: $scope.status});
+                            location: $scope.name, id: $scope.id, status: $scope.status});
                         $('#LocationModal').modal('toggle');
                         toaster.pop('success', 'Manage location', 'Record successfully updated');
                     }
                 });
             }
         }
+        
+        
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;

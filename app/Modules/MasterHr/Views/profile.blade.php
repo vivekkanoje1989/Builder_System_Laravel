@@ -2,9 +2,7 @@
     .img-cstdiv{
         position: fixed;
     }
-    .photoPreview{
-        width: 40% !important;
-    }
+
 </style>
 <div ng-controller="hrController" ng-init="getProfile()">
     <div class="row">
@@ -59,8 +57,11 @@
                                             <div class="img-cstdiv" ng-repeat="list in employee_photo_file_name_preview">    
                                                 <img ng-src="{{list}}" class="thumb photoPreview">
                                             </div>
-                                            <div class="img-cstdiv" ng-show="(!employee_photo_file_name_preview) && (flagProfilePhoto == 1)">
-                                                <img ng-src="{{ profilePhoto}}" class="thumb photoPreview"/>
+                                            <!--                                            <div class="img-cstdiv" ng-show="(!employee_photo_file_name_preview) && (flagProfilePhoto == 1)">
+                                                                                            <img ng-src="{{ profilePhoto}}" class="thumb photoPreview"/>
+                                                                                        </div>-->
+                                            <div ng-show="(!employee_photo_file_name_preview) && (flag_profile_photo == 1)">
+                                                <img ng-src="{{old_profile_photo}}" class="thumb photoPreview"/>
                                             </div>
                                         </span>  
                                     </div>
@@ -121,7 +122,7 @@
                                                 <div id="err_new_pass_pattern" ng-message="pattern" class="sp-err" >Password must contain at least one uppercase letter, one lowercase letter, one number and one special character</div>
 
                                             </div>
-                                             <div ng-if="password" class="sp-err password">{{password}}</div>
+                                            <div ng-if="password" class="sp-err password">{{password}}</div>
                                         </span>                                
                                     </div>
                                 </div>
@@ -136,7 +137,7 @@
                                                 <div id="err_cof_pass_compareto" ng-message="compareTo" class="sp-err">Must match new password and confirm password.</div>
                                                 <div id="err_cof_pass_minlength" ng-message="minlength" class="sp-err">Minimum 8 Characters Allowed.</div>
                                             </div>
-                                            <div ng-if="password_confirmation" class="sp-err password_confirmation">{{password_confirmation}}</div>
+
                                         </span>                                
                                     </div>
                                 </div>                                

@@ -108,10 +108,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId},
                 }).then(function (response) {
                     if (response.success) { //response true
-                        //alert(response.flag+""); $scope.enqType
+
                         if (response.flag === 0)//if customer exist
                         {
-                            alert("exist");
                             $scope.showDiv = false;
                             $scope.showDivCustomer = true;
                             $scope.btnLabelC = "Update";
@@ -244,8 +243,14 @@ app.directive("ngfSelect", [function () {
         link: function ($scope, el, ngModel) {
             
             el.bind("change", function (e) {
+                if(ngModel.name === "importfile"){
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+                    var errmsg =  " is invalid file."
+                }else{
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp|.svg|.xls)$/;
+                    var errmsg = " is not a valid image file."
+                }
                 $scope[ngModel.name + "_preview"] = [];
-                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp|.svg)$/;
                 var fileLength = $($(this)[0].files).length;
                 $($(this)[0].files).each(function () {
                     $scope[ngModel.name + "_err"] = "";
@@ -259,13 +264,12 @@ app.directive("ngfSelect", [function () {
                         }
                         reader.readAsDataURL(file[0]);
                     } else {
-                        
-                        $scope[ngModel.name + "_err"] = imgName + "is not a valid image file.";
-                        $scope[ngModel.name + "_preview"] = "";alert(ngModel.name);
+                        $scope[ngModel.name + "_err"] = imgName + errmsg;
+                        $scope[ngModel.name + "_preview"] = "";
                         $("#"+ngModel.name).val("");
                         return false;
                     }
-                });
+                });                
             })
         }
     }
@@ -311,14 +315,42 @@ app.directive('checkUniqueMobile', function ($timeout, $q, Data) {
     }
 });
 
+//app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
+//    return {
+//        restrict: 'AE',
+//        require: 'ngModel',
+//        link: function ($scope, element, attributes, model) {
+//            model.$asyncValidators.uniqueMobile = function () {
+//                var defer = $q.defer()
+//                var personal_mobile1 = $scope.userData.personal_mobile1
+//           
+//                var emp_id = $("#employeeId").val();
+//                var employeeId = (typeof emp_id === "undefined" || emp_id === "0") ? "0" : emp_id
+//           
+//                return Data.post('checkUniqueMobile1', {
+//                    data: {mobileData: personal_mobile1, id: employeeId},
+//                }).then(function (response) {
+//                    $timeout(function () {
+//                        model.$setValidity('uniqueMobile', !!response.success);
+//                    }, 1000);
+//
+//                });
+//
+//            }
+//        }
+//    }
+//});
+
+
 app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
+
     return {
         restrict: 'AE',
         require: 'ngModel',
         link: function ($scope, element, attributes, model) {
             model.$asyncValidators.uniqueMobile = function () {
                 var defer = $q.defer()
-                var personal_mobile1 = $scope.userData.personal_mobile1
+                var personal_mobile1 = $scope.userContact.personal_mobile1
            
                 var emp_id = $("#employeeId").val();
                 var employeeId = (typeof emp_id === "undefined" || emp_id === "0") ? "0" : emp_id
@@ -326,6 +358,7 @@ app.directive('checkUniqueMobiles', function ($timeout, $q, Data) {
                 return Data.post('checkUniqueMobile1', {
                     data: {mobileData: personal_mobile1, id: employeeId},
                 }).then(function (response) {
+                    console.log(response);
                     $timeout(function () {
                         model.$setValidity('uniqueMobile', !!response.success);
                     }, 1000);

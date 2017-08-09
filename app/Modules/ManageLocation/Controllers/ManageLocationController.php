@@ -112,7 +112,7 @@ class ManageLocationController extends Controller {
         $request = json_decode($postdata, true);
 
 
-        $cnt = LstEnquiryLocation::where(['location' => $request['location_type']])->get()->count();
+        $cnt = LstEnquiryLocation::where(['location' => $request['location']])->get()->count();
         if ($cnt > 0) {
             $result = ['success' => false, 'errormsg' => 'State already exists'];
             return json_encode($result);
@@ -132,13 +132,13 @@ class ManageLocationController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
-        $getCount = LstEnquiryLocation::where(['location' => $request['location_type']])->get()->count();
+        
+        $getCount = LstEnquiryLocation::where(['location' => $request['location']])->where('id','!=', $request['id'])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Location already exists'];
             return json_encode($result);
         } else {
-
+           
             $result = LstEnquiryLocation::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
 

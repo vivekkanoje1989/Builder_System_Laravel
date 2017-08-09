@@ -38,13 +38,25 @@ class CustomAlertsController extends Controller {
 	 */
 	public function store()
 	{
-		$postdata = file_get_contents("php://input");
+        $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $create = CommonFunctions::insertMainTableRecords();
+        $last = TemplatesCustom::latest('id')->first();        
+        if(!empty($last))
+        {
+            $sr_no = $last->sr_no + 1;
+        }
+        else
+        {
+            $sr_no =  1;
+
+        }    
+        $request['customAlertData']['sr_no']=$sr_no; 
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $request['customAlertData'] = array_merge($request['customAlertData'],$create);
         $result = TemplatesCustom::create($request['customAlertData']);
         if($result){
-        	$result = ['success' => true, 'message' => 'Custome alerts created successfully.'];
+        	$result = ['success' => true, 'message' => 'Custom Template created successfully.'];
         }
         else{
         	$result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
@@ -96,24 +108,30 @@ class CustomAlertsController extends Controller {
 		//
 	}
 	public function manageCustomAlerts(){
-		$postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $manageAlerts = [];
-        
-        if(!empty($request['id']) && $request['id'] !== "0"){ // for edit
-        	$manageAlerts = TemplatesCustom::select('*')->where('id','=',$request['id'])->get();
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            $master = config('global.masterdatabase');
            
-        } else if($request['id'] === ""){ // for index
-         $manageAlerts = DB::table('templates_customs as tc')
-           ->leftjoin('templates_events as te', 'tc.template_event_id', '=', 'te.id')
-           ->select('tc.*', 'te.event_name')
-           ->where('tc.client_id','=',1)
-           ->get();
-        }
-        if ($manageAlerts) {            
-            $result = ['success' => true, "records" => ["data" => $manageAlerts, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
-            echo json_encode($result);
-        } 
+            $manageAlerts = [];
+
+            if(!empty($request['id']) && $request['id'] !== "0"){ // for edit
+                    $manageAlerts = TemplatesCustom::select('*')->where('id','=',$request['id'])->get();
+
+            } else if($request['id'] === ""){ // for index
+             $manageAlerts = DB::table('templates_customs as tc')
+               ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'tc.template_event_id', '=', 'te.id')
+               ->select('tc.*', 'te.event_name')
+               ->where('tc.client_id','=',1)
+               ->take($request['itemPerPage'])->offset($request['pageNumber'])
+               ->get();
+            }
+             
+            if ($manageAlerts) {            
+                $result = ['success' => true, "records" => ["data" => $manageAlerts, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
+            return json_encode($result);
+                
+            }
+            
 	}
 	public function updateCustomAlerts() {
         $postdata = file_get_contents('php://input');
@@ -130,7 +148,7 @@ class CustomAlertsController extends Controller {
         $getResult = array_diff_assoc($originalValues[0]['attributes'],$request['customAlertData']);
         $implodeArr =  implode(",",array_keys($getResult));
         $result =  DB::table('templates_customs_logs')->where('id',$last->id)->update(['column_names'=>$implodeArr]);
-        $data = ['success' => true, 'message' => 'Custome alerts updated succesfully'];
+        $data = ['success' => true, 'message' => 'Custom Template updated succesfully'];
         return json_encode($data);
        
     }
