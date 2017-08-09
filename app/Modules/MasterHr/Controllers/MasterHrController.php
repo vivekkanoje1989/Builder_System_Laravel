@@ -18,6 +18,7 @@ use App\Classes\MenuItems;
 use App\Classes\S3;
 use App\Modules\MasterHr\Models\EmployeeRole;
 use App\Models\MlstBmsbDesignation;
+use App\Models\ClientInfo;
 use Session;
 
 class MasterHrController extends Controller {
@@ -69,74 +70,65 @@ class MasterHrController extends Controller {
     }
 
     public function appProfile() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        /*
-          $postdata = file_get_contents("php://input");
-          $request = json_decode($postdata, true);
-
-          $getProfileDetails = Employee::select('title_id', 'first_name', 'last_name', 'date_of_birth', 'gender_id', 'personal_mobile1', 'personal_mobile1', 'department_id', 'designation_id', 'team_lead_id', 'joining_date'
-          , 'employee_photo_file_name')->where('id', $request['id'])->get();
-          if (!empty($getProfileDetails)) {
-          $result = ['success' => true, "records" => $getProfileDetails];
-          } else {
-          $result = ['success' => false, "records" => "No records found"];
-          }
-          echo json_encode($result);
-         * */
-        $response = array();
-        $authkey = trim($request["authkey"]);
-        //checking for user related to authkey.
-        $empModel = Employee::where('mobile_remember_token', $authkey)->first();
-        if (!empty($empModel)) {
-            $teams = array();
+        try{
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            $response = array();
+            $authkey = trim($request["authkey"]);
+            $empModel = Employee::where('mobile_remember_token', $authkey)->first();            
+            if (!empty($empModel)) {
+                $teams = array();
                 $validate = Employee::where('client_id', $empModel->client_id)->get();
-            $client = \App\Models\ClientInfo::where(['id' => $empModel->client_id])->first();
-            foreach ($validate as $value) {
-                $title = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $value->title_id)->select('title')->first();
-                $value->title = $title->title;
+                //$client = ClientInfo::where(['id' => $empModel->client_id])->first();
+                //echo "<pre>";print_r($validate);exit;
+                foreach ($validate as $value) {
+                    $title = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $value->title_id)->select('title')->first();
+                    $value->title = $title->title;
 
-                if (!empty($value->employee_photo_file_name)) {
-                    $value->employee_photo_file_name = config('global.s3Path') . 'employee-photos/' . $value->employee_photo_file_name;
-                } else {
-                    $value->employee_photo_file_name = '';
+                    if (!empty($value->employee_photo_file_name)) {
+                        $value->employee_photo_file_name = config('global.s3Path') . 'employee-photos/' . $value->employee_photo_file_name;
+                    } else {
+                        $value->employee_photo_file_name = '';
+                    }
+                    
+                    if (!empty($value->department_id))
+                        $value->department_id = explode(',', $value->department_id);
+                    $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $value->designation_id)->select('designation')->first();
+
+                    $value->designation = $designations->designation;
+
+
+                    $value->employee_menus = json_decode($value->employee_submenus);
+                    $teams[] = $value->getAttributes();
                 }
+                $this->allusers = array();
+                $this->getTeamIds($empModel->id);
+                $alluser = $this->allusers;
+                $team_member = implode(',', $alluser);
+                $response = $empModel->getAttributes();
 
-                if (!empty($value->department_id))
-                    $value->department_id = explode(',', $value->department_id);
-                $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $value->designation_id)->select('designation')->first();
-
-                $value->designation = $designations->designation;
-
-
-                $value->employee_menus = json_decode($value->employee_submenus);
-                $teams[] = $value->getAttributes();
+                if (!empty($empModel->employee_photo_file_name)) {
+                    $response['employee_photo_file_name'] = config('global.s3Path') . 'employee-photos/' . $empModel->employee_photo_file_name;
+                } else {
+                    $response['employee_photo_file_name'] = "";
+                }
+                if (!empty($empModel->department_id)){
+                    $response['department_id'] = explode(',', $empModel->department_id);
+                }
+                $title1 = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $empModel->title_id)->select('title')->first();
+                $response['title'] = $title1->title;
+                $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $empModel->designation_id)->select('designation')->first();
+                $response['designation'] = $designations->designation;
+                $response['employee_menus'] = json_decode($empModel->employee_submenus);
+                $response['team_members'] = $team_member;
+                $result = ['success' => true, 'Profile' => $response, 'teams' => $teams];
             }
-            $this->allusers = array();
-            $this->getTeamIds($empModel->id);
-            $alluser = $this->allusers;
-            $team_member = implode(',', $alluser);
-            $response = $empModel->getAttributes();
-
-            if (!empty($empModel->employee_photo_file_name)) {
-                $response['employee_photo_file_name'] = config('global.s3Path') . 'employee-photos/' . $empModel->employee_photo_file_name;
-            } else {
-                $response['employee_photo_file_name'] = "";
+            else {
+                $result = ['success' => false, 'message' => "Login session expired. Please login again"];
             }
-            if (!empty($empModel->department_id))
-                $response['department_id'] = explode(',', $empModel->department_id);
-            $title1 = DB::connection('masterdb')->table('mlst_titles')->where('id', '=', $empModel->title_id)->select('title')->first();
-            $response['title'] = $title1->title;
-            $designations = DB::connection('masterdb')->table('mlst_bmsb_designations')->where('id', '=', $empModel->designation_id)->select('designation')->first();
-            $response['designation'] = $designations->designation;
-            $response['employee_menus'] = json_decode($empModel->employee_submenus);
-            $response['team_members'] = $team_member;
-            $result = ['success' => true, 'Profile' => $response, 'teams' => $teams];
+        } catch (Exception $ex) {
+            $result = ['success' => false, 'status' => 412,'message' => $ex->messages];
         }
-        else {
-            $result = ['success' => false, 'message' => "Login expired,please login again.."];
-        }
-
         return json_encode($result);
     }
 
@@ -218,11 +210,10 @@ class MasterHrController extends Controller {
             $decodeResult = json_decode($result, true);
 
             $result = ['success' => true, "successMsg" => "Password has been changed as well as Mail and sms has been sent to selected user."];
-            echo json_encode($result);
         } else {
             $result = ['success' => false, 'errorMsg' => 'Something went wrong. Please check internet connection or try again'];
-            echo json_encode($result);
         }
+        echo json_encode($result);
     }
 
     public function create() {
@@ -354,12 +345,10 @@ class MasterHrController extends Controller {
         $originalValues = Employee::where('id', $id)->get();
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-
         $validationMessages = Employee::validationMessages();
         $validationRules = Employee::validationRules();
         $validationRules['personal_email1'] = 'required|email|unique:employees,personal_email1,' . $id . '';
         $validationRules['password'] = '';
-
         if (empty($input)) {
             $input = Input::all();
             if ($input['userData']['physic_desc'] == "")
@@ -821,11 +810,18 @@ class MasterHrController extends Controller {
         return \Response()->json($result);
     }
 
-    public function updatePassword() {
-        $id = Auth::guard('admin')->user()->id;
-        $employee = Employee::where('id', $id)->first();
+    public function updatePassword() {       
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+        if(!empty($request['data']['employee_id']))
+        {
+           $id =  $request['data']['employee_id'];
+        }
+        else {
+            $id = Auth::guard('admin')->user()->id;
+        }        
+        $employee = Employee::where('id', $id)->first();
+        
         if (!empty($employee)) {
             if (!empty($request['data']['password'])) {
                 $password = $request['data']['password'];
@@ -1017,7 +1013,6 @@ class MasterHrController extends Controller {
             $employee->personal_mobile1_calling_code = $request['data']['personal_mobile1_calling_code'];
         else
             $employee->personal_mobile1_calling_code = '91';
-
         $employee->personal_mobile1 = $request['data']['personal_mobile1'];
         $employee->joining_date = $request['data']['joining_date'];
 
