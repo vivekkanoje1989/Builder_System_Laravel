@@ -12,7 +12,7 @@
         width: 110%;
     }
 </style>
-<div class="row" ng-controller="hrController" ng-init="manageUsers('', 'index', [[$loggedInUserId]], 1, [[config('global.recordsPerPage')]])">
+<div class="row" ng-init="manageUsers('', 'index', [[$loggedInUserId]], 1, [[config('global.recordsPerPage')]])">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -32,7 +32,7 @@
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label for="search">Records per page:</label>
-                            <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-change="manageUsers('','',[[$loggedInUserId]],{{pageNumber}}, itemsPerPage)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
+                            <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-2 col-xs-12">

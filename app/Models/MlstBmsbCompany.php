@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 05 Apr 2017 10:48:56 +0530.
+ * Date: Wed, 09 Aug 2017 17:35:23 +0530.
  */
 
 namespace App\Models;
@@ -10,11 +10,11 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class MlstBmsbEnquirySalesSource
+ * Class MlstBmsbCompany
  * 
  * @property int $id
- * @property string $sales_source_name
- * @property int $status
+ * @property string $company_name
+ * @property int $type_of_corporate_id
  * @property \Carbon\Carbon $created_date
  * @property \Carbon\Carbon $created_at
  * @property int $created_by
@@ -36,12 +36,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstBmsbEnquirySalesSource extends Eloquent
+class MlstBmsbCompany extends Eloquent
 {
-        protected $connection = 'masterdb';
+        protected $connection = "masterdb";
         protected $primaryKey = "id";
 	protected $casts = [
-		'status' => 'int',
+		'type_of_corporate_id' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int',
 		'deleted_status' => 'int',
@@ -58,8 +58,8 @@ class MlstBmsbEnquirySalesSource extends Eloquent
 	];
 
 	protected $fillable = [
-		'sales_source_name',
-		'status',
+		'company_name',
+		'type_of_corporate_id',
 		'created_date',
 		'created_by',
 		'created_IP',

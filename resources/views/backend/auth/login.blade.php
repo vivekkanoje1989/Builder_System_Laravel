@@ -19,7 +19,7 @@
 
                         <div class="col-xs-12 col-md-12">
                             <img ng-if="!user_profile" src="/backend/images/user-1.png" class="log-usr ng-scope">
-                            <img ng-if="user_profile" src="[[ Config('global.s3Path') ]]employee-photos/{{user_profile}}" class="log-usr ng-scope">
+                            <img ng-if="user_profile" ng-src="[[ Config('global.s3Path') ]]employee-photos/{{user_profile}}" class="log-usr ng-scope">
 
                             <p class="usr-name ng-scope" ng-if="!fullName">Hello, GUEST</p>
                             <p class="usr-name ng-scope" ng-if="fullName">Hello, {{fullName}}</p>

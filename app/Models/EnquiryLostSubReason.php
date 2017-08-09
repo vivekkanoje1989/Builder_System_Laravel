@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 05 Apr 2017 10:48:56 +0530.
+ * Date: Wed, 09 Aug 2017 17:56:47 +0530.
  */
 
 namespace App\Models;
@@ -10,11 +10,13 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class MlstBmsbEnquirySalesSource
+ * Class EnquiryLostSubReason
  * 
  * @property int $id
- * @property string $sales_source_name
- * @property int $status
+ * @property int $client_id
+ * @property int $enquiry_lost_reason_id
+ * @property int $sub_reason
+ * @property int $lost_sub_reason_status
  * @property \Carbon\Carbon $created_date
  * @property \Carbon\Carbon $created_at
  * @property int $created_by
@@ -36,12 +38,16 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstBmsbEnquirySalesSource extends Eloquent
+class EnquiryLostSubReason extends Eloquent
 {
-        protected $connection = 'masterdb';
-        protected $primaryKey = "id";
+	public $incrementing = false;
+
 	protected $casts = [
-		'status' => 'int',
+		'id' => 'int',
+		'client_id' => 'int',
+		'enquiry_lost_reason_id' => 'int',
+		'sub_reason' => 'int',
+		'lost_sub_reason_status' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int',
 		'deleted_status' => 'int',
@@ -58,8 +64,11 @@ class MlstBmsbEnquirySalesSource extends Eloquent
 	];
 
 	protected $fillable = [
-		'sales_source_name',
-		'status',
+		'id',
+		'client_id',
+		'enquiry_lost_reason_id',
+		'sub_reason',
+		'lost_sub_reason_status',
 		'created_date',
 		'created_by',
 		'created_IP',

@@ -17,7 +17,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.currentPin = false;
         $scope.isDisabled = false;
         $scope.roleData = {};
-        $rootScope.imageUrl = "";
         $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
                 $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
                 $scope.userData.current_country_id = $scope.userData.current_state_id = $scope.userData.current_city_id =
@@ -35,7 +34,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $rootScope.roleMenuList = [];
         $scope.currentPage = $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
-        $rootScope.imageURL = "";
+        $rootScope.imageUrl = "";
         $scope.userData.high_security_password_type = 0;
         $scope.userData.current_country_id = $scope.userData.permenent_country_id = 101;
         var date = new Date($scope.userData.date_of_birth);
@@ -1172,13 +1171,13 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 data: data
             })
             profileData.employee_photo_file_name.upload.then(function (response)
-            {
+            {console.log(response);
                 if (response.success == false) {
                     toaster.pop('error', 'Profile', 'Please upload profile photo');
                 } else {
+                    $rootScope.imageUrl = response.data.photo;
                     toaster.pop('success', 'Profile', 'Profile updated successfully');
                 }
-                $rootScope.imageURL = response.data.photo;
             });
 
         }

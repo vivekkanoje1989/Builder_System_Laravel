@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 05 Apr 2017 10:48:56 +0530.
+ * Date: Wed, 09 Aug 2017 17:47:19 +0530.
  */
 
 namespace App\Models;
@@ -10,11 +10,13 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class MlstBmsbEnquirySalesSource
+ * Class MlstBmsbEnquiryLostReason
  * 
  * @property int $id
- * @property string $sales_source_name
- * @property int $status
+ * @property int $client_id
+ * @property int $vertical_id
+ * @property string $reason
+ * @property int $lost_reason_status
  * @property \Carbon\Carbon $created_date
  * @property \Carbon\Carbon $created_at
  * @property int $created_by
@@ -36,12 +38,14 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstBmsbEnquirySalesSource extends Eloquent
+class MlstBmsbEnquiryLostReason extends Eloquent
 {
-        protected $connection = 'masterdb';
+        protected $connection = "masterdb";
         protected $primaryKey = "id";
 	protected $casts = [
-		'status' => 'int',
+		'client_id' => 'int',
+		'vertical_id' => 'int',
+		'lost_reason_status' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int',
 		'deleted_status' => 'int',
@@ -58,8 +62,10 @@ class MlstBmsbEnquirySalesSource extends Eloquent
 	];
 
 	protected $fillable = [
-		'sales_source_name',
-		'status',
+		'client_id',
+		'vertical_id',
+		'reason',
+		'lost_reason_status',
 		'created_date',
 		'created_by',
 		'created_IP',

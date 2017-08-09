@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 05 Apr 2017 10:48:56 +0530.
+ * Date: Wed, 09 Aug 2017 18:43:52 +0530.
  */
 
 namespace App\Models;
@@ -10,11 +10,21 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class MlstBmsbEnquirySalesSource
+ * Class Booking
  * 
  * @property int $id
- * @property string $sales_source_name
- * @property int $status
+ * @property int $enquiry_id
+ * @property int $project_id
+ * @property \Carbon\Carbon $booking_date
+ * @property string $project_name
+ * @property int $block_id
+ * @property string $block_name
+ * @property int $sub_block_id
+ * @property string $sub_block_name
+ * @property int $area_in_sqft
+ * @property string $registration_number
+ * @property int $sales_person_id
+ * @property int $total_recievable_amount
  * @property \Carbon\Carbon $created_date
  * @property \Carbon\Carbon $created_at
  * @property int $created_by
@@ -36,12 +46,16 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class MlstBmsbEnquirySalesSource extends Eloquent
+class Booking extends Eloquent
 {
-        protected $connection = 'masterdb';
-        protected $primaryKey = "id";
 	protected $casts = [
-		'status' => 'int',
+		'enquiry_id' => 'int',
+		'project_id' => 'int',
+		'block_id' => 'int',
+		'sub_block_id' => 'int',
+		'area_in_sqft' => 'int',
+		'sales_person_id' => 'int',
+		'total_recievable_amount' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int',
 		'deleted_status' => 'int',
@@ -52,14 +66,25 @@ class MlstBmsbEnquirySalesSource extends Eloquent
 	];
 
 	protected $dates = [
+		'booking_date',
 		'created_date',
 		'updated_date',
 		'deleted_date'
 	];
 
 	protected $fillable = [
-		'sales_source_name',
-		'status',
+		'enquiry_id',
+		'project_id',
+		'booking_date',
+		'project_name',
+		'block_id',
+		'block_name',
+		'sub_block_id',
+		'sub_block_name',
+		'area_in_sqft',
+		'registration_number',
+		'sales_person_id',
+		'total_recievable_amount',
 		'created_date',
 		'created_by',
 		'created_IP',
