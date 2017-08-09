@@ -168,6 +168,7 @@ class BlogManagementController extends Controller {
 //                }
 //            }
 //        }
+        print_r($input);
         if ($input['galleryImage']['galleryImage']->getClientOriginalName() != 'fileNotSelected') {
             if (!empty($input['galleryImage']['galleryImage'])) {
                 $imgCount = count($input['galleryImage']['galleryImage']);
