@@ -141,7 +141,7 @@
                                             <div class="col-sm-8 col-xs-6">
                                                 <div class="img-div2" ng-if="imgs" data-title="name" ng-repeat="img in imgs track by $index" ng-model="imagePage.allimages">   
                                                     <i class="fa fa-times rem-icon" ng-if="img"  title="{{ img}}" ng-click="removeImg('{{img}}',{{$index}},[[ $pageId]])"></i>
-                                                    <img ng-if="img" ng-src="[[ Session::get('s3Path') ]]website/banner-images/{{img}}" style="width: 60px;height: 60px;">
+                                                    <img ng-if="img" ng-src="[[ Config('global.s3Path') ]]website/banner-images/{{img}}" style="width: 60px;height: 60px;">
                                                 </div>
                                             </div>
                                         </div>
@@ -208,7 +208,7 @@
                                             <div class="form-group">
                                                 <label for="">Seo Page Title<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.seo_page_titles" name="seo_page_titles" class="form-control">                                                             
+                                                    <input type="text" ng-model="subcontentPage.seo_page_title" name="seo_page_title" class="form-control">                                                             
                                                 </span>
                                             </div>
                                         </div> 
@@ -307,7 +307,7 @@
                                                 <div class="col-sm-9 col-xs-6">
                                                     <div class="img-div2" ng-if="imgs" data-title="name" ng-repeat="img in subimgs track by $index" ng-model="imagePage.subimages">   
                                                         <i class="fa fa-times rem-icon" ng-if="img"  title="{{img}}" ng-click="removeSubImg('{{img}}',{{$index}})"></i>
-                                                        <img ng-if="img" ng-src="[[ Session::get('s3Path') ]]website/banner-images/{{img}}" style="width: 60px;height: 60px;">
+                                                        <img ng-if="img" ng-src="[[ Config('global.s3Path') ]]website/banner-images/{{img}}" style="width: 60px;height: 60px;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -337,7 +337,7 @@
                                                         <td>{{list.page_title}}</td>
                                                         <td>{{list.seo_url}}</td>
                                                         <td class="fa-div">
-                                                            <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit Sub Page" style="display: block;"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                                            <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit Sub Page" style="display: block;"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}},{{list.id}})"><i class="fa fa-pencil"></i></a></div>
                                                         </td>
                                                     </tr>                                            
                                                 </tbody>

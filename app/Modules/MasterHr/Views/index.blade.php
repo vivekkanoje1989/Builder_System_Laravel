@@ -12,7 +12,7 @@
         width: 110%;
     }
 </style>
-<div class="row" ng-controller="hrController" ng-init="manageUsers('', 'index', [[$loggedInUserId]], 1, [[config('global.recordsPerPage')]])">
+<div class="row" ng-controller="hrController" ng-init="manageUsers('', 'index', 1, [[config('global.recordsPerPage')]])">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -32,7 +32,7 @@
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label for="search">Records per page:</label>
-                            <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-change="manageUsers('','',[[$loggedInUserId]],{{pageNumber}}, itemsPerPage)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
+                            <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-2 col-xs-12">
@@ -48,7 +48,7 @@
                             <label for=""></label>
                             <span class="input-icon icon-right">
                             <span ng-if="listUsersLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{listUsers.length}} Logs Out Of Total {{listUsersLength}} Logs&nbsp;</span>
-                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageUsers', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
+                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageUsers', '')" template-url="/dirPagination"></dir-pagination-controls>
                             </span>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                             <td class="fa-div">
                                 <div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/user/permissions/{{ listUser.id}}"><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div>
                                 <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
-                                <div class="fa-hover" tooltip-html-unsafe="Change Password" style="display: block;" data-toggle="modal" data-target="#myModal"><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id}},'changePassword')"><i class="fa fa-lock"></i></a></div>
+                                <!--<div class="fa-hover" tooltip-html-unsafe="Change Password" style="display: block;" data-toggle="modal" data-target="#myModal"><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id}},'changePassword')"><i class="fa fa-lock"></i></a></div>-->
                             </td>
 
                         </tr>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageUsers', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
+                            <!--<dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageUsers', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>-->
                         </div>
                     </div>
                 </div>

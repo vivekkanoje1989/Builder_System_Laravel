@@ -36,17 +36,22 @@ class MasterHrController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $manageUsers = [];
-
+        $totalCount = [];
+        
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
             $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ',0,0)');
-        } else if ($request['empId'] === "") { // for index
+        } else if ($request['empId'] == "") { // for index
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $manageUsers = DB::select('CALL proc_manage_users(0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');            
-            $cnt = DB::select('select FOUND_ROWS() as totalCount');
+            $cnt = DB::select('select FOUND_ROWS() totalCount');
+            $totalCount = $cnt[0]->totalCount;
+            $manageUsers = json_decode(json_encode($manageUsers), true);
+            
         }
+       
         if ($manageUsers) {
-            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
-            echo json_encode($result);
+            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" =>$totalCount , 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
+            return json_encode($result);
         }
     }
 
@@ -1592,8 +1597,6 @@ class MasterHrController extends Controller {
             }
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['userData'] = array_merge($input['userData'], $create);
-            $depart_id = $input['userData']['Department_id'];
-//           
             $departmentData = [];
             if (!empty($input['userData']['department_id'])) {
                 foreach ($input['userData']['department_id'] as $department_id) {

@@ -56,7 +56,7 @@
                             <td>{{item.meta_description}}</td>
                             <td>{{item.meta_keywords}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal" ng-click="editBlogData({{item}},{{$index}})"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
