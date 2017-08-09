@@ -19,24 +19,38 @@
                 <span class="widget-caption">Manage Users</span>
             </div>
             <div class="widget-body table-responsive">
-                <div class="row">
-                    <div class="col-sm-2 ">
-                        <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-change="manageUsers('','',[[$loggedInUserId]],{{pageNumber}}, itemsPerPage)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
+                 <div class="row">
+                    <div class="col-sm-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="search">Search:</label>
+                            <span class="input-icon icon-right">
+                                <input type="text" ng-model="search" name="search" class="form-control">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </span>
+                        </div>
                     </div>
-<!--                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_user_filter', 0)">
-                            <i class="btn-label fa fa-filter"></i>Show Filter</button>
+                    <div class="col-sm-2 col-xs-12">
+                        <div class="form-group">
+                            <label for="search">Records per page:</label>
+                            <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-change="manageUsers('','',[[$loggedInUserId]],{{pageNumber}}, itemsPerPage)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
+                        </div>
                     </div>
-                    <div class="col-sm-2">
-                        <a href="" class="btn btn-primary" id="downloadExcel" download="{{fileUrl}}"  ng-show="dnExcelSheet">
-                            <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                        <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary" ng-click="inLogexportReport(listUsers)" ng-show="btnExport">
-                            <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
-                        </a> 
-                    </div> -->
-                    <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                        <span ng-if="listUsersLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{listUsers.length}} Logs Out Of Total {{listUsersLength}} Logs&nbsp;</span>
-                        <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageUsers', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
+                    <div class="col-sm-2 col-xs-12">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                                <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-primary btn-right">Permission Wise Users</a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                            <span ng-if="listUsersLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{listUsers.length}} Logs Out Of Total {{listUsersLength}} Logs&nbsp;</span>
+                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageUsers', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <hr>
@@ -55,14 +69,6 @@
                                 </div>
                             </div>
                         </b>                        
-                    </div>
-                    <div class="col-sm-6 col-xs-12">
-                        <div class="form-group">
-                            <label for=""></label>
-                            <span class="input-icon icon-right">
-                                <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-primary btn-right">Permission Wise Users</a>
-                            </span>
-                        </div>
                     </div>
                 </div>
                 <!-- filter data-->
@@ -83,7 +89,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="listUser in listUsers | filter:search | itemsPerPage:itemsPerPage" total-items="{{ listUsersLength}}">
+                        <tr role="row" dir-paginate="listUser in listUsers | filter:search | itemsPerPage:itemsPerPage" total-items="{{listUsersLength}}">
                             <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>
                             <td>{{ listUser.first_name + ' ' + listUser.last_name}}</td>
                             <td>{{ listUser.designation == null? '-' : listUser.designation}}</td>

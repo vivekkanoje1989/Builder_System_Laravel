@@ -29,22 +29,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/createQuickEnquiry','MasterSalesController@createQuickEnquiry');
  
     
-    /****************************FOLLOWUPS****************************/
-//    Route::get('/master-sales/showTodaysFollowups', function () {
-//        return view('MasterSales::todaysFollowups');
-//    });
-//    Route::get('/master-sales/showPendingFollowups', function () {
-//        return view('MasterSales::pendingFollowup');
-//    });
-//    Route::get('/master-sales/showPreviousFollowups', function () {
-//        return view('MasterSales::previousFollowup');
-//    });
-    /****************************FOLLOWUPS****************************/
-    
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
-//    Route::get('/master-sales/teamTotalEnquiries', function () {
-//        return view('MasterSales::teamTotalEnquiries');
-//    });
     Route::get('/master-sales/teamLostEnquiries', function () {
         return view('MasterSales::teamLostEnquiries');
     });
@@ -60,6 +45,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/teamPreviousFollowups', function () {
         return view('MasterSales::teamPreviousFollowups');
     });    
+    Route::get('/master-sales/import', function () {
+        return View::make('MasterSales::import');
+    });
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/    
     Route::get('/master-sales/updateCustomer/{id}', 'MasterSalesController@updateCustomer'); //update customer data
     Route::get('/master-sales/getEmployees', 'MasterSalesController@getEmployees');  // get all employees    
@@ -114,6 +102,12 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/getTeamPendingFollowups', 'MasterSalesController@getTeamPendingFollowups'); // get team pending followups
     Route::post('/master-sales/getTeamPreviousFollowups', 'MasterSalesController@getTeamPreviousFollowups'); // get team previous followups
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+    
+    /*********************IMPORT ENQUIRIES*********************/
+
+    Route::post('/master-sales/importEnquiry', 'MasterSalesController@importEnquiry');
+    Route::post('/master-sales/getImportHistory', 'MasterSalesController@getImportHistory');
+    /*********************IMPORT ENQUIRIES*********************/
 });
 
 

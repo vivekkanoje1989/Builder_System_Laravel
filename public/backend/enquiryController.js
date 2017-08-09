@@ -576,6 +576,61 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             return false;           
         }
         
+        $scope.ImportEnquiryData = function (importfile) {
+            $scope.showhisrtory = false;
+            $scope.btnupload = true;
+
+            var url = 'master-sales/importEnquiry';
+            var data = {importfile: importfile};
+            importfile.upload = Upload.upload({
+                url: url,
+                headers: {enctype: 'multipart/form-data'},
+                data: data
+            }).then(function (response, evt) {
+                //console.log(response);
+                if (response.data.success) {
+
+                    toaster.pop({
+                        type: 'success',
+                        title: 'Import Enquiries',
+                        body: response.data.message,
+                        timeout: 3000
+                    });
+                    $scope.inserted = response.data.inserted;
+                    $scope.alredyexist = response.data.alredyexist;
+                    $scope.total = response.data.total;
+                    $scope.invalidfilecount = response.data.invalidfilecount;
+                    $scope.invalidfileurl = response.data.invalidfileurl;
+                    $scope.employeeundercount = response.data.return_record_split.split(',');                    
+                    $scope.showhisrtory = true;
+                    $timeout(function () {
+                        $scope.EnquiryData.importfile = "";
+                        $scope.btnupload = false;
+                        $scope.sbtBtn = false;
+                    }, 500);
+                } else {
+                    toaster.pop({
+                        type: 'error',
+                        title: 'Invalid File',
+                        body: response.data.message,
+                        timeout: 3000
+                    });
+                    $scope.btnupload = false;
+                    $scope.sbtBtn = false;
+                }
+            });
+        }
+
+        $scope.ShowimportHistory = function () {
+
+            Data.post('master-sales/getImportHistory', {}).then(function (response) {
+                if (response.success) {
+                    $scope.showhistoryList = response.records;
+                    //console.log($scope.showhistoryList);
+                }
+            });
+        }
+        
     }]);
 
 app.controller('getEmployeesCtrl', function ($scope, Data) {

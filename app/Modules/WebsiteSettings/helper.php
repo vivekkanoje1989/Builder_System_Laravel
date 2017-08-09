@@ -1,4 +1,0 @@
-<?php
- /**
- *	WebsiteSettings Helper  
- */

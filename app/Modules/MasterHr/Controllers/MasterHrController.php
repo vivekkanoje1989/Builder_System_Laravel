@@ -41,7 +41,7 @@ class MasterHrController extends Controller {
             $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ',0,0)');
         } else if ($request['empId'] === "") { // for index
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $manageUsers = DB::select('CALL proc_manage_users(0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $manageUsers = DB::select('CALL proc_manage_users(0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');            
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
         }
         if ($manageUsers) {
