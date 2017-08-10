@@ -12,6 +12,9 @@
 =======
 >>>>>>> aee35b68b95e27eccdf62c523308f998330ca3ea
         <group>
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Views/update.blade.php</file>
+=======
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/manageBlogController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Controllers/BlogManagementController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/directives.js</file>
@@ -23,6 +26,7 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Views/updateWebPage.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/updatehr.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Controllers/WebPagesController.php</file>
+>>>>>>> 9bfc702699791ff2a64b00ea310bbc36173af253
         </group>
 <<<<<<< HEAD
 =======
