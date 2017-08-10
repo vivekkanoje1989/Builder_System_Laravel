@@ -147,9 +147,7 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
 
         if (!empty($request['data']['empId'])) {
-            //send mail code
-            //send email code
-            $checkEmp = \App\Model\backend\Employee::where('id', $request['data']['empId'])->first();
+            $checkEmp = Employee::where('id', $request['data']['empId'])->first();
             if (empty($request['data']['password'])) {
                 $password = str_random(8);
             } else {

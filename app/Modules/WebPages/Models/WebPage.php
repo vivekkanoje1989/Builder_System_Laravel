@@ -109,6 +109,25 @@ class WebPage extends Eloquent {
         );
         return $rules;
     }
+    public static function validationMessages1() {
+        $messages = array(
+            'page_name.required' => 'Please enter page name',
+            'page_title.required' => 'Please enter page title',
+            'status.required' => 'Please select status',
+            'child_page_position.required' => 'Please enter page position'
+        );
+        return $messages;
+    }
+
+    public static function validationRules1() {
+        $rules = array(
+            'page_name' => 'required',
+            'page_title' => 'required',
+            'status' => 'required',
+            'child_page_position' => 'required'
+        );
+        return $rules;
+    }
 
     public function menuList() {
         return $this->hasMany('App\Modules\WebPages\Models\WebPage', 'parent_id');

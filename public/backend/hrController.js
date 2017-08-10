@@ -1520,16 +1520,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         };
-        $scope.getEmpId = function (empId)
-        {
-            if (empId != 0) {
-                $scope.userId = empId;
-            } else {
-                Data.get('master-hr/getEmpId').then(function (response) {
-                    $scope.userData.employee_id = response;
-                });
-            }
-        }
+//        $scope.getEmpId = function (empId)
+//        {
+//            if (empId != 0) {
+//                $scope.userId = empId;
+//            } else {
+//                Data.get('master-hr/getEmpId').then(function (response) {
+//                    $scope.userData.employee_id = response;
+//                });
+//            }
+//        }
         $scope.getStepDiv = function (stepId, steps, uniqueId, classCheck)
         {
             if (classCheck == 1) {

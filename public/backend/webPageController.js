@@ -6,7 +6,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.submitted = true;
         $scope.sbtBtn = false;
         $scope.subcontentPage = {};
-
+        $scope.subImagePage = {};
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
@@ -113,6 +113,19 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
             imageData.upload.then(function (response) {
                 var record = response.data.records;
+                if (!response.data.success) {
+                    var obj = response.data.message;
+                    var selector = [];
+                    for (var key in obj) {
+                        var model = $parse(key);// Get the model
+                        model.assign($scope, obj[key][0]);// Assigns a value to it
+                        selector.push(key);
+                    }
+                    toaster.pop('error', 'Manage Webpage', 'Webpage failed to add');
+                } else
+                {
+                    toaster.pop('success', 'Manage Webpage', 'Sub Page Added successfully.');
+                }
                 if ($scope.subId == 0)
                 {
                     $scope.subPage.push({'page_name': record.page_name, 'page_title': record.page_title, 'seo_url': record.seo_url, 'seo_page_title': record.seo_page_title,
@@ -124,25 +137,15 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                     $scope.subPage.splice($scope.index, 0, {'page_name': record.page_name, 'page_title': record.page_title, 'seo_url': record.seo_url, 'seo_page_title': record.seo_page_title,
                         'meta_description': record.meta_description, 'meta_keywords': record.meta_keywords, 'canonical_tag': record.canonical_tag, 'child_page_position': record.child_page_position,
                         'status': record.status, 'id': response.data.id, id: $scope.subId});
-                    $scope.subcontentPage = {};
+
                 }
                 $scope.subcontentPage = {};
+
                 $scope.imageMgntForm.$setPristine();
                 $scope.subImagePage.banner_images = '';
+                $scope.subImagePage = {};
                 $scope.submitted = true;
-                if (!response.data.success) {
-                    toaster.pop('error', 'Manage Webpage', 'Webpage failed to add');
-                } else
-                {
-//                    Data.post('web-pages/getSubImages', {
-//                        Data: {pageId: pageId, },
-//                    }).then(function (response) {
-//                        var arraydata = response.records[0]['banner_images'].split(',');
-//                        $scope.subimgs = arraydata;
-//
-//                    });
-                    toaster.pop('success', 'Manage Webpage', 'Sub Page Added successfully.');
-                }
+
 
             }, function (response) {
                 if (response.status !== 200) {
