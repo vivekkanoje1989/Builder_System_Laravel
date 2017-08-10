@@ -55,28 +55,28 @@ class WebPagesController extends Controller {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
         $alldata = WebPage::where('id', $obj['Data']['pageId'])->get();
-        if(empty($alldata[0]['page_name']) || $alldata[0]['page_name'] == 'null' ){
+        if (empty($alldata[0]['page_name']) || $alldata[0]['page_name'] == 'null') {
             $alldata[0]['page_name'] = '';
         }
-        if(empty($alldata[0]['meta_description']) || $alldata[0]['meta_description'] == 'null' ){
+        if (empty($alldata[0]['meta_description']) || $alldata[0]['meta_description'] == 'null') {
             $alldata[0]['meta_description'] = '';
         }
-        if(empty($alldata[0]['meta_keywords']) || $alldata[0]['meta_keywords'] == 'null' ){
+        if (empty($alldata[0]['meta_keywords']) || $alldata[0]['meta_keywords'] == 'null') {
             $alldata[0]['meta_keywords'] = '';
         }
-        if(empty($alldata[0]['page_content']) || $alldata[0]['page_content'] == 'null' ){
+        if (empty($alldata[0]['page_content']) || $alldata[0]['page_content'] == 'null') {
             $alldata[0]['page_content'] = '';
         }
-        if(empty($alldata[0]['parent_page_position']) || $alldata[0]['parent_page_position'] == 'null' ){
+        if (empty($alldata[0]['parent_page_position']) || $alldata[0]['parent_page_position'] == 'null') {
             $alldata[0]['parent_page_position'] = '';
         }
-        if(empty($alldata[0]['seo_page_title']) || $alldata[0]['seo_page_title'] == 'null' ){
+        if (empty($alldata[0]['seo_page_title']) || $alldata[0]['seo_page_title'] == 'null') {
             $alldata[0]['seo_page_title'] = '';
         }
-        if(empty($alldata[0]['seo_url']) || $alldata[0]['seo_url'] == 'null' ){
+        if (empty($alldata[0]['seo_url']) || $alldata[0]['seo_url'] == 'null') {
             $alldata[0]['seo_url'] = '';
         }
-        if(empty($alldata[0]['canonical_tag']) || $alldata[0]['canonical_tag'] == 'null' ){
+        if (empty($alldata[0]['canonical_tag']) || $alldata[0]['canonical_tag'] == 'null') {
             $alldata[0]['canonical_tag'] = '';
         }
         if ($alldata) {
@@ -134,7 +134,7 @@ class WebPagesController extends Controller {
 
     public function storeSubWebPage() {
         $input = Input::all();
-      
+
         if (array_key_exists('imageData', $input)) {
             $name = implode(",", $input['imageData']);
         } else {
@@ -235,12 +235,12 @@ class WebPagesController extends Controller {
             echo json_encode($result);
         }
     }
-    
+
     public function getSubImages() {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
         $getImages = WebPage::where('id', $obj['Data']['pageId'])->select('banner_images')->get();
-        
+
         if ($getImages) {
             $result = ['success' => true, 'records' => $getImages];
             echo json_encode($result);
@@ -253,35 +253,39 @@ class WebPagesController extends Controller {
     public function getSubPages() {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
+        $getSubPages = [];
         $getSubPages = WebPage::where('parent_id', $obj['Data']['pageId'])->get();
-         if(empty($getSubPages[0]['page_name']) || $getSubPages[0]['page_name'] == 'null' ){
-            $getSubPages[0]['page_name'] = '';
+        $getSubPages = json_decode(json_encode($getSubPages), true);
+        if ($getSubPages != '') {
+
+            if (empty($getSubPages[0]['page_name']) || $getSubPages[0]['page_name'] == 'null') {
+                $getSubPages[0]['page_name'] = '';
+            }
+            if (empty($getSubPages[0]['meta_description']) || $getSubPages[0]['meta_description'] == 'null') {
+                $getSubPages[0]['meta_description'] = '';
+            }
+            if (empty($getSubPages[0]['meta_keywords']) || $getSubPages[0]['meta_keywords'] == 'null') {
+                $getSubPages[0]['meta_keywords'] = '';
+            }
+            if (empty($getSubPages[0]['page_content']) || $getSubPages[0]['page_content'] == 'null') {
+                $getSubPages[0]['page_content'] = '';
+            }
+            if (empty($getSubPages[0]['parent_page_position']) || $getSubPages[0]['parent_page_position'] == 'null') {
+                $getSubPages[0]['parent_page_position'] = '';
+            }
+            if (empty($getSubPages[0]['seo_page_title']) || $getSubPages[0]['seo_page_title'] == 'null') {
+                $getSubPages[0]['seo_page_title'] = '';
+            }
+            if (empty($getSubPages[0]['seo_url']) || $getSubPages[0]['seo_url'] == 'null') {
+                $getSubPages[0]['seo_url'] = '';
+            }
+            if (empty($getSubPages[0]['canonical_tag']) || $getSubPages[0]['canonical_tag'] == 'null') {
+                $getSubPages[0]['canonical_tag'] = '';
+            }
         }
-        if(empty($getSubPages[0]['meta_description']) || $getSubPages[0]['meta_description'] == 'null' ){
-            $getSubPages[0]['meta_description'] = '';
-        }
-        if(empty($getSubPages[0]['meta_keywords']) || $getSubPages[0]['meta_keywords'] == 'null' ){
-            $getSubPages[0]['meta_keywords'] = '';
-        }
-        if(empty($getSubPages[0]['page_content']) || $getSubPages[0]['page_content'] == 'null' ){
-            $getSubPages[0]['page_content'] = '';
-        }
-        if(empty($getSubPages[0]['parent_page_position']) || $getSubPages[0]['parent_page_position'] == 'null' ){
-            $getSubPages[0]['parent_page_position'] = '';
-        }
-        if(empty($getSubPages[0]['seo_page_title']) || $getSubPages[0]['seo_page_title'] == 'null' ){
-            $getSubPages[0]['seo_page_title'] = '';
-        }
-        if(empty($getSubPages[0]['seo_url']) || $getSubPages[0]['seo_url'] == 'null' ){
-            $getSubPages[0]['seo_url'] = '';
-        }
-        if(empty($getSubPages[0]['canonical_tag']) || $getSubPages[0]['canonical_tag'] == 'null' ){
-            $getSubPages[0]['canonical_tag'] = '';
-        }
-       
-        
-        if ($getSubPages) {
-            $result = ['success' => true, 'records' => $getSubPages ];
+
+        if ($getSubPages != '') {
+            $result = ['success' => true, 'records' => $getSubPages];
             echo json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];
@@ -315,7 +319,7 @@ class WebPagesController extends Controller {
         $name = implode(',', $obj['allimg']);
         $s3FolderName = '/website/banner-images/';
         $path = $s3FolderName . $obj['imageName'];
-        $msg = S3::s3FileDelete($s3FolderName,$obj['imageName']);
+        $msg = S3::s3FileDelete($s3FolderName, $obj['imageName']);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
         } else {
@@ -329,7 +333,7 @@ class WebPagesController extends Controller {
         $name = implode(',', $obj['subimgs']);
         $s3FolderName = '/website/banner-images/';
         $path = $s3FolderName . $obj['imageName'];
-        $msg = S3::s3FileDelete($s3FolderName,$obj['imageName']);
+        $msg = S3::s3FileDelete($s3FolderName, $obj['imageName']);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
         } else {
