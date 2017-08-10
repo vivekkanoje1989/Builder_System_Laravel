@@ -12,6 +12,7 @@
         width: 110%;
     }
 </style>
+
 <div class="row" ng-controller="hrController" ng-init="manageUsers('', 'index', 1, [[config('global.recordsPerPage')]])">
     <div class="col-xs-12 col-md-12">
         <div class="widget">

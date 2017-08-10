@@ -49,7 +49,7 @@ $scope.logout = function (logoutData) {
         if (response.success) {
             $rootScope.authenticated = false;
             $state.go('login');
-            window.location.reload();
+//            window.location.reload();
             $scope.hideloader();
         } else {
             $scope.errorMsg = response.message;

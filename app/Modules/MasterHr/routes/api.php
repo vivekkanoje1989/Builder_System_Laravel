@@ -2,6 +2,7 @@
 
 Route::group(array('module' => 'MasterHr', 'middleware' => ['api'], 'namespace' => 'App\Modules\MasterHr\Controllers'), function() {
 
+    Route::get('api/master-hr/getRoles', 'MasterHrController@getRoles'); 
     Route::get('api/master-hr/getChartData', 'MasterHrController@getChartData'); //show chart
     Route::post('api/master-hr/manageUsers', 'MasterHrController@manageUsers');
     Route::post('api/master-hr/', 'MasterHrController@store');
@@ -14,5 +15,7 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['api'], 'namespace' 
     Route::post('api/master-hr/appCreateUser', 'MasterHrController@appCreateUser');
     Route::post('api/master-hr/createquickuser', 'MasterHrController@createquickuser');
     Route::post('api/master-hr/updatePassword', 'MasterHrController@updatePassword'); 
-     Route::get('api/master-hr/getRoles', 'MasterHrController@getRoles'); 
+ 
+    Route::post('api/master-hr/createUserRole', 'MasterHrController@createUserRole'); //create user role
+    Route::post('api/master-hr/updateUserRole', 'MasterHrController@updateUserRole'); //update user role
 });	
