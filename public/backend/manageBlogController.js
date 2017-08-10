@@ -103,9 +103,12 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         }
         $scope.editBlogData = function (list, index, pageId)
         {
+           
+            
             $scope.blogData = list;
             if (list.blog_images != '') {
                 var blog = list.blog_images.split(',');
+                
             }
             if (list.blog_banner_images != '') {
                 var blog_banner = list.blog_banner_images.split(',');
@@ -114,6 +117,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
 
             $scope.galleryImage_preview = (blog);
             $scope.index = index;
+            
         }
 
         $scope.checkImageExtension = function (galleryImage) {
@@ -149,4 +153,26 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
+        
+        $scope.removeGalleryImg = function (imgname, indeximg, pageId)
+        {
+           
+            if (window.confirm("Are you sure want to remove this image?"))
+            {
+                if (indeximg > -1) {
+                    $scope.galleryImage_preview.splice(indeximg, 1);
+                    Data.post('manage-blog/removeImage', {
+                        pageId:$scope.blogId , imageName: imgname, galleryImage_preview: $scope.galleryImage_preview,
+                    }).then(function (response) {
+                        if (!response.success)
+                        {
+                            toaster.pop('success', 'Banner Image', 'Image remove successfully.');
+                        } else
+                        {
+                            toaster.pop('success', 'Banner Image', 'Image remove successfully.');
+                        }
+                    });
+                }
+            }
+        }
     }]);

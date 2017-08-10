@@ -141,7 +141,7 @@
                 </table>
                 <div class="DTTTFooter">
                     <div class="col-sm-6">
-                        <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listAlertsLength }} entries</div>-->
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listAlertsLength }} entries</div>
                         <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                     </div>
                     <div class="col-sm-6">

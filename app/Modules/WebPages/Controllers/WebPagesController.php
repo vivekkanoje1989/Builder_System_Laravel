@@ -332,7 +332,7 @@ class WebPagesController extends Controller {
         $name = implode(',', $obj['allimg']);
         $s3FolderName = '/website/banner-images/';
         $path = $s3FolderName . $obj['imageName'];
-        $msg = S3::s3FileDelete($path);
+        $msg = S3::s3FileDelete($obj['imageName'],$s3FolderName);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
         } else {
@@ -346,7 +346,7 @@ class WebPagesController extends Controller {
         $name = implode(',', $obj['subimgs']);
         $s3FolderName = '/website/banner-images/';
         $path = $s3FolderName . $obj['imageName'];
-        $msg = S3::s3FileDelete($s3FolderName, $obj['imageName']);
+        $msg = S3::s3FileDelete($obj['imageName'],$s3FolderName);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
         } else {

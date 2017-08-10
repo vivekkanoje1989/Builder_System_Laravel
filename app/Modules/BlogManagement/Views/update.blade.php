@@ -88,7 +88,8 @@
                                 <span class="help-block">{{galleryImage_err}}</span>
                             </div>
                              <!--<img ng-if="!employee_photo_file_name_preview" ng-src="[[ Config('global.s3Path') ]]employee-photos/{{imgUrl}}" class="thumb photoPreview">-->
-                            <div class="img-div2" data-title="name" ng-repeat="list in galleryImage_preview track by $index" >    
+                            <div class="img-div2" data-title="name" ng-repeat="list in galleryImage_preview track by $index" > 
+                                <i class="fa fa-times rem-icon" ng-if="list"  title="{{list}}" ng-click="removeGalleryImg('{{list}}',{{$index}})"></i>
                                 <img ng-src="[[ Config('global.s3Path') ]]Blog/gallery_image/{{list}}" class="thumb photoPreview">
                             </div>
                         </div>
