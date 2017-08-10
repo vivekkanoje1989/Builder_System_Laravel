@@ -37,20 +37,24 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
         $manageUsers = [];
         $totalCount = [];
-        
+        $department_id = [];
+
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
             $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ',0,0)');
         } else if ($request['empId'] == "") { // for index
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $manageUsers = DB::select('CALL proc_manage_users(0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');            
+            $manageUsers = DB::select('CALL proc_manage_users(0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() totalCount');
             $totalCount = $cnt[0]->totalCount;
             $manageUsers = json_decode(json_encode($manageUsers), true);
-            
+            $i = 0;
+            foreach ($manageUsers as $manageUser) {
+                $manageUsers[$i]['department_id'] = explode(',', $manageUser['department_id']);
+                $i++;
+            }
         }
-       
         if ($manageUsers) {
-            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" =>$totalCount , 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
+            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => $totalCount, 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
             return json_encode($result);
         }
     }
@@ -726,7 +730,7 @@ class MasterHrController extends Controller {
     public function rolePermissions($id) {
         return view("MasterHr::rolepermissions")->with("roleId", $id);
     }
-    
+
     public function updatePermissions() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
@@ -989,13 +993,13 @@ class MasterHrController extends Controller {
         if (empty($input['data']['id']) || $input['data']['id'] == 0) {
             $getPermission = EmployeeRole::select('employee_submenus')->get();
         } else {
-            if(!empty($input['data']['id'])){
-            $id = $input['data']['id'];
+            if (!empty($input['data']['id'])) {
+                $id = $input['data']['id'];
                 $teams = Employee::where('team_lead_id', $id)->get();
-            }else{
+            } else {
                 $id = 0;
             }
-            
+
             if ($input['data']['moduleType'] == 'roles') {
                 $getPermission = EmployeeRole::select('role_name', 'employee_submenus')->where('id', $id)->get();
                 $employeedetail = $getPermission[0]['role_name'];
@@ -1005,12 +1009,12 @@ class MasterHrController extends Controller {
                 $emptitle = \App\Models\MlstTitle::select('title')->where('id', '=', $getPermission[0]['title_id'])->first();
                 $employeedetail = $emptitle->title . " " . $getPermission[0]['first_name'] . " " . $getPermission[0]['last_name'];
             }
-            if($getPermission[0]['employee_submenus'] !== ''){
+            if ($getPermission[0]['employee_submenus'] !== '') {
                 $permission = json_decode($getPermission[0]['employee_submenus'], true);
                 $rolepermission = json_decode($getPermission[0]['employee_submenus']);
-            }            
+            }
         }
-        
+
         $getMenu = MenuItems::getMenuItems();
 
         if (!empty($permission)) {
@@ -1221,7 +1225,7 @@ class MasterHrController extends Controller {
 
     public function appAccessControl() {
         $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);        
+        $input = json_decode($postdata, true);
         if ($input['data']['isChecked'] == true) {//checkbox checked
             //{"data":{"empId":2,"submenuId":[0307],"isChecked":true,"moduleType":"employee"},{"empId":2,"submenuId":[0107,0108,0201],"isChecked":false,"moduleType":"employee"}}
             if ($input['data']['moduleType'] === 'roles') {
@@ -1871,9 +1875,9 @@ class MasterHrController extends Controller {
             if (!empty($input['data']['role_name'])) {
                 $rolename = $input['data']['role_name'];
             }
-           
+
             $employeeUpdate = EmployeeRole::where('id', $input['data']['roleId'])->update(["employee_submenus" => $jsonArr, 'role_name' => $rolename,
-              'updated_date' =>  $update['updated_date'],'updated_IP' =>  $update['updated_IP'],'updated_browser' =>  $update['updated_browser'],'updated_mac_id' =>  $update['updated_mac_id']]);
+                'updated_date' => $update['updated_date'], 'updated_IP' => $update['updated_IP'], 'updated_browser' => $update['updated_browser'], 'updated_mac_id' => $update['updated_mac_id']]);
 
             $result = ['success' => true];
         } else {
