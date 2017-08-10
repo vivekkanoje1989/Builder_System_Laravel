@@ -39,6 +39,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class MlstBmsbEnquirySalesSource extends Eloquent
 {
         protected $connection = 'masterdb';
+        protected $primaryKey = "id";
 	protected $casts = [
 		'status' => 'int',
 		'created_by' => 'int',

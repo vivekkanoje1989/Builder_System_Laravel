@@ -34,11 +34,12 @@
                                             <div class="form-group">
                                                 <label for="">Page Name<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contentPage.page_name" name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="255" required>
+                                                    <input type="text" ng-model="contentPage.page_name" name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="255">
                                                     <i class="fa fa-address-card"></i>
                                                     <div ng-messages="contentPageForm.page_name.$error">
                                                         <div ng-message="required" class="err">Page name is required.</div>
                                                     </div>
+                                                     <div ng-if="page_name" class="errMsg page_name sp-err">{{page_name}}</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -51,7 +52,7 @@
                                                     <div ng-messages="contentPageForm.page_title.$error">
                                                         <div ng-message="required" class="err">Page title is required.</div>
                                                     </div>
-                                                    <div ng-if="page_title" class="errMsg page_title">{{page_title}}</div>
+                                                    <div ng-if="page_title" class="errMsg page_title sp-err">{{page_title}}</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -105,6 +106,7 @@
                                                     <div ng-messages="contentPageForm.status.$error">
                                                         <div ng-message="required" class="err">Select status</div>
                                                     </div>
+                                                     <div ng-if="status" class="errMsg status sp-err">{{status}}</div>
                                                     <i class="fa fa-caret-down" aria-hidden="true"></i>
                                                 </span>
                                             </div> 
@@ -141,7 +143,7 @@
                                             <div class="col-sm-8 col-xs-6">
                                                 <div class="img-div2" ng-if="imgs" data-title="name" ng-repeat="img in imgs track by $index" ng-model="imagePage.allimages">   
                                                     <i class="fa fa-times rem-icon" ng-if="img"  title="{{ img}}" ng-click="removeImg('{{img}}',{{$index}},[[ $pageId]])"></i>
-                                                    <img ng-if="img" ng-src="[[ Session::get('s3Path') ]]website/banner-images/{{img}}" style="width: 60px;height: 60px;">
+                                                    <img ng-if="img" ng-src="[[ Config('global.s3Path') ]]website/banner-images/{{img}}" style="width: 60px;height: 60px;">
                                                 </div>
                                             </div>
                                         </div>
@@ -184,11 +186,12 @@
 
                                                 <label for="">Sub Page Name<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.page_name" name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
+                                                    <input type="text" ng-model="subcontentPage.page_name" name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
                                                     <i class="fa fa-address-card"></i>
                                                     <div  ng-if="sbtBtn"  ng-messages="imageMgntForm.page_name.$error">
                                                         <div ng-message="required" class="err">Page name is required.</div>
                                                     </div>
+                                                     <div ng-if="page_name" class="errMsg page_name sp-err">{{page_name}}</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -201,6 +204,7 @@
                                                     <div ng-if="sbtBtn" ng-messages="imageMgntForm.page_title.$error">
                                                         <div ng-message="required" class="err">Page title is required.</div>
                                                     </div>
+                                                     <div ng-if="page_title" class="errMsg page_title sp-err">{{page_title}}</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -208,7 +212,7 @@
                                             <div class="form-group">
                                                 <label for="">Seo Page Title<span class="sp-err"></span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.seo_page_titles" name="seo_page_titles" class="form-control">                                                             
+                                                    <input type="text" ng-model="subcontentPage.seo_page_title" name="seo_page_title" class="form-control">                                                             
                                                 </span>
                                             </div>
                                         </div> 
@@ -255,8 +259,9 @@
                                                     <input type="text" ng-model="subcontentPage.child_page_position" required  name ="child_page_position" maxlength="2" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  name="parent_page_position" class="form-control">                                                             
                                                 </span>
                                                 <div ng-if="sbtBtn"  ng-messages="imageMgntForm.child_page_position.$error">
-                                                    <div ng-message="required" class="err">Page position is required.</div>
+                                                    <div ng-message="required" class="err sp-err">Page position is required.</div>
                                                 </div>
+                                                <div ng-if="child_page_position" class="errMsg status sp-err">{{child_page_position}}</div>
                                             </div>
                                         </div>
                                     </div>                                                
@@ -274,6 +279,7 @@
                                                     <div ng-if="sbtBtn" ng-messages="imageMgntForm.status.$error">
                                                         <div ng-message="required" class="err">Select status</div>
                                                     </div>
+                                                    <div ng-if="status" class="errMsg status sp-err">{{status}}</div>
                                                     <i class="fa fa-caret-down" aria-hidden="true"></i>
                                                 </span>
                                             </div> 
@@ -307,7 +313,7 @@
                                                 <div class="col-sm-9 col-xs-6">
                                                     <div class="img-div2" ng-if="imgs" data-title="name" ng-repeat="img in subimgs track by $index" ng-model="imagePage.subimages">   
                                                         <i class="fa fa-times rem-icon" ng-if="img"  title="{{img}}" ng-click="removeSubImg('{{img}}',{{$index}})"></i>
-                                                        <img ng-if="img" ng-src="[[ Session::get('s3Path') ]]website/banner-images/{{img}}" style="width: 60px;height: 60px;">
+                                                        <img ng-if="img" ng-src="[[ Config('global.s3Path') ]]website/banner-images/{{img}}" style="width: 60px;height: 60px;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -337,7 +343,7 @@
                                                         <td>{{list.page_title}}</td>
                                                         <td>{{list.seo_url}}</td>
                                                         <td class="fa-div">
-                                                            <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit Sub Page" style="display: block;"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}})"><i class="fa fa-pencil"></i></a></div>
+                                                            <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit Sub Page" style="display: block;"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}},{{list.id}})"><i class="fa fa-pencil"></i></a></div>
                                                         </td>
                                                     </tr>                                            
                                                 </tbody>

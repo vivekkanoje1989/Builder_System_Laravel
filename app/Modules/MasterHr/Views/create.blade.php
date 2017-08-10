@@ -28,7 +28,7 @@
         </div>
         <div class="step-content" id="WiredWizardsteps"  >
             <div class="step-pane active" id="wiredstep1" >
-                <form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData, [[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]], 'edit');">
+                <form name="userForm" novalidate ng-submit="userForm.$valid && createUser(userData, [[ $empId ]])" ng-controller="hrController" ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]], 'edit', 1, [[config('global.recordsPerPage')]]);">
                     <input type="hidden" name="employeeId" ng-model="employeeId" value="{{employeeId}}" >
                     <div class="form-title">Personal Information</div>
                     <div class="row">
@@ -583,7 +583,7 @@
                 </form> 
             </div>	
             <div class="step-pane" id="wiredstep4" >	
-                <form name="userJobForm" novalidate ng-submit="userJobForm.$valid && createJobForm(userJobData, [[ $empId ]])"  ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]], 'edit'); getEmpId([[$empId]]); ">
+                <form name="userJobForm" novalidate ng-submit="userJobForm.$valid && createJobForm(userJobData, [[ $empId ]])"  ng-init="manageUsers([[ !empty($empId) ?  $empId : '0' ]], 'edit', 1, [[config('global.recordsPerPage')]]); getEmpId([[$empId]]); ">
 
                     <div class="form-title">
                         Job Offer Details

@@ -4,13 +4,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.customerData = [];
         $scope.contactData = {};
         $scope.searchData = {};
-        $scope.enquiryData = [];
+        $scope.enquiryData = {};
         $scope.btnLabelC = $scope.btnLabelE = "Save";
         $scope.projectsDetails = [];
         $scope.locations = [];
         $scope.projectList = [];
         $scope.blockTypeList = [];
         $scope.contacts = [];
+        $scope.enqType = '';
 
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;
         resetContactDetails();
@@ -235,7 +236,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.addContactDetails = function () {
             $scope.modal = {};
         }
-        $scope.manageForm = function (customerId, enquiryId) {
+        $scope.manageForm = function (customerId, enquiryId,enqType) {
+            $scope.enqType = enqType;
             var date = new Date();
             $scope.enquiryData.sales_enquiry_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             $scope.enquiryData.sales_category_id = $scope.enquiryData.property_possession_type = "1";
@@ -426,14 +428,13 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 //        };
         $scope.saveEnquiryData = function (enquiryData)
         {
-            
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-
+            alert($scope.enquiryData.id);
             if (typeof $scope.enquiryData.id === 'undefined') {
                 var enqData = enquiryData;
                 Data.post('master-sales/saveEnquiry', {
-                    enquiryData1: enqData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
+                    enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
                 }).then(function (response) {
                     if (response.success) {
                         toaster.pop('success', 'Enquiry', response.message);

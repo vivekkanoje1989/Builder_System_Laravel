@@ -21,7 +21,7 @@
                 <span class="widget-caption">Edit Blog</span>
             </div>
             <div class="widget-body">
-                <form  ng-submit="blogsForm.$valid && doblogscreateAction(blogData.blog_banner_images, blogData.blog_images,blogData)" name="blogsForm"  novalidate enctype="multipart/form-data">
+                <form  ng-submit="blogsForm.$valid && doblogscreateAction(blogData.blog_banner_images, blogData.blog_images,blogData,galleryImage_preview)" name="blogsForm"  novalidate enctype="multipart/form-data">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <div class="row">
                         <div class="col-sm-3 col-xs-12 ">
@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <label>Meta Keywords</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="blogData.meta_Keywords" capitalizeFirst name="meta_Keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" ></textarea>
+                                    <textarea ng-model="blogData.meta_keywords" capitalizeFirst name="meta_keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" ></textarea>
                                 </span>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                                 <span class="help-block">{{galleryImage_err}}</span>
                             </div>
                              <!--<img ng-if="!employee_photo_file_name_preview" ng-src="[[ Config('global.s3Path') ]]employee-photos/{{imgUrl}}" class="thumb photoPreview">-->
-                            <div class="img-div2" data-title="name" ng-repeat="list in blog_images_preview" >    
+                            <div class="img-div2" data-title="name" ng-repeat="list in galleryImage_preview track by $index" >    
                                 <img ng-src="[[ Config('global.s3Path') ]]Blog/gallery_image/{{list}}" class="thumb photoPreview">
                             </div>
                         </div>

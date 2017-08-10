@@ -20,8 +20,10 @@ use App\Classes\CommonFunctions;
 use App\Modules\MasterSales\Models\Enquiry;
 use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\LstEnquiryLocation;
+use App\Models\MlstBmsbCompany;
 use Illuminate\Support\Facades\Session;
 use App\Models\Project;
+use App\Models\Booking;
 use App\Classes\Gupshup;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Classes\S3;
@@ -471,6 +473,7 @@ class MasterSalesController extends Controller {
 //                    return json_encode($result, true);
 //                }
 //            }
+           //print_r($request);exit;
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
@@ -559,7 +562,6 @@ class MasterSalesController extends Controller {
             $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $validator = Validator::make($request['enquiryData'], $validationRules, $validationMessages);
@@ -1174,7 +1176,7 @@ class MasterSalesController extends Controller {
         if (!empty($admin)) {
             foreach ($admin as $item) {
                 $this->allusers[$item->id] = $item->id;
-                $this->getTeamIds($item->id);
+                $this->getTeamIds($item->id);                
             }
         } else {
             return;
@@ -1400,604 +1402,562 @@ class MasterSalesController extends Controller {
     }
 
     public function importEnquiry() {
-
-        $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
-        $currentDate = date('d_m_Y_h_i_s_A');
-        $getMacAddress = CommonFunctions::getMacAddress();
-        ini_set('max_execution_time', 500);
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        if (empty($input)) {
-            $input = Input::all();
-        }
-
-        $first_name = Auth::guard('admin')->user()->first_name;
-        $last_name = Auth::guard('admin')->user()->last_name;
-        $fileName = $currentDate . "_by_" . $first_name . "_" . $last_name;
-
-        if (!empty($input)) {
-
-            $wfileName = $fileName . '.' . $input['importfile']->getClientOriginalExtension();
-            $input['importfile']->move(base_path() . "/public/downloads/", $wfileName);
-            $importbasepath = base_path() . "/public/downloads/" . $wfileName;
-
-            $objPHPExcel = PHPExcel_IOFactory::load($importbasepath);
-            $maxCell = $row_index = $objPHPExcel->getActiveSheet()->getHighestRowAndColumn();
-
-            $sheetData = $objPHPExcel->getActiveSheet()->rangeToArray('A1:' . 'AB' . $maxCell['row']);
-
-            $sizeofExcel = sizeof($sheetData);
-            $columnflag = 0;
-            $col_headers = $sheetData[0];
-
-            if (trim($col_headers[0]) === 'Enquiry Date (DD-MM-YYYY)' && trim($col_headers[1]) === 'Title (Mr./Ms./Mrs./Doctor)' && trim($col_headers[2]) === 'First Name' && trim($col_headers[3]) === 'Middle Name (Optional)' && trim($col_headers[4]) === 'Last Name' && trim($col_headers[5]) === 'Corporate Customer (Yes / No)' && trim($col_headers[6]) === 'Company Name' && trim($col_headers[7]) === 'Birth Date (DD-MM-YYYY) (optional)' && trim($col_headers[8]) === 'Anniversary Date (DD-MM-YYYY) (optional)' && trim($col_headers[9]) === 'Mobile No1 (10 Digits Only)' && trim($col_headers[10]) === 'Mobile No 2 (Optional)' && trim($col_headers[11]) === 'Email 1' && trim($col_headers[12]) === 'Email 2 (Optional)' && trim($col_headers[13]) === 'Employee Mobile' && trim($col_headers[14]) === 'Enquiry Source' && trim($col_headers[15]) === 'Sub Source(optional)' && trim($col_headers[16]) === 'Source Description (Optional)' && trim($col_headers[17]) === 'Enquiry Category (Hot/Warm/Cold)' && trim($col_headers[18]) === 'Enquiry Status (Open / Booked / Lost / Preserved for Future)' && trim($col_headers[19]) === 'Enquiry Last Followup Remark (Optional)' && trim($col_headers[20]) === 'Next Followup Date' && trim($col_headers[21]) === 'Lost Date' && trim($col_headers[22]) === 'Lost reason' && trim($col_headers[23]) === 'Lost Sub Reason (Optional)' && trim($col_headers[24]) === 'Lost Remark' && trim($col_headers[25]) === 'Booked Date' && trim($col_headers[26]) === 'Vehicle Model' && trim($col_headers[27]) === 'Test Drive Given (Yes / No)'
-            ) {
-                $columnflag = 1;
-            } else {
-                $columnflag = 0;
+        try{
+            $postdata = file_get_contents("php://input");
+            $input = json_decode($postdata, true);
+            $currentDate = date('d_m_Y_h_i_s_A');
+            $getMacAddress = CommonFunctions::getMacAddress();
+            ini_set('max_execution_time', 500);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            if (empty($input)) {
+                $input = Input::all();
             }
 
+            $first_name = Auth::guard('admin')->user()->first_name;
+            $last_name = Auth::guard('admin')->user()->last_name;
+            $fileName = $currentDate . "_by_" . $first_name . "_" . $last_name;
 
-            if ($columnflag == 0) {
-                $result = ['success' => false, 'message' => 'Column name changed in excel sheet OR sheet is not in correct format.'];
-                return json_encode($result);
-            }
+            if (!empty($input)) {
 
-            /* Read Excel File Record 
-              Created Date:14-07-2017
+                $wfileName = $fileName . '.' . $input['importfile']->getClientOriginalExtension();
+                $input['importfile']->move(base_path() . "/public/downloads/", $wfileName);
+                $importbasepath = base_path() . "/public/downloads/" . $wfileName;
 
-             */
+                $objPHPExcel = PHPExcel_IOFactory::load($importbasepath);
+                $maxCell = $row_index = $objPHPExcel->getActiveSheet()->getHighestRowAndColumn();
 
-            $total = 0;
-            $inserted = 0;
-            $alreadyexist = 0;
-            $invalid = 0;
-            $employee_under_count = array();
-            $employee_invalid_enquires_list = array();
-            $i = 0;
-            if ($maxCell['row'] <= 2001) {
-                for ($j = 1; $j <= $maxCell['row']; $j++) {
-                    $i++;
+                $sheetData = $objPHPExcel->getActiveSheet()->rangeToArray('A1:' . 'AD' . $maxCell['row']);
 
-                    $total++;
-                    $enquiries = array();
+                $sizeofExcel = sizeof($sheetData);
+                $columnFlag = 0;
+                $colHeaders = $sheetData[0];
 
-                    if (!empty($sheetData[$j][0])) {
+                if (trim($colHeaders[0]) === 'Enquiry Date (DD-MM-YYYY)' && trim($colHeaders[1]) === 'Title (Mr./Ms./Mrs./Doctor)' 
+                        && trim($colHeaders[2]) === 'First Name' && trim($colHeaders[3]) === 'Middle Name (Optional)' 
+                        && trim($colHeaders[4]) === 'Last Name' && trim($colHeaders[5]) === 'Corporate Customer (Yes / No)' 
+                        && trim($colHeaders[6]) === 'Company Name' && trim($colHeaders[7]) === 'Birth Date (DD-MM-YYYY) (optional)' 
+                        && trim($colHeaders[8]) === 'Anniversary Date (DD-MM-YYYY) (optional)' && trim($colHeaders[9]) === 'Mobile No1 (10 Digits Only)' 
+                        && trim($colHeaders[10]) === 'Mobile No 2 (Optional)' && trim($colHeaders[11]) === 'Email 1' 
+                        && trim($colHeaders[12]) === 'Email 2 (Optional)' && trim($colHeaders[13]) === 'Enquiry Source' 
+                        && trim($colHeaders[14]) === 'Sub Source(optional)' && trim($colHeaders[15]) === 'Source Description (Optional)' 
+                        && trim($colHeaders[16]) === 'Enquiry Project Name (As per BMS)' && trim($colHeaders[17]) === 'Block Type' 
+                        && trim($colHeaders[18]) === 'Enquiry Category (Hot/Warm/Cold)' && trim($colHeaders[19]) === 'Employee Mobile' 
+                        && trim($colHeaders[20]) === 'Enquiry Status (Open / Booked / Lost / Preserved for Future)' 
+                        && trim($colHeaders[21]) === 'Enquiry Last Followup Remark (Optional)' && trim($colHeaders[22]) === 'Next Followup Date' 
+                        && trim($colHeaders[23]) === 'Lost Date' && trim($colHeaders[24]) === 'Lost reason (As Per BMS)' 
+                        && trim($colHeaders[25]) === 'Lost Sub Reason (Optional)' && trim($colHeaders[26]) === 'Lost Remark' 
+                        && trim($colHeaders[27]) === 'Booked Date' && trim($colHeaders[28]) === 'Booked Project (Project Name As Per BMS)' 
+                        && trim($colHeaders[29]) === 'Booked Block Type (Type Such as 1 BHK, 3 BHK as Per BMS)'
+                ) {
+                    $columnFlag = 1;
+                } else {
+                    $columnFlag = 0;
+                }
 
-                        $date = str_replace('/', '-', $sheetData[$j][0]);
-                        $date = date("Y-m-d", strtotime($date));
-                        $enquiries['sales_enquiry_date'] = $date;
-                    } else {
-                        break;
-                    }
+                if ($columnFlag == 0) {
+                    $result = ['success' => false, 'message' => 'Column name changed in excel sheet OR sheet is not in correct format.'];
+                    return json_encode($result);
+                }
 
-                    if (!empty($sheetData[$j][1])) {
-                        $emptitle = \App\Models\MlstTitle::select('id')->where('title', '=', $sheetData[$j][1])->first();
-                        if (!empty($emptitle)) {
-                            $enquiries['title_id'] = $emptitle->id;
+                $total = $inserted = $alreadyExist = $invalid = $i = 0;
+                $employeeCount = array();
+                $employeeInvalidEnquires = array();
+                if ($maxCell['row'] <= 2001) {
+                    for ($j = 1; $j <= $maxCell['row']; $j++) {
+                        $i++;
+                        $total++;
+                        $enquiries = array();
+
+                        if (!empty($sheetData[$j][0])) { 
+                            $date = str_replace('/', '-', $sheetData[$j][0]);
+                            $date = date("Y-m-d", strtotime($date));
+                            $enquiries['sales_enquiry_date'] = $date;
+                        } else { break;}
+
+                        if (!empty($sheetData[$j][1])) {
+                            $emptitle = \App\Models\MlstTitle::select('id')->where('title', '=', $sheetData[$j][1])->first();
+                            if (!empty($emptitle)) {
+                                $enquiries['title_id'] = $emptitle->id;
+                            } else {
+                                $enquiries['title_id'] = 0;
+                            }
                         } else {
                             $enquiries['title_id'] = 0;
                         }
-                    } else {
-                        $enquiries['title_id'] = 0;
-                    }
 
-                    if (!empty($sheetData[$j][2])) {
-                        $enquiries['first_name'] = $sheetData[$j][2];
-                    } else {
-                        $enquiries['first_name'] = "";
-                    }
+                        if (!empty($sheetData[$j][2])) {
+                            $enquiries['first_name'] = $sheetData[$j][2];
+                        } else {
+                            $enquiries['first_name'] = "";
+                        }
 
-                    if (!empty($sheetData[$j][3])) {
-                        $enquiries['middle_name'] = $sheetData[$j][3];
-                    } else {
-                        $enquiries['middle_name'] = "";
-                    }
+                        if (!empty($sheetData[$j][3])) {
+                            $enquiries['middle_name'] = $sheetData[$j][3];
+                        } else {
+                            $enquiries['middle_name'] = "";
+                        }
 
-                    if (!empty($sheetData[$j][4])) {
-                        $enquiries['last_name'] = $sheetData[$j][4];
-                    } else {
-                        $enquiries['last_name'] = "";
-                    }
+                        if (!empty($sheetData[$j][4])) {
+                            $enquiries['last_name'] = $sheetData[$j][4];
+                        } else {
+                            $enquiries['last_name'] = "";
+                        }
 
-                    if (!empty($sheetData[$j][5])) {
-                        if ($sheetData[$j][5] === 'Yes') {
-                            $enquiries['corporate_customer'] = 1;
+                        if (!empty($sheetData[$j][5])) {
+                            if ($sheetData[$j][5] === 'Yes') {
+                                $enquiries['corporate_customer'] = 1;
+                            } else {
+                                $enquiries['corporate_customer'] = 0;
+                            }
                         } else {
                             $enquiries['corporate_customer'] = 0;
                         }
-                    } else {
-                        $enquiries['corporate_customer'] = 0;
-                    }
 
-                    if (!empty($sheetData[$j][6])) {
-                        $companyData = \App\Models\MlstLmsaCompany::select('id')->where('company_name', '=', $sheetData[$j][6])->first();
-                        if (!empty($companyData)) {
-                            $enquiries['company_id'] = $companyData->id;
+                        if (!empty($sheetData[$j][6])) {
+                            $companyData = MlstBmsbCompany::select('id')->where('company_name', '=', $sheetData[$j][6])->first();
+                            if (!empty($companyData)) {
+                                $enquiries['company_id'] = $companyData->id;
+                            } else {
+                                $enquiries['company_id'] = 0;
+                            }
                         } else {
                             $enquiries['company_id'] = 0;
                         }
-                    } else {
-                        $enquiries['company_id'] = 0;
-                    }
 
-                    if (!empty($sheetData[$j][7])) {
-
-                        $birthdate = str_replace('/', '-', $sheetData[$j][7]);
-                        $bdate = date("Y-m-d", strtotime($birthdate));
-                        $enquiries['birth_date'] = $bdate;
-                    } else {
-                        $enquiries['birth_date'] = '';
-                    }
-
-                    if (!empty($sheetData[$j][8])) {
-
-                        $anniverdate = str_replace('/', '-', $sheetData[$j][8]);
-                        $marriagedate = date("Y-m-d", strtotime($anniverdate));
-                        $enquiries['marriage_date'] = $marriagedate;
-                    } else {
-                        $enquiries['marriage_date'] = '';
-                    }
-
-                    if (!empty($sheetData[$j][9])) {
-                        $mobile1 = $sheetData[$j][9];
-                    } else {
-                        $mobile1 = "";
-                    }
-                    if (!empty($sheetData[$j][10])) {
-                        $mobile2 = $sheetData[$j][10];
-                    } else {
-                        $mobile2 = "";
-                    }
-
-                    if ($mobile1 != '') {
-                        if (strlen($mobile1) == 10 and is_numeric($mobile1)) {
-                            $enquiries['mobile_number'] = $mobile1;
+                        if (!empty($sheetData[$j][7])) {
+                            $birthdate = str_replace('/', '-', $sheetData[$j][7]);
+                            $bdate = date("Y-m-d", strtotime($birthdate));
+                            $enquiries['birth_date'] = $bdate;
                         } else {
-                            $enquiries['mobile_number'] = "";
+                            $enquiries['birth_date'] = '';
                         }
-                    } else {
-                        $enquiries['mobile_number'] = "";
-                    }
 
-                    if ($mobile2 != '') {
-                        if (strlen($mobile2) == 10 and is_numeric($mobile2)) {
-                            $enquiries['mobile_number2'] = $mobile2;
+                        if (!empty($sheetData[$j][8])) {
+                            $anniverdate = str_replace('/', '-', $sheetData[$j][8]);
+                            $marriagedate = date("Y-m-d", strtotime($anniverdate));
+                            $enquiries['marriage_date'] = $marriagedate;
                         } else {
-                            $enquiries['mobile_number2'] = "";
+                            $enquiries['marriage_date'] = '';
                         }
-                    } else {
-                        $enquiries['mobile_number2'] = "";
-                    }
 
-                    if (!empty($sheetData[$j][11])) {
-                        $email1 = $sheetData[$j][11];
-                        if (filter_var($email1, FILTER_VALIDATE_EMAIL)) {
-                            $enquiries['email_id'] = $email1;
+                        if (!empty($sheetData[$j][9])) {
+                            $mobile1 = $sheetData[$j][9];
+                            if (strlen($mobile1) == 10 and is_numeric($mobile1)) {
+                                $enquiries['mobile_number'] = $mobile1;
+                            } else {
+                                $enquiries['mobile_number'] = "";
+                            }
+                        } else {
+                            $mobile1 = "";
+                        }
+
+                        if (!empty($sheetData[$j][10])) {
+                            $mobile2 = $sheetData[$j][10];
+                            if (strlen($mobile2) == 10 and is_numeric($mobile2)) {
+                                $enquiries['mobile_number2'] = $mobile2;
+                            } else {
+                                $enquiries['mobile_number2'] = "";
+                            }
+                        } else {
+                            $mobile2 = "";
+                        }
+
+                        if (!empty($sheetData[$j][11])) {
+                            $email1 = $sheetData[$j][11];
+                            if (filter_var($email1, FILTER_VALIDATE_EMAIL)) {
+                                $enquiries['email_id'] = $email1;
+                            } else {
+                                $enquiries['email_id'] = "";
+                            }
                         } else {
                             $enquiries['email_id'] = "";
                         }
-                    } else {
-                        $enquiries['email_id'] = "";
-                    }
-                    if (!empty($sheetData[$j][12])) {
-                        $email2 = $sheetData[$j][12];
-                        if (filter_var($email2, FILTER_VALIDATE_EMAIL)) {
-                            $enquiries['email_id2'] = $email2;
+
+                        if (!empty($sheetData[$j][12])) {
+                            $email2 = $sheetData[$j][12];
+                            if (filter_var($email2, FILTER_VALIDATE_EMAIL)) {
+                                $enquiries['email_id2'] = $email2;
+                            } else {
+                                $enquiries['email_id2'] = "";
+                            }
                         } else {
                             $enquiries['email_id2'] = "";
                         }
-                    } else {
-                        $enquiries['email_id2'] = "";
-                    }
 
-                    /* Employee Mobile */
-                    if (!empty($sheetData[$j][13])) {
 
-                        $EmployeeDetail = \App\Models\backend\Employee::select('id')->where('username', '=', $sheetData[$j][13])->where(['employee_status' => 1])->first();
-                        if (!empty($EmployeeDetail)) {
-                            $enquiries['sales_employee_id'] = $EmployeeDetail->id;
-                        } else {
-                            $enquiries['sales_employee_id'] = Auth::guard('admin')->user()->id;
+                        if (!empty($sheetData[$j][13])) {
+                            $sourcename = \App\Models\MlstBmsbEnquirySalesSource::select('id')->where('sales_source_name', '=', $sheetData[$j][13])->first();
+                            if (!empty($sourcename)) {
+                                $enquiries['sales_source_id'] = $sourcename->id;
+                            }
                         }
-                    } else {
 
-                        $enquiries['sales_employee_id'] = Auth::guard('admin')->user()->id;
-                    }
-
-
-                    if (!empty($sheetData[$j][14])) {
-                        $sourcename = \App\Models\MlstLmsaEnquirySalesSource::select('id')->where('sales_source_name', '=', $sheetData[$j][14])->first();
-                        if (!empty($sourcename)) {
-                            $enquiries['sales_source_id'] = $sourcename->id;
-                        }
-                    }
-
-                    if (!empty($sheetData[$j][15])) {
-
-                        $subsource = \App\Models\EnquirySalesSubsource::select('id')->where('enquiry_subsource', '=', $sheetData[$j][15])->first();
-                        if (!empty($subsource)) {
-                            $enquiries['sales_subsource_id'] = $subsource->id;
+                        if (!empty($sheetData[$j][14])) {
+                            $subsource = \App\Models\EnquirySalesSubSource::select('id')->where('sub_source', '=', $sheetData[$j][14])->first();
+                            if (!empty($subsource)) {
+                                $enquiries['sales_subsource_id'] = $subsource->id;
+                            } else {
+                                $enquiries['sales_subsource_id'] = "";
+                            }
                         } else {
                             $enquiries['sales_subsource_id'] = "";
                         }
-                    } else {
-                        $enquiries['sales_subsource_id'] = "";
-                    }
 
-                    if (!empty($sheetData[$j][16])) {
-                        $enquiries['sales_source_description'] = $sheetData[$j][16];
-                    } else {
-                        $enquiries['sales_source_description'] = "";
-                    }
-
-                    if (!empty($sheetData[$j][17])) {
-                        $EnquiryCategory = \App\Models\MlstEnquirySalesCategory::select('id')->where('enquiry_category', '=', $sheetData[$j][17])->first();
-                        if (!empty($EnquiryCategory)) {
-                            $enquiries['sales_category_id'] = $EnquiryCategory->id;
+                        if (!empty($sheetData[$j][15])) {
+                            $enquiries['sales_source_description'] = $sheetData[$j][15];
                         } else {
-                            $enquiries['sales_category_id'] = 4;
+                            $enquiries['sales_source_description'] = "";
                         }
-                    }
 
+                        if (!empty($sheetData[$j][16])) {
+                            $projectName = \App\Models\Project::select('id')->where('project_name', '=', $sheetData[$j][16])->first();
+                            if (!empty($projectName)) {
+                                $enquiries['project_id'] = $projectName->id;
+                            } else {
+                                $enquiries['project_id'] = "";
+                            }
+                        }
 
+                        if (!empty($sheetData[$j][17])) {
+                            $blockName = \App\Models\MlstBmsbBlockType::select('id')->where('block_name', '=', $sheetData[$j][17])->first();
+                            if (!empty($blockName)) {
+                                $enquiries['block_id'] = $blockName->id;
+                            } else {
+                                $enquiries['block_id'] = "";
+                            }
+                        }
 
-                    /* Vechical detail */
-                    $enquiries['brand_id'] = config('global.brand_id');
+                        if (!empty($sheetData[$j][18])) {
+                            $EnquiryCategory = \App\Models\MlstEnquirySalesCategory::select('id')->where('enquiry_category', '=', $sheetData[$j][18])->first();
+                            if (!empty($EnquiryCategory)) {
+                                $enquiries['sales_category_id'] = $EnquiryCategory->id;
+                            } else {
+                                $enquiries['sales_category_id'] = 4;
+                            }
+                        }
 
-                    if (!empty($sheetData[$j][26])) {
-
-                        $modelName = \App\Models\MlstLmsaModel::select('id')->where('model_name', '=', $sheetData[$j][26])->first();
-                        if (!empty($modelName)) {
-                            $enquiries['model_id'] = $modelName->id;
+                        /* Employee Mobile */
+                        if (!empty($sheetData[$j][19])) {
+                            $EmployeeDetail = \App\Models\backend\Employee::select('id')->where('username', '=', $sheetData[$j][19])->where(['employee_status' => 1])->first();
+                            if (!empty($EmployeeDetail)) {
+                                $enquiries['sales_employee_id'] = $EmployeeDetail->id;
+                            } else {
+                                $enquiries['sales_employee_id'] = Auth::guard('admin')->user()->id;
+                            }
                         } else {
-                            $enquiries['model_id'] = 0;
+                            $enquiries['sales_employee_id'] = Auth::guard('admin')->user()->id;
                         }
-                    } else {
-                        $enquiries['model_id'] = 0;
-                    }
 
+                        /* Switch Case  for Open/lost/Booked
+                          1=New Enquiry
+                          2=Open
+                          3=Booked
+                          4=Lost
+                          5=Preserved for Future
+                         *  */
 
-
-                    /* Switch Case  for Open/lost/Booked
-                      1=New Enquiry
-                      2=Open
-                      3=Booked
-                      4=Lost
-                      5=Preserved for Future
-                     *  */
-
-                    if (!empty($sheetData[$j][18])) {
-                        $enquirystatus = \App\Models\MlstEnquirySalesStatus::select('id')->where('sales_status', '=', $sheetData[$j][18])->first();
-                        if (!empty($enquirystatus)) {
-                            $Enquiry_staus = $enquirystatus->id;
+                        if (!empty($sheetData[$j][20])) {
+                            $enquirystatus = \App\Models\MlstEnquirySalesStatus::select('id')->where('sales_status', '=', $sheetData[$j][20])->first();
+                            if (!empty($enquirystatus)) {
+                                $Enquiry_staus = $enquirystatus->id;
+                            }
                         }
-                    }
-                    if (!empty($Enquiry_staus)) {
 
-                        switch ($Enquiry_staus) {
-
-                            case 1: {
-
-                                    if (!empty($sheetData[$j][20])) {
-                                        $date_followup = str_replace('/', '-', $sheetData[$j][20]);
-                                        $enquiries['next_followup_date'] = date('Y-m-d', strtotime($date_followup));
-                                    } else {
-                                        $enquiries['next_followup_date'] = date("Y-m-d", strtotime("+ 1 day"));
+                        if (!empty($Enquiry_staus)) {
+                            switch ($Enquiry_staus) {
+                                case 1: {
+                                        if (!empty($sheetData[$j][22])) {
+                                            $date_followup = str_replace('/', '-', $sheetData[$j][22]);
+                                            $enquiries['next_followup_date'] = date('Y-m-d', strtotime($date_followup));
+                                        } else {
+                                            $enquiries['next_followup_date'] = date("Y-m-d", strtotime("+ 1 day"));
+                                        }
+                                        $enquiries['sales_status_id'] = 1;
                                     }
-
-                                    $enquiries['sales_status_id'] = 1;
-                                }
-                                break;
-
-
-                            case 2: {
-
-                                    if (!empty($sheetData[$j][20])) {
-                                        $date_followup = str_replace('/', '-', $sheetData[$j][20]);
-                                        $enquiries['next_followup_date'] = date('Y-m-d', strtotime($date_followup));
-                                    } else {
-                                        $enquiries['next_followup_date'] = date("Y-m-d", strtotime("+ 1 day"));
+                                    break;
+                                case 2: {
+                                        if (!empty($sheetData[$j][22])) {
+                                            $date_followup = str_replace('/', '-', $sheetData[$j][22]);
+                                            $enquiries['next_followup_date'] = date('Y-m-d', strtotime($date_followup));
+                                        } else {
+                                            $enquiries['next_followup_date'] = date("Y-m-d", strtotime("+ 1 day"));
+                                        }
+                                        $enquiries['sales_status_id'] = 2;
                                     }
-
-                                    $enquiries['sales_status_id'] = 2;
-                                }
-                                break;
-
-                            case 3 : {
-
-                                    if (!empty($sheetData[$j][25])) {
-                                        $booking_date = str_replace('/', '-', $sheetData[$j][25]);
-                                        $enquiries['booking_date'] = date('Y-m-d', strtotime($booking_date));
-                                    } else {
-                                        $enquiries['booking_date'] = "";
+                                    break;
+                                case 3 : {
+                                        if (!empty($sheetData[$j][27])) {
+                                            $booking_date = str_replace('/', '-', $sheetData[$j][27]);
+                                            $enquiries['booking_date'] = date('Y-m-d', strtotime($booking_date));
+                                        } else {
+                                            $enquiries['booking_date'] = "";
+                                        }
+                                        if (!empty($sheetData[$j][22])) {
+                                            $date_followup = str_replace('/', '-', $sheetData[$j][22]);
+                                            $enquiries['next_followup_date'] = date('Y-m-d', strtotime($date_followup));
+                                        } else {
+                                            $enquiries['next_followup_date'] = date("Y-m-d", strtotime("+ 1 day"));
+                                        }
+                                        $enquiries['sales_status_id'] = 3;
                                     }
-
-                                    if (!empty($sheetData[$j][20])) {
-                                        $date_followup = str_replace('/', '-', $sheetData[$j][20]);
-                                        $enquiries['next_followup_date'] = date('Y-m-d', strtotime($date_followup));
-                                    } else {
-                                        $enquiries['next_followup_date'] = date("Y-m-d", strtotime("+ 1 day"));
-                                    }
-
-                                    $enquiries['sales_status_id'] = 3;
-                                }
-                                break;
-
-                            case 4 : {
-
-                                    if (!empty($sheetData[$j][21])) {
-                                        $date_followup = str_replace('/', '-', $sheetData[$j][21]);
-                                        $enquiries['followup_date_time'] = date('Y-m-d', strtotime($date_followup));
-                                    } else {
-                                        $date_followup = date('Y-m-d h:i:s');
-                                        $enquiries['followup_date_time'] = date('Y-m-d', strtotime($date_followup));
-                                    }
-
-
-
-                                    if (!empty($sheetData[$j][22])) {
-                                        $lostreason = \App\Models\MlstLmsaEnquirySalesLostReason::select('id')->where('enquiry_lost_reason', '=', $sheetData[$j][22])->first();
-                                        if (!empty($lostreason)) {
-                                            $enquiries['sales_lost_reason_id'] = $lostreason->id;
+                                    break;
+                                case 4 : {
+                                        if (!empty($sheetData[$j][23])) {
+                                            $date_followup = str_replace('/', '-', $sheetData[$j][23]);
+                                            $enquiries['followup_date_time'] = date('Y-m-d', strtotime($date_followup));
+                                        } else {
+                                            $date_followup = date('Y-m-d h:i:s');
+                                            $enquiries['followup_date_time'] = date('Y-m-d', strtotime($date_followup));
+                                        }
+                                        if (!empty($sheetData[$j][24])) {
+                                            $lostreason = \App\Models\MlstBmsbEnquiryLostReason::select('id')->where('reason', '=', $sheetData[$j][24])->first();
+                                            if (!empty($lostreason)) {
+                                                $enquiries['sales_lost_reason_id'] = $lostreason->id;
+                                            } else {
+                                                $enquiries['sales_lost_reason_id'] = "";
+                                            }
                                         } else {
                                             $enquiries['sales_lost_reason_id'] = "";
                                         }
-                                    } else {
-                                        $enquiries['sales_lost_reason_id'] = "";
-                                    }
-
-
-                                    if (!empty($sheetData[$j][23])) {
-
-                                        $subreason = \App\Models\EnquirySalesLostSubreason::select('id')->where('sub_reason', '=', $sheetData[$j][23])->first();
-                                        if (!empty($subreason)) {
-                                            $enquiries['sales_lost_sub_reason_id'] = $subreason->id;
+                                        if (!empty($sheetData[$j][25])) {
+                                            $subreason = \App\Models\EnquiryLostSubReason::select('id')->where('sub_reason', '=', $sheetData[$j][25])->first();
+                                            if (!empty($subreason)) {
+                                                $enquiries['sales_lost_sub_reason_id'] = $subreason->id;
+                                            } else {
+                                                $enquiries['sales_lost_sub_reason_id'] = 0;
+                                            }
                                         } else {
                                             $enquiries['sales_lost_sub_reason_id'] = 0;
                                         }
-                                    } else {
-                                        $enquiries['sales_lost_sub_reason_id'] = 0;
+                                        $enquiries['sales_status_id'] = 4;
                                     }
-
-
-                                    $enquiries['sales_status_id'] = 4;
-                                }
-                                break;
-
-                            case 5 : {
-                                    if (!empty($sheetData[$j][20])) {
-                                        $date_followup = str_replace('/', '-', $sheetData[$j][20]);
-                                        $enquiries['next_followup_date'] = date('Y-m-d', strtotime($date_followup));
-                                    } else {
-                                        $enquiries['next_followup_date'] = date("Y-m-d", strtotime("+ 1 day"));
+                                    break;
+                                case 5 : {
+                                        if (!empty($sheetData[$j][20])) {
+                                            $date_followup = str_replace('/', '-', $sheetData[$j][20]);
+                                            $enquiries['next_followup_date'] = date('Y-m-d', strtotime($date_followup));
+                                        } else {
+                                            $enquiries['next_followup_date'] = date("Y-m-d", strtotime("+ 1 day"));
+                                        }
+                                        $enquiries['sales_status_id'] = 5;
                                     }
-                                    $enquiries['sales_status_id'] = 5;
-                                }
-                                break;
-                        }
-                    } else {
-
-                        $enquiries['sales_status_id'] = 2; //open Enquiry
-                        $enquiries['followup_date_time'] = date("Y-m-d", strtotime("+ 1 day"));
-                    }
-
-
-                    if (!empty($sheetData[$j][24])) {
-                        $enquiries['remarks'] = $sheetData[$j][24];
-                    } else if (!empty($sheetData[$j][19])) {
-                        $enquiries['remarks'] = $sheetData[$j][19];
-                    } else {
-                        $enquiries['remarks'] = "Bulk Enquiries Imported";
-                    }
-
-                    if (!empty($sheetData[$j][27])) {
-                        if ($sheetData[$j][27] === 'Yes') {
-                            $enquiries['test_drive_given'] = 1;
+                                    break;
+                            }
                         } else {
-                            $enquiries['test_drive_given'] = 0;
+                            $enquiries['sales_status_id'] = 2; //open Enquiry
+                            $enquiries['followup_date_time'] = date("Y-m-d", strtotime("+ 1 day"));
                         }
-                    } else {
-                        $enquiries['test_drive_given'] = 0;
-                    }
+                        if (!empty($sheetData[$j][26])) {
+                            $enquiries['remarks'] = $sheetData[$j][26];
+                        } else if (!empty($sheetData[$j][21])) {
+                            $enquiries['remarks'] = $sheetData[$j][21];
+                        } else {
+                            $enquiries['remarks'] = "Bulk Enquiries Imported";
+                        }
 
-                    /* SMS and Email */
-                    $enquiries['sms_privacy_status'] = 1;
-                    $enquiries['email_privacy_status'] = 1;
-                    $enquiriesInfo = array();
-                    $customerInfo = array();
-                    $flag = 0;
+                        if (!empty($sheetData[$j][28])) {
+                            $projectName = \App\Models\Project::select('id')->where('project_name', '=', $sheetData[$j][28])->first();
+                            if (!empty($projectName)) {
+                                $enquiries['project_id'] = $projectName->id;
+                            } else {
+                                $enquiries['project_id'] = "";
+                            }
+                        }
 
-                    if ((!empty($enquiries['mobile_number']) || !empty($enquiries['email_id']) || !empty($enquiries['mobile_number2']) || !empty($enquiries['email_id2'])) && !empty($enquiries['title_id']) && (!empty($enquiries['first_name']) || !empty($enquiries['last_name'])) && !empty($enquiries['sales_source_id']) && !empty($enquiries['sales_enquiry_date'])) {
+                        if (!empty($sheetData[$j][29])) {
+                            $blockName = \App\Models\MlstBmsbBlockType::select('id')->where('block_name', '=', $sheetData[$j][29])->first();
+                            if (!empty($blockName)) {
+                                $enquiries['block_id'] = $blockName->id;
+                            } else {
+                                $enquiries['block_id'] = "";
+                            }
+                        }
 
-                        if (!empty($enquiries['mobile_number'])) {
+                        /* SMS and Email */
+                        $enquiries['sms_privacy_status'] = 1;
+                        $enquiries['email_privacy_status'] = 1;
+                        $enquiriesInfo = array();
+                        $customerInfo = array();
+                        $flag = 0;
 
-                            $customerInfo = CustomersContact::select('customer_id')->where('mobile_number', '=', $enquiries['mobile_number'])->first();
-                            if (empty($customerInfo))
+                        if ((!empty($enquiries['mobile_number']) || !empty($enquiries['email_id']) || !empty($enquiries['mobile_number2']) 
+                            || !empty($enquiries['email_id2'])) && !empty($enquiries['title_id']) && (!empty($enquiries['first_name']) 
+                            || !empty($enquiries['last_name'])) && !empty($enquiries['sales_source_id']) && !empty($enquiries['sales_enquiry_date'])) 
+                        {
+                            if (!empty($enquiries['mobile_number'])) {
                                 $customerInfo = CustomersContact::select('customer_id')->where('mobile_number', '=', $enquiries['mobile_number'])->first();
-                        }
+                                if (empty($customerInfo))
+                                    $customerInfo = CustomersContact::select('customer_id')->where('mobile_number', '=', $enquiries['mobile_number'])->first();
+                            }
 
-                        if ((empty($customerInfo) ) && (!empty($enquiries['mobile_number2']))) {
-
-                            $customerInfo = CustomersContact::select('customer_id')->where('mobile_number', '=', $enquiries['mobile_number2'])->first();
-
-                            if (empty($customerInfo))
+                            if ((empty($customerInfo) ) && (!empty($enquiries['mobile_number2']))) {
                                 $customerInfo = CustomersContact::select('customer_id')->where('mobile_number', '=', $enquiries['mobile_number2'])->first();
-                        }
-
-                        if ((empty($customerInfo) ) && (!empty($enquiries['email_id1']))) {
-
-                            $customerInfo = CustomersContact::select('customer_id')->where('email_id', '=', $enquiries['email_id1'])->first();
-
-                            if (empty($customerInfo))
-                                $customerInfo = CustomersContact::select('customer_id')->where('email_id', '=', $enquiries['email_id2'])->first();
-                        }
-                        if ((empty($customerInfo) ) && (!empty($enquiries['email_id2']))) {
-
-                            $customerInfo = CustomersContact::select('customer_id')->where('email_id', '=', $enquiries['email_id2'])->first();
-                            if (empty($customerInfo))
-                                $customerInfo = CustomersContact::select('customer_id')->where('email_id', '=', $enquiries['email_id2'])->first();
-                        }
-
-                        $flag = 1;
-                    }
-                    else {
-                        $flag = 2;
-
-                        $employee_invalid_enquires_list[$i]['enquiry_date_dd_mm_yyyy'] = $sheetData[$j][0];
-                        $employee_invalid_enquires_list[$i]['title_mrmsmrsdoctor'] = $sheetData[$j][1];
-                        $employee_invalid_enquires_list[$i]['first_name'] = $sheetData[$j][2];
-                        $employee_invalid_enquires_list[$i]['middle_name_optional'] = $sheetData[$j][3];
-                        $employee_invalid_enquires_list[$i]['last_name'] = $sheetData[$j][4];
-                        $employee_invalid_enquires_list[$i]['corporate_customer_yes_no'] = $sheetData[$j][5];
-                        $employee_invalid_enquires_list[$i]['company_name'] = $sheetData[$j][6];
-                        $employee_invalid_enquires_list[$i]['birth_date_dd_mm_yyyy_optional'] = $sheetData[$j][7];
-                        $employee_invalid_enquires_list[$i]['anniversary_date_dd_mm_yyyy_optional'] = $sheetData[$j][8];
-                        $employee_invalid_enquires_list[$i]['mobile_no1_10_digits_only'] = $sheetData[$j][9];
-                        $employee_invalid_enquires_list[$i]['mobile_no_2_optional'] = $sheetData[$j][10];
-                        $employee_invalid_enquires_list[$i]['email_1'] = $sheetData[$j][11];
-                        $employee_invalid_enquires_list[$i]['email_2_optional'] = $sheetData[$j][12];
-                        $employee_invalid_enquires_list[$i]['employee_mobile'] = $sheetData[$j][13];
-                        $employee_invalid_enquires_list[$i]['enquiry_source'] = $sheetData[$j][14];
-                        $employee_invalid_enquires_list[$i]['sub_sourceoptional'] = $sheetData[$j][15];
-                        $employee_invalid_enquires_list[$i]['source_description_optional'] = $sheetData[$j][16];
-                        $employee_invalid_enquires_list[$i]['enquiry_category_hotwarmcold'] = $sheetData[$j][17];
-                        $employee_invalid_enquires_list[$i]['enquiry_status_open_booked_lost_preserved_for_future'] = $sheetData[$j][18];
-                        $employee_invalid_enquires_list[$i]['enquiry_last_followup_remark_optional'] = $sheetData[$j][19];
-                        $employee_invalid_enquires_list[$i]['next_followup_date'] = $sheetData[$j][20];
-                        $employee_invalid_enquires_list[$i]['lost_date'] = $sheetData[$j][21];
-                        $employee_invalid_enquires_list[$i]['lost_reason'] = $sheetData[$j][22];
-                        $employee_invalid_enquires_list[$i]['lost_sub_reason_optional'] = $sheetData[$j][23];
-                        $employee_invalid_enquires_list[$i]['lost_remark'] = $sheetData[$j][24];
-                        $employee_invalid_enquires_list[$i]['booked_date'] = $sheetData[$j][25];
-                        $employee_invalid_enquires_list[$i]['vehicle_model'] = $sheetData[$j][26];
-                        $employee_invalid_enquires_list[$i]['test_drive_given_yes_no'] = $sheetData[$j][27];
-                        $employee_invalid_enquires_list[$i]['Status'] = "Fail";
-
-                        if (empty($enquiries['sales_enquiry_date'])) {
-                            $employee_invalid_enquires_list[$i]['Error Description'] = "Enquiry Date  is Mandatory";
-                        }
-                        if (empty($enquiries['sales_source_id'])) {
-                            $employee_invalid_enquires_list[$i]['Error Description'] = "Enquiry Source is Mandatory";
-                        }
-
-                        if (empty($enquiries['title_id'])) {
-                            $employee_invalid_enquires_list[$i]['Error Description'] = "Title is Mandatory";
-                        }
-
-                        if (empty($enquiries['first_name']) && empty($enquiries['last_name'])) {
-                            $employee_invalid_enquires_list[$i]['Error Description'] = "First name  and Last name . Any one from first name or last name is mandatory";
-                        }
-                        if (strlen($mobile1) !== 10 and is_numeric($mobile1)) {
-                            $employee_invalid_enquires_list[$i]['Error Description'] = "Invalid Mobile No1 (" . $sheetData[$j][9] . ")";
-                        }
-                        if (strlen($mobile2) !== 10 and is_numeric($mobile2)) {
-                            $employee_invalid_enquires_list[$i]['Error Description'] = "Invalid Mobile No2 (" . $sheetData[$j][10] . ")";
-                        }
-
-                        if (!empty($email1)) {
-                            if (!filter_var($email1, FILTER_VALIDATE_EMAIL)) {
-                                $employee_invalid_enquires_list[$i]['Error Description'] = "Invalid Email 1 (" . $sheetData[$j][11] . ")";
+                                if (empty($customerInfo))
+                                    $customerInfo = CustomersContact::select('customer_id')->where('mobile_number', '=', $enquiries['mobile_number2'])->first();
                             }
-                        } else if (!empty($email2)) {
-                            if (!filter_var($email2, FILTER_VALIDATE_EMAIL)) {
-                                $employee_invalid_enquires_list[$i]['Error Description'] = "Invalid Email 2 (" . $sheetData[$j][12] . ")";
+
+                            if ((empty($customerInfo) ) && (!empty($enquiries['email_id1']))) {
+                                $customerInfo = CustomersContact::select('customer_id')->where('email_id', '=', $enquiries['email_id1'])->first();
+                                if (empty($customerInfo))
+                                    $customerInfo = CustomersContact::select('customer_id')->where('email_id', '=', $enquiries['email_id2'])->first();
                             }
+                            if ((empty($customerInfo) ) && (!empty($enquiries['email_id2']))) {
+                                $customerInfo = CustomersContact::select('customer_id')->where('email_id', '=', $enquiries['email_id2'])->first();
+                                if (empty($customerInfo))
+                                    $customerInfo = CustomersContact::select('customer_id')->where('email_id', '=', $enquiries['email_id2'])->first();
+                            }
+                            $flag = 1;
                         }
+                        else {
+                            $flag = 2;
+                            $employeeInvalidEnquires[$i]['enquiry_date_dd_mm_yyyy'] = $sheetData[$j][0];
+                            $employeeInvalidEnquires[$i]['title_mrmsmrsdoctor'] = $sheetData[$j][1];
+                            $employeeInvalidEnquires[$i]['first_name'] = $sheetData[$j][2];
+                            $employeeInvalidEnquires[$i]['middle_name_optional'] = $sheetData[$j][3];
+                            $employeeInvalidEnquires[$i]['last_name'] = $sheetData[$j][4];
+                            $employeeInvalidEnquires[$i]['corporate_customer_yes_no'] = $sheetData[$j][5];
+                            $employeeInvalidEnquires[$i]['company_name'] = $sheetData[$j][6];
+                            $employeeInvalidEnquires[$i]['birth_date_dd_mm_yyyy_optional'] = $sheetData[$j][7];
+                            $employeeInvalidEnquires[$i]['anniversary_date_dd_mm_yyyy_optional'] = $sheetData[$j][8];
+                            $employeeInvalidEnquires[$i]['mobile_no1_10_digits_only'] = $sheetData[$j][9];
+                            $employeeInvalidEnquires[$i]['mobile_no_2_optional'] = $sheetData[$j][10];
+                            $employeeInvalidEnquires[$i]['email_1'] = $sheetData[$j][11];
+                            $employeeInvalidEnquires[$i]['email_2_optional'] = $sheetData[$j][12];
+                            $employeeInvalidEnquires[$i]['enquiry_source'] = $sheetData[$j][13];
+                            $employeeInvalidEnquires[$i]['sub_sourceoptional'] = $sheetData[$j][14];
+                            $employeeInvalidEnquires[$i]['source_description_optional'] = $sheetData[$j][15];
+                            $employeeInvalidEnquires[$i]['enquiry_project_name'] = $sheetData[$j][16];
+                            $employeeInvalidEnquires[$i]['block_type'] = $sheetData[$j][17];                        
+                            $employeeInvalidEnquires[$i]['enquiry_category_hotwarmcold'] = $sheetData[$j][18];
+                            $employeeInvalidEnquires[$i]['employee_mobile'] = $sheetData[$j][19];
+                            $employeeInvalidEnquires[$i]['enquiry_status_open_booked_lost_preserved_for_future'] = $sheetData[$j][20];
+                            $employeeInvalidEnquires[$i]['enquiry_last_followup_remark_optional'] = $sheetData[$j][21];
+                            $employeeInvalidEnquires[$i]['next_followup_date'] = $sheetData[$j][22];
+                            $employeeInvalidEnquires[$i]['lost_date'] = $sheetData[$j][23];
+                            $employeeInvalidEnquires[$i]['lost_reason'] = $sheetData[$j][24];
+                            $employeeInvalidEnquires[$i]['lost_sub_reason_optional'] = $sheetData[$j][25];
+                            $employeeInvalidEnquires[$i]['lost_remark'] = $sheetData[$j][26];
+                            $employeeInvalidEnquires[$i]['booked_date'] = $sheetData[$j][27];
+                            $employeeInvalidEnquires[$i]['booked_project'] = $sheetData[$j][28];
+                            $employeeInvalidEnquires[$i]['booked_block_type'] = $sheetData[$j][29];
+                            $employeeInvalidEnquires[$i]['Status'] = "Fail";
 
-                        $invalid++;
-                        continue;
-                    }
+                            if (empty($enquiries['sales_enquiry_date'])) {
+                                $employeeInvalidEnquires[$i]['Error Description'] = "Enquiry Date  is Mandatory";
+                            }
+                            if (empty($enquiries['sales_source_id'])) {
+                                $employeeInvalidEnquires[$i]['Error Description'] = "Enquiry Source is Mandatory";
+                            }
 
-                    if ($flag == 1) {
-                        if (!empty($customerInfo))
-                            $enquiries['customer_id'] = $customerInfo->customer_id;
+                            if (empty($enquiries['title_id'])) {
+                                $employeeInvalidEnquires[$i]['Error Description'] = "Title is Mandatory";
+                            }
 
-                        if (empty($customerInfo)) {
-                            $customerInfo = new Customer();
-                            if ($customerInfo) {
-                                $customerInfo->client_id = config('global.client_id');
-                                $customerInfo->title_id = $enquiries['title_id'];
-                                $customerInfo->first_name = $enquiries['first_name'];
-                                $customerInfo->middle_name = $enquiries['middle_name'];
-                                $customerInfo->last_name = $enquiries['last_name'];
-                                $customerInfo->corporate_customer = $enquiries['corporate_customer'];
-                                $customerInfo->company_id = $enquiries['company_id'];
-                                $customerInfo->birth_date = $enquiries['birth_date'];
-                                $customerInfo->marriage_date = $enquiries['marriage_date'];
-                                $customerInfo->source_id = $enquiries['sales_source_id'];
-                                $customerInfo->subsource_id = $enquiries['sales_subsource_id'];
-                                $customerInfo->source_description = $enquiries['sales_source_description'];
-                                $customerInfo->sms_privacy_status = $enquiries['sms_privacy_status'];
-                                $customerInfo->email_privacy_status = $enquiries['sms_privacy_status'];
-                                $customerInfo->created_date = date('Y-m-d');
-                                $customerInfo->created_by = $loggedInUserId;
-                                $customerInfo->created_IP = $_SERVER['REMOTE_ADDR'];
-                                $customerInfo->created_browser = $_SERVER['HTTP_USER_AGENT'];
-                                $customerInfo->created_mac_id = $getMacAddress;
-                                $customerInfo->save();
-                                if ($customerInfo) {
-                                    $customerInfocontact = new CustomersContact();
-                                    $customerInfocontact->client_id = config('global.client_id');
-                                    $customerInfocontact->customer_id = $customerInfo->id;
-                                    $customerInfocontact->mobile_number = $enquiries['mobile_number'];
-                                    $customerInfocontact->email_id = $enquiries['email_id'];
-                                    $customerInfocontact->email_id = $enquiries['email_id'];
-                                    $customerInfocontact->created_date = date('Y-m-d');
-                                    $customerInfocontact->created_by = $loggedInUserId;
-                                    $customerInfocontact->created_IP = $_SERVER['REMOTE_ADDR'];
-                                    $customerInfocontact->created_browser = $_SERVER['HTTP_USER_AGENT'];
-                                    $customerInfocontact->created_mac_id = $getMacAddress;
-                                    $customerInfocontact->save();
+                            if (empty($enquiries['first_name']) && empty($enquiries['last_name'])) {
+                                $employeeInvalidEnquires[$i]['Error Description'] = "First name  and Last name . Any one from first name or last name is mandatory";
+                            }
+                            if (strlen($mobile1) !== 10 and is_numeric($mobile1)) {
+                                $employeeInvalidEnquires[$i]['Error Description'] = "Invalid Mobile No1 (" . $sheetData[$j][9] . ")";
+                            }
+                            if (strlen($mobile2) !== 10 and is_numeric($mobile2)) {
+                                $employeeInvalidEnquires[$i]['Error Description'] = "Invalid Mobile No2 (" . $sheetData[$j][10] . ")";
+                            }
+
+                            if (!empty($email1)) {
+                                if (!filter_var($email1, FILTER_VALIDATE_EMAIL)) {
+                                    $employeeInvalidEnquires[$i]['Error Description'] = "Invalid Email 1 (" . $sheetData[$j][11] . ")";
+                                }
+                            } else if (!empty($email2)) {
+                                if (!filter_var($email2, FILTER_VALIDATE_EMAIL)) {
+                                    $employeeInvalidEnquires[$i]['Error Description'] = "Invalid Email 2 (" . $sheetData[$j][12] . ")";
                                 }
                             }
-                            $enquiries['customer_id'] = $customerInfo->id;
-                        } else {
-
-                            $enquiriesInfo = Enquiry::select('*')->where('customer_id', '=', $enquiries['customer_id'])->whereIn('sales_status_id', [1, 2])->first();
+                            $invalid++;
+                            continue;
                         }
+                        //insert customer, customer contact, enquiries, enquiry details, enquiry followups, bookings
+                        if ($flag == 1) {
+                            if (!empty($customerInfo))
+                                $enquiries['customer_id'] = $customerInfo->customer_id;
 
-
-                        if (empty($enquiriesInfo)) {
-                            $enquiriesInfo = new Enquiry();
-                            $enquiriesInfo->client_id = config('global.client_id');
-                            $enquiriesInfo->customer_id = $enquiries['customer_id'];
-                            $enquiriesInfo->sales_enquiry_date = $enquiries['sales_enquiry_date'];
-                            $enquiriesInfo->sales_employee_id = $enquiries['sales_employee_id'];
-                            $enquiriesInfo->sales_source_id = $enquiries['sales_source_id'];
-                            $enquiriesInfo->sales_subsource_id = $enquiries['sales_subsource_id'];
-                            $enquiriesInfo->sales_source_description = $enquiries['sales_source_description'];
-                            $enquiriesInfo->sales_status_id = $enquiries['sales_status_id'];
-                            $enquiriesInfo->sales_category_id = $enquiries['sales_category_id'];
-                            if (!empty($enquiries['sales_lost_reason_id'])) {
-                                $enquiriesInfo->sales_lost_reason_id = $enquiries['sales_lost_reason_id'];
-                                $enquiriesInfo->sales_lost_sub_reason_id = $enquiries['sales_lost_sub_reason_id'];
+                            if (empty($customerInfo)) {
+                                $customerInfo = new Customer();
+                                if ($customerInfo) {
+                                    $customerInfo->client_id = config('global.client_id');
+                                    $customerInfo->title_id = $enquiries['title_id'];
+                                    $customerInfo->first_name = $enquiries['first_name'];
+                                    $customerInfo->middle_name = $enquiries['middle_name'];
+                                    $customerInfo->last_name = $enquiries['last_name'];
+                                    $customerInfo->corporate_customer = $enquiries['corporate_customer'];
+                                    $customerInfo->company_id = $enquiries['company_id'];
+                                    $customerInfo->birth_date = $enquiries['birth_date'];
+                                    $customerInfo->marriage_date = $enquiries['marriage_date'];
+                                    $customerInfo->source_id = $enquiries['sales_source_id'];
+                                    $customerInfo->subsource_id = $enquiries['sales_subsource_id'];
+                                    $customerInfo->source_description = $enquiries['sales_source_description'];
+                                    $customerInfo->sms_privacy_status = $enquiries['sms_privacy_status'];
+                                    $customerInfo->email_privacy_status = $enquiries['sms_privacy_status'];
+                                    $customerInfo->created_date = date('Y-m-d');
+                                    $customerInfo->created_by = $loggedInUserId;
+                                    $customerInfo->created_IP = $_SERVER['REMOTE_ADDR'];
+                                    $customerInfo->created_browser = $_SERVER['HTTP_USER_AGENT'];
+                                    $customerInfo->created_mac_id = $getMacAddress;
+                                    $customerInfo->save();
+                                    if ($customerInfo) {
+                                        $customerInfocontact = new CustomersContact();
+                                        $customerInfocontact->client_id = config('global.client_id');
+                                        $customerInfocontact->customer_id = $customerInfo->id;
+                                        $customerInfocontact->mobile_number = $enquiries['mobile_number'];
+                                        $customerInfocontact->email_id = $enquiries['email_id'];
+                                        $customerInfocontact->created_date = date('Y-m-d');
+                                        $customerInfocontact->created_by = $loggedInUserId;
+                                        $customerInfocontact->created_IP = $_SERVER['REMOTE_ADDR'];
+                                        $customerInfocontact->created_browser = $_SERVER['HTTP_USER_AGENT'];
+                                        $customerInfocontact->created_mac_id = $getMacAddress;
+                                        $customerInfocontact->save();
+                                    }
+                                }
+                                $enquiries['customer_id'] = $customerInfo->id;
+                            } else {
+                                $enquiriesInfo = Enquiry::select('*')->where('customer_id', '=', $enquiries['customer_id'])->whereIn('sales_status_id', [1, 2])->first();
                             }
-                            $enquiriesInfo->test_drive_given = $enquiries['test_drive_given'];
-                            $enquiriesInfo->created_date = date('Y-m-d');
-                            $enquiriesInfo->created_by = $loggedInUserId;
-                            $enquiriesInfo->created_IP = $_SERVER['REMOTE_ADDR'];
-                            $enquiriesInfo->created_browser = $_SERVER['HTTP_USER_AGENT'];
-                            $enquiriesInfo->created_mac_id = $getMacAddress;
-                            $enquiriesInfo->save();
 
-
-                            if ($enquiriesInfo) {
-                                $enquiries['enquiry_id'] = $enquiriesInfo->id;
-                                $enquiriesDeatilInfo = new EnquiryDetail();
-                                $enquiriesDeatilInfo->enquiry_id = $enquiriesInfo->id;
-                                $enquiriesDeatilInfo->brand_id = $enquiries['brand_id'];
-                                ;
-                                $enquiriesDeatilInfo->model_id = $enquiries['model_id'];
-                                $enquiriesDeatilInfo->created_date = date('Y-m-d');
-                                $enquiriesDeatilInfo->created_by = $loggedInUserId;
-                                $enquiriesDeatilInfo->created_IP = $_SERVER['REMOTE_ADDR'];
-                                $enquiriesDeatilInfo->created_browser = $_SERVER['HTTP_USER_AGENT'];
-                                $enquiriesDeatilInfo->created_mac_id = $getMacAddress;
-                                $enquiriesDeatilInfo->save();
-
+                            if (empty($enquiriesInfo)) {
+                                $enquiriesInfo = new Enquiry();
+                                $enquiriesInfo->client_id = config('global.client_id');
+                                $enquiriesInfo->customer_id = $enquiries['customer_id'];
+                                $enquiriesInfo->sales_enquiry_date = $enquiries['sales_enquiry_date'];
+                                $enquiriesInfo->sales_employee_id = $enquiries['sales_employee_id'];
+                                $enquiriesInfo->sales_source_id = $enquiries['sales_source_id'];
+                                $enquiriesInfo->sales_subsource_id = $enquiries['sales_subsource_id'];
+                                $enquiriesInfo->sales_source_description = $enquiries['sales_source_description'];
+                                $enquiriesInfo->sales_status_id = $enquiries['sales_status_id'];
+                                $enquiriesInfo->sales_category_id = $enquiries['sales_category_id'];
+                                if (!empty($enquiries['sales_lost_reason_id'])) {
+                                    $enquiriesInfo->sales_lost_reason_id = $enquiries['sales_lost_reason_id'];
+                                    $enquiriesInfo->sales_lost_sub_reason_id = $enquiries['sales_lost_sub_reason_id'];
+                                }
+                                $enquiriesInfo->created_date = date('Y-m-d');
+                                $enquiriesInfo->created_by = $loggedInUserId;
+                                $enquiriesInfo->created_IP = $_SERVER['REMOTE_ADDR'];
+                                $enquiriesInfo->created_browser = $_SERVER['HTTP_USER_AGENT'];
+                                $enquiriesInfo->created_mac_id = $getMacAddress;
+                                $enquiriesInfo->save();
 
                                 if ($enquiriesInfo) {
+                                    $enquiries['enquiry_id'] = $enquiriesInfo->id;
+                                    $enquiriesDeatilInfo = new EnquiryDetail();
+                                    $enquiriesDeatilInfo->enquiry_id = $enquiriesInfo->id;
+                                    $enquiriesDeatilInfo->project_id = $enquiries['project_id'];
+                                    $enquiriesDeatilInfo->block_id = $enquiries['block_id'];
+                                    $enquiriesDeatilInfo->sub_block_id = 0;
+                                    $enquiriesDeatilInfo->area_in_sqft = 0;
+                                    $enquiriesDeatilInfo->created_date = date('Y-m-d');
+                                    $enquiriesDeatilInfo->created_by = $loggedInUserId;
+                                    $enquiriesDeatilInfo->created_IP = $_SERVER['REMOTE_ADDR'];
+                                    $enquiriesDeatilInfo->created_browser = $_SERVER['HTTP_USER_AGENT'];
+                                    $enquiriesDeatilInfo->created_mac_id = $getMacAddress;
+                                    $enquiriesDeatilInfo->save();
 
                                     $followup = new EnquiryFollowup();
                                     $followup->enquiry_id = $enquiriesInfo->id;
@@ -2012,7 +1972,7 @@ class MasterSalesController extends Controller {
 
                                     $followup->sales_category_id = $enquiries['sales_category_id'];
                                     $followup->sales_status_id = $enquiries['sales_status_id'];
-                                    $followup->followup_by = $enquiries['sales_employee_id'];
+                                    $followup->followup_by_employee_id = $enquiries['sales_employee_id'];
                                     $followup->remarks = $enquiries['remarks'];
                                     $followup->created_date = date('Y-m-d');
                                     $followup->created_by = $loggedInUserId;
@@ -2025,16 +1985,12 @@ class MasterSalesController extends Controller {
                                         if ($enquiries['sales_status_id'] === 3) {
                                             $bookinginfo = new Booking();
                                             $bookinginfo->enquiry_id = $enquiries['enquiry_id'];
-                                            $bookinginfo->model_id = $enquiries['model_id'];
+                                            $bookinginfo->project_id = $enquiries['project_id'];
+                                            $bookinginfo->block_id = $enquiries['block_id'];
                                             $bookinginfo->booking_date = $enquiries['booking_date'];
                                             $bookinginfo->sales_person_id = $enquiries['sales_employee_id'];
-                                            $bookinginfo->sub_model_id = 0;
-                                            $bookinginfo->variant_id = 0;
-                                            $bookinginfo->transmission_id = 0;
-                                            $bookinginfo->engine_type_id = 0;
-                                            $bookinginfo->fuel_type_id = 0;
-                                            $bookinginfo->color_id = 0;
-                                            $bookinginfo->booking_status_id = 1;
+                                            $bookinginfo->sub_block_id = 0;
+                                            $bookinginfo->area_in_sqft = 0;
                                             $bookinginfo->created_date = date('Y-m-d');
                                             $bookinginfo->created_by = $loggedInUserId;
                                             $bookinginfo->created_IP = $_SERVER['REMOTE_ADDR'];
@@ -2043,285 +1999,275 @@ class MasterSalesController extends Controller {
                                             $bookinginfo->save();
                                         }
                                     }
+                                    /* Employeewise enquiry  Detail  cnt */
+
+                                    $employeeDetail = Employee::select('id', 'first_name', 'last_name')->where('id', '=', $enquiries['sales_employee_id'])->first();
+
+                                    if (!empty($employeeCount[$employeeDetail->first_name . ' ' . $employeeDetail->last_name])) {
+                                        $employeecont = $employeeCount[$employeeDetail->first_name . ' ' . $employeeDetail->last_name];
+                                        $employeeCount[$employeeDetail->first_name . ' ' . $employeeDetail->last_name] = $employeecont + 1;
+                                    } else {
+                                        $employeeCount[$employeeDetail->first_name . ' ' . $employeeDetail->last_name] = 1;
+                                    }
+                                    $inserted++;
                                 }
-                                /* Employeewise enquiry  Detail  cnt */
+                            } else {
+                                //invalid value
 
-                                $employeeDetail = \App\Model\backend\Employee::select('id', 'first_name', 'last_name')->where('id', '=', $enquiries['sales_employee_id'])->first();
+                                $employeeInvalidEnquires[$i]['enquiry_date_dd_mm_yyyy'] = $sheetData[$j][0];
+                                $employeeInvalidEnquires[$i]['title_mrmsmrsdoctor'] = $sheetData[$j][1];
+                                $employeeInvalidEnquires[$i]['first_name'] = $sheetData[$j][2];
+                                $employeeInvalidEnquires[$i]['middle_name_optional'] = $sheetData[$j][3];
+                                $employeeInvalidEnquires[$i]['last_name'] = $sheetData[$j][4];
+                                $employeeInvalidEnquires[$i]['corporate_customer_yes_no'] = $sheetData[$j][5];
+                                $employeeInvalidEnquires[$i]['company_name'] = $sheetData[$j][6];
+                                $employeeInvalidEnquires[$i]['birth_date_dd_mm_yyyy_optional'] = $sheetData[$j][7];
+                                $employeeInvalidEnquires[$i]['anniversary_date_dd_mm_yyyy_optional'] = $sheetData[$j][8];
+                                $employeeInvalidEnquires[$i]['mobile_no1_10_digits_only'] = $sheetData[$j][9];
+                                $employeeInvalidEnquires[$i]['mobile_no_2_optional'] = $sheetData[$j][10];
+                                $employeeInvalidEnquires[$i]['email_1'] = $sheetData[$j][11];
+                                $employeeInvalidEnquires[$i]['email_2_optional'] = $sheetData[$j][12];
+                                $employeeInvalidEnquires[$i]['employee_mobile'] = $sheetData[$j][13];
+                                $employeeInvalidEnquires[$i]['enquiry_source'] = $sheetData[$j][14];
+                                $employeeInvalidEnquires[$i]['sub_sourceoptional'] = $sheetData[$j][15];
+                                $employeeInvalidEnquires[$i]['source_description_optional'] = $sheetData[$j][16];
+                                $employeeInvalidEnquires[$i]['enquiry_category_hotwarmcold'] = $sheetData[$j][17];
+                                $employeeInvalidEnquires[$i]['enquiry_status_open_booked_lost_preserved_for_future'] = $sheetData[$j][18];
+                                $employeeInvalidEnquires[$i]['enquiry_last_followup_remark_optional'] = $sheetData[$j][19];
+                                $employeeInvalidEnquires[$i]['next_followup_date'] = $sheetData[$j][20];
+                                $employeeInvalidEnquires[$i]['lost_date'] = $sheetData[$j][21];
+                                $employeeInvalidEnquires[$i]['lost_reason'] = $sheetData[$j][22];
+                                $employeeInvalidEnquires[$i]['lost_sub_reason_optional'] = $sheetData[$j][23];
+                                $employeeInvalidEnquires[$i]['lost_remark'] = $sheetData[$j][24];
+                                $employeeInvalidEnquires[$i]['booked_date'] = $sheetData[$j][25];
+                                $employeeInvalidEnquires[$i]['vehicle_model'] = $sheetData[$j][26];
+                                $employeeInvalidEnquires[$i]['test_drive_given_yes_no'] = $sheetData[$j][27];
+                                $employeeInvalidEnquires[$i]['Status'] = "Fail";
 
-                                if (!empty($employee_under_count[$employeeDetail->first_name . ' ' . $employeeDetail->last_name])) {
-                                    $employeecont = $employee_under_count[$employeeDetail->first_name . ' ' . $employeeDetail->last_name];
-                                    $employee_under_count[$employeeDetail->first_name . ' ' . $employeeDetail->last_name] = $employeecont + 1;
-                                } else {
-                                    $employee_under_count[$employeeDetail->first_name . ' ' . $employeeDetail->last_name] = 1;
+                                if (!empty($mobile1)) {
+                                    $employeeInvalidEnquires[$i]['Error Description'] = "Already Exist" . "(" . $sheetData[$j][9] . ")";
+                                } else if (!empty($email1)) {
+                                    $employeeInvalidEnquires[$i]['Error Description'] = "Already Exist" . "(" . $sheetData[$j][11] . ")";
+                                } else if (!empty($mobile2)) {
+                                    $employeeInvalidEnquires[$i]['Error Description'] = "Already Exist" . "(" . $sheetData[$j][10] . ")";
+                                } else if (!empty($email2)) {
+                                    $employeeInvalidEnquires[$i]['Error Description'] = "Already Exist" . "(" . $sheetData[$j][12] . ")";
                                 }
-
-
-                                $inserted++;
+                                $alreadyExist++;
                             }
-                        } else {
-                            //invalid value
+                        } //end of flag
+                    }  // end of foreach  
+                } else {
+                    $result = ['success' => false, 'message' => 'You can upload enquiries in  excel sheet upto 2000 enquiries in one attempt.'];
+                    return json_encode($result);
+                }
+    //echo '<pre>';print_r($enquiries);exit;
+    //            echo '<pre>';print_r($employeeInvalidEnquires);exit;
 
-                            $employee_invalid_enquires_list[$i]['enquiry_date_dd_mm_yyyy'] = $sheetData[$j][0];
-                            $employee_invalid_enquires_list[$i]['title_mrmsmrsdoctor'] = $sheetData[$j][1];
-                            $employee_invalid_enquires_list[$i]['first_name'] = $sheetData[$j][2];
-                            $employee_invalid_enquires_list[$i]['middle_name_optional'] = $sheetData[$j][3];
-                            $employee_invalid_enquires_list[$i]['last_name'] = $sheetData[$j][4];
-                            $employee_invalid_enquires_list[$i]['corporate_customer_yes_no'] = $sheetData[$j][5];
-                            $employee_invalid_enquires_list[$i]['company_name'] = $sheetData[$j][6];
-                            $employee_invalid_enquires_list[$i]['birth_date_dd_mm_yyyy_optional'] = $sheetData[$j][7];
-                            $employee_invalid_enquires_list[$i]['anniversary_date_dd_mm_yyyy_optional'] = $sheetData[$j][8];
-                            $employee_invalid_enquires_list[$i]['mobile_no1_10_digits_only'] = $sheetData[$j][9];
-                            $employee_invalid_enquires_list[$i]['mobile_no_2_optional'] = $sheetData[$j][10];
-                            $employee_invalid_enquires_list[$i]['email_1'] = $sheetData[$j][11];
-                            $employee_invalid_enquires_list[$i]['email_2_optional'] = $sheetData[$j][12];
-                            $employee_invalid_enquires_list[$i]['employee_mobile'] = $sheetData[$j][13];
-                            $employee_invalid_enquires_list[$i]['enquiry_source'] = $sheetData[$j][14];
-                            $employee_invalid_enquires_list[$i]['sub_sourceoptional'] = $sheetData[$j][15];
-                            $employee_invalid_enquires_list[$i]['source_description_optional'] = $sheetData[$j][16];
-                            $employee_invalid_enquires_list[$i]['enquiry_category_hotwarmcold'] = $sheetData[$j][17];
-                            $employee_invalid_enquires_list[$i]['enquiry_status_open_booked_lost_preserved_for_future'] = $sheetData[$j][18];
-                            $employee_invalid_enquires_list[$i]['enquiry_last_followup_remark_optional'] = $sheetData[$j][19];
-                            $employee_invalid_enquires_list[$i]['next_followup_date'] = $sheetData[$j][20];
-                            $employee_invalid_enquires_list[$i]['lost_date'] = $sheetData[$j][21];
-                            $employee_invalid_enquires_list[$i]['lost_reason'] = $sheetData[$j][22];
-                            $employee_invalid_enquires_list[$i]['lost_sub_reason_optional'] = $sheetData[$j][23];
-                            $employee_invalid_enquires_list[$i]['lost_remark'] = $sheetData[$j][24];
-                            $employee_invalid_enquires_list[$i]['booked_date'] = $sheetData[$j][25];
-                            $employee_invalid_enquires_list[$i]['vehicle_model'] = $sheetData[$j][26];
-                            $employee_invalid_enquires_list[$i]['test_drive_given_yes_no'] = $sheetData[$j][27];
-                            $employee_invalid_enquires_list[$i]['Status'] = "Fail";
+                /* Generate Invalid Excel */
 
-                            if (!empty($mobile1)) {
-                                $employee_invalid_enquires_list[$i]['Error Description'] = "Already Exist" . "(" . $sheetData[$j][9] . ")";
-                            } else if (!empty($email1)) {
-                                $employee_invalid_enquires_list[$i]['Error Description'] = "Already Exist" . "(" . $sheetData[$j][11] . ")";
-                            } else if (!empty($mobile2)) {
-                                $employee_invalid_enquires_list[$i]['Error Description'] = "Already Exist" . "(" . $sheetData[$j][10] . ")";
-                            } else if (!empty($email2)) {
-                                $employee_invalid_enquires_list[$i]['Error Description'] = "Already Exist" . "(" . $sheetData[$j][12] . ")";
-                            }
+                $invalidfileName = "bms" . "_" . $currentDate . "_by_" . $first_name . "_" . $last_name;
+                $reportName = "Invalid Enquiries";
+                $data = $employeeInvalidEnquires;
+                ob_end_clean();
+                Excel::create($invalidfileName, function($excel) use ($data, $reportName) {
+                    $excel->sheet($reportName, function($sheet) use ($data, $reportName) {
+                        $sheet->mergeCells('A1:AC1');
+                        $sheet->setHeight("1", 45);
+                        $sheet->cells('A1:AC1', function($cells) {
+                            $cells->setAlignment('center');
+                            $cells->setFontColor('#161515');
+                            $cells->setBackground('#6ca042');
+                            $cells->setBorder('thick', 'thick', 'thick', 'thick'); // Set all borders (top, right, bottom, left)
+                            $cells->setFont(array(
+                                'family' => 'Calibri',
+                                'size' => '22',
+                            ));
+                        });
+
+                        $sheet->mergeCells('A2:AC2');
+
+                        $title = str_replace('_', ' ', $reportName);
+                        $sheet->row(1, array('LMS Auto - ' . $title));
+
+                        $sheet->appendRow(["Sr.No",
+                            "Enquiry Date (DD-MM-YYYY)",
+                            "Title (Mr./Ms./Mrs./Doctor)",
+                            "First Name",
+                            "Middle Name (Optional)",
+                            "Last Name",
+                            "Corporate Customer (Yes / No)",
+                            "Company Name",
+                            "Birth Date (DD-MM-YYYY) (optional)",
+                            "Anniversary Date (DD-MM-YYYY) (optional)",
+                            "Mobile No1 (10 Digits Only)",
+                            "Mobile No 2 (Optional)",
+                            "Email 1",
+                            "Email 2 (Optional)",
+                            "Employee Mobile",
+                            "Enquiry Source",
+                            "Sub Source(optional)",
+                            "Source Description (Optional)",
+                            "Enquiry Category (Hot/Warm/Cold)",
+                            "Enquiry Status (Open / Booked / Lost / Preserved for Future)",
+                            "Enquiry Last Followup Remark (Optional)",
+                            "Next Followup Date",
+                            "Lost Date",
+                            "Lost reason",
+                            "Lost Sub Reason (Optional)",
+                            "Lost Remark",
+                            "Booked Date",                        
+                            "Status",
+                            "Error Description"]);
+
+                        $sheet->row(3, function ($row) {
+                            $row->setAlignment('center');
+                            $row->setBackground('#6ca042');
+                            $row->setFont(array(
+                                'family' => 'Calibri',
+                                'size' => '10',
+                            ));
+                        });
+
+                        $i = 1;
+
+                        // putting users data as next rows
+                        foreach ($data as $ExcelData) {
+
+                            $srno = ["srno" => $i++];
+                            $enquiryDate = $ExcelData['enquiry_date_dd_mm_yyyy'];
+                            $title = $ExcelData['title_mrmsmrsdoctor'];
+                            $first_name = $ExcelData['first_name'];
+                            $middle_name = $ExcelData['middle_name_optional'];
+                            $last_name = $ExcelData['last_name'];
+                            $corporatecustomer = $ExcelData['corporate_customer_yes_no'];
+                            $companyName = $ExcelData['company_name'];
+                            $birthDate = $ExcelData['birth_date_dd_mm_yyyy_optional'];
+                            $anniversary = $ExcelData['anniversary_date_dd_mm_yyyy_optional'];
+                            $mobile_no1 = $ExcelData['mobile_no1_10_digits_only'];
+                            $mobile_no2 = $ExcelData['mobile_no_2_optional'];
+                            $email_id1 = $ExcelData['email_1'];
+                            $email_id2 = $ExcelData['email_2_optional'];
+                            $employee_mobile = $ExcelData['employee_mobile'];
+                            $enquiry_source = $ExcelData['enquiry_source'];
+                            $enquiry_subsource_optional = $ExcelData['sub_sourceoptional'];
+                            $sourcedescription = $ExcelData['source_description_optional'];
+                            $enquiry_category = $ExcelData['enquiry_category_hotwarmcold'];
+                            $enquiry_status = $ExcelData['enquiry_status_open_booked_lost_preserved_for_future'];
+                            $enquiry_remark = $ExcelData['enquiry_last_followup_remark_optional'];
+                            $followupdate = $ExcelData['next_followup_date'];
+                            $lostdate = $ExcelData['lost_date'];
+                            $lostreason = $ExcelData['lost_reason'];
+                            $lostsubreason = $ExcelData['lost_sub_reason_optional'];
+                            $lostremark = $ExcelData['lost_remark'];
+                            $booked_date = $ExcelData['booked_date'];
+                            $report_status = $ExcelData['Status'];
+                            $error_description = $ExcelData['Error Description'];
+
+                            $getInvalidData = [$enquiryDate,
+                                $title,
+                                $first_name,
+                                $middle_name,
+                                $last_name,
+                                $corporatecustomer,
+                                $companyName,
+                                $birthDate,
+                                $anniversary,
+                                $mobile_no1,
+                                $mobile_no2,
+                                $email_id1,
+                                $email_id2,
+                                $employee_mobile,
+                                $enquiry_source,
+                                $enquiry_subsource_optional,
+                                $sourcedescription,
+                                $enquiry_category,
+                                $enquiry_status,
+                                $enquiry_remark,
+                                $followupdate,
+                                $lostdate,
+                                $lostreason,
+                                $lostsubreason,
+                                $lostremark,
+                                $booked_date,
+                                $report_status,
+                                $error_description
+                            ];
+
+                            $user = array_merge($srno, $getInvalidData);
 
 
-
-                            $alreadyexist++;
+                            $sheet->appendRow($user);
                         }
-                    } //end of flag
-                    // print_r($enquiries); 
-                }  // end of foreach  
+                    });
+                })->save('XLS', "downloads/");
+
+                $invalidfolderName = "/sales/invalidReport/";
+
+                $basepath = base_path() . "/public/downloads/" . $invalidfileName . ".xls";
+                $invalidfile = $invalidfileName . ".xls";
+                S3::s3FileUpload($basepath, $invalidfile, $invalidfolderName);
+                $importfolderName = "/sales/importReport/";
+                S3::s3FileUpload($importbasepath, $wfileName, $importfolderName);
+                \File::delete($basepath);
+
+                $invalidfilecount = sizeof($data);
+                $statusmessage = "";
+                $recordsplit = array();
+                foreach ($employeeCount as $key => $value) {
+                    $recordsplit[] = $key . "," . $value;
+                }
+
+                $r = 0;
+                $return_record_split = array();
+                foreach ($employeeCount as $key => $value) {
+                    $return_record_split[$r] = $key . ' : ' . $value;
+                    $r++;
+                }
+                $return_record_split = @implode(',', $return_record_split);
+
+                $enquires_inserted_below_employee = @implode(',', $recordsplit);
+                $statusmessage = "Total imported enquiry: " . $total . "<br>";
+                if (!empty($inserted)) {
+                    $statusmessage .= "Succesfully : " . $inserted . "<br>";
+                }
+                if (!empty($enquires_inserted_below_employee)) {
+                    $statusmessage .= "<b> Enquiry inserted in below accounts . </b> " . $enquires_inserted_below_employee . "<br>";
+                }
+                if (!empty($invalidfilecount)) {
+                    $statusmessage .= "Invalid : " . $invalidfilecount . "<br>";
+                }
+
+                $importhistory = new \App\Models\ImportHistroy();
+                $importhistory->created_datetime = date('Y-m-d h:i:s');
+                $importhistory->employee_id = Auth::guard('admin')->user()->id;
+                $importhistory->import_file = $importfolderName . $wfileName;
+                $importhistory->report_status = $statusmessage;
+                $importhistory->error_report_file = $invalidfolderName . $invalidfile;
+                $importhistory->save();
+
+                $result = ["success" => true, "message" => "Enquiries Imported Successfully", "inserted" => $inserted, "alredyexist" => $alreadyExist, "employeeundercount" => $employeeCount, "total" => $total-1, "invalidfileurl" => $invalidfile, "invalidfilecount" => $invalidfilecount, 'return_record_split' => $return_record_split];
             } else {
-                $result = ['success' => false, 'message' => 'You can upload enquiries in  excel sheet upto 1000 enquiries in one attempt.'];
-                return json_encode($result);
+                $result = ["success" => false, "message" => "File not found, Please try again."];
             }
-
-            //echo '<pre>';print_r($employee_invalid_enquires_list);
-
-            /* Generate Invalid Excel */
-
-            $invalidfileName = "lmsauto" . "_" . $currentDate . "_by_" . $first_name . "_" . $last_name;
-            $reportName = "Invalid Enquiries";
-            $data = $employee_invalid_enquires_list;
-            ob_end_clean();
-            Excel::create($invalidfileName, function($excel) use ($data, $reportName) {
-                $excel->sheet($reportName, function($sheet) use ($data, $reportName) {
-                    $sheet->mergeCells('A1:AE1');
-                    $sheet->setHeight("1", 45);
-                    $sheet->cells('A1:AE1', function($cells) {
-                        $cells->setAlignment('center');
-                        $cells->setFontColor('#161515');
-                        $cells->setBackground('#6ca042');
-                        $cells->setBorder('thick', 'thick', 'thick', 'thick'); // Set all borders (top, right, bottom, left)
-                        $cells->setFont(array(
-                            'family' => 'Calibri',
-                            'size' => '22',
-                        ));
-                    });
-
-                    $sheet->mergeCells('A2:AE2');
-
-                    $title = str_replace('_', ' ', $reportName);
-                    $sheet->row(1, array('LMS Auto - ' . $title));
-
-                    $sheet->appendRow(["Sr.No",
-                        "Enquiry Date (DD-MM-YYYY)",
-                        "Title (Mr./Ms./Mrs./Doctor)",
-                        "First Name",
-                        "Middle Name (Optional)",
-                        "Last Name",
-                        "Corporate Customer (Yes / No)",
-                        "Company Name",
-                        "Birth Date (DD-MM-YYYY) (optional)",
-                        "Anniversary Date (DD-MM-YYYY) (optional)",
-                        "Mobile No1 (10 Digits Only)",
-                        "Mobile No 2 (Optional)",
-                        "Email 1",
-                        "Email 2 (Optional)",
-                        "Employee Mobile",
-                        "Enquiry Source",
-                        "Sub Source(optional)",
-                        "Source Description (Optional)",
-                        "Enquiry Category (Hot/Warm/Cold)",
-                        "Enquiry Status (Open / Booked / Lost / Preserved for Future)",
-                        "Enquiry Last Followup Remark (Optional)",
-                        "Next Followup Date",
-                        "Lost Date",
-                        "Lost reason",
-                        "Lost Sub Reason (Optional)",
-                        "Lost Remark",
-                        "Booked Date",
-                        "Vehicle Model",
-                        "Test Drive Given (Yes / No)",
-                        "Status",
-                        "Error Description"]);
-
-                    $sheet->row(3, function ($row) {
-                        $row->setAlignment('center');
-                        $row->setBackground('#6ca042');
-                        $row->setFont(array(
-                            'family' => 'Calibri',
-                            'size' => '10',
-                        ));
-                    });
-
-                    $i = 1;
-
-                    // putting users data as next rows
-                    foreach ($data as $ExcelData) {
-
-                        $srno = ["srno" => $i++];
-                        $enquiryDate = $ExcelData['enquiry_date_dd_mm_yyyy'];
-                        $title = $ExcelData['title_mrmsmrsdoctor'];
-                        $first_name = $ExcelData['first_name'];
-                        $middle_name = $ExcelData['middle_name_optional'];
-                        $last_name = $ExcelData['last_name'];
-                        $corporatecustomer = $ExcelData['corporate_customer_yes_no'];
-                        $companyName = $ExcelData['company_name'];
-                        $birthDate = $ExcelData['birth_date_dd_mm_yyyy_optional'];
-                        $anniversary = $ExcelData['anniversary_date_dd_mm_yyyy_optional'];
-                        $mobile_no1 = $ExcelData['mobile_no1_10_digits_only'];
-                        $mobile_no2 = $ExcelData['mobile_no_2_optional'];
-                        $email_id1 = $ExcelData['email_1'];
-                        $email_id2 = $ExcelData['email_2_optional'];
-                        $employee_mobile = $ExcelData['employee_mobile'];
-                        $enquiry_source = $ExcelData['enquiry_source'];
-                        $enquiry_subsource_optional = $ExcelData['sub_sourceoptional'];
-                        $sourcedescription = $ExcelData['source_description_optional'];
-                        $enquiry_category = $ExcelData['enquiry_category_hotwarmcold'];
-                        $enquiry_status = $ExcelData['enquiry_status_open_booked_lost_preserved_for_future'];
-                        $enquiry_remark = $ExcelData['enquiry_last_followup_remark_optional'];
-                        $followupdate = $ExcelData['next_followup_date'];
-                        $lostdate = $ExcelData['lost_date'];
-                        $lostreason = $ExcelData['lost_reason'];
-                        $lostsubreason = $ExcelData['lost_sub_reason_optional'];
-                        $lostremark = $ExcelData['lost_remark'];
-                        $booked_date = $ExcelData['booked_date'];
-                        $vechile_model = $ExcelData['vehicle_model'];
-                        $testdrivegiven = $ExcelData['test_drive_given_yes_no'];
-                        $report_status = $ExcelData['Status'];
-                        $error_description = $ExcelData['Error Description'];
-
-                        $getInvalidData = [$enquiryDate,
-                            $title,
-                            $first_name,
-                            $middle_name,
-                            $last_name,
-                            $corporatecustomer,
-                            $companyName,
-                            $birthDate,
-                            $anniversary,
-                            $mobile_no1,
-                            $mobile_no2,
-                            $email_id1,
-                            $email_id2,
-                            $employee_mobile,
-                            $enquiry_source,
-                            $enquiry_subsource_optional,
-                            $sourcedescription,
-                            $enquiry_category,
-                            $enquiry_status,
-                            $enquiry_remark,
-                            $followupdate,
-                            $lostdate,
-                            $lostreason,
-                            $lostsubreason,
-                            $lostremark,
-                            $booked_date,
-                            $vechile_model,
-                            $testdrivegiven,
-                            $report_status,
-                            $error_description
-                        ];
-
-                        $user = array_merge($srno, $getInvalidData);
-
-
-                        $sheet->appendRow($user);
-                    }
-                });
-            })->save('XLS', "downloads/");
-
-            $invalidfolderName = "/sales/invalidReport/";
-
-            $basepath = base_path() . "/public/downloads/" . $invalidfileName . ".xls";
-            $invalidfile = $invalidfileName . ".xls";
-            $awsinvalidFile = S3::s3FileUpload($basepath, $invalidfile, $invalidfolderName);
-
-            $importfolderName = "/sales/importReport/";
-
-            $awsimportFile = S3::s3FileUpload($importbasepath, $wfileName, $importfolderName);
-            \File::delete($basepath);
-
-            $invalidfilecount = sizeof($data);
-            $statusmessage = "";
-            $recordsplit = array();
-            foreach ($employee_under_count as $key => $value) {
-                $recordsplit[] = $key . "," . $value;
-            }
-
-            $r = 0;
-            $return_record_split = array();
-            foreach ($employee_under_count as $key => $value) {
-                $return_record_split[$r] = $key . ' : ' . $value;
-                $r++;
-            }
-            $return_record_split = @implode(',', $return_record_split);
-
-            $enquires_inserted_below_employee = @implode(',', $recordsplit);
-            $statusmessage = "Total imported enquiry: " . $total . "<br>";
-            if (!empty($inserted)) {
-                $statusmessage .= "Succesfully : " . $inserted . "<br>";
-            }
-            if (!empty($enquires_inserted_below_employee)) {
-                $statusmessage .= "<b> Enquiry inserted in below accounts . </b> " . $enquires_inserted_below_employee . "<br>";
-            }
-            if (!empty($invalidfilecount)) {
-                $statusmessage .= "Invalid : " . $invalidfilecount . "<br>";
-            }
-
-            $importhistory = new \App\Models\ImportHistroy();
-            $importhistory->created_datetime = date('Y-m-d h:i:s');
-            $importhistory->employee_id = Auth::guard('admin')->user()->id;
-            $importhistory->import_file = $importfolderName . $wfileName;
-            $importhistory->report_status = $statusmessage;
-            $importhistory->error_report_file = $invalidfolderName . $invalidfile;
-            $importhistory->save();
-
-            $result = ["success" => true, "message" => "Enquiries Imported Successfully", "inserted" => $inserted, "alredyexist" => $alreadyexist, "employeeundercount" => $employee_under_count, "total" => $total, "invalidfileurl" => $invalidfile, "invalidfilecount" => $invalidfilecount, 'return_record_split' => $return_record_split];
-            return json_encode($result);
-        } else {
-            $result = ["success" => false, "message" => "File not found, Please try again."];
-            return json_encode($result);
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];  
         }
+        return response()->json($result);
     }
 
     public function getImportHistory() {
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $showhistory = \App\Models\ImportHistroy::with('getEmployee')->select('*')->where('employee_id', '=', $loggedInUserId)->orderBy('id', 'DESC')->get();
-        if (!empty($showhistory)) {
-            $result = ['success' => true, 'records' => $showhistory];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'records' => $showhistory];
-            return json_encode($result);
+        try{
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $showhistory = \App\Models\ImportHistroy::with('getEmployee')->select('*')->where('employee_id', '=', $loggedInUserId)->orderBy('id', 'DESC')->get();
+            if (!empty($showhistory)) {
+                $result = ['success' => true, 'records' => $showhistory];
+            } else {
+                $result = ['success' => false, 'records' => $showhistory];
+            }
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];  
         }
+        return response()->json($result);
     }
 }

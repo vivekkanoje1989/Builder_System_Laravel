@@ -117,6 +117,11 @@ class BlogManagementController extends Controller {
         $validationMessages = WebBlogs::validationMessages();
 
         $input = Input::all();
+        if (array_key_exists('blogimgs', $input)) {
+            $name = implode(",", $input['blogimgs']);
+        } else {
+            $name = '';
+        }
         $blog = $input['blogData']['blog_title'];
         $isBlogExist = WebBlogs::where('blog_title', '=', $blog)->first();
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -136,44 +141,24 @@ class BlogManagementController extends Controller {
                 $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['blogImages']['blog_banner_images']->getClientOriginalExtension();
                 S3::s3FileUpload($input['blogImages']['blog_banner_images']->getPathName(), $imageName, $s3FolderName);
                 $banner_images = $imageName;
+                $input['blogData']['blog_banner_images'] = $banner_images;
             } else {
-                unset($input['blog_banner_images']);
-                $banner_images = '';
+                unset($input['blogImages']['blog_banner_images']);
             }
         }
 
-//        if (!empty($isBlogExist->blog_images)) {
-//            $mergeOldValue = json_decode($isBlogExist->blog_images, true);
-//            print_r($mergeOldValue);
-//        }
-//        if (!empty($input['galleryImage']['galleryImage'])) {
-//            $imgCount = count($input['galleryImage']['galleryImage']);
-//            $s3FolderName = "Blog/gallery_image";
-//            for ($i=0; $i < $imgCount; $i++) {
-//                $originalName = $input['galleryImage']['galleryImage']->getClientOriginalName();
-//
-//                if ($originalName != "fileNotSelected") {
-//                    $image = $input['galleryImage']['galleryImage'];
-//
-//                    $imageName = S3::s3FileUplod($image, $s3FolderName, 1);
-//                    $imageName = trim($imageName, ',');
-//                    $input['galleryImage']['galleryImage'] = $imageName;
-//
-//                    $name = explode(',', $imageName);
-//                    while (($i = array_search('fileNotSelected', $name)) !== false) {
-//                        unset($name[$i]);
-//                    }
-//                    $name = implode(',', $name);
-//                    $input['blogData']['blog_images'] = $name;
-//                }
-//            }
-//        }
-        print_r($input);
-        if ($input['galleryImage']['galleryImage']->getClientOriginalName() != 'fileNotSelected') {
-            if (!empty($input['galleryImage']['galleryImage'])) {
+
+        foreach ($input['galleryImage'] as $key => $value) {
+            $isMultipleArr = is_array($input['galleryImage'][$key]);
+            if ($isMultipleArr) {
+                $originalName = $input['galleryImage'][$key][0]->getClientOriginalName();
+            } else {
+                $originalName = $input['galleryImage'][$key]->getClientOriginalName();
+            }
+
+            if ($originalName != 'fileNotSelected') {
                 $imgCount = count($input['galleryImage']['galleryImage']);
                 if ($imgCount > 0) {
-                    $name = '';
                     $s3FolderName = "Blog/gallery_image";
                     for ($i = 0; $i < $imgCount; $i++) {
                         $imageName = 'blog_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['galleryImage']['galleryImage'][$i]->getClientOriginalExtension();
@@ -181,11 +166,18 @@ class BlogManagementController extends Controller {
                         $name .= ',' . $imageName;
                     }
                     $allfile = trim($name, ",");
-                    $input['blogData']['blog_images'] = $allfile;
+                    $name = trim($name, ",");
+                    $name = explode(',', $name);
+                    while (($i = array_search('fileNotSelected', $name)) !== false) {
+                        unset($name[$i]);
+                    }
+                    $name = implode(',', $name);
+                    
+                    $input['blogData']['blog_images'] = $name;
                 }
+            } else {
+                $input['blogData']['blog_images'] = $input['blogData']['blog_images'];
             }
-        } else {
-            $input['blogData']['blog_images'] = $input['blogData']['blog_images'];
         }
 
         $cnt = WebBlogs::where(['blog_title' => $input['blogData']['blog_title']])->where('id', '!=', $id)->get()->count();
@@ -196,7 +188,7 @@ class BlogManagementController extends Controller {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['blogData'] = array_merge($input['blogData'], $create);
-            $input['blogData']['blog_banner_images'] = $banner_images;
+            
             unset($input['blogData']['blogImages']);
 //            unset($input['blogData']['galleryImage']);
             unset($input['blogData']['allgallery']);

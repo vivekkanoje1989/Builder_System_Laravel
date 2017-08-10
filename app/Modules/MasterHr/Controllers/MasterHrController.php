@@ -36,17 +36,22 @@ class MasterHrController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $manageUsers = [];
-
+        $totalCount = [];
+        
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
             $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ',0,0)');
-        } else if ($request['empId'] === "") { // for index
+        } else if ($request['empId'] == "") { // for index
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $manageUsers = DB::select('CALL proc_manage_users(0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');            
-            $cnt = DB::select('select FOUND_ROWS() as totalCount');
+            $cnt = DB::select('select FOUND_ROWS() totalCount');
+            $totalCount = $cnt[0]->totalCount;
+            $manageUsers = json_decode(json_encode($manageUsers), true);
+            
         }
+       
         if ($manageUsers) {
-            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
-            echo json_encode($result);
+            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" =>$totalCount , 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
+            return json_encode($result);
         }
     }
 
@@ -142,9 +147,7 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
 
         if (!empty($request['data']['empId'])) {
-            //send mail code
-            //send email code
-            $checkEmp = \App\Model\backend\Employee::where('id', $request['data']['empId'])->first();
+            $checkEmp = Employee::where('id', $request['data']['empId'])->first();
             if (empty($request['data']['password'])) {
                 $password = str_random(8);
             } else {
@@ -687,7 +690,8 @@ class MasterHrController extends Controller {
 
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
-        //
+        unset($input['userData']['$$hashKey']);
+
         $employeeUpdate = Employee::where('id', $id)->update($input['userData']);
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData = $originalValues[0]['attributes']['password'];
@@ -721,6 +725,24 @@ class MasterHrController extends Controller {
 
     public function rolePermissions($id) {
         return view("MasterHr::rolepermissions")->with("roleId", $id);
+    }
+    
+    public function updatePermissions() {
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+
+        $id = $input['data']['empId'];
+        $roleId = $input['data']['roleId'];
+        $getRolePermission = EmployeeRole::select('employee_submenus')->where('id', $roleId)->get();
+        $updateRecord = Employee::where('id', $input['data']['empId'])->update(array('employee_submenus' => $getRolePermission[0]['employee_submenus'], 'client_role_id' => $roleId));
+        $result = MasterHrController::arrangeMenu($getRolePermission[0]['employee_submenus']);
+        return json_encode($result);
+        if ($result) {
+            $result = ['success' => true, "employeeSubmenus" => json_encode($menuItems)];
+        } else {
+            $result = ['success' => false, "message" => "Something went wrong"];
+        }
+        return json_encode($result);
     }
 
     public static function arrangeMenu($employeeSubmenus) {
@@ -967,13 +989,13 @@ class MasterHrController extends Controller {
         if (empty($input['data']['id']) || $input['data']['id'] == 0) {
             $getPermission = EmployeeRole::select('employee_submenus')->get();
         } else {
-            if (!empty($input['data']['id'])) {
-                $id = $input['data']['id'];
+            if(!empty($input['data']['id'])){
+            $id = $input['data']['id'];
                 $teams = Employee::where('team_lead_id', $id)->get();
-            } else {
+            }else{
                 $id = 0;
             }
-
+            
             if ($input['data']['moduleType'] == 'roles') {
                 $getPermission = EmployeeRole::select('role_name', 'employee_submenus')->where('id', $id)->get();
                 $employeedetail = $getPermission[0]['role_name'];
@@ -983,71 +1005,72 @@ class MasterHrController extends Controller {
                 $emptitle = \App\Models\MlstTitle::select('title')->where('id', '=', $getPermission[0]['title_id'])->first();
                 $employeedetail = $emptitle->title . " " . $getPermission[0]['first_name'] . " " . $getPermission[0]['last_name'];
             }
-            $permission = json_decode($getPermission[0]['employee_submenus'], true);
-            $rolepermission = json_decode($getPermission[0]['employee_submenus']);
+            if($getPermission[0]['employee_submenus'] !== ''){
+                $permission = json_decode($getPermission[0]['employee_submenus'], true);
+                $rolepermission = json_decode($getPermission[0]['employee_submenus']);
+            }            
         }
-
+        
         $getMenu = MenuItems::getMenuItems();
 
-//        if (!empty($permission)) {
-        $menuItem = array();
-        foreach ($getMenu as $key => $menu) {
-            $submenu_ids = explode(',', $menu['submenu_ids']);
-            if (count(array_intersect($submenu_ids, $permission)) == count($submenu_ids)) {
-                $menu['checked'] = true;
-            }
-            foreach ($menu['submenu'] as $k1 => $child1) {
-                if ($child1['slug'] == 'Team' && count($teams) == 0) {
-                    // print_r($menu['submenu'][$k1]['submenu'][$k2]);
-                    unset($menu['submenu'][$k1]);
-                    continue;
+        if (!empty($permission)) {
+            $menuItem = array();
+            foreach ($getMenu as $key => $menu) {
+                $submenu_ids = explode(',', $menu['submenu_ids']);
+                if (count(array_intersect($submenu_ids, $permission)) == count($submenu_ids)) {
+                    $menu['checked'] = true;
                 }
-                if (!empty($child1['submenu'])) {
-                    $submenu_ids1 = explode(',', $menu['submenu'][$k1]['submenu_ids']);
-                    if (count(array_intersect($submenu_ids1, $permission)) == count($submenu_ids1)) {
-                        $menu['submenu'][$k1]['checked'] = true;
+                foreach ($menu['submenu'] as $k1 => $child1) {
+                    if ($child1['slug'] == 'Team' && count($teams) == 0) {
+                        unset($menu['submenu'][$k1]);
+                        continue;
                     }
-                    foreach ($child1['submenu'] as $k2 => $child2) {
-                        if ($child2['slug'] == 'Team' && count($teams) == 0) {
-                            unset($menu['submenu'][$k1]['submenu'][$k2]);
-                            continue;
+                    if (!empty($child1['submenu'])) {
+                        $submenu_ids1 = explode(',', $menu['submenu'][$k1]['submenu_ids']);
+                        if (count(array_intersect($submenu_ids1, $permission)) == count($submenu_ids1)) {
+                            $menu['submenu'][$k1]['checked'] = true;
                         }
-                        if (!empty($child2['submenu'])) {
-                            $submenu_ids2 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu_ids']);
-                            if (count(array_intersect($submenu_ids2, $permission)) == count($submenu_ids2)) {
-                                $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
+                        foreach ($child1['submenu'] as $k2 => $child2) {
+                            if ($child2['slug'] == 'Team' && count($teams) == 0) {
+                                unset($menu['submenu'][$k1]['submenu'][$k2]);
+                                continue;
                             }
-                            foreach ($child2['submenu'] as $k3 => $child3) {
-                                if (!empty($child3['submenu'])) {
-                                    $submenu_ids3 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['submenu_ids']);
-                                    if (count(array_intersect($submenu_ids3, $permission)) == count($submenu_ids3)) {
+                            if (!empty($child2['submenu'])) {
+                                $submenu_ids2 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu_ids']);
+                                if (count(array_intersect($submenu_ids2, $permission)) == count($submenu_ids2)) {
+                                    $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
+                                }
+                                foreach ($child2['submenu'] as $k3 => $child3) {
+                                    if (!empty($child3['submenu'])) {
+                                        $submenu_ids3 = explode(',', $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['submenu_ids']);
+                                        if (count(array_intersect($submenu_ids3, $permission)) == count($submenu_ids3)) {
+                                            $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['checked'] = true;
+                                        }
+                                    }
+                                    if (in_array($child3['id'], $permission)) {
                                         $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['checked'] = true;
                                     }
                                 }
-                                if (in_array($child3['id'], $permission)) {
-                                    $menu['submenu'][$k1]['submenu'][$k2]['submenu'][$k3]['checked'] = true;
+                            } else {
+                                if (in_array($child2['id'], $permission)) {
+                                    $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
                                 }
                             }
-                        } else {
-                            if (in_array($child2['id'], $permission)) {
-                                $menu['submenu'][$k1]['submenu'][$k2]['checked'] = true;
-                            }
+                        }
+                    } else {
+                        if (in_array($child1['id'], $permission)) {
+                            $menu['submenu'][$k1]['checked'] = true;
                         }
                     }
-                } else {
-                    if (in_array($child1['id'], $permission)) {
-                        $menu['submenu'][$k1]['checked'] = true;
-                    }
                 }
+                $menuItem[] = $menu;
             }
-            $menuItem[] = $menu;
+            ksort($menuItem);
+            $result = ['success' => true, "getMenu" => $menuItem, "totalPermissions" => count($permission), 'empName' => $employeedetail, 'role_name' => $employeedetail, 'menuId' => $rolepermission];
+        } else {
+            ksort($getMenu);
+            $result = ['success' => true, "getMenu" => $getMenu, "totalPermissions" => count($permission), 'empName' => $employeedetail, 'role_name' => $employeedetail, 'menuId' => []];
         }
-        ksort($menuItem);
-        $result = ['success' => true, "getMenu" => $menuItem, "totalPermissions" => count($permission), 'empName' => $employeedetail, 'role_name' => $employeedetail, 'menuId' => $rolepermission];
-//        } else {
-//            ksort($getMenu);
-//            $result = ['success' => true, "getMenu" => $getMenu, "totalPermissions" => count($permission), 'empName' => $employeedetail, 'role_name' => $employeedetail, 'menuId' => []];
-//        }
         return json_encode($result);
     }
 
@@ -1198,7 +1221,7 @@ class MasterHrController extends Controller {
 
     public function appAccessControl() {
         $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
+        $input = json_decode($postdata, true);        
         if ($input['data']['isChecked'] == true) {//checkbox checked
             //{"data":{"empId":2,"submenuId":[0307],"isChecked":true,"moduleType":"employee"},{"empId":2,"submenuId":[0107,0108,0201],"isChecked":false,"moduleType":"employee"}}
             if ($input['data']['moduleType'] === 'roles') {
@@ -1341,47 +1364,6 @@ class MasterHrController extends Controller {
             return;
         }
     }
-
-    /*
-      public function getChartData() {
-      $input = Employee::whereIn('employee_status', [1, 2])
-      ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
-      ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
-      ->orderBy('team_lead_id')
-      ->get();
-      $data = array();
-      foreach ($input as $key => $team) {
-      $obj = Employee::where('employees.id', $team['id'])
-      ->leftJoin('laravel_developement_master_edynamics.mlst_bmsb_designations', 'employees.designation_id', '=', 'laravel_developement_master_edynamics.mlst_bmsb_designations.id')
-      ->whereIn('employee_status', [1, 2])
-      ->select('team_lead_id', 'designation', 'employees.id', 'first_name', 'last_name', 'employee_status', 'employee_photo_file_name')
-      ->get();
-      if (!empty($obj)) {
-
-      $data[$key]['v'] = $obj[0]->id;
-      if (empty($team['employee_photo_file_name'])) {
-      $team['employee_photo_file_name'] = 'http://icons.iconarchive.com/icons/alecive/flatwoken/96/Apps-User-Online-icon.png';
-      } else {
-      $team['employee_photo_file_name'] = config('global.s3Path') . '/Employee-Photos/' . $team['employee_photo_file_name'];
-      }
-      if ($team['employee_status'] == 2) {
-      $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['employee_photo_file_name'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:red">Temporary Suspended</b></div>';
-      } else {
-      $data[$key]['f'] = '<center class="forAppCss"><img src="' . $team['employee_photo_file_name'] . '" class="tree-user"></center><p class="tree-usr-name">' . $team['first_name'] . ' ' . $team['last_name'] . '</p> <div class="usr-designation themeprimary">' . $team['designation'] . '</div><b class="usr-status" style="color:Green">Active</b></div>';
-      }
-      if($team['team_lead_id'] == 0)
-      {
-      $data[$key]['teamId'] = $team['id'];
-      }
-      $data[$key]['teamId'] = $team['team_lead_id'];
-      $data[$key]['designation'] = $team['designation'];
-      }
-      }
-
-      return $data;
-      }
-
-     */
 
     public function photoUpload() {
         $folderName = 'Employee-Photos';
@@ -1592,8 +1574,6 @@ class MasterHrController extends Controller {
             }
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['userData'] = array_merge($input['userData'], $create);
-            $depart_id = $input['userData']['Department_id'];
-//           
             $departmentData = [];
             if (!empty($input['userData']['department_id'])) {
                 foreach ($input['userData']['department_id'] as $department_id) {
@@ -1866,6 +1846,12 @@ class MasterHrController extends Controller {
         $originalValues = EmployeeRole::select("role_name", "employee_submenus")->where("id", $input['data']['roleId'])->get();
         if (!empty($input)) {
 
+            if (empty($input['data']['loggedInUserId'])) {
+                $loggedInUserId = Auth::guard('admin')->user()->id;
+            } else {
+                $loggedInUserId = $input['data']['loggedInUserId'];
+            }
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             if (!empty($input['data']['masterRole'])) {
                 $input['data']['masterRole'] = array_filter($input['data']['masterRole']);
                 $input['data']['masterRole'] = array_map(function($el) {
@@ -1885,8 +1871,9 @@ class MasterHrController extends Controller {
             if (!empty($input['data']['role_name'])) {
                 $rolename = $input['data']['role_name'];
             }
-
-            $employeeUpdate = EmployeeRole::where('id', $input['data']['roleId'])->update(["employee_submenus" => $jsonArr, 'role_name' => $rolename]);
+           
+            $employeeUpdate = EmployeeRole::where('id', $input['data']['roleId'])->update(["employee_submenus" => $jsonArr, 'role_name' => $rolename,
+              'updated_date' =>  $update['updated_date'],'updated_IP' =>  $update['updated_IP'],'updated_browser' =>  $update['updated_browser'],'updated_mac_id' =>  $update['updated_mac_id']]);
 
             $result = ['success' => true];
         } else {
