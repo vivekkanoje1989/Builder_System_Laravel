@@ -170,11 +170,6 @@ class WebPagesController extends Controller {
         $name = implode(',', $name);
         $input['subcontentPages']['banner_images'] = $name;
         $input['subcontentPages']['parent_id'] = $input['pageId'];
-//        if ($input['subcontentPage'] ) {
-//            $input['subcontentPage']['page_content'] = '';
-//        } else {
-//            $input['subcontentPage']['page_content'] = $input['subcontentPage']['page_content'];
-//        }
         $input['subcontentPages']['page_type'] = '1';
         $last = WebPage::where('page_type', '1')->orderBy('id', 'desc')->first();
         if (!empty($last->child_page_id)) {
@@ -337,7 +332,7 @@ class WebPagesController extends Controller {
         $name = implode(',', $obj['allimg']);
         $s3FolderName = '/website/banner-images/';
         $path = $s3FolderName . $obj['imageName'];
-        $msg = S3::s3FileDelete($s3FolderName, $obj['imageName']);
+        $msg = S3::s3FileDelete($path);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
         } else {

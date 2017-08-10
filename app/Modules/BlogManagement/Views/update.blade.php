@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <label>Meta Keywords</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="blogData.meta_Keywords" capitalizeFirst name="meta_Keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" ></textarea>
+                                    <textarea ng-model="blogData.meta_keywords" capitalizeFirst name="meta_keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" ></textarea>
                                 </span>
                             </div>
                         </div>

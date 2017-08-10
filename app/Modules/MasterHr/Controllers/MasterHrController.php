@@ -690,7 +690,8 @@ class MasterHrController extends Controller {
 
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['userData'] = array_merge($input['userData'], $update);
-        //
+        unset($input['userData']['$$hashKey']);
+
         $employeeUpdate = Employee::where('id', $id)->update($input['userData']);
         $getResult = array_diff_assoc($originalValues[0]['attributes'], $input['userData']);
         $pwdData = $originalValues[0]['attributes']['password'];
