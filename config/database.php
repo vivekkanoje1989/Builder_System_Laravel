@@ -67,10 +67,10 @@ return [
         ],*/
         'masterdb' => [
             'read' => [
-                'host' => 'localhost',
+                'host' => '192.168.0.112',
             ],
             'write' => [
-                'host' => 'localhost',
+                'host' => '192.168.0.112',
             ],
             'driver' => 'mysql',
             'port' => 3306,
@@ -86,10 +86,10 @@ return [
         
         'mysql' => [
             'read' => [
-                'host' => 'localhost',
+                'host' => '192.168.0.112',
             ],
             'write' => [
-                'host' => 'localhost'
+                'host' => '192.168.0.112'
 
             ],
             'driver' => 'mysql',
