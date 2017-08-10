@@ -131,7 +131,7 @@ class MenuItems {
                         )),
                 )),
                 4 => array('name' => 'Sales', 'icon' => 'sale-img menu-icon-sz','micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'sales', 'has_submenu' => true, 'total_submenu' => 5,
-                'submenu_ids' => '0401,0402,0403,0404', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                'submenu_ids' => '0401,0402,0403,0404,0405', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '0401', 'name' => 'Pre-Sales', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 10,
                         'submenu_ids' => '040101,040102,040103,040104,040105,040106,040107,040108,040109,0401010', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
                         1 => array('id' => '040101', 'name' => 'Quick Enquiry','micon' => 'img/newEnq.png', 'icon' => '', 'url' => '/sales/createQuickEnquiry', 'slug' => 'createQuickEnquiry', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -200,7 +200,7 @@ class MenuItems {
                     5 => array('id' => '0405', 'name' => 'Customer\'s Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
                         'submenu_ids' => '040501,040502', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
                         1 => array('id' => '040501', 'name' => 'Manage Customer\'s', 'icon' => '', 'url' => '/customers/index', 'slug' => 'customersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        2 => array('id' => '040502', 'name' => 'Import Enquiries', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        2 => array('id' => '040502', 'name' => 'Import Enquiries', 'icon' => '', 'url' => '/sales/importEnquiry', 'slug' => 'importEnquiryIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     )),
 
                 )),
