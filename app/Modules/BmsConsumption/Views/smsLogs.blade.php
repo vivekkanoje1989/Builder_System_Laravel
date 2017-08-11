@@ -79,7 +79,7 @@
                         <tr class="smslog" dir-paginate="smsLog in smsLogsList | filter:search | itemsPerPage: itemsPerPage" total-items="{{ smsLogLength}}">
                             <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>  
                             <td>{{ smsLog.dateTime}}</td>
-                            <td><a href="[[ config('global.backendUrl') ]]#/bmsConsumption/smsLogDetails/{{smsLog.externalId1}}">{{ smsLog.externalId1}}</a></td>
+                            <td><a target="_blank" href="[[ config('global.backendUrl') ]]#/bmsConsumption/smsLogDetails/{{smsLog.externalId1}}">{{ smsLog.externalId1}}</a></td>
                             <td>{{ smsLog.sms_body}}</td>
                             <td>{{ smsLog.sms_type}}</td>
                             <td>{{ smsLog.smsDetails.successSms}}</td>

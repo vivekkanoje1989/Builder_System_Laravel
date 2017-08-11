@@ -4,7 +4,7 @@ use DB;
 use Auth;
 use Mail;
 use App\Mail\MailConfig;
-use App\Models\TemplatesDefault;
+use App\Models\MlstBmsbTemplatesDefaults;
 use App\Models\TemplatesSetting;
 use App\Models\TemplatesCustom;
 use App\Modules\EmailConfig\Models\EmailConfiguration;
@@ -107,6 +107,7 @@ class CommonFunctions {
     }
 
     public static function templateData($alertdata) {
+        print_r($alertdata);
         $customer_id = $alertdata['customer_id'];
         $employee_id = $alertdata['employee_id'];
         $client_id = $alertdata['client_id'];
@@ -142,7 +143,7 @@ class CommonFunctions {
             $template_settings_employee = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
              
             if (!empty($template_settings_employee)) {
-                $template_employee = TemplatesDefault::where(['templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
+                $template_employee = MlstBmsbTemplatesDefaults::where(['templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
             }
         }
        

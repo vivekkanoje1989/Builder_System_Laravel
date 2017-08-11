@@ -16,7 +16,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class TemplatesDefault extends Eloquent
-{
-	public $timestamps = false;
+class MlstBmsbTemplatesDefaults extends Eloquent {
+
+    protected $primaryKey = 'id';
+    protected $connection = 'masterdb';
+    protected $table = 'mlst_bmsb_templates_defaults';
+    public $timestamps = false;
+
 }

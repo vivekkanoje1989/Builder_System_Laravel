@@ -118,7 +118,6 @@ $scope.customertotalcount='0';
         }
         
         $scope.managesmsLogs = function(type,pageNumber, itemPerPage){
-        
         Data.post('/promotionalsms/getSmslogs', {
                 isTeam: type,pageNumber: pageNumber, itemPerPage: itemPerPage,
             }).then(function (response) {

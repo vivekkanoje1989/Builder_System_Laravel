@@ -59,7 +59,7 @@
                             <td>{{itemsPerPage * (pageNumber - 1) + $index + 1}}</td>
                             <td>{{ listSms.call_date}} @ {{listSms.call_time}}</td>
                             <td>{{ listSms.externalId1}}
-                            <a target="_blank" href="#/promotionalsms/detaillog/{{ listSms.externalId1}}/{{listSms.employee_id}}" data-toggle="tooltip" >({{listSms.wrapcnt}})</a>
+                            <a target="_blank" href="[[ config('global.backendUrl') ]]#/promotionalsms/detaillog/{{ listSms.externalId1}}/{{listSms.employee_id}}" data-toggle="tooltip" >({{listSms.wrapcnt}})</a>
                             </td>
                                          
                             <td ng-if="<?php echo Auth::guard('admin')->user()->customer_contact_numbers == 0 ?>">

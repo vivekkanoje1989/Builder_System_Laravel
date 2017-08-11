@@ -1488,7 +1488,7 @@ class MasterHrController extends Controller {
         $id = Auth::guard('admin')->user()->id;
         $employee = Employee::where('id', $id)->first();
         $request = Input::all();
-
+        $photo = [];
         if (!empty($employee)) {
             $imageName = time() . "." . $request['data']['employee_photo_file_name']->getClientOriginalExtension();
             $tempPath = $request['data']['employee_photo_file_name']->getPathName();
@@ -1747,6 +1747,8 @@ class MasterHrController extends Controller {
             $templatedata['client_id'] = config('global.client_id');
             $templatedata['template_setting_customer'] = 0;
             $templatedata['template_setting_employee'] = 25;
+            $templatedata['event_id_customer'] = 0;
+            $templatedata['event_id_employee'] = 7;
             $templatedata['customer_id'] = 0;
             $templatedata['model_id'] = 0;
             $templatedata['arrExtra'][0] = array(
@@ -1756,7 +1758,7 @@ class MasterHrController extends Controller {
                 //$return_val['id'],
                 $return_val
             );
-//            $result = CommonFunctions::templateData($templatedata);
+            $result = CommonFunctions::templateData($templatedata);
             $res = ['success' => true, 'message' => 'Employee registered successfully', "empId" => $employee->id];
             return json_encode($res);
         } else {
