@@ -229,7 +229,7 @@
                     <li>
                         <a class="login-area dropdown-toggle" data-toggle="dropdown" ng-controller="hrController">
                             <div class="avatar" title="View your public profile">
-                                <img ng-if="!imageUrl" src="[[ config('global.s3Path').'employee-photos/'.Auth::guard('admin')->user()->employee_photo_file_name;]]">
+                                <img ng-if="!imageUrl" src="[[ config('global.s3Path').'/employee-photos/'.Auth::guard('admin')->user()->employee_photo_file_name;]]">
                                 <img ng-if="imageUrl" ng-src="{{imageUrl}}">
                             </div>
                             <section>
@@ -243,7 +243,7 @@
                             <!--Avatar Area-->
                             <li>
                                 <div class="avatar-area">
-                                    <img ng-if="!imageUrl" src="[[ config('global.s3Path').'employee-photos/'.Auth::guard('admin')->user()->employee_photo_file_name;]]" class="avatar">
+                                    <img ng-if="!imageUrl" src="[[ config('global.s3Path').'/employee-photos/'.Auth::guard('admin')->user()->employee_photo_file_name;]]" class="avatar">
                                     <img ng-if="imageUrl" ng-src="{{imageUrl}}" class="avatar">
                                 </div>
                             </li>

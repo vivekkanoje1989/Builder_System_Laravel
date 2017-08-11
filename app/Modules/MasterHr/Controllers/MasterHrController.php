@@ -220,7 +220,7 @@ class MasterHrController extends Controller {
                 $value->title = $title->title;
 
                 if (!empty($value->employee_photo_file_name)) {
-                    $value->employee_photo_file_name = config('global.s3Path') . '/Employee-Photos/' . $value->employee_photo_file_name;
+                    $value->employee_photo_file_name = config('global.s3Path') . '/employee-photos/' . $value->employee_photo_file_name;
                 } else {
                     $value->employee_photo_file_name = '';
                 }
@@ -244,7 +244,7 @@ class MasterHrController extends Controller {
             $response = $empModel->getAttributes();
 
             if (!empty($empModel->employee_photo_file_name)) {
-                $response['employee_photo_file_name'] = config('global.s3Path') . '/Employee-Photos/' . $empModel->employee_photo_file_name;
+                $response['employee_photo_file_name'] = config('global.s3Path') . '/employee-photos/' . $empModel->employee_photo_file_name;
             } else {
                 $response['employee_photo_file_name'] = "";
             }
@@ -317,7 +317,7 @@ class MasterHrController extends Controller {
                     echo json_encode($result);
                     exit;
                 } else {
-                    $folderName = 'Employee-Photos';
+                    $folderName = 'employee-photos';
                     $image = ['0' => $input['employee_photo_file_name']];
                     $imageName = S3::s3FileUplod($image, $folderName, 1);
                     $imageName = trim($imageName, ',');
@@ -541,7 +541,7 @@ class MasterHrController extends Controller {
         if ($originalName != "fileNotSelected") {
             if (!empty($input['employee_photo_file_name'])) {
 
-                $folderName = 'Employee-Photos';
+                $folderName = 'employee-photos';
                 $image = ['0' => $input['employee_photo_file_name']];
                 $imageName = S3::s3FileUplod($image, $folderName, 1);
                 $imageName = trim($imageName, ',');
@@ -680,7 +680,7 @@ class MasterHrController extends Controller {
                     $result = ['success' => false, 'message' => $validateEmpPhotoUrl->messages()];
                     return json_encode($result);
                 } else {
-                    $folderName = 'Employee-Photos';
+                    $folderName = 'employee-photos';
                     $image = ['0' => $input['employee_photo_file_name']];
                     $imageName = S3::s3FileUplod($image, $folderName, 1);
                     $imageName = trim($imageName, ',');
@@ -1277,8 +1277,7 @@ class MasterHrController extends Controller {
                 if (empty($team['employee_photo_file_name'])) {
                     $team['employee_photo_file_name'] = 'http://icons.iconarchive.com/icons/alecive/flatwoken/96/Apps-User-Online-icon.png';
                 } else {
-                    $team['employee_photo_file_name'] = config('global.s3Path') . '/Employee-Photos/' . $team['employee_photo_file_name'];
-                    // $team['employee_photo_file_name'] ='https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/hr/employee-photos/1492516782.jpg';
+                    $team['employee_photo_file_name'] = config('global.s3Path') . '/employee-photos/' . $team['employee_photo_file_name'];
                 }
                 if ($team['employee_status'] == 2) {
                     $data[$key]['f'] = '<img src="' . $team['employee_photo_file_name'] . '" class="imgdata" style="border: 4px double #fd4949;"><div class="myblock" style="background-color: rgba(253, 42, 42, 0.85);">' . $team['first_name'] . ' ' . $team['last_name'] . '<br>' . $team['designation'] . '</div></div>';
@@ -1314,7 +1313,7 @@ class MasterHrController extends Controller {
                 $value->title = $title->title;
 
                 if (!empty($value->employee_photo_file_name)) {
-                    $value->employee_photo_file_name = config('global.s3Path') . 'employee-photos/' . $value->employee_photo_file_name;
+                    $value->employee_photo_file_name = config('global.s3Path') . '/employee-photos/' . $value->employee_photo_file_name;
                 } else {
                     $value->employee_photo_file_name = '';
                 }
@@ -1336,7 +1335,7 @@ class MasterHrController extends Controller {
             $response = $empModel->getAttributes();
 
             if (!empty($empModel->employee_photo_file_name)) {
-                $response['employee_photo_file_name'] = config('global.s3Path') . 'Employee-Photos/' . $empModel->employee_photo_file_name;
+                $response['employee_photo_file_name'] = config('global.s3Path') . '/employee-photos/' . $empModel->employee_photo_file_name;
             } else {
                 $response['employee_photo_file_name'] = "";
             }
@@ -1370,7 +1369,7 @@ class MasterHrController extends Controller {
     }
 
     public function photoUpload() {
-        $folderName = 'Employee-Photos';
+        $folderName = 'employee-photos';
         $imageName = S3::s3FileUplodForApp($_FILES['file'], $folderName, 1);
         if (!empty($imageName)) {
             $img = Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
@@ -1426,7 +1425,7 @@ class MasterHrController extends Controller {
 
             $flag_profile_photo = 0;
             if (!empty($employee->employee_photo_file_name)) {
-                $old_profile_photo = config('global.s3Path') . 'employee-photos/' . $employee->employee_photo_file_name;
+                $old_profile_photo = config('global.s3Path') . '/employee-photos/' . $employee->employee_photo_file_name;
                 $flag_profile_photo = 1;
             }
             $result = ['success' => true, 'records' => $employee, 'old_profile_photo' => $old_profile_photo, 'flag_profile_photo' => $flag_profile_photo];
@@ -1497,7 +1496,7 @@ class MasterHrController extends Controller {
             $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
             $employee->employee_photo_file_name = $name;
             if ($employee->update()) {
-                $photo = config('global.s3Path') . 'employee-photos/' . $name;
+                $photo = config('global.s3Path') . '/employee-photos/' . $name;
                 $result = ['success' => true, 'photo' => $photo];
                 return json_encode($result);
             } else {

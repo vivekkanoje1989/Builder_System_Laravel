@@ -111,8 +111,8 @@ class CommonFunctions {
         $employee_id = $alertdata['employee_id'];
         $client_id = $alertdata['client_id'];
         $arrExtra = $alertdata['arrExtra'];
-        $eventid_customer = $alertdata['event_id_customer'];
-        $eventid_employee = $alertdata['event_id_employee'];
+        $eventid_customer = !empty($alertdata['event_id_customer']) ? $alertdata['event_id_customer'] : "0";
+        $eventid_employee = !empty($alertdata['event_id_employee']) ? $alertdata['event_id_employee'] : "0";
 		if(!empty($alertdata['cust_attached_file']))
 			$cust_attachedfile = $alertdata['cust_attached_file'];
 	   else

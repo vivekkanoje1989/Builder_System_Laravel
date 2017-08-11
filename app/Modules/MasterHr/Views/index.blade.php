@@ -20,7 +20,7 @@
                 <span class="widget-caption">Manage Users</span>
             </div>
             <div class="widget-body table-responsive">
-                 <div class="row">
+                <div class="row">
                     <div class="col-sm-3 col-xs-12">
                         <div class="form-group">
                             <label for="search">Search:</label>

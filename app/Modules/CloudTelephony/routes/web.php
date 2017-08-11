@@ -1,6 +1,6 @@
 <?php
 
-Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\CloudTelephony\Controllers', 'middleware' =>['web']), function() {
+Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\CloudTelephony\Controllers', 'middleware' =>['auth:admin']), function() {
     $getUrl = config('global.getUrl');
      Route::get('/cloudtelephony/showFilter', function () {
         return View::make('CloudTelephony::showFilter');
@@ -37,7 +37,7 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     
     Route::get('/extensionmenu/{id}/viewData', 'ExtensionMenuController@viewData');
     Route::get('/virtualnumber/{id}/existingUpdate', 'VirtualNumberController@existingUpdate');
-     Route::get('/virtualnumber/{id}/nonworkinghoursUpdate', 'VirtualNumberController@nonworkingUpdate');
+    Route::get('/virtualnumber/{id}/nonworkinghoursUpdate', 'VirtualNumberController@nonworkingUpdate');
     Route::post('virtualnumber/updateNonworkinghours', 'VirtualNumberController@updateNonworkinghours');
     
     

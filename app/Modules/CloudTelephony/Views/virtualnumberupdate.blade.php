@@ -1,9 +1,3 @@
-<!--Registration Form for VN-->
-<?php
-use Illuminate\Support\Facades\Route;
-$currentPath= Route::getCurrentRoute()->getActionName();
-//echo $currentPath;exit;
-?>
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="cloudtelephonyController" ng-init="managevLists([[ !empty($id) ?  $id : '0' ]], 'edit')"> 
         <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading }} {{virtualno}}</h5>
@@ -20,7 +14,6 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                 <form name="updatevnoForm" novalidate ng-submit="updatevnoForm.$valid && updateVirtualNumber(registrationData,registrationData.welcome_tune_audio,registrationData.hold_tune_audio)" >
                     <input type="hidden" ng-model="updatevnoForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="updatevnoForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <input type="hidden" name="id" id="id" ng-model="registrationData.id" ng-value="[[ $id ]]">
-                    <!--            <div class="widget-body">-->
                     <div id="registration-form">
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -43,10 +36,8 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                                 </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    
+                                    </div>                                    
                                 </div>  
-
 
                                 <div class="row"> 
                                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -211,20 +202,33 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                             </span>
                                         </div>
                                     </div>
+                                    <div ng-controller="blockTypeCtrl">
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div class="form-group">
-                                            <label for="">Vehicle Model
+                                            <label for="">Project</label>
                                             <span class="input-icon icon-right">
-                                                <select ng-controller="vehiclemodelCtrl" ng-model="registrationData.model_project_id" name="model_project_id" ng-init="vehiclemodels()" class="form-control">
-                                                    <option value="">Select Vehicle Model</option>
-                                                    <option ng-repeat="vehiclemodel in vehiclemodels" value="{{vehiclemodel.id}}">{{vehiclemodel.model_name}}</option>
+                                                <select ng-controller="projectCtrl" ng-model="registrationData.project_id" name="project_id" id="project_id" class="form-control" ng-change="getBlockTypes(registrationData.project_id)">
+                                                    <option value="">Select Project</option>
+                                                    <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}">{{plist.project_name}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                             </span>
                                         </div>
                                     </div> 
-                                </div>  
-                                
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label for="">Blocks</label>
+                                            <span class="input-icon icon-right">
+                                                <select ng-model="registrationData.block_id" name="block_id" class="form-control">
+                                                    <option value="">Select Block</option>
+                                                    <option ng-repeat="list in blockTypeList" value="{{list.id}}">{{list.block_name}}</option>
+                                                </select>  
+                                                <i class="fa fa-sort-desc"></i>
+                                            </span>
+                                        </div>
+                                    </div> 
+                                    </div> 
+                                </div>
                                 <div class="row" ng-controller="salesSourceCtrl">
                                     <div class="col-sm-6 col-sm-6 col-xs-12">
                                         <div class="form-group">
@@ -259,26 +263,27 @@ $currentPath= Route::getCurrentRoute()->getActionName();
                                 </div>
                                 <div class="row"> 
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-
                                         <div class="form-group">
                                             <label for="">Source Description</label>
                                             <textarea ng-model="registrationData.source_disc" name="source_disc" class="form-control" ng-disabled="registrationData.editing_status == '1'">{{ registrationData.source_disc}}</textarea>
-                                            
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-6 col-xs-12" ng-show="registrationData.menu_status == '0'" ng-controller="getEmployeeCtrl">
                                         <div class="form-group" ng-class="{ 'has-error' : step1 && (!updatevnoForm.employees1.$dirty && updatevnoForm.employees1.$invalid)}">
                                             <label for="">Select Employees <span class="sp-err">*</span></label>	
-                                            <ui-select multiple ng-model="registrationData.employees1" name="employees1" theme="select2" ui-select-required ng-disabled="disabled" style="width: 300px;" ng-required="registrationData.menu_status == '0'">
-                                                <ui-select-match placeholder="Select Employees">{{$item.first_name}} {{$item.last_name}}&nbsp;( {{$item.designation_name.designation}} )</ui-select-match>
-                                                <ui-select-choices repeat="list in employees1 | filter:$select.search">
-                                                    {{list.first_name}}  {{list.last_name}}&nbsp;( {{list.designation_name.designation}} )
-                                                </ui-select-choices>
-                                            </ui-select>
-                                            <div ng-show="emptyEmployees" class="help-block sp-err step1 {{ applyClassEmployee }}">
-                                                This field is required.
-                                            </div>
-                                            <span class="error" style="color:#e46f61" ng-show="errorMsg"> {{ errorMsg.employees1}} </span>
+                                            <span class="input-icon icon-right">
+                                                <ui-select multiple ng-model="registrationData.employees1" name="employees1" theme="select2" ui-select-required ng-disabled="disabled" style="width: 100%;" ng-required="registrationData.menu_status == '0'">
+                                                    <ui-select-match placeholder="Select Employees">{{$item.first_name}} {{$item.last_name}}&nbsp;( {{$item.designation_name.designation}} )</ui-select-match>
+                                                    <ui-select-choices repeat="list in employees1 | filter:$select.search">
+                                                        {{list.first_name}}  {{list.last_name}}&nbsp;( {{list.designation_name.designation}} )
+                                                    </ui-select-choices>
+                                                </ui-select>
+                                                <i class="fa fa-sort-desc"></i>
+                                                <div ng-show="emptyEmployees" class="help-block sp-err step1 {{ applyClassEmployee }}">
+                                                    This field is required.
+                                                </div>
+                                                <span class="error" style="color:#e46f61" ng-show="errorMsg"> {{ errorMsg.employees1}} </span>
+                                            </span>
                                         </div>
                                     </div> 
                                 </div>  

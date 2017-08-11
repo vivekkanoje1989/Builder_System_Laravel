@@ -168,7 +168,7 @@
                                                     <input type="file" ngf-select   ng-model="document.document_file" name="document_file" id="document_file"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                     <br/>
                                                 </span>
-                                                <div><img ng-src="[[ Config('global.s3Path') ]]Company/documents/{{document.documentFile}}"  height="80px" width="80px" ></div>
+                                                <div><img ng-src="[[ Config('global.s3Path') ]]/Company/documents/{{document.documentFile}}"  height="80px" width="80px" ></div>
                                             </td>
                                             <td>
                                                 <button class="btn btn-primary" value="Remove" ng-show="$last" ng-if="$first != $last" ng-click="removeChoice()">-</button>
@@ -209,19 +209,19 @@
                                                 <span class="input-icon icon-right">
                                                     <input type="file" ngf-select   ng-model="stationary.estimate_letterhead_file" name="estimate_letterhead_file" id="estimate_letterhead_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                 </span>
-                                                <div ng-if="stationary.estimateLetterheadFile"><img ng-src="[[ Config('global.s3Path') ]]Company/estimateLetterhead/{{stationary.estimateLetter}}"  height="80px" width="80px" ></div>
+                                                <div ng-if="stationary.estimateLetterheadFile"><img ng-src="[[ Config('global.s3Path') ]]/Company/estimateLetterhead/{{stationary.estimateLetter}}"  height="80px" width="80px" ></div>
                                             </td>
                                             <td width="20%">
                                                 <span class="input-icon icon-right">
                                                     <input type="file" ngf-select   ng-model="stationary.receipt_letterhead_file" name="receipt_letterhead_file" id="receipt_letterhead_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                 </span>
-                                                <div ng-if="stationary.receiptLetterhead"><img ng-src="[[ Config('global.s3Path') ]]Company/receiptLetterhead/{{stationary.receiptLetterhead}}"  height="80px" width="80px" ></div>
+                                                <div ng-if="stationary.receiptLetterhead"><img ng-src="[[ Config('global.s3Path') ]]/Company/receiptLetterhead/{{stationary.receiptLetterhead}}"  height="80px" width="80px" ></div>
                                             </td>
                                             <td width="20%">
                                                 <span class="input-icon icon-right">
                                                     <input type="file" ngf-select   ng-model="stationary.rubber_stamp_file" name="rubber_stamp_file" id="rubber_stamp_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                 </span>
-                                                <div ng-if="stationary.rubberStamp"><img ng-src="[[ Config('global.s3Path') ]]Company/rubberStampFile/{{stationary.rubberStamp}}"  height="80px" width="80px" ></div>
+                                                <div ng-if="stationary.rubberStamp"><img ng-src="[[ Config('global.s3Path') ]]/Company/rubberStampFile/{{stationary.rubberStamp}}"  height="80px" width="80px" ></div>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -239,25 +239,25 @@
                                                 <span class="input-icon icon-right">
                                                     <input type="file" ngf-select   ng-model="stationary.estimate_logo_file" name="estimate_logo_file" id="estimate_logo_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                 </span>
-                                                <div ng-if="stationary.estimateLogo"><img ng-src="[[ Config('global.s3Path') ]]Company/estimateLogoFile/{{stationary.estimateLogo}}"  height="80px" width="80px" ></div>
+                                                <div ng-if="stationary.estimateLogo"><img ng-src="[[ Config('global.s3Path') ]]/Company/estimateLogoFile/{{stationary.estimateLogo}}"  height="80px" width="80px" ></div>
                                             </td>
                                             <td width="30%">
                                                 <span class="input-icon icon-right">
                                                     <input type="file" ngf-select   ng-model="stationary.demandletter_letterhead_file" name="demandletter_letterhead_file" id="demandletter_letterhead_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
-                                                    <div ng-if="stationary.demandletterFile"><img ng-src="[[ Config('global.s3Path') ]]Company/demandletterFile/{{stationary.demandletterFile}}"  height="80px" width="80px" ></div>
+                                                    <div ng-if="stationary.demandletterFile"><img ng-src="[[ Config('global.s3Path') ]]/Company/demandletterFile/{{stationary.demandletterFile}}"  height="80px" width="80px" ></div>
                                                 </span>
                                             </td>
                                             <td width="20%">
                                                 <span class="input-icon icon-right">
                                                     <input type="file" ngf-select   ng-model="stationary.demandletter_logo_file" name="demandletter_logo_file" id="demandletter_logo_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                 </span>
-                                                <div ng-if="stationary.demandletterLogoFile"><img ng-src="[[ Config('global.s3Path') ]]Company/demandletterLogoFile/{{stationary.demandletterLogoFile}}"  height="80px" width="80px" ></div>
+                                                <div ng-if="stationary.demandletterLogoFile"><img ng-src="[[ Config('global.s3Path') ]]/Company/demandletterLogoFile/{{stationary.demandletterLogoFile}}"  height="80px" width="80px" ></div>
                                             </td>
                                             <td width="20%">
                                                 <span class="input-icon icon-right">
                                                     <input type="file" ngf-select   ng-model="stationary.receipt_logo_file" name="receipt_logo_file" id="receipt_logo_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                                 </span>
-                                                <div ng-if="stationary.receiptLogoFile"><img ng-src="[[ Config('global.s3Path') ]]Company/receiptLogoFile/{{stationary.receiptLogoFile}}"  height="80px" width="80px" ></div>
+                                                <div ng-if="stationary.receiptLogoFile"><img ng-src="[[ Config('global.s3Path') ]]/Company/receiptLogoFile/{{stationary.receiptLogoFile}}"  height="80px" width="80px" ></div>
                                             </td>
                                         </tr>    
                                     </thead>

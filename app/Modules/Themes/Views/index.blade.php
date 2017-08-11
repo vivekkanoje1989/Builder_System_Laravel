@@ -118,7 +118,7 @@
                                 <img ng-src="{{list}}" class="thumb photoPreview">
                             </div>
                             <div ng-if="image">
-                                <img ng-src="[[ Config('global.s3Path') ]]Themes/{{image}}" width="80px" height="80px">
+                                <img ng-src="[[ Config('global.s3Path') ]]/Themes/{{image}}" width="80px" height="80px">
                             </div>
                         </div>
                         <div class="modal-footer" align="center">

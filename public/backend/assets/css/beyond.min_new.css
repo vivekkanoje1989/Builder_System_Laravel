@@ -2031,8 +2031,7 @@ a:active {
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li {
     float: left;
     position: relative;
-    height: 45px;
-        width: 188px;
+    height: 45px
 }
 
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li>a {
@@ -2675,7 +2674,7 @@ a:active {
 
 .navbar .navbar-inner .navbar-header .navbar-account .account-area .login-area+.dropdown-menu {
     width: 100%;
-    min-width: 188px;
+    min-width: 100px
 }
 
 .navbar .navbar-inner .navbar-header .navbar-account .account-area .login-area+.dropdown-arrow:before {
@@ -4442,7 +4441,7 @@ a:active {
     -webkit-box-shadow: 1px 0 10px 1px rgba(0, 0, 0, .3);
     -moz-box-shadow: 1px 0 10px 1px rgba(0, 0, 0, .3);
     box-shadow: 1px 0 10px 1px rgba(0, 0, 0, .3);
-    padding: 12px;
+    padding: 12px
 }
 
 .widget-body.bordered-left {
@@ -11402,7 +11401,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
 }
 
 .wizard ul li {
-/*    float: left;*/
+    float: left;
     margin: 0;
     padding: 0 20px 0 30px;
     line-height: 46px;

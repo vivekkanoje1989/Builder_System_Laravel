@@ -698,6 +698,28 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+    public function getSalesSource() {
+        $getSalesSource = MlstBmsbEnquirySalesSource::all();
+        if (!empty($getSalesSource)) {
+            $result = ['success' => true, 'records' => $getSalesSource];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+   /* public function getEnquirySubSource() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $sourceId = $request['data']['sourceId'];
+        $getsubSource = EnquirySalesSubSource::where('enquiry_sales_source_id', $sourceId)->get();
+       
+        if (!empty($getsubSource) && count($getsubSource) > 0) {           
+            $result = ['success' => true, 'records' => $getsubSource];
+        } else {
+            $result = ['success' => false, 'message' => 'No records found'];
+        }
+        return json_encode($result);
+    }*/
 
     /*     * *************************MANDAR******************************** */
     /*     * *************************Rohit******************************** */

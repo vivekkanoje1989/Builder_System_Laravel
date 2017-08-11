@@ -50,12 +50,13 @@ Route::get('/header', function () {
 });
 Route::get('/getToken', 'backend\Auth\LoginController@getToken');
 
-Route::get('website/geeta', function () {echo "hhh";
+Route::get('website/geeta', function () {
+    echo "hhh";
     return View::make('website');
 });
 Route::group(['middleware' => ['web']], function () {
     $getUrl = config('global.getUrl');
-    
+
     // ADMIN
     Route::get('/session', 'backend\Auth\LoginController@getSession');
     Route::get('/sessiontimeout', 'backend\AdminController@sessiontimeout');
@@ -72,63 +73,63 @@ Route::group(['middleware' => ['web']], function () {
     // Reset Password
     Route::get('/password/reset/{token}/{checkState?}', 'backend\Auth\ResetPasswordController@showResetForm');
     Route::post('/password/reset', 'backend\Auth\ResetPasswordController@reset');
-    
+
     //Website frontend
-    $getWebsiteUrl = config('global.getWebsiteUrl');    
-    Route::get($getWebsiteUrl . '/index', 'frontend\UserController@index');    
+    $getWebsiteUrl = config('global.getWebsiteUrl');
+    Route::get($getWebsiteUrl . '/index', 'frontend\UserController@index');
     Route::get($getWebsiteUrl . '/about', 'frontend\UserController@about');
-    Route::get($getWebsiteUrl . '/career', 'frontend\UserController@career');    
+    Route::get($getWebsiteUrl . '/career', 'frontend\UserController@career');
     Route::post($getWebsiteUrl . '/register_applicant', 'frontend\UserController@register_applicant');
-    Route::get($getWebsiteUrl . '/jobPost', 'frontend\UserController@jobPost');    
-    Route::get($getWebsiteUrl . '/background', 'frontend\UserController@getBackGroundImages');    
-    Route::get($getWebsiteUrl . '/contact', 'frontend\UserController@contact');    
-    Route::get($getWebsiteUrl. '/testimonials','frontend\UserController@testimonials');
-    Route::get($getWebsiteUrl . '/projects', 'frontend\UserController@projects');    
+    Route::get($getWebsiteUrl . '/jobPost', 'frontend\UserController@jobPost');
+    Route::get($getWebsiteUrl . '/background', 'frontend\UserController@getBackGroundImages');
+    Route::get($getWebsiteUrl . '/contact', 'frontend\UserController@contact');
+    Route::get($getWebsiteUrl . '/testimonials', 'frontend\UserController@testimonials');
+    Route::get($getWebsiteUrl . '/projects', 'frontend\UserController@projects');
     Route::get($getWebsiteUrl . '/getProjectsAllProjects', 'frontend\UserController@getProjectsAllProjects');
-    Route::get($getWebsiteUrl . '/project-details/{projectId}', 'frontend\UserController@projectdetails');    
-    Route::post($getWebsiteUrl . '/getProjectDetails', 'frontend\UserController@getProjectDetails');    
-    Route::post($getWebsiteUrl . '/getAvailbility', 'frontend\UserController@getAvailbility');    
-    Route::get($getWebsiteUrl . '/getCurrentProjectDetails', 'frontend\UserController@getCurrentProjectDetails');    
-    Route::get($getWebsiteUrl . '/getContactDetails', 'frontend\UserController@getContactDetails');   
-    Route::get($getWebsiteUrl . '/getAboutPageContent', 'frontend\UserController@getAboutPageContent');    
-    Route::get($getWebsiteUrl . '/getEmployees', 'frontend\UserController@getEmployees');    
-    Route::get($getWebsiteUrl . '/getTestimonials', 'frontend\UserController@getTestimonials');    
-    Route::get($getWebsiteUrl . '/getMenus','frontend\UserController@getMenus');    
-    Route::get($getWebsiteUrl . '/getCareers','frontend\UserController@getCareers');    
-    Route::get($getWebsiteUrl . '/testimonials','frontend\UserController@testimonials');    
-    Route::get($getWebsiteUrl . '/blog','frontend\UserController@blog');    
-    Route::get($getWebsiteUrl . '/blog-details/{blogId}','frontend\UserController@blogdetails');    
-    Route::get($getWebsiteUrl . '/getBlogs','frontend\UserController@getBlogs');    
-    Route::post($getWebsiteUrl . '/create_testimonials','frontend\UserController@create_testimonials');    
-    Route::post($getWebsiteUrl . '/getBlogDetails','frontend\UserController@getBlogDetails');    
-    Route::get($getWebsiteUrl . '/news','frontend\UserController@news');        
-    Route::get($getWebsiteUrl . '/getNews','frontend\UserController@getNews');    
-    Route::get($getWebsiteUrl . '/news-details/{newsId}','frontend\UserController@newsdetails');    
-    Route::post($getWebsiteUrl . '/getNewsDetails','frontend\UserController@getNewsDetails');    
-    Route::get($getWebsiteUrl . '/press-release','frontend\UserController@press_release');        
-    Route::get($getWebsiteUrl . '/getpressRelease','frontend\UserController@getpressRelease');    
-    Route::get($getWebsiteUrl . '/press-release-details/{Id}','frontend\UserController@press_release_details');    
-    Route::post($getWebsiteUrl . '/getpressReleaseDetails','frontend\UserController@getpressReleaseDetails');    
-    Route::get($getWebsiteUrl . '/events','frontend\UserController@events');        
-    Route::get($getWebsiteUrl . '/getEvents','frontend\UserController@getEvents');    
-    Route::get($getWebsiteUrl . '/event-details/{id}','frontend\UserController@eventDetails');    
-    Route::post($getWebsiteUrl . '/getEventDetails','frontend\UserController@getEventDetails');    
-    Route::get($getWebsiteUrl . '/testimonial/{id}','frontend\UserController@testimonialdetail');    
-    Route::post($getWebsiteUrl . '/getTestimonialDetails','frontend\UserController@getTestimonialDetails');    
-    Route::get($getWebsiteUrl . '/enquiry/{id}','frontend\UserController@enquiry');
-    
+    Route::get($getWebsiteUrl . '/project-details/{projectId}', 'frontend\UserController@projectdetails');
+    Route::post($getWebsiteUrl . '/getProjectDetails', 'frontend\UserController@getProjectDetails');
+    Route::post($getWebsiteUrl . '/getAvailbility', 'frontend\UserController@getAvailbility');
+    Route::get($getWebsiteUrl . '/getCurrentProjectDetails', 'frontend\UserController@getCurrentProjectDetails');
+    Route::get($getWebsiteUrl . '/getContactDetails', 'frontend\UserController@getContactDetails');
+    Route::get($getWebsiteUrl . '/getAboutPageContent', 'frontend\UserController@getAboutPageContent');
+    Route::get($getWebsiteUrl . '/getEmployees', 'frontend\UserController@getEmployees');
+    Route::get($getWebsiteUrl . '/getTestimonials', 'frontend\UserController@getTestimonials');
+    Route::get($getWebsiteUrl . '/getMenus', 'frontend\UserController@getMenus');
+    Route::get($getWebsiteUrl . '/getCareers', 'frontend\UserController@getCareers');
+    Route::get($getWebsiteUrl . '/testimonials', 'frontend\UserController@testimonials');
+    Route::get($getWebsiteUrl . '/blog', 'frontend\UserController@blog');
+    Route::get($getWebsiteUrl . '/blog-details/{blogId}', 'frontend\UserController@blogdetails');
+    Route::get($getWebsiteUrl . '/getBlogs', 'frontend\UserController@getBlogs');
+    Route::post($getWebsiteUrl . '/create_testimonials', 'frontend\UserController@create_testimonials');
+    Route::post($getWebsiteUrl . '/getBlogDetails', 'frontend\UserController@getBlogDetails');
+    Route::get($getWebsiteUrl . '/news', 'frontend\UserController@news');
+    Route::get($getWebsiteUrl . '/getNews', 'frontend\UserController@getNews');
+    Route::get($getWebsiteUrl . '/news-details/{newsId}', 'frontend\UserController@newsdetails');
+    Route::post($getWebsiteUrl . '/getNewsDetails', 'frontend\UserController@getNewsDetails');
+    Route::get($getWebsiteUrl . '/press-release', 'frontend\UserController@press_release');
+    Route::get($getWebsiteUrl . '/getpressRelease', 'frontend\UserController@getpressRelease');
+    Route::get($getWebsiteUrl . '/press-release-details/{Id}', 'frontend\UserController@press_release_details');
+    Route::post($getWebsiteUrl . '/getpressReleaseDetails', 'frontend\UserController@getpressReleaseDetails');
+    Route::get($getWebsiteUrl . '/events', 'frontend\UserController@events');
+    Route::get($getWebsiteUrl . '/getEvents', 'frontend\UserController@getEvents');
+    Route::get($getWebsiteUrl . '/event-details/{id}', 'frontend\UserController@eventDetails');
+    Route::post($getWebsiteUrl . '/getEventDetails', 'frontend\UserController@getEventDetails');
+    Route::get($getWebsiteUrl . '/testimonial/{id}', 'frontend\UserController@testimonialdetail');
+    Route::post($getWebsiteUrl . '/getTestimonialDetails', 'frontend\UserController@getTestimonialDetails');
+    Route::get($getWebsiteUrl . '/enquiry/{id}', 'frontend\UserController@enquiry');
+
     $result = \DB::table('web_themes')->where('status', '1')->select(['id', 'theme_name'])->first();
-    $result = json_decode(json_encode($result),true);
-    Config::set('global.themeName', $result['theme_name']); 
+    $result = json_decode(json_encode($result), true);
+    Config::set('global.themeName', $result['theme_name']);
 });
 
 Route::group(['middleware' => ['auth:admin']], function () {
     $getUrl = config('global.getUrl');
-    /*************************** Admin Dashboard ****************************/
+    /*     * ************************* Admin Dashboard *************************** */
     Route::get('/dashboard', 'backend\AdminController@dashboard');
     Route::post('/logout', 'backend\Auth\LoginController@getLogout');
 
-    /***********************************************************************/
+    /*     * ******************************************************************** */
     Route::get('/getMenuItems', 'backend\AdminController@getMenuItems');
     Route::get('/getTitle', 'backend\AdminController@getTitle');
     Route::get('/getGender', 'backend\AdminController@getGender');
@@ -150,33 +151,34 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getSalesEnqStatus', 'backend\AdminController@getSalesEnqStatus'); //geeta    
     Route::get('/getAmenitiesList', 'backend\AdminController@getAmenitiesList'); //geeta
     Route::get('/getChannelList', 'backend\AdminController@getChannelList'); //geeta
-    
+
     Route::post('/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
     Route::post('/getSubBlocks', 'backend\AdminController@getSubBlocks'); //geeta
     Route::get('/manageBlockStages', 'backend\AdminController@manageBlockStages'); //archana
     Route::post('/getStates', 'backend\AdminController@getStates');
     Route::post('/getCities', 'backend\AdminController@getCities');
     Route::post('/getLocations', 'backend\AdminController@getLocations');
-    Route::post('/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');   
+    Route::post('/checkUniqueEmail', 'backend\AdminController@checkUniqueEmail');
     Route::post('/checkUniqueMobile1', 'backend\AdminController@checkUniqueMobile1');
     Route::post('/checkUniqueMobile', 'backend\AdminController@checkUniqueMobile');
-     Route::get('/getTeamLead/{id}', 'backend\AdminController@getTeamLead');    
-      Route::post('/editDepartments', 'backend\AdminController@editDepartments');
-    Route::post('/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');        
+    Route::get('/getTeamLead/{id}', 'backend\AdminController@getTeamLead');
+    Route::post('/editDepartments', 'backend\AdminController@editDepartments');
+    Route::post('/getEnquirySubSource', 'backend\AdminController@getEnquirySubSource');
     Route::post('/getSalesEnqSubStatus', 'backend\AdminController@getSalesEnqSubStatus'); //geeta
     Route::post('/getSalesEnqSubCategory', 'backend\AdminController@getSalesEnqSubCategory'); //geeta
     Route::post('/checkOldPassword', 'backend\AdminController@checkOldPassword');
-     Route::post('/checkUniqueEmployeeId', 'backend\AdminController@checkUniqueEmployeeId');
-     Route::get('/dirPagination', function () {
+    Route::post('/checkUniqueEmployeeId', 'backend\AdminController@checkUniqueEmployeeId');
+    Route::get('/getSalesSource', 'backend\AdminController@getSalesSource');
+    Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });
-    /***********************************MANDAR*******************************/
+    /*     * *********************************MANDAR****************************** */
     Route::get('/getClient', 'backend\AdminController@getClient');
     Route::get('/getVehiclebrands', 'backend\AdminController@getVehiclebrands');
     Route::get('/getVehiclemodels', 'backend\AdminController@getVehiclemodels');
     Route::get('/getEmployees', 'backend\AdminController@getEmployees');
 
-    /***********************************MANDAR*******************************/
+    /*     * *********************************MANDAR****************************** */
 
     Route::get('/databoxes', function () {
         return View::make('backend.databoxes');
@@ -184,7 +186,6 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/widgets', function () {
         return View::make('backend.widgets');
     });
-    
 });
 
 Route::group(['middleware' => ['user']], function () {

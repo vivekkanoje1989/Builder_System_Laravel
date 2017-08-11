@@ -76,7 +76,7 @@
                                 <span class="help-block">{{bannerImage_err}}</span>
                             </div>
                             <div class="img-div2" data-title="name" ng-repeat="list in bannerImage_preview">    
-                                <img ng-src="[[ Config('global.s3Path') ]]Blog/blog_banner_images/{{list}}" class="thumb photoPreview">
+                                <img ng-src="[[ Config('global.s3Path') ]]/Blog/blog_banner_images/{{list}}" class="thumb photoPreview">
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12">

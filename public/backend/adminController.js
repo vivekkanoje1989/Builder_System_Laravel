@@ -282,7 +282,8 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
     $scope.blockTypeList = [];
     $scope.subBlockList = [];
     $scope.getBlockTypes = function (projectId) {
-        projectId = $scope.enquiryData.project_id.split('_')[0];
+//        projectId = $scope.enquiryData.project_id.split('_')[0];
+        projectId = $("#project_id").val().split('_')[0];
         Data.post('getBlockTypes', {projectId: projectId}).then(function (response) {
             if (!response.success) {
                 $scope.errorMsg = response.message;
@@ -587,6 +588,48 @@ app.controller('teamLeadCtrl', function ($scope, Data) {
             console.log($scope.teamLeads);
         }
     });
+});
+
+app.controller('salesSourceCtrl', function ($scope, Data) {
+    Data.get('getSalesSource').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.salessources = response.records;
+        }
+    });
+    
+    
+    $scope.onsalesSoucesChange = function (){
+        Data.post('getEnquirySubSource', {
+        data: {sourceId: $("#source_id").val()}}).then(function (response){
+            $scope.subSourceList = '';
+            if (!response.success){
+                $scope.errorMsg = response.message;
+            } else{
+                $scope.subSourceList = response.records;
+            }
+        });
+    };
+    
+}); 
+app.controller('getEmployeeCtrl', function ($scope, Data, $timeout) {
+    $scope.employees1 = [];
+    $scope.memployees = [];
+    var ct_id = $("#id").val();
+    //alert($scope.);   
+    var flag = 0;
+        $timeout(function () {
+            Data.post('virtualnumber/editEmp', {ct_id:ct_id}).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.employees1 = response.employees;
+                    $scope.memployees = response.memployees;
+                }
+            });
+        }, 1000);
+    
 });
 /****************************MANDAR*********************************/
 

@@ -1,16 +1,8 @@
-
-<div class="row" ng-controller="cloudtelephonyController" ng-init="managevLists('','index')">
-    
+<div class="row" ng-controller="cloudtelephonyController" ng-init="managevLists('','index')">    
     <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Virtual Numbers</span>
-                
-<!--                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose disabled></a>
-                </div>-->
             </div>
             <div class="widget-body table-responsive">
                 <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search"><br>
@@ -48,7 +40,7 @@
 
 
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="#/virtualnumber/update/{{ listNumber.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/virtualnumber/update/{{ listNumber.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                             </td>
                         </tr>
                         <tr>

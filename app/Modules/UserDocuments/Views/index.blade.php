@@ -93,7 +93,7 @@
                                         <div  ng-show="document_url" style="margin-top:18px;">
                                             <div  class="img-div2" data-title="name">   
                                                 <i class="fa fa-times rem-icon" ng-if="document_url" ng-click="removeImg('{{document_url}}',{{id}})"></i>
-                                                <img ng-if="document_url" ng-src="[[ Session::get('s3Path') ]]Employee-Documents/{{document_url}}" style="width: 60px;height: 60px;">
+                                                <img ng-if="document_url" ng-src="[[ Session::get('s3Path') ]]/Employee-Documents/{{document_url}}" style="width: 60px;height: 60px;">
                                             </div>
                                         </div>
                                     </div>

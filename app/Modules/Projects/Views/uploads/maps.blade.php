@@ -29,7 +29,7 @@
             <div class="col-sm-6 col-xs-12" ng-if="location_map_images">
                 <div class="img-div2" data-title="name" ng-repeat="list in location_map_images" id="del_location_map_images_{{$index}}}">    
                     <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{location_map_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/location_map_images/', 'location_map_images')"></i>
-                    <img ng-src="[[ Session::get('s3Path') ]]project/location_map_images/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ Session::get('s3Path') ]]/project/location_map_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in location_map_images_preview">    
                     <i class="fa fa-times rem-icon"  title=""></i>

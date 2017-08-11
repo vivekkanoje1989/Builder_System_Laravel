@@ -33,7 +33,6 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                        <tr>
                             <th style="width:5%">Sr. No.</th>                       
                             <th style="width:10%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'blog_title'; reverseSort = !reverseSort">Title

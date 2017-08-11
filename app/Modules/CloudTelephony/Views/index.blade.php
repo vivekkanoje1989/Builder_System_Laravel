@@ -3,15 +3,9 @@
     
     <div class="col-xs-12 col-md-12">
         <div class="widget">
-            <a href="#/cloudtelephony/create" class="btn btn-primary">Create New</a><br><br>
+            <a href="[[ config('global.backendUrl') ]]#/cloudtelephony/create" class="btn btn-primary">Create New</a><br><br>
             <div class="widget-header ">
                 <span class="widget-caption">Manage Virtual Numbers</span>
-                
-<!--                <div class="widget-buttons">
-                    <a href="" widget-maximize></a>
-                    <a href="" widget-collapse></a>
-                    <a href="" widget-dispose disabled></a>
-                </div>-->
             </div>
             <div class="widget-body table-responsive">
                 <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search"><br>
@@ -41,7 +35,7 @@
                             <td ng-if="listNumber.outbound_call_status == 1">Yes</td>
                             <td ng-if="listNumber.outbound_call_status == 0">No</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="#/cloudtelephony/update/{{ listNumber.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/cloudtelephony/update/{{ listNumber.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                             </td>
                         </tr>
                          <tr>

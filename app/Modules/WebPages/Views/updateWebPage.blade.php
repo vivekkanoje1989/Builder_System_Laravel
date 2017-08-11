@@ -143,7 +143,7 @@
                                             <div class="col-sm-8 col-xs-6">
                                                 <div class="img-div2" ng-if="imgs" data-title="name" ng-repeat="img in imgs track by $index" ng-model="imagePage.allimages">   
                                                     <i class="fa fa-times rem-icon" ng-if="img"  title="{{ img}}" ng-click="removeImg('{{img}}',{{$index}},[[ $pageId]])"></i>
-                                                    <img ng-if="img" ng-src="[[ Config('global.s3Path') ]]website/banner-images/{{img}}" style="width: 60px;height: 60px;">
+                                                    <img ng-if="img" ng-src="[[ Config('global.s3Path') ]]/website/banner-images/{{img}}" style="width: 60px;height: 60px;">
                                                 </div>
                                             </div>
                                         </div>
