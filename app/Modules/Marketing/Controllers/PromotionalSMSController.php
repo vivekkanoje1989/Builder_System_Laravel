@@ -107,7 +107,6 @@ class PromotionalSMSController extends Controller {
 
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-
         if (empty($input)) {
             $input = Input::all();
         }
@@ -118,7 +117,6 @@ class PromotionalSMSController extends Controller {
 
         if ($input['promotionalsmsData']['send_sms_type'] == 1) {
             $mobile = $input['promotionalsmsData']['smsnumbers'];
-            //$smsresult = Gupshup::sendSMS($smsbody, $mobile, $smstype);
             if (!empty($input['loggedInUserId']))
                 $loggedInUserId = $input['loggedInUserId'];
             else
@@ -130,6 +128,8 @@ class PromotionalSMSController extends Controller {
             $sendingType = $smstype; //always 0 for T_SMS
             $smsType = "P_SMS";
             $result = Gupshup::sendSMS($smsbody, $mobile, $loggedInUserId, $customer, $customerId, $isInternational, $sendingType, $smsType);
+           print_r($result);
+           die();
             $decodeResult = json_decode($result, true);
             // return $decodeResult["success"];
             if ($decodeResult["success"] == true) {
@@ -299,13 +299,10 @@ class PromotionalSMSController extends Controller {
             $this->tuserid($loggedInUserId);
             $alluser = $this->allusers;
             $loggedInUserId = !empty($alluser) ? implode(',', $alluser) : $loggedInUserId;
-
-
             $getsmsLogs = DB::select('CALL proc_smslogs("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;
         } else if ($input['isTeam'] == 0) {
-
             $getsmsLogs = DB::select('CALL proc_smslogs("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;

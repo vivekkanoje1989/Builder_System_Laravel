@@ -21,7 +21,7 @@
                                                         <span class="text">Bulk SMS </span>
                                                     </label>
                                                     <label>
-                                                       <input name="send_sms_type" ng-model="promotionalsmsData.send_sms_type" type="radio" value="3" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_get_customers_mobile_number','0')">
+                                                       <input name="send_sms_type" ng-model="promotionalsmsData.send_sms_type" type="radio" value="3">
                                                         <span class="text">Send SMS to Customer </span>
                                                     </label>                                                    
                                                 </div>

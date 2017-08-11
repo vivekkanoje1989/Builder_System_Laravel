@@ -50,7 +50,7 @@
                                     <div class="form-group">
                                         <label id="lblpp" for="">Profile picture<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="file" ngf-select name="employee_photo_file_name" id="employee_photo_file_name"   ng-model="profileData.employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" required> 
+                                            <input type="file" ngf-select name="employee_photo_file_name" id="employee_photo_file_name"   ng-model="profileData.employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile"> 
                                             <div ng-show="btnProfile"   ng-messages="frmProfile.employee_photo_file_name.$error" class="help-block">
                                                 <div id="err_pp" ng-message="required" class="sp-err">Profile picture cannot be blank.</div>
                                             </div>

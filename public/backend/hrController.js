@@ -70,7 +70,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.applyClass = 'ng-inactive';
             }
         };
-        
+
         $scope.checkDepartment = function (id) {
             if (id == 1) {
 
@@ -1171,15 +1171,20 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.updateProfile = function (profileData)
         {
+             if (typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
+                profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+            }
             var url = '/master-hr/updateProfileInfo';
             var data = {data: profileData};
+           
             profileData.employee_photo_file_name.upload = Upload.upload({
                 url: url,
                 headers: {enctype: 'multipart/form-data'},
                 data: data
             })
             profileData.employee_photo_file_name.upload.then(function (response)
-            {console.log(response);
+            {
+               
                 if (response.success == false) {
                     toaster.pop('error', 'Profile', 'Please upload profile photo');
                 } else {
@@ -1229,9 +1234,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     })
                     .then(function (response)
                     {
-                        $scope.isDisabled = false;
+                        
                         if (!response.success)
-                        {
+                        {$scope.isDisabled = false;
                             var obj = response.message;
                             var selector = [];
                             for (var key in obj) {
