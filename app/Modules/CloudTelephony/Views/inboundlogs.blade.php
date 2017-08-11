@@ -102,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                 <div data-ng-include="'/CloudTelephony/showFilter'"></div>
+                 <div data-ng-include="'/cloudtelephony/showFilter'"></div>
             </div>
         </div>
     </div>

@@ -10,7 +10,8 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::get('/master-hr/getRoles', ['middleware' => 'check-permission:030103', 'uses' => 'MasterHrController@getRoles']); //get role data from table
 //    Route::resource('/master-hr', 'MasterHrController');
 
-    Route::get('/master-hr', ['middleware' => 'check-permission:030101', 'uses' => 'MasterHrController@index']);
+//    Route::get('/master-hr', ['middleware' => 'check-permission:030101', 'uses' => 'MasterHrController@index']);
+    Route::get('/master-hr',  'MasterHrController@index');
     Route::get('/master-hr/create', ['middleware' => 'check-permission:030102', 'uses' => 'MasterHrController@create']);
     Route::post('/master-hr/', ['middleware' => 'check-permission:030102', 'uses' => 'MasterHrController@store']);
     Route::get('/master-hr/{id}/edit', ['middleware' => 'check-permission:030101', 'uses' => 'MasterHrController@edit']);

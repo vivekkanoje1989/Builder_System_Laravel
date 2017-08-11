@@ -1682,10 +1682,29 @@ angular.module('app')
                                         label: 'Manage Virtual Numbers',
                                         description: ''
                                     },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+
+                                            }
+
+                                        ]
+                                    }
                                 })
 
-
-                                .state('numbersIndex', {
+                               .state('numbersIndex', {
                                     url: '/cloudtelephony/index',
                                     templateUrl: '/cloudtelephony/',
                                     controller: 'cloudtelephonyController',
@@ -1737,15 +1756,22 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+
                                             }
+
                                         ]
                                     }
                                 })
@@ -1764,14 +1790,19 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
                                             }
                                         ]
                                     }
@@ -1791,20 +1822,57 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
                                             }
                                         ]
                                     }
                                 })
+                                .state('nonworkingUpdate', {
+                                    url: '/virtualnumber/nonworkinghoursupdate/:id',
+                                    templateUrl: function (stateParams) {
+                                        return '/virtualnumber/' + stateParams.id + '/nonworkinghoursUpdate';
+                                    },
+                                    controller: 'cloudtelephonyController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Edit Non Working Hours',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
 
+                                            }
 
+                                        ]
+                                    }
+                                })
                                 /*************************** Promotional SMS ****************/
 
                                 .state('promotionalsms', {

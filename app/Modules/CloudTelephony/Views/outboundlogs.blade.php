@@ -81,7 +81,8 @@
                             <td>{{ outbound.customer_call_status }}</td>
                             <td>{{ outbound.employee_name }}</td>
                             <td>{{ outbound.customer_call_duration }}</td>
-                            <td><audio id="objectout_{{ outbound.id }}" controls></audio></td>
+                             <td ng-show="{{outbound.customer_call_status == 'Connected'}}"><audio id="objectout_{{ outbound.id }}" controls></audio></td>
+                            <td ng-show="{{outbound.customer_call_status != 'Connected'}}">- NA -</td>
                         </tr>
                         <tr>
                                 <td colspan="8"  ng-show="(outboundList|filter:search).length==0" align="center">Record Not Found</td>   
@@ -94,11 +95,11 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                        <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'outboundLists', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
+                        <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(pageNumber,'outboundLists',[[$loggedInUserId]],newPageNumber) template-url="/dirPagination"></dir-pagination-controls>
                         </div>
                     </div>
                 </div>
-                <div data-ng-include="'/CloudTelephony/showoutboundFilter'"></div>
+                <div data-ng-include="'/cloudtelephony/showoutboundFilter'"></div>
             </div>
         </div>
     </div>

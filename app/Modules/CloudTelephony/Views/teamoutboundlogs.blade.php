@@ -81,7 +81,9 @@
                             <td>{{ outbound.customer_call_status }}</td>
                             <td>{{ outbound.employee_name }}</td>
                             <td>{{ outbound.customer_call_duration }}</td>
-                            <td><audio id="teamobjectout_{{ outbound.id }}" controls></audio></td>
+                             <td ng-show="{{outbound.customer_call_status == 'Connected'}}"><audio id="teamobjectout_{{ outbound.id }}" controls></audio></td>
+                            <td ng-show="{{outbound.customer_call_status != 'Connected'}}">- NA -</td>
+                            
 
                         </tr>
                         <tr>
@@ -99,7 +101,7 @@
                         </div>
                     </div>
                 </div>
-                <div data-ng-include="'/CloudTelephony/showoutboundFilter'"></div>
+                <div data-ng-include="'/cloudtelephony/showoutboundFilter'"></div>
             </div>
         </div>
     </div>

@@ -1875,6 +1875,7 @@ class MasterSalesController extends Controller {
                             $invalid++;
                             continue;
                         }
+                        echo $customerInfo->customer_id."<br>";
                         //insert customer, customer contact, enquiries, enquiry details, enquiry followups, bookings
                         if ($flag == 1) {
                             if (!empty($customerInfo))
@@ -1919,9 +1920,11 @@ class MasterSalesController extends Controller {
                                 }
                                 $enquiries['customer_id'] = $customerInfo->id;
                             } else {
-                                $enquiriesInfo = Enquiry::select('*')->where('customer_id', '=', $enquiries['customer_id'])->whereIn('sales_status_id', [1, 2])->first();
+                                $enquiriesInfo = Enquiry::select('id')->where('customer_id', '=', $enquiries['customer_id'])->whereIn('sales_status_id', [1, 2])->first();
+                                if ($enquiries['sales_status_id'] == 3 || $enquiries['sales_status_id'] == 4) {
+                                    $enquiriesInfo = Enquiry::select('id')->where('customer_id', '=', $enquiries['customer_id'])->whereIn('sales_status_id', [3,4])->first();
+                                }
                             }
-
                             if (empty($enquiriesInfo)) {
                                 $enquiriesInfo = new Enquiry();
                                 $enquiriesInfo->client_id = config('global.client_id');
@@ -2002,7 +2005,6 @@ class MasterSalesController extends Controller {
                                     /* Employeewise enquiry  Detail  cnt */
 
                                     $employeeDetail = Employee::select('id', 'first_name', 'last_name')->where('id', '=', $enquiries['sales_employee_id'])->first();
-
                                     if (!empty($employeeCount[$employeeDetail->first_name . ' ' . $employeeDetail->last_name])) {
                                         $employeecont = $employeeCount[$employeeDetail->first_name . ' ' . $employeeDetail->last_name];
                                         $employeeCount[$employeeDetail->first_name . ' ' . $employeeDetail->last_name] = $employeecont + 1;
@@ -2013,7 +2015,6 @@ class MasterSalesController extends Controller {
                                 }
                             } else {
                                 //invalid value
-
                                 $employeeInvalidEnquires[$i]['enquiry_date_dd_mm_yyyy'] = $sheetData[$j][0];
                                 $employeeInvalidEnquires[$i]['title_mrmsmrsdoctor'] = $sheetData[$j][1];
                                 $employeeInvalidEnquires[$i]['first_name'] = $sheetData[$j][2];
@@ -2054,9 +2055,12 @@ class MasterSalesController extends Controller {
                                     $employeeInvalidEnquires[$i]['Error Description'] = "Already Exist" . "(" . $sheetData[$j][12] . ")";
                                 }
                                 $alreadyExist++;
-                            }
-                        } //end of flag
-                    }  // end of foreach  
+                            }                            
+                        } //end of flag                        
+                    }  // end of foreach
+//                    echo "interested=".$inserted."<br>";
+//                    echo "alreadyExist=".$alreadyExist."<br>";
+//                    exit;
                 } else {
                     $result = ['success' => false, 'message' => 'You can upload enquiries in  excel sheet upto 2000 enquiries in one attempt.'];
                     return json_encode($result);

@@ -68,7 +68,7 @@
                                         Invalid:{{invalidfilecount}}
                                     </div><br>
                                     <div>
-                                        <span><a href="[[config('global.s3Path')]]/sales/invalidReport/{{invalidfileurl}}">Click here to view invalid records. </a></span>
+                                        <span><a href="[[config('global.s3Path')]]sales/invalidReport/{{invalidfileurl}}">Click here to view invalid records. </a></span>
                                     </div>
                                 </td>
                             </tr>
