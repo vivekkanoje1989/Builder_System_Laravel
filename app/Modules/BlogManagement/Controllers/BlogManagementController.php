@@ -199,15 +199,16 @@ class BlogManagementController extends Controller {
         return json_encode($result);
     }
 
-    public
-            function removeBlogImage() {
+    
+     public function removeImage() {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
-        $name = implode(',', $obj['allimg']);
+        $name = implode(',', $obj['galleryImage_preview']);
         $s3FolderName = 'Blog/gallery_image';
         $obj['imageName'] . "     " . $s3FolderName;
         $msg = S3::s3FileDelete($obj['imageName'], $s3FolderName);
-        $updatedata = WebBlogs::where('id', $obj['blogId'])->update(['blog_images' => $name]);
+        $updatedata = WebBlogs::where('id', $obj['pageId'])->update(['blog_images' => $name]);
     }
+    
 
 }

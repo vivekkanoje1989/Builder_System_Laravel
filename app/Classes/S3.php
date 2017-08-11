@@ -73,7 +73,7 @@ class S3 {
 
     public static function s3FileDelete($image,$s3FolderName) {
         S3::s3Configuration();
-        $path = '/'.$s3FolderName.'/' . $image;
+        $path ='/'.$s3FolderName.'/' . $image;
         if (\Storage::disk('s3')->exists($path)) {
             \Storage::disk('s3')->delete($path);
             return true;
