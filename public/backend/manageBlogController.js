@@ -133,22 +133,6 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             }
         };
 
-        $scope.removeImg = function (imgname, indeximg, blogId)
-        {
-            if (window.confirm("Are you sure want to remove this image?"))
-            {
-                if (indeximg > -1) {
-                    $scope.imgs.splice(indeximg, 1);
-                    Data.post('manage-blog/removeBlogImage', {
-                        blogId: blogId, imageName: imgname, allimg: $scope.imgs,
-                    }).then(function (response) {
-                        if (!response.success)
-                        {
-                        }
-                    });
-                }
-            }
-        }
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
@@ -166,10 +150,10 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                     }).then(function (response) {
                         if (!response.success)
                         {
-                            toaster.pop('success', 'Banner Image', 'Image remove successfully.');
+                            toaster.pop('success', 'Gallery Image', 'Image remove successfully.');
                         } else
                         {
-                            toaster.pop('success', 'Banner Image', 'Image remove successfully.');
+                            toaster.pop('success', 'Gallery Image', 'Image remove successfully.');
                         }
                     });
                 }

@@ -29,7 +29,7 @@
                                 <label>Title <span class="sp-err">*</span></label>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!blogsForm.blog_title.$dirty && blogsForm.blog_title.$invalid) }">
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="blogData.blog_title" capitalizeFirst name="blog_title"  ng-change="errormsg = null"  >
+                                        <input type="text" class="form-control" ng-model="blogData.blog_title" capitalizeFirst name="blog_title"  ng-change="errormsg = null" required >
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="blogsForm.blog_title.$error">
                                             <div ng-message="required">Title is required</div>
                                             <div ng-if="errormsg">{{errormsg}}</div>
@@ -90,7 +90,7 @@
                              <!--<img ng-if="!employee_photo_file_name_preview" ng-src="[[ Config('global.s3Path') ]]employee-photos/{{imgUrl}}" class="thumb photoPreview">-->
                             <div class="img-div2" data-title="name" ng-repeat="list in galleryImage_preview track by $index" > 
                                 <i class="fa fa-times rem-icon" ng-if="list"  title="{{list}}" ng-click="removeGalleryImg('{{list}}',{{$index}})"></i>
-                                <img ng-src="[[ Config('global.s3Path') ]]Blog/gallery_image/{{list}}" class="thumb photoPreview">
+                                <img ng-if="list" ng-src="[[ Config('global.s3Path') ]]Blog/gallery_image/{{list}}" class="thumb photoPreview">
                             </div>
                         </div>
                         <div class="col-sm-3 col-xs-12 ">
