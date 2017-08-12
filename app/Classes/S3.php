@@ -32,14 +32,14 @@ class S3 {
         $name = '';
         $random = rand(1,1000);
         //print_r($image);exit;
-        for ($i = 0; $i < $cnt; $i++) {
-            $imageFileName = time().'_'.$random . $i . '.' . $image[$i]->getClientOriginalExtension();
-            $imagePath = $image[$i]->getPathName();
+//        for ($i = 0; $i < $cnt; $i++) {
+            $imageFileName = time().'_'.$random . '.' . $image->getClientOriginalExtension();
+            $imagePath = $image->getPathName();
             $s3 = \Storage::disk('s3');
             $filePath = '/'.$s3FolderName.'/'. $imageFileName;
             $s3->put($filePath, file_get_contents($imagePath), 'public');
             $name .= ',' . $imageFileName;
-        }
+//        }
         if ($name !== '') {
             return($name);
         }
@@ -47,6 +47,9 @@ class S3 {
     
     public static function s3FileUpload($filepath,$filename, $s3FolderName) {
         S3::s3Configuration();
+        echo "<pre>";print_r($filepath);
+        echo $filepath->getPathName();
+        exit;
         $name = '';
             $imageFileName =  $filename;
             $s3 = \Storage::disk('s3');
@@ -59,7 +62,7 @@ class S3 {
     }
     
     
-    public static function s3FileUplodForApp($image, $s3FolderName, $cnt) {
+    public static function s3FileUploadForApp($image, $s3FolderName, $cnt) {
         S3::s3Configuration();
         //for ($i = 0; $i < $cnt; $i++) {
         $ext = pathinfo($image['name'], PATHINFO_EXTENSION);

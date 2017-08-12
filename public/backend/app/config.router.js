@@ -3057,7 +3057,7 @@ angular.module('app')
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
-                                                                            '/backend/manageBlogController.js',
+                                                                            '/backend/manageBlogController.js',                                                  
                                                                         ]
                                                                     });
                                                                 }
