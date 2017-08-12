@@ -434,7 +434,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             if (typeof $scope.enquiryData.id === 'undefined') {
                 var enqData = enquiryData;
                 Data.post('master-sales/saveEnquiry', {
-                    enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
+                    enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,MobileNo : $scope.searchData.searchWithMobile,EmailId : $scope.searchData.searchWithEmail,
                 }).then(function (response) {
                     if (response.success) {
                         toaster.pop('success', 'Enquiry', response.message);

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Modules\MasterSales\Controllers;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -471,7 +469,8 @@ class MasterSalesController extends Controller {
 //                    return json_encode($result, true);
 //                }
 //            }
-           //print_r($request);exit;
+            
+           print_r($request);exit;
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
@@ -483,21 +482,16 @@ class MasterSalesController extends Controller {
             /*  insert enquiry  */
             $request['enquiryData'] = array_merge($request['enquiryData'], $create);
             $request['enquiryData']['customer_id'] = $request['customer_id'];
-            $request['enquiryData']['client_id'] = 1;
+            $request['enquiryData']['client_id'] = config('global.client_id') ;
             $request['enquiryData']['sales_employee_id'] = $loggedInUserId;
-
-            if (!empty($request['enquiryData']['sales_channel_id'])) {
-                $request['enquiryData']['sales_channel_id'] = $request['enquiryData']['sales_channel_id'];
-            } else {
-                $request['enquiryData']['sales_channel_id'] = 3;
-            }
+            
+            $request['enquiryData']['sales_channel_id'] = !empty($request['enquiryData']['sales_channel_id']) ? $request['enquiryData']['sales_channel_id'] : 3;
+            $request['enquiryData']['property_possession_date'] = !empty($request['enquiryData']['property_possession_date']) ? $request['enquiryData']['property_possession_date'] : '0000-00-00';
             $request['enquiryData']['sales_source_id'] = $customerInfo[0]['source_id'];
             $request['enquiryData']['sales_subsource_id'] = $customerInfo[0]['subsource_id'];
             $request['enquiryData']['sales_source_description'] = $customerInfo[0]['source_description'];
             $request['enquiryData']['sales_enquiry_date'] = date('Y-m-d', strtotime($request['enquiryData']['sales_enquiry_date']));
-            if (!empty($request['enquiryData']['property_possession_date'])) {
-                $request['enquiryData']['property_possession_date'] = date('Y-m-d', strtotime($request['enquiryData']['property_possession_date']));
-            }
+            
             if (!empty($request['enquiryData']['enquiry_locations'])) {
                 $request['enquiryData']['enquiry_locations'] = implode(',', array_map(function($el) {
                             return $el['id'];
@@ -518,7 +512,24 @@ class MasterSalesController extends Controller {
                         EnquiryDetail::create($projectDetail);
                     }
                 }
-
+                /*  fill customer detail if Quick Enquiry*/
+                
+                $request['customerDetails']['first_name'] = !empty($request['enquiryData']['first_name']) ? $request['enquiryData']['first_name']  : '';
+                $request['customerDetails']['last_name'] = !empty($request['enquiryData']['last_name']) ? $request['enquiryData']['last_name']  : '';
+                $request['customerDetails']['title_id'] = !empty($request['enquiryData']['title_id']) ? $request['enquiryData']['title_id']  : '';
+                $request['customerDetails']['client_id'] = config('global.client_id') ;
+                if(isset($request['customer_id']) && $request['customer_id'] != ''){}
+                else{
+                    $request['customerDetails'] = array_merge($request['customerDetails'], $create);
+                    $insertCustomer = Customer::create($request['customerDetails']);
+                    print_r($insertCustomer);
+                    if($insertCustomer)
+                    {
+                        //insert customer contacts
+                        
+                    }
+                }
+                
                 /* fill  follow up details */
                 $request['followupDetails']['enquiry_id'] = $insertEnquiry->id;
                 $request['followupDetails']['followup_date_time'] = date('Y-m-d H:i:s');
