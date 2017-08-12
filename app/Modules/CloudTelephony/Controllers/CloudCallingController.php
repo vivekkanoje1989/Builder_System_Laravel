@@ -19,7 +19,7 @@ use App\Models\backend\Employee;
 use App\Models\CtEmployeesExtension;
 use App\Models\Customer;
 use App\Models\CustomersContact;
-use App\Models\LstTitle;
+use App\Models\MlstTitle;
 use App\Models\Enquiry;
 use App\Models\CtLogsInbound;
 use App\Models\ClientInfo;
@@ -147,6 +147,9 @@ class CloudCallingController extends Controller {
     }
 
     public function agentnumbers() {
+        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $parts = parse_url($url);
+        parse_str($parts['query'], $_GET);
         $s3Path = config('global.s3Path');
         if (empty($_GET['virtual_number']))
             $this->_sendResponse(500, 'Error: Parameter <b>virtual_number</b> is missing');
@@ -166,9 +169,22 @@ class CloudCallingController extends Controller {
         $arg_caller_number = trim($_GET['caller_number']);
         $arg_caller_number = substr($arg_caller_number, -10);
         
-        $action = "agentnumbers"; 
+        $action = "agentnumbers"; //exit;
+//            switch ($action) {
+//                // Find respective model
+//                case 'agentnumbers': // {{{
+//                    $model = Systemconfig::find()->Where(array('client_code' => $arg_client_code, 'app_access_key' => $arg_app_access_key))->one();
+//                    break; // }}}
+//                default: // {{{
+//                    $this->_sendResponse(501, sprintf('Mode <b>agentnumbers</b> is not implemented for action <b>%s</b>', $action));
+//                    exit; // }}}
+//            }
+//
+//            if (empty($model)) {
+//                $this->_sendResponse(404, 'No Client found with attributes ' . $arg_client_code . ' and ' . $arg_app_access_key);
+//            } 
 
-        $virtual_number_row = CtSetting::where("virtual_number", $arg_virtual_number)->first();
+        $virtual_number_row = CtSetting::where("forwarding_number_knowlarity", $arg_virtual_number)->first();
 
         if (empty($virtual_number_row))
             $this->_sendResponse(404, 'No such virtual number found.');
@@ -178,14 +194,21 @@ class CloudCallingController extends Controller {
         if (!empty($extensions)) {
             foreach ($extensions as $ext) {
                 $extensionemp = Employee::where(['id' => $ext->employee_id])->first();
-                $extension_no[] = $ext->extension_no . '=+91' . $extensionemp->username;
+                $extensionempemp = '';
+                if(!empty($extensionemp->office_mobile_no)){
+                  $extensionempemp = $extensionemp->office_mobile_no;
+                }else if(!empty($extensionemp->personal_mobile1)){
+                    $extensionempemp = $extensionemp->personal_mobile1;
+                }
+                
+                $extension_no[] = $ext->extension_no . '=+91' . $extensionempemp;
             }
 
             $bridge_list = array(@implode(',', $extension_no));
         }
 
-
-        $customer_info = CustomersContact::where(array('mobile_number' => $arg_caller_number, 'client_id' => $virtual_number_row->client_id))->first();
+        $value = '';
+        $customer_info = CustomersContact::where(array('mobile_number' => $arg_caller_number))->first();
 
         if (empty($customer_info))
             $customer_info = CustomersContact::where(array('landline_number' => $arg_caller_number, 'client_id' => $virtual_number_row->client_id))->first();
@@ -195,85 +218,89 @@ class CloudCallingController extends Controller {
         if (!empty($customer_info)) {
 
             $customer_details = Customer::where("id", $customer_info->customer_id)->first();
-            $customer_titles = LstTitle::where("id", $customer_details->title_id)->first();
-
+            $customer_titles = MlstTitle::where("id", $customer_details->title_id)->first();
+       
+            if(!empty($customer_titles->title))
             $customer_title = $customer_titles->title;
 
+            if(!empty($customer_details->first_name))
             $customer_fname = $customer_details->first_name;
 
-            $attributes = array('customer_id' => $customer_details->id, 'enquiry_sales_status_id' => 1);
+           // $attributes = array('customer_id' => $customer_details->id, 'sales_status_id' => 1);
             //$admin_name_row = EnquiryModel::find()->Where($attributes)->with('employeeDetail')->orderBy(['id' => SORT_DESC])->one();
 
-            $enquiry_emp_row = Enquiry::where($attributes)->first();
+            $enquiry_emp_row = Enquiry::where('customer_id',$customer_details->id)->whereIn('sales_status_id',array(1,2))->first();
+//             echo 'here'.$arg_caller_number;
+//        print_r($enquiry_emp_row);
+//        exit;
+            $latest_enq_status = '';
+            if(!empty($enquiry_emp_row)){
             $admin_name_row = Employee::where("id", $enquiry_emp_row->sales_employee_id)->first();
 
             $admin_fname = $admin_name_row->first_name;
-            $admin_mobile = $admin_name_row->username;
-            $latest_enq_status = $enquiry_emp_row->enquiry_sales_status_id;
+            
+            
+            if(!empty($admin_name_row->office_mobile_no) && $admin_name_row->office_mobile_no != 'null'){
+                  $admin_mobile = $admin_name_row->office_mobile_no;
+                }else if(!empty($admin_name_row->personal_mobile1) && $admin_name_row->personal_mobile1 != 'null'){
+                    $admin_mobile = $admin_name_row->personal_mobile1;
+                }
+                
+                 $latest_enq_status = $enquiry_emp_row->sales_status_id;
+            }
+           // $admin_mobile = $admin_name_row->username;
+            
+            
+           
         }
 
         $msg_key = 'msg';
         $msg_val = '';
         $msg_hold_key = 'hold_msg';
         $msg_hold_val = '';
-        
-
-        $current_time = date('h A');
+       $current_time = date('H');
+ 
         if (!empty($virtual_number_row->nwh_start_time))
-            $non_working_start_time = date('h A', strtotime($virtual_number_row->nwh_start_time));
+          $non_working_start_time = date('H', strtotime($virtual_number_row->nwh_start_time));
         if (!empty($virtual_number_row->nwh_end_time))
-            $non_working_end_time = date('h A', strtotime($virtual_number_row->nwh_end_time));
+          $non_working_end_time = date('H', strtotime($virtual_number_row->nwh_end_time));
+        
+       
+        if (!empty($virtual_number_row->nwh_status)) {
+            if (($current_time >= $non_working_start_time && $current_time <= '23') || ($current_time >= '00' && $current_time < $non_working_end_time)) {
 
-        /*if (!empty($virtual_number_row->nwh_start_time) && !empty($virtual_number_row->nwh_end_time) && $current_time > $non_working_start_time && $current_time > $non_working_end_time) {
-            //echo "here1";exit;
-            if (!empty($virtual_number_row->nwh_welcome_tune_type_id)) {
-                $set_auto_answering_mode_on = 1;
+                if (!empty($virtual_number_row->nwh_welcome_tune_type_id)) {
+                    $set_auto_answering_mode_on = 1;
 
-                if ($set_auto_answering_mode_on == 1) {
-                    $calling_type_for_non_working_hour = $virtual_number_row->nwh_welcome_tune_type_id;
+                    if ($set_auto_answering_mode_on == 1) {
+                        $calling_type_for_non_working_hour = $virtual_number_row->nwh_welcome_tune_type_id;
 
-                    if ($calling_type_for_non_working_hour == 2) {
-                        if (!empty($customer_fname))
-                            $msg_val .= 'Dear ' . ucwords($customer_title) . ' ' . ucwords($customer_fname) . ' ';
-                        $msg_val .= $virtual_number_row->ec_welcome_tune;
-                    }else if ($calling_type_for_non_working_hour == 3) {
-                        $msg_key = 'msg';
-                        $msg_val = $s3Path .'/caller_tunes/' . $virtual_number_row->ec_welcome_tune;
+                        if ($calling_type_for_non_working_hour == 2) {
+                            if (!empty($customer_fname))
+                                $msg_val .= 'Dear ' . ucwords($customer_title) . ' ' . ucwords($customer_fname) . ' ';
+
+                            $msg_val .= $virtual_number_row->nwh_welcome_tune;
+
+                        }else if ($calling_type_for_non_working_hour == 3) {
+                            $msg_key = 'msg';
+                            $msg_val = $s3Path .'/caller_tunes/' . $virtual_number_row->nwh_welcome_tune;
+                        }
+                        $agent_numbers = '';
                     }
-                    $agent_numbers = '';
-                }
-            } else if ($set_auto_answering_mode_on == 0) {
-                if (!empty($virtual_number_row->assign_non_working_time_call_to)) {
-                    $menu_admin_arr = array();
-                    $menu_all_mobile = array();
-                    $menu_admin_arr = @explode(',', $virtual_number_row->assign_non_working_time_call_to);
-                    foreach ($menu_admin_arr as $admin_id) {
-                        $admin_mobile_model = EmployeeModel::find()->where(['id' => $admin_id])->one();
-                        // if(!empty($admin_mobile_model->mobile))
-                        // $menu_all_mobile[]=$admin_mobile_model->mobile;
-                        // else 
-                        if (!empty($admin_mobile_model->username))
-                            $menu_all_mobile[] = $admin_mobile_model->username;
-                    }
-                    $agent_numbers = @implode(',', $menu_all_mobile);
-                    $msg_val .= 'Kindly wait we are transferring your call';
-                }
-            }
-            if (!empty($customer_fname))
-                $insert_enquiry_for_NWH = 0;
-            else
-                $insert_enquiry_for_NWH = 1;
+                } 
+                if (!empty($customer_fname))
+                    $insert_enquiry_for_NWH = 0;
+                else
+                    $insert_enquiry_for_NWH = 1;
 
-            if (!empty($virtual_number_row->calling_type_for_non_working_hour)) {
-                $value = array('status' => 'success', 'ivr_type' => '4', 'ivr_data' => array($msg_key => $msg_val, $msg_hold_key => $msg_hold_val, 'agent_numbers' => $agent_numbers, 'insert_enquiry' => $insert_enquiry_for_NWH));
-            } else {
-                $value = array('status' => 'success', 'ivr_type' => '1', 'ivr_data' => array($msg_key => $msg_val, $msg_hold_key => $msg_hold_val, 'agent_numbers' => $agent_numbers, 'insert_enquiry' => $insert_enquiry_for_NWH));
-            }
+                if (!empty($virtual_number_row->nwh_status)) {
+                     $value = array('status' => 'success', 'ivr_type' => '4', 'ivr_data' => array($msg_key => $msg_val, 'insert_enquiry' => $insert_enquiry_for_NWH));
+                } 
 
-            $this->_sendResponse(200, $this->_getObjectEncoded($action, $value));
+                $this->_sendResponse(200, $this->_getObjectEncoded($action, $value));
 
-            #End Check if cuurent time is non working#
-        } else*/
+            }#End Check if cuurent time is non working#
+        } 
         if (!empty($virtual_number_row->ec_call_status) && $virtual_number_row->ec_call_status == 1) {
              
             if ($virtual_number_row->ec_welcome_tune_type_id != 3) {
@@ -348,8 +375,18 @@ class CloudCallingController extends Controller {
                     
                     foreach ($menu_admin_arr as $admin_id) {
                         $admin_mobile_model = Employee::where("id",$admin_id)->first();
-                        if (!empty($admin_mobile_model->username))
-                            $menu_all_mobile[] = $admin_mobile_model->username;
+                        
+                        
+//                        if (!empty($admin_mobile_model->username))
+//                            $menu_all_mobile[] = $admin_mobile_model->username;
+                        
+                        if(!empty($admin_mobile_model->office_mobile_no) && $admin_mobile_model->office_mobile_no != 'null'){
+                            $menu_all_mobile[] = $admin_mobile_model->office_mobile_no;
+                          }else if(!empty($admin_mobile_model->personal_mobile1) && $admin_mobile_model->personal_mobile1 != 'null'){
+                              $menu_all_mobile[] = $admin_mobile_model->personal_mobile1;
+                          }
+                        
+                        
                     }
                     
                     if ($virtual_number_row->forwarding_type_id == 1) {
@@ -444,7 +481,7 @@ class CloudCallingController extends Controller {
            
         } else {
             
-            if (!empty($virtual_number_row->employees)) {
+            if ($virtual_number_row->menu_status == 0) {
                
                 $menu_admin_arr = array();
                 $menu_all_mobile = array();
@@ -453,13 +490,24 @@ class CloudCallingController extends Controller {
                 foreach ($menu_admin_arr as $admin_id) {
                     $admin_mobile_model = Employee::where("id",$admin_id)->first();
                     
-                    if (!empty($admin_mobile_model->username))
+                    if(!empty($admin_mobile_model->office_mobile_no) && $admin_mobile_model->office_mobile_no != 'null'){
+                             if ($virtual_number_row->forwarding_type_id != 1) { // changed
+                                    $menu_all_mobile[] = $admin_mobile_model->office_mobile_no . "#" . $virtual_number_row->forwarding_time;
+                                } else {
+                                    $menu_all_mobile[] = $admin_mobile_model->office_mobile_no;
+                                }
+                            
+                          }else if(!empty($admin_mobile_model->personal_mobile1) && $admin_mobile_model->personal_mobile1 != 'null'){
+                               if ($virtual_number_row->forwarding_type_id != 1) { // changed
+                                    $menu_all_mobile[] = $admin_mobile_model->personal_mobile1 . "#" . $virtual_number_row->forwarding_time;
+                                } else {
+                                    $menu_all_mobile[] = $admin_mobile_model->personal_mobile1;
+                                }
+                          }
+                          
+                          
                         
-                        if ($virtual_number_row->forwarding_type_id != 1) { // changed
-                            $menu_all_mobile[] = $admin_mobile_model->username . "#" . $virtual_number_row->forwarding_time;
-                        } else {
-                            $menu_all_mobile[] = $admin_mobile_model->username;
-                        }
+                       
                 }
                 
                 if ($virtual_number_row->forwarding_type_id == 1) {
@@ -551,7 +599,7 @@ class CloudCallingController extends Controller {
                         $calling_type_flag = 3; //for ivr_type flag
                     }
 
-                    if ($virtual_number_row->hold_tune_type_id == 0) {
+                    if ($virtual_number_row->hold_tune_type_id == 1) {
                         $menu_hold_msg_key = 'hold_msg';
                         $menu_hold_msg_val = 'Kindly wait, we are transferring your call.';
                     } else if ($virtual_number_row->hold_tune_type_id == 2) {
@@ -578,8 +626,9 @@ class CloudCallingController extends Controller {
                     if ($virtual_number_row->msc_facility_status == 0) {
                         $menu_results = \App\Models\CtMenuSetting::leftjoin('ct_settings as cvn', 'ct_menu_settings.ct_settings_id', '=', 'cvn.id')
                         ->select('cvn.welcome_tune_type_id as cvn_calling_type', 'ct_menu_settings.ext_number as ccm_extension_no','ct_menu_settings.ext_name as ccm_ext_name', 'ct_menu_settings.insert_enquiry as ccm_insert_enquiry', 'ct_menu_settings.forwarding_type_id as ccm_forwarding_type', 'ct_menu_settings.employees as ccm_agent_numbers','ct_menu_settings.welcome_tune_type_id as ccm_ext_calling_type' , 'ct_menu_settings.hold_tune_type_id as ccm_ext_calling_type_waiting' , 'ct_menu_settings.welcome_tune as ccm_ext_caller_tone', 'ct_menu_settings.hold_tune as ccm_ext_waiting_tune', 'ct_menu_settings.id as ccm_menu_id', 'ct_menu_settings.forwarding_time as ccm_forwarding_type_timelimit','ct_menu_settings.msc_facility_status as ccm_missedcall_setting','ct_menu_settings.menu_status as ccm_status','ct_menu_settings.msc_welcome_tune_type_id as ccm_msc_welcome_tune_type_id','ct_menu_settings.msc_welcome_tune as ccm_msc_welcome_tune','ct_menu_settings.msc_call_insert_enquiry as ccm_msc_call_insert_enquiry','ct_menu_settings.msc_default_employee_id as ccm_msc_default_employee_id')
+                        ->where('cvn.forwarding_number_knowlarity',$arg_virtual_number)
                         ->get();
-                        
+                        //echo "<pre>";print_r($menu_results);exit;
                         $regex = array();
                         $extension_numbers = array();
                         $agent_numbers = array();
@@ -597,13 +646,14 @@ class CloudCallingController extends Controller {
                             if ($menu_result['ccm_status'] == 1) {
                                 //$count_menu_row++;
                                 $regex[] = $menu_result['ccm_extension_no'];
+                                $has_submenu[] = 0;
                                 $extension_numbers[] = $menu_result['ccm_extension_no'];
                                 
                             
                                 $thank_you_msg = array();
                                 $agent_numbers = array();
 
-                                if ($menu_result['ccm_missedcall_setting'] == 0) {
+                                if (empty($menu_result['ccm_missedcall_setting']) || $menu_result['ccm_missedcall_setting'] == 0) {
                                     
                                     if ($menu_result['ccm_status'] == 1) {
                                         $menu_admin_arr = array();
@@ -661,13 +711,25 @@ class CloudCallingController extends Controller {
                                         foreach ($menu_admin_arr as $admin_id) {
                                             //$admin_mobile_model = EmployeeModel::find()->where(['id' => $admin_id])->one();
                                             $admin_mobile_model = Employee::where("id",$admin_id)->first();
-                                            if (!empty($admin_mobile_model->username)) {
+                                            
+                                            if(!empty($admin_mobile_model->office_mobile_no) && $admin_mobile_model->office_mobile_no != 'null'){
+                                               
                                                 if ($menu_result['ccm_forwarding_type'] != 1) {// changed
-                                                    $menu_all_mobile[] = $admin_mobile_model->username . "#" . $menu_result['ccm_forwarding_type_timelimit'];
+                                                    $menu_all_mobile[] = $admin_mobile_model->office_mobile_no . "#" . $menu_result['ccm_forwarding_type_timelimit'];
                                                 } else {
-                                                    $menu_all_mobile[] = $admin_mobile_model->username;
+                                                    $menu_all_mobile[] = $admin_mobile_model->office_mobile_no;
                                                 }
-                                            }
+                                              }else if(!empty($admin_mobile_model->personal_mobile1) && $admin_mobile_model->personal_mobile1 != 'null'){
+                                                if ($menu_result['ccm_forwarding_type'] != 1) {// changed
+                                                    $menu_all_mobile[] = $admin_mobile_model->personal_mobile1 . "#" . $menu_result['ccm_forwarding_type_timelimit'];
+                                                } else {
+                                                    $menu_all_mobile[] = $admin_mobile_model->personal_mobile1;
+                                                }
+                                              }
+                                            
+                                           
+                                            
+                                            
                                         }
                                         
 
@@ -910,15 +972,15 @@ class CloudCallingController extends Controller {
                         }
                     }
                     if ($virtual_number_row->msc_facility_status == 0 || empty($virtual_number_row->msc_facility_status)) {
-                        $marketing_name_model = ClientInfo::where("id",1)->first();
+                        $marketing_name_model = ClientInfo::where("id",$virtual_number_row->client_id)->first();
                         $welcome_msg = 'Welcome to ' . $marketing_name_model->marketing_name;
 
 
                         $regex1 = @implode('', $regex);
                         if ($calling_type_flag == 2 && $calling_type_has_submenu_flag == 0) {
-                            $ivr_data_menu = array($welcome_msg_key => $welcome_msg_val, $menu_hold_msg_key => $menu_hold_msg_val, 'regex' => $regex1, 'extension_numbers' => $extension_numbers, 'has_submenu' => 0, 'sub_ivr_type' => $subivrdata);
+                            $ivr_data_menu = array($welcome_msg_key => $welcome_msg_val, $menu_hold_msg_key => $menu_hold_msg_val, 'regex' => $regex1, 'extension_numbers' => $extension_numbers, 'has_submenu' => $has_submenu, 'sub_ivr_type' => $subivrdata);
                         } else if ($calling_type_flag == 3 && $calling_type_has_submenu_flag == 0) {
-                            $ivr_data_menu = array($welcome_msg_key => $welcome_msg_val, $menu_hold_msg_key => $menu_hold_msg_val, 'regex' => $regex1, 'extension_numbers' => $extension_numbers, 'has_submenu' => 0, 'sub_ivr_type' => $subivrdata);
+                            $ivr_data_menu = array($welcome_msg_key => $welcome_msg_val, $menu_hold_msg_key => $menu_hold_msg_val, 'regex' => $regex1, 'extension_numbers' => $extension_numbers, 'has_submenu' => $has_submenu, 'sub_ivr_type' => $subivrdata);
 //                        } else if ($calling_type_flag == 2 && $calling_type_has_submenu_flag == 1) {
 //                            $ivr_data_menu = array($welcome_msg_key => $welcome_msg_val, $menu_hold_msg_key => $menu_hold_msg_val, 'menu_noinput' => 'url', 'menu_nomatch' => 'url', 'regex' => $regex1, 'extension_numbers' => $extension_numbers, 'has_submenu' => $has_submenu, 'agent_numbers' => $agent_numbers, 'insert_enquiry' => $insert_enquiry);
 //                        } else if ($calling_type_flag == 3 && $calling_type_has_submenu_flag == 1) {

@@ -14,29 +14,49 @@
 </style>
 <div class="row" ng-controller="cloudtelephonyController" ng-init="teaminboundLists([[$loggedInUserId]], 1, [[config('global.recordsPerPage')]])">
     <div class="col-xs-12 col-md-12">
-        <div class="widget">
-            <div class="widget-header ">
+        <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Team Inbound Logs</span>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">
-                    <div class="col-sm-2 ">
-                        <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-change="teaminboundLists([[$loggedInUserId]],{{pageNumber}}, itemsPerPage)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="search">Records per page:</label>
+                            <span class="input-icon icon-right">
+                                <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-change="teaminboundLists([[$loggedInUserId]],{{pageNumber}}, itemsPerPage)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
+                            </span>
+                        </div>
                     </div>
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_team_inboundlogs', 1)">
-                            <i class="btn-label fa fa-filter"></i>Show Filter</button>
+                        <div class="form-group">
+                            <label for="search"></label>
+                            <span class="input-icon icon-right">
+                                <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_team_inboundlogs', 1)">
+                                <i class="btn-label fa fa-filter"></i>Show Filter</button>
+                            </span>
+                        </div>
                     </div>
                     <div class="col-sm-2">
-                        <a href="" class="btn btn-primary" id="downloadExcel" download="{{fileUrl}}"  ng-show="dnExcelSheet">
-                            <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                        <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary" ng-click="inLogexportReport(teaminboundList)" ng-show="btnExport">
-                            <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
-                        </a> 
+                        <div class="form-group">
+                            <label for="search"></label>
+                            <span class="input-icon icon-right">
+                                <a href="" class="btn btn-primary" id="downloadExcel" download="{{fileUrl}}"  ng-show="dnExcelSheet">
+                                    <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
+                                <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary" ng-click="inLogexportReport(teaminboundList)" ng-show="btnExport">
+                                    <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
+                                </a> 
+                            </span>
+                        </div>
                     </div> 
                     <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                        <span ng-if="teaminboundLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{teaminboundList.length}} Logs Out Of Total {{teaminboundLength}} Logs&nbsp;</span>
-                        <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'teaminboundLists', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
+                        <div class="form-group">
+                            <label for="search"></label>
+                            <span class="input-icon icon-right">
+                                <span ng-if="teaminboundLength">&nbsp; &nbsp; &nbsp; Showing {{teaminboundList.length}} Logs Out Of Total {{teaminboundLength}} Logs&nbsp;</span>
+                                <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(pageNumber,'teaminboundLists',[[$loggedInUserId]],newPageNumber)" template-url="/dirPagination"></dir-pagination-controls>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <hr>
@@ -48,16 +68,15 @@
                                 <div class="alert alert-info fade in">
                                     <button class="close" ng-click="removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
                                     <strong ng-if="key === 'empId'" ng-repeat='emp in value track by $index'> {{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}} </strong>
-                                    <strong ng-if="key === 'callstatus'"><strong>Call Status : </strong>{{ value}}</strong>
+                                    <strong ng-if="key === 'customer_number'" data-toggle="tooltip" title="Customer Number"><strong>Customer Number : </strong> {{ value}}</strong>
                                     <strong ng-if="key === 'virtual_no'" data-toggle="tooltip" title="Virtual Number"><strong>Virtual Number : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'callstatus'"><strong>Call Status : </strong>{{ value}}</strong>
                                     <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Log Date"><strong>Call Date : </strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
                                 </div>
                             </div>
                         </b>                        
                     </div>
                 </div>
-                <!-- filter data-->
-                <br>
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -73,7 +92,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr dir-paginate="inbound in teaminboundList | filter:search | itemsPerPage: itemsPerPage" total-items="{{ teaminboundLength}}">
+                        <tr dir-paginate="inbound in teaminboundList | filter:search | itemsPerPage: itemsPerPage" total-items="{{ teaminboundLength }}">
                             <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>
                             <td>{{ inbound.call_date + ' @ ' + inbound.call_time}}<br>
                                 <span ng-if="inbound.customer_call_status == 'Non Working Hours Call'">( Non Working Hours Call )</span></td>
@@ -86,12 +105,12 @@
                             <td>{{ inbound.customer_call_duration}}</td>
                             <td><audio id="teamobject_{{ inbound.id}}" controls></audio></td>
                         </tr>
-                        <tr>
-                            <td colspan="8"  ng-show="(teaminboundList|filter:search).length == 0" align="center">Record Not Found</td>   
+                        <tr>   
+                            <td colspan="8" ng-if="!teaminboundLength" align="center">Record Not Found</td>   
                         </tr>
                     </tbody>
                 </table><br>
-                <div class="DTTTFooter">
+                <div class="DTTTFooter" ng-if="teaminboundLength">
                     <div class="col-sm-6">
                         <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
                     </div>
@@ -101,7 +120,7 @@
                         </div>
                     </div>
                 </div>
-                <div data-ng-include="'/CloudTelephony/showFilter'"></div>
+                <div data-ng-include="'/cloudtelephony/showFilter'" ></div>
             </div>
         </div>
     </div>

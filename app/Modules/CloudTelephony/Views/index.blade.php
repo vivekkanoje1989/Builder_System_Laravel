@@ -38,6 +38,9 @@
                                 <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/cloudtelephony/update/{{ listNumber.id }}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>
                             </td>
                         </tr>
+                         <tr>
+                                <td colspan="11"  ng-show="(listNumbers|filter:search).length==0" align="center">Record Not Found</td>   
+                        </tr>
                     </tbody>
                 </table>
                 <div class="DTTTFooter">

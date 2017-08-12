@@ -1,17 +1,17 @@
 'use strict';
-app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster','$parse', function ($scope, Data, Upload, $timeout, toaster,$parse) {
+app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', function ($scope, Data, Upload, $timeout, toaster, $parse) {
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.subId = '0';
         $scope.submitted = true;
         $scope.sbtBtn = false;
         $scope.subcontentPage = {};
-
-        $scope.pageChangeHandler = function(num) {
+        $scope.subImagePage = {};
+        $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-        
+
         Data.get('web-pages/getWebPages').then(function (response) {
             $scope.listPages = response.records.data;
         });
@@ -35,7 +35,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
         $scope.updateWebPage = function (contentdata, allimg, imageData, pageId)
         {
-            
+
             if (typeof imageData === 'undefined') {
                 imageData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
@@ -59,7 +59,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                             model.assign($scope, obj[key][0]);// Assigns a value to it
                             selector.push(key);
                         }
-                        
+
                         //toaster.pop('error', 'Banner Image', 'Image not uploaded');
                     } else
                     {
@@ -79,12 +79,13 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
         }
 
-        $scope.editSubPage = function (list, index)
+        $scope.editSubPage = function (list, index, pageId)
         {
             $scope.subcontentPage = list;
-            if(list.banner_images != ''){
-            var banner = list.banner_images.split(',');
+            if (list.banner_images != '') {
+                var banner = list.banner_images.split(',');
             }
+
             $scope.subimgs = (banner);
             $scope.subId = list.id;
             $scope.index = index;
@@ -92,13 +93,13 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
         $scope.updateSubWebPage = function (subcontent, allimg, imageData, pageId)
         {
-          console.log(subcontent);
+
             if (typeof imageData === 'undefined') {
                 imageData = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
             $scope.err_msg = '';
             var imgCount = document.getElementById("subbanner_images").files.length;
-            if ($scope.subId == 0){
+            if ($scope.subId == 0) {
                 var url = '/web-pages/storeSubWebPage';
                 var data = {pageId: pageId, imageData: allimg, uploadImage: imageData, totalImages: imgCount, subcontentPages: subcontent};
             } else {
@@ -112,6 +113,19 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
             imageData.upload.then(function (response) {
                 var record = response.data.records;
+                if (!response.data.success) {
+                    var obj = response.data.message;
+                    var selector = [];
+                    for (var key in obj) {
+                        var model = $parse(key);// Get the model
+                        model.assign($scope, obj[key][0]);// Assigns a value to it
+                        selector.push(key);
+                    }
+                    toaster.pop('error', 'Manage Webpage', 'Webpage failed to add');
+                } else
+                {
+                    toaster.pop('success', 'Manage Webpage', 'Sub Page Added successfully.');
+                }
                 if ($scope.subId == 0)
                 {
                     $scope.subPage.push({'page_name': record.page_name, 'page_title': record.page_title, 'seo_url': record.seo_url, 'seo_page_title': record.seo_page_title,
@@ -123,19 +137,16 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                     $scope.subPage.splice($scope.index, 0, {'page_name': record.page_name, 'page_title': record.page_title, 'seo_url': record.seo_url, 'seo_page_title': record.seo_page_title,
                         'meta_description': record.meta_description, 'meta_keywords': record.meta_keywords, 'canonical_tag': record.canonical_tag, 'child_page_position': record.child_page_position,
                         'status': record.status, 'id': response.data.id, id: $scope.subId});
-                    $scope.subcontentPage = {};
+
                 }
                 $scope.subcontentPage = {};
+
                 $scope.imageMgntForm.$setPristine();
-//                $scope.subImagePage.banner_images = '';
+                $scope.subImagePage.banner_images = '';
+                $scope.subImagePage = {};
                 $scope.submitted = true;
-                    if (!response.data.success) {
-                        toaster.pop('error', 'Manage Webpage', 'Webpage failed to add');
-                    } else
-                    {
-                        toaster.pop('success', 'Manage Webpage', 'Sub Page Added successfully.');
-                    }
-               
+
+
             }, function (response) {
                 if (response.status !== 200) {
                     $scope.errorMsg = "Something went wrong. Check your internet connection";
@@ -209,11 +220,12 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                         }
                     });
                 }
-            }         }
+            }
+        }
         $scope.removeSubImg = function (imgname, indeximg, pageId)
         {
             if (window.confirm("Are you sure want to remove this image?"))
-            {
+            {alert(imgname);
                 if (indeximg > -1) {
                     $scope.subimgs.splice(indeximg, 1);
                     Data.post('web-pages/removeSubWebPageImage', {

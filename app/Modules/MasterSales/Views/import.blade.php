@@ -119,14 +119,14 @@
                                 {{importhistory.get_employee.first_name}} {{importhistory.get_employee.last_name}} 
                             </td>
                             <td style="width: 10%">
-                                <a href="[[config('global.s3Path')]]{{importhistory.import_file}}">Download File</a>  
+                                <a href="[[config('global.s3Path')]]/{{importhistory.import_file}}">Download File</a>  
                             </td>
 
                             <td style="width: 38%">
                                 {{importhistory.report_status|removeHTMLTags }} 
                             </td>
                             <td style="width: 20%">
-                                <a href="[[config('global.s3Path')]]{{importhistory.error_report_file}}" >Download File</a>   
+                                <a href="[[config('global.s3Path')]]/{{importhistory.error_report_file}}" >Download File</a>   
                             </td>
                             <td style="width: 10%">
                                 {{importhistory.created_datetime}}  

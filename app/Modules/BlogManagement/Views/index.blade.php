@@ -33,7 +33,6 @@
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
-                        <tr>
                             <th style="width:5%">Sr. No.</th>                       
                             <th style="width:10%">
                                 <a href="javascript:void(0);" ng-click="orderByField = 'blog_title'; reverseSort = !reverseSort">Title
@@ -56,7 +55,7 @@
                             <td>{{item.meta_description}}</td>
                             <td>{{item.meta_keywords}}</td>
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal" ng-click="editBlogData({{item}},{{$index}})"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>

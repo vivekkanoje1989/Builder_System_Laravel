@@ -166,7 +166,10 @@ class DashBoardController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $request['reply_date'] = date("Y-m-d")." ".date("h-i-s");
-        $request['reply_by'] = Auth::guard('admin')->user()->id;
+        if(!empty($request['reply_by']))
+            $request['reply_by'] = $request['reply_by'];
+        else
+            $request['reply_by'] = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::where('id', $request['id'])->update($request);
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];

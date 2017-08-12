@@ -69,7 +69,7 @@ class MenuItems {
                                 'submenu_ids' => '02020401', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020401', 'name' => 'Manage Companies', 'icon' => '', 'url' => '/manage/company', 'slug' => 'companiesIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                            5 => array('id' => '020205', 'name' => 'Operational Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#','has_submenu' => true, 'total_submenu' => 1,
+                            5 => array('id' => '020205', 'name' => 'Operational Settings', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                                 'submenu_ids' => '02020501', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020501', 'name' => 'Manage', 'icon' => '', 'url' => '/operationalSetting/index', 'slug' => 'operationalSettingIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
@@ -113,7 +113,7 @@ class MenuItems {
                         'submenu_ids' => '030101,030102,030103,030104,030105,030106,030107', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '030101', 'name' => 'List Users', 'micon' => 'img/list.png', 'icon' => '', 'url' => '/user/index', 'slug' => 'userIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             2 => array('id' => '030102', 'name' => 'New User', 'micon' => 'img/newUser.png', 'icon' => '', 'url' => '/user', 'slug' => 'user', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '030103', 'name' => 'Quick User', 'micon' => 'img/newUser.png', 'url' => '/user/quick-user', 'slug' => 'quickUser', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '030103', 'name' => 'Quick User', 'micon' => 'img/quickUser.png', 'url' => '/user/quick-user', 'slug' => 'quickUser', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                            4 => array('id' => '030104', 'name' => 'Manage Roles', 'micon' => 'img/newUser.png', 'icon' => '', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             4 => array('id' => '030104', 'name' => 'Reassign Data', 'micon' => 'img/reassignData.png', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             5 => array('id' => '030105', 'name' => 'Organization Chart', 'micon' => 'img/chart.png', 'icon' => '', 'url' => '/user/orgchart', 'slug' => 'userChart', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -127,34 +127,33 @@ class MenuItems {
                     3 => array('id' => '0303', 'name' => 'Role Management', 'icon' => '', 'micon' => 'img/role.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
                         'submenu_ids' => '030301,030302', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '030301', 'name' => 'Create Role', 'micon' => 'img/createRole.png', 'url' => '/user/createrole', 'slug' => 'createrole', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '030302', 'name' => 'Manage Role', 'micon' => 'img/newUser.png', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '030302', 'name' => 'Manage Role', 'micon' => 'img/manageRole.png', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                 )),
-                4 => array('name' => 'Sales', 'icon' => 'sale-img menu-icon-sz','micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'sales', 'has_submenu' => true, 'total_submenu' => 5,
-                'submenu_ids' => '0401,0402,0403,0404', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+            4 => array('name' => 'Sales', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'sales', 'has_submenu' => true, 'total_submenu' => 5,
+                'submenu_ids' => '0401,0402,0403,0404,0405', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '0401', 'name' => 'Pre-Sales', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 10,
-                        'submenu_ids' => '040101,040102,040103,040104,040105,040106,040107,040108,040109,0401010', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                        1 => array('id' => '040101', 'name' => 'Quick Enquiry','micon' => 'img/newEnq.png', 'icon' => '', 'url' => '/sales/createQuickEnquiry', 'slug' => 'createQuickEnquiry', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        2 => array('id' => '040102', 'name' => ' Detailed Enquiry','micon' => 'img/newEnq.png', 'icon' => '', 'url' => '/sales/create', 'slug' => 'salesCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        3 => array('id' => '040103', 'name' => 'My Today\'s Followups', 'micon' => 'img/myFollow.png','icon' => '', 'url' => '/sales/todaysfollowups', 'slug' => 'todaysfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        4 => array('id' => '040104', 'name' => 'My Pending Followups','micon' => 'img/pendingFollow.png', 'icon' => '', 'url' => '/sales/pendingfollowups', 'slug' => 'pendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        5 => array('id' => '040105', 'name' => 'My Previous Followups', 'icon' => '','micon' => 'img/previousFollow.png',  'url' => '/sales/previousfollowups', 'slug' => 'previousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        6 => array('id' => '040106', 'name' => 'My Total Enquiries', 'icon' => '','micon' => 'img/totalEnq.png', 'url' => '/sales/totalenquiries', 'slug' => 'enquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        7 => array('id' => '040107', 'name' => 'My Lost Enquiries', 'icon' => '', 'micon' => 'img/lostEnq.png', 'url' => '/sales/lostenquiries', 'slug' => 'lostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        8 => array('id' => '040108', 'name' => 'My Booked Enquiries', 'icon' => '','micon' => 'img/bookedEnq.png',  'url' => '/sales/bookedenquiries', 'slug' => 'bookedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        9 => array('id' => '040109', 'name' => 'My Reassigned Enquiries', 'icon' => '','micon' => 'img/reasignEnq.png', 'url' => '/sales/reassignenquiries', 'slug' => 'reassignenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        90 => array('id' => '0401010', 'name' => 'Team`s Enquiries', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
-                            'submenu_ids' => '040101001,040101002,040101003,040101004,040101005,040101006', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                            1 => array('id' => '040101001', 'name' => 'Today\'s Followups', 'icon' => '','micon' => 'img/Team_todays_follow_ups.png', 'url' => '/sales/teamtodayfollowups', 'slug' => 'teamtodayfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '040101002', 'name' => 'Pending Followups', 'icon' => '','micon' => 'img/Team_pending_follow_ups.png', 'url' => '/sales/teampendingfollowups', 'slug' => 'teampendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '040101003', 'name' => 'Previous Followups', 'icon' => '','micon' => 'img/Team_previous_Follow_ups.png', 'url' => '/sales/teampreviousfollowups', 'slug' => 'teampreviousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            4 => array('id' => '040101004', 'name' => 'Total Enquiries', 'icon' => '','micon' => 'img/Team_total_followups.png', 'url' => '/sales/teamtotalenquiries', 'slug' => 'teamtotalenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            5 => array('id' => '040101005', 'name' => 'Lost Enquiries', 'icon' => '',  'micon' => 'img/Team_lost_follow_ups.png', 'url' => '/sales/teamlostenquiries', 'slug' => 'teamlostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            6 => array('id' => '040101006', 'name' => 'Booked Enquiries', 'icon' => '', 'micon' => 'img/Team_book_enquiries.png', 'url' => '/sales/teambookedenquiries', 'slug' => 'teambookedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        'submenu_ids' => '040101,040102,040103,040104,040105,040106,040107,040108,040109,0401010', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                            1 => array('id' => '040101', 'name' => 'Quick Enquiry', 'micon' => 'img/newEnq.png', 'icon' => '', 'url' => '/sales/createQuickEnquiry', 'slug' => 'createQuickEnquiry', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '040102', 'name' => ' Detailed Enquiry', 'micon' => 'img/newEnq.png', 'icon' => '', 'url' => '/sales/create', 'slug' => 'salesCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '040103', 'name' => 'My Today\'s Followups', 'micon' => 'img/myFollow.png', 'icon' => '', 'url' => '/sales/todaysfollowups', 'slug' => 'todaysfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            4 => array('id' => '040104', 'name' => 'My Pending Followups', 'micon' => 'img/pendingFollow.png', 'icon' => '', 'url' => '/sales/pendingfollowups', 'slug' => 'pendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            5 => array('id' => '040105', 'name' => 'My Previous Followups', 'icon' => '', 'micon' => 'img/previousFollow.png', 'url' => '/sales/previousfollowups', 'slug' => 'previousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            6 => array('id' => '040106', 'name' => 'My Total Enquiries', 'icon' => '', 'micon' => 'img/totalEnq.png', 'url' => '/sales/totalenquiries', 'slug' => 'enquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            7 => array('id' => '040107', 'name' => 'My Lost Enquiries', 'icon' => '', 'micon' => 'img/lostEnq.png', 'url' => '/sales/lostenquiries', 'slug' => 'lostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            8 => array('id' => '040108', 'name' => 'My Booked Enquiries', 'icon' => '', 'micon' => 'img/bookedEnq.png', 'url' => '/sales/bookedenquiries', 'slug' => 'bookedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            9 => array('id' => '040109', 'name' => 'My Reassigned Enquiries', 'icon' => '', 'micon' => 'img/reasignEnq.png', 'url' => '/sales/reassignenquiries', 'slug' => 'reassignenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            90 => array('id' => '0401010', 'name' => 'Team`s Enquiries', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 6,
+                                'submenu_ids' => '040101001,040101002,040101003,040101004,040101005,040101006', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                                    1 => array('id' => '040101001', 'name' => 'Today\'s Followups', 'icon' => '', 'micon' => 'img/Team_todays_follow_ups.png', 'url' => '/sales/teamtodayfollowups', 'slug' => 'teamtodayfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '040101002', 'name' => 'Pending Followups', 'icon' => '', 'micon' => 'img/Team_pending_follow_ups.png', 'url' => '/sales/teampendingfollowups', 'slug' => 'teampendingfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '040101003', 'name' => 'Previous Followups', 'icon' => '', 'micon' => 'img/Team_previous_Follow_ups.png', 'url' => '/sales/teampreviousfollowups', 'slug' => 'teampreviousfollowups', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    4 => array('id' => '040101004', 'name' => 'Total Enquiries', 'icon' => '', 'micon' => 'img/Team_total_followups.png', 'url' => '/sales/teamtotalenquiries', 'slug' => 'teamtotalenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    5 => array('id' => '040101005', 'name' => 'Lost Enquiries', 'icon' => '', 'micon' => 'img/Team_lost_follow_ups.png', 'url' => '/sales/teamlostenquiries', 'slug' => 'teamlostenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    6 => array('id' => '040101006', 'name' => 'Booked Enquiries', 'icon' => '', 'micon' => 'img/Team_book_enquiries.png', 'url' => '/sales/teambookedenquiries', 'slug' => 'teambookedenquiries', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                )),
                         )),
-                    )),                    
-                    
-                     2 => array('id' => '0402', 'name' => 'Post-Sales', 'icon' => '', 'micon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 7,
+                    2 => array('id' => '0402', 'name' => 'Post-Sales', 'icon' => '', 'micon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 7,
                         'submenu_ids' => '040201,040202,040203,040204,040205,040206,040207', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '040201', 'name' => 'My Today`s Collections', 'icon' => '', 'micon' => 'img/myFollow.png', 'url' => '/sales/todays', 'slug' => 'todays', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             2 => array('id' => '040202', 'name' => 'My Pending Collections', 'icon' => '', 'micon' => 'img/pendingFollow.png', 'url' => '/sales/pending', 'slug' => 'pending', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -171,38 +170,36 @@ class MenuItems {
                                     5 => array('id' => '04020705', 'name' => 'Completed Collections', 'icon' => '', 'micon' => 'img/Team_book_enquiries.png', 'url' => '/sales/teambookedenquiry', 'slug' => 'teamBookedEnquiryIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
                         )),
-                    
                     3 => array('id' => '0403', 'name' => 'Deal Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
                         'submenu_ids' => '040301,040302,040303,040304', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                        1 => array('id' => '040301', 'name' => 'New Deal', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        2 => array('id' => '040302', 'name' => 'My Ongoing Deals', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        3 => array('id' => '040303', 'name' => 'My Demand letters', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        4 => array('id' => '040304', 'name' => 'Team\'s Deals', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
-                            'submenu_ids' => '04030401,04030402', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                            1 => array('id' => '04030401', 'name' => 'Ongoing Deals', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '04030402', 'name' => 'Demand letters', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '040301', 'name' => 'New Deal', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '040302', 'name' => 'My Ongoing Deals', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '040303', 'name' => 'My Demand letters', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            4 => array('id' => '040304', 'name' => 'Team\'s Deals', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                                'submenu_ids' => '04030401,04030402', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                                    1 => array('id' => '04030401', 'name' => 'Ongoing Deals', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '04030402', 'name' => 'Demand letters', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                )),
                         )),
-                    )),
                     4 => array('id' => '0404', 'name' => 'Collection Followup\'s', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 5,
-                        'submenu_ids' => '040401,040402,040403,040404,040405', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                        1 => array('id' => '040401', 'name' => 'Today\'s Collection\'s ', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        2 => array('id' => '040402', 'name' => 'Pending Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        3 => array('id' => '040403', 'name' => 'Total Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        4 => array('id' => '040404', 'name' => 'Upcoming Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        5 => array('id' => '040405', 'name' => 'Team\'s Collection\'s', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
-                            'submenu_ids' => '04040101,04040102,04040103,04040104', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                            1 => array('id' => '04040101', 'name' => 'Today\'s Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '04040102', 'name' => 'Pending Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '04040103', 'name' => 'Total Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            4 => array('id' => '04040104', 'name' => 'Upcoming Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        'submenu_ids' => '040401,040402,040403,040404,040405', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                            1 => array('id' => '040401', 'name' => 'Today\'s Collection\'s ', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '040402', 'name' => 'Pending Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '040403', 'name' => 'Total Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            4 => array('id' => '040404', 'name' => 'Upcoming Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            5 => array('id' => '040405', 'name' => 'Team\'s Collection\'s', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
+                                'submenu_ids' => '04040101,04040102,04040103,04040104', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                                    1 => array('id' => '04040101', 'name' => 'Today\'s Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '04040102', 'name' => 'Pending Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '04040103', 'name' => 'Total Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    4 => array('id' => '04040104', 'name' => 'Upcoming Collection\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                )),
                         )),
-                    )),
                     5 => array('id' => '0405', 'name' => 'Customer\'s Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
-                        'submenu_ids' => '040501,040502', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(                    
-                        1 => array('id' => '040501', 'name' => 'Manage Customer\'s', 'icon' => '', 'url' => '/customers/index', 'slug' => 'customersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        2 => array('id' => '040502', 'name' => 'Import Enquiries', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    )),
-
+                        'submenu_ids' => '040501,040502', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                            1 => array('id' => '040501', 'name' => 'Manage Customer\'s', 'icon' => '', 'url' => '/customers/index', 'slug' => 'customersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '040502', 'name' => 'Import Enquiries', 'icon' => '', 'url' => '/sales/importEnquiry', 'slug' => 'importEnquiryIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                        )),
                 )),
             5 => array('name' => 'Projects', 'icon' => 'proj-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'projects', 'has_submenu' => true, 'total_submenu' => 4,
                 'submenu_ids' => '0501,0502,0503,0504', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -250,11 +247,13 @@ class MenuItems {
                 )),
             7 => array('name' => 'Marketing', 'icon' => 'mark-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'marketing', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '0701,0702,0703', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '0701', 'name' => 'Promotional SMS', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
-                        'submenu_ids' => '070101,070102,070103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '070101', 'name' => 'Send SMS', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '070102', 'name' => 'My SMS Report\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '070103', 'name' => 'Team\'s SMS Report\'s', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    1 => array('id' => '0701', 'name' => 'Promotional SMS', 'icon' => '', 'micon' => 'img/sms.png', 'ui-sref-active' => '', 'slug' => '/', 'has_submenu' => true, 'total_submenu' => 5,
+                        'submenu_ids' => '070101,070102,070103,070104,070105', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                            1 => array('id' => '070101', 'name' => 'Send SMS', 'icon' => '', 'micon' => 'img/sms.png', 'url' => '/promotionalsms/index', 'slug' => 'promotionalsms', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '070102', 'name' => 'SMS Logs', 'icon' => '', 'micon' => 'img/sms.png', 'url' => '/promotionalsms/smslogs', 'slug' => 'smslogs', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '070103', 'name' => 'Team\'s SMS Log\'s', 'icon' => '', 'micon' => 'img/TeamSMSReport.png', 'url' => '/promotionalsms/teamsmslogs', 'slug' => 'teamsmslogs', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            4 => array('id' => '070104', 'name' => 'My SMS Report\'s', 'icon' => '', 'micon' => 'img/MySMSreportnew.png', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            5 => array('id' => '070105', 'name' => 'Team\'s SMS Report\'s', 'icon' => '', 'micon' => 'img/TeamSMSReport.png', 'url' => '#', 'slug' => '/' . $getUrl . '/', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '0702', 'name' => 'Email Alerts', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
                         'submenu_ids' => '070201,070202,070203,070204', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -333,7 +332,7 @@ class MenuItems {
                     1 => array('id' => '01101', 'name' => 'Manage Virtual Numbers', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                         'submenu_ids' => '0110101,0110102,0110103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '0110101', 'name' => 'Virtual Numbers', 'icon' => '', 'url' => '/virtualnumber/index', 'slug' => 'virtualnumberslist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '0110102', 'name' => 'Manage Templates', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '0110102', 'name' => 'Manage Templates', 'icon' => '', 'url' => '/extensionemployee/index', 'slug' => 'extensionemplist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             3 => array('id' => '0110103', 'name' => 'Out-bound Call Log', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '01102', 'name' => 'Call Logs', 'icon' => '', 'micon' => 'img/callLog.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,

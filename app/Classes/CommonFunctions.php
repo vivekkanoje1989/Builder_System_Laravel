@@ -4,7 +4,7 @@ use DB;
 use Auth;
 use Mail;
 use App\Mail\MailConfig;
-use App\Models\TemplatesDefault;
+use App\Models\MlstBmsbTemplatesDefaults;
 use App\Models\TemplatesSetting;
 use App\Models\TemplatesCustom;
 use App\Modules\EmailConfig\Models\EmailConfiguration;
@@ -107,12 +107,13 @@ class CommonFunctions {
     }
 
     public static function templateData($alertdata) {
+        print_r($alertdata);
         $customer_id = $alertdata['customer_id'];
         $employee_id = $alertdata['employee_id'];
         $client_id = $alertdata['client_id'];
         $arrExtra = $alertdata['arrExtra'];
-        $eventid_customer = $alertdata['event_id_customer'];
-        $eventid_employee = $alertdata['event_id_employee'];
+        $eventid_customer = !empty($alertdata['event_id_customer']) ? $alertdata['event_id_customer'] : "0";
+        $eventid_employee = !empty($alertdata['event_id_employee']) ? $alertdata['event_id_employee'] : "0";
 		if(!empty($alertdata['cust_attached_file']))
 			$cust_attachedfile = $alertdata['cust_attached_file'];
 	   else
@@ -142,7 +143,7 @@ class CommonFunctions {
             $template_settings_employee = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
              
             if (!empty($template_settings_employee)) {
-                $template_employee = TemplatesDefault::where(['templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
+                $template_employee = MlstBmsbTemplatesDefaults::where(['templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
             }
         }
        

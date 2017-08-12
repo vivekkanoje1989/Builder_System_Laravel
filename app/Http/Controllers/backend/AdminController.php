@@ -315,7 +315,7 @@ class AdminController extends Controller {
         $getMlstProfession = MlstProfession::where("status", 1)->get();
         $getMlstBmsbDesignation = MlstBmsbDesignation::where("status", 1)->get();
         $getStates = MlstState::where('country_id', 101)->get();
-        $getEmployees = Employee::select('id', 'first_name', 'department_id')->where("employee_status", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id')->where("employee_status", 1)->get();
         $blockTypeList = MlstBmsbBlockType::select("id", "project_type_id", "block_name")->get();
         $projectList = Project::select('id', 'project_name')->get();
         $subBlocksList = ProjectBlock::select("id", "project_id", "block_type_id", "block_sub_type")->get();
@@ -698,6 +698,28 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+    public function getSalesSource() {
+        $getSalesSource = MlstBmsbEnquirySalesSource::all();
+        if (!empty($getSalesSource)) {
+            $result = ['success' => true, 'records' => $getSalesSource];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+   /* public function getEnquirySubSource() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $sourceId = $request['data']['sourceId'];
+        $getsubSource = EnquirySalesSubSource::where('enquiry_sales_source_id', $sourceId)->get();
+       
+        if (!empty($getsubSource) && count($getsubSource) > 0) {           
+            $result = ['success' => true, 'records' => $getsubSource];
+        } else {
+            $result = ['success' => false, 'message' => 'No records found'];
+        }
+        return json_encode($result);
+    }*/
 
     /*     * *************************MANDAR******************************** */
     /*     * *************************Rohit******************************** */

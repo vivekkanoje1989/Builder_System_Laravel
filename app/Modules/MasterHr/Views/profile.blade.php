@@ -50,18 +50,9 @@
                                     <div class="form-group">
                                         <label id="lblpp" for="">Profile picture<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="file" ngf-select name="employee_photo_file_name" id="employee_photo_file_name"   ng-model="profileData.employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" required> 
+                                            <input type="file" ngf-select name="employee_photo_file_name" id="employee_photo_file_name"   ng-model="profileData.employee_photo_file_name" id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile"> 
                                             <div ng-show="btnProfile"   ng-messages="frmProfile.employee_photo_file_name.$error" class="help-block">
                                                 <div id="err_pp" ng-message="required" class="sp-err">Profile picture cannot be blank.</div>
-                                            </div>
-                                            <div class="img-cstdiv" ng-repeat="list in employee_photo_file_name_preview">    
-                                                <img ng-src="{{list}}" class="thumb photoPreview">
-                                            </div>
-                                            <!--                                            <div class="img-cstdiv" ng-show="(!employee_photo_file_name_preview) && (flagProfilePhoto == 1)">
-                                                                                            <img ng-src="{{ profilePhoto}}" class="thumb photoPreview"/>
-                                                                                        </div>-->
-                                            <div ng-show="(!employee_photo_file_name_preview) && (flag_profile_photo == 1)">
-                                                <img ng-src="{{old_profile_photo}}" class="thumb photoPreview"/>
                                             </div>
                                         </span>  
                                     </div>
@@ -69,7 +60,15 @@
                             </div> 
 
                             <div class="row">
-                                <div class="col-lg-12 cl-xs-12" align="center">
+                                <div class="col-lg-3 cl-xs-3">
+                                    <div ng-repeat="list in employee_photo_file_name_preview">    
+                                        <img ng-src="{{list}}" class="thumb" style="width: 60%;"/>
+                                    </div>
+                                    <div ng-show="(!employee_photo_file_name_preview) && (flag_profile_photo == 1)">
+                                        <img ng-src="{{old_profile_photo}}" class="thumb" style="width: 60%;"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 cl-xs-9" align="center">
                                     <button type="submit" class="btn btn-primary" id="btn_update_profile" ng-click="btnProfile = true" style="margin-top: 7%;">Update Profile</button>
                                 </div>
                             </div>

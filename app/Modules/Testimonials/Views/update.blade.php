@@ -133,7 +133,7 @@
                     <div class="row" ng-if="photo_url_preview || photo_url">
                         <div class="col-sm-3 col-xs-6">
                             <div ng-if="!photo_url_preview" class="img-div2" data-title="name">    
-                                <img ng-src="[[ Session::get('s3Path') ]]Testimonial/{{photo_url}}" class="thumb photoPreview">
+                                <img ng-src="[[ Session::get('s3Path') ]]/Testimonial/{{photo_url}}" class="thumb photoPreview">
                             </div>
                             <div class="img-div2" data-title="name" ng-repeat="list in photo_url_preview"> 
                                 <img ng-src="{{list}}" class="thumb photoPreview">

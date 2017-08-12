@@ -155,21 +155,21 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                        [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load('toaster').then(
-                                                    function () {
-                                                        return $ocLazyLoad.load({
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/hrController.js',
-                                                            ]
-                                                        });
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/hrController.js',
+                                                                        ]
+                                                                    });
+                                                                }
+                                                        );
                                                     }
-                                                );
-                                            }
-                                        ]
+                                                ]
                                     }
                                 })
                                 .state('manageRoles', {
@@ -209,22 +209,22 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                        [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
-                                                    function () {
-                                                        return $ocLazyLoad.load({
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/select.js',
-                                                                '/backend/hrController.js',
-                                                            ]
-                                                        });
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/app/controllers/select.js',
+                                                                            '/backend/hrController.js',
+                                                                        ]
+                                                                    });
+                                                                }
+                                                        );
                                                     }
-                                                );
-                                            }
-                                        ]
+                                                ]
                                     }
                                 })
                                 .state('userPermissions', {
@@ -322,7 +322,7 @@ angular.module('app')
                                 })
                                 .state('createQuickEnquiry', {
                                     url: '/sales/quickEnquiry',
-                                    templateUrl: '/master-sales/createQuickEnquiry',                                    
+                                    templateUrl: '/master-sales/createQuickEnquiry',
                                     controller: 'customerController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -352,7 +352,7 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                
+
                                 /*.state('enquiryCreate', {
                                  url: '/sales/createEnquiry/:customerId',
                                  templateUrl: function (stateParams) {
@@ -694,6 +694,194 @@ angular.module('app')
                                     }
                                 })
 
+                                /*************************** Promotional SMS ****************/
+
+                                .state('promotionalsms', {
+                                    url: '/promotionalsms/index',
+                                    templateUrl: '/promotionalsms/',
+                                    controller: 'promotionalsmsController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Promotional SMS',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster', 'ui.select']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/select2.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+
+                                            }
+                                        ]
+                                    }
+                                })
+                                .state('smslogs', {
+                                    url: '/promotionalsms/smslogs',
+                                    templateUrl: '/promotionalsms/smslogs',
+                                    controller: 'promotionalsmsController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'SMS Logs',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+
+                                            }
+
+                                        ]
+                                    }
+                                })
+                                .state('teamsmslogs', {
+                                    url: '/promotionalsms/teamsmslogs',
+                                    templateUrl: '/promotionalsms/teamsmslogs',
+                                    controller: 'promotionalsmsController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team SMS Logs',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+
+                                            }
+
+                                        ]
+                                    }
+                                })
+
+                                .state('detaillog', {
+                                    url: '/promotionalsms/detaillog/:id/:eid',
+                                    templateUrl: function (stateParams) {
+                                        return '/promotionalsms/detaillog/' + stateParams.id + '/' + stateParams.eid;
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Sms logs details',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/detaillogController.js',
+                                                                        '/backend/app/controllers/select.js',
+                                                                        '/backend/app/controllers/datepicker.js',
+                                                                    ]
+                                                                }]);
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+
+                                .state('detailsmsconsumption', {
+                                    url: '/promotionalsms/detailsmsconsumption/:id/:eid',
+                                    templateUrl: function (stateParams) {
+                                        return '/promotionalsms/detailsmsconsumption/' + stateParams.id + '/' + stateParams.eid;
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Sms consumption',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/detaillogController.js',
+                                                                        '/backend/app/controllers/select.js',
+                                                                        '/backend/app/controllers/datepicker.js',
+                                                                    ]
+                                                                }]);
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+//                                ------------------SMS Consumption-----------------------------
+
+                                .state('smsLogDetails', {
+                                    url: '/bmsConsumption/smsLogDetails/:id',
+                                    templateUrl: function (stateParams) {
+                                        return '/bmsConsumption/smsLogDetails/' + stateParams.id;
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Sms consumption',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                        '/backend/smsConsumptionController.js',
+                                                                        '/backend/app/controllers/select.js',
+                                                                        '/backend/app/controllers/datepicker.js',
+                                                                    ]
+                                                                }]);
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
+
                                 .state('smsConsumption', {
                                     url: '/bmsConsumption/smsConsumption',
                                     templateUrl: '/bmsConsumption/smsConsumption',
@@ -791,22 +979,22 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                        [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster']).then(
-                                                        function () {
-                                                            return $ocLazyLoad.load({
-                                                                serie: true,
-                                                                files: [
-                                                                    '/backend/enquiryController.js',
-                                                                ]
-                                                            }
-                                                            );
-                                                        }
-                                                );
-                                            }
-                                        ]
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/enquiryController.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
                                     }
                                 })
                                 /************************************ UMA ******************************/
@@ -822,7 +1010,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster','ui.select']).then(
+                                                        return $ocLazyLoad.load(['toaster', 'ui.select']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -855,7 +1043,7 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
+                                                return $ocLazyLoad.load(['toaster', 'ui.select']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
@@ -888,7 +1076,7 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
+                                                return $ocLazyLoad.load(['toaster', 'ui.select']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
@@ -921,7 +1109,7 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
+                                                return $ocLazyLoad.load(['toaster', 'ui.select']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
@@ -1227,7 +1415,7 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                
+
                                 .state('reassignenquiries', {
                                     url: '/sales/reassignenquiries',
                                     templateUrl: '/master-sales/reassignEnquiry/0',
@@ -1305,7 +1493,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select','toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1337,7 +1525,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select','toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1497,7 +1685,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select','toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1506,7 +1694,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
-                                                                             '/backend/app/controllers/select.js', 
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1529,7 +1717,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select','toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -1538,7 +1726,7 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
-                                                                            '/backend/app/controllers/select.js', 
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1660,14 +1848,18 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/cloudtelephonyController.js',
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/cloudtelephonyController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                                '/backend/app/controllers/select.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
                                             }
                                         ]
                                     }
@@ -1682,10 +1874,63 @@ angular.module('app')
                                         label: 'Manage Virtual Numbers',
                                         description: ''
                                     },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+
+                                            }
+
+                                        ]
+                                    }
                                 })
+                                
+                                .state('extensionemplist', {
+                                    url: '/extensionemployee/index',
+                                    templateUrl: '/extensionemployee/viewextemployee',
+                                    controller: 'extensionemployeeController',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Manage Extension Employees',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load(['ui.select', {
+                                                                    serie: true,
+                                                                    files: [
+                                                                         '/js/intlTelInput.js',
+                                                                             '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                            '/backend/extensionemployeeController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
+                                                                    ]
+                                                                }]);
+                                                        }
+                                                );
+                                            }
 
+                                        ]
+                                    }
+                                })
+                                
+                               .state('numbersIndex', {
 
-                                .state('numbersIndex', {
                                     url: '/cloudtelephony/index',
                                     templateUrl: '/cloudtelephony/',
                                     controller: 'cloudtelephonyController',
@@ -1694,6 +1939,16 @@ angular.module('app')
                                         label: 'Manage Virtual Numbers',
                                         description: ''
                                     },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                   
+                                                );
+                                            }
+                                        ]
+                                    }
                                 })
 
 
@@ -1712,12 +1967,16 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load([{
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/app/controllers/datepicker.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
                                             }
                                         ]
                                     }
@@ -1737,15 +1996,22 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+
                                             }
+
                                         ]
                                     }
                                 })
@@ -1764,14 +2030,19 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
                                             }
                                         ]
                                     }
@@ -1791,31 +2062,56 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select', {
-                                                        serie: true,
-                                                        files: [
-                                                            '/backend/app/controllers/datepicker.js',
-                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                            '/backend/app/controllers/select.js',
-                                                        ]
-                                                    }]);
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
                                             }
                                         ]
                                     }
                                 })
-
-
-                                /*************************** Promotional SMS ****************/
-
-                                .state('promotionalsms', {
-                                    url: '/promotionalsms/index',
-                                    templateUrl: '/promotionalsms/',
-                                    controller: 'promotionalsmsController',
+                                .state('nonworkingUpdate', {
+                                    url: '/virtualnumber/nonworkinghoursupdate/:id',
+                                    templateUrl: function (stateParams) {
+                                        return '/virtualnumber/' + stateParams.id + '/nonworkinghoursUpdate';
+                                    },
+                                    controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Promotional SMS',
+                                        label: 'Edit Non Working Hours',
                                         description: ''
                                     },
+                                    resolve: {
+                                        deps: [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+
+                                            }
+
+                                        ]
+                                    }
                                 })
 
 //                                /**************************** Alerts Routing *****************************/
@@ -2004,7 +2300,7 @@ angular.module('app')
 //                                /**************************** Alerts Routing *****************************/
 
 
- /**************************** Alerts Routing *****************************/
+                                /**************************** Alerts Routing *****************************/
                                 .state('alertsIndex', {
                                     url: '/alerts/index',
                                     templateUrl: '/alerts/',
@@ -2046,15 +2342,15 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['ui.select','toaster']).then(
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
-                                                                    serie: true,
-                                                                    files: [
-                                                                        '/backend/alertsController.js',
-                                                                        '/backend/app/controllers/select.js',
-                                                                    ]
-                                                                });
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/alertsController.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            });
 
                                                         }
                                                 );
@@ -2074,7 +2370,7 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster','textAngular']).then(
+                                                return $ocLazyLoad.load(['toaster', 'textAngular']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
@@ -2100,7 +2396,7 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster','textAngular']).then(
+                                                return $ocLazyLoad.load(['toaster', 'textAngular']).then(
                                                         function () {
                                                             return $ocLazyLoad.load(['ui.select', {
                                                                     serie: true,
@@ -2129,7 +2425,7 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster','textAngular']).then(
+                                                return $ocLazyLoad.load(['toaster', 'textAngular']).then(
                                                         function () {
                                                             return $ocLazyLoad.load(['ui.select', {
                                                                     serie: true,
@@ -4109,16 +4405,16 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster']).then(
+                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
                                                         function () {
-                                                            return $ocLazyLoad.load(['ui.select', {
+                                                            return $ocLazyLoad.load({
                                                                     serie: true,
                                                                     files: [
                                                                         '/backend/app/controllers/datepicker.js',
                                                                         '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                                        '/backend/app/controllers/select2.js',
+                                                                        '/backend/app/controllers/select.js',
                                                                     ]
-                                                                }]);
+                                                                });
                                                         }
                                                 );
                                             }
@@ -4141,16 +4437,16 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster']).then(
+                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
                                                         function () {
-                                                            return $ocLazyLoad.load(['ui.select', {
+                                                            return $ocLazyLoad.load( {
                                                                     serie: true,
                                                                     files: [
                                                                         '/backend/app/controllers/datepicker.js',
                                                                         '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                                        '/backend/app/controllers/select2.js',
+                                                                        '/backend/app/controllers/select.js',
                                                                     ]
-                                                                }]);
+                                                                });
                                                         }
                                                 );
                                             }
