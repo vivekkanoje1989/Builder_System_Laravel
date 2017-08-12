@@ -9,94 +9,93 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         return false;
     }
 
+    $scope.checkUsername = function (usernameData) {
+        Data.post('checkUsername', {
+            username: usernameData.mobile,
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.successMsg = response.message;
+            }
+        });
+    }
+    $scope.resetErrorMsg = function () {
+        $scope.errorMsg = '';
+    }
+    $scope.login = function (loginData) {
+        Data.post('authenticate', {
+            username: loginData.mobile, password: loginData.password,
+        }).then(function (response) {
+            if (response.success) {
+                $state.reload();
+                $scope.showloader();
+                $rootScope.authenticated = true;
+                $state.go('dashboard');
+                $scope.hideloader();
 
-$scope.checkUsername = function (usernameData) {
-    Data.post('checkUsername', {
-        username: usernameData.mobile,
-    }).then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $scope.successMsg = response.message;
-        }
-    });
-}
-$scope.resetErrorMsg = function () {
-    $scope.errorMsg = '';
-}
-$scope.login = function (loginData) {
-    Data.post('authenticate', {
-        username: loginData.mobile, password: loginData.password,
-    }).then(function (response) {
-        if (response.success) {
-            $state.reload();
-            $scope.showloader();
-            $rootScope.authenticated = true;
-            $state.go('dashboard');
-            $scope.hideloader();
+            } else {
+                $scope.errorMsg = response.message;
+            }
+        });
+    };
 
-        } else {
-            $scope.errorMsg = response.message;
-        }
-    });
-};
-
-$scope.logout = function (logoutData) {
-    $scope.showloader();
-    Data.post('logout', {
-        data: logoutData
-    }).then(function (response) {
-        if (response.success) {
-            $rootScope.authenticated = false;
-            $state.go('login');
+    $scope.logout = function (logoutData) {
+        $scope.showloader();
+        Data.post('logout', {
+            data: logoutData
+        }).then(function (response) {
+            if (response.success) {
+                $rootScope.authenticated = false;
+                $state.go('login');
 //            window.location.reload();
-            $scope.hideloader();
-        } else {
-            $scope.errorMsg = response.message;
-        }
-    });
-}
-$scope.signUp = function (registerationData) {
-    Data.post('saveRegister', {
-        data: registerationData
-    }).then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $state.go('login');
-            $state.reload();
-        }
-    });
-};
-$scope.sendResetLink = function (sendEmailData) {
-    Data.post('password/email', {
-        data: sendEmailData
-    }).then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $scope.successMsg = response.message;
-        }
-    });
-}
-$scope.resetPassword = function (resetData) {
-    Data.post('password/reset', {
-        data: resetData
-    }).then(function (response) {
-        if (!response.success) {
-            $scope.errorMsg = response.message;
-        } else {
-            $state.go('dashboard');
-        }
-    });
-}
+                $scope.hideloader();
+            } else {
+                $scope.errorMsg = response.message;
+            }
+        });
+    }
+    $scope.signUp = function (registerationData) {
+        Data.post('saveRegister', {
+            data: registerationData
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $state.go('login');
+                $state.reload();
+            }
+        });
+    };
+    $scope.sendResetLink = function (sendEmailData) {
+        Data.post('password/email', {
+            data: sendEmailData
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.successMsg = response.message;
+            }
+        });
+    }
+    $scope.resetPassword = function (resetData) {
+        Data.post('password/reset', {
+            data: resetData
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $state.go('dashboard');
+            }
+        });
+    }
 
-$rootScope.alert = function (type, msg) {
-    $rootScope.message = [];
-    $rootScope.message.push(msg);
-    $rootScope.alerts = {
-        class: type,
-        messages: $rootScope.message
+    $rootScope.alert = function (type, msg) {
+        $rootScope.message = [];
+        $rootScope.message.push(msg);
+        $rootScope.alerts = {
+            class: type,
+            messages: $rootScope.message
         }
     }
 }
@@ -429,8 +428,8 @@ app.controller('permanentCountryListCtrl', function ($scope, $timeout, Data) {
 //            $scope.userData.permenent_address = $scope.userData.permenent_country_id = $scope.userData.permenent_state_id = $scope.userData.permenent_city_id = $scope.userData.permenent_pin = "";
 //        }
 //    };
-    
-    
+
+
     $scope.checkboxSelected = function (copy) {
         if (copy) {  // when checked
             $scope.userContact.permenent_address = angular.copy($scope.userContact.current_address);
@@ -598,43 +597,38 @@ app.controller('salesSourceCtrl', function ($scope, Data) {
             $scope.salessources = response.records;
         }
     });
-    
-    
-    $scope.onsalesSoucesChange = function (){
+
+
+    $scope.onsalesSoucesChange = function () {
         Data.post('getEnquirySubSource', {
-        data: {sourceId: $("#source_id").val()}}).then(function (response){
+            data: {sourceId: $("#source_id").val()}}).then(function (response) {
             $scope.subSourceList = '';
-            if (!response.success){
+            if (!response.success) {
                 $scope.errorMsg = response.message;
-            } else{
+            } else {
                 $scope.subSourceList = response.records;
             }
         });
     };
-    
-}); 
+
+});
 app.controller('getEmployeeCtrl', function ($scope, Data, $timeout) {
     $scope.employees1 = [];
     $scope.memployees = [];
     var ct_id = $("#id").val();
     //alert($scope.);   
     var flag = 0;
-        $timeout(function () {
-            Data.post('virtualnumber/editEmp', {ct_id:ct_id}).then(function (response) {
-                if (!response.success) {
-                    $scope.errorMsg = response.message;
-                } else {
-                    $scope.employees1 = response.employees;
-                    $scope.memployees = response.memployees;
-                }
-            });
-        }, 1000);
-    
+    $timeout(function () {
+        Data.post('virtualnumber/editEmp', {ct_id: ct_id}).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.employees1 = response.employees;
+                $scope.memployees = response.memployees;
+            }
+        });
+    }, 1000);
+
 });
 /****************************MANDAR*********************************/
 
-//$(document).ready(function() {
-//    $(document).on("contextmenu",function(e){
-//       return false;
-//    }); 
-//});

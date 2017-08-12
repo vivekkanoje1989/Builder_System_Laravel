@@ -1,4 +1,18 @@
-<div class="row" ng-controller="contentPagesCtrl" >
+<style>
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
+</style>
+<div class="row" ng-controller="contentPagesCtrl">
     <div class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -21,33 +35,43 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage" name="itemsPerPage">
                         </div>
                     </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;margin-top: 20px;" data-toggle="modal" data-target="#showFilterModal">
+                            <i class="btn-label fa fa-filter"></i>Show Filter</button>
+                    </div>
                 </div>
+                <!-- filter data-->
+                <div class="row" style="border:2px;" id="filter-show">
+                    <div class="col-sm-12 col-xs-12">
+                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
+                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                <div class="alert alert-info fade in">
+                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <strong ng-if="key === 'page_name'" data-toggle="tooltip" title="Page Name"><strong> Page Name : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'page_title'" data-toggle="tooltip" title="Page Title"><strong> Page Title : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'status'" data-toggle="tooltip" title="Status"><strong> Status : </strong> {{ value}}</strong>
+                                </div>
+                            </div>
+                        </b>                        
+                    </div>
+                </div>
+                <!-- filter data-->
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
                             <th style="width:10%">Sr. No.</th>
-                            <th style="width: 40%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'page_name'; reverseSort = !reverseSort">Page Name 
-                                    <span ng-show="orderByField == 'page_name'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>
-                            <th style="width: 40%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'page_title'; reverseSort = !reverseSort">Page Title
-                                    <span ng-show="orderByField == 'page_title'">
-                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                    </span>
-                                </a>
-                            </th>                            
+                            <th style="width: 30%">Page Name</th>
+                            <th style="width: 30%">Page Title</th>                            
+                            <th style="width: 20%">Status</th>                            
                             <th style="width: 10%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="listpage in listPages | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                            <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1 }}</td>
+                        <tr role="row" dir-paginate="listpage in listPages | filter:search | filter:searchData | itemsPerPage:itemsPerPage">
+                            <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                             <td>{{ listpage.page_name}}</td>
                             <td>{{ listpage.page_title}}</td>                            
+                            <td>{{ listpage.status}}</td>                            
                             <td class="fa-div">
                                 <div class="fa-hover" tooltip-html-unsafe="Edit Web Page Content" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/webpages/update/{{ listpage.id}}"><i class="fa fa-pencil"></i></a> &nbsp;&nbsp;</div>                                
                             </td>
@@ -64,6 +88,7 @@
                         </div>
                     </div>
                 </div>
+                <div data-ng-include="'/WebPages/showFilter'"></div>
             </div>
         </div>
     </div>

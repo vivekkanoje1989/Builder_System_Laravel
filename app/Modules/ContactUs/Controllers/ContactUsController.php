@@ -22,9 +22,17 @@ class ContactUsController extends Controller {
 
     public function manageContactUs() {
         $getContactus = WebContactus::all();
-
-        if (!empty($getContactus)) {
-            $result = ['success' => true, 'records' => $getContactus];
+        $contactUs = array();
+        for ($i = 0; $i < count($getContactus); $i++) {
+            $contactData['id'] = $getContactus[$i]['id'];
+            $contactData['address'] = $getContactus[$i]['address'];
+            $contactData['pin_code'] = $getContactus[$i]['pin_code'];
+            $contactData['email'] = $getContactus[$i]['email'];
+            $contactData['contact_person_name'] = $getContactus[$i]['contact_person_name'];
+            $contactUs[] = $contactData;
+        }
+        if (!empty($contactUs)) {
+            $result = ['success' => true, 'records' => $contactUs];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -103,6 +111,7 @@ class ContactUsController extends Controller {
             return json_encode($result);
         }
     }
+
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);

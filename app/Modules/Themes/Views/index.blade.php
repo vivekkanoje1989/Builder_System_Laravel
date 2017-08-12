@@ -7,6 +7,18 @@
     .help-block {
         color: #e46f61;
     }
+     .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
 </style>
 <div class="row" ng-controller="themesController" ng-init="manageThemes()"> 
     <div class="col-xs-12 col-md-12">
@@ -31,7 +43,16 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage" name="itemsPerPage">
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-2 col-xs-12">
+                        <div class="form-group">
+                            <span class="input-icon icon-right">
+                                <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;margin-top: 20px;
+                                        " data-toggle="modal" data-target="#showFilterModal">
+                                    <i class="btn-label fa fa-filter"></i>Show Filter</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
@@ -40,6 +61,20 @@
                         </div>
                     </div>
                 </div>
+                <!-- filter data-->
+                <div class="row" style="border:2px;" id="filter-show">
+                    <div class="col-sm-12 col-xs-12">
+                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
+                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                <div class="alert alert-info fade in">
+                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <strong ng-if="key === 'theme_name'" data-toggle="tooltip" title="Theme Name"><strong> Theme Name : </strong> {{ value}}</strong>
+                                </div>
+                            </div>
+                        </b>                        
+                    </div>
+                </div>
+                <!-- filter data-->
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -55,7 +90,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="list in themesRow| filter:search | orderBy:orderByField:reverseSort | itemsPerPage:itemsPerPage">
+                        <tr role="row" dir-paginate="list in themesRow| filter:search | filter:searchData  | orderBy:orderByField:reverseSort | itemsPerPage:itemsPerPage">
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{ list.theme_name}}</td>   
                             <td class="fa-div">
@@ -75,6 +110,7 @@
                         </div>
                     </div>
                 </div>
+                <div data-ng-include="'/Themes/showFilter'"></div>
             </div>
         </div>
     </div>
@@ -86,7 +122,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">{{heading}}</h4>
                 </div>
-                <form novalidate ng-submit="themesForm.$valid && doThemesAction(theme.image_url,theme)" name="themesForm">
+                <form novalidate ng-submit="themesForm.$valid && doThemesAction(theme.image_url, theme)" name="themesForm">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
 
                     <div class="modal-body">
@@ -114,7 +150,7 @@
                                 <div ng-if="image_url" class="sp-err image_url">{{image_url}}</div>
                                 <span class="help-block">{{image_url_err}}</span>
                             </span>
-                            <div class="img-div2" ng-if="image == '' " data-title="name" ng-repeat="list in image_url_preview">    
+                            <div class="img-div2" ng-if="image == ''" data-title="name" ng-repeat="list in image_url_preview">    
                                 <img ng-src="{{list}}" class="thumb photoPreview">
                             </div>
                             <div ng-if="image">

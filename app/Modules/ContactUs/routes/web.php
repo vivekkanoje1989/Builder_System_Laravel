@@ -13,4 +13,8 @@ Route::group(array('module' => 'ContactUs', 'middleware' => ['auth:admin'],'name
     Route::post('/contact-us/manageCity','ContactUsController@manageCity'); 
     Route::post('/contact-us/manageLocation','ContactUsController@manageLocation'); 
    
+    
+    Route::get('/ContactUs/showFilter', function () {
+        return View::make('ContactUs::showFilter');
+    });
 });	

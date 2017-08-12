@@ -19,25 +19,24 @@ class BlockStagesController extends Controller {
     }
 
     public function manageBlockStages() {
-         $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        if (!empty($request["employee_id"])) {
-            $emp_id = $request["employee_id"];
-            if ($request['filterFlag'] == 1) {
-                BlockStagesController::$procname = "proc_block_stage";
-                return $this->filteredData();
-                exit;
-            }
-        } else {
-            $emp_id = Auth::guard('admin')->user()->id;
-        }
-         
-         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        $getBlockstages = LstDlBlockStages::take($request['itemPerPage'])->offset($startFrom)->get();
-        
         $getBlockstage = LstDlBlockStages::all();
-        if (!empty($getBlockstage)) {
-            $result = ['success' => true, 'records' => $getBlockstages, 'totalCount' =>count($getBlockstage)];
+          $blockStages = array();
+        for ($i = 0; $i < count($getBlockstage); $i++) {
+            $blockData['id'] = $getBlockstage[$i]['id'];
+            $blockData['block_stage_name'] = $getBlockstage[$i]['block_stage_name'];
+            $blockData['project_type_id'] = $getBlockstage[$i]['project_type_id'];
+//            $blockData['page_title'] = $getBlockstage[$i]['page_title'];
+//            $status = $getBlockstage[$i]['status'];
+//            if ($status == 1) {
+//                $blockData['status'] = 'active';
+//            } else {
+//                $blockData['status'] = 'inactive';
+//            }
+
+            $blockStages[] = $blockData;
+        }
+        if (!empty($blockStages)) {
+            $result = ['success' => true, 'records' => $blockStages, 'totalCount' =>count($getBlockstage)];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

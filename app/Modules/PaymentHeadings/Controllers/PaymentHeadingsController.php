@@ -19,29 +19,19 @@ class PaymentHeadingsController extends Controller {
     }
 
     public function managePaymentHeading() {
-         $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        
-         if (!empty($request["employee_id"])) {
-            $emp_id = $request["employee_id"];
-            if ($request['filterFlag'] == 1) {
-                PaymentHeadingsController::$procname = "proc_payment_heading";
-                return $this->filteredData();
-                exit;
-            }
-        } else {
-            $emp_id = Auth::guard('admin')->user()->id;
-        }
-        
         $getPayment = LstDlPaymentHeadings::all();
-        
-         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        $getPayments = LstDlPaymentHeadings::take($request['itemPerPage'])->offset($startFrom)->get();
-        
-        
-
-        if (!empty($getPayment)) {
-            $result = ['success' => true, 'records' => $getPayments, 'totalCount' =>count($getPayment)];
+          $paymentHeadings = array();
+        for ($i = 0; $i < count($getPayment); $i++) {
+            $headingData['id'] = $getPayment[$i]['id'];
+            $headingData['payment_heading'] = $getPayment[$i]['payment_heading'];
+            $headingData['tax_heading'] = $getPayment[$i]['tax_heading'];
+            $headingData['date_dependent_tax'] = $getPayment[$i]['date_dependent_tax'];
+            $headingData['tax_applicable'] = $getPayment[$i]['tax_applicable'];
+            
+            $paymentHeadings[] = $headingData;
+        }
+        if (!empty($paymentHeadings)) {
+            $result = ['success' => true, 'records' => $paymentHeadings, 'totalCount' =>count($getPayment)];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -49,52 +39,52 @@ class PaymentHeadingsController extends Controller {
         }
     }
 
-     public function filteredData() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $filterData = $request['filterData'];
-        $ids = [];
-
-        if (empty($request['employee_id'])) { // For Web
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-         
-            $filterData["payment_heading"] = !empty($filterData["payment_heading"]) ? $filterData["payment_heading"] : "";
-        } else { // For App
-            $request["getProcName"] = BloodGroupsController::$procname;
-            $loggedInUserId = $request['employee_id'];
-           
-            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
-                $loggedInUserId = implode(',', array_map(function($el) {
-                            return $el['id'];
-                        }, $filterData['empId']));
-            }
-            $filterData["payment_heading"] = !empty($filterData["payment_heading"]) ? $filterData["payment_heading"] : "";
-            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        }
-        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
-            $loggedInUserId = implode(',', array_map(function($el) {
-                        return $el['id'];
-                    }, $filterData['empId']));
-        }
-        $getPaymentHeading = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["payment_heading"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
-       
-        $enqCnt = DB::select("select FOUND_ROWS() totalCount");
-        $enqCnt = $enqCnt[0]->totalCount;
-        $i = 0;
-        if (!empty($getPaymentHeading)) {
-            foreach ($getPaymentHeading as $getInboundLog) {
-               $getPaymentHeading[$i]->payment_heading = $getInboundLog->payment_heading;
-                $i++;
-            }
-        }
-
-        if (!empty($getPaymentHeading)) {
-            $result = ['success' => true, 'records' => $getPaymentHeading, 'totalCount' => $enqCnt];
-        } else {
-            $result = ['success' => false, 'records' => $getPaymentHeading, 'totalCount' => $enqCnt];
-        }
-        return json_encode($result);
-    }
+//     public function filteredData() {
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+//        $filterData = $request['filterData'];
+//        $ids = [];
+//
+//        if (empty($request['employee_id'])) { // For Web
+//            $loggedInUserId = Auth::guard('admin')->user()->id;
+//         
+//            $filterData["payment_heading"] = !empty($filterData["payment_heading"]) ? $filterData["payment_heading"] : "";
+//        } else { // For App
+//            $request["getProcName"] = BloodGroupsController::$procname;
+//            $loggedInUserId = $request['employee_id'];
+//           
+//            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+//                $loggedInUserId = implode(',', array_map(function($el) {
+//                            return $el['id'];
+//                        }, $filterData['empId']));
+//            }
+//            $filterData["payment_heading"] = !empty($filterData["payment_heading"]) ? $filterData["payment_heading"] : "";
+//            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+//        }
+//        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+//            $loggedInUserId = implode(',', array_map(function($el) {
+//                        return $el['id'];
+//                    }, $filterData['empId']));
+//        }
+//        $getPaymentHeading = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["payment_heading"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+//       
+//        $enqCnt = DB::select("select FOUND_ROWS() totalCount");
+//        $enqCnt = $enqCnt[0]->totalCount;
+//        $i = 0;
+//        if (!empty($getPaymentHeading)) {
+//            foreach ($getPaymentHeading as $getInboundLog) {
+//               $getPaymentHeading[$i]->payment_heading = $getInboundLog->payment_heading;
+//                $i++;
+//            }
+//        }
+//
+//        if (!empty($getPaymentHeading)) {
+//            $result = ['success' => true, 'records' => $getPaymentHeading, 'totalCount' => $enqCnt];
+//        } else {
+//            $result = ['success' => false, 'records' => $getPaymentHeading, 'totalCount' => $enqCnt];
+//        }
+//        return json_encode($result);
+//    }
     
     public function manageProjectTypes() {
         $getTypes = ProjectTypes::all();

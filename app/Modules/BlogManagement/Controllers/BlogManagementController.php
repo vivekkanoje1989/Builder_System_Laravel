@@ -21,8 +21,24 @@ class BlogManagementController extends Controller {
 
     public function manageBlogs() {
         $getBlogs = WebBlogs::all();
-        if (!empty($getBlogs)) {
-            $result = ['success' => true, 'records' => $getBlogs];
+        $blogDetails = array();
+         for($i=0;$i<count($getBlogs);$i++){
+             $blogData['id'] = $getBlogs[$i]['id'];
+             $blogData['blog_title'] = $getBlogs[$i]['blog_title'];
+             $blogData['blog_seo_url'] = $getBlogs[$i]['blog_seo_url'];
+             $blogData['meta_description'] = $getBlogs[$i]['meta_description'];
+             $blogData['meta_keywords'] = $getBlogs[$i]['meta_keywords'];
+             $status = $getBlogs[$i]['blog_status'];
+             if($status == 1){
+                 $blogData['blog_status'] = 'Yes';
+             }else{
+                 $blogData['blog_status'] = 'No';
+             }
+             
+             $blogDetails[] = $blogData;
+        }
+        if (!empty($blogDetails)) {
+            $result = ['success' => true, 'records' => $blogDetails];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

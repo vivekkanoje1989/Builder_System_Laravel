@@ -7,6 +7,8 @@ Route::group(array('module' => 'Themes', 'middleware' => ['auth:admin'], 'namesp
     Route::post('/website/getThemes', 'ThemesController@getThemes');
     Route::post('/website-themes/update/{id}', 'ThemesController@update');
     
-    
+     Route::get('/Themes/showFilter', function () {
+        return View::make('Themes::showFilter');
+    });
     
 });
