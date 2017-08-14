@@ -8,8 +8,25 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
                 $scope.ProjectTypesRow = response.records;
             });
         };
+
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
         $scope.initialModal = function (id, project_type, index, index1) {
-            if (id == 0){
+            if (id == 0) {
                 $scope.heading = 'Add Project Types';
                 $scope.id = '0';
                 $scope.project_type = '';
@@ -31,7 +48,7 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
                 $scope.proTypeBtn = false;
                 Data.post('project-types/', {
                     project_type: $scope.project_type}).then(function (response) {
-                    if (!response.success){
+                    if (!response.success) {
                         $scope.errorMsg = response.errormsg;
                     } else {
 

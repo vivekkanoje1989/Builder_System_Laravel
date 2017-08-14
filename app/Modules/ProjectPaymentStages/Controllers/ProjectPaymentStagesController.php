@@ -18,7 +18,7 @@ class ProjectPaymentStagesController extends Controller {
     }
 
     public function manageProjectPaymentStages() {
-        $getDiscountname = LstDlProjectStages::all();
+        $getDiscountname = LstDlProjectStages::select('stage_name','project_type_id','fix_stage','id')->get();
 
         if (!empty($getDiscountname)) {
             $result = ['success' => true, 'records' => $getDiscountname];

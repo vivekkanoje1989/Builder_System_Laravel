@@ -18,10 +18,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class EnquirySubSources extends Eloquent
+class MlstBmsbEnquirySalesSources extends Eloquent
 {
+	protected $primaryKey = 'id';
+	 protected $connection = 'masterdb';
 	public $timestamps = false;
-
 
 	protected $casts = [
 		'id' => 'int'
@@ -29,8 +30,7 @@ class EnquirySubSources extends Eloquent
 
 	protected $fillable = [
 		'id',
-		'source_id',
-		'sub_source',
-		'sub_source_status',
+		'source_name',
+		'source_status'
 	];
 }
