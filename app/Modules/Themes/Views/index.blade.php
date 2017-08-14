@@ -7,7 +7,7 @@
     .help-block {
         color: #e46f61;
     }
-     .close {
+    .close {
         color:black;
     }
     .alert.alert-info {
@@ -21,7 +21,7 @@
     }
 </style>
 <div class="row" ng-controller="themesController" ng-init="manageThemes()"> 
-    <div class="col-xs-12 col-md-12">
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Themes</span>                
@@ -43,20 +43,12 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage" name="itemsPerPage">
                         </div>
                     </div>
-                    <div class="col-sm-2 col-xs-12">
-                        <div class="form-group">
-                            <span class="input-icon icon-right">
-                                <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;margin-top: 20px;
-                                        " data-toggle="modal" data-target="#showFilterModal">
-                                    <i class="btn-label fa fa-filter"></i>Show Filter</button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-4 col-xs-12">
+                    <div class="col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
                                 <a data-toggle="modal" data-target="#themesModal" ng-click="initialModal(0, '', '')" class="btn btn-primary btn-right">Create Themes</a>
+                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                             </span>
                         </div>
                     </div>
@@ -114,6 +106,40 @@
             </div>
         </div>
     </div>
+    <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="calllogsFilter" role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+            <form name="themeFilter" role="form" ng-submit="filterDetails(searchDetails)">
+
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="form-group">
+                            <label for="">Theme Name</label>
+                            <span class="input-icon icon-right">
+                                <input type="text" ng-model="searchDetails.theme_name" name="theme_name" class="form-control">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12" >
+                        <div class="form-group">
+                            <span class="input-icon icon-right" >
+                                <button type="submit"  style="margin-left: 46%;" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+
+    <script src="/js/filterSlider.js"></script>
+    <!-- Filter Form End-->
+
     <div class="modal fade" id="themesModal" role="dialog" tabindex="-1">    
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -166,4 +192,4 @@
     </div>
 
 </div>
-
+</div>

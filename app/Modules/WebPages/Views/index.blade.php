@@ -13,7 +13,7 @@
     }
 </style>
 <div class="row" ng-controller="contentPagesCtrl">
-    <div class="col-xs-12 col-md-12">
+    <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Web Pages</span>                
@@ -35,9 +35,8 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage" name="itemsPerPage">
                         </div>
                     </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;margin-top: 20px;" data-toggle="modal" data-target="#showFilterModal">
-                            <i class="btn-label fa fa-filter"></i>Show Filter</button>
+                    <div class="col-sm-6 col-xs-12">
+                        <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                     </div>
                 </div>
                 <!-- filter data-->
@@ -92,4 +91,59 @@
             </div>
         </div>
     </div>
+
+    <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="webPageFilter" role="form" ng-submit="filterDetails(searchDetails)">
+
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Page Name</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.page_name" name="page_name" class="form-control">
+                        </span>
+                    </div>
+
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Page Title</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.page_title" name="page_title" class="form-control">
+                        </span>
+                    </div>
+
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Status</label>
+                        <span class="input-icon icon-right">
+                            <select class="form-control" ng-model="searchDetails.status" name="status">
+                                <option value="active">Active</option>
+                                <option value="inactive">Inactive</option>
+                            </select>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" >
+                            <button type="submit"  style="margin-left: 46%;" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
 </div>
+        <script src="/js/filterSlider.js"></script>
+        <!-- Filter Form End-->
+    </div>
