@@ -216,7 +216,7 @@ class ExtensionMenuController extends Controller {
         $folderName = 'caller_tunes';
 
         if (!empty($_FILES['welcome_tune'])) {
-            $welcomefileName = S3::s3FileUplodForApp($_FILES['welcome_tune'], $folderName, 1);
+            $welcomefileName = S3::s3FileUploadForApp($_FILES['welcome_tune'], $folderName, 1);
             if (!empty($welcomefileName)) {
                 $wfile = CtMenuSetting::where('id', $_FILES['welcome_tune']['type'])->update(array('welcome_tune' => $welcomefileName));
                 if ($wfile) {
@@ -226,7 +226,7 @@ class ExtensionMenuController extends Controller {
             }
         }
         if (!empty($_FILES['hold_tune'])) {
-            $holdfileName = S3::s3FileUplodForApp($_FILES['hold_tune'], $folderName, 1);
+            $holdfileName = S3::s3FileUploadForApp($_FILES['hold_tune'], $folderName, 1);
             if (!empty($holdfileName)) {
                 $hfile = CtMenuSetting::where('id', $_FILES['hold_tune']['type'])->update(array('hold_tune' => $holdfileName));
                 if ($hfile) {
@@ -237,7 +237,7 @@ class ExtensionMenuController extends Controller {
         }
 
         if (!empty($_FILES['msc_welcome_tune'])) {
-            $mscfileName = S3::s3FileUplodForApp($_FILES['msc_welcome_tune'], $folderName, 1);
+            $mscfileName = S3::s3FileUploadForApp($_FILES['msc_welcome_tune'], $folderName, 1);
             if (!empty($mscfileName)) {
                 $mscfile = CtMenuSetting::where('id', $_FILES['msc_welcome_tune']['type'])->update(array('msc_welcome_tune' => $mscfileName));
                 if ($mscfile) {

@@ -6,6 +6,21 @@
             <div class="row" ng-if="enqType ==  1">
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6">
+                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.title_id.$dirty && enquiryForm.title_id.$invalid)}">
+                            <label for="">Title <span class="sp-err">*</span></label>
+                            <span class="input-icon icon-right">
+                                <select ng-model="enquiryData.title_id" ng-controller="titleCtrl" name="title_id" class="form-control" required="required">
+                                    <option value="">Select Title</option>
+                                    <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == userData.title_id}}">{{t.title}}</option>
+                                </select>
+                                <i class="fa fa-sort-desc"></i>                               
+                            </span>
+                            <div ng-show="enqFormBtn" ng-messages="enquiryForm.title_id.$error" class="help-block enqFormBtn">
+                                <div ng-message="required">Please enter first name</div>
+                            </div>
+                        </div>                        
+                    </div>                    
+                    <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.first_name.$dirty && enquiryForm.first_name.$invalid)}">
                             <label for="">First Name <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
@@ -66,7 +81,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType !=  1">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.max_budget.$dirty && enquiryForm.max_budget.$invalid)}">
                             <label for="">Max Budget <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
@@ -96,7 +111,7 @@
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.followup_by_employee_id.$dirty && enquiryForm.followup_by_employee_id.$invalid)}">
-                            <label for="">Colleague name to reassign enquiry <span class="sp-err">*</span></label>
+                            <label for="">Reassign To <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-controller="getEmployeesCtrl" ng-model="enquiryData.followup_by_employee_id" name="followup_by_employee_id" required>
                                     <option value="">Select Employee</option>
@@ -115,7 +130,7 @@
                             <label for="">Next Followup Date & Time<span class="sp-err">*</span></label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="enquiryData.next_followup_date" name="next_followup_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required />
+                                    <input type="text" ng-model="enquiryData.next_followup_date" name="next_followup_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" min-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required />
                                     <span class="input-group-btn" >
                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
@@ -134,7 +149,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" ng-if="enqType !=  1">
                 <div class="col-lg-12 col-sm-12 col-xs-12">  
                     <div class="form-title">Requirement Details</div>
                     <div class="col-sm-3 col-xs-6">
@@ -190,7 +205,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" ng-if="enqType !=  1">
                 <div class="col-lg-12 col-sm-12 col-xs-12">  
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.finance_required.$dirty && enquiryForm.finance_required.$invalid)}">
@@ -286,7 +301,7 @@
                              <div ng-if="enquiry_locations" class="sp-err blog_title">{{enquiry_locations}}</div>
                         </div>
                     </div>                    
-                    <div class="col-sm-3 col-xs-6">
+                    <div class="col-sm-3 col-xs-6" ng-if="enqType !=  1">
                         <div class="form-group">
                             <label for="">Interested In</label>
                             <div class="radio" style="margin-top: 0px;">
@@ -301,7 +316,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.property_possession_type == 0">
+                    <div class="col-sm-3 col-xs-6" ng-if="enquiryData.property_possession_type == 0 && enqType !=  1">
                         <div class="form-group">
                             <label for="">Tentative Possession Date</label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
@@ -387,9 +402,7 @@
                                         <th style="width: 10%;">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr ng-if="!projectsDetails" id="projectBody"><td colspan="5"><center>No Records Found</center></td>
-                                </tr>
+                                <tbody>                                   
                                 <tr ng-repeat='list in projectsDetails'>
                                     <td>{{ $index + 1}}</td>                                    
                                     <td>{{ list.project_name}}</td>
@@ -399,7 +412,10 @@
                                             <a href ng-click="removeRow('{{ $index }}','{{ list.id }}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a> &nbsp;&nbsp;
                                         </div>
                                     </td>
-                                </tr>                                            
+                                </tr>
+                                <tr ng-if="projectsDetails.length == 0">
+                                    <td colspan="5"><center>No Records Found</center></td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

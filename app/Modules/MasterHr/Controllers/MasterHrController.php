@@ -319,7 +319,7 @@ class MasterHrController extends Controller {
                 } else {
                     $folderName = 'employee-photos';
                     $image = ['0' => $input['employee_photo_file_name']];
-                    $imageName = S3::s3FileUplod($image, $folderName, 1);
+                    $imageName = S3::s3FileUpload($image, $folderName, 1);
                     $imageName = trim($imageName, ',');
                 }
                 $input['userData']['employee_photo_file_name'] = $imageName;
@@ -543,7 +543,7 @@ class MasterHrController extends Controller {
 
                 $folderName = 'employee-photos';
                 $image = ['0' => $input['employee_photo_file_name']];
-                $imageName = S3::s3FileUplod($image, $folderName, 1);
+                $imageName = S3::s3FileUpload($image, $folderName, 1);
                 $imageName = trim($imageName, ',');
                 $input['userEducation']['employee_photo_file_name'] = $imageName;
             }
@@ -682,7 +682,7 @@ class MasterHrController extends Controller {
                 } else {
                     $folderName = 'employee-photos';
                     $image = ['0' => $input['employee_photo_file_name']];
-                    $imageName = S3::s3FileUplod($image, $folderName, 1);
+                    $imageName = S3::s3FileUpload($image, $folderName, 1);
                     $imageName = trim($imageName, ',');
                 }
                 $input['userData']['employee_photo_file_name'] = $imageName;
@@ -1370,7 +1370,7 @@ class MasterHrController extends Controller {
 
     public function photoUpload() {
         $folderName = 'employee-photos';
-        $imageName = S3::s3FileUplodForApp($_FILES['file'], $folderName, 1);
+        $imageName = S3::s3FileUploadForApp($_FILES['file'], $folderName, 1);
         if (!empty($imageName)) {
             $img = Employee::where('id', $_FILES['file']['type'])->update(array('employee_photo_file_name' => $imageName));
             if ($img) {

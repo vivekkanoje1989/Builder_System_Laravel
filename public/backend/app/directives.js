@@ -153,7 +153,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
 
                         } else{ //enquiry list of customer 
                             var url = $location.path();
-                            if(url === "/sales/enquiry"){
+                            if(url === "/sales/enquiry" || url === "/sales/quickEnquiry" ){
                                 $scope.showDiv = true;
                                 $scope.showDivCustomer = false;
                                 $scope.backBtn = false;
