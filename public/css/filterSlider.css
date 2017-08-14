@@ -20,7 +20,7 @@
 #slideout {
     box-shadow: 0 0 5px rgba(0,0,0,.3);
     position: absolute;
-    top: 100px;
+    top: 98px;
     right: -20%;
     width: 20%;
     transition: all 1.0s ease;

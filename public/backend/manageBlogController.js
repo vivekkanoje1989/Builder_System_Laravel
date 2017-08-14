@@ -6,6 +6,22 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         $scope.noOfRows = 1;
         $scope.createBlog = false;
         $scope.updateBlog = false;
+         $scope.searchDetails = {};
+         $scope.searchData = {};
+       
+        $scope.filterDetails = function (search) {
+             $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        
         $scope.blogData = {};
         $scope.manageBlogs = function () {
             Data.post('manage-blog/manageBlogs').then(function (response) {

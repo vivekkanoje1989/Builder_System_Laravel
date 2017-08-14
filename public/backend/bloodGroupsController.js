@@ -11,55 +11,67 @@ app.controller('bloodsGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
 
         $scope.noOfRows = 1;
         $scope.manageBloodGroup = function (empId, pageNumber, itemPerPage) {
-             $scope.showloader();
-            Data.post('blood-groups/manageBloodGroup', {
-                id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
-            }).then(function (response) {
+            $scope.showloader();
+            Data.post('blood-groups/manageBloodGroup').then(function (response) {
                 $scope.hideloader();
                 $scope.bloodGrpRow = response.records;
                 $scope.bloodGrpLength = response.totalCount;
             });
         };
-        
-        
+
+
         $scope.getProcName = $scope.type = '';
         $scope.procName = function (procedureName, isTeam) {
             $scope.getProcName = angular.copy(procedureName);
             $scope.type = angular.copy(isTeam);
         }
 
-
-        $scope.filterData = {};
-        $scope.data = {};
-
-        $scope.filteredData = function (data, page, noOfRecords) {
-            $scope.showloader();
-            page = noOfRecords * (page - 1);
-            Data.post('blood-groups/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
-                if (response.success)
-                {
-                    $scope.bloodGrpRow = response.records;
-                    $scope.bloodGrpLength = response.totalCount;
-                } else
-                {
-                    $scope.bloodGrpRow = response.records;
-                    $scope.bloodGrpLength = 0;
-                }
-                $('#showFilterModal').modal('hide');
-                $scope.showFilterData = $scope.filterData;
-                $scope.hideloader();
-                return false;
-
-            });
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+        $scope.filterDetails = function (search) {
+             $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
         }
 
-        $scope.removeDataFromFilter = function (keyvalue)
-        {
-            delete $scope.filterData[keyvalue];
-            $scope.filteredData($scope.filterData, 1, 30);
-        }
-        
-        
+//        $scope.filterData = {};
+//        $scope.data = {};
+//
+//        $scope.filteredData = function (data, page, noOfRecords) {
+//            $scope.showloader();
+//            page = noOfRecords * (page - 1);
+//            Data.post('blood-groups/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
+//                if (response.success)
+//                {
+//                    $scope.bloodGrpRow = response.records;
+//                    $scope.bloodGrpLength = response.totalCount;
+//                } else
+//                {
+//                    $scope.bloodGrpRow = response.records;
+//                    $scope.bloodGrpLength = 0;
+//                }
+//                $('#showFilterModal').modal('hide');
+//                $scope.showFilterData = $scope.filterData;
+//                $scope.hideloader();
+//                return false;
+//
+//            });
+//        }
+//
+//        $scope.removeDataFromFilter = function (keyvalue)
+//        {
+//            delete $scope.filterData[keyvalue];
+//            $scope.filteredData($scope.filterData, 1, 30);
+//        }
+
+
         $scope.initialModal = function (id, name, index, index1) {
             if (id == 0)
             {
@@ -85,10 +97,10 @@ app.controller('bloodsGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                       
+
                         $scope.bloodGrpRow.push({'blood_group': $scope.blood_group, 'id': response.lastinsertid});
                         $('#bloodGroupModal').modal('toggle');
-                          toaster.pop('success', 'Manage Blood Group', 'Record Created Successfully' );
+                        toaster.pop('success', 'Manage Blood Group', 'Record Created Successfully');
                         //$scope.success("Blood group details created successfully");
                     }
                 });
@@ -100,12 +112,12 @@ app.controller('bloodsGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                     {
                         $scope.errorMsg = response.errormsg;
                     } else {
-                         
+
                         $scope.bloodGrpRow.splice($scope.index, 1);
                         $scope.bloodGrpRow.splice($scope.index, 0, {
                             blood_group: $scope.blood_group, id: $scope.id});
                         $('#bloodGroupModal').modal('toggle');
-                        toaster.pop('success', 'Manage Blood Group', 'Record Updated Successfully' );
+                        toaster.pop('success', 'Manage Blood Group', 'Record Updated Successfully');
                         // $scope.success("Blood group details updated successfully");
                     }
                 });

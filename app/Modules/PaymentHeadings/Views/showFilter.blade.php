@@ -10,14 +10,14 @@
                     <div class="col-lg-12 col-sm-12 col-xs-12">
 
 
-                        <form name="calllogsFilter" role="form" ng-submit="filteredData(filterData, 1, [[ config('global.recordsPerPage') ]])">
+                        <form name="paymentHeadingFilter" role="form" ng-submit="filterDetails(searchDetails)">
                                                             
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
                                     <div class="form-group">
                                         <label for="">Payment Heading <span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="filterData.payment_heading" name="payment_heading" class="form-control" required>
+                                            <input type="text" ng-model="searchDetails.payment_heading" name="payment_heading" class="form-control" required>
                                         </span>
                                     </div>
 
