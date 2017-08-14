@@ -232,7 +232,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.resetForm = function () {
             $state.go('salesCreate');
         }
-
         $scope.addContactDetails = function () {
             $scope.modal = {};
         }
@@ -439,6 +438,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     if (response.success) {
                         toaster.pop('success', 'Enquiry', response.message);
                         $scope.disableFinishButton = true;
+                        $state.reload();
                     }
 //                    var obj = response.data.message;
 //                    var selector = [];

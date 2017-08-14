@@ -340,7 +340,7 @@
                     <div class="form-group" ng-class="{ 'has-error' : !enquiryData.project_id && emptyProjectId}">
                         <label for="">Project</label>
                         <span class="input-icon icon-right">
-                            <select ng-controller="projectCtrl" ng-model="enquiryData.project_id" name="project_id" class="form-control" ng-change="getBlockTypes(enquiryData.project_id)">
+                            <select ng-controller="projectCtrl" ng-model="enquiryData.project_id" name="project_id"  id ="project_id" class="form-control" ng-change="getBlockTypes(enquiryData.project_id)">
                                 <option value="">Select Project</option>
                                 <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}">{{plist.project_name}}</option>
                             </select>
