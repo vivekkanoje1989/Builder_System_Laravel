@@ -1,9 +1,24 @@
-app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$location', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $location) {
+app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$location','$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $location,$rootScope) {
 
         $scope.noOfRows = 1;
         $scope.webTheme = false;
         $scope.theme = {};
         $scope.itemsPerPage = 30;
+        
+        $scope.searchData = {};
+        $scope.searchDetails = {};
+        $scope.filterDetails = function (search) {
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        
         $scope.manageThemes = function () {
             Data.post('website/getThemes').then(function (response) {
                 $scope.themesRow = response.records;

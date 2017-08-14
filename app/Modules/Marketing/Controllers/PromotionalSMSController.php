@@ -209,7 +209,7 @@ class PromotionalSMSController extends Controller {
     public function fileUpload() {
 
         $folderName = '/bulk_sms_file';
-        $bulkfileName = S3::s3FileUplodForApp($_FILES['file'], $folderName, 1);
+        $bulkfileName = S3::s3FileUploadForApp($_FILES['file'], $folderName, 1);
         $target_file = base_path() . "/common/tunes/" . $bulkfileName;
         move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
         if (!empty($bulkfileName)) {

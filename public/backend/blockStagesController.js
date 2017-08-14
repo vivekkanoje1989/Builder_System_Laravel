@@ -11,11 +11,9 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
         };
 
         $scope.blockStages = function (empId, pageNumber, itemPerPage) {
-             $scope.showloader();
-            Data.post('block-stages/manageBlockStages', {
-                id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
-            }).then(function (response) {
-                 $scope.hideloader();
+            $scope.showloader();
+            Data.post('block-stages/manageBlockStages').then(function (response) {
+                $scope.hideloader();
                 $scope.BlockStageRow = response.records;
                 $scope.BlockStageLength = response.totalCount;
             });
@@ -27,6 +25,20 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
             $scope.type = angular.copy(isTeam);
         }
 
+        $scope.searchData = {};
+        $scope.searchDetails = {};
+        $scope.filterDetails = function (search) {
+            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
 
         $scope.filterData = {};
         $scope.data = {};
@@ -125,7 +137,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                         $scope.BlockStageRow.splice($scope.index, 0, {
                             block_stage_name: $scope.block.block_stage_name, id: $scope.id, 'project_type_id': $scope.block.project_type_id});
                         $('#blockstagesModal').modal('toggle');
-                         $scope.submitbtn = false;
+                        $scope.submitbtn = false;
                         // $scope.success("Block stage details updated successfully");
                     }
                 });

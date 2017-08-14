@@ -2,6 +2,7 @@ app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Da
 
         $scope.itemsPerPage = 30;
         $scope.pageNumber = 1;
+        $scope.noOfRows = 1;
 
         $scope.pageChanged = function (pageNo, functionName, id) {
             $scope[functionName](id, pageNo, $scope.itemsPerPage);
@@ -17,43 +18,58 @@ app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Da
 
             });
         };
-
-        $scope.getProcName = $scope.type = '';
-        $scope.procName = function (procedureName, isTeam) {
-            $scope.getProcName = angular.copy(procedureName);
-            $scope.type = angular.copy(isTeam);
+        
+         $scope.searchData = {};
+        $scope.searchDetails = {};
+        $scope.filterDetails = function (search) {
+            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
         }
 
-
-        $scope.filterData = {};
-        $scope.data = {};
-
-        $scope.filteredData = function (data, page, noOfRecords) {
-            $scope.showloader();
-            page = noOfRecords * (page - 1);
-            Data.post('manage-country/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
-                if (response.success)
-                {
-                    $scope.countryRow = response.records;
-                    $scope.countryRowLength = response.totalCount;
-                } else
-                {
-                    $scope.countryRow = response.records;
-                    $scope.countryRowLength = 0;
-                }
-                $('#showFilterModal').modal('hide');
-                $scope.showFilterData = $scope.filterData;
-                $scope.hideloader();
-                return false;
-
-            });
-        }
-
-        $scope.removeDataFromFilter = function (keyvalue)
-        {
-            delete $scope.filterData[keyvalue];
-            $scope.filteredData($scope.filterData, 1, 30);
-        }
+//        $scope.getProcName = $scope.type = '';
+//        $scope.procName = function (procedureName, isTeam) {
+//            $scope.getProcName = angular.copy(procedureName);
+//            $scope.type = angular.copy(isTeam);
+//        }
+//
+//
+//        $scope.filterData = {};
+//        $scope.data = {};
+//
+//        $scope.filteredData = function (data, page, noOfRecords) {
+//            $scope.showloader();
+//            page = noOfRecords * (page - 1);
+//            Data.post('manage-country/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
+//                if (response.success)
+//                {
+//                    $scope.countryRow = response.records;
+//                    $scope.countryRowLength = response.totalCount;
+//                } else
+//                {
+//                    $scope.countryRow = response.records;
+//                    $scope.countryRowLength = 0;
+//                }
+//                $('#showFilterModal').modal('hide');
+//                $scope.showFilterData = $scope.filterData;
+//                $scope.hideloader();
+//                return false;
+//
+//            });
+//        }
+//
+//        $scope.removeDataFromFilter = function (keyvalue)
+//        {
+//            delete $scope.filterData[keyvalue];
+//            $scope.filteredData($scope.filterData, 1, 30);
+//        }
 
 
         $scope.initialModal = function (id, name, index, index1, phonecode, sortname) {

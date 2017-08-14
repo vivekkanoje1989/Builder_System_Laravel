@@ -2,25 +2,22 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header navbar-inner">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()">&times;</button>
                 <h4 class="modal-title" align="center">Filters</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
+                        <form name="themeFilter" role="form" ng-submit="filterDetails(searchDetails)">
 
-
-                        <form name="countryFilter" role="form" ng-submit="filterDetails(searchDetails)">
-                                                            
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12">
                                     <div class="form-group">
-                                        <label for="">Country Name <span class="sp-err">*</span></label>
+                                        <label for="">Theme Name</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="searchDetails.name" name="name" class="form-control" required>
+                                            <input type="text" ng-model="searchDetails.theme_name" name="theme_name" class="form-control">
                                         </span>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="row">

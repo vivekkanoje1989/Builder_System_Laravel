@@ -1,0 +1,31 @@
+.wrap-filter-form {
+    position: fixed;
+    right: -320px;
+    background: white;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    width: 290px;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+.wrap-filter-form a.btn-show-contact {
+    text-decoration: none;
+    position: absolute;
+    top: 50%;
+    left: -46px;
+    margin-top: -86px;
+}
+#slideout {
+    box-shadow: 0 0 5px rgba(0,0,0,.3);
+    position: absolute;
+    top: 98px;
+    right: -20%;
+    width: 20%;
+    transition: all 1.0s ease;
+}
+
+#slideout.on {
+  right: 0;
+}

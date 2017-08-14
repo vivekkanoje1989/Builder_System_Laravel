@@ -107,7 +107,6 @@ class CommonFunctions {
     }
 
     public static function templateData($alertdata) {
-        print_r($alertdata);
         $customer_id = $alertdata['customer_id'];
         $employee_id = $alertdata['employee_id'];
         $client_id = $alertdata['client_id'];

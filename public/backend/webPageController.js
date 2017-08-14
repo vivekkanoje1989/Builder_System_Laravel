@@ -1,5 +1,5 @@
 'use strict';
-app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', function ($scope, Data, Upload, $timeout, toaster, $parse) {
+app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $rootScope) {
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.subId = '0';
@@ -11,6 +11,21 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
+
+        $scope.searchData = {};
+        $scope.searchDetails = {};
+        $scope.filterDetails = function (search) {
+            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
 
         Data.get('web-pages/getWebPages').then(function (response) {
             $scope.listPages = response.records.data;
@@ -225,7 +240,8 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.removeSubImg = function (imgname, indeximg, pageId)
         {
             if (window.confirm("Are you sure want to remove this image?"))
-            {alert(imgname);
+            {
+                alert(imgname);
                 if (indeximg > -1) {
                     $scope.subimgs.splice(indeximg, 1);
                     Data.post('web-pages/removeSubWebPageImage', {

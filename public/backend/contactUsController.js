@@ -1,8 +1,24 @@
-app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
+app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', function ($scope, Data, toaster, $rootScope) {
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.contactUs = false;
+
+        $scope.searchData = {};
+        $scope.searchDetails = {};
+        $scope.filterDetails = function (search) {
+            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
         $scope.manageContactUs = function () {
             $scope.showloader();
             Data.post('contact-us/manageContactUs').then(function (response) {
