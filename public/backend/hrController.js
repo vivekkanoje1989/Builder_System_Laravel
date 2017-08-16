@@ -43,6 +43,29 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.userData.date_of_birth = ("1990-01-01");
         $rootScope.menuId = [];
         $rootScope.roleMenuList = [];
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+            $scope.searchDetails = {};
+
+            if (search.joining_date != undefined) {
+                var today = new Date(search.joining_date);
+                search.joining_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+            }
+            if (search.login_date_time != undefined) {
+                var loginDate = new Date(search.login_date_time);
+                search.login_date_time = (loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
+            }
+            $scope.searchData = search;
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
 
         $scope.validateMobileNumber = function (value) {
             var regex = /^(\+\d{1,4}-)\d{10}$/;
@@ -89,6 +112,15 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     $scope.emptyDepartmentId = false;
                     $scope.applyClassDepartment = 'ng-inactive';
                 }
+            }
+        };
+        $scope.checkDepartmentId = function (id) {
+            if ($scope.searchDetails.departmentName.length === 0) {
+                $scope.emptyDepartmentId = true;
+                $scope.applyClassDepartment = 'ng-active';
+            } else {
+                $scope.emptyDepartmentId = false;
+                $scope.applyClassDepartment = 'ng-inactive';
             }
         };
         $scope.checkImageExtension = function (employeePhoto) {
@@ -271,14 +303,14 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         };
 
-        $scope.manageUsers = function (id, action, pageNumber, itemPerPage) {
+        $scope.manageUsers = function (id, action) {
             $scope.modal = {};
             $scope.userStatus = {};
             $scope.userId = id;
             $scope.employeeId = id;
             $rootScope.employeeId = id;
             Data.post('master-hr/manageUsers', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,
+                empId: id
             }).then(function (response) {
                 if (response.success) {
                     $scope.flagForChange = 0;
@@ -1171,12 +1203,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.updateProfile = function (profileData)
         {
-             if (typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
+            if (typeof profileData.employee_photo_file_name == "undefined" || typeof profileData.employee_photo_file_name == "string") {
                 profileData.employee_photo_file_name = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
             }
             var url = '/master-hr/updateProfileInfo';
             var data = {data: profileData};
-           
+
             profileData.employee_photo_file_name.upload = Upload.upload({
                 url: url,
                 headers: {enctype: 'multipart/form-data'},
@@ -1184,7 +1216,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             })
             profileData.employee_photo_file_name.upload.then(function (response)
             {
-               
+
                 if (response.success == false) {
                     toaster.pop('error', 'Profile', 'Please upload profile photo');
                 } else {
@@ -1234,9 +1266,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     })
                     .then(function (response)
                     {
-                        
+
                         if (!response.success)
-                        {$scope.isDisabled = false;
+                        {
+                            $scope.isDisabled = false;
                             var obj = response.message;
                             var selector = [];
                             for (var key in obj) {

@@ -11,6 +11,21 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
                 $scope.ApprovedTestimonialsRow = response.records;
             });
         };
+        
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+        $scope.filterDetails = function (search) {
+            $scope.searchDetails = {};
+            $scope.searchData = search;
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        
 
         $scope.manageTestimonials = function () {
             Data.post('testimonials/getApprovedList').then(function (response) {
