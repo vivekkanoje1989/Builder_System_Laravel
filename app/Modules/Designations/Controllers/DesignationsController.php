@@ -16,7 +16,8 @@ class DesignationsController extends Controller {
     }
 
     public function manageDesignations() {
-        $getDesignations = MlstBmsbDesignations::all();
+        $getDesignations = MlstBmsbDesignations::select('designation','status','id')->get();
+      
 
         if (!empty($getDesignations)) {
             $result = ['success' => true, 'records' => $getDesignations];

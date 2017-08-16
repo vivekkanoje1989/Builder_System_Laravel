@@ -22,7 +22,7 @@ class EmployeeDeviceController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         if ($input['id'] === 'index') { // index
-            $data = EmployeesDevice::all();
+            $data = EmployeesDevice::select('employee_id','device_mac','device_name','device_status','device_type','id')->get();
             foreach ($data as $deviceData) {
                 $name = '';
                 $arr = explode(',', $deviceData['employee_id']);

@@ -1,5 +1,19 @@
+<style>
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
+</style>
 <div class="row" ng-controller="blocktypesController" ng-init="manageBlockTypes(); getProjectNames()">  
-    <div class="col-xs-12 col-md-12">
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Block Types</span>                
@@ -26,10 +40,26 @@
                             <label for=""></label>
                             <span class="input-icon icon-right">
                                 <a data-toggle="modal" data-target="#blocktypesModal" ng-click="initialModal(0, '', '', '', '')" class="btn btn-primary btn-right">Add Block Types</a>
+                             <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                             </span>
                         </div>
                     </div>
                 </div>
+                 <!-- filter data-->
+                <div class="row" style="border:2px;" id="filter-show">
+                    <div class="col-sm-12 col-xs-12">
+                        <b ng-repeat="(key, value) in searchData">
+                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                <div class="alert alert-info fade in">
+                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <strong ng-if="key === 'project_name'" data-toggle="tooltip" title="Project Name"><strong> Project Name : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'block_name'" data-toggle="tooltip" title="Block Name"><strong> Block Name : </strong> {{ value }}</strong>
+                                </div>
+                            </div>
+                        </b>                        
+                    </div>
+                </div>
+                <!-- filter data-->
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -50,7 +80,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="list in BlockTypesRow| filter:search | itemsPerPage:itemsPerPage| orderBy:orderByField:reverseSort" >
+                        <tr role="row" dir-paginate="list in BlockTypesRow| filter:search |filter:searchData| itemsPerPage:itemsPerPage| orderBy:orderByField:reverseSort" >
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>                        
                             <td>{{ list.project_name}}</td> 
                             <td>{{ list.block_name}}</td> 
@@ -121,6 +151,48 @@
     </div>
 
 </div>
+<!-- Filter Form Start-->
+<div class="wrap-filter-form show-widget" id="slideout">
+    <form name="blockStagesFilter" role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
+        <strong>Filter</strong>   
+        <button type="button" class="close toggleForm" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button><hr>
+        <div class="row">
+            <div class="col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="">Status</label>
+                    <span class="input-icon icon-right">
+                        <select class="form-control" ng-model="searchDetails.project_name" name="project_name" >
+                            <option value="">Select project type</option>
+                            <option  ng-repeat="list in getProjectNamesRow" value="{{list.project_type}}" selected>{{list.project_type}}</option>
+                        </select>
+                        <i class="fa fa-sort-desc"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="">Block Name</label>
+                    <span class="input-icon icon-right">
+                        <input type="text" ng-model="searchDetails.block_name" name="block_name" class="form-control">
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12" >
+                <div class="form-group">
+                    <span class="input-icon icon-right" align="center">
+                        <button type="submit" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/js/filterSlider.js"></script>
+<!-- Filter Form End-->
 </div>
 
 

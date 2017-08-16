@@ -12,9 +12,9 @@
             </div>
             <div class="widget-body no-padding">
                 <accordion>
-                    <accordion-group heading="{{list.source_name}}" ng-repeat="list in EnquirySourceRow" ng-click="getSubSource({{list.id}})">
+                    <accordion-group heading="{{list.sales_source_name}}" ng-repeat="list in EnquirySourceRow" ng-click="getSubSource({{list.id}})">
                         {{group.content}}
-                        <p style="text-align:right;"><a href="" data-toggle="modal" data-target="#subsourceModal" ng-click="initialModal(0,{{list.id}},'', '')" class="btn btn-info">Create Sub Source</a></p>
+                        <p style="text-align:right;"><a href="" data-toggle="modal" data-target="#subsourceModal" ng-click="initialModal(0,{{list.id}},'','', '')" class="btn btn-info">Create Sub Source</a></p>
                         <table class="table table-hover table-striped table-bordered" at-config="config">
                             <thead class="bord-bot">
                                 <tr>
@@ -39,7 +39,7 @@
                                     <td>{{$index + 1}}</td>
                                     <td>{{ sublist.sub_source}}</td>                          
                                     <td class="fa-div">
-                                        <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#subsourceModal"><a href="javascript:void(0);" ng-click="initialModal({{sublist.id}},{{list.id}},'{{sublist.sub_source}}', $index)"><i class="fa fa-pencil"></i></a></div>
+                                        <div class="fa-hover" tooltip-html-unsafe="Edit User" style="display: block;" data-toggle="modal" data-target="#subsourceModal"><a href="javascript:void(0);" ng-click="initialModal({{sublist.id}},{{list.id}},'{{sublist.sub_source}}',{{sublist.sub_source_status}}, $index)"><i class="fa fa-pencil"></i></a></div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -63,7 +63,7 @@
                     <div class="modal-body">
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!subsourceForm.sub_source.$dirty && subsourceForm.sub_source.$invalid) && (!subsourceForm.sub_source_status.$dirty && subsourceForm.sub_source_status.$invalid)}">
                             <input type="hidden" class="form-control" ng-model="subid" name="subid">
-                            <input type="hidden" class="form-control" ng-model="source_id" name="source_id">
+                            <input type="hidden" class="form-control" ng-model="enquiry_sales_source_id" name="enquiry_sales_source_id">
                             <label>Sub source name<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
                                 <input type="text" class="form-control" ng-model="sub_source" name="sub_source" placeholder="Sub source" ng-change="errorMsg = null" required>
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">{{action}}</button>
+                        <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Submit</button>
                     </div> 
                 </form>           
             </div>

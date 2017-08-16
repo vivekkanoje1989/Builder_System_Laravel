@@ -15,7 +15,7 @@ class ManageProfessionController extends Controller {
         return view("ManageProfession::index");
     }
     public function manageProfession() {
-        $getProfession = MlstProfessions::all();
+        $getProfession = MlstProfessions::select('profession','status','id')->get();
 
         if (!empty($getProfession)) {
             $result = ['success' => true, 'records' => $getProfession];
