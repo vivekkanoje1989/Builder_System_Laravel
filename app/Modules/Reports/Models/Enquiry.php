@@ -2,10 +2,11 @@
 
 namespace App\Modules\MasterSales\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Reliese\Database\Eloquent\Model as Eloquent;
 
-class Enquiry extends Model {
+class Enquiry extends Eloquent {
 
+    protected $primaryKey = 'id';
     protected $casts = [
         'client_id' => 'int',
         'customer_id' => 'int',
@@ -179,5 +180,5 @@ class Enquiry extends Model {
         $enquiryData['exchange_subcategory_id'] = !empty($input['exchange_subcategory_id']) ? $input['exchange_subcategory_id'] : "0";
         return $enquiryData;
     }
-
+  
 }
