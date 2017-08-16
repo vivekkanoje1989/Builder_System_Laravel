@@ -1,4 +1,4 @@
-<br/> {{list.email_id}}<style>
+<style>
     .btn-round{
         border-radius: 50%;
         height: 40px;
@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         <br><br>
-                    </div>
+                    </div>[[ $editEnquiryId ]]
                     <tabset ng-if="showDivCustomer" class="demo-tab row">
                         <tab heading="Customer Information" id="custDiv">
                             <div data-ng-include=" '/MasterSales/createCustomer'"></div>
