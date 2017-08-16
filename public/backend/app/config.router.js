@@ -320,6 +320,7 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                
                                 .state('createQuickEnquiry', {
                                     url: '/sales/quickEnquiry',
                                     templateUrl: '/master-sales/createQuickEnquiry',
@@ -468,7 +469,6 @@ angular.module('app')
                                                                             '/backend/enquiryController.js',
                                                                             '/backend/app/controllers/select.js',
                                                                             '/backend/app/controllers/datepicker.js',
-
                                                                             '/backend/app/controllers/timepicker.js',
                                                                         ]
                                                                     });

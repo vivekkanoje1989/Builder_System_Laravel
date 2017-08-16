@@ -47,21 +47,19 @@
                 </div>                
             </div>
             <div class="row">
-                <div class="col-lg-12 col-sm-12 col-xs-12">                    
+                <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="col-sm-3 col-xs-6">
-                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.sales_enquiry_date.$dirty && enquiryForm.sales_enquiry_date.$invalid)}">
-                            <label for="">Date of enquiry <span class="sp-err">*</span></label>
-                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
-                                <p class="input-group">
-                                    <input type="text" ng-model="enquiryData.sales_enquiry_date" name="sales_enquiry_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
+                        <label for="">Date of enquiry <span class="sp-err">*</span></label>
+                        <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                            <div class="input-group">
+                                <input type="text" ng-model="enquiryData.sales_enquiry_date" name="sales_enquiry_date" id="sales_enquiry_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
                                 <div ng-show="enqFormBtn" ng-messages="enquiryForm.sales_enquiry_date.$error" class="help-block">
                                     <div ng-message="required">Please select enquiry date</div>
                                 </div>
                                 <div ng-if="sales_enquiry_date" class="sp-err blog_title">{{sales_enquiry_date}}</div>
-                                </p>
                             </div>
                         </div>
                     </div>

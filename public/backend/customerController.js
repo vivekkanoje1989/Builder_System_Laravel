@@ -427,6 +427,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
 //        };
         $scope.saveEnquiryData = function (enquiryData)
         {
+            alert("update");
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
             alert($scope.enquiryData.id);
