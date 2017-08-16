@@ -345,7 +345,7 @@
                     <div class="form-group">
                         <label for="">Account Type</label>
                         <span class="input-icon icon-right">
-                            <select ng-model="searchDetails.account_type" name="account_type" class="form-control" required>
+                            <select ng-model="searchDetails.account_type" name="account_type" class="form-control">
                                 <option value="">Select account type</option>
                                 <option value="1">Saving account</option>
                                 <option value="2">Current account</option>

@@ -14,7 +14,7 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
 
         $scope.filterDetails = function (search) {
             $scope.searchDetails = {};
-            $scope.searchData = search;
+            $scope.searchData = search; 
             $('#showFilterModal').modal('hide');
         }
         $scope.removeFilterData = function (keyvalue) {

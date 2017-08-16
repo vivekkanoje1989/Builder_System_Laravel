@@ -24,10 +24,22 @@ class CustomersController extends Controller {
     }
 
     public function manageCustomer() {
-        $result = Customers::select('*')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')->get();
-
-        if (!empty($result)) {
-            return json_encode(['result' => $result, 'status' => true]);
+//        $result = Customers::select('*')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')->get();
+      
+        $result = Customers::select('id','first_name', 'last_name', 'sms_privacy_status', 'email_privacy_status', 'title_id', 'source_id', 'profession_id')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')->get();
+       $customerDetails = array();
+        for ($i = 0; $i < count($result); $i++) {
+            $customerData['id'] = $result[$i]['id'];
+            $customerData['firstName'] = $result[$i]['first_name'].' '.$result[$i]['last_name'];
+            $customerData['profession'] = $result[$i]['getProfession']['profession'];
+            $customerData['title'] = $result[$i]['getTitle']['title'];
+            $customerData['sales_source_name'] = $result[$i]['getSource']['sales_source_name'];
+            $customerData['sms_privacy_status'] = $result[$i]['sms_privacy_status'];
+            $customerData['email_privacy_status'] = $result[$i]['email_privacy_status'];
+            $customerDetails[] = $customerData;
+        }
+        if (!empty($customerDetails)) {
+            return json_encode(['result' => $customerDetails, 'status' => true]);
         } else {
             return json_encode(['mssg' => 'No records found', 'status' => false]);
         }
@@ -51,7 +63,7 @@ class CustomersController extends Controller {
      * @return Response
      */
     public function update() {
-         $validationRules = Customers::validationRules();
+        $validationRules = Customers::validationRules();
         $validationMessages = Customers::validationMessages();
         $input = Input::all();
         $userAgent = $_SERVER['HTTP_USER_AGENT'];

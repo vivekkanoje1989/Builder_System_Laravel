@@ -32,7 +32,9 @@ class TestimonialsController extends Controller {
     }
 
     public function getDisapproveList() {
-        $getApprovedTestimonials = WebTestimonials::where('approve_status', '0')->get();
+       
+        $getApprovedTestimonials = WebTestimonials::select('approve_status','company_name','customer_name','mobile_number','testimonial_id')->where('approve_status', '0')->get();
+        
         if (!empty($getApprovedTestimonials)) {
             $result = ['success' => true, 'records' => $getApprovedTestimonials];
         } else {
@@ -42,7 +44,7 @@ class TestimonialsController extends Controller {
     }
 
     public function getApprovedList() {
-        $getApprovedTestimonials = WebTestimonials::where('approve_status', '1')->get();
+        $getApprovedTestimonials = WebTestimonials::select('approve_status','company_name','customer_name','mobile_number','testimonial_id')->where('approve_status', '1')->get();
         if (!empty($getApprovedTestimonials)) {
             $result = ['success' => true, 'records' => $getApprovedTestimonials];
         } else {
