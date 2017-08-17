@@ -128,7 +128,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
                 $scope.categorylabels = ["Delivered", "Undelivered"];
                 $scope.categorydata = [$scope.totalSms[0].success, $scope.totalSms[0].fail];
-                $scope.categorycolors = ['#DCDCDC', '#FFA500'];
+                $scope.categorycolors = ['#FFA500', '#DCDCDC'];
                 $scope.categoryoptions = {
                     cutoutPercentage: 60,
                     animation: {

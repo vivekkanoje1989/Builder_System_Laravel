@@ -30,7 +30,7 @@
                                     <div class="form-group">
                                         <label for="">Customer Number</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="filterData.customer_number" name="customer_number" class="form-control" value="{{customer_number}}">
+                                            <input type="text" ng-model="filterData.customer_number" name="customer_number" class="form-control" value="{{customer_number}}"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                         </span>
                                     </div>
                                 </div>

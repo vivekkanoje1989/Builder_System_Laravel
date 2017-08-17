@@ -3258,6 +3258,7 @@ angular.module('app')
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/testimonialsController.js',
+                                                                            '/backend/app/controllers/datepicker.js'
                                                                         ]
                                                                     }
                                                                     );
@@ -3286,6 +3287,7 @@ angular.module('app')
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/careerManagementController.js',
+                                                                            '/backend/app/controllers/datepicker.js'
                                                                         ]
                                                                     }
                                                                     );
