@@ -15,9 +15,18 @@ class HighestEducationController extends Controller {
         return view("HighestEducation::index");
     }
     public function manageHighestEducation() {
-        $getHighestEducation = MlstEducations::all();
-        if (!empty($getHighestEducation)) {
-            $result = ['success' => true, 'records' => $getHighestEducation];
+        $getHighestEducations = MlstEducations::select('education','status','id')->get();
+//         $i = 0;
+//        foreach($getHighestEducations as $getHighestEducation){
+//            if($getHighestEducation['status'] == 1){
+//            $getHighestEducations[$i]['status'] = 'active';
+//            }else{
+//            $getHighestEducations[$i]['status'] = 'inactive';
+//            }
+//            $i++;
+//        }
+        if (!empty($getHighestEducations)) {
+            $result = ['success' => true, 'records' => $getHighestEducations];
             return json_encode($result);
         }else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

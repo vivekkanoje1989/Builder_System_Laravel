@@ -4,9 +4,10 @@ namespace App\Modules\EnquirySource\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Modules\EnquirySource\Models\EnquirySources;
-use App\Modules\EnquirySource\Models\EnquirySubSources;
+use App\Modules\EnquirySource\Models\MlstBmsbEnquirySalesSources;
+use App\Modules\EnquirySource\Models\EnquirySalesSubSources;
 use App\Classes\CommonFunctions;
+
 
 
 class EnquirySourceController extends Controller {
@@ -16,7 +17,7 @@ class EnquirySourceController extends Controller {
     }
 
     public function manageEnquirySource() {
-        $getEnquirySources = EnquirySources::all();
+        $getEnquirySources = MlstBmsbEnquirySalesSources::all();
         if (!empty($getEnquirySources)) {
             $result = ['success' => true, 'records' => $getEnquirySources];
             return json_encode($result);
@@ -29,7 +30,7 @@ class EnquirySourceController extends Controller {
          $postdata = file_get_contents('php://input');
          $request = json_decode($postdata, true);
           
-        $getSubEnquirySources = EnquirySubSources::where(['source_id' => $request['source_id']])->get();
+        $getSubEnquirySources = EnquirySalesSubSources::where(['enquiry_sales_source_id' => $request['source_id']])->get();
         if (!empty($getSubEnquirySources)) {
             $result = ['success' => true, 'records' => $getSubEnquirySources];
             return json_encode($result);
@@ -42,12 +43,12 @@ class EnquirySourceController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $cnt = EnquirySources::where(['source_name' => $request['source_name']])->get()->count();
+        $cnt = MlstBmsbEnquirySalesSources::where(['source_name' => $request['source_name']])->get()->count();
         if ($cnt > 0) { //exists Source
             $result = ['success' => false, 'errormsg' => 'Source name already exists'];
             return json_encode($result);
         } else {
-            $bloodgroup = EnquirySources::create($request);
+            $bloodgroup = MlstBmsbEnquirySalesSources::create($request);
             $result = ['success' => true, 'result' => $bloodgroup];
             return json_encode($result);
         }
@@ -59,12 +60,12 @@ class EnquirySourceController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
 
-        $cnt = EnquirySubSources::where(['sub_source' => $request['sub_source']])->get()->count();
+        $cnt = EnquirySalesSubSources::where(['sub_source' => $request['sub_source']])->get()->count();
         if ($cnt > 0) { //exists Source
             $result = ['success' => false, 'errormsg' => 'Sub source name already exists'];
             return json_encode($result);
         } else {
-            $result = EnquirySubSources::create($request);
+            $result = EnquirySalesSubSources::create($request);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }
@@ -73,12 +74,12 @@ class EnquirySourceController extends Controller {
     public function updateSubEnquirySource() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $getCount = EnquirySubSources::where(['sub_source' => $request['sub_source']])->get()->count();
+        $getCount = EnquirySalesSubSources::where(['sub_source' => $request['sub_source']])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Sub source name already exists'];
             return json_encode($result);
         } else {
-            $result = EnquirySubSources::where('id', $request['id'])->update($request);
+            $result = EnquirySalesSubSources::where('id', $request['id'])->update($request);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);
         }

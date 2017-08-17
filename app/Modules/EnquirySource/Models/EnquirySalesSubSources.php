@@ -18,7 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class EnquirySources extends Eloquent
+class EnquirySalesSubSources extends Eloquent
 {
 	public $timestamps = false;
 
@@ -29,7 +29,8 @@ class EnquirySources extends Eloquent
 
 	protected $fillable = [
 		'id',
-		'source_name',
-		'source_status'
+		'source_id',
+		'sub_source',
+		'sub_source_status',
 	];
 }

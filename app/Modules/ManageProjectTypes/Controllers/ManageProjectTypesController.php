@@ -17,7 +17,7 @@ class ManageProjectTypesController extends Controller {
     }
 
     public function manageProjectTypes() {
-        $getTypes = MlstBmsbProjectTypes::all();
+        $getTypes = MlstBmsbProjectTypes::select('project_type','id')->get();
 
         if (!empty($getTypes)) {
             $result = ['success' => true, 'records' => $getTypes];

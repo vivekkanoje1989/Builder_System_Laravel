@@ -2,6 +2,23 @@ app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
+
         $scope.manageCities = function () {
             Data.get('manage-city/manageCity').then(function (response) {
                 $scope.citiesRow = response.records;
@@ -11,10 +28,10 @@ app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
             if ($id == 1)
             {
                 $scope.country_name_id = country_id;
-               
+
             } else {
                 $scope.country_id = $scope.countryRow[$scope.country_id - 1].id;
-                
+
             }
             Data.post('manage-city/manageStates', {country_id: $scope.country_id}).then(function (response) {
                 $scope.statesRow = response.records;
@@ -25,17 +42,17 @@ app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
                 $scope.countryRow = response.records;
             });
         };
-        $scope.initialModal = function (ids,city_id,list, index, index1) {
+        $scope.initialModal = function (ids, city_id, list, index, index1) {
             $scope.country_id = list.country_id;
             $scope.id = city_id;
             $scope.name = list.name;
-            if($scope.id !== 0){
-                 $scope.heading = 'Edit City';     
-                 $scope.action = 'Update';     
-                 $scope.manageStates(1,$scope.country_id);
-            }else{
-                $scope.heading = 'Add City';     
-                 $scope.action = 'Submit';
+            if ($scope.id !== 0) {
+                $scope.heading = 'Edit City';
+                $scope.action = 'Update';
+                $scope.manageStates(1, $scope.country_id);
+            } else {
+                $scope.heading = 'Add City';
+                $scope.action = 'Submit';
             }
             $scope.state_id = list.state_id;
             $scope.states = list.state_id;

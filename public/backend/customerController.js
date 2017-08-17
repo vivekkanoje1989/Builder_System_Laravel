@@ -232,7 +232,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.resetForm = function () {
             $state.go('salesCreate');
         }
-
         $scope.addContactDetails = function () {
             $scope.modal = {};
         }
@@ -299,9 +298,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.btnLabelC = $scope.btnLabelE = "Update";
                 Data.post('master-sales/getEnquiryDetails', {
                     data: {customerId: customerId, enquiryId: enquiryId}}).then(function (response) {
-                    if (!response.success) {
-                        $scope.enquiryList = false;
-                        $scope.showDivCustomer = false;
+                    console.log(response);
+                    if (!response.success) {                        
+                        $scope.enquiryList = true;
+                        $scope.showDivCustomer = true;
+                         $scope.showDiv = true;
+                        $scope.enquiryformDiv = true;
                     } else {
                         $scope.disableSource = true;
                         $scope.disableDataOnEnqUpdate = true;
@@ -430,7 +432,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         {
             var date = new Date($scope.enquiryData.next_followup_date);
             $scope.enquiryData.next_followup_date = (date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + date.getDate());
-            alert($scope.enquiryData.id);
             if (typeof $scope.enquiryData.id === 'undefined') {
                 var enqData = enquiryData;
                 Data.post('master-sales/saveEnquiry', {
@@ -439,6 +440,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     if (response.success) {
                         toaster.pop('success', 'Enquiry', response.message);
                         $scope.disableFinishButton = true;
+                        $state.reload();
                     }
 //                    var obj = response.data.message;
 //                    var selector = [];

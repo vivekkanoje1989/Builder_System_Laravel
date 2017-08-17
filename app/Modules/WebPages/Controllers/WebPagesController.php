@@ -25,13 +25,27 @@ class WebPagesController extends Controller {
 
     public function getWebPages() {
         $data = WebPage::all();
-        if ($data) {
-            $result = ['success' => true, 'records' => ["data" => $data, "total" => count($data), 'per_page' => count($data),
-                    "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($data)]];
-            echo json_encode($result);
+        $webPages = array();
+        for ($i = 0; $i < count($data); $i++) {
+            $webData['id'] = $data[$i]['id'];
+            $webData['page_name'] = $data[$i]['page_name'];
+            $webData['page_title'] = $data[$i]['page_title'];
+            $status = $data[$i]['status'];
+            if ($status == 1) {
+                $webData['status'] = 'active';
+            } else {
+                $webData['status'] = 'inactive';
+            }
+
+            $webPages[] = $webData;
+        }
+        if ($webPages) {
+            $result = ['success' => true, 'records' => ["data" => $webPages, "total" => count($webPages), 'per_page' => count($webPages),
+                    "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($webPages)]];
+            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];
-            echo json_encode($result);
+            return json_encode($result);
         }
     }
 
@@ -332,7 +346,7 @@ class WebPagesController extends Controller {
         $name = implode(',', $obj['allimg']);
         $s3FolderName = '/website/banner-images/';
         $path = $s3FolderName . $obj['imageName'];
-        $msg = S3::s3FileDelete($obj['imageName'],$s3FolderName);
+        $msg = S3::s3FileDelete($obj['imageName'], $s3FolderName);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
         } else {
@@ -346,7 +360,7 @@ class WebPagesController extends Controller {
         $name = implode(',', $obj['subimgs']);
         $s3FolderName = '/website/banner-images/';
         $path = $s3FolderName . $obj['imageName'];
-        $msg = S3::s3FileDelete($obj['imageName'],$s3FolderName);
+        $msg = S3::s3FileDelete($obj['imageName'], $s3FolderName);
         print_r($msg);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);

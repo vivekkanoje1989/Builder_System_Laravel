@@ -20,8 +20,14 @@ class ThemesController extends Controller {
 
     public function getThemes() {
         $theme = WebThemes::all();
-        if (!empty($theme)) {
-            return json_encode(['records' => $theme, 'status' => true]);
+        $themePages = array();
+        for ($i = 0; $i < count($theme); $i++) {
+            $themeData['id'] = $theme[$i]['id'];
+            $themeData['theme_name'] = $theme[$i]['theme_name'];
+            $themePages[] = $themeData;
+        }
+        if (!empty($themePages)) {
+            return json_encode(['records' => $themePages, 'status' => true]);
         } else {
             return json_encode(['errorMsg' => 'No record', 'status' => false]);
         }

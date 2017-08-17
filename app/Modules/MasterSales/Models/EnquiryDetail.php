@@ -52,6 +52,7 @@ class EnquiryDetail extends Eloquent
 
 	protected $fillable = [
 		'enquiry_id',
+                'client_id',
 		'project_id',
 		'block_id',
 		'sub_block_id',

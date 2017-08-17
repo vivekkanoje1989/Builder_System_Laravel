@@ -17,24 +17,16 @@ class BloodGroupsController extends Controller {
     }
 
     public function manageBloodGroups() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        
-         if (!empty($request["employee_id"])) {
-            $emp_id = $request["employee_id"];
-            if ($request['filterFlag'] == 1) {
-                BloodGroupsController::$procname = "proc_blood_groups";
-                return $this->filteredData();
-                exit;
-            }
-        } else {
-            $emp_id = Auth::guard('admin')->user()->id;
+        $getBloodGroups = MlstBloodGroups::all();
+
+        $bloodGrps = array();
+        for ($i = 0; $i < count($getBloodGroups); $i++) {
+            $bloodGrp['id'] = $getBloodGroups[$i]['id'];
+            $bloodGrp['blood_group'] = $getBloodGroups[$i]['blood_group'];
+            $bloodGrps[] = $bloodGrp;
         }
-         $getBloodGroups = MlstBloodGroups::all();
-         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        $getBloodGroup = MlstBloodGroups::take($request['itemPerPage'])->offset($startFrom)->get();
-        if (!empty($getBloodGroup)) {
-            $result = ['success' => true, 'records' => $getBloodGroup,'totalCount' => count($getBloodGroups)];
+        if (!empty($bloodGrps)) {
+            $result = ['success' => true, 'records' => $bloodGrps, 'totalCount' => count($getBloodGroups)];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -42,56 +34,55 @@ class BloodGroupsController extends Controller {
         }
     }
 
-    public function filteredData() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $filterData = $request['filterData'];
-        $ids = [];
+//    public function filteredData() {
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+//        $filterData = $request['filterData'];
+//        $ids = [];
+//
+//        if (empty($request['employee_id'])) { // For Web
+//            $loggedInUserId = Auth::guard('admin')->user()->id;
+//
+//            $filterData["blood_group"] = !empty($filterData["blood_group"]) ? $filterData["blood_group"] : "";
+//        } else { // For App
+//            $request["getProcName"] = BloodGroupsController::$procname;
+//            $loggedInUserId = $request['employee_id'];
+//
+//            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+//                $loggedInUserId = implode(',', array_map(function($el) {
+//                            return $el['id'];
+//                        }, $filterData['empId']));
+//            }
+//            $filterData["blood_group"] = !empty($filterData["blood_group"]) ? $filterData["blood_group"] : "";
+//            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+//        }
+//        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+//            $loggedInUserId = implode(',', array_map(function($el) {
+//                        return $el['id'];
+//                    }, $filterData['empId']));
+//        }
+//        $getBloodGrps = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["blood_group"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+//
+//        $enqCnt = DB::select("select FOUND_ROWS() totalCount");
+//        $enqCnt = $enqCnt[0]->totalCount;
+//        $i = 0;
+//        if (!empty($getBloodGrps)) {
+//            foreach ($getBloodGrps as $getInboundLog) {
+//                $getBloodGrps[$i]->blood_group = $getInboundLog->blood_group;
+////                
+//                $i++;
+//            }
+//        }
+//
+//
+//        if (!empty($getBloodGrps)) {
+//            $result = ['success' => true, 'records' => $getBloodGrps, 'totalCount' => $enqCnt];
+//        } else {
+//            $result = ['success' => false, 'records' => $getBloodGrps, 'totalCount' => $enqCnt];
+//        }
+//        return json_encode($result);
+//    }
 
-        if (empty($request['employee_id'])) { // For Web
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-         
-            $filterData["blood_group"] = !empty($filterData["blood_group"]) ? $filterData["blood_group"] : "";
-        } else { // For App
-            $request["getProcName"] = BloodGroupsController::$procname;
-            $loggedInUserId = $request['employee_id'];
-           
-            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
-                $loggedInUserId = implode(',', array_map(function($el) {
-                            return $el['id'];
-                        }, $filterData['empId']));
-            }
-            $filterData["blood_group"] = !empty($filterData["blood_group"]) ? $filterData["blood_group"] : "";
-            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        }
-        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
-            $loggedInUserId = implode(',', array_map(function($el) {
-                        return $el['id'];
-                    }, $filterData['empId']));
-        }
-        $getBloodGrps = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["blood_group"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
-       
-        $enqCnt = DB::select("select FOUND_ROWS() totalCount");
-        $enqCnt = $enqCnt[0]->totalCount;
-        $i = 0;
-        if (!empty($getBloodGrps)) {
-            foreach ($getBloodGrps as $getInboundLog) {
-               $getBloodGrps[$i]->blood_group = $getInboundLog->blood_group;
-//                
-                $i++;
-            }
-        }
-
-
-        if (!empty($getBloodGrps)) {
-            $result = ['success' => true, 'records' => $getBloodGrps, 'totalCount' => $enqCnt];
-        } else {
-            $result = ['success' => false, 'records' => $getBloodGrps, 'totalCount' => $enqCnt];
-        }
-        return json_encode($result);
-    }
-    
-    
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -114,8 +105,8 @@ class BloodGroupsController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        
-        $getCount = MlstBloodGroups::where(['blood_group' => $request['blood_group']])->where('id','!=',$id)->get()->count();
+
+        $getCount = MlstBloodGroups::where(['blood_group' => $request['blood_group']])->where('id', '!=', $id)->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Blood group already exists'];
             return json_encode($result);

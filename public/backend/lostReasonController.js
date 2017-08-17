@@ -8,6 +8,22 @@ app.controller('lostReasonsController', ['$scope', 'Data', 'toaster', function (
                 $scope.listLostReasons = response.records;
             });
         };
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
         $scope.initialModal = function (id, reason, status, index, index1) {
             if (id == 0)
             {

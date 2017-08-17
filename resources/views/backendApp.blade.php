@@ -41,6 +41,7 @@
         <link href="/backend/assets/css/animate.min.css" rel="stylesheet" />
         <link ng-href="{{settings.skin}}" rel="stylesheet" type="text/css" />
         <link href="/backend/assets/css/loader.css" rel="stylesheet" />
+        <link href="/css/filterSlider.css" rel="stylesheet" />
         
         <?php }else{ $getThemeName = config('global.themeName');?>
         <title page-title>BMS Builder</title>  

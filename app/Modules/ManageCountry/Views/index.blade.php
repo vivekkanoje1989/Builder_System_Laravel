@@ -12,45 +12,47 @@
         width: 110%;
     }
 </style>
-<div class="row" ng-controller="countryCtrl" ng-init="manageCountry([[$loggedInUserId]], 1, [[config('global.recordsPerPage')]])">  
-    <div class="col-xs-12 col-md-12">
+<div class="row" ng-controller="countryCtrl" ng-init="manageCountry()">  
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Country</span>                
             </div>
             <div class="widget-body table-responsive">
-               <div class="row">
-                    <div class="col-sm-2 ">
-                        <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-change="manageCountry([[$loggedInUserId]],{{pageNumber}}, itemsPerPage)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
-                    </div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_manage_country', 0)">
-                            <i class="btn-label fa fa-filter"></i>Show Filter</button>
-                    </div>
-                    <div class="col-sm-6  dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                        <span ng-if="countryRowLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{countryRow.length}} Logs Out Of Total {{countryRowLength}} Logs&nbsp;</span>
-                        <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageCountry', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
-                    </div>
-                </div>
                 <div class="row">
-                    <div class="col-sm-6 col-xs-12"></div>
+                    <div class="col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="search">Search:</label>
+                            <span class="input-icon icon-right">
+                                <input type="text" ng-model="search" name="search" class="form-control">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="search">Records per page:</label>
+                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage" name="itemsPerPage">
+                        </div>
+                    </div>
                     <div class="col-sm-6 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
-                                <a href="" data-toggle="modal" data-target="#countryModal" ng-click="initialModal(0, '', '', '', '', '')" class="btn btn-info">Add Country</a>
+                                <a href="" data-toggle="modal" data-target="#countryModal" ng-click="initialModal(0, '', '', '', '', '')" class="btn btn-primary btn-right">Add Country</a>
+                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                             </span>
                         </div>
                     </div>
                 </div>
-                 <!-- filter data--> 
+
+                <!-- filter data--> 
                 <div class="row" style="border:2px;" id="filter-show">
                     <div class="col-sm-12 col-xs-12">
-                        <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate'">
+                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0 && key != 'toDate'">
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                 <div class="alert alert-info fade in">
-                                    <button class="close" ng-click="removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
-                                    <strong ng-if="key === 'empId'" ng-repeat='emp in value track by $index'> {{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}} </strong>
+                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
                                     <strong ng-if="key === 'name'" data-toggle="tooltip" title="Country Name"><strong> Country Name : </strong> {{ value}}</strong>
                                 </div>
                             </div>
@@ -68,22 +70,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="list in countryRow| filter:search | itemsPerPage:itemsPerPage "  total-items="{{ countryRowLength}}">
-                             <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>      
+                        <tr role="row" dir-paginate="list in countryRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage ">
+                            <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>      
                             <td>{{list.name}}</td>     
                             <td class="fa-div">
-                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#countryModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}',{{ itemsPerPage}},{{$index}},{{list.phonecode}},'{{list.sortname}}')"><i class="fa fa-pencil"></i></a></div>
+                                <div class="fa-hover" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#countryModal"><a href="javascript:void(0);" ng-click="initialModal({{list}},{{ itemsPerPage}},{{$index}},'{{list.sortname}}',{{list.phonecode}})"><i class="fa fa-pencil"></i></a></div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div class="DTTTFooter">
                     <div class="col-sm-6">
-                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                     </div>
                     <div class="col-sm-6">
                         <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageCountry', [[$loggedInUserId]])" template-url="/dirPagination"></dir-pagination-controls>
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
                         </div>
                     </div>
                 </div>
@@ -139,11 +141,41 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn=true">{{action}}</button>
+                        <button type="Submit" class="btn btn-sub btn-primary" ng-click="sbtBtn = true">{{action}}</button>
                     </div> 
                 </form>           
             </div>
         </div>
+    </div>
+    <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="countryFilter" role="form" ng-submit="filterDetails(searchDetails)">
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>    
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Country Name</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.name" name="name" class="form-control">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" >
+                            <button type="submit"  style="margin-left: 46%;" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script src="/js/filterSlider.js"></script>
+        <!-- Filter Form End-->
     </div>
 </div>
 
