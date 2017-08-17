@@ -94,7 +94,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage" total-items="{{listUsersLength}}">
+                        <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage" >
                             <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                             <td>{{ listUser.firstName}}</td>
                             <td>{{ listUser.designation == null? '-' : listUser.designation}}</td>
@@ -185,7 +185,7 @@
                     <div class="form-group">
                         <label for="">Employee Name</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.firstName" name="firstName" class="form-control">
+                            <input type="text" ng-model="searchDetails.firstName" name="firstName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>
@@ -205,7 +205,7 @@
                     <div class="form-group">
                         <label for="">Department</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.departmentName" name="departmentName" class="form-control">
+                            <input type="text" ng-model="searchDetails.departmentName" name="departmentName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>
@@ -213,7 +213,7 @@
                     <div class="form-group">
                         <label for="">Team Lead</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.team_lead_name" name="team_lead_name" class="form-control">
+                            <input type="text" ng-model="searchDetails.team_lead_name" name="team_lead_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>
@@ -221,7 +221,7 @@
                     <div class="form-group">
                         <label for="">Reporting To</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.reporting_to_name" name="reporting_to_name" class="form-control">
+                            <input type="text" ng-model="searchDetails.reporting_to_name" name="reporting_to_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>
