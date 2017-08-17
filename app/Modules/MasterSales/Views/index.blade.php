@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         <br><br>
-                    </div>[[ $editEnquiryId ]]
+                    </div>
                     <tabset ng-if="showDivCustomer" class="demo-tab row">
                         <tab heading="Customer Information" id="custDiv">
                             <div data-ng-include=" '/MasterSales/createCustomer'"></div>
