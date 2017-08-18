@@ -40,6 +40,29 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload','$t
             $scope.projectRow = response.records;
         });
     }
+    $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+            if (search.joining_date != undefined) {
+                var today = new Date(search.joining_date);
+                search.joining_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+            }
+            if (search.login_date_time != undefined) {
+                var loginDate = new Date(search.login_date_time);
+                search.login_date_time = (loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
+            }
+            $scope.searchData = search;
+
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+    
     
     $scope.getProjectDetails = function(projectId){ //get project details
         Data.get('projects/getProjectDetails/' + projectId).then(function (response) {
