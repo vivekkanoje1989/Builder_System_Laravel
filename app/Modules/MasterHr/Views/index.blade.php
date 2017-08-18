@@ -57,7 +57,7 @@
                 <!-- filter data--> 
                 <div class="row" style="border:2px;" id="filter-show">
                     <div class="col-sm-12 col-xs-12">
-                        <b ng-repeat="(key, value) in searchData">
+                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                 <div class="alert alert-info fade in">
                                     <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
@@ -180,7 +180,7 @@
             <button type="button" class="close toggleForm" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button><hr>
-            <div class="row">
+            <div class="row scrollform">
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Employee Name</label>

@@ -15,7 +15,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

@@ -13,7 +13,7 @@ app.controller('projectpaymentController', ['$scope', 'Data', 'toaster', functio
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

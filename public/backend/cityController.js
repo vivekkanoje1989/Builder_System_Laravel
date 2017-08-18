@@ -6,7 +6,7 @@ app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

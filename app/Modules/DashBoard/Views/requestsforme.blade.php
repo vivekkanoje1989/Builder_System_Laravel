@@ -1,5 +1,19 @@
+<style>
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
+</style>
 <div class="row" ng-controller="dashboardCtrl" ng-init="getRequestForMe()">  
-    <div class="col-xs-12 col-md-12">
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Request For Me</span>                
@@ -21,7 +35,34 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
                         </div>
                     </div>
-                </div>          
+                     <div class="col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>  
+                 <!-- filter data-->
+                <div class="row" style="border:2px;" id="filter-show">
+                    <div class="col-sm-12 col-xs-12">
+                        <b ng-repeat="(key, value) in searchData"  ng-if="value != 0">
+                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                <div class="alert alert-info fade in">
+                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <strong ng-if="key === 'in_date'" data-toggle="tooltip" title="Date"><strong> Date: </strong> {{ value |date:'yyyy-MM-dd'}}</strong>
+                                    <strong ng-if="key === 'request_type'" data-toggle="tooltip" title="Request Type"><strong> Request Type : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'application_from'" data-toggle="tooltip" title="Application From"><strong> Application From : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'from_date'" data-toggle="tooltip" title="From Date"><strong> From Date : </strong> {{ value| date:'yyyy-MM-dd' }}</strong>
+                                    <strong ng-if="key === 'to_date'" data-toggle="tooltip" title="To Date"><strong> To Date : </strong> {{ value}}</strong>
+                                    <!--<strong ng-if="key === 'status'" data-toggle="tooltip" title=" Status"><strong> Status : </strong> {{ value== 1 ? "Leave" : "Approved"}}</strong>-->
+                                </div>
+                            </div>
+                        </b>                        
+                    </div>
+                </div>
+                <!-- filter data-->
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -69,11 +110,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="list in myRequest| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
+                        <tr role="row" dir-paginate="list in myRequest| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
                             <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                             <td>{{list.in_date}}</td> 
                             <td> {{list.request_type}}</td>
-                            <td>{{list.first_name + " " + list.last_name}}</td>
+                            <td>{{list.application_from}}</td>
                             <td>{{list.from_date}}</td> 
                             <td>{{list.to_date}}</td>
                             <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-primary" ng-click="view_description({{list}})">View Description</a></td>
@@ -156,4 +197,95 @@
             </div>
         </div>
     </div>
+     <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="myRequestFilter" role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                    <div class="form-group">
+                        <label for="">Date</label>
+                        <span class="input-icon icon-right">
+                            <p class="input-group">
+                                <input type="text" ng-model="searchDetails.in_date" placeholder="Date" name="in_date" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Application To</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.application_from"  name="application_from" class="form-control"  oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                           
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Request Type</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.request_type" name="request_type" class="form-control">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                    <div class="form-group">
+                        <label for="">From Date</label>
+                        <span class="input-icon icon-right">
+                            <p class="input-group">
+                                <input type="text" ng-model="searchDetails.from_date" placeholder="From Date" name="from_date" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                    <div class="form-group">
+                        <label for="">To Date</label>
+                        <span class="input-icon icon-right">
+                            <p class="input-group">
+                                <input type="text" ng-model="searchDetails.to_date" placeholder="To Date" name="to_date" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Status</label>
+                        <span class="input-icon icon-right">
+                            <select class="form-control" ng-model="searchDetails.status" name="status">
+                                <option value="">Select Status</option>
+                                <option value="1">Leave</option>
+                                <option value="2">Approved</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" align="center">
+                            <button type="submit" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/js/filterSlider.js"></script>
+    <!-- Filter Form End-->
 </div>

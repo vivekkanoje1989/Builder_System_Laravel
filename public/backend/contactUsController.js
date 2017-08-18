@@ -7,7 +7,7 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

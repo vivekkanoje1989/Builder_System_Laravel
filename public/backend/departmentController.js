@@ -28,9 +28,8 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
-            console.log($scope.searchData);
             $('#showFilterModal').modal('hide');
         }
         $scope.removeFilterData = function (keyvalue) {

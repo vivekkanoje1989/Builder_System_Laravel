@@ -34,7 +34,7 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

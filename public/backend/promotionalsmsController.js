@@ -118,6 +118,7 @@ $scope.customertotalcount='0';
         }
         
         $scope.managesmsLogs = function(type,pageNumber, itemPerPage){
+             $scope.showloader();
         Data.post('/promotionalsms/getSmslogs', {
                 isTeam: type,pageNumber: pageNumber, itemPerPage: itemPerPage,
             }).then(function (response) {
@@ -134,6 +135,7 @@ $scope.customertotalcount='0';
                 }
                 
                 $scope.flagForChange = 0;
+                 $scope.hideloader();
             });
     }
     

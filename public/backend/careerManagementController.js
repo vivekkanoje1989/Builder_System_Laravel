@@ -35,7 +35,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             if (search.application_start_date != undefined) {
                 var today = new Date(search.application_start_date);
                 var day = today.getDate().toString();

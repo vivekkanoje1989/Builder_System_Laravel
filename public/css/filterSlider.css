@@ -13,8 +13,8 @@
 }
 .wrap-filter-form a.btn-show-contact {
     text-decoration: none;
-/*    position: absolute;*/
-    position: fixed !important;
+    position: absolute;
+    /*position: fixed !important;*/
     top: 50%;
     left: -46px;
     margin-top: -86px;
@@ -22,12 +22,23 @@
 #slideout {
     box-shadow: 0 0 5px rgba(0,0,0,.3);
     position: fixed;
-    top: 98px;
-    right: -20%;
-    width: 20%;
+    top: 86px;
+    right: -24%;
+    width: 24%;
     transition: all 1.0s ease;
 }
 
 #slideout.on {
-  right: 0;
+    right: 0;
+}
+
+@media all and (min-width:768px) and (max-width:1366px) {
+    #slideout {
+        top: 88px;
+    }
+    .abc{
+
+        overflow-y: scroll;
+        height: 650px;
+    }
 }

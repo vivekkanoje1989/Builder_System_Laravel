@@ -157,7 +157,11 @@ class DashBoardController extends Controller {
                 ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                 ->where('request.uid', '=', $loggedInUserId)
                 ->get();
-
+        $i = 0;
+        foreach ($employees as $employee) {
+            $employees[$i]['application_from'] = $employee['first_name'] . ' ' . $employee['last_name'];
+            $i++;
+        }
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
         } else {
