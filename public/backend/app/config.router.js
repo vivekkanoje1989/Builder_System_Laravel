@@ -1469,6 +1469,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js', 
                                                                         ]
                                                                     }
                                                                     );
