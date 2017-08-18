@@ -57,7 +57,7 @@
                 <!-- filter data--> 
                 <div class="row" style="border:2px;" id="filter-show">
                     <div class="col-sm-12 col-xs-12">
-                        <b ng-repeat="(key, value) in searchData">
+                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                 <div class="alert alert-info fade in">
                                     <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
@@ -94,7 +94,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage" total-items="{{listUsersLength}}">
+                        <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage" >
                             <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                             <td>{{ listUser.firstName}}</td>
                             <td>{{ listUser.designation == null? '-' : listUser.designation}}</td>
@@ -180,12 +180,12 @@
             <button type="button" class="close toggleForm" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button><hr>
-            <div class="row">
+            <div class="row scrollform">
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Employee Name</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.firstName" name="firstName" class="form-control">
+                            <input type="text" ng-model="searchDetails.firstName" name="firstName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>
@@ -205,7 +205,7 @@
                     <div class="form-group">
                         <label for="">Department</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.departmentName" name="departmentName" class="form-control">
+                            <input type="text" ng-model="searchDetails.departmentName" name="departmentName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>
@@ -213,7 +213,7 @@
                     <div class="form-group">
                         <label for="">Team Lead</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.team_lead_name" name="team_lead_name" class="form-control">
+                            <input type="text" ng-model="searchDetails.team_lead_name" name="team_lead_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>
@@ -221,7 +221,7 @@
                     <div class="form-group">
                         <label for="">Reporting To</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.reporting_to_name" name="reporting_to_name" class="form-control">
+                            <input type="text" ng-model="searchDetails.reporting_to_name" name="reporting_to_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>

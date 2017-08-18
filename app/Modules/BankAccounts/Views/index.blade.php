@@ -59,7 +59,7 @@
                 <!-- filter data-->
                 <div class="row" style="border:2px;" id="filter-show">
                     <div class="col-sm-12 col-xs-12">
-                        <b ng-repeat="(key, value) in searchData">
+                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                 <div class="alert alert-info fade in">
                                     <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
@@ -321,7 +321,7 @@
                     <div class="form-group">
                         <label for="">Name</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.name" name="name" class="form-control">
+                            <input type="text" ng-model="searchDetails.name" name="name" class="form-control"  oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>

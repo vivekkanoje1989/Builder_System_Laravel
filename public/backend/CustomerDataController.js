@@ -12,7 +12,7 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
         }
         $scope.removeFilterData = function (keyvalue) {
@@ -23,6 +23,10 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
             $scope.searchData = {};
         }
         
+           $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
         $scope.getcustomerdata = function (custId)
         {
             Data.post('customers/getcustomerData', {'id': custId}).then(function (response) {

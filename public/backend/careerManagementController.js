@@ -1,4 +1,4 @@
-app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state', 'toaster','$parse', function ($scope, Data, $rootScope, $timeout, $state, toaster, $parse) {
+app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$state', 'toaster', '$parse', function ($scope, Data, $rootScope, $timeout, $state, toaster, $parse) {
 
         $scope.display_portal = 1;
         $scope.id = 0;
@@ -30,6 +30,43 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                 $scope.id = id;
             });
         };
+
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+//            $scope.searchDetails = {};
+            if (search.application_start_date != undefined) {
+                var today = new Date(search.application_start_date);
+                var day = today.getDate().toString();
+                if (day.length > 1) {
+                    search.application_start_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+                } else {
+                    search.application_start_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getDate());
+                }
+            }
+
+            if (search.application_close_date != undefined) {
+                var loginDate = new Date(search.application_close_date);
+                var day = loginDate.getDate().toString();
+                if (day.length > 1) {
+                    search.application_close_date = (loginDate.getFullYear() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getDate());
+                } else {
+                    search.application_close_date = (loginDate.getFullYear() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-0' + loginDate.getDate());
+                }
+            }
+
+
+            $scope.searchData = search;
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
         $scope.deleteJob = function (id, index) {
             Data.post('manage-job/deleteJob', {
                 'id': id}).then(function (response) {
@@ -75,7 +112,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
 
                     if (!response.success)
                     {
-                        
+
                         $scope.editjob = false;
                         $scope.errorMsg = response.errormsg;
                         var obj = response.message;

@@ -47,8 +47,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
-
+//            angular.forEach(search, function (key, value) {
+//                var data = value.length;
+//                if (data !== 0) {
             if (search.joining_date != undefined) {
                 var today = new Date(search.joining_date);
                 search.joining_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
@@ -58,6 +59,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 search.login_date_time = (loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
             }
             $scope.searchData = search;
+
+//                }
+//            });
         }
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];
@@ -305,6 +309,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.manageUsers = function (id, action) {
             $scope.modal = {};
+            $scope.showloader();
             $scope.userStatus = {};
             $scope.userId = id;
             $scope.employeeId = id;
@@ -626,6 +631,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                         }
                     });
                 }
+                $scope.hideloader();
             });
         };
 

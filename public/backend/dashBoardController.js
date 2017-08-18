@@ -10,6 +10,46 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function
                 $scope.employeeRow = response.records;
             });
         };
+        
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+//            $scope.searchDetails = {};
+            if (search.from_date != undefined) {
+                var today = new Date(search.from_date);
+                  var day = today.getDate().toString();
+                if(day.length > 1){
+                     search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+                }else{
+                     search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getDate());
+                }
+            }
+            
+            if (search.to_date != undefined) {
+                var loginDate = new Date(search.to_date);
+                
+                var day = loginDate.getDate().toString();
+                if(day.length > 1){
+                    search.to_date = (loginDate.getFullYear() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getDate());
+                }else{
+                    search.to_date = (loginDate.getFullYear() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-0' + loginDate.getDate());
+                }
+                
+                
+            }
+//            console.log(search);
+            $scope.searchData = search;
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        
+        
         $scope.clearToDate = function ()
         {
             $scope.request.to_date = '';

@@ -13,6 +13,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
 
         $scope.smsLogsLists = function (empId, pageNumber, itemPerPage) {
+            $scope.showloader();
             Data.post('bmsConsumption/allSmsLogs', {
                 id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
             }).then(function (response) {
@@ -23,6 +24,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                 } else {
                     $scope.errorMsg = response.message;
                 }
+                $scope.hideloader();
             });
         };
 
@@ -128,7 +130,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
                 $scope.categorylabels = ["Delivered", "Undelivered"];
                 $scope.categorydata = [$scope.totalSms[0].success, $scope.totalSms[0].fail];
-                $scope.categorycolors = ['#DCDCDC', '#FFA500'];
+                $scope.categorycolors = ['#FFA500', '#DCDCDC'];
                 $scope.categoryoptions = {
                     cutoutPercentage: 60,
                     animation: {

@@ -28,8 +28,8 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
-            console.log(search);
+//            $scope.searchDetails = {};
+//            console.log(search);
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

@@ -12,7 +12,7 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }
