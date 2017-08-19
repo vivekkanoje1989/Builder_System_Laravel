@@ -57,29 +57,31 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label for="">Document</label>
+                                            <label for="">Document <span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <select ng-model="userData.document_id"  name="document_id" class="form-control" required  ng-change="changeErrorMsg()">
+                                                <select ng-model="userData.document_id"  name="document_id" class="form-control"  required ng-change="changeErrorMsg()">
                                                     <option value="">Select Document</option>
                                                     <option  ng-repeat ="doc in DocumentsRow" value="{{doc.id}}">{{doc.document_name}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i> 
                                                 <div ng-show="sbtBtn" ng-messages="userForm.document_id.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please select document</div>
+                                                    <div ng-message="required" class="sp-err">Please select document</div>
                                                     <div ng-if="errorMsgg">{{errorMsgg}}</div>
                                                 </div>
+                                                 <div ng-if="document_id" class="errMsg status sp-err">{{document_id}}</div>
                                             </span>
 
                                         </div>     
                                     </div>
                                     <div class="col-sm-4">
                                         <div class="form-group">
-                                            <label for="">Document Number</label>
+                                            <label for="">Document Number <span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <input type="text" class="form-control" ng-model="userData.document_number" name="document_number" required  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="15" required   >
+                                                <input type="text" class="form-control" ng-model="userData.document_number" name="document_number" required maxlength="15"  >
                                                 <div ng-show="sbtBtn" ng-messages="userForm.document_number.$error" class="help-block errMsg">
-                                                    <div ng-message="required">Please enter document number</div>
+                                                    <div ng-message="required" class="sp-err">Please enter document number</div>
                                                 </div>
+                                                 <div ng-if="document_number" class="errMsg status sp-err">{{document_number}}</div>
                                             </span>
                                         </div>
                                     </div>
@@ -93,7 +95,7 @@
                                         <div  ng-show="document_url" style="margin-top:18px;">
                                             <div  class="img-div2" data-title="name">   
                                                 <i class="fa fa-times rem-icon" ng-if="document_url" ng-click="removeImg('{{document_url}}',{{id}})"></i>
-                                                <img ng-if="document_url" ng-src="[[ Session::get('s3Path') ]]/Employee-Documents/{{document_url}}" style="width: 60px;height: 60px;">
+                                                <img ng-if="document_url" ng-src="[[ Config('global.s3Path') ]]/Employee-Documents/{{document_url}}" style="width: 60px;height: 60px;">
                                             </div>
                                         </div>
                                     </div>

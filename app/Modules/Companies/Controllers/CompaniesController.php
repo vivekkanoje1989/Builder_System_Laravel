@@ -52,6 +52,7 @@ class CompaniesController extends Controller {
         $validationRules = Companies::validationRules();
         $validationMessages = Companies::validationMessages();
         $input = Input::all();
+//        print_r($input);
         $cnt = 0;
         if ($cnt > 0) {
             $result = ['status' => false, 'errormsg' => 'Company name already exists'];
@@ -236,6 +237,7 @@ class CompaniesController extends Controller {
          $validationRules = Companies::validationRules();
         $validationMessages = Companies::validationMessages();
         $input = Input::all();
+       
         $cnt = Companies::where(['legal_name' => $input['CompanyData']['legal_name']])->where('id', '!=', $input['id'])->get()->count();
         if ($cnt > 0) {
             $result = ['status' => false, 'errormsg' => 'Company name already exists'];
@@ -262,22 +264,35 @@ class CompaniesController extends Controller {
             $post['legal_name'] = $input['CompanyData']['legal_name'];
             if (!empty($input['CompanyData']['vat_num'])) {
                 $post['vat_number'] = $input['CompanyData']['vat_num'];
+            }else{
+                 $post['vat_number'] = '';
             }
             if (!empty($input['CompanyData']['domain_name'])) {
                 $post['domain_name'] = $input['CompanyData']['domain_name'];
+            }else{
+                $post['domain_name']  = '';
             }
             if (!empty($input['CompanyData']['gst_number'])) {
                 $post['gst_number'] = $input['CompanyData']['gst_number'];
             }
+            else{
+                $post['gst_number']  = '';
+            }
             if (!empty($input['CompanyData']['pan_num'])) {
                 $post['pan_number'] = $input['CompanyData']['pan_num'];
             }
+            else{
+                $post['pan_number']  = '';
+            }
             if (!empty($input['CompanyData']['service_tax_number'])) {
                 $post['service_tax_number'] = $input['CompanyData']['service_tax_number'];
+            }  else{
+                $post['service_tax_number']  = '';
             }
 
             $post['office_address'] = $input['CompanyData']['office_address'];
             $post['cloud_telephoney_client'] = $input['CompanyData']['cloud_telephoney_client'];
+           
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $allCompanyData = array_merge($common, $post);

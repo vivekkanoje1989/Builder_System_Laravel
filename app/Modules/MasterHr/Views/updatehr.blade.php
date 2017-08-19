@@ -570,7 +570,7 @@
                                     <div ng-if="invalidImage">{{invalidImage}}</div>
                                 </div>
                                 <img ng-src="{{image_source}}" class="thumb photoPreview"> 
-                                <div ng-if="imgUrl" > <img ng-if="employee_photo_file_name_preview.length != 1"  ng-src="<?php echo config('global.s3Path'); ?>/employee-photos/{{ imgUrl}}"  alt="{{ altName}}"  class="thumb photoPreview"/></div>
+                                <div ng-if="imgUrl" > <img ng-if="employee_photo_file_name_preview.length != 1"  ng-src="[[ Config('global.s3Path') ]]/employee-photos/{{ imgUrl}}"  alt="{{ altName}}"  class="thumb photoPreview"/></div>
 
                             </span> 
                             <div class="img-div2" data-title="name" ng-repeat="list in employee_photo_file_name_preview">    

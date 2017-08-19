@@ -30,9 +30,24 @@ class EmployeeDocuments extends Model {
         'updated_browser',
         'updated_mac_id',
     ];
-    
-     public function userDocuments() {
-        return $this->belongsTo('App\Modules\UserDocuments\Models\MlstEmployeeDocuments', 'document_id','id')->select("id", "document_name");
+
+    public static function validationMessages() {
+        $messages = array(
+            'document_id.required' => 'Please select document',
+            'document_number.required' => 'Please enter document number',
+        );
+        return $messages;
+    }
+
+      public static function validationRules() {
+        $rules = array(
+            'document_id' => 'required',
+            'document_number' => 'required',
+        );
+        return $rules;
+    }
+    public function userDocuments() {
+        return $this->belongsTo('App\Modules\UserDocuments\Models\MlstEmployeeDocuments', 'document_id', 'id')->select("id", "document_name");
     }
 
 }
