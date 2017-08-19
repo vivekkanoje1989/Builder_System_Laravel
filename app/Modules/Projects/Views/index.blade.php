@@ -167,19 +167,7 @@
                         </span>
                     </div>
                 </div>
-<!--                <div class="col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="">Project Status</label>
-                        <span class="input-icon icon-right">
-                            <select ng-model="searchDetails.projectStatus" name="projectStatus" class="form-control">
-                                <option value="">Select project status</option>
-                                <option value="1">Approved</option>
-                                <option value="2">Not Approve</option>
-                            </select>
 
-                        </span>    
-                    </div>
-                </div>-->
 
             </div>
             <div class="row">

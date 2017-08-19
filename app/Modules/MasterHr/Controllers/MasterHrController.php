@@ -40,7 +40,7 @@ class MasterHrController extends Controller {
         $department_id = [];
 
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
-            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] .')');
+            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ')');
         } else if ($request['empId'] == "") { // for index
             $manageData = DB::select('CALL proc_manage_users(0,0)');
             $cnt = DB::select('select FOUND_ROWS() totalCount');
@@ -64,15 +64,14 @@ class MasterHrController extends Controller {
                 $blogData['reporting_to_fname'] = $manageUser[$i]['reporting_to_fname'];
                 $blogData['reporting_to_lname'] = $manageUser[$i]['reporting_to_lname'];
                 $blogData['login_date_time'] = $manageUser[$i]['login_date_time'];
-                $blogData['firstName'] = $blogData['first_name'].' '.$blogData['last_name'];
-                $blogData['team_lead_name'] = $blogData['team_lead_fname'].' '.$blogData['team_lead_lname'];
-                $blogData['reporting_to_name'] = $blogData['reporting_to_fname'].' '.$blogData['reporting_to_lname'];
+                $blogData['firstName'] = $blogData['first_name'] . ' ' . $blogData['last_name'];
+                $blogData['team_lead_name'] = $blogData['team_lead_fname'] . ' ' . $blogData['team_lead_lname'];
+                $blogData['reporting_to_name'] = $blogData['reporting_to_fname'] . ' ' . $blogData['reporting_to_lname'];
 
                 $manageUsers[] = $blogData;
             }
-            
         }
-      
+
         if ($manageUsers) {
             $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
             return json_encode($result);
@@ -562,9 +561,14 @@ class MasterHrController extends Controller {
             if (!empty($input['employee_photo_file_name'])) {
 
                 $folderName = 'employee-photos';
-                $image = ['0' => $input['employee_photo_file_name']];
-                $imageName = S3::s3FileUpload($image, $folderName, 1);
-                $imageName = trim($imageName, ',');
+//                $image =  $input['employee_photo_file_name']->getPathName();
+                $imageName = time() . "." . $input['employee_photo_file_name']->getClientOriginalExtension();
+                $tempPath = $input['employee_photo_file_name']->getPathName();
+                $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
+
+//                $image = ['0' => $input['employee_photo_file_name']];
+//                $imageName = S3::s3FileUplod($image, $folderName, 1);
+//                $imageName = trim($imageName, ',');
                 $input['userEducation']['employee_photo_file_name'] = $imageName;
             }
         } else {

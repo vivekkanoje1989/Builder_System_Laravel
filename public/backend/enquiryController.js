@@ -69,6 +69,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             {
                 if (($scope.filterData && Object.keys($scope.filterData).length > 0) || ($scope.maxBudget > 0)) {
                     $scope.getFilteredData($scope.filterData, $scope.minBudget, $scope.maxBudget, pageNo, $scope.itemsPerPage);
+                    $('#slideout').toggleClass('on');                    
                 } else {
                     $scope[functionName](id, type, pageNo, $scope.itemsPerPage);
                 }
@@ -128,7 +129,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.enquiriesLength = 0;
                 }
                 $scope.hideloader();
-                $scope.flagForChange = 0;
+                $scope.flagForChange = 0;                
             });
         }
 
@@ -569,16 +570,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.removeDataFromFilter = function (keyvalue) {
             $scope.showloader();
-
-
             if (keyvalue === 'min')
             {
                 $scope.minBudget = $scope.min = $scope.maxBudget = $scope.max = maxBudget = 0;
                 $scope.min = 0;
                 $scope.max = 0;
             }
-            delete $scope.filterData[keyvalue];
+            delete $scope.filterData[keyvalue];           
             $scope.getFilteredData($scope.filterData, $scope.min, $scope.max, 1, 30);
+            $('#slideout').toggleClass('on');
             $scope.hideloader();
             return false;
         }

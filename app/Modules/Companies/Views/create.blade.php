@@ -13,7 +13,7 @@
                 <span class="widget-caption">Add Company Information</span>
             </div>
             <div class="widget-body">
-                <form  ng-submit="companysForm.$valid && docompanyscreateAction(CompanyData.firm_logo, CompanyData, document, stationary)" name="companysForm"  novalidate enctype="multipart/form-data">
+                <form  ng-submit="companysForm.$valid && docompanyscreateAction(CompanyData.firm_logo, CompanyData, document)" name="companysForm"  novalidate enctype="multipart/form-data">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <input type="hidden" ng-model="id" name="id"  class="form-control">
                     <div class="row">
@@ -183,9 +183,10 @@
                             <div class="well with-header  with-footer">
                                 <div class="header">
                                     Manage Stationary
-                                    <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  ng-click="addNewStationary()">
+                                    <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  data-toggle="modal" data-target="#stationaryModal" >
+                                    <!--<input type="button" value="Add More" class="btn btn-primary" style="float:right;"  ng-click="addNewStationary()">-->
                                 </div>
-                                <table class="table table-hover" data-ng-repeat="stationary in Stationary">
+<!--                                <table class="table table-hover" data-ng-repeat="stationary in Stationary">
                                     <thead class="">
                                         <tr>
                                             <th>Stationary No.</th>
@@ -254,10 +255,42 @@
                                             </td>
                                         </tr>    
                                     </thead>
-                                </table>
+                                </table>-->
                             </div>
                         </div>
                     </div>
+
+
+
+
+
+                    <div class="widget-body table-responsive" >
+                        <table class="table table-hover table-striped table-bordered" at-config="config">
+                            <thead class="bord-bot">
+                                <tr>
+                                    <th>Sr. No. </th>
+                                    <th>Name</th>
+                                    <th>Letterhead File</th>
+                                    <th>Receipt Letterhead File</th>
+                                    <th>Rubber Stamp File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="list in stationary">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{list.stationary_set_name}}</td>
+                                    <td>{{list.estimate_letterhead_file}}</td>
+                                    <td>{{list.receipt_letterhead_file}}</td>
+                                    <td>{{list.rubber_stamp_file}}</td>
+                                    
+                                    <td class="fa-div">
+                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit Sub Page" style="display: block;"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}},{{list.id}})"><i class="fa fa-pencil"></i></a></div>
+                                    </td>
+                                </tr>                                            
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div class="row">
                         <div class="col-sm-12 col-xs-12" align="right">
                             <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="firmBtn">Submit</button>
@@ -266,7 +299,89 @@
                     </div>                    
                 </form>
             </div>
-	</div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="stationaryModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header navbar-inner">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" align="center">Filters</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <form name="stationaryForm"  ng-submit="updatePage(stationary)" enctype="multipart/form-data">  
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Stationary Name </label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" required class="form-control" ng-model="stationary.stationary_set_name" name="stationary_set_name">
+
+                                        </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Letter Head</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="file" ngf-select   ng-model="stationary.estimate_letterhead_file" name="estimate_letterhead_file" id="estimate_letterhead_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Payment Receipt Letter Head </label>
+                                        <span class="input-icon icon-right">
+                                            <input type="file" ngf-select   ng-model="stationary.receipt_letterhead_file" name="receipt_letterhead_file" id="receipt_letterhead_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+
+                                        </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Stamp</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="file" ngf-select   ng-model="stationary.rubber_stamp_file" name="rubber_stamp_file" id="rubber_stamp_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Estimate logo file </label>
+                                        <span class="input-icon icon-right">
+                                            <input type="file" ngf-select   ng-model="stationary.estimate_logo_file" name="estimate_logo_file" id="estimate_logo_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                        </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Demand letter file</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="file" ngf-select   ng-model="stationary.demandletter_letterhead_file" name="demandletter_letterhead_file" id="demandletter_letterhead_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Demand letter logo file</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="file" ngf-select   ng-model="stationary.demandletter_logo_file" name="demandletter_logo_file" id="demandletter_logo_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                        </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Receipt logo file</label>
+                                        <span class="input-icon icon-right">
+                                            <input type="file" ngf-select   ng-model="stationary.receipt_logo_file" name="receipt_logo_file" id="receipt_logo_file" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-xs-12" align="right">
+                                        <button type="submit" class="btn btn-primary btn-submit-last" >Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
