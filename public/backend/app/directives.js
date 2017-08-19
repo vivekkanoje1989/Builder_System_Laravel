@@ -247,7 +247,11 @@ app.directive("ngfSelect", [function () {
                 if(ngModel.name === "importfile"){
                     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
                     var errmsg =  " is invalid file."
-                }else{
+                }else if(ngModel.name === "welcome_tune_audio" || ngModel.name === "hold_tune_audio"){
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.mp3)$/;
+                    var errmsg =  " is invalid file."
+                }
+                else{
                     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp|.svg|.xls)$/;
                     var errmsg = " is not a valid image file."
                 }

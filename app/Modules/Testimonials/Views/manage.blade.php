@@ -13,7 +13,7 @@
     }
 </style>
 <div class="row" ng-controller="testimonialsCtrl" ng-init="manageTestimonials()">  
-    <div class="col-xs-12 col-md-12">
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Testimonial</span>                
