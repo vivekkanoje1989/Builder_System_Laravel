@@ -5,7 +5,31 @@
                 <span class="widget-caption">Manage Virtual Numbers</span>
             </div>
             <div class="widget-body table-responsive">
-                <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search"><br>
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="search">Search:</label>
+                            <span class="input-icon icon-right">
+                                <input type="text" ng-model="search" name="search" class="form-control">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="search">Records per page:</label>
+                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                                <a href="#/cloudtelephony/virtualnumberwiseusers" class="btn btn-primary">Virtual Number Wise Users</a>&nbsp;&nbsp;&nbsp;
+                            </span>
+                        </div>
+                    </div>
+                </div> 
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>

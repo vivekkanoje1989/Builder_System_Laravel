@@ -117,8 +117,8 @@ class ExtensionEmployeeController extends Controller {
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         if (!empty($empId) && !empty($extNo)) {
 
-            $existEmployee = CtEmployeesExtension::where('employee_id', '=', $empId)->first();
-            if (empty($existEmployee)) {
+            $existEmployee = CtEmployeesExtension::select("id")->where('employee_id', '=', $empId)->first();
+            if (empty($existEmployee->id)) {
                 $input['extData']['employee_id'] = $empId;
                 $input['extData']['extension_no'] = $extNo;
                 $input['extData']['client_id'] = config('global.client_id');
