@@ -358,15 +358,22 @@ class ProjectsController extends Controller {
         $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->where("project_id","=",$id)->get();
         
         $getWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $id)->orderBy('id', 'ASC')->first();
-        $getProjectInventory = ProjectBlock::where([['wing_id','=',$getWing->id],['project_id','=',$id]])->orderBy('wing_id', 'ASC')->get();
+        if(!empty($getWing)){
+            $getProjectInventory = ProjectBlock::where([['wing_id','=',$getWing->id],['project_id','=',$id]])->orderBy('wing_id', 'ASC')->get();
+        }else{
+            $getProjectInventory = ProjectBlock::where([['project_id','=',$id]])->orderBy('wing_id', 'ASC')->get();
+        }
         /**************getSpecifiction**************/
         $specificationTitle = array();
-//        echo "<pre>";print_r($getProjectDetails[0]->specification_images);exit;
         if(!empty($getProjectDetails[0]->specification_images) && ($getProjectDetails[0]->specification_images !== 'null')){
             $decodeSpecificationDetails = json_decode($getProjectDetails[0]->specification_images,true);
             foreach($decodeSpecificationDetails as $key => $val){
-                $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
-                $specificationTitle[$key] = ["image" => $val['specification_images'],"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $val['floors'])];
+                if(!empty($val['wing'])){
+                    $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
+                    $specificationTitle[$key] = ["image" => $val['specification_images'],"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $val['floors'])];
+                }else{
+                    $specificationTitle[$key] = ["image" => $val['image'],"title" => $val['title']];                    
+                }
             }
         }
         $floorTitle = array();
