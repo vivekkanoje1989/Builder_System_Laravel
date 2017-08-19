@@ -11260,7 +11260,8 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
 
 .wizard.wizard-tabbed ul li {
     padding: 0 30px;
-    background-color: #fbfbfb
+    background-color: #fbfbfb;
+    float: left;
 }
 
 .wizard.wizard-tabbed ul li .chevron {

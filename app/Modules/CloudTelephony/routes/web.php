@@ -8,6 +8,7 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     Route::get('/cloudtelephony/showoutboundFilter', function () {
         return View::make('CloudTelephony::showoutboundFilter');
     });
+    Route::get('/cloudtelephony/showvirtualnumusers', 'CloudTelephonyController@showvirtualnumusers'); 
     Route::resource('/cloudtelephony', 'CloudTelephonyController');
     Route::post('/cloudtelephony/manageLists', 'CloudTelephonyController@manageLists');
     Route::resource('/virtualnumber', 'VirtualNumberController');
@@ -63,7 +64,8 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
      Route::post('/cloudcallinglogs/filteredData', 'CloudCallingLogsController@filteredData');
      Route::post('/cloudcallinglogs/filteredoutboundData', 'CloudCallingLogsController@filteredoutboundData');
     
-    
+    Route::post('/cloudtelephony/getVirtualNumList', 'CloudTelephonyController@getVirtualNumList'); 
+    Route::post('/cloudtelephony/removeEmpID', 'CloudTelephonyController@removeEmpID'); 
 });	
 
 

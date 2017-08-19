@@ -3,12 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Controllers/ProjectsController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Models/Project.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/manage.blade.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
+>>>>>>> 8e9090d7374af752b90f16c74e407ba9adbcbee5
         </group>
     </open-files>
 </project-private>

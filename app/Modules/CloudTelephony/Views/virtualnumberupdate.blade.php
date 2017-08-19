@@ -67,7 +67,7 @@
                                             <label for="">Upload Welcome Greeting Mp3</label>
                                             <span class="input-icon icon-right">
                                                 <audio id="welcomeaudio" controls></audio>
-                                                <input type="file" multiple ngf-select ng-model="registrationData.welcome_tune_audio" id="welcome_tune_audio" accept="audio/*" class="form-control" name="welcome_tune_audio">
+                                                <input type="file" ngf-select ng-model="registrationData.welcome_tune_audio" id="welcome_tune_audio" accept="audio/*" class="form-control" name="welcome_tune_audio">
                                                 <div ng-show="step1" ng-messages="updatevnoForm.welcome_tune_audio.$error" class="help-block step1">
                                                     <div ng-message="required" class="sp-err">This field is required.</div>
                                                 </div>
@@ -119,7 +119,7 @@
                                             <label for="">Upload Hold Tune Mp3</label>
                                             <span class="input-icon icon-right">
                                                 <audio id="holdaudio" controls></audio>
-                                                <input type="file" multiple ngf-select ng-model="registrationData.hold_tune_audio"  id="hold_tune_audio" class="form-control" name="hold_tune_audio" accept="audio/*">
+                                                <input type="file" ngf-select ng-model="registrationData.hold_tune_audio"  id="hold_tune_audio" class="form-control" name="hold_tune_audio" accept="audio/*">
                                                 <div ng-show="step1" ng-messages="updatevnoForm.hold_tune_audio.$error" class="help-block step1">
                                                     <div ng-message="required" class="sp-err">This field is required.</div>
                                                 </div>
