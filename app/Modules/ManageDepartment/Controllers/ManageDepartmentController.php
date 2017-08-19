@@ -17,10 +17,16 @@ class ManageDepartmentController extends Controller {
     }
 
     public function manageDepartment() {
-        $getDepartment = MlstBmsbDepartment::with(['vertical'])->get();
+        $getDepartments = MlstBmsbDepartment::with(['vertical'])->select('department_name','id','vertical_id')->get();
        // $getDepartment = MlstBmsbDepartment::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_verticals as mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
-        if (!empty($getDepartment)) {
-            $result = ['success' => true, 'records' => $getDepartment];
+        $i=0;
+        foreach($getDepartments as $getDepartment){
+            $getDepartments[$i]['verticalData'] = $getDepartment['vertical']['name'];
+            $i++;
+        }
+        
+        if (!empty($getDepartments)) {
+            $result = ['success' => true, 'records' => $getDepartments];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

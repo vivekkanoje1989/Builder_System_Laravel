@@ -56,6 +56,7 @@ app.controller('defaultalertsController', ['$rootScope', '$scope', '$state', 'Da
     
     $scope.manageDafaultAlerts = function (id,action) { //edit/index action
         $scope.modal = {};
+         $scope.showloader();
         Data.post('defaultalerts/manageDafaultAlerts',{
             id: id,
         }).then(function (response) {
@@ -75,6 +76,7 @@ app.controller('defaultalertsController', ['$rootScope', '$scope', '$state', 'Da
             } else {
                 $scope.errorMsg = response.message;
             }
+             $scope.hideloader();
         });
     };
 

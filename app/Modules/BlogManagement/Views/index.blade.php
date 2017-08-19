@@ -53,9 +53,9 @@
                                 <div class="alert alert-info fade in">
                                     <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
                                     <strong ng-if="key === 'blog_title'" data-toggle="tooltip" title="Page Name"><strong> Page Name : </strong> {{ value}}</strong>
-                                    <strong ng-if="key === 'blog_seo_url'" data-toggle="tooltip" title="Page Title"><strong> Page Title : </strong> {{ value}}</strong>
-                                    <strong ng-if="key === 'meta_description'" data-toggle="tooltip" title="Page Title"><strong> Page Title : </strong> {{ value}}</strong>
-                                    <strong ng-if="key === 'meta_keywords'" data-toggle="tooltip" title="Page Title"><strong> Page Title : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'blog_seo_url'" data-toggle="tooltip" title="Seo Url"><strong>Seo Url : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'meta_description'" data-toggle="tooltip" title="Meta Description"><strong> Meta Description : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'meta_keywords'" data-toggle="tooltip" title="Meta keywords"><strong> Meta keywords: </strong> {{ value}}</strong>
                                     <strong ng-if="key === 'blog_status'" data-toggle="tooltip" title="Status"><strong> Status : </strong> {{ value}}</strong>
                                 </div>
                             </div>

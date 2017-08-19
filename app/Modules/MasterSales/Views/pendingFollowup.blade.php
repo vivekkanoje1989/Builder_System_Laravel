@@ -13,7 +13,7 @@
 }
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="pendingsFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]],2)" >
-    <div class="col-xs-12 col-md-12">
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">{{pagetitle}}</span>
@@ -44,6 +44,9 @@
                     <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
                         <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
                         <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'pendingsFollowups','', [[$type]],newPageNumber)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
+                        <div class="col-sm-6">
+                        <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"  ng-click="procName('proc_get_pending_followups')"><i class="btn-label fa fa-filter"></i>Show Filter</button>
+                    </div>
                     </div>
                 </div>
                 <hr>

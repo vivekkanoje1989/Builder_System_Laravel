@@ -45,7 +45,7 @@
                                     <div class="form-group">
                                         <label for="">Mobile Number</label>
                                         <span class="input-icon icon-right">                                    
-                                            <input type="text" class="form-control" ng-disabled="disableText" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
+                                            <input type="text" class="form-control" ng-disabled="disableText"  ng-pattern="/^[789][0-9]{9,10}$/" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
                                             <i class="glyphicon glyphicon-phone"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
                                                 <div ng-message="minlength">Invalid mobile no.</div>
@@ -91,69 +91,162 @@
                         </div>
                     </div>
                     <div class="widget-body table-responsive" style="box-shadow:none;">
-                        <table class="table table-hover table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Sr. No.</th>
-                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Customer Details</th>
-                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Enquiry Details</th>
-                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Last Followup</th>
-                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Enquiry Status</th>
-                                    <th style="border: 1px solid #CED3D7;background-color: #EAEAEA;height:15px" align="center">Enquiry </th>
-                                </tr>
-                            </thead>
-                            <tbody ng-if="!listsIndex.success">
-                                <tr>
-                                    <td colspan="6">{{listsIndex.CustomerEnquiryDetails}}</td>
-                                </tr>
-                            </tbody>
-                            <tbody ng-if="listsIndex.success">
-                                <tr dir-paginate="list in listsIndex.CustomerEnquiryDetails | filter:search | itemsPerPage:itemsPerPage">  
-                                    <td align="center">{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
-                                    <td align="center">
-                                        <div > 
-                                            {{list.customer_fname}} {{list.customer_lname}} {{ list.mobile_number}} <br/> {{list.email_id}}</div>
-                                        <hr>
-                                        <div class="floatLeft"><a href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ list.customer_id }}">Customer Details</a></div> 
-                                        <div class="floatLeft" style="width:30%;max-width: 30%;word-wrap: break-word;"><b>Enquiries : {{ listsIndex.CustomerEnquiryDetails.length }}</b></div>
-                                        <div class="floatLeft" style="width:40%;max-width: 30%;word-wrap: break-word;"><b>Booked : 0</b></div>                    
-                                        <div  class="floatLeft" style="width:100%;"><hr></div>
-                                        <div>
-                                        <span style="margin:5px"><strong>Source: </strong>{{ list.sales_source_name}}<br></span>
-                                        <span style="margin:5px"><b>Budget</b>: {{list.max_budget}}</span>    
+                        <div class="row" >
+                        <div class="col-xs-12 col-md-12">
+                            <div class="widget">
+                                <div  class="widget-body">
+                                    <table class="table table-hover table-striped table-bordered" at-config="config">
+                                        <thead class="bord-bot">
+                                            <tr>
+                                                <th style="width:5%">
+                                                    Sr. No.
+                                                </th>
+                                                <th style="width: 30%">
+                                                    Customer 
+                                                </th>
+                                                <th style="width: 30%">
+                                                    Enquiry
+                                                </th>
+                                                <th style="width: 30%">
+                                                    History 
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr role="row" dir-paginate="enquiry in listsIndex.CustomerEnquiryDetails | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                                                <td>{{ $index + 1}}</td>
+                                                <td> 
+                                                    {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}
+                                                    <div ng-if="enquiry.mobile_number != ''" ng-init="mobile_number = enquiry.mobile_number.split(',')" class="ng-scope">
+                                                        <span ng-repeat="mobile_obj in mobile_number| limitTo:2" class="ng-binding ng-scope">
+                                                            <a style="cursor: pointer;" class="Linkhref ng-scope" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                                                <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;">
+                                                            </a>
+                                                            {{mobile_obj}}
+                                                        </span>
+                                                    </div>
+                                                    <p>{{enquiry.email_id}}</p>
+                                                    <hr class="enq-hr-line">
+                                                    <div>
+                                                        <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{ enquiry.customer_id}})</a>
+                                                    </div>
+                                                    <hr class="enq-hr-line">
+                                                    <p>Company :{{enquiry.company_name}}</p>
+                                                    <p>Source  : {{enquiry.sales_source_name}}</p>
+                                                </td>
+                                                <td>
+                                                    Status : {{enquiry.sales_status}}
+                                                     <hr class="enq-hr-line">
+                                                    Category :  {{enquiry.enquiry_category}}
+                                                     <hr class="enq-hr-line">
+                                                    Model : {{enquiry.model_name}} 
+                                                     <hr class="enq-hr-line">
+                                                    <div>
+                                                        <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id }}/eid/{{ enquiry.id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <b> Enquiry Owner  :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}
+                                                    <hr class="enq-hr-line">
+<!--                                                    <b>Test Drive : </b>{{enquiry.testdrive_remark}}
+                                                    <hr class="enq-hr-line">-->
+                                                    <b>Last followup :</b> {{enquiry.last_followup_date}}
+                                                    <br/>
+                                                    <b>By followup : {{enquiry.owner_fname}} {{enquiry.owner_lname}} : </b>{{enquiry.remarks}} 
+                                                    <hr class="enq-hr-line">
+                                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})">View History</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+                                    <div class="modal-dialog modal-lg">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header navbar-inner">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" align="center">Enquiry History</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-hover table-striped table-bordered" at-config="config">
+                                                    <thead class="bord-bot">
+                                                        <tr>
+                                                            <th style="width:5%">Sr. No.</th>
+                                                            <th style="width: 10%">
+                                                                <a href="javascript:void(0);" ng-click="orderByField = 'first_name'; reverseSort = !reverseSort">FollowUp By 
+                                                                    <span ng-show="orderByField == 'first_name'">
+                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                                                    </span>
+                                                                </a>
+                                                            </th>
+                                                            <th style="width: 10%">
+                                                                <a href="javascript:void(0);" ng-click="orderByField = 'designation'; reverseSort = !reverseSort">Last FollowUp Date & Time 
+                                                                    <span ng-show="orderByField == 'designation'">
+                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                                                    </span>
+                                                                </a>
+                                                            </th>
+                                                            <th style="width: 10%">
+                                                                <a href="javascript:void(0);" ng-click="orderByField = 'reporting_to_id'; reverseSort = !reverseSort">Remark
+                                                                    <span ng-show="orderByField == 'reporting_to_id'">
+                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                                                    </span>
+                                                                </a>
+                                                            </th>
+                                                            <th style="width: 10%">
+                                                                <a href="javascript:void(0);" ng-click="orderByField = 'team_lead_id'; reverseSort = !reverseSort">Next FollowUp Date & Time
+                                                                    <span ng-show="orderByField == 'team_lead_id'">
+                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                                                    </span>
+                                                                </a>
+                                                            </th>
+                                                            <th style="width: 10%">
+                                                                <a href="javascript:void(0);" ng-click="orderByField = 'department_name'; reverseSort = !reverseSort">Enquiry Status
+                                                                    <span ng-show="orderByField == 'department_name'">
+                                                                        <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
+                                                                    </span>
+                                                                </a>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr role="row" dir-paginate="history in historyList | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                                                            <td>{{ $index + 1}}</td>
+                                                            <td>
+                                                                {{ history.first_name}} {{ history.last_name}}
+                                                            </td>
+                                                            <td>
+                                                                {{ history.last_followup_date}}
+                                                            </td>
+                                                            <td>
+                                                                {{history.remarks}}
+                                                            </td>
+                                                            <td>
+                                                                {{ history.next_followup_date}} at {{ history.next_followup_time}}
+                                                            </td>
+                                                            <td>
+                                                                {{history.sales_status}}
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-if="!historyList.length" align="center"><td colspan="6"> Records Not Found</td>
+
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="modal-footer" align="center">
+                                            </div>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div>{{list.project_block_name}} - {{list.block_name}} </div>
-                                        <hr>
-                                        <!--#/sales/updateenquiry/{{ list.id }}   ng-click="getEnquiryDetails({{ list.id }})"-->
-                                        <div class="floatLeft"><i class="fa fa-desktop" aria-hidden="true"></i></div>
-                                        <div class="floatLeft" style="width:41%"><a href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ list.customer_id }}/eid/{{ list.id }}">Enquiry Details</a></div>
-                                        <div class="floatLeft" style="width:50%">
-                                            <span style="margin-left:4px;background-color:RED;float:left;width:12px;height:12px;" ng-if="list.get_enquiry_category_name.enquiry_category != 'New Enquiry'">&nbsp;</span>
-                                            <span style="float: left;margin-left: 5px;">{{ list.enquiry_category}}</span>              
-                                        </div> 
-                                        <div class="floatLeft" style="width:100%;"><hr></div>
-                                        <div class="floatLeft">
-                                            <span style="float:left;"><b>No.of Followups : {{list.total_followups}}</b></span><br/>
-                                            <span style="float:left;"><b>Location</b> : {{ list.location_name }}</span><br/>
-                                            <span style="float:left;" ng-show="list.parking_required == 1">Parking Required</span>
-                                            <span style="float:left;" ng-show="list.parking_required == 0">No Parking Required</span>
-                                        </div>
-                                    </td>
-                                    <td align="center" width="30%">
-                                        <span>{{ list.last_followup_date | date:'dd M, yyyy'}} By {{list.followup_fname}} {{list.followup_lname}}</span><hr>
-                                        <span style="width: 100%;word-break: break-all;">{{ list.remarks}}</span>
-                                    </td>
-                                    <td align="center" style="vertical-align: middle;">{{ list.sales_status }}</td>
-                                    <td align="left">
-                                        <div>Owner: {{list.owner_fname}} {{list.owner_lname}}</div><hr>
-                                        <button type="button" class="btn btn-primary ng-click-active" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ list.id }})">View History</button>                                     
-                                    </td>
-                                </tr>
-                            </tbody> 
-                        </table>
-                        <div class="DTTTFooter">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+<!--                        <div class="DTTTFooter">
                             <div class="col-sm-6">
                                 <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                             </div>
@@ -162,7 +255,7 @@
                                     <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 <!--                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
                             <div class="form-group" align="center">
                                 <button type="submit" class="btn btn-primary" ng-click="createEnquiry()">Insert New Enquiry</button>

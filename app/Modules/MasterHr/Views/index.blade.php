@@ -13,8 +13,8 @@
     }
 </style>
 
-<div class="row" ng-controller="hrController" ng-init="manageUsers('', 'index', 1, [[config('global.recordsPerPage')]])">
-    <div class="col-xs-12 col-md-12">
+<div class="row" ng-controller="hrController" ng-init="manageUsers('', 'index')">
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Users</span>
@@ -33,7 +33,7 @@
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label for="search">Records per page:</label>
-                            <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
+                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
                         </div>
                     </div>
                     <div class="col-sm-2 col-xs-12">
@@ -44,12 +44,11 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                    <div class="col-sm-3 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
-                            <span ng-if="listUsersLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{listUsers.length}} Logs Out Of Total {{listUsersLength}} Logs&nbsp;</span>
-                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageUsers', '')" template-url="/dirPagination"></dir-pagination-controls>
+                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                             </span>
                         </div>
                     </div>
@@ -58,15 +57,20 @@
                 <!-- filter data--> 
                 <div class="row" style="border:2px;" id="filter-show">
                     <div class="col-sm-12 col-xs-12">
-                        <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate'">
+                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                 <div class="alert alert-info fade in">
-                                    <button class="close" ng-click="removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
-                                    <strong ng-if="key === 'empId'" ng-repeat='emp in value track by $index'> {{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}} </strong>
+                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
                                     <strong ng-if="key === 'firstName'" data-toggle="tooltip" title="Employee Name"><strong>Employee Name : </strong> {{ value}}</strong>
-                                    <strong ng-if="key === 'designation_id'" data-toggle="tooltip" title="Designation"><strong>Designation : </strong>{{ value}}</strong>
-                                    <strong ng-if="key === 'department_id'"  data-toggle="tooltip" title="Department"><strong>Department : </strong>{{ value }}</strong>
-                                    <strong ng-if="key === 'joining_date'"  data-toggle="tooltip" title="Joining Date"><strong>Joining Date : </strong>{{ showFilterData.joining_date | date:'dd-MMM-yyyy' }} </strong>
+                                    <strong ng-if="key === 'designation'" data-toggle="tooltip" title="Designation"><strong>Designation : </strong>{{ value}}</strong>
+                                    <strong ng-if="key === 'departmentName'"  data-toggle="tooltip" title="Department"><strong>Department : </strong>{{ value}}</strong>
+                                    <strong ng-if="key === 'team_lead_name'"  data-toggle="tooltip" title="Team Lead"><strong>Team Lead : </strong>{{ value}}</strong>
+                                    <strong ng-if="key === 'reporting_to_name'"  data-toggle="tooltip" title="Reporting To"><strong>Reporting To : </strong>{{ value}}</strong>
+                                    <strong ng-if="key === 'joining_date'"  data-toggle="tooltip" title="Joining Date"><strong>Joining Date : </strong>{{ searchData.joining_date | date:'dd-MM-yyyy' }} </strong>
+                                    <strong ng-if="key === 'login_date_time'"  data-toggle="tooltip" title="Last Login Date"><strong>Last Login Date : </strong>{{ value }} </strong>
+                                    <strong ng-if="key === 'employee_status'"  data-toggle="tooltip" title=""><strong>Employee Status: </strong>{{ searchData.employee_status == 1? 'Active':'Temporary Suspended'}} </strong>
+
+
                                 </div>
                             </div>
                         </b>                        
@@ -90,12 +94,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="listUser in listUsers | filter:search | itemsPerPage:itemsPerPage" total-items="{{listUsersLength}}">
-                            <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>
-                            <td>{{ listUser.first_name + ' ' + listUser.last_name}}</td>
+                        <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage" >
+                            <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
+                            <td>{{ listUser.firstName}}</td>
                             <td>{{ listUser.designation == null? '-' : listUser.designation}}</td>
-                            <td>{{ listUser.reporting_to_fname == null? '-': listUser.reporting_to_fname +' '+listUser.reporting_to_lname }}</td>
-                            <td>{{ listUser.team_lead_fname == null? '-': listUser.team_lead_fname +' '+listUser.team_lead_lname }}</td>
+                            <td>{{ listUser.reporting_to_name == null? '-': listUser.reporting_to_name}}</td>
+                            <td>{{ listUser.team_lead_name == null? '-': listUser.team_lead_name }}</td>
                             <td>{{ listUser.departmentName.split(',').join(', ') == null?'-':listUser.departmentName.split(',').join(', ')}}</td>
                             <td>{{ listUser.joining_date == '0000-00-00' ? '-' : listUser.joining_date | date : "dd-MM-yyyy"  }}</td>
                             <td ng-if="listUser.employee_status == 1">Active</td>
@@ -117,11 +121,11 @@
                 </table>
                 <div class="DTTTFooter">
                     <div class="col-sm-6">
-                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{pageNumber}}</div>
+                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                     </div>
                     <div class="col-sm-6">
                         <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                            <dir-pagination-controls class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'manageUsers','')" template-url="/dirPagination"></dir-pagination-controls>
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
                         </div>
                     </div>
                 </div>
@@ -169,4 +173,110 @@
             </div>
         </div>
     </div>
+    <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="hrFilter" role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+            <div class="row scrollform">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Employee Name</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.firstName" name="firstName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Designation</label>
+                        <span class="input-icon icon-right">
+                            <select ng-model="searchDetails.designation" name="designation" ng-controller="designationCtrl" class="form-control">
+                                <option value="">Please Select Designation</option>
+                                <option ng-repeat="list in designationList track by $index" value="{{list.designation}}" ng-selected="{{ userData.designation == list.designation}}">{{list.designation}}</option>
+                            </select>
+                            <i class="fa fa-sort-desc"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Department</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.departmentName" name="departmentName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Team Lead</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.team_lead_name" name="team_lead_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Reporting To</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.reporting_to_name" name="reporting_to_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                    <div class="form-group">
+                        <label for="">Joining Date</label>
+                        <span class="input-icon icon-right">
+                            <p class="input-group">
+                                <input type="text" ng-model="searchDetails.joining_date" placeholder="Joining date" name="joining_date" id="fromDate" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                    <div class="form-group">
+                        <label for="">Last Login Date</label>
+                        <span class="input-icon icon-right">
+                            <p class="input-group">
+                                <input type="text" ng-model="searchDetails.login_date_time" placeholder="Last login date" name="login_date_time" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Employee status</label>
+                        <span class="input-icon icon-right">
+                            <select ng-model="searchDetails.employee_status" name="employee_status" class="form-control">
+                                <option value="">Select status </option>
+                                <option value="1">Active </option>
+                                <option value="2">Temporary Suspended </option>
+                            </select>
+
+                        </span>    
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" align="center">
+                            <button type="submit" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/js/filterSlider.js"></script>
+    <!-- Filter Form End-->
 </div>

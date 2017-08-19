@@ -13,7 +13,7 @@
     }
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('',[[$type]],1,30);">
-    <div class="col-xs-12 col-md-12">
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">{{pagetitle}}</span>
@@ -45,12 +45,18 @@
                             <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary" ng-click="exportReport(enquiries)" ng-show="btnExport">
                                 <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                             </a> 
-                        </div>                              
+                        </div>
+                        
+                        
                 <br>
                     </div>
                     <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
                         <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
                         <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
+                        <div class="col-sm-6">
+                        <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"  ng-click="procName('proc_get_total_enquiries')"><i class="btn-label fa fa-filter"></i>Show Filter</button>
+
+                    </div>
                     </div>
                 </div>
                 <hr>
@@ -216,8 +222,6 @@
                                         <span ng-if="enquiry_sales_subcategory_length  > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
                                         <hr class="enq-hr-line">
                                     </span>
-                                   
-                                
                                 </div>
                                 <div>                                   
                                     <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != '' " data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
@@ -308,7 +312,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" align="center">Today's Remarks</h4>
                         </div>
-
+                        <!--<div data-ng-include="'/MasterSales/showFilter'"></div>-->
                         <div data-ng-include=" '/MasterSales/todaysRemark'"></div>
                         <div class="modal-footer" align="center">
                         </div>
@@ -316,10 +320,13 @@
                 </div>
             </div>        
     </div>
-    <div data-ng-include="'/MasterSales/showFilter'"></div>
+    
     <!--<div data-ng-include="'/MasterSales/blukreassign'"></div>--> 
 
 </div>
+    
+    <div data-ng-include="'/MasterSales/showFilter'"></div>
+    
 </div>
 
 

@@ -98,17 +98,15 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
             var customerMobileNo = '';
             var customerEmailId = '';
             customerMobileNo = $scope.searchData.searchWithMobile;
-            customerEmailId = $scope.searchData.searchWithEmail;
-            
+            customerEmailId = $scope.searchData.searchWithEmail;            
             if (model.$isEmpty(customerMobileNo) && model.$isEmpty(customerEmailId))
                 return $q.when();
             else{
-                $scope.showloader();            
+                $scope.showloader();
                 return Data.post('master-sales/getCustomerDetails', {
                     data: {customerMobileNo: customerMobileNo, customerEmailId: customerEmailId},
                 }).then(function (response) {
                     if (response.success) { //response true
-
                         if (response.flag === 0)//if customer exist
                         {
                             $scope.showDiv = false;
@@ -119,6 +117,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.customer_id = response.customerPersonalDetails[0].id;
                             $scope.contacts = angular.copy(response.customerContactDetails);
                             $scope.contactData = angular.copy(response.customerContactDetails);
+                            $scope.enquiryData.first_name = angular.copy(response.customerPersonalDetails[0].first_name);
+                            $scope.enquiryData.last_name = angular.copy(response.customerPersonalDetails[0].last_name);
+                            $scope.enquiryData.title_id = angular.copy(response.customerPersonalDetails[0].title_id);
                             $scope.customerData.marriage_date = $scope.customerData.birth_date = $filter('date')(new Date(), 'yyyy-MM-dd');
                             for (var i = 0; i < response.customerContactDetails.length; i++) {
                                 if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {

@@ -1,4 +1,4 @@
-<br/> {{list.email_id}}<style>
+<style>
     .btn-round{
         border-radius: 50%;
         height: 40px;
@@ -45,11 +45,12 @@
                                     <div class="form-group">
                                         <label for="">Mobile Number</label>
                                         <span class="input-icon icon-right">                                    
-                                            <input type="text" class="form-control" ng-disabled="disableText" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
+                                            <input type="text" class="form-control" ng-disabled="disableText" ng-model="searchData.searchWithMobile" get-customer-details-directive minlength="10" maxlength="10" ng-pattern="/^[789][0-9]{9,10}$/" name="searchWithMobile" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="checkValue(customerData.searchWithMobile)" value="{{ searchData.searchWithMobile}}">
                                             <i class="glyphicon glyphicon-phone"></i>
                                             <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
                                                 <div ng-message="minlength">Invalid mobile no.</div>
                                                 <div ng-message="customerInputs">Mobile number does not exist!</div>
+                                                <div ng-message="customerPattern">Mobile number wrong!</div>
                                             </div> 
                                         </span>
                                     </div>

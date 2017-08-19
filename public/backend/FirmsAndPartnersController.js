@@ -1,4 +1,4 @@
-app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', '$parse', '$timeout', function ($scope, Data, Upload, toaster, $state, $parse,$timeout) {
+app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', '$parse', '$timeout', function ($scope, Data, Upload, toaster, $state, $parse, $timeout) {
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
@@ -11,6 +11,24 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 $scope.CompanyRow = response.result;
             });
         };
+
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+//            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
+
         $scope.loadCompanyData = function (companyId)
         {
             $scope.CompanyData = [];
@@ -44,16 +62,16 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 });
             });
         }
-        $scope.docompanyscreateAction = function (FirmLogo, CompanyData,documents,Stationary)
+        $scope.docompanyscreateAction = function (FirmLogo, CompanyData, documents, Stationary)
         {
-           
+
             $scope.firmBtn = true;
             $scope.errorMsg = '';
             $scope.allimages = '';
             if ($scope.id == 0) {
                 var url = '/manage-companies/';
                 var data = {
-                    'CompanyData':CompanyData,
+                    'CompanyData': CompanyData,
                     'FirmLogo': {'FirmLogo': FirmLogo}, 'stationary': $scope.Stationary, 'documents': $scope.documents}
             } else {
                 if (typeof FirmLogo === 'undefined') {
@@ -61,7 +79,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 }
                 var url = '/manage-companies/updateCompany';
                 var data = {'id': $scope.id,
-                      'CompanyData':CompanyData,
+                    'CompanyData': CompanyData,
                     'FirmLogo': {'FirmLogo': FirmLogo}, 'stationary': $scope.Stationary, 'documents': $scope.documents}
             }
 

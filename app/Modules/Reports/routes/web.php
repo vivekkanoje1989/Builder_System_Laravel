@@ -23,19 +23,26 @@ Route::group(array('module' => 'Reports', 'middleware' => ['auth:admin'], 'names
     Route::post('/reports/getTeamstatusreports', 'ReportsController@getTeamstatusreports');
     Route::post('/reports/getTeamsourcereports', 'ReportsController@getTeamsourcereports');
     Route::post('/reports/subCategoryReport', 'ReportsController@subCategoryReport');
+    Route::post('/reports/subProjectCategoryReport', 'ReportsController@subProjectCategoryReport');
+    Route::post('/reports/subProjectStatusReport', 'ReportsController@subProjectStatusReport');
     Route::post('/reports/getEmpcategoryreports', 'ReportsController@getEmpcategoryreports');
     Route::post('/reports/getTeamsourcereports', 'ReportsController@getTeamsourcereports');
     Route::post('/reports/getTeamsourcereports', 'ReportsController@getTeamsourcereports');
     Route::post('/reports/getsourcereports', 'ReportsController@getsourcereports');
     Route::post('/reports/getSourceWiseReport', 'ReportsController@getSourceWiseReport');
+    Route::post('/reports/getSourceWiseGroupReport', 'ReportsController@getSourceWiseGroupReport');
     Route::post('/reports/subSourceReport', 'ReportsController@subSourceReport');
     Route::post('/reports/getEmpStatusreports', 'ReportsController@getEmpStatusreports');
     Route::post('/reports/subStatusReport', 'ReportsController@subStatusReport');
+    Route::post('/reports/getEmpFollowUpReports', 'ReportsController@getEmpFollowUpReports');
+    Route::post('/reports/projectSourceReport', 'ReportsController@projectSourceReport');
+    Route::post('/reports/projectSubSourceReport', 'ReportsController@projectSubSourceReport');
 
     Route::get('/reports/teamFollowupreports', 'ReportsController@teamFollowupreports');
     Route::post('/reports/getTeamfollowupreports', 'ReportsController@getTeamfollowupreports');
     Route::get('/reports/projectwiseTeamreport', 'ReportsController@projectwiseTeamreport');
     Route::post('/reports/TeamProjectCategotyReport', 'ReportsController@TeamProjectCategotyReport');
+    Route::post('/reports/TeamLeadProjectCategotyReport', 'ReportsController@TeamLeadProjectCategotyReport');
     Route::post('/reports/TeamProjectStatusReport', 'ReportsController@TeamProjectStatusReport');
     Route::post('/reports/TeamProjectSourceReport', 'ReportsController@TeamProjectSourceReport');
     Route::post('/reports/getTeamSourcereports', 'ReportsController@getTeamSourcereports');

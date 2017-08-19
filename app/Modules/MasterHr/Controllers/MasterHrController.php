@@ -40,81 +40,101 @@ class MasterHrController extends Controller {
         $department_id = [];
 
         if (!empty($request['empId']) && $request['empId'] !== "0") { // for edit
-            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] . ',0,0)');
+            $manageUsers = DB::select('CALL proc_manage_users(1,' . $request["empId"] .')');
         } else if ($request['empId'] == "") { // for index
-            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $manageUsers = DB::select('CALL proc_manage_users(0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $manageData = DB::select('CALL proc_manage_users(0,0)');
             $cnt = DB::select('select FOUND_ROWS() totalCount');
             $totalCount = $cnt[0]->totalCount;
-            $manageUsers = json_decode(json_encode($manageUsers), true);
+            $manageUser = json_decode(json_encode($manageData), true);
             $i = 0;
-            foreach ($manageUsers as $manageUser) {
-                $manageUsers[$i]['department_id'] = explode(',', $manageUser['department_id']);
+            foreach ($manageUser as $manage) {
+                $manageUser[$i]['department_id'] = explode(',', $manage['department_id']);
                 $i++;
             }
+            for ($i = 0; $i < count($manageUser); $i++) {
+                $blogData['id'] = $manageUser[$i]['id'];
+                $blogData['first_name'] = $manageUser[$i]['first_name'];
+                $blogData['last_name'] = $manageUser[$i]['last_name'];
+                $blogData['joining_date'] = $manageUser[$i]['joining_date'];
+                $blogData['employee_status'] = $manageUser[$i]['employee_status'];
+                $blogData['departmentName'] = $manageUser[$i]['departmentName'];
+                $blogData['designation'] = $manageUser[$i]['designation'];
+                $blogData['team_lead_fname'] = $manageUser[$i]['team_lead_fname'];
+                $blogData['team_lead_lname'] = $manageUser[$i]['team_lead_lname'];
+                $blogData['reporting_to_fname'] = $manageUser[$i]['reporting_to_fname'];
+                $blogData['reporting_to_lname'] = $manageUser[$i]['reporting_to_lname'];
+                $blogData['login_date_time'] = $manageUser[$i]['login_date_time'];
+                $blogData['firstName'] = $blogData['first_name'].' '.$blogData['last_name'];
+                $blogData['team_lead_name'] = $blogData['team_lead_fname'].' '.$blogData['team_lead_lname'];
+                $blogData['reporting_to_name'] = $blogData['reporting_to_fname'].' '.$blogData['reporting_to_lname'];
+
+                $manageUsers[] = $blogData;
+            }
+            
         }
+      
         if ($manageUsers) {
-            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => $totalCount, 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
+            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
             return json_encode($result);
         }
     }
 
-    public function filteredData() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $filterData = $request['filterData'];
-        $ids = [];
-
-        if (empty($request['employee_id'])) { // For Web
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-
-            $filterData["firstName"] = !empty($filterData["firstName"]) ? $filterData["firstName"] : "";
-            $filterData["designation_id"] = !empty($filterData['designation_id']) ? $filterData['designation_id'] : "";
-            $filterData["department_id"] = !empty($filterData['department_id']) ? $filterData['department_id'] : "";
-            $filterData["joining_date"] = !empty($filterData['joining_date']) ? $filterData['joining_date'] : "";
-        } else { // For App
-            $request["getProcName"] = MasterHrController::$procname;
-            $loggedInUserId = $request['employee_id'];
-
-            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
-                $loggedInUserId = implode(',', array_map(function($el) {
-                            return $el['id'];
-                        }, $filterData['empId']));
-            }
-            $filterData["firstName"] = !empty($filterData["firstName"]) ? $filterData["firstName"] : "";
-            $filterData["designation_id"] = !empty($filterData['designation_id']) ? $filterData['designation_id'] : "";
-            $filterData["department_id"] = !empty($filterData['department_id']) ? $filterData['department_id'] : "";
-            $filterData["joining_date"] = !empty($filterData['joining_date']) ? date('Y-m-d', strtotime($filterData['joining_date'])) : "";
-            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        }
-        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
-            $loggedInUserId = implode(',', array_map(function($el) {
-                        return $el['id'];
-                    }, $filterData['empId']));
-        }
-
-        $getAllUsers = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["firstName"] . '","' . $filterData["designation_id"] . '","' . $filterData["department_id"] . '","' . $filterData["joining_date"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
-
-        $enqCnt = DB::select("select FOUND_ROWS() totalCount");
-        $enqCnt = $enqCnt[0]->totalCount;
-
-        $i = 0;
-        if (!empty($getAllUsers)) {
-            foreach ($getAllUsers as $getAllUser) {
-                $getAllUsers[$i]->employee_name = $getAllUser->first_name . ' ' . $getAllUser->last_name;
-
-                $i++;
-            }
-        }
-
-
-        if (!empty($getAllUsers)) {
-            $result = ['success' => true, 'records' => $getAllUsers, 'totalCount' => $enqCnt];
-        } else {
-            $result = ['success' => false, 'records' => $getAllUsers, 'totalCount' => $enqCnt];
-        }
-        return json_encode($result);
-    }
+//    public function filteredData() {
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+//        $filterData = $request['filterData'];
+//        $ids = [];
+//
+//        if (empty($request['employee_id'])) { // For Web
+//            $loggedInUserId = Auth::guard('admin')->user()->id;
+//
+//            $filterData["firstName"] = !empty($filterData["firstName"]) ? $filterData["firstName"] : "";
+//            $filterData["designation_id"] = !empty($filterData['designation_id']) ? $filterData['designation_id'] : "";
+//            $filterData["department_id"] = !empty($filterData['department_id']) ? $filterData['department_id'] : "";
+//            $filterData["joining_date"] = !empty($filterData['joining_date']) ? $filterData['joining_date'] : "";
+//        } else { // For App
+//            $request["getProcName"] = MasterHrController::$procname;
+//            $loggedInUserId = $request['employee_id'];
+//
+//            if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+//                $loggedInUserId = implode(',', array_map(function($el) {
+//                            return $el['id'];
+//                        }, $filterData['empId']));
+//            }
+//            $filterData["firstName"] = !empty($filterData["firstName"]) ? $filterData["firstName"] : "";
+//            $filterData["designation_id"] = !empty($filterData['designation_id']) ? $filterData['designation_id'] : "";
+//            $filterData["department_id"] = !empty($filterData['department_id']) ? $filterData['department_id'] : "";
+//            $filterData["joining_date"] = !empty($filterData['joining_date']) ? date('Y-m-d', strtotime($filterData['joining_date'])) : "";
+//            $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+//        }
+//        if (isset($filterData['empId']) && !empty($filterData['empId'])) {
+//            $loggedInUserId = implode(',', array_map(function($el) {
+//                        return $el['id'];
+//                    }, $filterData['empId']));
+//        }
+//
+//        $getAllUsers = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["firstName"] . '","' . $filterData["designation_id"] . '","' . $filterData["department_id"] . '","' . $filterData["joining_date"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
+//
+//        $enqCnt = DB::select("select FOUND_ROWS() totalCount");
+//        $enqCnt = $enqCnt[0]->totalCount;
+//
+//        $i = 0;
+//        if (!empty($getAllUsers)) {
+//            foreach ($getAllUsers as $getAllUser) {
+//                $getAllUsers[$i]->employee_name = $getAllUser->first_name . ' ' . $getAllUser->last_name;
+//
+//                $i++;
+//            }
+//        }
+//
+//
+//        if (!empty($getAllUsers)) {
+//            $result = ['success' => true, 'records' => $getAllUsers, 'totalCount' => $enqCnt];
+//        } else {
+//            $result = ['success' => false, 'records' => $getAllUsers, 'totalCount' => $enqCnt];
+//        }
+//        return json_encode($result);
+//    }
 
     public function checkRole() {
         $postdata = file_get_contents("php://input");
@@ -1508,8 +1528,8 @@ class MasterHrController extends Controller {
 //            return json_encode($result);
 //        }
 //    }
-    
-      public function updateProfileInfo() {
+
+    public function updateProfileInfo() {
         $id = Auth::guard('admin')->user()->id;
         $employee = Employee::where('id', $id)->first();
         $request = Input::all();

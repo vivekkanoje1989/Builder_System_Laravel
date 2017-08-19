@@ -7,6 +7,26 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
                 $scope.customerDataRow = response.result;
             });
         };
+        
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+//            $scope.searchDetails = {};
+            $scope.searchData = search;
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        
+           $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
         $scope.getcustomerdata = function (custId)
         {
             Data.post('customers/getcustomerData', {'id': custId}).then(function (response) {

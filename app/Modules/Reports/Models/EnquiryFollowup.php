@@ -6,6 +6,7 @@ class EnquiryFollowup extends Model
 {
 	protected $fillable = [
 		'enquiry_id',
+                'client_id',
 		'followup_date_time',
 		'followup_by',
 		'followup_entered_through',

@@ -19,7 +19,7 @@ class ManageCityController extends Controller {
     }
 
     public function manageCity() {
-        $getCities = MlstCities::join('mlst_states', 'mlst_states.id', '=', 'mlst_cities.id')
+        $getCities = MlstCities::join('mlst_states', 'mlst_states.id', '=', 'mlst_cities.state_id')
                 ->join('mlst_countries', 'mlst_states.country_id', '=', 'mlst_countries.id')
                 ->select('mlst_cities.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
                 ->get();

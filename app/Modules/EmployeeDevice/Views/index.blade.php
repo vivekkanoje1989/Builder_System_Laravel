@@ -1,5 +1,19 @@
+<style>
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
+</style>
 <div class="row" ng-controller="empDeviceController" ng-init="manageDevice('index', 'index')">
-    <div class="col-xs-12 col-md-12">
+    <div class=" mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Device Information</span>                
@@ -26,10 +40,29 @@
                             <label for=""></label>
                             <span class="input-icon icon-right">
                                 <a  href="[[ config('global.backendUrl') ]]#/employeeDevice/create" class="btn btn-primary btn-right">Add Device</a>
+                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                             </span>
                         </div>
                     </div>
                 </div>
+                <!-- filter data-->
+                <div class="row" style="border:2px;" id="filter-show">
+                    <div class="col-sm-12 col-xs-12">
+                        <b ng-repeat="(key, value) in searchData">
+                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                <div class="alert alert-info fade in">
+                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <strong ng-if="key === 'device_name'" data-toggle="tooltip" title="Device Name"><strong> Device Name : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'device_type'" data-toggle="tooltip" title="Device Type"><strong> Device Type : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'device_status'" data-toggle="tooltip" title="Device Status"><strong> Device status : </strong> {{ value==1? "Active" : "In active"}}</strong>
+                                    <strong ng-if="key === 'employee_id'" data-toggle="tooltip" title="Employee Name"><strong> Employee Name : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'device_mac'" data-toggle="tooltip" title="Mac Address"><strong>  Mac Address : </strong> {{ value}}</strong>
+                                </div>
+                            </div>
+                        </b>                        
+                    </div>
+                </div>
+                <!-- filter data-->
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -61,8 +94,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="listDevice in listDevices | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-                            <td>{{itemsPerPage * (noOfRows-1)+$index+1}}</td>
+                        <tr role="row" dir-paginate="listDevice in listDevices | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                             <td>{{ listDevice.device_name}}</td>
                             <td>{{ listDevice.device_mac}}</td>
                             <td>{{ listDevice.employee_id}}</td>
@@ -130,6 +163,73 @@
             </div>
         </div>
     </div>
+    <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="blockStagesFilter" role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+            <div class="row">
 
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Device Name</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.device_name" name="device_name" class="form-control">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Mac Address</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.device_mac" name="device_mac" class="form-control">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group"  ng-controller="getAllEmployeesCtrl">
+                        <label for="">Employee Name</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.employee_id" name="employee_id" class="form-control">
+                        </span>
+<!--                        <span class="input-icon icon-right">
+                            <ui-select multiple ng-model="searchDetails.employee_id" name="employee_id" theme="select2" ng-disabled="disabled" style="width: 300px;" ng-required="true"  ng-change="checkemployee()">
+                                <ui-select-match placeholder="Select Employees">{{$item.first_name}} {{$item.last_name}}</ui-select-match>
+                                <ui-select-choices repeat="list in employeeList | filter:$select.search">
+                                    {{list.first_name}} {{list.last_name}}
+                                </ui-select-choices>
+                            </ui-select>
+                            <i class="fa fa-sort-desc"></i>
+                        </span>-->
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Status</label>
+                        <span class="input-icon icon-right">
+                            <select class="form-control" name="device_status" ng-model="searchDetails.device_status" required>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                            <i class="fa fa-sort-desc"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" align="center">
+                            <button type="submit" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/js/filterSlider.js"></script>
+    <!-- Filter Form End-->
 </div>
 

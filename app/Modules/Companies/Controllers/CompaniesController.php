@@ -31,7 +31,7 @@ class CompaniesController extends Controller {
     }
 
     public function manageCompany() {
-        $result = companies::all();
+        $result = companies::select('punch_line','legal_name','id')->get();
         if (!empty($result)) {
             return json_encode(['result' => $result, 'status' => true]);
         } else {

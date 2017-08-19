@@ -208,5 +208,30 @@ class Enquiry extends Eloquent {
     public function getEnquiryLocation() {
         return $this->belongsTo('App\Models\LstEnquiryLocation', 'enquiry_locations');
     }
+    
+     public static function validationMessages() {
+        $messages = array(
+            'sales_enquiry_date.required' => 'Please enter date',
+            'sales_category_id.required' => 'Please select category',
+//            'max_budget.required' => 'Please enter max budget',
+            'remarks.required' => 'Please enter remarks',
+            'enquiry_locations.required' => 'Please enter location',
+            'next_followup_date' => 'Please enter followup date',
+//            'parking_type' => 'Please select parking type'
+        );
+        return $messages;
+    }
 
+    public static function validationRules() {
+        $rules = array(
+            'sales_enquiry_date' => 'required',
+            'sales_category_id' => 'required',
+//            'max_budget' => 'required',
+            'remarks' => 'required',
+            'enquiry_locations' => 'required',
+            'next_followup_date' => 'required',
+//            'parking_type' => 'required'
+        );
+        return $rules;
+    }
 }

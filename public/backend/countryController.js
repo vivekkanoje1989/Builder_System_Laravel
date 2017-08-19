@@ -22,7 +22,7 @@ app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Da
          $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

@@ -254,8 +254,8 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr ng-repeat="sub_sources in teamEmp_source_report">
-                                                            <td ng-if="sub_sources.is_parent == '1'"><a href="" ng-if="employee_id != sub_sources.employee_id" ng-click="getsourceReport(sub_sources); teamsourceEmployees(sub_sources);">{{sub_sources.name}}</a><span ng-if="employee_id == sub_sources.employee_id">{{sub_sources.name}}</span></div>
-                                                            <td ng-if="sub_sources.is_parent == '0'">{{sub_sources.name}}</div>
+                                                            <td ng-if="sub_sources.is_parent == '1'"><a href="" ng-if="employee_id != sub_sources.employee_id" ng-click="getsourceReport(sub_sources); teamsourceEmployees(sub_sources);">{{sub_sources.name}}</a><span ng-if="employee_id == sub_sources.employee_id">{{sub_sources.name}}</span></td>
+                                                            <td ng-if="sub_sources.is_parent == '0'">{{sub_sources.name}}</td>
                                                             <td ng-if="sub_sources.is_parent == '1' && sub_sources.total > '0'"><span ng-if="employee_id == sub_sources.employee_id">{{sub_sources.total}}    &nbsp;&nbsp;&nbsp;&nbsp;<a href=""  ng-click="getSubSourceReport(sub_sources)">Show source wise report</a></span><span ng-if="employee_id != sub_sources.employee_id">{{sub_sources.total}} &nbsp;&nbsp;&nbsp;&nbsp;  <a href="" ng-click="getSubSourceGroupReport(sub_sources)">Show source wise report</a></span></td>
                                                             <td ng-if="sub_sources.is_parent == '1' && sub_sources.total == '0'">{{sub_sources.total}}</td>
                                                             <td ng-if="sub_sources.is_parent == '0'"><span  ng-if="sub_sources.total != '0'">{{sub_sources.total}}<a style="padding-left:30px;" href=""   ng-click="getSubSourceReport(sub_sources)">Show source wise report</a></span><span  ng-if="sub_sources.total == '0'">{{sub_sources.total}}</span></td>
@@ -392,10 +392,8 @@
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="status in team_status_report">
-                                                <td ng-if="status.is_parent == 1"><a href="" ng-if="status.is_parent == 1" ng-click="teamstatusReport(status); teamStatusEmployees(status);">{{status.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></div>
-                                                    <!--&& status.employee_id != employee_id-->
+                                                <td ng-if="status.is_parent == 1"><a href="" ng-if="status.is_parent == 1" ng-click="teamstatusReport(status); teamStatusEmployees(status);">{{status.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></td>
                                                 <td ng-if="status.is_parent == 0">{{status.name}}</td>
-                                                <!--|| status.employee_id == employee_id-->
                                                 <td><b>{{status.total}}</b></td>
                                                 <td>{{status.new}}</td>
                                                 <td>{{status.open}}</td>

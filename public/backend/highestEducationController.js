@@ -3,6 +3,23 @@ app.controller('highestEducationCtrl', ['$scope', 'Data', function ($scope, Data
         $scope.itemsPerPage = 30;
         $scope.eduBtn = false;
         $scope.noOfRows = 1;
+        
+         $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+//            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        
         $scope.manageHighestEducation = function () {
             Data.post('highest-education/manageHighestEducation').then(function (response) {
                 $scope.educationRow = response.records;

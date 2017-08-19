@@ -30,6 +30,23 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
             $scope.index = index * ($scope.noOfRows - 1) + (index1);
             $scope.sbtBtn = false;
         }
+
+        $scope.searchData = {};
+        $scope.searchDetails = {};
+        $scope.filterDetails = function (search) {
+//            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
+
         $scope.doblocktypesAction = function () {
             $scope.errorMsg = '';
             $scope.manageBlockType = true;

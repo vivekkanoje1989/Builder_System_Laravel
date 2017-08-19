@@ -1,6 +1,6 @@
 app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
     var today = new Date();
-    today.setMonth(today.getMonth() + 1);
+    today.setMonth(today.getMonth());
 
     $scope.maxDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     $scope.today = function () {

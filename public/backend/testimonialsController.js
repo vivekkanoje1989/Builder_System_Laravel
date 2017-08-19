@@ -7,14 +7,33 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
         $scope.testimonial = [];
         $scope.testimonial.approve_status = $scope.testimonial.web_status = '1';
         $scope.testimonials = function () {
+             $scope.showloader();
             Data.post('testimonials/getDisapproveList').then(function (response) {
                 $scope.ApprovedTestimonialsRow = response.records;
+                 $scope.hideloader();
             });
         };
+        
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+        $scope.filterDetails = function (search) {
+//            $scope.searchDetails = {};
+            $scope.searchData = search;
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        
 
         $scope.manageTestimonials = function () {
+             $scope.showloader();
             Data.post('testimonials/getApprovedList').then(function (response) {
                 $scope.ApprovedTestimonialsRow = response.records;
+                 $scope.hideloader();
             });
         }
 
@@ -81,6 +100,7 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
             });
         }
         $scope.getTestimonialData = function (testimonial_id) {
+             $scope.showloader();
             Data.post('testimonials/getTestimonialData', {'testimonial_id': testimonial_id}).then(function (response) {
                 $scope.testimonial = response.records;
                 $scope.testimonial_id = testimonial_id;
@@ -92,6 +112,7 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
 //                $scope.web_status = $scope.testimonialsData.web_status;
 //                $scope.approve_status = $scope.testimonialsData.approve_status;
 //                $scope.photo_url = $scope.testimonialsData.photo_url;
+  $scope.hideloader();
             });
         };
         $scope.pageChangeHandler = function (num) {

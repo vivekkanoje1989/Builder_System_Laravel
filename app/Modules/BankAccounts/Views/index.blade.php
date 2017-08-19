@@ -10,9 +10,21 @@
     ul.dropdown-menu li span.green {
         color: green;
     }
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
 </style>
 <div class="row" ng-controller="bankAccountsCtrl" ng-init="manageBankAccounts(); manageCompanys();">
-    <div class="col-xs-12 col-md-12">
+    <div class=" mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Bank Accounts</span>                
@@ -38,11 +50,30 @@
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
-                                <a title="Create blog" class="btn btn-primary btn-right" data-toggle="modal" ng-click="initialModel('0', '', '', '')" data-target="#bankAccountModal" >Create Bank Account</a>
+                                <a title="Create bank account" class="btn btn-primary btn-right" data-toggle="modal" ng-click="initialModel('0', '', '', '')" data-target="#bankAccountModal" >Create Bank Account</a>
+                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                             </span>
                         </div>
                     </div>
-                </div>  
+                </div> 
+                <!-- filter data-->
+                <div class="row" style="border:2px;" id="filter-show">
+                    <div class="col-sm-12 col-xs-12">
+                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
+                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                <div class="alert alert-info fade in">
+                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
+                                    <strong ng-if="key === 'legal_name'" data-toggle="tooltip" title=""><strong> Project Name : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'name'" data-toggle="tooltip" title="Name"><strong> Name : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'account_type'" data-toggle="tooltip" title="Account Type"><strong> Account Type : </strong> {{ value == '1' ? "Saving":"Current"}}</strong>
+                                    <strong ng-if="key === 'account_number'" data-toggle="tooltip" title="Account Number"><strong> Account Number : </strong> {{ value}}</strong>
+                                    <strong ng-if="key === 'branch'" data-toggle="tooltip" title="Branch"><strong> Branch  : </strong> {{ value}}</strong>
+                                </div>
+                            </div>
+                        </b>                        
+                    </div>
+                </div>
+                <!-- filter data-->
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>
@@ -86,7 +117,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr role="row" dir-paginate="item in bankAccountRow| filter:search  | orderBy:orderByField:reverseSort |itemsPerPage:itemsPerPage">
+                        <tr role="row" dir-paginate="item in bankAccountRow| filter:search |filter:searchData | orderBy:orderByField:reverseSort |itemsPerPage:itemsPerPage">
                             <td>{{$index + 1}}</td>
                             <td>{{item.legal_name}}</td>  
                             <td>{{item.name}}</td>     
@@ -278,5 +309,72 @@
             </div>
         </div>
     </div>
+    <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="bankAccountFilter" role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Name</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.name" name="name" class="form-control"  oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Company</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.legal_name" name="legal_name" class="form-control">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Branch</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.branch" name="branch" class="form-control">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Account Type</label>
+                        <span class="input-icon icon-right">
+                            <select ng-model="searchDetails.account_type" name="account_type" class="form-control">
+                                <option value="">Select account type</option>
+                                <option value="1">Saving account</option>
+                                <option value="2">Current account</option>
+                            </select>
+
+                        </span>    
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Account Number</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.account_number" name="account_number" class="form-control">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" align="center">
+                            <button type="submit" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/js/filterSlider.js"></script>
+    <!-- Filter Form End-->
 </div>
 
