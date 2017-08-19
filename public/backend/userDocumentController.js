@@ -1,4 +1,4 @@
-app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', function ($scope, Data, Upload, toaster) {
+app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster', '$window','$parse', function ($scope, Data, Upload, toaster, $window,$parse) {
 
         $scope.action = 'Submit';
         $scope.id = 0;
@@ -14,7 +14,7 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                 $scope.showDiv = false;
             } else {
                 $scope.showDiv = true;
-            
+
                 Data.post('user-document/userDocumentLists', {'employee_id': employee_id}).then(function (response) {
                     $scope.documentRow = response.result;
                 });
@@ -76,6 +76,13 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
                     $scope.userForm.$submitted = false;
                     $scope.userData.employee_id = $scope.empId;
                 } else {
+                    var obj = response.data.message;
+                    var selector = [];
+                    for (var key in obj) {
+                        var model = $parse(key);// Get the model
+                        model.assign($scope, obj[key][0]);// Assigns a value to it
+                        selector.push(key);
+                    }
                     $scope.errorMsgg = response.data.errorMsgg;
                 }
 
@@ -88,7 +95,16 @@ app.controller('userDocumentController', ['$scope', 'Data', 'Upload', 'toaster',
         $scope.removeImg = function (imgname, id)
         {
             if (window.confirm("Are you sure want to remove this image?")) {
-                Data.post('user-document/removeImage', {id: id}).then(function (response) {});
+
+                Data.post('user-document/removeImage', {id: id, document: $scope.document_url}).then(function (response) {
+                    if (!response.success)
+                    {
+                        toaster.pop('success', 'Document Image', 'Image remove successfully.');
+                    } else
+                    {
+                        toaster.pop('success', 'Document Image', 'Image remove successfully.');
+                    }
+                });
             }
         }
         $scope.manageEmployeeDocuments = function () {

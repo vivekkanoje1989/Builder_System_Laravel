@@ -4,6 +4,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.itemsPerPage = 30;
         $scope.CompanyData = [];
         $scope.stationary = [];
+        $scope.stationaryDetails = [];
         $scope.document = [];
         $scope.firmBtn = false;
         $scope.manageCompany = function () {
@@ -27,12 +28,54 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-
+        
+        /*push client the stationary info*/
+        $scope.updatePage = function(data)
+        {
+            $('#stationaryModal').modal('toggle');
+            if($scope.isexitsContact == 1)
+            {    
+                $scope.stationaryDetails.splice($scope.index, 1);
+                $scope.stationaryDetails.splice($scope.index, 0, 
+                {
+                   'id': data.id,
+                    'stationary_set_name': data.stationary_set_name,
+                    'estimate_letterhead_file': data.estimate_letterhead_file,
+                    'receipt_letterhead_file': data.receipt_letterhead_file,
+                    'rubber_stamp_file': data.rubber_stamp_file,
+                    'estimate_logo_file': data.estimate_logo_file,
+                    'demandletter_letterhead_file': data.demandletter_letterhead_file,
+                    'demandletter_logo_file':data.demandletter_logo_file,
+                    'receipt_logo_file':data.receipt_logo_file,
+                });
+                toaster.pop('success', 'Stationary Information', 'Stationary information updated successfully');
+            }
+            else
+            {
+                $scope.stationaryDetails.push({
+                    
+                    'id': 0,
+                   'stationary_set_name': data.stationary_set_name,
+                    'estimate_letterhead_file': data.estimate_letterhead_file,
+                    'receipt_letterhead_file': data.receipt_letterhead_file,
+                    'rubber_stamp_file': data.rubber_stamp_file,
+                    'estimate_logo_file': data.estimate_logo_file,
+                    'demandletter_letterhead_file': data.demandletter_letterhead_file,
+                    'demandletter_logo_file':data.demandletter_logo_file,
+                    'receipt_logo_file':data.receipt_logo_file,
+                
+                });
+                toaster.pop('success', 'Stationary Information', 'Stationary information created successfully');
+                
+            }    
+                
+        }
 
         $scope.loadCompanyData = function (companyId)
         {
             $scope.CompanyData = [];
             Data.post('manage-companies/loadCompanyData', {'id': companyId}).then(function (response) {
+               
                 $scope.companyData = response.result;
                 $scope.id = response.result.id;
                 $scope.CompanyData.legal_name = response.result.legal_name;
@@ -52,19 +95,22 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                     $scope.documents.push({'document_name': value.document_name,
                         'documentFile': value.document_file})
                 });
-                $scope.Stationary = [];
+//                $scope.stationary = [];
                 if (response.stationary.length === 0)
                 {
-                    $scope.Stationary = [{id: '1'}];
+                    $scope.stationary = [{id: '1'}];
                 }
+                
                 angular.forEach(response.stationary, function (value, key) {
-                    $scope.Stationary.push({'stationary_set_name': value.stationary_set_name, 'estimateLetter': value.estimate_letterhead_file, 'receiptLetterhead': value.receipt_letterhead_file, 'receipt_logo_file': value.receipt_logo_file, 'rubberStamp': value.rubber_stamp_file, 'estimateLetterheadFile': value.estimate_letterhead_file, 'estimateLogo': value.estimate_logo_file, 'demandletterFile': value.demandletter_letterhead_file, 'receiptLogoFile': value.receipt_logo_file, 'demandletterLogoFile': value.demandletter_logo_file, })
+                    $scope.stationary.push({'stationary_set_name': value.stationary_set_name, 'estimate_letterhead_file': value.estimate_letterhead_file, 'receiptLetterhead': value.receipt_letterhead_file, 'receipt_logo_file': value.receipt_logo_file, 'rubberStamp': value.rubber_stamp_file, 'estimateLetterheadFile': value.estimate_letterhead_file, 'estimateLogo': value.estimate_logo_file, 'demandletterFile': value.demandletter_letterhead_file, 'receiptLogoFile': value.receipt_logo_file, 'demandletterLogoFile': value.demandletter_logo_file, })
+              
                 });
+//                 console.log( $scope.stationary);
+                
             });
         }
         $scope.docompanyscreateAction = function (FirmLogo, CompanyData, documents, Stationary)
         {
-
             $scope.firmBtn = true;
             $scope.errorMsg = '';
             $scope.allimages = '';
@@ -72,7 +118,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 var url = '/manage-companies/';
                 var data = {
                     'CompanyData': CompanyData,
-                    'FirmLogo': {'FirmLogo': FirmLogo}, 'stationary': $scope.Stationary, 'documents': $scope.documents}
+                    'FirmLogo': {'FirmLogo': FirmLogo}, 'stationary': $scope.stationaryDetails, 'documents': $scope.documents}
             } else {
                 if (typeof FirmLogo === 'undefined') {
                     FirmLogo = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
@@ -80,7 +126,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 var url = '/manage-companies/updateCompany';
                 var data = {'id': $scope.id,
                     'CompanyData': CompanyData,
-                    'FirmLogo': {'FirmLogo': FirmLogo}, 'stationary': $scope.Stationary, 'documents': $scope.documents}
+                    'FirmLogo': {'FirmLogo': FirmLogo}, 'stationary': $scope.stationaryDetails, 'documents': $scope.documents}
             }
 
             FirmLogo.upload = Upload.upload({
@@ -89,6 +135,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 data: data
             });
             FirmLogo.upload.then(function (response) {
+//                console.log(response);
                 $scope.firmBtn = false;
                 if (response.data.status == true) {
                     $state.go('companiesIndex');

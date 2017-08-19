@@ -40,7 +40,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row"  ng-controller="salesStatusCtrl">
+                                    <div class="row" >
+                                    <!--<div class="row"  ng-controller="salesStatusCtrl">-->
                                                            
                                         <div class="col-sm-6 col-xs-12" >
                                             <div class="form-group" >

@@ -31,7 +31,7 @@ class S3 {
         S3::s3Configuration();
         $name = '';
         $random = rand(1,1000);
-        //print_r($image);exit;
+//        print_r($image);exit;
 //        for ($i = 0; $i < $cnt; $i++) {
             $imageFileName = time().'_'.$random . '.' . $image->getClientOriginalExtension();
             $imagePath = $image->getPathName();
@@ -47,9 +47,6 @@ class S3 {
     
     public static function s3FileUpload($filepath,$filename, $s3FolderName) {
         S3::s3Configuration();
-        echo "<pre>";print_r($filepath);
-        echo $filepath->getPathName();
-        exit;
         $name = '';
             $imageFileName =  $filename;
             $s3 = \Storage::disk('s3');

@@ -89,7 +89,7 @@
                     </thead>
                     <tbody>
                         <tr role="row" dir-paginate="item in contactUsRow| filter:search | itemsPerPage:itemsPerPage | filter:searchData">
-                            <td>{{$index + 1}}</td>
+                            <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                             <td>{{item.address}}</td>     
                             <td>{{item.pin_code}}</td> 
                             <td>{{item.contact_person_name}}</td>  
