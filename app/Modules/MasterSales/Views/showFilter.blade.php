@@ -11,24 +11,17 @@
 </style>
 <script src="/js/filterSlider.js"></script>
 <div class="wrap-filter-form show-widget" id="slideout">
-    <strong>Filter</strong>   
+    <strong align="center">Filters</strong>
     <button type="button" class="close toggleForm" aria-label="Close">
         <span aria-hidden="true">&times;</span>
-    </button><hr>
-
-    
-    
-    <div class="row" ng-controller="AccordionDemoCtrl">
-        
+    </button><hr style="margin-bottom: 0px !important;">
+    <div class="row" ng-controller="AccordionDemoCtrl">        
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <accordion close-others="oneAtATime">
-            <accordion-group is-open="status.open">
+            <accordion-group is-open="status.open" >
                 <accordion-heading>
-                    <h5>Enquiry</h5>
+                    <span>Enquiry</span>
                 </accordion-heading>
-            <!--<h4 class="accordion-toggle">Enquiry</h4>-->
-            <!--<tabset justified="true">-->
-            <div heading="Enquiry Filters">
                 <form name="enquiryFilter" role="form" ng-submit="getFilteredData(filterData, min, max, 1, 30)">
                     <div class="row">
                         <div class="col-sm-6 col-sx-12" ng-controller="DatepickerDemoCtrl">
@@ -130,33 +123,10 @@
                             </div>
                         </div>
                         <div class="col-sm-6 col-sx-12">
-                            <div class="form-group" ng-controller="enquiryCityCtrl">
-                                <label for="">Preferred Location</label>
+                             <div class="form-group" >
+                                <label for="max budget">Max Budget</label>
                                 <span class="input-icon icon-right">
-                                    <div class="col-sm-6 col-md-6 col-xs-12">
-                                        <div class="form-group">
-                                            <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="filterData.city_id" name="city_id" ng-change="changeLocations(filterData.city_id)">
-                                                    <option value="">Select Preferred city</option>     
-                                                    <option ng-repeat="list in cityList" value="{{list.city_id}}_{{ list.get_city_name.name}}">{{ list.get_city_name.name}}</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-6 col-xs-12">
-                                        <div class="form-group multi-sel-div">
-                                            <span class="input-icon icon-right">
-                                                <ui-select multiple ng-model="filterData.enquiry_locations" name="enquiry_locations" theme="select2" ng-disabled="disabled" style="width:100%;">
-                                                    <ui-select-match placeholder='Select Locations'>{{$item.location}}</ui-select-match>
-                                                    <ui-select-choices repeat="list in locations | filter:$select.search">
-                                                        {{list.location}} 
-                                                    </ui-select-choices>
-                                                </ui-select>
-                                                <i class="fa fa-sort-desc"></i>
-                                            </span>
-                                        </div>
-                                    </div>    
+                                    <input type="text" ng-model="filterData.max_budget" name="max_budget" maxlength="8" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                 </span>
                             </div>
                         </div>
@@ -217,18 +187,35 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6 col-sx-6">
-                            <div class="form-group">
-                                <label for="">Budget Min Value </label>
-                                <input type="text" ng-model="min" name="min" class="form-control" maxlength="8" ng-change="rangeValidateMin(min)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-sx-6">
-                            <div class="form-group">
-                                <label for="">Budget Max Value </label>
-                                <input type="text" ng-model="max" name="max" class="form-control" maxlength="8" ng-change="rangeValidateMax(max)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
-                            </div>
-                        </div>                                      
+                        <div class="form-group" ng-controller="enquiryCityCtrl">
+                            <label for="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Preferred Location</label>
+                            <span class="input-icon icon-right">
+                                <div class="col-sm-6 col-md-6 col-xs-12">
+                                    <div class="form-group">
+                                        <span class="input-icon icon-right">
+                                            <select class="form-control" ng-model="filterData.city_id" name="city_id" ng-change="changeLocations(filterData.city_id)">
+                                                <option value="">Select Preferred city</option>     
+                                                <option ng-repeat="list in cityList" value="{{list.city_id}}_{{ list.get_city_name.name}}">{{ list.get_city_name.name}}</option>
+                                            </select>
+                                            <i class="fa fa-sort-desc"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-xs-12">
+                                    <div class="form-group multi-sel-div">
+                                        <span class="input-icon icon-right">
+                                            <ui-select multiple ng-model="filterData.enquiry_locations" name="enquiry_locations" theme="select2" ng-disabled="disabled" style="width:100%;">
+                                                <ui-select-match placeholder='Select Locations'>{{$item.location}}</ui-select-match>
+                                                <ui-select-choices repeat="list in locations | filter:$select.search">
+                                                    {{list.location}} 
+                                                </ui-select-choices>
+                                            </ui-select>
+                                            <i class="fa fa-sort-desc"></i>
+                                        </span>
+                                    </div>
+                                </div>    
+                            </span>
+                        </div>                               
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-sx-12" align="right">
@@ -239,13 +226,11 @@
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            
+                </form>            
             </accordion-group>
             <accordion-group is-open="status.close">
                 <accordion-heading>
-                    <h5>Customer</h5>
+                    <span>Customer</span>
                 </accordion-heading>
            
             <!--<h4 class="">Customer</h4>-->

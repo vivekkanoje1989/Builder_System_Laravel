@@ -46,10 +46,7 @@ class S3 {
     }
     
     public static function s3FileUpload($filepath,$filename, $s3FolderName) {
-        S3::s3Configuration();
-        echo "<pre>";print_r($filepath);
-        echo $filepath->getPathName();
-        exit;
+        S3::s3Configuration();        
         $name = '';
             $imageFileName =  $filename;
             $s3 = \Storage::disk('s3');

@@ -1,5 +1,5 @@
 $(document).ready(function(){    
-    $('.toggleForm').click(function(){       
+    $('.toggleForm').click(function(){
          var height = jQuery('.wrap-filter-form').height();
           if (height > 650){
               $(".wrap-filter-form").addClass('abc');
