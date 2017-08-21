@@ -134,7 +134,7 @@ class CloudTelephonyController extends Controller {
                         $ctemployees = explode(',',$record['ctemployees']);
                         $listArr1 = array();
                         foreach ($ctemployees as $defaultemp1){
-                            $getEmployeeDetails1 = \App\Model\backend\Employee::select("id","first_name","last_name")->where('id',$defaultemp1)->get();
+                            $getEmployeeDetails1 = \App\Models\backend\Employee::select("id","first_name","last_name")->where('id',$defaultemp1)->get();
                             $listArr1[""."_"."Employees"][$getEmployeeDetails1[0]['id']] = $getEmployeeDetails1[0]['first_name']." ".$getEmployeeDetails1[0]['last_name'];
                         }
                     }
@@ -143,7 +143,7 @@ class CloudTelephonyController extends Controller {
                             $msc_default_employee_id = explode(',',$record['msc_default_employee_id']);
                             $listArr1 = array();
                             foreach ($msc_default_employee_id as $defaultemp){
-                                $getEmployeeDetails = \App\Model\backend\Employee::select("id","first_name","last_name")->where('id',$defaultemp)->get();
+                                $getEmployeeDetails = \App\Models\backend\Employee::select("id","first_name","last_name")->where('id',$defaultemp)->get();
                                 $listArr1[""."_"."Default Employee"][$getEmployeeDetails[0]['id']] = $getEmployeeDetails[0]['first_name']." ".$getEmployeeDetails[0]['last_name'];
                             }
                         }

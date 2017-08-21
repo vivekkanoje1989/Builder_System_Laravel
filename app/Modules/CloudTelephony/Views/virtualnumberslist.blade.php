@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
-                                <a href="#/cloudtelephony/virtualnumberwiseusers" class="btn btn-primary">Virtual Number Wise Users</a>&nbsp;&nbsp;&nbsp;
+                                <a href="[[ config('global.backendUrl') ]]#/cloudtelephony/virtualnumberwiseusers" class="btn btn-primary btn-right">Virtual Number Wise Users</a>&nbsp;&nbsp;&nbsp;
                             </span>
                         </div>
                     </div>

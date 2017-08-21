@@ -254,16 +254,14 @@
                         </tr>
                     </tbody>
                 </table>
-                <hr>
+              
                 <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'pendingsFollowups','', [[$type]],newPageNumber)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                 <div ng-if="enquiriesLength == 0 ">
                 <div>
                     <center><b>No Enquiries Found</b></center>
-            </div>
                 </div>
-                    </div>                   
-
-
+                </div>
+        </div>
             <!-- Today history model =============================================================================-->
             <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
