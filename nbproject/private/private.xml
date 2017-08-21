@@ -2,7 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
@@ -13,6 +12,7 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
@@ -21,21 +21,10 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/pendingFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/css/filterSlider.css</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/lostenquiries.blade.php</file>
-=======
-<<<<<<< HEAD
-        <group/>
-=======
-        <group>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/FirmsAndPartnersController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Controllers/CompaniesController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/S3.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/blockStagesController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/create.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/edit.blade.php</file>
->>>>>>> 8ee1acbd7d554e33a496e1cb638940c1f012daea
         </group>
->>>>>>> 1ec2f1d63ded80b57da7e1f6e114762eae661acb
     </open-files>
 </project-private>
