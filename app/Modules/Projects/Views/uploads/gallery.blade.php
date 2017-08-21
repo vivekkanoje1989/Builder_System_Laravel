@@ -33,7 +33,7 @@
             <div class="col-sm-12 col-xs-12" ng-if="project_gallery">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_gallery" id="del_project_gallery_{{$index}}">    
                     <i class="fa fa-times rem-icon" title="{{list}}" ng-click="deleteImage({{project_gallery}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_gallery/', 'project_gallery')"></i>
-                    <img ng-src="[[ Session::get('s3Path') ]]/project/project_gallery/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ config('global.s3Path') ]]/project/project_gallery/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_gallery_preview">    
                     <i class="fa fa-times rem-icon" title=""></i>
