@@ -4,7 +4,9 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.itemsPerPage = 30;
         $scope.CompanyData = [];
         $scope.stationary = [];
+        $scope.stationary = {};
         $scope.stationaryDetails = [];
+        $scope.editPage = {};
         $scope.document = [];
         $scope.firmBtn = false;
         $scope.manageCompany = function () {
@@ -28,54 +30,85 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
+
+
+//        $scope.onChange = function (files) {
+//            console.log(files);
+//            if(files[0] == undefined) return;
+//          $scope.fileExt = files[0].name.split(".").pop()
+//        }
+
+//    $scope.photoChanged = function (files, index) {
+//        console.log(files);
+//        if (files != null) {
+//            var index = this.$index;
+//          var file = files[0];           
+//          $scope.fileNames[index] = files[0].name;
+//          $scope.$apply();
+//            if ($scope.fileReaderSupported && file.type.indexOf('image') > -1) {
+//                $timeout(function () {
+//                    var fileReader = new FileReader();
+//                    fileReader.readAsDataURL(file);
+//                    fileReader.onload = function (e) {
+//                        $timeout(function () {
+//                            $scope.thumbnail[index] = {dataUrl: e.target.result};
+//                            console.log($scope.thumbnail[index]);
+//                        });
+//                    }
+//                });
+//            }
+//        }
+//    };
+
+        $scope.clearData = function () {
+            $scope.stationary = {};
+        }
         /*push client the stationary info*/
-        $scope.updatePage = function(data)
+        $scope.updatePage = function (data, editId)
         {
             $('#stationaryModal').modal('toggle');
-            if($scope.isexitsContact == 1)
-            {    
+            if ($scope.isexitsStationary == 1)
+            {
                 $scope.stationaryDetails.splice($scope.index, 1);
-                $scope.stationaryDetails.splice($scope.index, 0, 
-                {
-                   'id': data.id,
+                $scope.stationaryDetails.splice($scope.index, 0,
+                        {
+                            'id': editId,
+                            'stationary_set_name': data.stationary_set_name,
+                            'estimate_letterhead_file': data.estimate_letterhead_file,
+                            'receipt_letterhead_file': data.receipt_letterhead_file,
+                            'rubber_stamp_file': data.rubber_stamp_file,
+                            'estimate_logo_file': data.estimate_logo_file,
+                            'demandletter_letterhead_file': data.demandletter_letterhead_file,
+                            'demandletter_logo_file': data.demandletter_logo_file,
+                            'receipt_logo_file': data.receipt_logo_file,
+                        });
+                toaster.pop('success', 'Stationary Information', 'Stationary information updated successfully');
+            } else
+            {
+                $scope.stationaryDetails.push({
+
+                    'id': 0,
                     'stationary_set_name': data.stationary_set_name,
                     'estimate_letterhead_file': data.estimate_letterhead_file,
                     'receipt_letterhead_file': data.receipt_letterhead_file,
                     'rubber_stamp_file': data.rubber_stamp_file,
                     'estimate_logo_file': data.estimate_logo_file,
                     'demandletter_letterhead_file': data.demandletter_letterhead_file,
-                    'demandletter_logo_file':data.demandletter_logo_file,
-                    'receipt_logo_file':data.receipt_logo_file,
-                });
-                toaster.pop('success', 'Stationary Information', 'Stationary information updated successfully');
-            }
-            else
-            {
-                $scope.stationaryDetails.push({
-                    
-                    'id': 0,
-                   'stationary_set_name': data.stationary_set_name,
-                    'estimate_letterhead_file': data.estimate_letterhead_file,
-                    'receipt_letterhead_file': data.receipt_letterhead_file,
-                    'rubber_stamp_file': data.rubber_stamp_file,
-                    'estimate_logo_file': data.estimate_logo_file,
-                    'demandletter_letterhead_file': data.demandletter_letterhead_file,
-                    'demandletter_logo_file':data.demandletter_logo_file,
-                    'receipt_logo_file':data.receipt_logo_file,
-                
+                    'demandletter_logo_file': data.demandletter_logo_file,
+                    'receipt_logo_file': data.receipt_logo_file,
+
                 });
                 toaster.pop('success', 'Stationary Information', 'Stationary information created successfully');
-                
-            }    
-                
+
+            }
+//            console.log($scope.stationaryDetails);
         }
 
         $scope.loadCompanyData = function (companyId)
         {
             $scope.CompanyData = [];
             Data.post('manage-companies/loadCompanyData', {'id': companyId}).then(function (response) {
-               
+
                 $scope.companyData = response.result;
                 $scope.id = response.result.id;
                 $scope.CompanyData.legal_name = response.result.legal_name;
@@ -100,17 +133,49 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 {
                     $scope.stationary = [{id: '1'}];
                 }
-                
+
                 angular.forEach(response.stationary, function (value, key) {
-                    $scope.stationary.push({'stationary_set_name': value.stationary_set_name, 'estimate_letterhead_file': value.estimate_letterhead_file, 'receiptLetterhead': value.receipt_letterhead_file, 'receipt_logo_file': value.receipt_logo_file, 'rubberStamp': value.rubber_stamp_file, 'estimateLetterheadFile': value.estimate_letterhead_file, 'estimateLogo': value.estimate_logo_file, 'demandletterFile': value.demandletter_letterhead_file, 'receiptLogoFile': value.receipt_logo_file, 'demandletterLogoFile': value.demandletter_logo_file, })
-              
+                    $scope.stationaryDetails.push({'stationary_set_name': value.stationary_set_name, 'estimate_letterhead_file': value.estimate_letterhead_file, 'receipt_letterhead_file': value.receipt_letterhead_file, 'receipt_logo_file': value.receipt_logo_file, 'rubber_stamp_file': value.rubber_stamp_file, 'estimate_logo_file': value.estimate_logo_file, 'demandletter_letterhead_file': value.demandletter_letterhead_file, 'demandletter_logo_file': value.demandletter_logo_file})
+
                 });
-//                 console.log( $scope.stationary);
-                
+//                 console.log( $scope.stationaryDetails);
+
             });
         }
+
+        $scope.editSubPage = function (list, index, isexitsStationary) {
+            $scope.isexitsStationary = isexitsStationary;
+            
+            $scope.stationary = list;
+            if (list.estimate_letterhead_file != '') {
+                $scope.estimate_letterhead_file = list.estimate_letterhead_file;
+            }
+            if (list.receipt_letterhead_file != '') {
+                $scope.receipt_letterhead_file = list.receipt_letterhead_file;
+            }
+            if (list.receipt_logo_file != '') {
+                $scope.receipt_logo_file = list.receipt_logo_file;
+            }
+            if (list.rubber_stamp_file != '') {
+                $scope.rubber_stamp_file = list.rubber_stamp_file;
+            }
+            if (list.demandletter_letterhead_file != '') {
+                $scope.demandletter_letterhead_file = list.demandletter_letterhead_file;
+            }
+            if (list.estimate_logo_file != '') {
+                $scope.estimate_logo_file = list.estimate_logo_file;
+            }
+            if (list.demandletter_logo_file != '') {
+                $scope.demandletter_logo_file = list.demandletter_logo_file;
+            }
+            $scope.subId = list.id;
+            $scope.index = index;
+//             $scope.stationary = {};
+        }
+
         $scope.docompanyscreateAction = function (FirmLogo, CompanyData, documents, Stationary)
         {
+
             $scope.firmBtn = true;
             $scope.errorMsg = '';
             $scope.allimages = '';
@@ -135,9 +200,8 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 data: data
             });
             FirmLogo.upload.then(function (response) {
-//                console.log(response);
                 $scope.firmBtn = false;
-                if (response.data.status == true) {
+                if (response.data.status) {
                     $state.go('companiesIndex');
                     $timeout(function () {
                         if ($scope.id == 0) {
@@ -167,6 +231,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 }
             });
         }
+
         $scope.Stationary = [{id: '1'}];
         $scope.documents = [{id: '1'}];
         $scope.addNewStationary = function () {
