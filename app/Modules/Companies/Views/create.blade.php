@@ -199,7 +199,7 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody>{{stationaryDetails}}
                                             <tr ng-repeat="list in stationaryDetails">
                                                 <td>{{$index + 1}}</td>
                                                 <td>{{list.stationary_set_name}}</td>

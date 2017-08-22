@@ -101,7 +101,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 toaster.pop('success', 'Stationary Information', 'Stationary information created successfully');
 
             }
-//            console.log($scope.stationaryDetails);
+            console.log($scope.stationaryDetails);
         }
 
         $scope.loadCompanyData = function (companyId)
