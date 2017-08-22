@@ -19,13 +19,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.salesEnqSubCategoryList = [];
         $scope.getProcName = $scope.type = $scope.getFunctionName = '';
         $scope.flagForChange = 0;
-<<<<<<< HEAD
-        $scope.minBudget = $scope.maxBudget = 0;
-        $scope.report_name;
-=======
         $scope.report_name;
         $scope.listType = 0;
->>>>>>> a62cb6958c58efee5641033cab9844bee89ee39f
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };

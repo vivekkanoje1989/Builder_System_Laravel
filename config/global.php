@@ -17,6 +17,5 @@ return [
     'backendUrl' => 'office.php',
     'recordsPerPage' =>30,
     'client_id' =>$GLOBALS['client_id'],
-    'brand_id' =>$GLOBALS['brand_id'],
     'client_info'=>$GLOBALS['client_info'],
 ];
