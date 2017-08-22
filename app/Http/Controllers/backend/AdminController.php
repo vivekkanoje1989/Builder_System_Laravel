@@ -29,6 +29,7 @@ use App\Models\MlstBmsbBlockType;
 use App\Models\ProjectBlock;
 use App\Models\Project;
 use App\Models\Company;
+use App\Models\MlstBmsbCompany;
 use App\Models\CompanyStationary;
 use App\Models\MlstEnquirySalesCategory;
 use App\Models\EnquirySalesSubcategory;
@@ -97,6 +98,16 @@ class AdminController extends Controller {
         return view('layouts.backend.dashboard')->with('id', $fullName);
     }
 
+    public function getCompanyList() {
+       $getCompanyList = MlstBmsbCompany::select('id','company_name')->get();
+       if (!empty($getCompanyList)) {
+           $result = ['success' => true, 'records' => $getCompanyList];
+       } else {
+           $result = ['success' => false, 'message' => 'Something went wrong'];
+       }
+       return json_encode($result);
+    }
+   
     public function sessiontimeout() {
         return view('backend.sessiontimeout');
     }

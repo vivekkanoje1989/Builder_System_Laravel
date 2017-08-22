@@ -72,6 +72,7 @@ class MasterSalesController extends Controller {
             } else {                
                $loggedInUserId = $input['customerData']['loggedInUserId'];
             }
+            //echo "<pre>";print_r($input);exit;
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -85,6 +86,9 @@ class MasterSalesController extends Controller {
             }
             $input['customerData']['pan_number'] = '';
             $input['customerData']['aadhar_number'] = '';
+            $input['customerData']['client_id'] = config('global.client_id');
+            $input['customerData']['corporate_customer'] = !empty($input['customerData']['corporate_customer']) ? $input['customerData']['corporate_customer'] : '0';
+            $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : '';
             $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : '';
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
@@ -219,14 +223,17 @@ class MasterSalesController extends Controller {
                     $result = ['success' => false, 'message' => $validator->messages()];
                     return json_encode($result, true);
                 }
+                unset($input['customerData']['company_name']);
             } else {
                 $loggedInUserId = $input['customerData']['loggedInUserId'];
                 unset($input['customerData']['loggedInUserId']);
                 unset($input['customerData']['id']);
             }
-
-            $input['customerData']['birth_date'] = date('Y-m-d', strtotime($input['customerData']['birth_date']));
-            $input['customerData']['marriage_date'] = date('Y-m-d', strtotime($input['customerData']['marriage_date']));
+            
+            $input['customerData']['corporate_customer'] = !empty($input['customerData']['corporate_customer']) ? $input['customerData']['corporate_customer'] : '0';
+            $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '';
+            $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "";
+            $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $update);
@@ -413,10 +420,7 @@ class MasterSalesController extends Controller {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $mobileNumber = $request['data']['mobileNumber'];
-            if (!empty($mobileNumber)) {
-                $explodeMobileNumber = explode("-", $mobileNumber);
-                $mobileNumber = (int) $explodeMobileNumber[1];
-            }
+
             $checkMobile = CustomersContact::select('customer_id', 'mobile_number')->where('mobile_number', $mobileNumber)->first();
 
             if (empty($checkMobile) || $checkMobile['customer_id'] == $request['data']['customerId']) {
@@ -1401,7 +1405,7 @@ class MasterSalesController extends Controller {
                 foreach ($data as $user) {
                     $srno = ["srno" => $i++];
                     $getFilterData = [$user["sales_enquiry_date"], $user["customer_fname"] . " " . $user["customer_lname"],
-                        $user["group_mobile_number"], $user["group_landline_number"], $user["group_email_id"], $user["project_block_name"],
+                        $user["mobile"], $user["landline_number"], $user["email"], $user["project_block_name"],
                         $user["enquiry_category"], $user["last_followup_date"],
                         $user["remarks"], $user["next_followup_date"] . " " . $user["next_followup_time"],
                         $user["sales_status"], $user["sales_source_id"], $user["sales_subsource_id"],

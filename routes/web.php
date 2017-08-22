@@ -169,6 +169,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/checkOldPassword', 'backend\AdminController@checkOldPassword');
     Route::post('/checkUniqueEmployeeId', 'backend\AdminController@checkUniqueEmployeeId');
     Route::get('/getSalesSource', 'backend\AdminController@getSalesSource');
+    Route::get('/getCompanyList', 'backend\AdminController@getCompanyList');
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });

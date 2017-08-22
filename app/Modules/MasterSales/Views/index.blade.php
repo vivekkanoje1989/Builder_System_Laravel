@@ -26,6 +26,33 @@
         display: inline-flex;
         margin: 0 30px;
     }
+    .custAdress{
+        font-size:20px;
+    }
+    .companyField{
+        padding: 0px 0px;
+        margin: 0px 0px 5px;
+        max-height: 100px;
+        overflow-y: scroll;
+        position: absolute;
+        width: 92%;
+        z-index: 999;
+        border:1px solid #b1acac;
+        border-top: none;
+    }
+    .companyField li{
+        padding: 10px;
+        color: #5a5a5a;
+        list-style:none;
+        background:#f8f8f8; 
+        cursor: pointer;
+    }
+    .companyField :hover{
+        background: #ccc;
+        color:#fff;
+    }
+    .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;margin-left: 15px;}
+    .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;margin-left: 15px;}
 </style>
 <div class="row"> 
     <div class="widget flat radius-bordered ">
@@ -176,7 +203,7 @@
             <div class="modal fade" id="contactDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog">
                     <!-- Modal content-->
-                    <div class="modal-content">                        
+                    <div class="modal-content" style="width: 115%;">                        
                         <form novalidate name="modalForm" ng-submit="modalForm.$valid && addRow(contactData)">
                             <div class="modal-header">
                                 <button type="button" class="close" id="closeModal" data-dismiss="modal">&times;</button>
@@ -184,7 +211,7 @@
                             </div>
                             <input type="hidden" ng-model="contactData.index" name="index" value="{{contactData.index}}">
                             <div class="modal-body">
-                                <div class="col-lg-6 col-sm-6 col-xs-12">
+                                <div class="col-lg-12 col-sm-12 col-xs-12">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -199,16 +226,23 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-2 col-xs-2">
+                                            <div class="form-group" >
+                                                <label for="">Country Code</label>
+                                                <span class="input-icon icon-right"> 
+                                                    <input type="text" disabled ng-model="contactData.mobile_calling_code"  name="mobile_calling_code"  id="mobile_calling_code" class="form-control">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-4">
                                             <div class="form-group">
                                                 <label for="">Mobile Number</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number" id="mobile_number" class="form-control" intl-Tel ng-pattern="/^(\+\d{1,4}-)\d{10}$/" check-mobile-exist required>
+                                                    <input type="text" ng-model="contactData.mobile_number" name="mobile_number" id="mobile_number" class="form-control" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" check-mobile-exist ng-model-options="{ allowInvalid: true, debounce: 300 }" required>
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
-                                                <div ng-show="modalSbtBtn" ng-messages="modalForm.mobile_number.$error" class="help-block">
+                                                <div ng-show="modalSbtBtn && modalForm.mobile_number.$invalid" ng-messages="modalForm.mobile_number.$error" class="help-block">
                                                     <div ng-message="required">This field is required.</div>
-                                                    <div ng-message="pattern">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
                                                     <div ng-message="uniqueMobile">Mobile number already exist</div>
                                                 </div>
                                             </div>
@@ -228,16 +262,21 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-2 col-xs-2">
+                                            <div class="form-group" >
+                                                <label for="">Country Code</label>
+                                                <span class="input-icon icon-right"> 
+                                                    <input type="text" disabled ng-model="contactData.landline_calling_code"  name="landline_calling_code"  id="landline_calling_code" class="form-control">
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-4">
                                             <div class="form-group">
                                                 <label for="">Landline Number</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.landline_number" name="landline_number" id="landline_number" class="form-control" intl-Tel ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(contactData.landline_number)">
+                                                    <input type="text" ng-model="contactData.landline_number" name="landline_number" id="landline_number" minlength="10" maxlength="10" class="form-control" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
-                                                <div ng-show="modalSbtBtn || errLandline" ng-messages="modalForm.landline_number.$error" class="help-block {{applyClass}}">
-                                                    <div>{{ errLandline}}</div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -259,7 +298,7 @@
                                             <div class="form-group">
                                                 <label for="">Email ID</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.email_id" name="email_id" class="form-control" check-email-exist ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-model-options="{ allowInvalid: true, debounce: 500 }">
+                                                    <input type="text" ng-model="contactData.email_id" name="email_id" class="form-control" maxlength="50" check-email-exist ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 500 }">
                                                     <i class="glyphicon glyphicon-envelope"></i>
                                                 </span>
                                                 <div ng-show="modalSbtBtn" ng-messages="modalForm.email_id.$error" class="help-block">
@@ -268,6 +307,13 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>    
+                                    
+                                
+                                <div><strong>Customer Address</strong> 
+                                    <span class="custAdress" ng-show="showaddress" ng-click="showAddress()"> <i class="fa fa-plus-square fa-2" aria-hidden="true"></i></span>&nbsp;
+                                    <span ng-show="hideaddress" ng-click="hideAddress()" class="custAdress"><i class="fa fa-minus-square fa-2" aria-hidden="true"></i></span>
+                                    <div class="col-lg-12 col-sm-12 col-xs-12" ng-show="customerAddress" ng-controller="currentCountryListCtrl">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -314,8 +360,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-6 col-xs-12" ng-controller="currentCountryListCtrl">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
@@ -417,6 +461,7 @@
                                         </div>
                                     </div>                                
                                 </div>   
+                                </div>
                             </div>
                             <div class="modal-footer" align="center">
                                 <button type="submit" class="btn btn-primary" id="subbtn" ng-click="modalSbtBtn = true">Submit</button>
@@ -437,5 +482,6 @@
        $("#closeModal").click(function(){
            $("#subbtn").trigger("click");
        });
-   })
+   });
+   $("#mobile_calling_code,#landline_calling_code").intlTelInput();
 </script>
