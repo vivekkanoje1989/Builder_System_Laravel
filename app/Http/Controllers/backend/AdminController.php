@@ -625,6 +625,30 @@ class AdminController extends Controller {
         return json_encode($result);
     }
 
+     public function getSalesLostReason() {
+        $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id','reason')->where('lost_reason_status',1)->orderBy('id')->get();
+        if (!empty($getSalesLostReason)) {
+            $result = ['success' => true, 'records' => $getSalesLostReason];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
+
+    public function getSalesLostSubReason() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $lostReasonId = $request['data']['lostReasonId'];
+        $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id','sub_reason')->where(['enquiry_lost_reason_id'=>$lostReasonId,'lost_sub_reason_status'=>1])->get();
+        if (!empty($getSalesLostSubReason)) {
+            $result = ['success' => true, 'records' => $getSalesLostSubReason];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+    }
     public function getAmenitiesList() {
         $amenitiesList = MlstBmsbAmenity::select('id', 'name_of_amenity')->where("amenity_status", 1)->get();
         if (!empty($amenitiesList)) {
