@@ -61,11 +61,6 @@ return [
             'region' => 'your-region',
             'bucket' => 'your-bucket',
         ],
-        'gcs' => [
-            'driver' => 'gcs',
-            'project_id' => '756686641793',
-            'bucket' => 'bckt_nextedge',
-        ],
 
     ],
     
