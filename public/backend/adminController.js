@@ -172,6 +172,34 @@ app.controller('salesEnqStatusCtrl', function ($scope, Data) {
 
 });
 
+
+app.controller('salesLostReasonCtrl', function ($scope, Data) {
+    $scope.salessublostreasons = [];
+    Data.get('getSalesLostReason').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.saleslostreasons = response.records;
+        }
+    });
+    
+    $scope.getlostsubreason = function(lostReasonId){
+         var data = lostReasonId.split("_");
+        lostReasonId = data[0];
+       Data.post('getSalesLostSubReason',{
+            data: {lostReasonId: lostReasonId},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.salessublostreasons = response.records;
+            }
+        }); 
+    }
+});
+
+
+
 app.controller('projectCtrl', function ($scope, Data) {
     Data.get('getProjects').then(function (response) {
         if (!response.success) {

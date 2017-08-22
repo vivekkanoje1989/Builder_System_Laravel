@@ -11,7 +11,7 @@
     padding: 5px;
 }
 </style>
-<div class="row" ng-controller="enquiryController" ng-init="todaysFollowups('', [[$type]],1, [[config('global.recordsPerPage')]])" >
+<div class="row" ng-controller="enquiryController" ng-init="todaysFollowups('', [[$type]],1, [[config('global.recordsPerPage')]],1)" >
     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '[[ csrf_token() ]]'">
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
@@ -47,7 +47,7 @@
                             <label for=""></label>
                             <span class="input-icon icon-right">
                                 <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'todaysFollowups','', [[$type]],newPageNumber)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                            
+                                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'todaysFollowups','', [[$type]],newPageNumber,listType)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                            
                             </span>
                         </div>
                     </div>
@@ -77,7 +77,7 @@
                                </strong>
                                <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
                                <!--<strong ng-if="key != 'channel_id' && key != 'city_id' && key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>-->
-                               <strong ng-if="key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
+                               <strong ng-if="key == 'max_budget' || key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
                            </div>
                        </div>
                     </b>
@@ -250,7 +250,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'todaysFollowups','', [[$type]])" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
+                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'todaysFollowups','', [[$type]],newPageNumber,listType)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                 <div ng-if="enquiriesLength == 0 ">
                     <div>
                         <center><b>No Enquiries Found</b></center>
@@ -266,7 +266,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" align="center">Enquiry History</h4>
                         </div>
-                        <!--<div data-ng-include=" '/MasterSales/enquiryHistory'"></div>-->
+                        <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
                         <div class="modal-footer" align="center">
                         </div>
                     </div>
