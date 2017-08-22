@@ -56,7 +56,7 @@ class S3 {
         S3::s3Configuration();        
         $name = '';
         $s3 = \Storage::disk('s3');
-        $s3Path = '/'.$s3FolderName.'/'. $filename;echo $s3Path;
+        $s3Path = '/'.$s3FolderName.'/'. $filename;
         $s3->put($s3Path, file_get_contents($filepath), 'public');
         if ($filename !== '') {
             return($filename);

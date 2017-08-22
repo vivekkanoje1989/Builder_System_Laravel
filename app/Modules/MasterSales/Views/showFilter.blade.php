@@ -7,8 +7,16 @@
         width: 100% !important;
         position: absolute;
     }
-
 </style>
+  <!-- listType
+    1   --- todays folloups
+    2  ---pending followups
+    3 ---previous followups                                        
+    4 ------- total enquiry
+    5 ----- booked enquiry                                        
+    6 ----- reassign enquiry 
+    7 ----- lost enquiries
+    -->    
 <script src="/js/filterSlider.js"></script>
 <div class="wrap-filter-form show-widget" id="slideout">
     <strong align="center">Filters</strong>
@@ -22,7 +30,26 @@
                 <accordion-heading>
                     <span>Enquiry</span>
                 </accordion-heading>
-                <form name="enquiryFilter" role="form" ng-submit="getFilteredData(filterData, min, max, 1, 30)">
+                <form name="enquiryFilter" role="form" ng-submit="getFilteredData(filterData,1, 30)">
+                    <div class="row" ng-controller="employeesWiseTeamCtrl">
+                        <div class="col-sm-6 col-sx-12" ng-if="type == 1 && employeesData.length > 0">
+                            <div class="form-group">
+                                <label for="">Select Owners Name</label>
+                                <span class="input-icon icon-right">
+                                    <ui-select multiple ng-model="filterData.employee_id" name="employee_id" theme="select2" ng-disabled="disabled" style="width: 100%;">
+                                        <ui-select-match placeholder='Select Employee'>{{$item.first_name}} {{$item.last_name}}</ui-select-match>
+                                        <!--<ui-select-choices repeat="list in employees1 | filter: {id : '!1'} | filter:$select.search" >-->
+                                        <ui-select-choices repeat="list in employeesData | filter:$select.search" ng-hide="!$select.open">
+                                            <span>
+                                                {{ list.first_name}} {{ list.last_name}}
+                                            </span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <i class="fa fa-sort-desc"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-sm-6 col-sx-12" ng-controller="DatepickerDemoCtrl">
                             <div class="form-group">
@@ -43,6 +70,34 @@
                                 <span class="input-icon icon-right">
                                     <p class="input-group">
                                         <input type="text" ng-model="filterData.toDate" min-date="filterData.fromDate" name="toDate" id="toDate" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="listType == 5">
+                        <div class="col-sm-6 col-sx-12" ng-controller="DatepickerDemoCtrl">
+                            <div class="form-group">
+                                <label for="">Booking From Date</label>
+                                <span class="input-icon icon-right">
+                                    <p class="input-group">
+                                        <input type="text" ng-model="filterData.bookingFromDate" name="bookingFromDate" id="bookingFromDate" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        </span>
+                                    </p>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-sx-12" ng-controller="DatepickerDemoCtrl">
+                            <div class="form-group">
+                                <label for="">Booking To Date</label>
+                                <span class="input-icon icon-right">
+                                    <p class="input-group">
+                                        <input type="text" ng-model="filterData.bookingToDate" min-date="filterData.bookingFromDate" name="bookingToDate" id="bookingToDate" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                         </span>
@@ -79,6 +134,62 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" ng-if="listType == 7" ng-controller="salesLostReasonCtrl">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="">Lost Reason</label>
+                                <span class="input-icon icon-right">
+                                    <select ng-model="filterData.lostReason_id" name="lostReason_id" class="form-control" id="sales_lost_reason_id" ng-change="getlostsubreason(filterData.lostReason_id)">
+                                        <option value="">Select Reason</option>
+                                        <option ng-repeat="list in saleslostreasons track by $index"  value="{{list.id}}_{{list.reason}}">{{list.reason}}</option>
+                                    </select>
+                                    <i class="fa fa-sort-desc"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <label for="">Lost Sub Reason</label>
+                                <span class="input-icon icon-right">
+                                    <ui-select multiple ng-model="filterData.subreason_id" name="subreason_id" theme="select2" ng-disabled="disabled" style="width: 100%;">
+                                        <ui-select-match placeholder='Select Sub Reason'>{{$item.sub_reason}}</ui-select-match>
+                                        <ui-select-choices repeat="list in salessublostreasons | filter:$select.search">
+                                            {{list.sub_reason}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <i class="fa fa-sort-desc"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="row"  ng-controller="salesEnqStatusCtrl">
+                        <div class="col-sm-6 col-xs-12"  ng-if="listType == 1 || listType == 2 || listType == 3 || listType == 4 || listType == 6">
+                            <div class="form-group" >
+                                <label for="">Enquiry Status</label>
+                                <span class="input-icon icon-right">
+                                    <select ng-model="filterData.status_id" name="status_id" class="form-control" ng-change="getFilterSubStatus(filterData.status_id)">
+                                        <option value="">Select status</option>
+                                        <option ng-repeat="list in salesEnqStatusList track by $index"  ng-if="list.id != 3 && list.id != 4" value="{{list.id}}_{{list.sales_status}}">{{list.sales_status}}</option>
+                                    </select>
+                                    <i class="fa fa-sort-desc"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12"  ng-if="listType == 1 || listType == 2 || listType == 3 || listType == 4 || listType == 6">
+                            <div class="form-group">
+                                <label for="">Enquiry Sub Status</label>                                                
+                                <span class="input-icon icon-right">
+                                    <ui-select multiple ng-model="filterData.substatus_id" name="substatus_id" theme="select2" ng-disabled="disabled" style="width: 100%;">
+                                        <ui-select-match placeholder='Select Sub Status' style="width:100% !important;">{{$item.enquiry_sales_substatus}}</ui-select-match>
+                                        <ui-select-choices repeat="list in salesEnqSubStatusList | filter:$select.search">
+                                            {{ list.enquiry_sales_substatus}}
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <i class="fa fa-sort-desc"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div> 
                     <div class="row" ng-controller="enquirySourceCtrl">
                         <div class="col-sm-6 col-sx-12">
                             <div class="form-group">
@@ -235,7 +346,7 @@
            
             <!--<h4 class="">Customer</h4>-->
             <div class="accordion-content" heading="Customer Filters">
-                <form name="enquiryFilter" role="form" ng-submit="getFilteredData(filterData, min, max, 1, 30)">
+                <form name="enquiryFilter" role="form" ng-submit="getFilteredData(filterData,1, 30)">
                     <div class="row">
                         <div class="col-sm-6 col-sx-6">
                             <div class="form-group">

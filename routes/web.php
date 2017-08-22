@@ -170,6 +170,12 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/checkUniqueEmployeeId', 'backend\AdminController@checkUniqueEmployeeId');
     Route::get('/getSalesSource', 'backend\AdminController@getSalesSource');
     Route::get('/getCompanyList', 'backend\AdminController@getCompanyList');
+<<<<<<< HEAD
+=======
+    Route::get('/getSalesLostReason', 'backend\AdminController@getSalesLostReason');
+    Route::post('/getSalesLostSubReason', 'backend\AdminController@getSalesLostSubReason');
+
+>>>>>>> a62cb6958c58efee5641033cab9844bee89ee39f
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });

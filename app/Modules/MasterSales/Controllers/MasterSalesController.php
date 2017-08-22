@@ -851,7 +851,7 @@ class MasterSalesController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $filterData = $request['filterData'];
-        //  print_r($request);exit;
+        //print_r($filterData);exit;
         if (empty($request['empId'])) { // For Web
             $loggedInUserId = Auth::guard('admin')->user()->id;
             if ($request['teamType'] == 1) {
@@ -872,14 +872,14 @@ class MasterSalesController extends Controller {
             if (!empty($filterData["city_id"])) {
                 $city = explode("_", $filterData["city_id"]);
             }
-//             if (!empty($filterData["lostReason_id"])) {
-//                $reason = explode("_", $filterData["lostReason_id"]);
-//            }
+            if (!empty($filterData["lostReason_id"])) {
+                $reason = explode("_", $filterData["lostReason_id"]);
+            }
             $filterData["category_id"] = !empty($filterData["category_id"]) ? $category[0] : "";
             $filterData["source_id"] = !empty($filterData['source_id']) ? $source[0] : "";
             $filterData['status_id'] = !empty($filterData['status_id']) ? $status[0] : "";
-            $filterData['city_id'] = !empty($filterData['status_id']) ? $city[0] : "";
-            //$filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $reason[0] : "";
+            $filterData['city_id'] = !empty($filterData['city_id']) ? $city[0] : "";
+            $filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $reason[0] : "";
         } else { // For App
             $request["getProcName"] = MasterSalesController::$procname;
             $loggedInUserId = $request['empId'];
@@ -892,10 +892,14 @@ class MasterSalesController extends Controller {
             $filterData["category_id"] = !empty($filterData["category_id"]) ? $filterData["category_id"] : "";
             $filterData["source_id"] = !empty($filterData['source_id']) ? $filterData["source_id"] : "";
             $filterData["status_id"] = !empty($filterData['status_id']) ? $filterData["status_id"] : "";
-            // $filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $filterData['status_id'] : "";
+            $filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $filterData['lostReason_id'] : "";
         }
         //$filterData["project_id"] = !empty($filterData['project_id']) ? implode(',', array_column($filterData['project_id'], 'id')) : "";
-
+        if (isset($filterData['employee_id']) && !empty($filterData['employee_id'])) {
+            $loggedInUserId = implode(',', array_map(function($el) {
+                        return $el['id'];
+                    }, $filterData['employee_id']));
+        }
         $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
         $filterData["fname"] = !empty($filterData['fname']) ? $filterData['fname'] : "";
         $filterData["lname"] = !empty($filterData['lname']) ? $filterData['lname'] : "";
@@ -904,6 +908,8 @@ class MasterSalesController extends Controller {
         $filterData["fromDate"] = !empty($filterData['fromDate']) ? date('Y-m-d', strtotime($filterData['fromDate'])) : "";
         $filterData["toDate"] = !empty($filterData['toDate']) ? date('Y-m-d', strtotime($filterData['toDate'])) : "";
         $filterData["subcategory_id"] = !empty($filterData['subcategory_id']) ? implode(',', array_column($filterData['subcategory_id'], 'id')) : "";
+        $filterData["substatus_id"] = !empty($filterData['substatus_id']) ? implode(',', array_column($filterData['substatus_id'], 'id')) : "";
+        $filterData["subreason_id"] = !empty($filterData['subreason_id']) ? implode(',', array_column($filterData['subreason_id'], 'id')) : "";
         $filterData["subsource_id"] = !empty($filterData['subsource_id']) ? implode(',', array_column($filterData['subsource_id'], 'id')) : "";
         $filterData["project_id"] = !empty($filterData['project_id']) ? implode(',', array_column($filterData['project_id'], 'id')) : "";
         $filterData["enquiry_locations"] = !empty($filterData['enquiry_locations']) ? implode(',', array_column($filterData['enquiry_locations'], 'id')) : "";
@@ -911,18 +917,38 @@ class MasterSalesController extends Controller {
         $filterData["loan_required"] = (!empty($filterData['loan_required']) || isset($filterData['loan_required'])) ? $filterData['loan_required'] : "";
         $filterData["site_visited"] = !empty($filterData['site_visited']) ? $filterData['site_visited'] : "";
         $filterData["channel_id"] = !empty($filterData['channel_id']) ? $filterData['channel_id'] : "";
-        $filterData["maxbudget"] = !empty($request['maxBudget']) ? $request['maxBudget'] : 0;
-        $filterData["minbudget"] = !empty($request['minBudget']) ? $request['minBudget'] : 0;
+        $filterData["max_budget"] = !empty($filterData["max_budget"]) ? $filterData["max_budget"] : 0;
+        //$filterData["minbudget"] = !empty($request['minBudget']) ? $request['minBudget'] : 0;
         $filterData["mobileNumber"] = !empty($filterData['mobileNumber']) ? $filterData['mobileNumber'] : "";
         $filterData["verifiedMobNo"] = !empty($filterData['verifiedMobNo']) ? $filterData['verifiedMobNo'] : "";
         $filterData["verifiedEmailId"] = !empty($filterData['verifiedEmailId']) ? $filterData['verifiedEmailId'] : "";
+        $filterData["bookingFromDate"] = !empty($filterData['bookingFromDate']) ? date('Y-m-d', strtotime($filterData['bookingFromDate'])) : "";
+        $filterData["bookingToDate"] = !empty($filterData['bookingToDate']) ? date('Y-m-d', strtotime($filterData['bookingToDate'])) : "";
         //print_r($filterData);exit;
-        $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
-                        $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
+        if($request["getProcName"] == 'proc_get_booked_enquiries')
+        {
+            $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
+                        $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","'.$filterData["bookingFromDate"].'","'.$filterData["bookingToDate"].'","' .
                         $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
                         $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
-                        $filterData["channel_id"] . '","' . $filterData['minbudget'] . '","' . $filterData['maxbudget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
+                        $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
+        }
+        else if($request["getProcName"] == 'proc_get_lost_enquiries')
+        {
+           $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
+                        $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
+                        $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","'.$filterData["lostReason_id"].'","'.$filterData["subreason_id"].'","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
+                        $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
+                        $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
+        }
+        else{
+        $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
+                        $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
+                        $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","'.$filterData["status_id"].'","'.$filterData["substatus_id"].'","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
+                        $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
+                        $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
         //print_r($getEnquiryDetails);exit;
+        }
         $cnt = DB::select('select FOUND_ROWS() totalCount');
         $getEnquiryDetails = json_decode(json_encode($getEnquiryDetails), true);
 
@@ -998,7 +1024,7 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = implode(',', $alluser);
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
             if (count($getTotalEnquiryDetails) != 0) {
@@ -1038,7 +1064,7 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = implode(',', $alluser);
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getTodaysFollowups = DB::select('CALL proc_get_today_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getTodaysFollowups = DB::select('CALL proc_get_today_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTodaysFollowups = json_decode(json_encode($getTodaysFollowups), true);
 
@@ -1078,7 +1104,7 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = implode(',', $alluser);
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getlostEnquiryDetails = json_decode(json_encode($getlostEnquiryDetails), true);
 
@@ -1117,7 +1143,7 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = implode(',', $alluser);
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getbookedEnquiryDetails = json_decode(json_encode($getbookedEnquiryDetails), true);
 
@@ -1159,7 +1185,7 @@ class MasterSalesController extends Controller {
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
 
-            $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
             if (count($getCustomerEnquiryDetails) != 0 && !empty($getCustomerEnquiryDetails[0]['id'])) {
@@ -1198,7 +1224,7 @@ class MasterSalesController extends Controller {
                 $loggedInUserId = implode(',', $alluser);
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $getpendingfollowups = DB::select('CALL proc_get_pending_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+            $getpendingfollowups = DB::select('CALL proc_get_pending_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getpendingfollowups = json_decode(json_encode($getpendingfollowups), true);
 
@@ -1238,7 +1264,7 @@ class MasterSalesController extends Controller {
         $this->getTeamIds($loggedInUserId);
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
-        $enquiries = DB::select('CALL proc_get_total_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = DB::select('CALL proc_get_total_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
         $enquiries = json_decode(json_encode($enquiries), true);
 
         if (count($enquiries) != 0) {
@@ -1263,7 +1289,7 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
 
-        $enquiries = DB::select('CALL proc_get_lost_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = DB::select('CALL proc_get_lost_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
         $enquiries = json_decode(json_encode($enquiries), true);
 
         if (count($enquiries) != 0) {
@@ -1313,7 +1339,7 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
 
-        $enquiries = DB::select('CALL proc_get_today_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = DB::select('CALL proc_get_today_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
         $enquiries = json_decode(json_encode($enquiries), true);
 
         if (count($enquiries) != 0) {
@@ -1338,7 +1364,7 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
 
-        $enquiries = DB::select('CALL proc_get_pending_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = DB::select('CALL proc_get_pending_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
         $enquiries = json_decode(json_encode($enquiries), true);
 
         if (count($enquiries) != 0) {
@@ -1363,7 +1389,7 @@ class MasterSalesController extends Controller {
         $alluser = $this->allusers;
         $empTeamIds = implode(',', $alluser);
 
-        $enquiries = DB::select('CALL proc_get_previous_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
+        $enquiries = DB::select('CALL proc_get_previous_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
         $enquiries = json_decode(json_encode($enquiries), true);
 
         if (count($enquiries) > 0 && !empty($enquiries[0]['id'])) {
