@@ -36,6 +36,7 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
         if (type == 1) {
             var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + $scope.maxDates.getDate());
             $scope.userData.birth_date = date_of_birth;
+            $scope.customerData.birth_date = date_of_birth;
         }
 
         if (type == 2) {
@@ -43,6 +44,10 @@ app.controller('DatepickerDemoCtrl', function ($scope, $filter) {
                 var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + $scope.maxDates.getDate());
                 $scope.userPersonalData.birth_date = date_of_birth;
             }
+        }
+        if (type == 3) {
+            var date_of_birth = ($scope.maxDates.getFullYear() + '-' + ("0" + ($scope.maxDates.getMonth() + 1)).slice(-2) + '-' + $scope.maxDates.getDate());
+            $scope.customerData.birth_date = date_of_birth;
         }
     };
     $scope.dateOptions = {

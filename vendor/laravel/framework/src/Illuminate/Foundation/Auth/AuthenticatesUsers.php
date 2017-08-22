@@ -17,7 +17,7 @@ trait AuthenticatesUsers
      */
     public function showLoginForm()
     {
-        return view('backend.auth.login');
+        return view('auth.login');
     }
 
     /**
@@ -27,15 +27,9 @@ trait AuthenticatesUsers
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request)
-    { 
-        $postdata = file_get_contents("php://input");
-        $jsonDecode = json_decode($postdata, true);
-        
-        $request['username']= $jsonDecode['username'];
-        $request['password']= $jsonDecode['password'];
-        
+    {
         $this->validateLogin($request);
-        
+
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
@@ -64,7 +58,7 @@ trait AuthenticatesUsers
      * @return void
      */
     protected function validateLogin(Request $request)
-    {        
+    {
         $this->validate($request, [
             $this->username() => 'required', 'password' => 'required',
         ]);
@@ -77,8 +71,7 @@ trait AuthenticatesUsers
      * @return bool
      */
     protected function attemptLogin(Request $request)
-    {   
-        
+    {
         return $this->guard()->attempt(
             $this->credentials($request), $request->has('remember')
         );
@@ -145,7 +138,7 @@ trait AuthenticatesUsers
      */
     public function username()
     {
-        return 'username';
+        return 'email';
     }
 
     /**

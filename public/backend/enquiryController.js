@@ -19,6 +19,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.salesEnqSubCategoryList = [];
         $scope.getProcName = $scope.type = $scope.getFunctionName = '';
         $scope.flagForChange = 0;
+        $scope.report_name;
         $scope.listType = 0;
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
@@ -49,7 +50,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         $scope.exportReport = function (result) {
-            Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.pageHeading.replace(/ /g, "_")}).then(function (response) {
+            Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.report_name.replace(/ /g, "_")}).then(function (response) {
                 $("#downloadExcel").attr("href", response.fileUrl);
                 $scope.sheetName = response.sheetName;
 
