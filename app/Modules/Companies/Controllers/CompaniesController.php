@@ -102,70 +102,78 @@ class CompaniesController extends Controller {
             $allData = array_merge($common, $post);
             $companyDetails = Companies::create($allData);
             $company = Companies::latest('id')->first();
-            if (!empty($input['stationary']['0']['receipt_letterhead_file']) || !empty($input['stationary']['0']['estimate_letterhead_file']) || !empty($input['stationary']['0']['rubber_stamp_file']) || !empty($input['stationary']['0']['estimate_logo_file']) || !empty($input['stationary']['0']['demandletter_letterhead_file']) || !empty($input['stationary']['0']['demandletter_logo_file']) || !empty($input['stationary']['0']['demandletter_logo_file']) || !empty($input['stationary']['0']['stationary_set_name'])) {
+        }
+        return json_encode(['records' => $companyDetails,'id'=>$company->id, 'status' => true]);
+    }
 
-                for ($i = 0; $i < count($input['stationary']); $i++) {
-                    if (!empty($input['stationary'][$i]['estimate_letterhead_file'])) {
+    
+    
+    public function addSationary() {
+        $input = Input::all();
+        if (!empty($input['stationary']['receipt_letterhead_file']) || !empty($input['stationary']['estimate_letterhead_file']) || !empty($input['stationary']['rubber_stamp_file']) || !empty($input['stationary']['estimate_logo_file']) || !empty($input['stationary']['demandletter_letterhead_file']) || !empty($input['stationary']['0']['demandletter_logo_file']) || !empty($input['stationary']['demandletter_logo_file']) || !empty($input['stationary']['stationary_set_name'])) {
+
+//                for ($i = 0; $i < count($input['stationary']); $i++) {
+                    if (!empty($input['stationary']['estimate_letterhead_file'])) {
                         $s3FolderName = 'Company/estimateLetterhead';
-                        $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['estimate_letterhead_file']->getClientOriginalExtension();
-                        S3::s3FileUpload($input['stationary'][$i]['estimate_letterhead_file']->getPathName(), $imageName, $s3FolderName);
+                        $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['estimate_letterhead_file']->getClientOriginalExtension();
+                        S3::s3FileUpload($input['stationary']['estimate_letterhead_file']->getPathName(), $imageName, $s3FolderName);
                         $letterhead = $imageName;
                     } else {
                         $letterhead = '';
                     }
-                    if (!empty($input['stationary'][$i]['receipt_letterhead_file'])) {
+                    if (!empty($input['stationary']['receipt_letterhead_file'])) {
                         $s3FolderName1 = 'Company/receiptLetterhead';
-                        $imageName1 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['receipt_letterhead_file']->getClientOriginalExtension();
-                        S3::s3FileUpload($input['stationary'][$i]['receipt_letterhead_file']->getPathName(), $imageName1, $s3FolderName1);
+                        $imageName1 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['receipt_letterhead_file']->getClientOriginalExtension();
+                        S3::s3FileUpload($input['stationary']['receipt_letterhead_file']->getPathName(), $imageName1, $s3FolderName1);
                         $receiptname = $imageName1;
                     } else {
                         $receiptname = '';
                     }
-                    if (!empty($input['stationary'][$i]['rubber_stamp_file'])) {
+                    if (!empty($input['stationary']['rubber_stamp_file'])) {
                         $s3FolderName2 = 'Company/rubberStampFile';
-                        $imageName2 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['rubber_stamp_file']->getClientOriginalExtension();
-                        S3::s3FileUpload($input['stationary'][$i]['rubber_stamp_file']->getPathName(), $imageName2, $s3FolderName2);
+                        $imageName2 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['rubber_stamp_file']->getClientOriginalExtension();
+                        S3::s3FileUpload($input['stationary']['rubber_stamp_file']->getPathName(), $imageName2, $s3FolderName2);
                         $stampname = $imageName2;
                     } else {
                         $stampname = '';
                     }
-                    if (!empty($input['stationary'][$i]['estimate_logo_file'])) {
+                    if (!empty($input['stationary']['estimate_logo_file'])) {
                         $s3FolderName3 = 'Company/estimateLogoFile';
-                        $imageName3 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['estimate_logo_file']->getClientOriginalExtension();
-                        S3::s3FileUpload($input['stationary'][$i]['estimate_logo_file']->getPathName(), $imageName3, $s3FolderName3);
+                        $imageName3 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['estimate_logo_file']->getClientOriginalExtension();
+                        S3::s3FileUpload($input['stationary']['estimate_logo_file']->getPathName(), $imageName3, $s3FolderName3);
                         $estLogoFile = $imageName3;
                     } else {
                         $estLogoFile = '';
                     }
 
-                    if (!empty($input['stationary'][$i]['demandletter_letterhead_file'])) {
+                    if (!empty($input['stationary']['demandletter_letterhead_file'])) {
                         $s3FolderName4 = 'Company/demandletterFile';
-                        $imageName4 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['demandletter_letterhead_file']->getClientOriginalExtension();
-                        S3::s3FileUpload($input['stationary'][$i]['demandletter_letterhead_file']->getPathName(), $imageName4, $s3FolderName4);
+                        $imageName4 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['demandletter_letterhead_file']->getClientOriginalExtension();
+                        S3::s3FileUpload($input['stationary']['demandletter_letterhead_file']->getPathName(), $imageName4, $s3FolderName4);
                         $demandLetter = $imageName4;
                     } else {
                         $demandLetter = '';
                     }
 
-                    if (!empty($input['stationary'][$i]['demandletter_logo_file'])) {
+                    if (!empty($input['stationary']['demandletter_logo_file'])) {
                         $s3FolderName5 = 'Company/demandletterLogoFile';
-                        $imageName5 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['demandletter_logo_file']->getClientOriginalExtension();
-                        S3::s3FileUpload($input['stationary'][$i]['demandletter_logo_file']->getPathName(), $imageName5, $s3FolderName5);
+                        $imageName5 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['demandletter_logo_file']->getClientOriginalExtension();
+                        S3::s3FileUpload($input['stationary']['demandletter_logo_file']->getPathName(), $imageName5, $s3FolderName5);
                         $demandLogoFile = $imageName5;
                     } else {
                         $demandLogoFile = '';
                     }
 
-                    if (!empty($input['stationary'][$i]['receipt_logo_file'])) {
+                    if (!empty($input['stationary']['receipt_logo_file'])) {
                         $s3FolderName6 = 'Company/receiptLogoFile';
-                        $imageName6 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary'][$i]['receipt_logo_file']->getClientOriginalExtension();
-                        S3::s3FileUpload($input['stationary'][$i]['receipt_logo_file']->getPathName(), $imageName6, $s3FolderName6);
+                        $imageName6 = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['receipt_logo_file']->getClientOriginalExtension();
+                        S3::s3FileUpload($input['stationary']['receipt_logo_file']->getPathName(), $imageName6, $s3FolderName6);
                         $receiptLogoFile = $imageName6;
                     } else {
                         $receiptLogoFile = '';
                     }
-                    if (!empty($input['stationary'][$i]['stationary_set_name'])) {
-                        $stationary_set_name = $input['stationary'][$i]['stationary_set_name'];
+                    if (!empty($input['stationary']['stationary_set_name'])) {
+                        $stationary_set_name = $input['stationary']['stationary_set_name'];
                     } else {
                         $stationary_set_name = '';
                     }
@@ -179,28 +187,32 @@ class CompaniesController extends Controller {
                         "demandletter_logo_file" => $demandLogoFile,
                         "demandletter_letterhead_file" => $demandLetter,
                         "receipt_logo_file" => $receiptLogoFile,
-                        "company_id" => $company->id,
+                        "company_id" => $input['companyid'],
                     ];
                     $loggedInUserId = Auth::guard('admin')->user()->id;
                     $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
                     $allData = array_merge($common, $post);
                     $create = CompanyStationaries::create($allData);
-                }
+//                }
+                return json_encode(['records' => $create, 'status' => true]);
             }
-            if (!empty($input['documents']['0']['document_file']) || !empty($input['documents']['0']['document_name'])) {
+        
+    }
+    
+    public function addDocument() {
+         $input = Input::all();
+        if (!empty($input['documents']['document_file']) || !empty($input['documents']['document_name'])) {
 
-                for ($i = 0; $i < count($input['documents']); $i++) {
-
-                    if (!empty($input['documents'][$i]['document_file'])) {
+                    if (!empty($input['documents']['document_file'])) {
                         $s3FolderName = 'Company/documents';
                         $imageName = 'company_doc' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['documents'][$i]['document_file']->getClientOriginalExtension();
-                        S3::s3FileUpload($input['documents'][$i]['document_file']->getPathName(), $imageName, $s3FolderName);
+                        S3::s3FileUpload($input['documents']['document_file']->getPathName(), $imageName, $s3FolderName);
                         $document_file = $imageName;
                     } else {
                         $document_file = '';
                     }
-                    if (!empty($input['documents'][$i]['document_name'])) {
-                        $document_name = $input['documents'][$i]['document_name'];
+                    if (!empty($input['documents']['document_name'])) {
+                        $document_name = $input['documents']['document_name'];
                     } else {
                         $document_name = '';
                     }
@@ -212,13 +224,10 @@ class CompaniesController extends Controller {
                     print_r($allData);
                     $allData["company_id"] = $company->id;
                     $create = CompanyDocuments::create($allData);
-                }
             }
-        }
-//        print_r($create);
-        return json_encode(['records' => $companyDetails, 'status' => true]);
     }
-
+    
+    
     public function loadCompanyData() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);

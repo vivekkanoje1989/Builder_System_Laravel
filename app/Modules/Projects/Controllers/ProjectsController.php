@@ -36,12 +36,16 @@ class ProjectsController extends Controller {
         
         $getProjects = Project::select('id','created_by','project_status','project_type_id','project_name','created_at','project_status')->with(['getEmployee','projectTypes','projectStatus'])->get();
        $i = 0;
+//        print_r($getProjects);
        foreach($getProjects as $getProject){
-           $getProjects[$i]['projectStatus'] = $getProject['projectStatus']['project_status'];
+          
+           $getProjects[$i]['project_status'] = $getProject['projectStatus']['project_status'];
+          
            $getProjects[$i]['fullName'] = $getProject['getEmployee']['first_name'].' '.$getProject['getEmployee']['last_name'];
            $getProjects[$i]['projectType'] = $getProject['projectTypes']['project_type'];
            $i++;
        }
+//       print_r()
         if (!empty($getProjects)) {
             $result = ['success' => true, 'records' => $getProjects];
             return json_encode($result);
