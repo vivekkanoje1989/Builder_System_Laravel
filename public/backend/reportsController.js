@@ -1019,6 +1019,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.subsourcedata = [];
             $scope.sourceEmployee = source.name;
             $scope.sourceTotal = 0;
+            $scope.employee_id = source.employee_id;
             Data.post('reports/projectSourceReport', {
                 source: source, project_id: $scope.project_id
             }).then(function (response) {
@@ -1187,6 +1188,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.team_sourcelabels = [];
             $scope.team_sourcedata = [];
             $scope.sub_source = [];
+            $scope.employee_id = source.employee_id;
             $scope.is_source_group = 1;
             Data.post('reports/getSourceWiseGroupReport', {
                 source: source
@@ -1210,10 +1212,12 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
 
 
         $scope.subSourceReport = function (subSource) {
+            
             $scope.source_id = subSource.id;
             $scope.subSourceTotal = 0;
             $scope.team_subsourcelabels = [];
             $scope.team_subsourcedata = [];
+            
             Data.post('reports/subSourceReport', {
                 employee_id: $scope.employee_id, source_id: subSource.id, source_emp_group: $scope.is_source_group
             }).then(function (response) {

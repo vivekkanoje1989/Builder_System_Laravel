@@ -1727,8 +1727,7 @@ class ReportsController extends Controller {
     public function subSourceReport() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        print_r($request);
-        exit;
+        
         if ($request['source_emp_group'] == 0) {
             $results_enquiry_type = DB::select('CALL proc_enquiry_source_report(' . $request['employee_id'] . ',"' . $request['source_id'] . '","0","0")');
             $result = json_decode(json_encode($results_enquiry_type), true);
