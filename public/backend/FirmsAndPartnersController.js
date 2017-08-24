@@ -86,20 +86,20 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         }
 
-        $scope.documents = function (documentData, documentFile)
-        {alert('gh');
+        $scope.documentDetails = function (documentData, documentFile,companyid)
+        {
             if ($scope.id == 0) {
                 var url = '/manage-companies/addDocument';
                 var data = {
-                    'documentData': documentData,
+                    'documents': documentData,'companyid':companyid,
                     'documentFile': {'documentFile': documentFile}}
             } else {
                 if (typeof documentFile === 'undefined') {
                     documentFile = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
                 }
-                var url = '/manage-companies/updateStationary';
+                var url = '/manage-companies/updateDocuments';
                 var data = {'id': $scope.id,
-                    'documentData': documentData,
+                    'documents': documentData,
                     'documentFile': {'documentFile': documentFile}}
             }
 
@@ -109,7 +109,6 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 data: data
             });
             documentFile.upload.then(function (response) {
-                console.log(response);
                 $scope.firmBtn = false;
                 if (response.data.status) {
                     $timeout(function () {
@@ -160,7 +159,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                     $scope.documents.push({'document_name': value.document_name,
                         'documentFile': value.document_file})
                 });
-//                $scope.stationary = [];
+               
                 if (response.stationary.length === 0)
                 {
                     $scope.stationary = [{id: '1'}];
@@ -175,35 +174,40 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             });
         }
 
+        $scope.editdocument = function (list, index, isexitsStationary) {
+            $scope.documentData = list;
+            if (list.documentFile != '') {
+                $scope.documentFile = list.documentFile;
+            }
+        }
+        
+        
         $scope.editSubPage = function (list, index, isexitsStationary) {
             $scope.isexitsStationary = isexitsStationary;
             $scope.stationary = list;
-            $scope.data = JSON.parse($window.localStorage.getItem("sessionStationaryData"));
-            console.log($scope.data);
             if (list.estimate_letterhead_file != '') {
                 $scope.estimate_letterhead_file = list.estimate_letterhead_file;
             }
-//            if (list.receipt_letterhead_file != '') {
-//                $scope.receipt_letterhead_file = list.receipt_letterhead_file;
-//            }
-//            if (list.receipt_logo_file != '') {
-//                $scope.receipt_logo_file = list.receipt_logo_file;
-//            }
-//            if (list.rubber_stamp_file != '') {
-//                $scope.rubber_stamp_file = list.rubber_stamp_file;
-//            }
-//            if (list.demandletter_letterhead_file != '') {
-//                $scope.demandletter_letterhead_file = list.demandletter_letterhead_file;
-//            }
-//            if (list.estimate_logo_file != '') {
-//                $scope.estimate_logo_file = list.estimate_logo_file;
-//            }
-//            if (list.demandletter_logo_file != '') {
-//                $scope.demandletter_logo_file = list.demandletter_logo_file;
-//            }
+            if (list.receipt_letterhead_file != '') {
+                $scope.receipt_letterhead_file = list.receipt_letterhead_file;
+            }
+            if (list.receipt_logo_file != '') {
+                $scope.receipt_logo_file = list.receipt_logo_file;
+            }
+            if (list.rubber_stamp_file != '') {
+                $scope.rubber_stamp_file = list.rubber_stamp_file;
+            }
+            if (list.demandletter_letterhead_file != '') {
+                $scope.demandletter_letterhead_file = list.demandletter_letterhead_file;
+            }
+            if (list.estimate_logo_file != '') {
+                $scope.estimate_logo_file = list.estimate_logo_file;
+            }
+            if (list.demandletter_logo_file != '') {
+                $scope.demandletter_logo_file = list.demandletter_logo_file;
+            }
             $scope.subId = list.id;
             $scope.index = index;
-//             $scope.stationary = {};
         }
 
         $scope.docompanyscreateAction = function (FirmLogo, CompanyData)
@@ -213,6 +217,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             $scope.errorMsg = '';
             $scope.allimages = '';
             if ($scope.id == 0) {
+               
                 var url = '/manage-companies/';
                 var data = {
                     'CompanyData': CompanyData,
@@ -234,9 +239,12 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             });
             FirmLogo.upload.then(function (response) {
                 $scope.firmBtn = false;
+                $scope.companyId =response.data.id;
+                    alert($scope.companyId)
+                    console.log(response);
                 if (response.data.status) {
 //                    $state.go('companiesIndex');
-                    $scope.companyId =response.data.id;
+                    
                     $timeout(function () {
                         if ($scope.id == 0) {
                             toaster.pop('success', 'Manage Companies', 'Record successfully created');
