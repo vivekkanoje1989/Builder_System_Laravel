@@ -1,9 +1,6 @@
 <?php namespace Maatwebsite\Excel\Parsers;
 
 use Carbon\Carbon;
-use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
-use Maatwebsite\Excel\Classes\PHPExcel;
-use Maatwebsite\Excel\Readers\LaravelExcelReader;
 use PHPExcel_Cell;
 use PHPExcel_Exception;
 use PHPExcel_Shared_Date;
@@ -53,7 +50,7 @@ class ExcelParser {
 
     /**
      * Row object
-     * @var \PHPExcel_Worksheet_Row
+     * @var PHPExcel_Worksheet_Row
      */
     protected $row;
 
@@ -88,7 +85,9 @@ class ExcelParser {
     protected $defaultStartRow = 1;
 
     /**
+     * Construct excel parser
      * @param LaravelExcelReader $reader
+     * @return \Maatwebsite\Excel\Parsers\ExcelParser
      */
     public function  __construct($reader)
     {
@@ -196,7 +195,8 @@ class ExcelParser {
         $this->indices = [];
 
         // Loop through the cells
-        foreach ($this->row->getCellIterator() as $this->cell) {
+        foreach ($this->row->getCellIterator() as $this->cell)
+        {
             $this->indices[] = $this->getIndex($this->cell);
         }
 
@@ -295,7 +295,7 @@ class ExcelParser {
         $value = preg_replace('![' . preg_quote($flip) . ']+!u', $separator, $value);
 
         // Remove all characters that are not the separator, letters, numbers, or whitespace.
-        $value = preg_replace('![^' . preg_quote(config('excel.import.slug_whitelist', $separator)) . '\pL\pN\s]+!u', '', mb_strtolower($value));
+        $value = preg_replace('![^' . preg_quote($separator) . '\pL\pN\s]+!u', '', mb_strtolower($value));
 
         // Replace all separator characters and whitespace by a single separator
         $value = preg_replace('![' . preg_quote($separator) . '\s]+!u', $separator, $value);
@@ -355,9 +355,6 @@ class ExcelParser {
         // set sheet title
         $parsedRows->setTitle($this->excel->getActiveSheet()->getTitle());
 
-        // set sheet heading
-        $parsedRows->setHeading($this->indices);
-
         // Get the start row
         $startRow = $this->getStartRow();
 
@@ -371,7 +368,7 @@ class ExcelParser {
         foreach ($rows as $this->row)
         {
             // Limit the results when needed
-            if ( $this->hasReachedLimitRows() )
+            if ( $this->hasReachedLimit() )
                 break;
 
             // Push the parsed cells inside the parsed rows
@@ -410,16 +407,16 @@ class ExcelParser {
     }
 
     /**
-     * Check for the row limit
+     * Check for the limit
      * @return boolean
      */
-    protected function hasReachedLimitRows()
+    protected function hasReachedLimit()
     {
         // Get skip
-        $rowsLimit = $this->reader->getLimitRows();
+        $limit = $this->reader->getLimit();
 
         // If we have a limit, check if we hit this limit
-        return $rowsLimit && $this->currentRow > $rowsLimit ? true : false;
+        return $limit && $this->currentRow > $limit ? true : false;
     }
 
     /**
@@ -428,17 +425,12 @@ class ExcelParser {
      */
     protected function parseCells()
     {
+        $i = 0;
         $parsedCells = array();
-
-        // Skip the columns when needed
-        $startColumn = $this->reader->getTargetSkipColumns();
-
-        // Limit the columns when needed
-        $endColumn = $this->reader->getTargetLimitColumns();
 
         try {
             // Set the cell iterator
-            $cellIterator = $this->row->getCellIterator($startColumn, $endColumn);
+            $cellIterator = $this->row->getCellIterator();
 
             // Ignore empty cells if needed
             $cellIterator->setIterateOnlyExistingCells($this->reader->needsIgnoreEmpty());
@@ -447,18 +439,16 @@ class ExcelParser {
             foreach ($cellIterator as $this->cell)
             {
                 // Check how we need to save the parsed array
-                // Use the index from column as the initial position
-                // Or else PHPExcel skips empty cells (even between non-empty) cells and it will cause
-                // data to end up in the result object
-                $index = $this->getIndexFromColumn() - 1;
-                $index = ($this->reader->hasHeading() && isset($this->indices[$index])) ? $this->indices[$index] : $index;
+                $index = ($this->reader->hasHeading() && isset($this->indices[$i])) ? $this->indices[$i] : $this->getIndexFromColumn();
 
                 // Check if we want to select this column
                 if ( $this->cellNeedsParsing($index) )
                 {
-                    // Set the value1
+                    // Set the value
                     $parsedCells[(string) $index] = $this->parseCell($index);
                 }
+
+                $i++;
             }
 
         } catch (PHPExcel_Exception $e) {
@@ -576,15 +566,8 @@ class ExcelParser {
         // If has a date
         if ( $cellContent = $this->cell->getCalculatedValue() )
         {
-            try
-            {
-                // Convert excel time to php date object
-                $date = PHPExcel_Shared_Date::ExcelToPHPObject($this->cell->getCalculatedValue())->format('Y-m-d H:i:s');
-            }
-            catch( \ErrorException $ex )
-            {
-                return null ;
-            }
+            // Convert excel time to php date object
+            $date = PHPExcel_Shared_Date::ExcelToPHPObject($this->cell->getCalculatedValue())->format('Y-m-d H:i:s');
 
             // Parse with carbon
             $date = Carbon::parse($date);
