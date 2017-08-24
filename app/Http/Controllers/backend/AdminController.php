@@ -338,13 +338,15 @@ class AdminController extends Controller {
         $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id', '=', 101)->get();
         $channelList = MlstEnquirySalesChannel::select('id', 'channel_name')->get();
         $getCompanyList = MlstBmsbCompany::select('id','company_name')->get();
+        $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id','reason')->where('lost_reason_status',1)->orderBy('id')->get();
+        $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id','enquiry_lost_reason_id','sub_reason')->where(['lost_sub_reason_status'=>1])->get();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource,
                 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation, 'states' => $getStates,
                 "blocks" => $blockTypeList, "projects" => $projectList, 'subblocks' => $subBlocksList, 'agencyList' => $enquiryFinanceTieup,
                 'enquiryLocation' => $getEnquiryLocation, 'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
-                'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList,"getCompanyList"=>$getCompanyList];
+                'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList,"getCompanyList"=>$getCompanyList,"getLostReasons"=>$getSalesLostReason,"getLostSubReasons"=>$getSalesLostSubReason];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
