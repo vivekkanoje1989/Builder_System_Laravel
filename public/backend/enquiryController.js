@@ -885,6 +885,46 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }      
         
         /*********************IMPORT ENQUIRIES (GEETA)*********************/
+
+         $scope.getModulesWiseHistory = function (enquiry_id, opt, htype)
+        {
+            /*
+             * htype =  1 for the enquiryhistory popup
+             * htype = 2 for the todayremark popup
+             * 
+             */
+
+            var modules = new Array();
+            if (opt == 1)
+            {
+                if ($('#chk_enquiry_history').is(":checked"))
+                {
+                    $(':checkbox.chk_followup_history_all').prop('checked', true);
+                } else
+                {
+                    $(':checkbox.chk_followup_history_all').prop('checked', false);
+                }
+            }
+
+            $(".chk_followup_history_all").each(function () {
+
+                if ($(this).is(":checked"))
+                {
+                    modules.push($(this).data("id"))
+                }
+            });
+
+            if (modules.length == 2)
+            {
+                $(':checkbox#chk_enquiry_history').prop('checked', true);
+            } else
+            {
+                $(':checkbox#chk_enquiry_history').prop('checked', false);
+            }
+
+            $scope.gethisotryDataModal(enquiry_id, modules, htype)
+        }
+        
     }]);
 
 app.controller('getEmployeesCtrl', function ($scope, Data) {

@@ -400,8 +400,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.btnLabelC = $scope.btnLabelE = "Update";
                 Data.post('master-sales/getEnquiryDetails', {
                     data: {customerId: customerId, enquiryId: enquiryId}}).then(function (response) {
-                    console.log(response);
-                    if (!response.success) {                        
+                   if (!response.success) {                        
                         $scope.enquiryList = true;
                         $scope.showDivCustomer = true;
                          $scope.showDiv = true;
