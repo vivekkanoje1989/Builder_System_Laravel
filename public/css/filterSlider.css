@@ -20,7 +20,7 @@
     margin-top: -86px;
 }
 #slideout {
-    height: 100%;
+    height: auto;
     overflow-y: scroll;
     box-shadow: 0 0 5px rgba(0,0,0,.3);
     position: fixed;
@@ -39,7 +39,6 @@
         top: 88px;
     }
     .abc{
-
         overflow-y: scroll;
         height: 650px;
     }

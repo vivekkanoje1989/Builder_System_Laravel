@@ -120,17 +120,23 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.contactData = angular.copy(response.customerContactDetails);
                             $scope.enquiryData.first_name = angular.copy(response.customerPersonalDetails[0].first_name);
                             $scope.enquiryData.last_name = angular.copy(response.customerPersonalDetails[0].last_name);
-                            $scope.enquiryData.title_id = angular.copy(response.customerPersonalDetails[0].title_id);                            
+                            $scope.enquiryData.title_id = angular.copy(response.customerPersonalDetails[0].title_id);          
+                                   
+                            if(response.customerPersonalDetails[0].monthly_income == "0")
+                                $scope.customerData.monthly_income = "";
+                            else
+                                $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
                             
                             if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
                                 $scope.customerData.birth_date = "";
                             }else{
-                                var birth_date = new Date(response.customerPersonalDetails[0].birth_date);
-                                if (birth_date.getDate() < 10) {
-                                    $scope.customerData.birth_date = ((birth_date.getFullYear() - 100) + '-' + ("0" + (birth_date.getMonth() + 1)).slice(-2) + '-' + ("0" + birth_date.getDate()));
+                                var bdt = new Date(response.customerPersonalDetails[0].birth_date);
+                                if (bdt.getDate() < 10) {
+                                    $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
                                 }else{
-                                    $scope.customerData.birth_date = ((birth_date.getFullYear() - 100) + '-' + ("0" + (birth_date.getMonth() + 1)).slice(-2) + '-' + birth_date.getDate());
+                                    $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
                                 }
+                                $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                             }
                             
                             if(response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00"){
@@ -138,9 +144,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }else{
                                var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
                                 if (marriage_date.getDate() < 10) {
-                                    $scope.customerData.marriage_date = ((marriage_date.getFullYear() - 100) + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
+                                    $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
                                 }else{
-                                    $scope.customerData.marriage_date = ((marriage_date.getFullYear() - 100) + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
+                                    $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
                                 }
                             }
         
@@ -151,8 +157,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                     $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = parseInt(response.customerContactDetails[i].mobile_number);
                                     $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code);
                                 }
-                                if (response.customerContactDetails[i].landline_calling_code === parseInt(0) || response.customerContactDetails[i].landline_calling_code === '' || response.customerContactDetails[i].landline_calling_code === null) {
+                                if (response.customerContactDetails[i].landline_number === '0' || response.customerContactDetails[i].landline_number === '' || response.customerContactDetails[i].landline_number === null || response.customerContactDetails[i].landline_number === "null") {
                                     $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '';
+                                    $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '';
                                 } else {
                                     $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerContactDetails[i].landline_number);
                                     $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerContactDetails[i].landline_calling_code);
@@ -200,6 +207,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                     $scope.customerData.corporate_customer = false;
                                 }                                
                                 $scope.customerData.company_id = response.customerPersonalDetails[0].company_id;
+                                
                             },200);                            
                             $scope.hideloader();
 

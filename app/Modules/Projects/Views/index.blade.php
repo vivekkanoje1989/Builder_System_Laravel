@@ -35,12 +35,17 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage" name="itemsPerPage">
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
                                 <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                             </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
                         </div>
                     </div>
                 </div> 
@@ -160,10 +165,15 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-xs-12">
-                    <div class="form-group">
-                       <label for="">Project Status</label>
+                    <div class="form-group" ng-controller="projectStatusCntrl" >
+                        <label>Project Status <span class="sp-err">*</span></label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.projectStatus" name="projectStatus" class="form-control">
+                            <select ng-model="searchDetails.projectStatus" name="projectStatus" class="form-control">
+                                <option value="">Select Status</option>
+                                <option ng-repeat="slist in statusList" value="{{slist.project_status}}">{{slist.project_status}}</option>
+                            </select>
+                            <i class="fa fa-sort-desc"></i>
+
                         </span>
                     </div>
                 </div>

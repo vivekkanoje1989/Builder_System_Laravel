@@ -137,7 +137,7 @@
                                 <p class="input-group">
                                     <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 <div ng-show="formButton" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
                                     <div ng-message="required">Please select marriage date</div>
@@ -215,8 +215,8 @@
                             <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList">
                                 <li ng-repeat="company in company_list| filter : customerData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                             </ul> 
-                            <div ng-show="sbtBtn && customerForm.company_name.$invalid" ng-messages="customerForm.company_name.$error" class="help-block">
-                                <div ng-message="required" style="color: red !important;">This field is required</div>
+                            <div ng-show="formButton" ng-messages="customerForm.company_name.$error" class="help-block">
+                                <div ng-message="required" style="color: red !important;">Company name is required</div>
                             </div>
                         </div>
                     </div>
@@ -259,7 +259,7 @@
                         <tbody>
                             <tr ng-repeat="list in contacts">
                                 <td>{{$index + 1}}</td>
-                                <td>{{list.mobile_number}}</td>
+                                <td>{{list.mobile_calling_code}}-{{list.mobile_number}}</td>
                                 <td>{{list.landline_number}}</td>
                                 <td>{{list.email_id}}</td>
                                 <td>{{list.pin}}</td>

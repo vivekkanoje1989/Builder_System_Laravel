@@ -73,7 +73,7 @@ class MasterSalesController extends Controller {
             } else {
                 $loggedInUserId = $input['customerData']['loggedInUserId'];
             }
-            //echo "<pre>";print_r($input);exit;
+            
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -231,8 +231,9 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['id']);
             }
 
-            $input['customerData']['corporate_customer'] = !empty($input['customerData']['corporate_customer']) ? $input['customerData']['corporate_customer'] : '0';
-            $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '';
+            
+            $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer']=='true') ? '1' : '0';
+            $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "";
             $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
             $input['customerData']['created_date'] = date('Y-m-d', strtotime($input['customerData']['created_date']));
@@ -347,7 +348,7 @@ class MasterSalesController extends Controller {
                 if (count($getCustomerEnquiryDetails) == 0 || isset($request['data']['showCustomer'])) {
                     $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'flag' => 0];
                 } else {
-                    $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts[0], 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails, 'flag' => 1];
+                    $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails, 'flag' => 1];
                 }
             } else {
                 $result = ['success' => false, "message" => "No record found"];
