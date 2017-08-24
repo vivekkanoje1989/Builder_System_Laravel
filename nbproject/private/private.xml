@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-<<<<<<< HEAD
-=======
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/FirmsAndPartnersController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Controllers/CompaniesController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/create.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/edit.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/.env</file>
         </group>
     </open-files>
->>>>>>> aeb84bb22619ead75bfa94027c975aa5dad61833
 </project-private>
