@@ -152,7 +152,7 @@
                             </div>                    
                         </form>
                     </tab>
-                    <tab heading="Company Documents" id="remarkTab">
+                    <tab heading="Company Documents" disabled="companyDocTab">
                         <div class="row">
                             <div class="col-xs-12 col-md-12">
                                 <div class="well with-header  with-footer">
@@ -175,7 +175,7 @@
                                                 <td>{{list.document_name}}</td>
                                                 <td>{{list.document_file}} </td>
                                                 <td class="fa-div">
-                                                    <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
+                                                    <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="editStationary({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
                                                 </td>
                                             </tr>  
                                         </tbody>
@@ -184,7 +184,7 @@
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Stationary" id="remarkTab">
+                    <tab heading="Stationary" disabled="companyDocTab">
 
                         <div class="row">
                             <div class="col-xs-12 col-md-12">
@@ -215,7 +215,7 @@
                                                     <td><img ng-src="[[ Config('global.s3Path') ]]/Company/receiptLetterhead/{{list.receipt_letterhead_file}}" width="80px" height="80px"></td>
                                                     <td><img ng-src="[[ Config('global.s3Path') ]]/Company/rubberStampFile/{{list.rubber_stamp_file}}" width="80px" height="80px"></td>
                                                     <td class="fa-div">
-                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#stationaryModal"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
+                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#stationaryModal"><a href="javascript:void(0);" ng-click="editStationary({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
                                                     </td>
                                                 </tr>                                            
                                             </tbody>
@@ -255,7 +255,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <input type="hidden" ng-model="companyId" name="companyId" value="{{companyId}}">
+                                <input type="hidden" ng-model="companyId" name="companyId" value="{{id}}">
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12" align="right">
                                         <button type="submit" class="btn btn-primary btn-submit-last" >Save</button>

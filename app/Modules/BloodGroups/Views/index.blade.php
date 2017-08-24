@@ -36,7 +36,7 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage" name="itemsPerPage">
                         </div>
                     </div>
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-3 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
@@ -46,7 +46,11 @@
                             </span>
                         </div>
                     </div>
-
+                    <div class="col-sm-3">
+                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                        </div>
+                    </div>
                 </div> 
 
                 <div class="row" style="border:2px;" id="filter-show" ng-controller="adminController">

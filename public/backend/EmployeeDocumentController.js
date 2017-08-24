@@ -1,10 +1,31 @@
 app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', function ($scope, Data, $rootScope, $timeout) {
-
+        $scope.noOfRows = 1;
+        $scope.itemsPerPage = 30;
         $scope.manageEmployeeDocuments = function () {
             Data.get('employee-document/employeeDocuments').then(function (response) {
                 $scope.DocumentsRow = response.records;
             });
         };
+
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+            $scope.searchData = search;
+//            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
         $scope.initialModal = function (id, document_name, index)
         {
             $scope.index = index;
@@ -16,7 +37,7 @@ app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeo
             if ($scope.id == 0)
             {
                 Data.post('employee-document', {'document_name': $scope.document_name}).then(function (response) {
-               
+
                     if (response.success)
                     {
                         $scope.DocumentsRow.push({'document_name': response.result.document_name, 'id': response.lastinsertid});

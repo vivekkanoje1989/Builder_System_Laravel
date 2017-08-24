@@ -208,7 +208,7 @@
                                                     <td><img ng-src="[[ Config('global.s3Path') ]]/Company/receiptLetterhead/{{list.receipt_letterhead_file}}" width="80px" height="80px"></td>
                                                     <td><img ng-src="[[ Config('global.s3Path') ]]/Company/rubberStampFile/{{list.rubber_stamp_file}}" width="80px" height="80px"></td>
                                                     <td class="fa-div">
-                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#stationaryModal"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
+                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#stationaryModal"><a href="javascript:void(0);" ng-click="editStationary({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
                                                     </td>
                                                 </tr>                                            
                                             </tbody>
@@ -333,6 +333,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <input type="hidden" ng-model="stationaryId" name="stationaryId" value="{{stationaryId}}">
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12" align="right">
                                         <button type="submit" class="btn btn-primary btn-submit-last" >Save</button>
@@ -377,6 +378,7 @@
                                     </div>
                                 </div>
                                 <input type="hidden" ng-model="companyId" name="companyId" value="{{companyId}}">
+                                <input type="hidden" ng-model="documentId" name="documentId" value="{{documentId}}">
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12" align="right">
                                         <button type="submit" class="btn btn-primary btn-submit-last" >Save</button>

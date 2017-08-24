@@ -16,7 +16,7 @@ class EmployeeDocumentsController extends Controller {
     }
 
     public function employeeDocuments() {
-        $result = MlstEmployeeDocuments::all();
+        $result = MlstEmployeeDocuments::select('document_name','id')->get();
         if (!empty($result)) {
             $result = ['success' => true, 'records' => $result];
             return json_encode($result);
