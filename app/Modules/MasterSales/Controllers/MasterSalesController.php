@@ -346,7 +346,7 @@ class MasterSalesController extends Controller {
                 if (count($getCustomerEnquiryDetails) == 0 || isset($request['data']['showCustomer'])) {
                     $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'flag' => 0];
                 } else {
-                    $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts[0], 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails, 'flag' => 1];
+                    $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts, 'CustomerEnquiryDetails' => $getCustomerEnquiryDetails, 'flag' => 1];
                 }
             } else {
                 $result = ['success' => false, "message" => "No record found"];
