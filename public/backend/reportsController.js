@@ -682,7 +682,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.sub_status_wise_report = [];
             $scope.empListTab2 = [];
 
-            Data.post('reports/TeamLeadProjectCategotyReport', {
+            Data.post('reports/TeamLeadProjectCategoryReport', {
                 project_id: $scope.project_id, employee_id: $scope.employee_id
             }).then(function (response) {
                 $scope.team_category_report = angular.copy(response.category_wise_report);
@@ -741,13 +741,15 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.sourceApp = {};
             $scope.teamsourcedata = [];
             $scope.teamSourcelabels = [];
+             $scope.SourceTotal = 0;
             Data.post('reports/TeamProjectSourceReport', {
                 project_id: $scope.project_id, employee_id: $scope.employee_id
             }).then(function (response) {
+                console.log(response)
                 $scope.source_wise_report = angular.copy(response.source_wise_report);
                 angular.forEach($scope.source_wise_report, function (data) {
-
-                    $scope.SourceTotal = $scope.SourceTotal + data.count;
+              
+                    $scope.SourceTotal = parseInt($scope.SourceTotal) + parseInt(data.count);
                 });
                 for (var i = 0; i < $scope.source_wise_report.length; i++)
                 {

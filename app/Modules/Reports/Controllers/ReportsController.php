@@ -872,7 +872,7 @@ class ReportsController extends Controller {
         return view("Reports::projectTeamReport")->with("loggedInUserID", Auth::guard('admin')->user()->id);
     }
 
-    public function TeamLeadProjectCategotyReport() {
+    public function TeamLeadProjectCategoryReport() {
         $response = array();
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);

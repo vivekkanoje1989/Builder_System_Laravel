@@ -235,12 +235,15 @@
                                                 <td ng-if="sources.is_parent == 1"><a href=""  ng-click="teamProjectSourceEmpReport(sources); teamsourceEmployees(sources)">{{sources.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></td>
                                                 <td ng-if="sources.is_parent == 0">{{sources.name}}</td>
                                                 <td ng-if="sources.count > 0">{{sources.count}} <a href="" style="padding-left:30px;"  ng-click="projectSourceReport(sources); teamProjectSourceEmpReport(sources); teamsourceEmployees(sources); ">Show source report</a></td>                    
-                                                <td>{{((sources.count / SourceTotal * 100).toFixed(2))}}</td>
+                                                <td ng-if="sources.count == 0">{{sources.count}}</td>
+                                                <td ng-if="sources.count > 0">{{((sources.count / SourceTotal * 100).toFixed(2))}}</td>
+                                                <td ng-if="sources.count == 0">00.00</td>
                                             </tr>
                                             <tr>
                                                 <td align="center"><b>Total</b></td>
                                                 <td>{{SourceTotal}}</td>
-                                                <td>{{((SourceTotal / SourceTotal * 100).toFixed(2))}}</td>
+                                                <td ng-if="SourceTotal >0">{{((SourceTotal / SourceTotal * 100).toFixed(2))}}</td>
+                                                <td ng-if="SourceTotal == 0">00.00</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -401,7 +404,7 @@
                                                 <td ng-if="status.is_parent == 0">{{status.name}}</div> 
                                                 <td><b>{{status.total}}</b></td>
                                                 <td><div style="width:50px; float:left"  ng-if="status.new > 0">{{status.new}}</div><div style="float:left" ng-if="status.new == 0">0</div></td>
-                                                <td><div style="width:50px; float:left" ng-if="status.open > 0">{{status.open}}</div><div style="float:left"> <a  href=""  ng-click="teamProjectStatusEmpReport(status); teamStatusEmployees(status); subProjectStatusReport(status, 2, 1)">Show sub-status wise report</a></div><span ng-if="subStatus.open == 0">{{status.open}}</span></td>
+                                                <td><div style="width:50px; float:left" ng-if="status.open > 0">{{status.open}}</div><div ng-if="status.open > 0" style="float:left"> <a  href=""  ng-click="teamProjectStatusEmpReport(status); teamStatusEmployees(status); subProjectStatusReport(status, 2, 1)">Show sub-status wise report</a></div><span ng-if="subStatus.open == 0">{{status.open}}</span></td>
                                                 <td><div style="width:50px; float:left"  ng-if="status.booked > 0">{{status.booked}}</div><div style="float:left" ng-if="status.booked == 0">{{status.booked}}</div></td>
                                                 <td><div style="width:50px; float:left"  ng-if="status.lost > 0">{{status.lost}}</div><div style="float:left"  ng-if="status.lost == 0">{{status.lost}}</div></td>
                                                 <td><div style="width:50px; float:left"  ng-if="status.preserved > 0">{{status.preserved}}</div><div style="float:left" ng-if="status.preserved > 0"> <a style="padding-left:30px;" href=""  ng-click="subProjectStatusReport(status, 5, 1)">Show sub-status wise report</a></div><span ng-if="status.preserved == 0">{{status.preserved}}</span></td>
