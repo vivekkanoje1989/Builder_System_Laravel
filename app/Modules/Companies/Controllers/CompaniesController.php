@@ -220,8 +220,7 @@ class CompaniesController extends Controller {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $allData = array_merge($common, $post);
-            print_r($allData);
-//                    $allData["company_id"] = $input['companyid'];
+            $allData["company_id"] = $input['companyid'];
             $create = CompanyDocuments::create($allData);
             return json_encode(['records' => $create, 'status' => true]);
         }
