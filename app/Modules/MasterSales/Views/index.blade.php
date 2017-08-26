@@ -137,7 +137,7 @@
                             </tbody>
                             <tbody ng-if="listsIndex.success">
                                 <tr dir-paginate="list in listsIndex.CustomerEnquiryDetails | filter:search | itemsPerPage:itemsPerPage">  
-                                    <td align="center">{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
+                                    <td align="center">{{ $index + 1}}</td>
                                     <td align="center">
                                         <div > 
                                             {{list.customer_fname}} {{list.customer_lname}} {{ list.mobile_number}} <br/> {{list.email_id}}</div>
@@ -241,9 +241,9 @@
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
                                                 <div ng-show="modalSbtBtn && modalForm.mobile_number.$invalid" ng-messages="modalForm.mobile_number.$error" class="help-block">
-                                                    <div ng-message="required">Mobile number is required</div>                                                    
+                                                    <div ng-message="required">Mobile number is required</div> 
+                                                    <div ng-message="uniqueMobile">Mobile number already exist</div>
                                                 </div>
-                                                <div ng-if="uniqueMobile">Mobile number already exist</div>
                                             </div>
                                         </div>
                                     </div>
