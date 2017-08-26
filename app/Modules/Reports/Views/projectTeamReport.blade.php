@@ -34,13 +34,13 @@
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="category in team_category_report">
-                                                <td ng-if="category.is_parent == 1"><a href=""  ng-click="teamProjectCategoryReport(category); teamEmployees(category);">{{category.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></div>
+                                                <td ng-if="category.is_parent == 1"><a href=""  ng-click="teamProjectCategoryReport(category); teamEmployees(category);">{{category.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></td>
                                                 <td ng-if="category.is_parent == 0">{{category.name}}</td>
                                                 <td><b>{{category.Total}}</b></td>
-                                                <td>{{category.New}}</td>
-                                                <td>{{category.Hot}}</td>
-                                                <td>{{category.Warm}}</td>
-                                                <td>{{category.Cold}}</td>
+                                                <td><div style="width:60px; float:left;"  ng-if="category.New > 0">{{category.New}}</div><div style="float:left;" ng-if="category.New > 0"> <a href="" style="padding-left:30px;" ng-click="teamcategoryEnquiryReport(category); teamEmployees(category); subProjectCategoryReport(category, 1, 1)">Show sub-category wise report</a></div><span ng-if="category.New == 0">{{category.New}}</span></td>
+                                                <td><div style="width:60px; float:left;" ng-if="category.Hot > 0">{{category.Hot}}</div><div style="float:left;" ng-if="category.Hot > 0"> <a style="padding-left:30px;" href=""  ng-click="teamcategoryEnquiryReport(category); teamEmployees(category); subProjectCategoryReport(category, 2, 1)">Show sub-category wise report</a></div><span ng-if="category.Hot == 0">{{category.Hot}}</span></td>
+                                                <td><div style="width:60px; float:left;"  ng-if="category.Warm > 0">{{category.Warm}}</div><div style="float:left;" ng-if="category.Warm > 0"> <a href="" style="padding-left:30px;" ng-click="teamcategoryEnquiryReport(category); teamEmployees(category); subProjectCategoryReport(category, 3, 1)">Show sub-category wise report</a></div><span ng-if="category.Warm == 0">{{category.Warm}}</span></td>
+                                                <td><div style="width:60px; float:left;"  ng-if="category.Cold > 0">{{category.Cold}}</div><div style="float:left;" ng-if="category.Cold > 0"> <a href="" style="padding-left:30px;" ng-click="teamcategoryEnquiryReport(category); teamEmployees(category); subProjectCategoryReport(category, 4, 1)">Show sub-category wise report</a></div><span ng-if="category.Cold == 0">{{category.Cold}}</span></td>
                                             </tr>
                                             <tr>
                                                 <td><b>Total</b></td>
@@ -138,17 +138,17 @@
                                                         <div class="row"  align="center" >
                                                             <div class="col-md-12 col-xs-12"  align="center" >
                                                                 <div style="margin:0 auto;padding: 40px; width: 30%">
-                                                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="subteamcategorydata" chart-options="subcategoryoptions" chart-labels="subcategorylabels" chart-colors="subcategorycolors"></canvas>
+                                                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="teamcategorydata" chart-options="teamcategoryoptions" chart-labels="teamcategorylabels" chart-colors="teamcategorycolors"></canvas>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class=" table-responsive" id="catReport" style="display:none">
-                                                        <h4>Category Report of {{catEmployee}}</h4>
+                                                    <div class=" table-responsive" ng-if="catReport">
+                                                        <h4>Sub-category Report of {{catEmployee}}</h4>
                                                         <table class="table table-hover table-striped table-bordered" at-config="config" >
                                                             <thead class="bord-bot">
                                                                 <tr>
-                                                                    <th>Sub Category</th>
+                                                                    <th>Sub-category of {{cat}} category</th>
                                                                     <th>No. of enquiry</th>
                                                                     <th>Percentage</th>
                                                                 </tr>
@@ -159,19 +159,24 @@
                                                                     <td>{{subCat.cnt}}</td>
                                                                     <td><b>{{((subCat.cnt / subCatTotal) * 100).toFixed(2)}}</b></td>
                                                                 </tr>
-                                                                <tr ng-if="sub_category_report.length > 0">
+                                                                <tr ng-if="unKnownCategory >= 1">
+                                                                    <td>Unspecified sub-category</td>
+                                                                    <td>{{unKnownCategory}}</td>
+                                                                    <td><b>{{((unKnownCategory / subCatTotal) * 100).toFixed(2)}}</b></td>
+                                                                </tr>
+                                                                <tr ng-if="sub_category_report.length > 0 || unKnownCategory >= 1">
                                                                     <td><b>Total</b></td>
                                                                     <td><b>{{subCatTotal}}</b></td>
                                                                     <td><b>{{((subCatTotal / subCatTotal) * 100).toFixed(2)}}</b></td>
                                                                 </tr>
-                                                                <tr ng-if="sub_category_report.length == 0">
+                                                                <tr ng-if="sub_category_report.length == 0 && unKnownCategory < 1">
                                                                     <td colspan="3" align="center">
                                                                         <h4>No Record Found</h4>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                        <div class="row"  align="center"  ng-if="sub_category_report.length > 0" >
+                                                        <div class="row"  align="center"  ng-if="sub_category_report.length > 0 || unKnownCategory >= 1" >
                                                             <div class="col-md-12 col-xs-12"  align="center" >
                                                                 <div style="margin:0 auto;padding: 40px; width: 30%">
                                                                     <canvas id="doughnut" class="chart chart-doughnut" chart-data="subcategorydata" chart-options="subcategoryoptions" chart-labels="subcategorylabels" chart-colors="subcategorycolors"></canvas>
@@ -208,64 +213,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--                            <div class="widget" ng-if="subteam_category_report.length > '0'">                                
-                                                            <div class="widget-header">
-                                                                <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">{{emp_name}}</span>
-                                                            </div>
-                                                            <div class="widget-body table-responsive">
-                                                                <table class="table table-hover table-striped table-bordered" at-config="config">
-                                                                    <thead class="bord-bot">
-                                                                        <tr>
-                                                                            <th>Name</th>
-                                                                            <th>Total</th>
-                                                                            <th>New</th>
-                                                                            <th>Hot</th>
-                                                                            <th>Warm</th>
-                                                                            <th>Cold</th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        <tr ng-repeat="subcategory in subteam_category_report">
-                                                                            <td ng-if="subcategory.is_parent == 1 && subcategory.employee_id != employee_id"><a href="" ng-if="subcategory.is_parent == 1 && subcategory.employee_id != employee_id" ng-click="teamProjectCategoryReport(subcategory)">{{subcategory.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></div>
-                                                                            <td ng-if="subcategory.is_parent == 0 || subcategory.employee_id == employee_id">{{subcategory.name}}</div>
-                                                                            <td><b>{{subcategory.Total}}</b></td>
-                                                                            <td>{{subcategory.New}}</td>
-                                                                            <td>{{subcategory.Hot}}</td>
-                                                                            <td>{{subcategory.Warm}}</td>
-                                                                            <td>{{subcategory.Cold}}</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td><b>Total</b></td>
-                                                                            <td><b>{{subtotal}}</b></td>
-                                                                            <td><b>{{subtotalNew}}</b></td>
-                                                                            <td><b>{{subtotalHot}}</b></td>
-                                                                            <td><b>{{subtotalWarm}}</b></td>
-                                                                            <td><b>{{subtotalCold}}</b></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td><b>Total (%)</b></td>
-                                                                            <td ng-if="subtotal > 0"><b>{{((subtotal / subtotal) * 100).toFixed(2)}}</b></td>
-                                                                            <td ng-if="subtotal == 0"><b>0.00</b></td>
-                                                                            <td ng-if="subtotalNew > 0"><b>{{((subtotalNew / subtotal) * 100).toFixed(2)}}</b></td>
-                                                                            <td ng-if="subtotalNew == 0"><b>0.00</b></td>
-                                                                            <td ng-if="subtotalHot > 0"><b>{{((subtotalHot / subtotal) * 100).toFixed(2)}}</b></td>
-                                                                            <td ng-if="subtotalHot == 0"><b>0.00</b></td>
-                                                                            <td ng-if="subtotalWarm > 0"><b>{{((subtotalWarm / subtotal) * 100).toFixed(2)}}</b></td>
-                                                                            <td ng-if="subtotalWarm == 0"><b>0.00</b></td>
-                                                                            <td ng-if="subtotalCold > 0"><b>{{((subtotalCold / subtotal) * 100).toFixed(2)}}</b></td>
-                                                                            <td ng-if="subtotalCold == 0"><b>0.00</b></td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                            <div class="row"  align="center" >
-                                                                <div class="col-md-12 col-xs-12"  align="center" >
-                                                                    <div style="margin:0 auto;padding: 40px; width: 30%">
-                                                                        <canvas id="doughnut" class="chart chart-doughnut" chart-data="subteamcategorydata" chart-options="subcategoryoptions" chart-labels="subcategorylabels" chart-colors="subcategorycolors"></canvas>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>-->
                         </div>
                     </tab>
                     <tab heading="Source" active="source_div" ng-click="reportHeading('Team-wise Project Source Report')">
@@ -287,7 +234,7 @@
                                             <tr ng-repeat="sources in source_wise_report track by $index">
                                                 <td ng-if="sources.is_parent == 1"><a href=""  ng-click="teamProjectSourceEmpReport(sources); teamsourceEmployees(sources)">{{sources.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></td>
                                                 <td ng-if="sources.is_parent == 0">{{sources.name}}</td>
-                                                <td>{{sources.count}}</td>
+                                                <td ng-if="sources.count > 0">{{sources.count}} <a href="" style="padding-left:30px;"  ng-click="projectSourceReport(sources); teamProjectSourceEmpReport(sources); teamsourceEmployees(sources); ">Show source report</a></td>                    
                                                 <td>{{((sources.count / SourceTotal * 100).toFixed(2))}}</td>
                                             </tr>
                                             <tr>
@@ -304,7 +251,6 @@
                                             <div id="category-report">
                                                 <div class="widget">    
                                                     <div class="widget" >  
-
                                                         <p style="margin-left: 90%;" ng-if="empId1 != '1'"  ng-click="closeProjectSourceTab(empId1)">
                                                             <button type="button" class="btn btn-default btn-sm">
                                                                 <span class="glyphicon glyphicon-remove"></span> Close 
@@ -341,8 +287,8 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    <div class="table-responsive" id="sourceEmp" >
-                                                        <h4>Source report of {{sourceEmployee}}</h4>
+                                                    <div class="table-responsive" ng-if="sourceEmp">
+                                                        <h4>Source Report of {{sourceEmployee}}</h4>
                                                         <table class="table table-hover table-striped table-bordered" at-config="config">
                                                             <thead class="bord-bot">
                                                                 <tr>
@@ -359,6 +305,11 @@
                                                                     <td ng-if="mysources.cnt > 0"><b>{{((mysources.cnt / sourceTotal) * 100).toFixed(2)}}</b></td>
                                                                     <td ng-if="mysources.cnt == 0"><b>0.00</b></td>
                                                                 </tr> 
+                                                                <tr ng-if="unknownSource > 0">
+                                                                    <td>Unspecified Source</td>
+                                                                    <td>{{unknownSource}}</td>
+                                                                    <td><b>{{((unknownSource / sourceTotal) * 100).toFixed(2)}}</b></td>
+                                                                </tr>
                                                                 <tr ng-if="subteam_source_report.length > 0">
                                                                     <td align="center"><b>Total</b></td>
                                                                     <td><b>{{sourceTotal}}</b></td>
@@ -372,17 +323,16 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                    </div>
-                                                    <div class="row"  align="center" ng-if="subteam_source_report.length > 0">
-                                                        <div class="col-md-12 col-xs-12"  align="center" >
-                                                            <div style="margin:0 auto;padding: 40px; width: 30%">
-                                                                <canvas id="doughnut" class="chart chart-doughnut" chart-data="subsourcedata" chart-options="team_sourceoptions" chart-labels="sourcelabels" chart-colors="subsourcecolors"></canvas>
+                                                        <div class="row"  align="center" ng-if="subteam_source_report.length > 0">
+                                                            <div class="col-md-12 col-xs-12"  align="center" >
+                                                                <div style="margin:0 auto;padding: 40px; width: 30%">
+                                                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="subsourcedata" chart-options="team_sourceoptions" chart-labels="sourcelabels" chart-colors="subsourcecolors"></canvas>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="table-responsive" ng-if="sub_source.length > 0">
-
-                                                        <table class="table table-hover table-striped table-bordered" at-config="config">
+                                                    </div>        
+                                                    <div class="table-responsive" ng-if="subSourceCheck">
+                                                        <table class="table table-hover table-striped table-bordered" at-config="config" ng-if="sub_source.length > 0 || unSpecifiedSource >= 1">
                                                             <thead class="bord-bot">
                                                                 <tr>
                                                                     <th>Sub Source Name</th>
@@ -397,6 +347,11 @@
                                                                     <td ng-if="subsources.cnt > 0"><b>{{((subsources.cnt / subsourceTotal) * 100).toFixed(2)}}</b></td>
                                                                     <td ng-if="subsources.cnt == 0"><b>0.00</b></td>
                                                                 </tr> 
+                                                                <tr ng-if="unSpecifiedSource >= 1">
+                                                                    <td>Unspecified sub-source</td>
+                                                                    <td>{{unSpecifiedSource}}</td>
+                                                                    <td><b>{{((unSpecifiedSource / subsourceTotal) * 100).toFixed(2)}}</b></td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td align="center"><b>Total</b></td>
                                                                     <td><b>{{subsourceTotal}}</b></td>
@@ -405,14 +360,14 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                    </div>
-                                                    <div class="row"  align="center" ng-if="sub_source.length > 0">
-                                                        <div class="col-md-12 col-xs-12"  align="center" >
-                                                            <div style="margin:0 auto;padding: 40px; width: 30%">
-                                                                <canvas id="doughnut" class="chart chart-doughnut" chart-data="sub_sourcedata" chart-options="sub_sourceoptions" chart-labels="sub_sourcelabels" chart-colors="sub_sourcecolors"></canvas>
+                                                        <div class="row"  align="center" ng-if="sub_source.length > 0 || unSpecifiedSource >= 1">
+                                                            <div class="col-md-12 col-xs-12"  align="center" >
+                                                                <div style="margin:0 auto;padding: 40px; width: 30%">
+                                                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="sub_sourcedata" chart-options="sub_sourceoptions" chart-labels="sub_sourcelabels" chart-colors="sub_sourcecolors"></canvas>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>     
                                                 </div>
                                             </div>
                                         </tab>
@@ -437,7 +392,7 @@
                                                 <th>Open</th>
                                                 <th>Booked</th>
                                                 <th>Lost</th>
-                                                <th>Preserved</th>
+                                                <th>Hold</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -445,11 +400,11 @@
                                                 <td ng-if="status.is_parent == 1"><a href=""  ng-click="teamProjectStatusEmpReport(status); teamStatusEmployees(status);">{{status.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></div>
                                                 <td ng-if="status.is_parent == 0">{{status.name}}</div> 
                                                 <td><b>{{status.total}}</b></td>
-                                                <td>{{status.new}}</td>
-                                                <td>{{status.open}}</td>
-                                                <td>{{status.booked}}</td>
-                                                <td>{{status.lost}}</td>
-                                                <td>{{status.preserved}}</td>
+                                                <td><div style="width:50px; float:left"  ng-if="status.new > 0">{{status.new}}</div><div style="float:left" ng-if="status.new == 0">0</div></td>
+                                                <td><div style="width:50px; float:left" ng-if="status.open > 0">{{status.open}}</div><div style="float:left"> <a  href=""  ng-click="teamProjectStatusEmpReport(status); teamStatusEmployees(status); subProjectStatusReport(status, 2, 1)">Show sub-status wise report</a></div><span ng-if="subStatus.open == 0">{{status.open}}</span></td>
+                                                <td><div style="width:50px; float:left"  ng-if="status.booked > 0">{{status.booked}}</div><div style="float:left" ng-if="status.booked == 0">{{status.booked}}</div></td>
+                                                <td><div style="width:50px; float:left"  ng-if="status.lost > 0">{{status.lost}}</div><div style="float:left"  ng-if="status.lost == 0">{{status.lost}}</div></td>
+                                                <td><div style="width:50px; float:left"  ng-if="status.preserved > 0">{{status.preserved}}</div><div style="float:left" ng-if="status.preserved > 0"> <a style="padding-left:30px;" href=""  ng-click="subProjectStatusReport(status, 5, 1)">Show sub-status wise report</a></div><span ng-if="status.preserved == 0">{{status.preserved}}</span></td>
                                             </tr>   
                                             <tr>
                                                 <td><b>Total</b></td>
@@ -486,7 +441,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="widget"  ng-if="sub_status_wise_report.length > 0">
+                            <div class="widget"  ng-if="empListTab2.length > 0">
                                 <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12" style="margin-left:-1%; width: 102%;">
                                     <tabset class="col-md-12">
                                         <tab ng-repeat="emp in empListTab2"  id="{{'tab2' + emp.employee_id}}" ng-click="teamProjectStatusEmpReport(emp);"   id="{{emp.employee_id}}" heading="{{emp.name}}"  >
@@ -507,25 +462,24 @@
                                                                     <th>Open</th>
                                                                     <th>Booked</th>
                                                                     <th>Lost</th>
-                                                                    <th>Preserved</th>
+                                                                    <th>Hold</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+
                                                                 <tr ng-repeat="subStatus in sub_status_wise_report">
-                                                                    <td ng-if="subStatus.is_parent == 1 && subStatus.employee_id != employee_id"><a href=""  ng-click="teamProjectStatusEmpReport(subStatus); teamStatusEmployees(subStatus);">{{subStatus.name}}<i class="icon" style="float: right" ng-class="isSubEmployeeShown ? 'ion-chevron-up' : 'ion-chevron-down'"></i></a></div>
-                                                                    <td ng-if="subStatus.is_parent == 0 || subStatus.employee_id == employee_id">{{subStatus.name}}</div> 
+                                                                    <td ng-if="subStatus.is_parent == 1"><a href="" ng-if="subStatus.employee_id != employee_id"  ng-click="teamProjectStatusEmpReport(subStatus); teamStatusEmployees(subStatus);">{{subStatus.name}}</a><span ng-if="subStatus.employee_id == employee_id">{{subStatus.name}}</span></td>
+                                                                    <td ng-if="subStatus.is_parent == 0">{{subStatus.name}}</div>
                                                                     <td><b>{{subStatus.Total}}</b></td>
-                                                                    <td ng-if="subStatus.employee_id == employee_id"><span  ng-if="subStatus.new > 0">{{subStatus.new}} <a href="" style="padding-left:30px;" ng-click="subProjectStatusReport(subStatus, 1, 0)">Show sub-status wise report</a></span><span ng-if="subStatus.new == 0">{{subStatus.new}}</span></td>
-                                                                    <td ng-if="subStatus.employee_id != employee_id"><span  ng-if="subStatus.new > 0">{{subStatus.new}} <a style="padding-left:30px;" href=""  ng-click="subProjectStatusReport(subStatus, 1, 1)">Show sub-status wise report</a></span><span ng-if="subStatus.new == 0">{{subStatus.new}}</span></td>
-                                                                    <td ng-if="subStatus.employee_id == employee_id"><span  ng-if="subStatus.open > 0">{{subStatus.open}} <a href="" style="padding-left:30px;" ng-click="subProjectStatusReport(subStatus, 2, 0)">Show sub-status wise report</a></span><span ng-if="subStatus.open == 0">{{subStatus.open}}</span></td>
-                                                                    <td ng-if="subStatus.employee_id != employee_id"><span  ng-if="subStatus.open > 0">{{subStatus.open}} <a style="padding-left:30px;" href=""  ng-click="subProjectStatusReport(subStatus, 2, 1)">Show sub-status wise report</a></span><span ng-if="subStatus.open == 0">{{subStatus.open}}</span></td>
-                                                                    <td ng-if="subStatus.employee_id == employee_id"><span  ng-if="subStatus.booked > 0">{{subStatus.booked}} <a href="" style="padding-left:30px;" ng-click="subProjectStatusReport(subStatus, 3, 0)">Show sub-status wise report</a></span><span ng-if="subStatus.booked == 0">{{subStatus.booked}}</span></td>
-                                                                    <td ng-if="subStatus.employee_id != employee_id"><span  ng-if="subStatus.booked > 0">{{subStatus.booked}} <a style="padding-left:30px;" href=""  ng-click="subProjectStatusReport(subStatus, 3, 1)">Show sub-status wise report</a></span><span ng-if="subStatus.booked == 0">{{subStatus.booked}}</span></td>
-                                                                    <td ng-if="subStatus.employee_id == employee_id"><span  ng-if="subStatus.lost > 0">{{subStatus.lost}} <a href="" style="padding-left:30px;" ng-click="subProjectStatusReport(subStatus, 4, 0)">Show sub-status wise report</a></span><span ng-if="subStatus.lost == 0">{{subStatus.lost}}</span></td>
-                                                                    <td ng-if="subStatus.employee_id != employee_id"><span  ng-if="subStatus.lost > 0">{{subStatus.lost}} <a style="padding-left:30px;" href=""  ng-click="subProjectStatusReport(subStatus, 4, 1)">Show sub-status wise report</a></span><span ng-if="subStatus.lost == 0">{{subStatus.lost}}</span></td>
-                                                                    <td ng-if="subStatus.employee_id == employee_id"><span  ng-if="subStatus.preserved > 0">{{subStatus.preserved}} <a href="" style="padding-left:30px;" ng-click="subProjectStatusReport(subStatus, 5, 0)">Show sub-status wise report</a></span><span ng-if="subStatus.preserved == 0">{{subStatus.preserved}}</span></td>
-                                                                    <td ng-if="subStatus.employee_id != employee_id"><span  ng-if="subStatus.preserved > 0">{{subStatus.preserved}} <a style="padding-left:30px;" href=""  ng-click="subProjectStatusReport(subStatus, 5, 1)">Show sub-status wise report</a></span><span ng-if="subStatus.preserved == 0">{{subStatus.preserved}}</span></td>
-                                                                </tr>   
+                                                                    <td><span ng-if="subStatus.booked > 0">{{subStatus.new}}</span><span ng-if="subStatus.booked == 0">{{subStatus.new}}</span></td>
+                                                                    <td ng-if="subStatus.employee_id == employee_id"><div style="width:50px;float:left" ng-if="subStatus.open > 0">{{subStatus.open}} </div><div style="float:left" ng-if="subStatus.open > 0"> <a  href="" ng-click="subProjectStatusReport(subStatus, 2, 0)">Show Sub-Status wise report</a></div><span ng-if="subStatus.open == 0">{{subStatus.open}}</span></td>
+                                                                    <td ng-if="subStatus.employee_id != employee_id"><div style="width:50px;float:left" ng-if="subStatus.open > 0">{{subStatus.open}}</div><div style="float:left" ng-if="subStatus.open > 0">  <a  href="" ng-click="subProjectStatusReport(subStatus, 2, 1)">Show Sub-Status wise report</a></div><span ng-if="subStatus.open == 0">{{subStatus.open}}</span></td>
+                                                                    <td><span ng-if="subStatus.booked > 0">{{subStatus.booked}}</span><span ng-if="subStatus.booked == 0">{{subStatus.booked}}</span></td>
+                                                                    <td><span ng-if="subStatus.lost > 0">{{subStatus.lost}}</span><span ng-if="subStatus.lost == 0">{{subStatus.lost}}</span></td>
+                                                                    <!--<td ng-if="subStatus.employee_id != employee_id"><span ng-if="subStatus.lost > 0">{{subStatus.lost}}<a style="padding-left:30px;" href=""  ng-click="getSubStatus(subStatus, 4, 1)">Show subStatus wise report</a></span><span ng-if="subStatus.lost == 0">{{subStatus.lost}}</span></td>-->
+                                                                    <td ng-if="subStatus.employee_id == employee_id"><div style="width:50px;float:left" ng-if="subStatus.preserved > 0">{{subStatus.preserved}}</div><div style="float:left" ng-if="subStatus.preserved > 0"><a  href="" ng-click="subProjectStatusReport(subStatus, 5, 0)">Show Sub-Status wise report</a></div><span ng-if="subStatus.preserved == 0">{{subStatus.preserved}}</span></td>
+                                                                    <td ng-if="subStatus.employee_id != employee_id"><div style="width:50px;float:left" ng-if="subStatus.preserved > 0">{{subStatus.preserved}}</div><div style="float:left" ng-if="subStatus.preserved > 0"><a  href="" ng-click="subProjectStatusReport(subStatus, 5, 1)">Show Sub-Status wise report</a></div><span ng-if="subStatus.preserved == 0">{{subStatus.preserved}}</span></td> 
+                                                                </tr>
                                                                 <tr>
                                                                     <td><b>Total</b></td>
                                                                     <td><b>{{subStatusTotal}}</b></td>
@@ -560,12 +514,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class=" table-responsive" id="statusReport" style="display:none">
-                                                        <h4>Status report of {{statusEmployee}}</h4>
+                                                    <div class=" table-responsive" ng-if="statusReport">
+                                                        <h4>Sub-status Report of {{statusEmployee}}</h4>
                                                         <table class="table table-hover table-striped table-bordered" at-config="config">
                                                             <thead class="bord-bot">
                                                                 <tr>
-                                                                    <th>Sub Status</th>
+                                                                    <th>Sub status of {{subStatus}} status</th>
                                                                     <th>No. of Enquiry</th>
                                                                     <th>Percentage</th>
                                                                 </tr>
@@ -576,7 +530,12 @@
                                                                     <td>{{substatus.cnt}}</td>
                                                                     <td>{{((substatus.cnt / subStatus_Total) * 100).toFixed(2)}}</td>
                                                                 </tr>   
-                                                                <tr ng-if="sub_status_report.length > 0">
+                                                                <tr ng-if="unspecifiedStatus >= 1">
+                                                                    <td>Unspecified Status</td>
+                                                                    <td>{{unspecifiedStatus}}</td>
+                                                                    <td>{{((unspecifiedStatus / subStatus_Total) * 100).toFixed(2)}}</td>
+                                                                </tr>
+                                                                <tr ng-if="sub_status_report.length > 0 || unspecifiedStatus >= 1">
                                                                     <td><b>Total</b></td>
                                                                     <td><b>{{subStatus_Total}}</b></td>
                                                                     <td><b>{{((subStatus_Total / subStatus_Total) * 100).toFixed(2)}}</b></td>
@@ -588,11 +547,12 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-                                                    </div>
-                                                    <div class="row"  align="center" ng-if="sub_status_report.length > 0" >
-                                                        <div class="col-md-12 col-xs-12"  align="center" >
-                                                            <div style="margin:0 auto;padding: 40px; width: 30%">
-                                                                <canvas id="doughnut" class="chart chart-doughnut" chart-data="substatus_data" chart-options="substatus_options" chart-labels="substatus_labels" chart-colors="substatus_colors"></canvas>
+                                                        <!--ng-if="sub_status_report.length > 0 || unspecifiedStatus >= 1"-->
+                                                        <div class="row"  align="center" >
+                                                            <div class="col-md-12 col-xs-12"  align="center" >
+                                                                <div style="margin:0 auto;padding: 40px; width: 30%">
+                                                                    <canvas id="doughnut" class="chart chart-doughnut" chart-data="substatus_data" chart-options="substatus_options" chart-labels="substatus_labels" chart-colors="substatus_colors"></canvas>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>

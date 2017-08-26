@@ -23,7 +23,7 @@
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div ng-if="!project_logo_preview" class="img-div2" data-title="name" ng-repeat="list in project_logo"> 
-                    <img ng-src="[[ Session::get('s3Path') ]]/project/project_logo/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ config('global.s3Path') ]]/project/project_logo/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_logo_preview">    
                     <img ng-src="{{list}}" class="thumb photoPreview">
@@ -41,7 +41,7 @@
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div ng-if="!project_thumbnail_preview" class="img-div2" data-title="name" ng-repeat="list in project_thumbnail">    
-                    <img ng-src="[[ Session::get('s3Path') ]]/project/project_thumbnail/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ config('global.s3Path') ]]/project/project_thumbnail/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_thumbnail_preview">    
                     <img ng-src="{{list}}" class="thumb photoPreview">
@@ -61,7 +61,7 @@
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div ng-if="!project_favicon_preview" class="img-div2" data-title="name" ng-repeat="list in project_favicon">   
-                    <img ng-src="[[ Session::get('s3Path') ]]/project/project_favicon/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ config('global.s3Path') ]]/project/project_favicon/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_favicon_preview">    
                     <img ng-src="{{list}}" class="thumb photoPreview">
@@ -80,7 +80,7 @@
             <div class="col-sm-12 col-xs-12">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_banner_images" id="del_project_banner_images_{{$index}}">   
                     <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_banner_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_banner_images/', 'project_banner_images')"></i>
-                    <img ng-src="[[ Session::get('s3Path') ]]/project/project_banner_images/{{list}}" class="thumb photoPreview">
+                    <img src="[[ config('global.s3Path') ]]/project/project_banner_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_banner_images_preview">    
                     <i class="fa fa-times rem-icon"  title=""></i>
@@ -103,7 +103,7 @@
             <div class="col-sm-12 col-xs-12">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_background_images" id="del_project_background_images_{{$index}}">   
                     <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_background_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_background_images/', 'project_background_images')"></i>
-                    <img ng-src="[[ Session::get('s3Path') ]]/project/project_background_images/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ config('global.s3Path') ]]/project/project_background_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_background_images_preview">    
                     <i class="fa fa-times rem-icon"  title=""></i>
@@ -123,7 +123,7 @@
             <div class="col-sm-12 col-xs-12">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_broacher" id="del_project_broacher_{{$index}}">   
                     <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_broacher}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_broacher/', 'project_broacher')"></i>
-                    <img ng-src="[[ Session::get('s3Path') ]]/project/project_broacher/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ config('global.s3Path') ]]/project/project_broacher/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_broacher_preview">    
                     <i class="fa fa-times rem-icon"  title=""></i>

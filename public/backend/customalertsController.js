@@ -64,7 +64,7 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
     
     $scope.manageAlerts = function (id,action, pageNumber= '', itemPerPage = '') { //edit/index action
         $scope.modal = {};
-
+            $scope.showloader();
         Data.post('customalerts/manageCustomAlerts',{
             id: id,pageNumber: pageNumber, itemPerPage: itemPerPage,
         }).then(function (response) {
@@ -84,6 +84,7 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
             } else {
                 $scope.errorMsg = response.message;
             }
+            $scope.hideloader();
         });
     };
 

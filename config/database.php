@@ -63,13 +63,13 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
-        ],*/
+        ],*/ 
         'masterdb' => [
             'read' => [
-                'host' => '192.168.0.139',
+                'host' => '192.168.0.104',
             ],
             'write' => [
-                'host' => '192.168.0.139',
+                'host' => '192.168.0.104',
             ],
             'driver' => 'mysql',
             'port' => 3306,
@@ -85,10 +85,10 @@ return [
         
         'mysql' => [
             'read' => [
-                'host' => '192.168.0.139',
+                'host' => '192.168.0.104',
             ],
             'write' => [
-                'host' => '192.168.0.139'
+                'host' => '192.168.0.104'
             ],
             'driver' => 'mysql',
             'port' => 3306,

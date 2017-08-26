@@ -15,10 +15,12 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.locations = [];
         $scope.projectList = [];
         $scope.subSourceList = [];
+        $scope.salesEnqSubStatusList = [];
         $scope.salesEnqSubCategoryList = [];
-        $scope.getProcName = $scope.type = $scope.getFunctionName  ='';
+        $scope.getProcName = $scope.type = $scope.getFunctionName = '';
         $scope.flagForChange = 0;
-        $scope.minBudget = $scope.maxBudget = 0;        
+        $scope.report_name;
+        $scope.listType = 0;
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };
@@ -39,7 +41,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.initHistoryDataModal = function (enquiry_id) {
-             Data.post('master-sales/getEnquiryHistory', {
+            Data.post('master-sales/getEnquiryHistory', {
                 enquiryId: enquiry_id,
             }).then(function (response) {
                 if (response.success) {
@@ -48,7 +50,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         $scope.exportReport = function (result) {
-            Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.pageHeading.replace(/ /g, "_")}).then(function (response) {
+            Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.report_name.replace(/ /g, "_")}).then(function (response) {
                 $("#downloadExcel").attr("href", response.fileUrl);
                 $scope.sheetName = response.sheetName;
 
@@ -63,14 +65,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         /****************************ENQUIRIES****************************/
-        $scope.pageChanged = function(pageNo, functionName, id, type,newpage) {
-            $scope.flagForChange++;            
+        $scope.pageChanged = function (pageNo, functionName, id, type, newpage,listType) {
+            $scope.flagForChange++;
             if ($scope.flagForChange == 1)
             {
                 if (($scope.filterData && Object.keys($scope.filterData).length > 0) || ($scope.maxBudget > 0)) {
-                    $scope.getFilteredData($scope.filterData,$scope.minBudget,$scope.maxBudget,pageNo, $scope.itemsPerPage);
+                    $scope.getFilteredData($scope.filterData, pageNo, $scope.itemsPerPage);
+                    $('#slideout').toggleClass('on');                    
                 } else {
-                    $scope[functionName](id, type, pageNo, $scope.itemsPerPage);
+                    $scope[functionName](id, type, pageNo, $scope.itemsPerPage,listType);
                 }
             }
             $scope.pageNumber = pageNo;
@@ -87,9 +90,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             } else {
                 $scope.report_name = "Teams Reassign Enquiries";
                 $scope.pagetitle = "Team`s Reassign Enquiries ";
-            }            
+            }
             Data.post('master-sales/getReassignEnquiry', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -103,21 +106,21 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.flagForChange = 0;
             });
         }
-        $scope.getTotalEnquiries = function (id, type, pageNumber, itemPerPage)
+        $scope.getTotalEnquiries = function (id, type, pageNumber, itemPerPage,listType)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
             $scope.showloader();
-            //$scope.listType = listType;
+            $scope.listType = listType;
             if (type == 0) {
                 $scope.report_name = "Total Enquiries";
                 $scope.pagetitle = "My Total Enquiries";
             } else {
                 $scope.report_name = "Teams Total Enquiries";
                 $scope.pagetitle = "Team`s Total Enquiries ";
-            }            
+            }
             Data.post('master-sales/getTotalEnquiries', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -128,27 +131,27 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.enquiriesLength = 0;
                 }
                 $scope.hideloader();
-                $scope.flagForChange = 0;
+                $scope.flagForChange = 0;                
             });
         }
-        
+
         /****************************ENQUIRIES****************************/
 
         /****************************FOLLOWUPS****************************/
-        $scope.todaysFollowups = function (id, type, pageNumber, itemPerPage)
+        $scope.todaysFollowups = function (id, type, pageNumber, itemPerPage,listType)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
-            //$scope.listType = listType;
+            $scope.listType = listType;
             if (type == 0) {
                 $scope.report_name = "Today's Followups";
                 $scope.pagetitle = "My Today's Followups";
             } else {
                 $scope.report_name = "Team`s Today's Followups";
                 $scope.pagetitle = "Team`s Today's Followups";
-            }            
+            }
             Data.post('master-sales/getTodaysFollowups', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -161,20 +164,20 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.flagForChange = 0;
             });
         }
-        $scope.pendingsFollowups = function (id, type, pageNumber, itemPerPage)
-        {            
+        $scope.pendingsFollowups = function (id, type, pageNumber, itemPerPage,listType)
+        {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
-            //$scope.listType = listType;
+            $scope.listType = listType;
             if (type == 0) {
                 $scope.report_name = "Pending Followups";
                 $scope.pagetitle = "My Pending Followups";
             } else {
                 $scope.report_name = "Team`s Pending Followups";
                 $scope.pagetitle = "Team`s Pending Followups";
-            }            
+            }
             Data.post('master-sales/getPendingFollowups', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -187,20 +190,20 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.flagForChange = 0;
             });
         }
-        $scope.previousFollowups = function (id, type, pageNumber, itemPerPage)
+        $scope.previousFollowups = function (id, type, pageNumber, itemPerPage,listType)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
-            //$scope.listType = listType;
+            $scope.listType = listType;
             if (type == 0) {
                 $scope.report_name = "Previous Followups";
                 $scope.pagetitle = "My Previous Followups";
             } else {
                 $scope.report_name = "Team`s Previous Followups";
                 $scope.pagetitle = "Team`s Previous Followups";
-            }            
+            }
             Data.post('master-sales/previousFollowups', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -213,20 +216,20 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.flagForChange = 0;
             });
         }
-        $scope.lostEnquiries = function (id, type, pageNumber, itemPerPage)
+        $scope.lostEnquiries = function (id, type, pageNumber, itemPerPage,listType)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
-            //$scope.listType = listType;
+           $scope.listType = listType;
             if (type == 0) {
                 $scope.report_name = "Lost Enquiries";
                 $scope.pagetitle = "My Lost Enquiries";
             } else {
                 $scope.report_name = "Team`s Lost Enquiries";
                 $scope.pagetitle = "Team`s Lost Enquiries";
-            }            
+            }
             Data.post('master-sales/getLostEnquiries', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -239,22 +242,22 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.flagForChange = 0;
             });
         }
-        $scope.bookedEnquiries = function (id, type, pageNumber, itemPerPage)
+        $scope.bookedEnquiries = function (id, type, pageNumber, itemPerPage,listType)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
-            //$scope.listType = listType;
+            $scope.listType = listType;
             if (type == 0) {
                 $scope.report_name = "Booked Enquiries";
                 $scope.pagetitle = "My Booked Enquiries";
             } else {
                 $scope.report_name = "Team`s Booked Enquiries";
                 $scope.pagetitle = "Team`s Booked Enquiries";
-            }            
+            }
             Data.post('master-sales/getBookedEnquiries', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage,teamType:type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
             }).then(function (response) {
-                 if (response.success) {
+                if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
                 } else
@@ -490,52 +493,20 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         };
 
 
-        /**************************Budget Range Bar*************************/
-        $scope.min = 0;
-        $scope.max = 0;
-        $scope.visSlider = {
-            options: {
-                floor: 200000,
-                ceil: 20000000,
-                step: 1
-            }
-        };
-
-        $scope.rangeValidateMin = function (minVal) {
-            if (typeof minVal == 'undefined' || minVal < 200000) {
-                $scope.min = 200000;
-            } else if (minVal > 20000000) {
-                $scope.min = 20000000;
-            } else if (minVal > $scope.max) {
-                $scope.min = $scope.max;
-            }
-        }
-        $scope.rangeValidateMax = function (maxVal) {
-            if (typeof maxVal == 'undefined' || maxVal > 20000000) {
-                $scope.max = 20000000;
-            } else if (maxVal < 200000) {
-                $scope.max = $scope.min;
-            } else if (maxVal < $scope.min) {
-                $scope.max = $scope.min;
-            }
-
-        }
-        /**************************Budget Range Bar*************************/
-        
         $scope.procName = function (procedureName, functionName) {
             $scope.getProcName = angular.copy(procedureName);
             $scope.getFunctionName = angular.copy(functionName);
         }
-        $scope.getFilteredData = function (filterData, minBudget, maxBudget,page,recordsperpage)
+        $scope.getFilteredData = function (filterData,page, recordsperpage)
         {
-            Object.keys($scope.filterData).forEach(function(key) {                
-                if($scope.filterData[key] == '')
+            Object.keys($scope.filterData).forEach(function (key) {
+                if ($scope.filterData[key] == '')
                 {
-                   delete $scope.filterData[key]; 
-                }                   
-            });            
-            $scope.minBudget = $scope.min=minBudget;
-            $scope.maxBudget = $scope.max=maxBudget;
+                    delete $scope.filterData[key];
+                }
+            });
+            //$scope.minBudget = $scope.min = minBudget;
+            //$scope.maxBudget = $scope.max = maxBudget;
             $scope.showloader();
             if (typeof filterData.fromDate !== 'undefined') {
                 var fdate = new Date(filterData.fromDate);
@@ -543,8 +514,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             } else if (typeof filterData.toDate !== 'undefined') {
                 var tdate = new Date(filterData.toDate);
                 $scope.filterData.toDate = (tdate.getFullYear() + '-' + ("0" + (tdate.getMonth() + 1)).slice(-2) + '-' + tdate.getDate());
-            }           
-            Data.post('master-sales/filteredData', {filterData: filterData, minBudget: minBudget, pageNumber: page, itemPerPage: $scope.itemsPerPage,maxBudget: maxBudget, getProcName: $scope.getProcName,teamType:$scope.type}).then(function (response) {
+            }
+            if (typeof filterData.bookingFromDate !== 'undefined') {
+                var fbdate = new Date(filterData.bookingFromDate);
+                $scope.filterData.bookingFromDate = (fbdate.getFullYear() + '-' + ("0" + (fbdate.getMonth() + 1)).slice(-2) + '-' + fbdate.getDate());
+            } else if (typeof filterData.bookingToDate !== 'undefined') {
+                var tbdate = new Date(filterData.tbdate);
+                $scope.filterData.bookingToDate = (tbdate.getFullYear() + '-' + ("0" + (tbdate.getMonth() + 1)).slice(-2) + '-' + tbdate.getDate());
+            }
+            Data.post('master-sales/filteredData', {filterData: filterData, pageNumber: page, itemPerPage: $scope.itemsPerPage,getProcName: $scope.getProcName, teamType: $scope.type}).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
@@ -553,29 +531,33 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.enquiries = '';
                     $scope.enquiriesLength = 0;
                 }
-                $('#showFilterModal').modal('hide');
                 $scope.hideloader();
+                $('#slideout').toggleClass('on');
+                if ($(".wrap-filter-form").hasClass("on")) {
+                    $(".mainDiv").css("opacity", "0.2");
+                    $(".mainDiv").css("pointer-events", "none");
+                } else {
+                    $(".mainDiv").css("opacity", "");
+                    $(".mainDiv").css("pointer-events", "visible");
+                }
                 $scope.showFilterData = $scope.filterData;
                 $scope.flagForChange = 0;
             });
-        }      
-        
-        $scope.removeDataFromFilter = function (keyvalue) {
-            $scope.showloader();           
-           
-   
-            if(keyvalue === 'min')
-            {
-              $scope.minBudget = $scope.min = $scope.maxBudget = $scope.max=maxBudget = 0;
-                $scope.min = 0;
-                $scope.max = 0;
-            }
-            delete $scope.filterData[keyvalue];            
-            $scope.getFilteredData($scope.filterData,$scope.min,$scope.max, 1, 30);
-            $scope.hideloader(); 
-            return false;           
         }
-        
+
+        $scope.removeDataFromFilter = function (keyvalue) {
+            //$scope.showloader();
+            if(keyvalue == 'bookingFromDate')
+            {
+                 delete $scope.filterData.bookingToDate;  
+            }
+            delete $scope.filterData[keyvalue];           
+            $scope.getFilteredData($scope.filterData,1, 30);
+            $('#slideout').toggleClass('on');
+            $scope.hideloader();
+            return false;
+        }
+
         $scope.ImportEnquiryData = function (importfile) {
             $scope.showhisrtory = false;
             $scope.btnupload = true;
@@ -601,7 +583,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     $scope.total = response.data.total;
                     $scope.invalidfilecount = response.data.invalidfilecount;
                     $scope.invalidfileurl = response.data.invalidfileurl;
-                    $scope.employeeundercount = response.data.return_record_split.split(',');                    
+                    $scope.employeeundercount = response.data.return_record_split.split(',');
                     $scope.showhisrtory = true;
                     $timeout(function () {
                         $scope.EnquiryData.importfile = "";
@@ -629,8 +611,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     //console.log($scope.showhistoryList);
                 }
             });
-        }
-        
+        }      
     }]);
 
 app.controller('getEmployeesCtrl', function ($scope, Data) {
@@ -696,4 +677,18 @@ app.filter('split', function () {
         // do some bounds checking here to ensure it has that index
         return input.split(splitChar)[splitIndex];
     }
+});
+
+$(document).ready(function () {
+    $('.toggleForm').click(function () {
+        alert("hi");
+        $('#slideout').toggleClass('on');
+        if ($(".wrap-filter-form").hasClass("on")) {
+            $(".mainDiv").css("opacity", "0.2");
+            $(".mainDiv").css("pointer-events", "none");
+        } else {
+            $(".mainDiv").css("opacity", "");
+            $(".mainDiv").css("pointer-events", "visible");
+        }
+    });
 });

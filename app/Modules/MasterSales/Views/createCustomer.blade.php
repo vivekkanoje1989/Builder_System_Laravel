@@ -28,7 +28,7 @@
                         <div class="form-group">
                             <label for="">First Name<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" required capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
+                                <input type="text" class="form-control" ng-model="customerData.first_name" name="first_name" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                 <i class="fa fa-user"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.first_name.$error" class="help-block errMsg">
                                     <div ng-message="required">Please enter first name</div>
@@ -67,7 +67,7 @@
                         <div class="form-group">
                             <label for="">Gender<span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select ng-model="customerData.gender_id" name="gender_id" ng-controller="genderCtrl" class="form-control" required>
+                                <select ng-model="customerData.gender_id" name="gender_id" id="gender_id" ng-controller="genderCtrl" class="form-control" required>
                                     <option value="">Select Gender</option>
                                     <option ng-repeat="genderList in genders track by $index" value="{{genderList.id}}" ng-selected="{{ genderList.id == customerData.gender}}">{{genderList.gender}}</option>
                                 </select>
@@ -81,12 +81,12 @@
                     </div>
                     <div class="col-sm-3 col-md-3 col-xs-12">
                         <div class="form-group">
-                            <label for="">Birth Date<span class="sp-err">*</span></label>
+                            <label for="">Birth Date</label>
                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                 <p class="input-group">
-                                    <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                    <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" readonly/>
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 <div ng-show="formButton" ng-messages="customerForm.birth_date.$error" class="help-block errMsg">
                                     <div ng-message="required">Please select birth date</div>
@@ -98,30 +98,9 @@
                     </div>
                     <div class="col-sm-3 col-md-3 col-xs-12">
                         <div class="form-group">
-                            <label for="">Marriage Date<span class="sp-err">*</span></label>
-                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
-                                <p class="input-group">
-                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
-                                <div ng-show="formButton" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
-                                    <div ng-message="required">Please select marriage date</div>
-                                </div>
-                                <div ng-if="marriage_date"class="errMsg birth_date">{{marriage_date}}</div>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-12 col-sm-12 col-xs-12">
-                <div class="row">
-                    <div class="col-sm-3 col-md-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="">Profession<span class="sp-err">*</span></label>
+                            <label for="">Profession</label>
                             <span class="input-icon icon-right">
-                                <select class="form-control" ng-model="customerData.profession_id" name="profession_id" ng-controller="professionCtrl" required>
+                                <select class="form-control" ng-model="customerData.profession_id" name="profession_id" id="profession_id" ng-controller="professionCtrl">
                                     <option value="">Select Profession</option>
                                     <option ng-repeat="t in professions track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.profession}}">{{t.profession}}</option>
                                 </select>                
@@ -135,10 +114,10 @@
                     </div>
                     <div class="col-sm-3 col-md-3 col-xs-12">
                         <div class="form-group">
-                            <label for="">Monthly Income<span class="sp-err">*</span></label>
+                            <label for="">Monthly Income</label>
                             <span class="input-icon icon-right">
-                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" ng-pattern="/^[1-9]\d*$/" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
-                                <i class="fa fa-money"></i>
+                                <input type="text" ng-model="customerData.monthly_income" name="monthly_income" class="form-control" ng-pattern="/^[1-9]\d*$/" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                <i class="fa fa-rupee"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.monthly_income.$error" class="help-block errMsg">
                                     <div ng-message="required">Please enter monthly income</div>
                                     <div ng-message="pattern">Please enter valid income</div>
@@ -146,34 +125,31 @@
                                 <div ng-if="monthly_income" class="errMsg monthly_income">{{monthly_income}}</div>
                             </span>
                         </div>
-                    </div>
-
-                    <div class="col-sm-3 col-md-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="">SMS Privacy Status</label>
-                            <span class="input-icon icon-right">
-                                <select ng-model="customerData.sms_privacy_status" name="sms_privacy_status" class="form-control">
-                                    <option value="0">In active</option>
-                                    <option value="1">Active</option>
-                                </select>
-                                <i class="fa fa-sort-desc"></i>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-xs-12">
-                        <div class="form-group">
-                            <label for="">Email Privacy Status</label>
-                            <span class="input-icon icon-right">                                                
-                                <select ng-model="customerData.email_privacy_status" name="email_privacy_status" class="form-control" >
-                                    <option value="0">In active</option>
-                                    <option value="1">Active</option>
-                                </select>
-                                <i class="fa fa-sort-desc"></i>
-                            </span>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
+            </div>
+            <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="row" ng-controller="enquirySourceCtrl">
+                    <div class="col-sm-3 col-md-3 col-xs-12">                        
+                        <div class="form-group">
+                            <label for="">Marriage Date</label>
+                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                                <p class="input-group">
+                                    <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                <div ng-show="formButton" ng-messages="customerForm.marriage_date.$error" class="help-block errMsg">
+                                    <div ng-message="required">Please select marriage date</div>
+                                </div>
+                                <div ng-if="marriage_date"class="errMsg birth_date">{{marriage_date}}</div>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+<!--                </div>
+                <div class="row" ng-controller="enquirySourceCtrl">-->
                     <div class="col-sm-3 col-md-3 col-xs-12">
                         <div class="form-group">
                             <label for="">Source<span class="sp-err">*</span></label>
@@ -205,9 +181,11 @@
                     </div>
                     <div class="col-sm-3 col-md-3 col-xs-12">
                         <div class="form-group">
-                            <label for="">Source Description<span class="sp-err">*</span></label>
+                            <label for="">Source Description</label>
                             <span class="input-icon icon-right">
-                                <input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" ng-disabled="disableSource" required>
+                                <textarea ng-model="customerData.source_description" name="source_description" maxlength="50" class="form-control" ng-disabled="disableSource"></textarea>
+                                
+                                <!--<input type="text" ng-model="customerData.source_description" name="source_description" class="form-control" ng-disabled="disableSource">-->
                                 <i class="fa fa fa-align-left"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.source_description.$error" class="help-block errMsg">
                                     <div ng-message="required">Please enter source description</div>
@@ -216,7 +194,47 @@
                             </span>
                         </div>
                     </div>
-                </div>                                
+                </div>  
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 col-xs-12">
+                        <div class="form-group" >
+                            <label for=""></label>
+                            <span class="input-icon icon-right">
+                                <label>
+                                    <input type="checkbox" ng-model="customerData.corporate_customer" name="corporate_customer" id="corporateCust" ng-click="isChecked(customerData.corporate_customer)">
+                                    <span class="text"> Corporate Customer</span>
+                                </label>
+                            </span>	
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 col-xs-12" >
+                        <div class="form-group" ng-if="companyInput">
+                            <label for="">Company Name</label>
+                            <input type="text" class="form-control" placeholder="Enter Company name" name="company_name" ng-model="customerData.company_name" ng-keyup="getCompanyList(customerData.company_name)" ng-required="companyInput == '1'">
+                            <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList">
+                                <li ng-repeat="company in company_list| filter : customerData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
+                            </ul> 
+                            <div ng-show="sbtBtn && customerForm.company_name.$invalid" ng-messages="customerForm.company_name.$error" class="help-block">
+                                <div ng-message="required" style="color: red !important;">This field is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="">SMS Privacy Status</label>
+                            <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
+                            <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-if="customerData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-xs-12">
+                        <div class="form-group">
+                            <label for="">Email Privacy Status</label>
+                            <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
+                            <span class="fa fa-toggle-on fa-rotate-180 toggleClassInactive" ng-if="customerData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
+                        </div>
+                    </div>
+                </div>
             </div> 
             <hr class="wide col-md-12" /> 
         </div> 

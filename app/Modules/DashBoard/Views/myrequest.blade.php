@@ -48,11 +48,11 @@
                 <!-- filter data-->
                 <div class="row" style="border:2px;" id="filter-show">
                     <div class="col-sm-12 col-xs-12">
-                        <b ng-repeat="(key, value) in searchData" >
+                        <b ng-repeat="(key, value) in searchData"  ng-if="value != 0">
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                 <div class="alert alert-info fade in">
                                     <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
-                                    <strong ng-if="key === 'in_date'" data-toggle="tooltip" title="Date"><strong> Date: </strong> {{ value |date:'yyyy-MM-dd HH:mm:ss'}}</strong>
+                                    <strong ng-if="key === 'in_date'" data-toggle="tooltip" title="Date"><strong> Date: </strong> {{ value |date:'yyyy-MM-dd'}}</strong>
                                     <strong ng-if="key === 'request_type'" data-toggle="tooltip" title="Request Type"><strong> Request Type : </strong> {{ value}}</strong>
                                     <strong ng-if="key === 'application_to'" data-toggle="tooltip" title="Application To"><strong> Application To : </strong> {{ value}}</strong>
                                     <strong ng-if="key === 'from_date'" data-toggle="tooltip" title="From Date"><strong> From Date : </strong> {{ value| date:'yyyy-MM-dd' }}</strong>
@@ -165,25 +165,12 @@
                 <span aria-hidden="true">&times;</span>
             </button><hr>
             <div class="row">
-                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
-                    <div class="form-group">
-                        <label for="">Date</label>
-                        <span class="input-icon icon-right">
-                            <p class="input-group">
-                                <input type="text" ng-model="searchDetails.in_date" placeholder="Date" name="in_date" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </p>
-                        </span>
-                    </div>
-                </div>
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Application To</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.application_to"  " name="application_to" class="form-control">
-                           
+                            <input type="text" ng-model="searchDetails.application_to"  name="application_to" class="form-control"  oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+
                         </span>
                     </div>
                 </div>

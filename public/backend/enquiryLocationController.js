@@ -34,7 +34,7 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', 'toaster', function ($s
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

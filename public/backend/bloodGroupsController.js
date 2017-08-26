@@ -29,7 +29,7 @@ app.controller('bloodsGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
         $scope.searchDetails = {};
         $scope.searchData = {};
         $scope.filterDetails = function (search) {
-             $scope.searchDetails = {};
+//             $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

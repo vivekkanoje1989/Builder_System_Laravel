@@ -379,12 +379,8 @@ class ReportsController extends Controller {
             $category_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'Cold' => '0', 'Hot' => '0', 'Warm' => "0", 'New' => "0", 'Total' => "0");
         }
 
-        if (!empty($employeeids)) {
-            $emp_ids = explode(',', $employeeids);
-            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->whereRaw('FIND_IN_SET(1,department_id)')->get();
-        } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->whereRaw('FIND_IN_SET(1,department_id)')->get();
-        }
+
+        $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
 
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();
@@ -465,9 +461,9 @@ class ReportsController extends Controller {
 
         if (!empty($employeeids)) {
             $emp_ids = explode(',', $employeeids);
-            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
         } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
         }
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();
@@ -519,9 +515,9 @@ class ReportsController extends Controller {
         if (!empty($employeeids)) {
             $emp_ids = explode(',', $employeeids);
 
-            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
         } else {
-            $selfteam = \App\Models\backend\Employee::where(['team_lead_id' => $emp_id])->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::where(['team_lead_id' => $emp_id])->get();
         }
 
         foreach ($selfteam as $selfmember) {
@@ -584,9 +580,9 @@ class ReportsController extends Controller {
 
         if (!empty($employeeids)) {
             $emp_ids = explode(',', $employeeids);
-            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_id)->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_id)->get();
         } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
         }
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();
@@ -827,23 +823,12 @@ class ReportsController extends Controller {
         $employee_id = $request["employee_id"];
 
         $condition = '';
-        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
-            $from_date = date('Y-m-d', strtotime($request['from_date']));
-            $to_date = date('Y-m-d', strtotime($request['to_date']));
-            $condition .= "(ef.`followup_date_time` BETWEEN '$from_date' AND '$to_date')";
-        }
-        if (!empty($request['flag'])) {
-            $flag = $request['flag'];
-        } else {
-            $flag = 0;
-        }
+
 
         if (!empty($employee_id)) {
-            if ($flag == 0) {
-                $folowup_report = "SELECT DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`) as followupdate_diff_in_days, count(DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`)) as followupdate_diff_in_days_cnt FROM `enquiry_followups` ef, enquiries e WHERE ef.`enquiry_id`=e.id AND e.sales_employee_id = $employee_id GROUP BY DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`)";
-            } else {
-                $folowup_report = "SELECT DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`) as followupdate_diff_in_days, count(DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`)) as followupdate_diff_in_days_cnt FROM `enquiry_followups` ef, enquiries e WHERE ef.`enquiry_id`=e.id AND e.sales_employee_id = $employee_id AND $condition GROUP BY DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`)";
-            }
+
+            $folowup_report = "SELECT DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`) as followupdate_diff_in_days, count(DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`)) as followupdate_diff_in_days_cnt FROM `enquiry_followups` ef, enquiries e WHERE ef.`enquiry_id`=e.id AND e.sales_employee_id = $employee_id GROUP BY DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`)";
+
 
 
             $folowup_report = DB::select($folowup_report);
@@ -1118,10 +1103,7 @@ class ReportsController extends Controller {
             $parant_id = '';
             $parant_id = $this->isParant($first_admin_model->id);
             $counting[] = array('new' => $m_new_count, 'open' => $m_open_count, 'booked' => $m_booked_count, 'lost' => $m_lost_count, 'preserved' => $m_preserved_count, 'total' => $mtotal);
-
-//                 'name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id,
         }
-
 
         $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
 
@@ -1190,6 +1172,7 @@ class ReportsController extends Controller {
         $response = array();
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+
         $temp_array = array();
         $other_array = array();
         $emp_id = $request["employee_id"];
@@ -1200,17 +1183,11 @@ class ReportsController extends Controller {
         $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
 
         if ($emp_id) {
-            $results_enquiry_type = "SELECT count(*) as cnt FROM enquiries as e INNER JOIN enquiry_details as detail ON e.id = detail.enquiry_id INNER JOIN projects as p ON p.id = detail.project_id AND e.sales_employee_id IN(" . $emp_id . ") AND e.sales_status_id IN (1,2,5) AND detail.project_id = 1";
+            $results_enquiry_type = "SELECT count(*) as cnt FROM enquiries as e INNER JOIN enquiry_details as detail ON e.id = detail.enquiry_id INNER JOIN projects as p ON p.id = detail.project_id AND e.sales_employee_id IN(" . $emp_id . ") AND e.sales_status_id IN (1,2,5) AND detail.project_id =" . $request['project_id'] . "";
             $results_enquiry_type = DB::select($results_enquiry_type);
             $counting = $results_enquiry_type[0]->cnt;
         }
-
-        if (!empty($employeeids)) {
-            $emp_ids = explode(',', $employeeids);
-            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
-        } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
-        }
+        $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();
             $this->tuserid($selfmember->id);
@@ -1219,7 +1196,7 @@ class ReportsController extends Controller {
             ksort($alluser);
             $temp = @implode(',', $alluser);
             if (!empty($temp)) {
-                $results_enquiry_type = "SELECT count(*) as cnt FROM enquiries as e INNER JOIN enquiry_details as detail ON e.id = detail.enquiry_id INNER JOIN projects as p ON p.id = detail.project_id AND e.sales_employee_id IN(" . $temp . ") AND e.sales_status_id IN (1,2,5) AND detail.project_id = 1";
+                $results_enquiry_type = "SELECT count(*) as cnt FROM enquiries as e INNER JOIN enquiry_details as detail ON e.id = detail.enquiry_id INNER JOIN projects as p ON p.id = detail.project_id AND e.sales_employee_id IN(" . $temp . ") AND e.sales_status_id IN (1,2,5) AND detail.project_id =" . $request['project_id'] . "";
                 $results_enquiry_type = DB::select($results_enquiry_type);
 
                 foreach ($results_enquiry_type as $result) {
@@ -1248,17 +1225,12 @@ class ReportsController extends Controller {
         $source_wise_team_total = array();
         $Total = 0;
         $sTotal = 0;
-
         $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
-
-
-        $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
-
         if ($emp_id) {
             $results_enquiry_type = "SELECT count(*) as cnt FROM enquiries as e INNER JOIN enquiry_details as detail "
                     . "ON e.id = detail.enquiry_id INNER JOIN projects as p ON p.id = detail.project_id "
                     . "AND e.sales_employee_id IN(" . $emp_id . ") "
-                    . "AND e.sales_status_id IN (1,2,5) AND detail.project_id = 1";
+                    . "AND e.sales_status_id IN (1,2,5) AND detail.project_id = " . $request['project_id'] . "";
             $results_enquiry_type = DB::select($results_enquiry_type);
 
 
@@ -1266,12 +1238,9 @@ class ReportsController extends Controller {
             $parant_id = $this->isParant($first_admin_model->id);
             $source_wise_team_total[] = array('name' => $first_admin_model->first_name . ' ' . $first_admin_model->last_name, 'employee_id' => $first_admin_model->id, 'is_parent' => $parant_id, 'count' => $results_enquiry_type[0]->cnt);
         }
-        if (!empty($employeeids)) {
-            $emp_ids = explode(',', $employeeids);
-            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
-        } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
-        }
+
+        $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
+
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();
             $count1 = 0;
@@ -1286,7 +1255,7 @@ class ReportsController extends Controller {
                 $sresult = "SELECT count(*) as cnt FROM enquiries as e INNER JOIN enquiry_details as detail "
                         . "ON e.id = detail.enquiry_id INNER JOIN projects as p ON p.id = detail.project_id "
                         . "AND e.sales_employee_id IN(" . $temp . ") "
-                        . "AND e.sales_status_id IN (1,2,5) AND detail.project_id = 1";
+                        . "AND e.sales_status_id IN (1,2,5) AND detail.project_id = " . $request['project_id'] . "";
 
                 $source_result = DB::select($sresult);
 
@@ -1311,27 +1280,11 @@ class ReportsController extends Controller {
         $request = json_decode($postdata, true);
         $emp_id = $request["employee_id"];
         $condition = '';
-        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
-            $from_date = date('Y-m-d', strtotime($request['from_date']));
-            $to_date = date('Y-m-d', strtotime($request['to_date']));
-            $condition .= "(be.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
-        }
-        if (!empty($request['flag'])) {
-            $flag1 = $request['flag'];
-        } else {
-            $flag1 = 0;
-        }
+
         $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
         if ($emp_id) {
-            if ($flag1 == 0) {
-                $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
-            } else {
-                if (!empty($condition)) {
-                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND $condition AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
-                } else {
-                    $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
-                }
-            }
+            $results_enquiry_type = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $emp_id AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
+
             $results_enquiry_type = DB::select($results_enquiry_type);
             $category_wise_team_total = array();
             $m_cold_count = 0;
@@ -1379,14 +1332,8 @@ class ReportsController extends Controller {
 
 
             if (!empty($temp)) {
-                if ($flag1 == 0) {
-                    $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND details.project_id = 1 AND e.sales_employee_id IN($temp) AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
-                } else {
-                    if (!empty($condition)) {
-                        $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND details.project_id = 1 AND e.sales_employee_id IN($temp)   AND $condition  AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
-                    }
-                    $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND details.project_id = 1 AND e.sales_employee_id IN($temp)   AND $condition  GROUP BY e.sales_category_id";
-                }
+                $results_category_wise = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id INNER JOIN laravel_developement_builder_client.enquiry_details as details ON details.enquiry_id = e.id WHERE e.sales_status_id IN(1,2) AND details.project_id = 1 AND e.sales_employee_id IN($temp) AND details.project_id= " . $request['project_id'] . " GROUP BY e.sales_category_id";
+
                 $results_category_wise = DB::select($results_category_wise);
                 $cold_count = 0;
                 $hot_count = 0;
@@ -1512,7 +1459,7 @@ class ReportsController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
 
-        $results_enquiry_type = DB::select('SELECT ess.id, ess.sales_source_name,(SELECT  COUNT(*) FROM   laravel_developement_builder_client.enquiries as e INNER JOIN laravel_developement_builder_client.enquiry_details as detail ON e.id = detail.enquiry_id INNER JOIN laravel_developement_builder_client.projects as p ON detail.project_id = p.id  WHERE e.sales_source_id = ess.id AND detail.project_id = "' . $request['project_id'] . '"  AND e.sales_employee_id  IN("' . $request['source']['employee_id'] . '") AND e.sales_status_id IN(1,2,5)) as cnt FROM laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as ess');
+        $results_enquiry_type = DB::select('select ess.id,ess.sales_source_name,COUNT(*) as cnt FROM  enquiries as e INNER JOIN laravel_developement_builder_client.enquiry_details as detail ON e.id = detail.enquiry_id INNER JOIN laravel_developement_builder_client.projects as p ON detail.project_id = p.id INNER JOIN  lmsauto_master_final.mlst_lmsa_enquiry_sales_sources as ess WHERE e.sales_source_id = ess.id AND detail.project_id = "' . $request['project_id'] . '" AND e.sales_employee_id  IN("' . $request['source']['employee_id'] . '")  AND e.sales_status_id IN(1,2,5) group by ess.id');
         $result = json_decode(json_encode($results_enquiry_type), true);
 
         $sourceReport = [];
@@ -1549,7 +1496,7 @@ class ReportsController extends Controller {
             $results_enquiry_type = DB::select('CALL proc_total_enquiry_report(' . $request['category']['employee_id'] . ',' . $request['category_id'] . ',"","",0,"")');
             $result = json_decode(json_encode($results_enquiry_type), true);
         } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['category']['employee_id'])->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['category']['employee_id'])->get();
             $emp_id = [];
             foreach ($selfteam as $selfmember) {
                 $this->allusers = array();
@@ -1586,7 +1533,7 @@ class ReportsController extends Controller {
                     . " and e.sales_status_id in (1,2,5) group by eqty.enquiry_sales_subcategory";
             $result = DB::select($results_enquiry_type);
         } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['category']['employee_id'])->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['category']['employee_id'])->get();
             $emp_id = [];
             foreach ($selfteam as $selfmember) {
                 $this->allusers = array();
@@ -1625,7 +1572,7 @@ class ReportsController extends Controller {
                     . "  group by eqty.enquiry_sales_substatus";
             $result = DB::select($results_enquiry_type);
         } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['status']['employee_id'])->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['status']['employee_id'])->get();
             $emp_id = [];
             foreach ($selfteam as $selfmember) {
                 $this->allusers = array();
@@ -1681,7 +1628,7 @@ class ReportsController extends Controller {
             $mtotal = $results_enquiry_type['0']['Cold'] + $results_enquiry_type['0']['Hot'] + $results_enquiry_type['0']['Warm'] + $results_enquiry_type['0']['New'];
             $counting[] = array('Cold' => $results_enquiry_type['0']['Cold'], 'Hot' => $results_enquiry_type['0']['Hot'], 'Warm' => $results_enquiry_type['0']['Warm'], 'New' => $results_enquiry_type['0']['New'], 'Total' => $mtotal);
         }
-        $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->whereRaw('FIND_IN_SET(1,department_id)')->get();
+        $selfteam = \App\Models\backend\Employee::where('team_lead_id', $emp_id)->get();
         $i = 0;
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();
@@ -1727,15 +1674,15 @@ class ReportsController extends Controller {
     public function subSourceReport() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        
+
         if ($request['source_emp_group'] == 0) {
             $results_enquiry_type = DB::select('CALL proc_enquiry_source_report(' . $request['employee_id'] . ',"' . $request['source_id'] . '","0","0")');
             $result = json_decode(json_encode($results_enquiry_type), true);
         } else {
-      
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['employee_id'])->whereRaw('FIND_IN_SET(1,department_id)')->get();
+
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['employee_id'])->get();
             $emp_id = [];
-             
+
             foreach ($selfteam as $selfmember) {
                 $this->allusers = array();
                 $this->tuserid($selfmember->id);
@@ -1752,7 +1699,7 @@ class ReportsController extends Controller {
             } else {
                 $employee_id = $request['employee_id'];
             }
-             
+
             $results_enquiry_type = DB::select('CALL proc_enquiry_source_report("' . $employee_id . '","' . $request['source_id'] . '","0","0")');
             $result = json_decode(json_encode($results_enquiry_type), true); //response in array
         }
@@ -1838,9 +1785,9 @@ class ReportsController extends Controller {
 
         if (!empty($employeeids)) {
             $emp_ids = explode(',', $employeeids);
-            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::whereIN('id', $emp_ids)->get();
         } else {
-            $selfteam = \App\Models\backend\Employee::where(['team_lead_id' => $emp_id])->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::where(['team_lead_id' => $emp_id])->get();
         }
 
         foreach ($selfteam as $selfmember) {
@@ -1942,7 +1889,7 @@ class ReportsController extends Controller {
             $parant_id = $this->isParant($results_enquiry_type['0']['id']);
             $counting[] = array('open' => $results_enquiry_type['0']['Open'], 'booked' => $results_enquiry_type['0']['Booked'], 'lost' => $results_enquiry_type['0']['Lost'], 'new' => $results_enquiry_type['0']['New'], 'preserved' => $results_enquiry_type['0']['Preserved'], 'total' => $total);
         }
-        $selfteam = \App\Models\backend\Employee::where(['team_lead_id' => $emp_id])->whereRaw('FIND_IN_SET(1,department_id)')->get();
+        $selfteam = \App\Models\backend\Employee::where(['team_lead_id' => $emp_id])->get();
 
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();
@@ -1992,7 +1939,7 @@ class ReportsController extends Controller {
             $results_enquiry_type = DB::select('CALL proc_enquiry_status_report(' . $request['status']['employee_id'] . ',' . $request['status_id'] . ',"","",0,"")');
             $result = json_decode(json_encode($results_enquiry_type), true);
         } else {
-            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['status']['employee_id'])->whereRaw('FIND_IN_SET(1,department_id)')->get();
+            $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['status']['employee_id'])->get();
             $emp_id = [];
             foreach ($selfteam as $selfmember) {
                 $this->allusers = array();
@@ -2022,7 +1969,7 @@ class ReportsController extends Controller {
     public function getSourceWiseGroupReport() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['source']['employee_id'])->whereRaw('FIND_IN_SET(1,department_id)')->get();
+        $selfteam = \App\Models\backend\Employee::where('team_lead_id', $request['source']['employee_id'])->get();
         $emp_id = [];
         foreach ($selfteam as $selfmember) {
             $this->allusers = array();

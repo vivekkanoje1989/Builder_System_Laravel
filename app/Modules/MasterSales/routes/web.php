@@ -65,6 +65,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details
     Route::post('/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // get Customer Data With Id
     Route::post('/master-sales/checkMobileExist', 'MasterSalesController@checkMobileExist');
+    Route::post('/master-sales/checkEmailExist', 'MasterSalesController@checkEmailExist');
     Route::post('/master-sales/delEnquiryDetailRow', 'MasterSalesController@delEnquiryDetailRow');
     Route::post('/master-sales/addEnquiryDetailRow', 'MasterSalesController@addEnquiryDetailRow');
     Route::post('/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');

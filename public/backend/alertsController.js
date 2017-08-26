@@ -199,6 +199,7 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
     
     $scope.manageAlerts = function (id,action, pageNumber= '', itemPerPage = '') { //edit/index action
         $scope.modal = {};
+         $scope.showloader();
         Data.post('alerts/manageAlerts',{
             id: id, pageNumber: pageNumber, itemPerPage: itemPerPage,
         }).then(function (response) {
@@ -208,8 +209,10 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
                     $scope.listAlertsLength = response.records.total;
                     $scope.custom_template_list = response.records.customTemplates;
                     $scope.displayinit =true;
+                      $scope.hideloader();
                 }
                 else if(action === 'edit'){
+                      
                     if(id !== '0'){
                         $scope.pageHeading = 'Update Default Template';
                         $scope.buttonLabel = 'Update';
@@ -260,6 +263,7 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
                     $scope.modal.lastName = response.records.data[0].last_name;
                     $scope.modal.userName = response.records.data[0].username;
                 }
+                 $scope.hideloader();
             } else {
                 $scope.errorMsg = response.message;
             }

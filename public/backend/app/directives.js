@@ -109,6 +109,11 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                     if (response.success) { //response true
                         if (response.flag === 0)//if customer exist
                         {
+                            var today = new Date();
+        today.setYear(today.getFullYear() - 20);
+        $scope.maxDates = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        
+                            $scope.company_list = [];var result='';
                             $scope.showDiv = false;
                             $scope.showDivCustomer = true;
                             $scope.btnLabelC = "Update";
@@ -119,18 +124,43 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.contactData = angular.copy(response.customerContactDetails);
                             $scope.enquiryData.first_name = angular.copy(response.customerPersonalDetails[0].first_name);
                             $scope.enquiryData.last_name = angular.copy(response.customerPersonalDetails[0].last_name);
-                            $scope.enquiryData.title_id = angular.copy(response.customerPersonalDetails[0].title_id);
-                            $scope.customerData.marriage_date = $scope.customerData.birth_date = $filter('date')(new Date(), 'yyyy-MM-dd');
+                            $scope.enquiryData.title_id = angular.copy(response.customerPersonalDetails[0].title_id);                            
+                            
+                            if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
+                                $scope.customerData.birth_date = "";
+                            }else{
+                                var bdt = new Date(response.customerPersonalDetails[0].birth_date);
+                                if (bdt.getDate() < 10) {
+                                    $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
+                                }else{
+                                    $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
+                                }
+                                $scope.maxDates = response.customerPersonalDetails[0].birth_date;
+                            }
+                            
+                            if(response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00"){
+                                $scope.customerData.marriage_date = "";
+                            }else{
+                               var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
+                                if (marriage_date.getDate() < 10) {
+                                    $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
+                                }else{
+                                    $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
+                                }
+                            }
+        
                             for (var i = 0; i < response.customerContactDetails.length; i++) {
                                 if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {
-                                    $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+                                    $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
                                 } else {
-                                    $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code) + '-' + parseInt(response.customerContactDetails[i].mobile_number);
+                                    $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = parseInt(response.customerContactDetails[i].mobile_number);
+                                    $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code);
                                 }
                                 if (response.customerContactDetails[i].landline_calling_code === parseInt(0) || response.customerContactDetails[i].landline_calling_code === '' || response.customerContactDetails[i].landline_calling_code === null) {
-                                    $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+                                    $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '';
                                 } else {
-                                    $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerContactDetails[i].landline_calling_code) + '-' + parseInt(response.customerContactDetails[i].landline_number);
+                                    $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerContactDetails[i].landline_number);
+                                    $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerContactDetails[i].landline_calling_code);
                                 }
                                 if (response.customerContactDetails[i].pin === 0)
                                     $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
@@ -150,6 +180,33 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.searchData.searchWithMobile = customerMobileNo;
                             $scope.searchData.searchWithEmail = customerEmailId;
                             $scope.searchData.customerId = response.customerPersonalDetails[0].id;
+                            $timeout(function(){
+                                $scope.customerData.gender_id = angular.copy(response.customerPersonalDetails[0].gender_id);
+                                $("#gender_id").val(response.customerPersonalDetails[0].gender_id);
+                                $scope.customerData.profession_id = angular.copy(response.customerPersonalDetails[0].profession_id);
+                                $("#profession_id").val(response.customerPersonalDetails[0].profession_id);
+
+                                if (response.customerPersonalDetails[0].corporate_customer == '1') {
+                                    $scope.customerData.corporate_customer = true;
+                                    if(response.customerPersonalDetails[0].company_id != ''){
+                                        $scope.companyInput = true;
+                                        Data.get('getCompanyList').then(function (response) {
+                                            if (!response.success) {
+                                                $scope.company_list = [];
+                                                $scope.errorMsg = response.message;
+                                            } else {
+                                                $scope.company_list = response.records;
+                                                result = $.grep($scope.company_list, function(e){ return e.id == 2; });
+                                                $scope.customerData.company_name = result['0']['company_name'];
+                                            }
+                                        });
+                                    }
+                                } else {
+                                    $scope.customerData.corporate_customer = false;
+                                }                                
+                                $scope.customerData.company_id = response.customerPersonalDetails[0].company_id;
+                                
+                            },200);                            
                             $scope.hideloader();
 
                         } else{ //enquiry list of customer 
@@ -247,7 +304,11 @@ app.directive("ngfSelect", [function () {
                 if(ngModel.name === "importfile"){
                     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
                     var errmsg =  " is invalid file."
-                }else{
+                }else if(ngModel.name === "welcome_tune_audio" || ngModel.name === "hold_tune_audio"){
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.mp3)$/;
+                    var errmsg =  " is invalid file."
+                }
+                else{
                     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp|.svg|.xls)$/;
                     var errmsg = " is not a valid image file."
                 }

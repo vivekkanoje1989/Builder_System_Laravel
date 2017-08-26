@@ -12,14 +12,78 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.blockTypeList = [];
         $scope.contacts = [];
         $scope.enqType = '';
-
+        $scope.customerData.sms_privacy_status = 1;
+        $scope.customerData.email_privacy_status = 1;   
+        
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;
         resetContactDetails();
-        $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
+        //$scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
         $scope.showDiv = $scope.enquiryList = $scope.disableSource = $scope.showDivCustomer = false;
         $scope.searchData.customerId = 0;
         $scope.hstep = 1;
         $scope.mstep = 15;
+        var today = new Date();
+        today.setYear(today.getFullYear() - 20);
+        $scope.maxDates = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        
+        $scope.showaddress=true;
+        $scope.hideaddress=false;
+        $scope.customerAddress=false;
+        $scope.showAddress = function(){
+            $scope.showaddress=false;
+            $scope.hideaddress=true;
+            $scope.customerAddress=true;
+        }
+        
+        $scope.hideAddress = function(){
+            $scope.showaddress=true;
+            $scope.hideaddress=false;
+            $scope.customerAddress=false;
+        }
+        $scope.company_list = [];
+        $scope.setCompany = function (company) {
+            $scope.customerData.company_id = company.id;
+            $scope.customerData.company_name = company.company_name;
+            $scope.showComapnyList=false;
+        }
+
+        $scope.showComapnyList = false;
+        $scope.getCompanyList = function (name) {
+            if (name != null && name != '') {
+                $scope.showComapnyList = true;
+            } else {
+                $scope.customerData.company_id = 0;
+                $scope.showComapnyList = false;
+            }
+        }
+        $scope.isChecked = function (corporateCust) {
+            if (corporateCust == true) {
+                $scope.companyInput = true;
+                cache : false;
+                Data.get('getCompanyList').then(function (response) {
+                    if (!response.success) {
+                        $scope.company_list = [];
+                        $scope.showComapnyList = false;
+                        $scope.errorMsg = response.message;
+                    } else {
+                        $scope.company_list = response.records;
+
+                    }
+                });
+            } else {
+                $scope.customerData.company_id == 0
+                $scope.customerData.company_name = "";
+                $scope.companyInput = false;
+            }
+        }
+        $scope.changeSmsPrivacyStatus = function (val) {
+            $scope.customerData.sms_privacy_status = val;
+        }
+
+        $scope.changeEmailPrivacyStatus = function (val) {
+            $scope.customerData.email_privacy_status = val;
+        }
+        
         var sessionContactData = $scope.contactData.index = "";
         $window.sessionStorage.setItem("sessionContactData", "");
         $scope.checkValue = function () {
@@ -39,7 +103,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.applyClassMobile = 'ng-inactive';
             }
         };
-        $scope.validateLandlineNumber = function (value) {
+        /*$scope.validateLandlineNumber = function (value) {
             var regex = /^(\+\d{1,4}-\d{1,4})\d{6}$/;
             if (value !== "+91-") {
                 if (!regex.test(value)) {
@@ -50,7 +114,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     $scope.applyClass = 'ng-inactive';
                 }
             }
-        };
+        };*/
         $scope.editContactDetails = function (index) {
             $scope.contactData.index = index;
             $scope.contactData = $scope.contacts[index];
@@ -130,7 +194,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     $scope.contactData.landmark = $scope.contactData.country_id =
                     $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
                     $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
-            $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
+            //$scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
             $scope.contactData.index = $scope.contacts.length;
         }
         $scope.initContactModal = function () {
@@ -272,14 +336,18 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
                     for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
                         if (response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code === '') {
-                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+//                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
                         } else {
-                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_number);
+                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_number);
+                            $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code);
                         }
                         if (response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === parseInt(0) || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === '' || response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code === null) {
-                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+//                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
                         } else {
-                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code) + '-' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
+                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
+                            $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code);
                         }
                         if (response.customerPersonalDetails.get_customer_contacts[i].pin === 0)
                             $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
@@ -326,12 +394,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.showDivCustomer = true;
                         for (var i = 0; i < response.customerContactDetails.length; i++) {
                             if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {
-                                $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+//                                $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+                                $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
                             } else {
                                 $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code) + '-' + parseInt(response.customerContactDetails[i].mobile_number);
                             }
                             if (response.customerContactDetails[i].landline_calling_code === parseInt(0) || response.customerContactDetails[i].landline_calling_code === '' || response.customerContactDetails[i].landline_calling_code === null) {
-                                $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+//                                $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+                                $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
                             } else {
                                 $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerContactDetails[i].landline_calling_code) + '-' + parseInt(response.customerContactDetails[i].landline_number);
                             }
@@ -392,14 +462,18 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.contactData = angular.copy(response.customerContactDetails);
                 for (var i = 0; i < response.customerContactDetails.length; i++) {
                     if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {
-                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+//                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "+91-";
+                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
                     } else {
-                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code) + '-' + parseInt(response.customerContactDetails[i].mobile_number);
+                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = parseInt(response.customerContactDetails[i].mobile_number);
+                        $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code);
                     }
                     if (response.customerContactDetails[i].landline_calling_code === parseInt(0) || response.customerContactDetails[i].landline_calling_code === '' || response.customerContactDetails[i].landline_calling_code === null) {
-                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+//                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+91-';
+                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
                     } else {
-                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = '+' + parseInt(response.customerContactDetails[i].landline_calling_code) + '-' + parseInt(response.customerContactDetails[i].landline_number);
+                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerContactDetails[i].landline_number);
+                        $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerContactDetails[i].landline_calling_code);
                     }
                     if (response.customerContactDetails[i].pin === 0)
                         $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';

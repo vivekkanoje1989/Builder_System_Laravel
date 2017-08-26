@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Input;
 use App\Classes\S3;
 use Auth;
 use Validator;
+use Google\Cloud\Storage\StorageClient;
+use League\Flysystem\Filesystem;
+use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter;
 
 class ThemesController extends Controller {
 
@@ -53,6 +56,16 @@ class ThemesController extends Controller {
             return json_encode($result);
         } else {
             if (!empty($input['imageUrl'])) {
+                
+                $imageName = 'theme_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['imageUrl']->getClientOriginalExtension();
+                
+                
+                
+                $disk = \Storage::disk('gcs');
+                \Storage::disk('gcs')->put('myfolder/', $input['imageUrl']);
+//                $url = $disk->url('myfolder/'.$imageName);
+                
+                exit;
                 $originalName = $input['imageUrl']->getClientOriginalName();
                 if ($originalName !== 'fileNotSelected') {
                     $s3FolderName = "Themes";

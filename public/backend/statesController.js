@@ -14,7 +14,7 @@ app.controller('statesCtrl', ['$scope', 'Data', function ($scope, Data) {
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

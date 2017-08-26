@@ -51,6 +51,8 @@ class Customer extends Model
 		'title_id' => 'int',
 		'gender_id' => 'int',
 		'profession_id' => 'int',
+                'corporate_customer' => 'int',
+                'company_id' => 'int',
 		'monthly_income' => 'int',
 		'aadhar_number' => 'int',
 		'source_id' => 'int',
@@ -76,6 +78,8 @@ class Customer extends Model
 		'last_name',
 		'gender_id',
 		'profession_id',
+                'corporate_customer',
+                'company_id',
 		'monthly_income',
 		'pan_number',
 		'aadhar_number',
@@ -105,12 +109,9 @@ class Customer extends Model
             'first_name.required' => 'Please enter first name',
             'last_name.required' => 'Please enter last name',
             'gender_id.required' => 'Please enter gender',
-            'profession_id.required' => 'Please enter profession',
-            'monthly_income' => ['required' => 'Please enter monthly income', 'numeric' => 'Monthly income must be numbers'],
-            'birth_date.required' => 'Please select birth date',
-            'marriage_date.required' => 'Please select marriage date',
-            'source_id.required' => 'Please select source',
-            'source_description.required' => 'Please enter source description'
+            'monthly_income.numeric' => 'Monthly income must be numbers',
+            'birth_date.required' => 'Please select birth date',            
+            'source_id.required' => 'Please select source',            
         );
         return $messages;
     }
@@ -121,13 +122,11 @@ class Customer extends Model
             'middle_name' => 'max:15',
             'last_name' => 'required|max:15',
             'gender_id' => 'required',
-            'profession_id' => 'required',
-            'monthly_income' => 'required|numeric|max:999999',
+            'monthly_income' => 'numeric|max:999999',
             'birth_date' => 'required|date',
-            'marriage_date' => 'required|date',
+            'marriage_date' => 'date',
             'source_id' => 'required|numeric',
             'subsource_id' => 'numeric',
-            'source_description' => 'required'
         );
         return $rules;
     }

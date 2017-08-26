@@ -15,12 +15,17 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             if (search.from_date != undefined) {
                 var today = new Date(search.from_date);
-                search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
-                
+                  var day = today.getDate().toString();
+                if(day.length > 1){
+                     search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+                }else{
+                     search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getDate());
+                }
             }
+            
             if (search.to_date != undefined) {
                 var loginDate = new Date(search.to_date);
                 

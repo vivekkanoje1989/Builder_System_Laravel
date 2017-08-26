@@ -181,6 +181,7 @@ return [
         Reliese\Coders\CodersServiceProvider::class,
         ArtemSchander\L5Modular\ModuleServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        
     ],
 
     /*

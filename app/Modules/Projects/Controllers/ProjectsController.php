@@ -34,7 +34,18 @@ class ProjectsController extends Controller {
 
     public function manageProjects() {
         
-        $getProjects = Project::with(['getEmployee','projectTypes','projectStatus'])->get();
+        $getProjects = Project::select('id','created_by','project_status','project_type_id','project_name','created_at','project_status')->with(['getEmployee','projectTypes','projectStatus'])->get();
+       $i = 0;
+//        print_r($getProjects);
+       foreach($getProjects as $getProject){
+          
+           $getProjects[$i]['project_status'] = $getProject['projectStatus']['project_status'];
+          
+           $getProjects[$i]['fullName'] = $getProject['getEmployee']['first_name'].' '.$getProject['getEmployee']['last_name'];
+           $getProjects[$i]['projectType'] = $getProject['projectTypes']['project_type'];
+           $i++;
+       }
+//       print_r()
         if (!empty($getProjects)) {
             $result = ['success' => true, 'records' => $getProjects];
             return json_encode($result);
@@ -351,15 +362,22 @@ class ProjectsController extends Controller {
         $getProjectStatusRecords = ProjectStatus::select('id','images', 'status', 'short_description')->where("project_id","=",$id)->get();
         
         $getWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $id)->orderBy('id', 'ASC')->first();
-        $getProjectInventory = ProjectBlock::where([['wing_id','=',$getWing->id],['project_id','=',$id]])->orderBy('wing_id', 'ASC')->get();
+        if(!empty($getWing)){
+            $getProjectInventory = ProjectBlock::where([['wing_id','=',$getWing->id],['project_id','=',$id]])->orderBy('wing_id', 'ASC')->get();
+        }else{
+            $getProjectInventory = ProjectBlock::where([['project_id','=',$id]])->orderBy('wing_id', 'ASC')->get();
+        }
         /**************getSpecifiction**************/
         $specificationTitle = array();
-//        echo "<pre>";print_r($getProjectDetails[0]->specification_images);exit;
         if(!empty($getProjectDetails[0]->specification_images) && ($getProjectDetails[0]->specification_images !== 'null')){
             $decodeSpecificationDetails = json_decode($getProjectDetails[0]->specification_images,true);
             foreach($decodeSpecificationDetails as $key => $val){
-                $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
-                $specificationTitle[$key] = ["image" => $val['specification_images'],"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $val['floors'])];
+                if(!empty($val['wing'])){
+                    $projectWingName = ProjectWing::select('wing_name')->where('id', $val['wing'])->get();
+                    $specificationTitle[$key] = ["image" => $val['specification_images'],"title" => $projectWingName[0]->wing_name .", Floor:". implode(",", $val['floors'])];
+                }else{
+                    $specificationTitle[$key] = ["image" => $val['image'],"title" => $val['title']];                    
+                }
             }
         }
         $floorTitle = array();

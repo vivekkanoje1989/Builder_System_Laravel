@@ -36,11 +36,12 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
                         </div>
                     </div>
-                    <div class="col-sm-2 col-xs-12">
+                    <div class="col-sm-4 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
                                 <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-primary btn-right">Permission Wise Users</a>
+                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                             </span>
                         </div>
                     </div>
@@ -48,7 +49,9 @@
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
-                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
+                                <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
+                                    <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+                                </div>
                             </span>
                         </div>
                     </div>
@@ -57,7 +60,7 @@
                 <!-- filter data--> 
                 <div class="row" style="border:2px;" id="filter-show">
                     <div class="col-sm-12 col-xs-12">
-                        <b ng-repeat="(key, value) in searchData">
+                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
                             <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                 <div class="alert alert-info fade in">
                                     <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
@@ -180,7 +183,7 @@
             <button type="button" class="close toggleForm" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button><hr>
-            <div class="row">
+            <div class="row scrollform">
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Employee Name</label>

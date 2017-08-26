@@ -13,6 +13,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
 
 
         $scope.smsLogsLists = function (empId, pageNumber, itemPerPage) {
+            $scope.showloader();
             Data.post('bmsConsumption/allSmsLogs', {
                 id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
             }).then(function (response) {
@@ -23,6 +24,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                 } else {
                     $scope.errorMsg = response.message;
                 }
+                $scope.hideloader();
             });
         };
 

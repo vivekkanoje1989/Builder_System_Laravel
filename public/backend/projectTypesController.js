@@ -13,7 +13,7 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

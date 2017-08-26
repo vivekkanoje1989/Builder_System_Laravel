@@ -361,7 +361,6 @@ class WebPagesController extends Controller {
         $s3FolderName = '/website/banner-images/';
         $path = $s3FolderName . $obj['imageName'];
         $msg = S3::s3FileDelete($obj['imageName'], $s3FolderName);
-        print_r($msg);
         if ($msg) {
             $updatedata = WebPage::where('id', $obj['pageId'])->update(['banner_images' => $name]);
         } else {

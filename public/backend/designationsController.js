@@ -8,7 +8,7 @@ app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scop
          $scope.searchData = {};
        
         $scope.filterDetails = function (search) {
-             $scope.searchDetails = {};
+//             $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }

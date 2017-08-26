@@ -35,11 +35,17 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             if (search.application_start_date != undefined) {
                 var today = new Date(search.application_start_date);
-                search.application_start_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+                var day = today.getDate().toString();
+                if (day.length > 1) {
+                    search.application_start_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+                } else {
+                    search.application_start_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getDate());
+                }
             }
+
             if (search.application_close_date != undefined) {
                 var loginDate = new Date(search.application_close_date);
                 var day = loginDate.getDate().toString();
@@ -50,7 +56,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                 }
             }
 
-           
+
             $scope.searchData = search;
         }
         $scope.removeFilterData = function (keyvalue) {

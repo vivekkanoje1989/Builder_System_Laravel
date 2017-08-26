@@ -1469,6 +1469,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js', 
                                                                         ]
                                                                     }
                                                                     );
@@ -1503,6 +1504,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1535,6 +1537,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1567,6 +1570,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1599,6 +1603,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1631,6 +1636,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1661,6 +1667,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     }
                                                                     );
@@ -1695,6 +1702,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1727,6 +1735,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1759,6 +1768,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1792,6 +1802,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1824,6 +1835,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -1836,6 +1848,33 @@ angular.module('app')
 
                                 /****************************UMA************************************/
                                 /****************************MANDAR*********************************/
+                                .state('virtualnumberwiseusers', {
+                                    url: '/cloudtelephony/virtualnumberwiseusers',
+                                    templateUrl: '/cloudtelephony/showvirtualnumusers',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Virtual Number Wiseusers',
+                                        description: ''
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/cloudtelephonyController.js',
+                                                            ]
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
                                 .state('cloudtelephony', {
                                     url: '/cloudtelephony/create',
                                     templateUrl: '/cloudtelephony/create',

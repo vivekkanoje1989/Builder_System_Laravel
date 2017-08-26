@@ -10,5 +10,8 @@ Route::group(array('module' => 'Companies', 'middleware' => ['auth:admin'], 'nam
     Route::post('/manage-companies/loadCompanyData', 'CompaniesController@loadCompanyData');
 
     Route::post('/manage-companies/updateCompany', 'CompaniesController@updateCompany');
+    Route::post('/manage-companies/updatestationary', 'CompaniesController@updatestationary');
+    Route::post('/manage-companies/stationary', 'CompaniesController@addSationary');
+    Route::post('/manage-companies/addDocument', 'CompaniesController@addDocument');
     Route::resource('/manage-companies', 'CompaniesController');
 });

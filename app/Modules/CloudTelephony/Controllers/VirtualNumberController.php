@@ -180,12 +180,13 @@ class VirtualNumberController extends Controller {
         if (empty($input['vnumberData']['loggedInUserId'])) {
             $input['vnumberData']['loggedInUserId'] = Auth::guard('admin')->user()->id;
         }
-        echo "<pre>";print_r($input);exit;
+//        echo "<pre>";print_r($input);exit;
         if ($input['vnumberData']['id'] > 0 || !empty($input['vnumberData']['id'])) {
             if ($input['vnumberData']['welcome_tune_type_id'] == 3) {
                 if (!empty($input['vnumberData']['welcome_tune_audio'])) {
                     $s3FolderName = 'caller_tunes';
-                    $name = S3::s3FileUplod($input['vnumberData']['welcome_tune_audio'], $s3FolderName, 1);
+                    $imageName = time().'_'. rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['vnumberData']['welcome_tune_audio']->getClientOriginalExtension();
+                    $name = S3::s3FileUpload($input['vnumberData']['welcome_tune_audio']->getPathName(), $imageName, $s3FolderName);
                     $name = trim($name, ",");
                     $input['vnumberData']['welcome_tune'] = $name;
                 }
@@ -198,7 +199,8 @@ class VirtualNumberController extends Controller {
                 if ($input['vnumberData']['hold_tune_type_id'] == 3) {
                     if (!empty($input['vnumberData']['hold_tune_audio'])) {
                         $s3FolderName = 'caller_tunes';
-                        $name = S3::s3FileUpload($input['vnumberData']['hold_tune_audio'], $s3FolderName, 1);
+                        $imageName = time().'_'. rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['vnumberData']['hold_tune_audio']->getClientOriginalExtension();
+                        $name = S3::s3FileUpload($input['vnumberData']['hold_tune_audio']->getPathName(), $imageName, $s3FolderName);
                         $name = trim($name, ",");
                         $input['vnumberData']['hold_tune'] = $name;
                     }

@@ -9,7 +9,7 @@ app.controller('locationCtrl', ['$scope', 'Data', 'toaster', function ($scope, D
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            $scope.searchDetails = {};
+//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }
