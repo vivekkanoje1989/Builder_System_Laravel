@@ -8,11 +8,12 @@
 
 return [
     'getUrl' => 'office',
+     's3Path'=>'https://storage.googleapis.com/'.$GLOBALS['aws_bucket_id'],
+    'mastergcsPath'=>'https://storage.googleapis.com/businessapps.co.in',
     'getWebsiteUrl' => 'website',
     'companyName' => 'BMS BUILDER',
     'rootPath' => base_path(),
     'randomNoDigits' => 4,
-    's3Path' => "https://s3.ap-south-1.amazonaws.com/bmsbuilderv2",
     'themeName' => '',
     'backendUrl' => 'office.php',
     'recordsPerPage' =>30,
