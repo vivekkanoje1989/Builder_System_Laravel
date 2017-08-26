@@ -54,6 +54,7 @@ class MasterHrController extends Controller {
            
             for ($i = 0; $i < count($manageUser); $i++) {
                 $blogData['id'] = $manageUser[$i]['id'];
+                $blogData['employee_id'] = $manageUser[$i]['id'];
                 $blogData['first_name'] = $manageUser[$i]['first_name'];
                 $blogData['last_name'] = $manageUser[$i]['last_name'];
                 $blogData['joining_date'] = $manageUser[$i]['joining_date'];
@@ -107,6 +108,7 @@ class MasterHrController extends Controller {
                 $blogData['reporting_to_id'] = $manageUser[$i]['reporting_to_id'];
                 $blogData['designation_id'] = $manageUser[$i]['designation_id'];
                 $blogData['gender_id'] = $manageUser[$i]['gender_id'];
+                $blogData['department_id'] = $manageUser[$i]['department_id'];
 
                 $manageUsers[] = $blogData;
             }
