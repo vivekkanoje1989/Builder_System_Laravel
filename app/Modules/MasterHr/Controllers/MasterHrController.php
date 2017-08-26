@@ -106,6 +106,7 @@ class MasterHrController extends Controller {
                 $blogData['team_lead_id'] = $manageUser[$i]['team_lead_id'];
                 $blogData['reporting_to_id'] = $manageUser[$i]['reporting_to_id'];
                 $blogData['designation_id'] = $manageUser[$i]['designation_id'];
+                $blogData['gender_id'] = $manageUser[$i]['gender_id'];
 
                 $manageUsers[] = $blogData;
             }

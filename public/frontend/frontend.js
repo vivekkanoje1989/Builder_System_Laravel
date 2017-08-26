@@ -31,10 +31,10 @@ app.config(['$stateProvider', '$urlRouterProvider',
 }]);
                                 
 app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
-
+alert('fg');
         $scope.submitted = false;
         $scope.empl = true;
-        $scope.career = {};
+        $scope.career = true;
         var baseUrl = 'website/';
         $scope.getPostsDropdown = function () {
             $http.get(baseUrl + 'jobPost').then(function (response) {
@@ -195,7 +195,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.post(baseUrl + 'getBlogDetails', {'blog_id': blog_id}).then(function (response) {
                 $scope.blogDetail = response.data.result;
-             
+                console.log($scope.blogDetail)
                 $scope.blog_images = $scope.blogDetail.blog_images.split(',');
             });
         }
@@ -204,7 +204,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.get(baseUrl + 'getNews').then(function (response) {
                 $scope.news = response.data.result;
-               
+                console.log($scope.news)
             });
         }
 
@@ -221,7 +221,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.get(baseUrl + 'getpressRelease').then(function (response) {
                 $scope.pressRelease = response.data.result;
-               
+                console.log($scope.pressRelease)
             });
         }
 
@@ -247,6 +247,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.post(baseUrl + 'getEventDetails', {'id': id}).then(function (response) {
                 $scope.eventDetails = response.data.result;
+                console.log($scope.eventDetails)
 
                 $scope.images = JSON.parse($scope.eventDetails.gallery);
 
@@ -267,6 +268,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
         {
             $http.post(baseUrl + 'getTestimonialDetails', {'testimonial_id': id}).then(function (response) {
                 $scope.testimonialDetails = response.data.result;
+                console.log($scope.testimonialDetails)
 
             });
         }
