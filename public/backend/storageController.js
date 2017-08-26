@@ -1,4 +1,6 @@
 app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', function ($scope, Data, $state, Upload, toaster) {
+       
+        
         $scope.dostorageFormAction = function ()
         {
             Data.post('storage-list/', {

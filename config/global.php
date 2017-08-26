@@ -8,7 +8,8 @@
 
 return [
     'getUrl' => 'office',
-     's3Path'=>'https://storage.googleapis.com/'.$GLOBALS['aws_bucket_id'],
+     's3Path'=>'https://storage.googleapis.com/bkt_bms_laravel',
+//     's3Path'=>'https://storage.googleapis.com/'.$GLOBALS['aws_bucket_id'],
     'mastergcsPath'=>'https://storage.googleapis.com/businessapps.co.in',
     'getWebsiteUrl' => 'website',
     'companyName' => 'BMS BUILDER',

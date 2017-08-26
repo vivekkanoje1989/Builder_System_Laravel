@@ -255,7 +255,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <input type="hidden" ng-model="companyId" name="companyId" value="{{id}}">
+                                <input type="hidden" ng-model="companyId" name="companyId" value="{{companyId}}">
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12" align="right">
                                         <button type="submit" class="btn btn-primary btn-submit-last" >Save</button>
