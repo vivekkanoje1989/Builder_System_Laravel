@@ -120,7 +120,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.firm_logo.$dirty && companysForm.firm_logo.$invalid) }">
                                         <label>Firm Logo<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="file" ngf-select   ng-model="CompanyData.firm_logo" name="firm_logo" id="firm_logo" required accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
+                                            <input type="file" ngf-select   ng-model="CompanyData.firm_logo" name="firm_logo" id="firm_logo"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.firm_logo.$error">
                                                 <div ng-message="required">Logo is required</div>
                                             </div>
@@ -152,14 +152,14 @@
                             </div>                    
                         </form>
                     </tab>
-                    <tab heading="Company Documents" id="remarkTab">
+                    <tab heading="Company Documents" disabled="companyDocTab">
                         <div class="row">
                             <div class="col-xs-12 col-md-12">
                                 <div class="well with-header  with-footer">
                                     <div class="header ">
                                         <!--Manage Documents-->
                                         <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  data-toggle="modal" data-target="#documentModal" >
-                                        </div>
+                                    </div>
                                     <table class="table table-hover table-responsive table-striped table-bordered">
                                         <thead class="">
                                             <tr>
@@ -171,20 +171,20 @@
                                         </thead>
                                         <tbody>
                                             <tr ng-repeat="list in documentDetails">
-                                                    <td>{{$index + 1}}</td>
-                                                    <td>{{list.document_name}}</td>
-                                                    <td>{{list.document_file}} </td>
-                                                    <td class="fa-div">
-                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
-                                                    </td>
-                                                </tr>  
+                                                <td>{{$index + 1}}</td>
+                                                <td>{{list.document_name}}</td>
+                                                <td>{{list.document_file}} </td>
+                                                <td class="fa-div">
+                                                    <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="editStationary({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
+                                                </td>
+                                            </tr>  
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Stationary" id="remarkTab">
+                    <tab heading="Stationary" disabled="companyDocTab">
 
                         <div class="row">
                             <div class="col-xs-12 col-md-12">
@@ -215,24 +215,23 @@
                                                     <td><img ng-src="[[ Config('global.s3Path') ]]/Company/receiptLetterhead/{{list.receipt_letterhead_file}}" width="80px" height="80px"></td>
                                                     <td><img ng-src="[[ Config('global.s3Path') ]]/Company/rubberStampFile/{{list.rubber_stamp_file}}" width="80px" height="80px"></td>
                                                     <td class="fa-div">
-                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#stationaryModal"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
+                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#stationaryModal"><a href="javascript:void(0);" ng-click="editStationary({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
                                                     </td>
                                                 </tr>                                            
                                             </tbody>
                                         </table>
                                     </div>
-                
+
                                 </div>
                             </div>
                         </div>
                     </tab>
                 </tabset>
-
             </div>
         </div>
     </div>
     <div class="modal fade" id="documentModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header navbar-inner">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -241,22 +240,22 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 col-xs-12">
-                            <form name="stationaryForm"  ng-submit="documents(documentData, documentData.document_file)" enctype="multipart/form-data">  
+                            <form name="stationaryForm"  ng-submit="documentDetails(documentData, documentData.document_file, companyId)" enctype="multipart/form-data">  
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label>Document Name </label>
                                         <span class="input-icon icon-right">
                                             <input type="text"   ng-model="documentData.document_name" name="document_name" id="document_name"  class="form-control imageFile" >
                                         </span>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <label>Documents File</label>
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="documentData.document_file" name="document_file" id="document_file"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                         </span>
                                     </div>
                                 </div>
-
+                                <input type="hidden" ng-model="companyId" name="companyId" value="{{id}}">
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12" align="right">
                                         <button type="submit" class="btn btn-primary btn-submit-last" >Save</button>
@@ -279,7 +278,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 col-xs-12">
-                            <form name="stationaryForm"  ng-submit="stationaries(stationary, stationary.estimate_logo_file,companyId)" enctype="multipart/form-data">  
+                            <form name="stationaryForm"  ng-submit="stationaries(stationary, stationary.estimate_logo_file, companyId)" enctype="multipart/form-data">  
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label>Stationary Name </label>
@@ -293,7 +292,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="stationary.estimate_letterhead_file" name="estimate_letterhead_file" id="estimate_letterhead_file" accept="image/*"  class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                         </span>
-                                                                               
+
                                     </div>
                                 </div>
                                 <div class="row">

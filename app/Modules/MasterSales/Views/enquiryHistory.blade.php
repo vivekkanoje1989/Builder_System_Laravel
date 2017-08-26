@@ -22,30 +22,6 @@
             </tr>
         </thead>
             <tbody ng-repeat="history in historyList track by $index| filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
-            <!--<tr>    
-                <td>{{ $index + 1}}</td>
-                <td>
-                    {{ history.first_name}} {{ history.last_name}}
-                </td>
-                <td>
-                    {{ history.last_followup_date}}
-                </td>
-                <td>
-                    {{history.remarks | htmlToPlaintext}}
-                </td>
-                <td>
-                    {{ history.next_followup_date}} at {{ history.next_followup_time}}
-                </td>
-                <td>
-                    {{history.enquiry_category}}
-                </td>
-                <td>
-                    {{history.sales_status}}
-                </td>
-            </tr>
-            <tr ng-if="!historyList.length" align="center"><td colspan="7"> Records Not Found</td>
-            </tr> -->
-
             <tr role="row" >
                 <td style="width:4%" rowspan="2">
                     {{ $index + 1}}

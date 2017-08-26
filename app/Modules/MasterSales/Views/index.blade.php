@@ -137,7 +137,7 @@
                             </tbody>
                             <tbody ng-if="listsIndex.success">
                                 <tr dir-paginate="list in listsIndex.CustomerEnquiryDetails | filter:search | itemsPerPage:itemsPerPage">  
-                                    <td align="center">{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
+                                    <td align="center">{{ $index + 1}}</td>
                                     <td align="center">
                                         <div > 
                                             {{list.customer_fname}} {{list.customer_lname}} {{ list.mobile_number}} <br/> {{list.email_id}}</div>
@@ -218,7 +218,6 @@
                                                 <label for="">Number Type</label>
                                                 <span class="input-icon icon-right">
                                                     <select ng-model="contactData.mobile_number_lable" name="mobile_number_lable" class="form-control">
-                                                        <option value="">Select Type</option>
                                                         <option value="1">Personal</option>
                                                         <option value="2">Office</option>
                                                     </select>
@@ -242,7 +241,7 @@
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
                                                 <div ng-show="modalSbtBtn && modalForm.mobile_number.$invalid" ng-messages="modalForm.mobile_number.$error" class="help-block">
-                                                    <div ng-message="required">This field is required.</div>
+                                                    <div ng-message="required">Mobile number is required</div> 
                                                     <div ng-message="uniqueMobile">Mobile number already exist</div>
                                                 </div>
                                             </div>
@@ -254,7 +253,6 @@
                                                 <label for="">Landline Type</label>
                                                 <span class="input-icon icon-right">
                                                     <select ng-model="contactData.landline_lable" name="landline_lable" class="form-control">
-                                                        <option value="">Select Type</option>
                                                         <option value="1">Personal</option>
                                                         <option value="2">Office</option>
                                                     </select>
@@ -274,7 +272,7 @@
                                             <div class="form-group">
                                                 <label for="">Landline Number</label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contactData.landline_number" name="landline_number" id="landline_number" minlength="10" maxlength="10" class="form-control" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                                    <input type="text" ng-model="contactData.landline_number" name="landline_number" id="landline_number" minlength="6" maxlength="10" class="form-control" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                                     <i class="glyphicon glyphicon-phone"></i>
                                                 </span>
                                             </div>
@@ -286,7 +284,6 @@
                                                 <label for="">Email Type</label>
                                                 <span class="input-icon icon-right">
                                                     <select ng-model="contactData.email_id_lable" name="email_id_lable" class="form-control">
-                                                        <option value="">Select Type</option>
                                                         <option value="1">Personal</option>
                                                         <option value="2">Office</option>
                                                     </select>
@@ -321,7 +318,6 @@
                                                 <label for="">Address</label>		
                                                 <span class="input-icon icon-right">
                                                     <select ng-model="contactData.address_type" name="address_type" class="form-control">
-                                                        <option value="">Select Type</option>
                                                         <option value="1">Personal</option>
                                                         <option value="2">Office</option>
                                                     </select>
