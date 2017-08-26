@@ -97,6 +97,8 @@ class LoginController extends Controller {
         
         if(!empty($request['website_url'])){
             $websiteurl = "http://".$request['website_url'];
+            print_r($websiteurl);
+            exit;
            
             $clientExists = \App\Models\ClientInfo::select('id','company_logo')->where('website',$websiteurl)->first();
           
