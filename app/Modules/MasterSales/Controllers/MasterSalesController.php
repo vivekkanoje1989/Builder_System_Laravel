@@ -598,11 +598,13 @@ class MasterSalesController extends Controller {
                 $templatedata['template_setting_employee'] = 0;
                 $templatedata['customer_id'] = $customer_id;
                 $templatedata['enquiry_id'] = $insertEnquiry->id;
-                $templatedata['model_id'] = $input['vehicleListData'][0]['model_id'];
+                //$templatedata['model_id'] = $input['vehicleListData'][0]['model_id'];
+                $templatedata['project_id'] = $request['projectEnquiryDetails'][0]['project_id'];
                 $templatedata['arrExtra'][0] = array();
                 $templatedata['arrExtra'][1] = array();
-                print_r($templatedata);exit;
+                //print_r($templatedata);exit;
                 $result = CommonFunctions::templateData($templatedata);
+                //print_r($result);exit;
                 // ************* End template for new enquiry..
                 
                 
@@ -2382,3 +2384,4 @@ class MasterSalesController extends Controller {
     }
 
 }
+
