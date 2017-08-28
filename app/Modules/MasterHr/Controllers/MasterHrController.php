@@ -90,6 +90,7 @@ class MasterHrController extends Controller {
                 $blogData['current_country_id'] = $manageUser[$i]['current_country_id'];
                 $blogData['current_state_id'] = $manageUser[$i]['current_state_id'];
                 $blogData['current_city_id'] = $manageUser[$i]['current_city_id'];
+                $blogData['current_address'] = $manageUser[$i]['current_address'];
                 $blogData['current_pin'] = $manageUser[$i]['current_pin'];
                 $blogData['permenent_country_id'] = $manageUser[$i]['permenent_country_id'];
                 $blogData['permenent_state_id'] = $manageUser[$i]['permenent_state_id'];
