@@ -9,7 +9,7 @@
     <div class="container">
 
         <header class="heading page-heading" style="margin-top:165px">
-            <h1>Clients Speak...</h1>
+            <h1>Testimonials</h1>
         </header>
 
         <div  class="testimonials owl-carousel owl-separated offset-bottom" data-slideshow-options='{"items":3,"itemsDesktop":false,"itemsDesktopSmall":false,"itemsTablet":[768,1],"singleItem":false,"pagination":false}'>
