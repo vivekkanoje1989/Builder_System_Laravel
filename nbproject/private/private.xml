@@ -3,54 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/reportsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Controllers/ReportsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/teamEnquiryReport.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/projectTeamReport.blade.php</file>
-        </group>
-    </open-files>
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/index.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/allmyimages.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/config/global.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/config/app.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Controllers/BlogManagementController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/allimages.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/config/filesystems.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/S3.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/subfolderimages.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/listtorestore.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/.env</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Controllers/MyStorageController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/storageController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/Auth/LoginController.php</file>
         </group>
     </open-files>
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/api.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Controllers/WebPagesController.php</file>
-        </group>
-    </open-files>
-=======
->>>>>>> 3a11cdf941b90bed7603fb922695e5e14a344860
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/FirmsAndPartnersController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/promotionalsmsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/css/filterSlider.css</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/UserDocuments/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/EmployeeDocuments/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/EmployeeDocumentController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Controllers/PromotionalSMSController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/myrequest.blade.php</file>
-        </group>
-    </open-files>
-<<<<<<< HEAD
-=======
->>>>>>> aeb84bb22619ead75bfa94027c975aa5dad61833
->>>>>>> e2230ea58ffa25e2c9476d8e5c9d1969a4adabd3
->>>>>>> fd5bc0bcfeed14fdc17bff3765bae1224e29c45d
->>>>>>> 3a11cdf941b90bed7603fb922695e5e14a344860
->>>>>>> 224af34b43fafaf1f89a820d77874299c7db8427
 </project-private>
