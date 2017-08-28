@@ -718,6 +718,9 @@ class MasterHrController extends Controller {
             unset($input['userData']['login_date_time']);
             unset($input['userData']['departmentid']);
             unset($input['userData']['loggedInUserId']);
+            unset($input['userData']['firstName']);
+            unset($input['userData']['team_lead_name']);
+            unset($input['userData']['reporting_to_name']);
             $imageName = $input['employee_photo_file_name'];
             $input['employee_photo_file_name'] = "";
             $input['userData']['employee_photo_file_name'] = '';

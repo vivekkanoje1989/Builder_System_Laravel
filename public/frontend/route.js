@@ -4,62 +4,96 @@
  * and open the template in the editor.
  */
 'use strict';
-var app = angular.module('app', ['ngRoute','ngFileUpload']);
-angular.module('app').config(['$routeProvider','$locationProvider', function($routeProvider,$locationProvider) {
+var app = angular.module('app', ['ngRoute', 'ngFileUpload']);
+angular.module('app').config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
-    $routeProvider.
-    when('/', {
-        templateUrl: 'website/index',
-        controller: 'AppCtrl'
-    }).when('/about', {
-        templateUrl: 'website/about',
-        controller: 'AppCtrl'
-    })
-    .when('/testimonial', {
-        templateUrl: 'website/testimonial',
-        controller: 'AppCtrl'
-    })
-    .when('/testimonials', {
-        templateUrl: 'website/testimonials',
-        controller: 'AppCtrl'
-    })
-    .when('/testimonial', {
-        templateUrl: 'website/testimonial',
-        controller: 'AppCtrl'
-    })
-    .when('/contact', {
-        templateUrl: 'website/contact',
-        controller: 'AppCtrl'
-    })
-    .when('/career', {
-        templateUrl: 'website/career',
-        controller: 'AppCtrl'
-    })
-    .when('/blog', {
-        templateUrl: 'website/blog',
-        controller: 'AppCtrl'
-    })
-    .when('/news', {
-        templateUrl: 'website/news',
-        controller: 'AppCtrl'
-    })
-    .when('/press-release', {
-        templateUrl: 'website/press-release',
-        controller: 'AppCtrl'
-    })
-    .when('/events', {
-        templateUrl: 'website/events',
-        controller: 'AppCtrl'
-    })
-    .when('/projects', {
-        templateUrl: 'website/projects',
-        controller: 'AppCtrl'
-    })
-    .otherwise({
-        redirectTo: '/'
-    });
-    $locationProvider.html5Mode({ enabled: true, requireBase: true });
-}]);
+        $routeProvider.
+                when('/', {
+                    templateUrl: 'website/index',
+                    controller: 'AppCtrl'
+                }).when('/about', {
+            templateUrl: 'website/about',
+            controller: 'AppCtrl'
+        })
+                .when('/testimonial', {
+                    templateUrl: 'website/testimonial',
+                    controller: 'AppCtrl'
+                })
+                .when('/testimonials', {
+                    templateUrl: 'website/testimonials',
+                    controller: 'AppCtrl'
+                })
+                .when('/testimonial', {
+                    templateUrl: 'website/testimonial',
+                    controller: 'AppCtrl'
+                })
+                .when('/contact', {
+                    templateUrl: 'website/contact',
+                    controller: 'AppCtrl'
+                })
+                .when('/careers', {
+                    templateUrl: 'website/careers',
+                    controller: 'AppCtrl'
+                })
+                .when('/blogs', {
+                    templateUrl: 'website/blogs',
+                    controller: 'AppCtrl'
+                })
+                .when('/blog-details/:blogId', {
+                    templateUrl: function (urlattr) {
+                        return 'website/blog-details/' + urlattr.blogId;
+                    },
+                    controller: 'AppCtrl'
+                })
+                .when('/news-details/:newsId', {
+                    templateUrl: function (urlattr) {
+                        return 'website/news-details/' + urlattr.newsId;
+                    },
+                    controller: 'AppCtrl'
+                })
+                .when('/event-details/:id', {
+                    templateUrl: function (urlattr) {
+                        return 'website/event-details/' + urlattr.id;
+                    },
+                    controller: 'AppCtrl'
+                })
+                .when('/press-release-details/:Id', {
+                    templateUrl: function (urlattr) {
+                        return 'website/press-release-details/' + urlattr.Id;
+                    },
+                    controller: 'AppCtrl'
+                })
+                .when('/project-details/:projectId', {
+                    templateUrl: function (urlattr) {
+                        return 'website/project-details/' + urlattr.projectId;
+                    },
+                    controller: 'AppCtrl'
+                })
+                .when('/news', {
+                    templateUrl: 'website/news',
+                    controller: 'AppCtrl'
+                })
+                .when('/press-release', {
+                    templateUrl: 'website/press-release',
+                    controller: 'AppCtrl'
+                })
+                .when('/events', {
+                    templateUrl: 'website/events',
+                    controller: 'AppCtrl'
+                })
+                .when('/projects', {
+                    templateUrl: 'website/projects',
+                    controller: 'AppCtrl'
+                })
+                .when('/projects', {
+                    templateUrl: 'website/projects',
+                    controller: 'AppCtrl'
+                })
+                .otherwise({
+                    redirectTo: '/'
+                });
+        $locationProvider.html5Mode({enabled: true, requireBase: true});
+    }]);
 app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
 
         $scope.submitted = false;
@@ -263,7 +297,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
             });
         }
-        
+
         $scope.getEvents = function ()
         {
             $http.get(baseUrl + 'getEvents').then(function (response) {

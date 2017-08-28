@@ -216,14 +216,14 @@
                             <h2 style="font-weight: 600; padding-left: 30px;">{{blog.blog_title}}</h2>    
                             <div class="col-md-4 col-xs-4" >
                                 <a href="[[config('global.s3Path')]]News/news_banner_images/{{news.news_banner_images}}"  class='fancybox' data-fancybox-group='1' class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
-                                    <img class="sigProImg" ng-src="[[config('global.s3Path')]]News/news_banner_images/{{news.news_banner_images}}"  class="img-responsive col-md-12 col-lg-12" style=" margin-top:20px!important; width:200px;height:160px;">
+                                    <img class="sigProImg" ng-src="[[config('global.s3Path')]]/News/news_banner_images/{{news.news_banner_images}}"  class="img-responsive col-md-12 col-lg-12" style=" margin-top:20px!important; width:200px;height:160px;">
                                 </a>
                             </div>  
                             <div class="col-md-8 col-xs-8">
                                 <h3>Description</h3>
                                 <P>{{news.news_short_description | htmlToPlaintext | limitTo : 300}}{{news.news_short_description > 300 ? '...' : ''}}</p>
                                 <br/><br/>
-                                <a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/news-details/{{news.id}}"><button class="btn">Show More</button></a>
+                                <a href="[[ URL::to('/') ]]/news-details/{{news.id}}"><button class="btn">Show More</button></a>
                             </div> 
                         </div>
     </div>       

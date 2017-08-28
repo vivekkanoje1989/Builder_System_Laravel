@@ -206,47 +206,40 @@
 <main class="main-content"  >
 
     <!-- start content -->
+   
 
-    <div class="container" ng-init="getBlogDetails([[$blog_id]]);" style="margin-top:165px">
+    <div class="container" ng-init="getNewsDetails([[$news_id]]);"  style="margin-top:165px">
 
         <header class="heading page-heading">
-            <h1>Blog Details</h1>
+            <h1>News Details</h1>
         </header>
-        <div class="row"  style="padding: 25px; margin-top: 30px; border: 1px solid black;" >
-            <h2 style="font-weight: 600; padding-left: 30px;">{{blogDetail.blog_title}}</h2>  
-            <div class="row">
+        <div class="row"  style="padding: 5px 5px 5px 5px; margin-top: 30px; border: 1px solid black;" >
+            <h2 style="font-weight: 600; padding-left: 30px;">News Title : {{newsDetail.news_title}}</h2>    
+            <div class="col-md-4 col-xs-4" >
+                <a href="[[config('global.s3Path')]]/News/news_banner_images/{{newsDetail.news_banner_images}}"  class='fancybox' data-fancybox-group='1' class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                    <img class="sigProImg" ng-src="[[config('global.s3Path')]]/News/news_banner_images/{{newsDetail.news_banner_images}}"  class="img-responsive col-md-12 col-lg-12" style=" margin-top:20px!important; width:200px;height:160px;">
+                </a>
 
-                <div class="col-md-3 col-xs-6" >
-                    <a href="[[config('global.s3Path')]]/Blog/blog_banner_images/{{blogDetail.blog_banner_images}}"  class='fancybox' data-fancybox-group='1' class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
-                        <img class="sigProImg" ng-src="[[config('global.s3Path')]]/Blog/blog_banner_images/{{blogDetail.blog_banner_images}}"  class="img-responsive col-md-12 col-lg-12" style=" margin-top:20px!important; width:200px;height:160px;">
+            </div>  
+            <div class="col-md-8 col-xs-8">
+                <h3>Short Description</h3>
+                <P>{{newsDetail.news_short_description| htmlToPlaintext | limitTo : 300}}{{newsDetail.news_short_description > 300 ? '...' : ''}}</p>
+                <br/><br/>
+            </div> 
+            <div class="col-md-12 col-xs-12">
+                <br/>   <br/> <br/>
+                <h3>Description</h3>
+                <P>{{newsDetail.news_description| htmlToPlaintext | limitTo : 300}}{{newsDetail.news_description > 300 ? '...' : ''}}</p>
+                <br/><br/>
+            </div> 
+            <div class="col-md-12 col-xs-12">
+                <h3>News gallery</h3><br>
+                <div class="col-md-4 col-xs-4" ng-repeat="newsImg in news_images">
+                    <a href="[[config('global.s3Path')]]/News/gallery_images/{{newsImg}}"  class='fancybox' data-fancybox-group='1' class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                        <img class="sigProImg" ng-src="[[config('global.s3Path')]]/News/gallery_images/{{newsImg}}"  class="img-responsive col-md-12 col-lg-12" style=" margin-top:20px!important; width:200px;height:160px;">
                     </a>
-
-                </div>  
-                <div class="col-md-9 col-xs-6">
-                    <h3>Short Description</h3>
-                    <P>{{blogDetail.blog_short_description| htmlToPlaintext | limitTo : 300}}{{blogDetail.blog_short_description > 300 ? '...' : ''}}</p>
-                    <br/><br/>
                 </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <h3>Description</h3>
-                    <P>{{blogDetail.blog_short_description| htmlToPlaintext | limitTo : 300}}{{blogDetail.blog_short_description > 300 ? '...' : ''}}</p>
-                    <br/><br/>
-                </div> 
-            </div>
-            <div class="row">
-                <h3  style="margin-left: 16px;">Blog gallery</h3>
-                    <br/>
-
-                    <div class="col-md-4 col-xs-4" ng-repeat="blogImg in blog_images">
-                        <a href="[[config('global.s3Path')]]/Blog/gallery_image/{{blogImg}}"  class='fancybox' data-fancybox-group='1' class="col-lg-12 col-md-12 col-sm-12                             col-sx-12">
-                            <img class="sigProImg" ng-src="[[config('global.s3Path')]]/Blog/gallery_image/{{blogImg}}"  class="img-responsive col-md-12 col-lg-12" style=" margin-top:20px!important; width:200px;height:160px;">
-                        </a>
-                    </div>
-                </div> 
-            </div>
+            </div> 
         </div>
     </div>       
     @endsection()    

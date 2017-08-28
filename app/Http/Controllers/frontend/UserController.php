@@ -33,22 +33,27 @@ class UserController extends Controller {
     public $themeName;
 
     public function __construct() {
-        try{
+        try {
             $result = WebThemes::where('status', '1')->select(['id', 'theme_name'])->first();
             Config::set('global.themeName', $result['theme_name']);
             $this->themeName = Config::get('global.themeName');
             $getWebsiteUrl = config('global.getWebsiteUrl');
-        } catch (\Exception $ex){
+        } catch (\Exception $ex) {
             return View::make('layouts.backend.error500')->withSuccess('Page not found');
         }
     }
 
-    public function load(){
+    public function load() {
         return view('website');
     }
+
     public function getMenus() {
         $getProjects = WebPage::with(['menuList'])->where('status', '=', '1')->where('page_type', '=', '0')->orderBy('parent_page_position')->get();
         return json_encode(['result' => $getProjects, 'status' => true]);
+    }
+
+    public function onPageReload($param) {
+        return \Redirect::to("http://" . $_SERVER["HTTP_HOST"] . "/#/" . $param);
     }
 
     public function index() {
@@ -76,9 +81,10 @@ class UserController extends Controller {
     public function geeta() {
         return view('frontend.Theme32.geeta');
     }
+
     public function career() {
         $result = WebCareers::all();
-        return view('frontend.' . $this->themeName . '.career')->with("carrier", $result);
+        return view('frontend.' . $this->themeName . '.careers')->with("carrier", $result);
     }
 
     public function testimonialdetail($id) {
@@ -258,8 +264,8 @@ class UserController extends Controller {
 
     public function projectdetails($projectId) {
 
-        $bannerImg = DB::table('project_web_pages')->select('project_banner_images')->where('project_id','=',$projectId)->first();
-        return view('frontend.' . $this->themeName . '.projectdetails')->with(["projectId"=>$projectId,"bannerImg"=>$bannerImg->project_banner_images]);
+        $bannerImg = DB::table('project_web_pages')->select('project_banner_images')->where('project_id', '=', $projectId)->first();
+        return view('frontend.' . $this->themeName . '.projectdetails')->with(["projectId" => $projectId, "bannerImg" => $bannerImg->project_banner_images]);
     }
 
     public function getProjectDetails() {
@@ -301,7 +307,7 @@ class UserController extends Controller {
     }
 
     public function blog() {
-        return view('frontend.' . $this->themeName . '.blog');
+        return view('frontend.' . $this->themeName . '.blogs');
     }
 
     public function blogdetails($blog_id) {
@@ -392,10 +398,8 @@ class UserController extends Controller {
         }
         return json_encode(['current' => $currentResult, 'status' => true]);
     }
-    
-    
-    public function enquiry()
-    {
+
+    public function enquiry() {
         return view('frontend.' . $this->themeName . '.enquiry');
     }
 
