@@ -175,10 +175,10 @@ class MyStorageController extends Controller {
     public function deleteFolder() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $result = MyStorage::where('id','=',$request['id'])->select('folder')->first();
-        print_r($result);
+        $res = MyStorage::where('id', $request['id'])->select('folder')->first();
+        $resultDeleted = S3::s3FileDelete($res->folder);
+        print_r($resultDeleted);
         exit;
-        $resultDeleted = S3::s3FileDelete($deletedResult->file_url);
 //        $loggedInUserId = Auth::guard('admin')->user()->id;
 //        $delete = CommonFunctions::deleteMainTableRecords($loggedInUserId);
 //        $input['folderData'] = array_merge($request, $delete);
@@ -270,7 +270,9 @@ class MyStorageController extends Controller {
         $request = json_decode($postdata, true);
 
         $deletedResult = StorageFiles::where('id', $request['id'])->select('file_url', 'file_name')->first();
-        $resultDeleted = S3::s3FileDelete($deletedResult->file_url);
+        $resultDeleted = S3::s3FolderDelete($deletedResult->file_url);
+        print_r($resultDeleted);
+        exit;
         if ($resultDeleted == 1) {
             $deletedResult = StorageFiles::where('id', $request['id'])->delete();
             return json_encode(['result' => $deletedResult, 'status' => true]);

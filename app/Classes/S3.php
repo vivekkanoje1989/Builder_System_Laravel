@@ -89,10 +89,21 @@ class S3 {
             return false;
         }
     }
+    public static function s3FolderDelete($s3FolderName) {
+        print_r($s3FolderName);
+        exit;
+        S3::s3Configuration();
+        if (\Storage::disk('gcs')->exists($s3FolderName)) {
+            \Storage::disk('gcs')->delete($s3FolderName);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public static function s3FileLists($image) {
         S3::s3Configuration();
-        $files = \Storage::disk('gcs')->allFiles('/support-tickets/');
+        $files = \Storage::disk('gcs')->allFiles($image);
         if ($files) {
             $result = ['success' => true, 'files' => $files];
             json_encode($result);
