@@ -42,7 +42,7 @@ Route::group(array('module' => 'Reports', 'middleware' => ['auth:admin'], 'names
     Route::post('/reports/getTeamfollowupreports', 'ReportsController@getTeamfollowupreports');
     Route::get('/reports/projectwiseTeamreport', 'ReportsController@projectwiseTeamreport');
     Route::post('/reports/TeamProjectCategotyReport', 'ReportsController@TeamProjectCategotyReport');
-    Route::post('/reports/TeamLeadProjectCategotyReport', 'ReportsController@TeamLeadProjectCategotyReport');
+    Route::post('/reports/TeamLeadProjectCategoryReport', 'ReportsController@TeamLeadProjectCategoryReport');
     Route::post('/reports/TeamProjectStatusReport', 'ReportsController@TeamProjectStatusReport');
     Route::post('/reports/TeamProjectSourceReport', 'ReportsController@TeamProjectSourceReport');
     Route::post('/reports/getTeamSourcereports', 'ReportsController@getTeamSourcereports');

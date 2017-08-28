@@ -119,18 +119,24 @@ class TestimonialsController extends Controller {
             if ($originalName !== 'fileNotSelected') {
                 $fileName = $input['photo_url']->getClientOriginalExtension();
                 $s3FolderName = '/Testimonial/';
-                $getOldPhoto = WebTestimonials::select('photo_url')->where('testimonial_id', $id)->get();
-                $path = $s3FolderName . $getOldPhoto[0]['photo_url'];
-                S3::s3FileDelete($path);
+//                $getOldPhoto = WebTestimonials::select('photo_url')->where('testimonial_id', $id)->get();
+//                $path = $s3FolderName . $getOldPhoto[0]['photo_url'];
+//                S3::s3FileDelete($path);
                 $imageName = "testimonial_" . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $fileName;
+               
                 S3::s3FileUpload($input['photo_url']->getPathName(), $imageName, $s3FolderName);
                 $fileName = trim($imageName, ",");
-                $input['photo_url'] = $fileName;
+                print_r($imageName);
+                $input['testimonial']['photo_url'] = $imageName;
             } else {
-                unset($input['photo_url']);
+                unset($input['testimonial']['photo_url']);
             }
         }
+        
+         
+
         unset($input['_method']);
+        
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['testimonialsData'] = array_merge($input['testimonial'], $update);

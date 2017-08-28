@@ -95,6 +95,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         $scope.documentDetails = function (documentData, documentFile, companyid)
         {
+           
             if ($scope.id == 0) {
                 var url = '/manage-companies/addDocument';
                 var data = {

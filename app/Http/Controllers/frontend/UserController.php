@@ -73,7 +73,7 @@ class UserController extends Controller {
         return view('frontend.' . $this->themeName . '.index')->with(["testimonials" => $testimonials, 'employee' => $employees, 'background' => $images, 'current' => $currentResult]);
     }
 
-    public function geeta() {echo "hhh";
+    public function geeta() {
         return view('frontend.Theme32.geeta');
     }
     public function career() {
