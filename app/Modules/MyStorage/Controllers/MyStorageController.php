@@ -62,7 +62,7 @@ class MyStorageController extends Controller {
         try {
             $postdata = file_get_contents('php://input');
             $request = json_decode($postdata, true);
-            $count = MyStorage::where('folder', $request['filename'])->get()->count();
+            $count = MyStorage::where('folder', $request['filename'])->where('deleted_status', '!=', '1')->get()->count();
             if ($count > 0) {
                 $result = ['success' => false, 'errorMsg' => 'Folder already exists'];
                 return json_encode($result);
@@ -124,7 +124,8 @@ class MyStorageController extends Controller {
         try {
             $postdata = file_get_contents('php://input');
             $request = json_decode($postdata, true);
-            $cnt = MyStorage::where(['folder' => $request['folderName']])->get()->count();
+
+            $cnt = MyStorage::where(['folder' => $request['folderName']])->where('id', '<>', $request['folder'])->get()->count();
             if ($cnt > 0) {
                 $result = ['success' => false, 'errorMsg' => 'Sub folder already exists'];
                 return json_encode($result);
@@ -136,7 +137,6 @@ class MyStorageController extends Controller {
                 $input['storeData']['sub_folder_status'] = '1';
 
                 $bucket = MyStorage::where('id', $request['folder'])->select('folder', 'sub_folder')->first();
-
                 $result = S3::s3CreateSubDirectory($bucket->folder, $request['folderName']);
 //                makeDirectory
                 $dbresult = MyStorage::create($input['storeData']);
@@ -175,13 +175,33 @@ class MyStorageController extends Controller {
     public function deleteFolder() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $res = MyStorage::where('id', $request['id'])->select('folder')->first();
-        $resultDeleted = S3::s3FileDelete($res->folder);
-        print_r($resultDeleted);
-        exit;
-//        $loggedInUserId = Auth::guard('admin')->user()->id;
-//        $delete = CommonFunctions::deleteMainTableRecords($loggedInUserId);
-//        $input['folderData'] = array_merge($request, $delete);
+
+        if ($request['type'] == 2) {
+            $res = "select (SELECT s.folder from my_storages as s where s.id=" . $request['folderId'] . ") as folderName1,s1.folder as folderName2 from my_storages as s1 inner join my_storages as s2 ON FIND_IN_SET(s1.id, s2.sub_folder) WHERE s1.id = " . $request['id'] . "";
+
+            $result = DB::select($res);
+            $folder = $result['0']->folderName1 . "/" . $result['0']->folderName2;
+        } else {
+            $res = MyStorage::where('id', $request['id'])->select('folder')->first();
+            $folder = $res->folder;
+        }
+
+        if ($request['type'] == 2) {
+            $delete = MyStorage::where('id', $request['folderId'])->select('sub_folder')->first();
+            $sub_folder = explode(',', $delete->sub_folder);
+            $key = array_search($request['id'], $sub_folder);
+
+            unset($sub_folder[$request['id']]);
+            $sub_folder = implode(',', $sub_folder);
+            $post = ['sub_folder' => $sub_folder];
+            $result = MyStorage::where('id', $request['folderId'])->update($post);
+        }
+        unset($request['type']);
+        unset($request['folderId']);
+        $resultDeleted = S3::s3FolderDelete($folder);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $delete = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['folderData'] = array_merge($request, $delete);
         $result = MyStorage::where('id', $request['id'])->update($input['folderData']);
         return json_encode(['result' => $result, 'status' => true]);
     }
@@ -270,14 +290,14 @@ class MyStorageController extends Controller {
         $request = json_decode($postdata, true);
 
         $deletedResult = StorageFiles::where('id', $request['id'])->select('file_url', 'file_name')->first();
-        $resultDeleted = S3::s3FolderDelete($deletedResult->file_url);
-        print_r($resultDeleted);
-        exit;
-        if ($resultDeleted == 1) {
-            $deletedResult = StorageFiles::where('id', $request['id'])->delete();
-            return json_encode(['result' => $deletedResult, 'status' => true]);
-        }else{
-            return json_encode(['message' =>"Failed to delete" , 'status' => false]); 
+        if (!empty($deletedResult->file_url)) {
+            $resultDeleted = S3::s3FileDelete($deletedResult->file_url);
+            if ($resultDeleted == 1) {
+                $deletedResult = StorageFiles::where('id', $request['id'])->delete();
+                return json_encode(['result' => $deletedResult, 'status' => true]);
+            } else {
+                return json_encode(['message' => "Failed to delete", 'status' => false]);
+            }
         }
     }
 
@@ -329,6 +349,8 @@ class MyStorageController extends Controller {
             for ($i = 0; $i < count($sub_bucket); $i++) {
 
                 $result = MyStorage::where(['id' => $sub_bucket[$i]])->first();
+                print_r($sub_bucket[$i]);
+                exit;
                 if ($result->deleted_status == '0') {
                     array_push($subBuckets, ['id' => $result->id, 'folder' => $result->folder]);
                 }

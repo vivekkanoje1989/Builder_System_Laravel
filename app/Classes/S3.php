@@ -81,6 +81,7 @@ class S3 {
    }
 
     public static function s3FileDelete($s3FolderName) {
+      
         S3::s3Configuration();
         if (\Storage::disk('gcs')->exists($s3FolderName)) {
             \Storage::disk('gcs')->delete($s3FolderName);
@@ -90,15 +91,17 @@ class S3 {
         }
     }
     public static function s3FolderDelete($s3FolderName) {
-        print_r($s3FolderName);
-        exit;
+        
         S3::s3Configuration();
-        if (\Storage::disk('gcs')->exists($s3FolderName)) {
-            \Storage::disk('gcs')->delete($s3FolderName);
-            return true;
+        $files = \Storage::disk('gcs')->deleteDirectory($s3FolderName);
+        if ($files) {
+            $result = ['success' => true, 'files' => $files];
+            json_encode($result);
         } else {
-            return false;
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+            json_encode($result);
         }
+           
     }
 
     public static function s3FileLists($image) {
@@ -114,7 +117,9 @@ class S3 {
     }
     public static function s3CreateSubDirectory($newFolder,$mainFolder) {
         S3::s3Configuration();
-        $files = \Storage::disk('gcs')->makeDirectory($mainFolder."/".$newFolder);
+        $folder = $newFolder."/".$mainFolder;
+       
+        $files = \Storage::disk('gcs')->makeDirectory($folder);
         if ($files) {
             $result = ['success' => true, 'files' => $files];
             json_encode($result);
