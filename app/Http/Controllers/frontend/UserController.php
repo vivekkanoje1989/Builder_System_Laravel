@@ -27,6 +27,7 @@ use App\Modules\Events\Models\WebEvents;
 use Config;
 use DB;
 use App\Modules\ContactUs\Models\WebContactus;
+use App\Models\Contactus;
 
 class UserController extends Controller {
 
@@ -100,6 +101,19 @@ class UserController extends Controller {
     public function testimonials() {
         $testimonials = WebTestimonials::where(['web_status' => '1', 'approve_status' => '1'])->get();
         return view('frontend.' . $this->themeName . '.testimonials')->with(["testimonials" => $testimonials]);
+    }
+
+    public function addContact() {
+        $input = Input::all();
+
+        $name = explode(' ', $input['contactData']['name']);
+        $input['contactData']['first_name'] = $name[0];
+        if (!empty($name[1])) {
+            $input['contactData']['last_name'] = $name[1];
+        }
+       
+        $result = Contactus::create($input['contactData']);
+        return json_encode(['result' => $result, 'status' => true]);
     }
 
     public function create_testimonials() {

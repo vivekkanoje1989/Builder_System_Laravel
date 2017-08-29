@@ -1,5 +1,10 @@
 @extends('layouts/frontend/Gagan/main')
 @section('content')
+<style>.err{
+        font-size: 13;
+        color:red;
+    }
+</style>
 <main class="main-content" ng-init="getCareers(); getPostsDropdown();">
 
     <div class="container" style="margin-top:165px">
@@ -46,19 +51,19 @@
         </div>
         <div class="row">
             <div class="col span_12"  style="padding:4px">
-                <form id="careerForm" ng-submit="careerForm.$valid && doApplicantAction(career, career.resume, career.photo_url)" class="" enctype="multipart/form-data" name="careerForm" novalidate enctype="multipart/form-data">
+                <form id="careerForm" ng-submit="careerForm.$valid && doApplicantAction(career, career.resume, career.photo_url)" class="" name="careerForm" novalidate >
                     <input type="hidden" ng-model="_token" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <div class="row">
                         <div class="col-md-6 col-xs-12">
                             <div class="form-group">
-                                <label for="" class="sr-only2">Enter your First Name</label>
+                                <label for="" class="sr-only2">First Name<span class="err">*</span></label>
                                 <input type="text" class="form-control" name="first_name" id="first_name" ng-model="career.first_name" required />
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="careerForm.first_name.$error" >
                                     <div ng-message="required" class="err">First name is required</div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="sr-only2">Enter your Last Name</label>
+                                <label for="" class="sr-only2">Last Name<span class="err">*</span></label>
 
                                 <input type="text" class="form-control" name="last_name" id="last_name" ng-model="career.last_name" required />
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="careerForm.last_name.$error">
@@ -66,7 +71,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="sr-only2">Enter your Mobile Name</label>
+                                <label for="" class="sr-only2">Mobile Number<span class="err">*</span></label>
 
                                 <input type="text" class="form-control" name="mobile_number" id="mobile_number" ng-model="career.mobile_number" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" ng-maxlength="10" ng-minlength="10" required />
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="careerForm.mobile_number.$error" class="err">
@@ -83,7 +88,7 @@
                         </div>
                         <div class="col-md-6 col-xs-12" >
                             <div class="form-group">
-                                <label for="" class="sr-only2">Enter your Email Id</label>
+                                <label for="" class="sr-only2">Email Id<span class="err">*</span></label>
                                 <input type="email" class="form-control" name="email_id" id="email_id" ng-model="career.email_id" required />
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="careerForm.email_id.$error" class="err">
                                     <div ng-message="required" class="err">Email is required</div>
@@ -91,7 +96,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" >Select Post</label>
+                                <label for="" >Select Post<span class="err">*</span></label>
                                 <select class="form-control" name="career_id" id="career_id" ng-model="career.career_id" required
                                         <option  value="">Select Post</option>
                                     <option ng-repeat="job in jobPostRow" value="{{job.id}}">{{job.job_title}}</option>
@@ -101,7 +106,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="" class="sr-only2">Upload Your Resume</label>
+                                <label for="" class="sr-only2">Upload Your Resume<span class="err">*</span></label>
                                 <input type="file" ngf-select valid-file  ng-model="career.resume" name="resume_file_name" required  required id="resume_file_name"   ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="careerForm.resume_file_name.$error" >
                                     <div ng-message="required" class="err">Resume is required</div>
@@ -117,7 +122,7 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-xs-12"><br>
-                        <button type="submit" class="btn" ng-click="sbtBtn = true" value="{{ !careerForm.$valid && 'invalid' || 'valid' }}">Apply For job</button>
+                        <button type="submit" class="btn" ng-click="sbtBtn = true" >Apply For job</button>
                     </div>
                 </form>
             </div>

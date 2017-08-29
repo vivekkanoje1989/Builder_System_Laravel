@@ -46,22 +46,23 @@
                                         </article>
                                         <div class="row">
                                             <div class="col-md-12 span_12">
-                                                <section id="availability" class="offset-bottom">
+                                                <section id="availability" class="offset-bottom" ng-if="projects"  >
                                                     <header class="heading">
                                                         <h2>Available Projects</h2>
                                                     </header>
-                                                    <div class="row">
-                                                        <div class="col-md-4 span_4" ng-repeat="project in projects track by $index">
+                                                    <div class="row" style="border:2px solid #ccc; padding:10px; margin-top:40px;">
+                                                        <div class="col-md-4 span_4" ng-repeat="project in projects track by $index" >
                                                             <h3>{{project.project_name}}</h3>
+                                                            <img ng-src="[[config('global.s3Path')]]/project/project_logo/{{project.project_logo}}" class="proj-img">
                                                             <ul>
-                                                                <li>{{project.brief_description| htmlToPlaintext}}</li>
+                                                                <li style="text-align: justify;">{{project.brief_description| htmlToPlaintext}}</li>
                                                             </ul>
                                                             <!--<p><a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/enquiry/{{project.id}}" class="enq-btn btn btn-small">Enquire Now</a></p>-->
                                                         </div>
                                                     </div>
                                                 </section>
 
-                                                <section id="amenities" class="offset-bottom">
+                                                <section id="amenities" class="offset-bottom" ng-if="aminities">
                                                     <header class="heading">
                                                         <h2>Amenities List</h2>
                                                     </header>
@@ -73,7 +74,7 @@
                                                         </div>
                                                     </div>
                                                 </section>
-                                                <section id="spec" class="offset-bottom">
+                                                <section id="spec" class="offset-bottom" ng-if="specification">
                                                     <header class="heading">
                                                         <h2>Specification List</h2>
                                                     </header>
@@ -83,14 +84,14 @@
                                                         </div>
                                                     </div>
                                                 </section>
-                                                <section id="gallery" class="offset-bottom" >
+                                                <section id="gallery" class="offset-bottom" ng-if="amenities_images">
                                                     <header class="heading">
                                                         <h2>Amenity Images</h2>
                                                     </header>
-                                                    <div class="row">
-                                                        <div class="col-md-3 span_12" >
+                                                    <div class="row" style="border:2px solid #ccc; padding:10px;margin-bottom:20px">
+                                                        <div class="col-md-3 span_12" ng-repeat="amenities in amenities_images track by $index">
                                                             <p align="center">
-                                                                <a class="fancybox" ng-repeat="amenities in amenities_images track by $index" href="[[config('global.s3Path')]]/project/amenities_images/{{amenities}}" data-fancybox-group="1" title="PROJECT 11">
+                                                                <a class="fancybox"  href="[[config('global.s3Path')]]/project/amenities_images/{{amenities}}" data-fancybox-group="1" title="PROJECT 11">
                                                                     <img ng-src="[[config('global.s3Path')]]/project/amenities_images/{{amenities}}" alt="" /></a>
                                                             </p>
                                                         </div>
@@ -100,37 +101,35 @@
                                                     <header class="heading">
                                                         <h2>Specification Images</h2>
                                                     </header>
-                                                    <div class="row">
-                                                        <div class="col span_12">
+                                                    <div class="row" style="border:2px solid #ccc; padding:10px;margin-bottom:20px">
+                                                        <div class="col-md-3 span_12" ng-repeat="specification in specification_images track by $index">
                                                             <p align="center">
-                                                                <a class="fancybox" ng-repeat="specification in specification_images track by $index" href="[[config('global.s3Path')]]/project/specification_images/{{specification}}" alt="" />
+                                                                <a class="fancybox"  href="[[config('global.s3Path')]]/project/specification_images/{{specification}}" alt="" />
                                                                 <img ng-src="[[config('global.s3Path')]]/project/specification_images/{{specification.specification_images}}" alt="" /></a>
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </section>
-                                                <section id="gallery" class="offset-bottom">
+                                                <section id="gallery" class="offset-bottom" ng-if="layout_plan">
                                                     <header class="heading">
                                                         <h2>Layout Plan</h2>
                                                     </header>
-                                                    <div class="row">
-                                                        <div class="col span_12">
+                                                    <div class="row" style="border:2px solid #ccc; padding:10px;margin-bottom:20px">
+                                                        <div class="col-md-3 span_12" ng-repeat="layout in layout_plan track by $index">
                                                             <p align="center">
-                                                                <a class="fancybox" ng-repeat="layout in layout_plan track by $index" href="[[config('global.s3Path')]]/project/layout_plan_images/{{layout.layout_plan_images}}" data-fancybox-group="1" title="PROJECT 11"><img ng-src="[[config('global.s3Path')]]/project/layout_plan_images/{{layout.layout_plan_images}}" alt="" /></a>
+                                                                <a class="fancybox"  href="[[config('global.s3Path')]]/project/layout_plan_images/{{layout.layout_plan_images}}" data-fancybox-group="1" title="PROJECT 11"><img ng-src="[[config('global.s3Path')]]/project/layout_plan_images/{{layout.layout_plan_images}}" alt="" /></a>
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </section>
-                                                <section id="gallery" class="offset-bottom">
+                                                <section id="gallery" class="offset-bottom" ng-if="gallery">
                                                     <header class="heading">
                                                         <h2>Floor Plan</h2>
                                                     </header>
-                                                    <div class="row">
-                                                        <div class="col span_12">
-
+                                                    <div class="row" style="border:2px solid #ccc; padding:10px;margin-bottom:20px">
+                                                        <div class="col-md-3 span_12 " ng-repeat="gallery in gallery track by $index">
                                                             <p align="center">
-
-                                                                <a class="fancybox" ng-repeat="gallery in gallery track by $index" href="[[config('global.s3Path')]]/project/project_gallery/{{gallery}}" data-fancybox-group="1" title="PROJECT 11"><img ng-src="[[config('global.s3Path')]]/project/project_gallery/{{gallery}}" alt="" /></a>
+                                                                <a class="fancybox"  href="[[config('global.s3Path')]]/project/project_gallery/{{gallery}}" data-fancybox-group="1" title="PROJECT 11"><img ng-src="[[config('global.s3Path')]]/project/project_gallery/{{gallery}}" alt="" /></a>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -139,10 +138,10 @@
                                                     <header class="heading">
                                                         <h2>Gallery</h2>
                                                     </header>
-                                                    <div class="row">
-                                                        <div class="col span_12">
+                                                    <div class="row" style="border:2px solid #ccc; padding:10px; margin-bottom:20px">
+                                                        <div class="col-md-3 span_12" ng-repeat="gallery in gallery track by $index">
                                                             <p align="center">
-                                                                <a class="fancybox" ng-repeat="gallery in gallery track by $index" href="[[config('global.s3Path')]]/project/project_gallery/{{gallery}}" data-fancybox-group="1" title="PROJECT 11"><img ng-src="[[config('global.s3Path')]]/project/project_gallery/{{gallery}}" alt="" /></a>
+                                                                <a class="fancybox"  href="[[config('global.s3Path')]]/project/project_gallery/{{gallery}}" data-fancybox-group="1" title="PROJECT 11"><img ng-src="[[config('global.s3Path')]]/project/project_gallery/{{gallery}}" alt="" /></a>
                                                             </p>
                                                         </div>
                                                     </div>

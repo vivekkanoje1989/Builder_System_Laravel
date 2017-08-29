@@ -98,6 +98,8 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
         $scope.submitted = false;
         $scope.empl = true;
+        $scope.contact = {};
+        $scope.career = {};
         var baseUrl = 'website/';
         $scope.getPostsDropdown = function () {
             $http.get(baseUrl + 'jobPost').then(function (response) {
@@ -110,7 +112,6 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
         $scope.selectedbBlogs = function (blogId)
         {
-            alert(blogId)
             $scope.blogId = blogId;
         }
         $scope.getProjectDetails = function (id)
@@ -129,16 +130,20 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 $scope.project_logo = response.data.result.project_logo;
                 $scope.location_map_images = response.data.result.location_map_images;
                 //$scope.google_map_iframe = response.result.google_map_iframe;
-                $scope.specification_images = JSON.parse(response.data.result.specification_images);
+                if (response.data.result.specification_images != 0) {
+                    $scope.specification_images = JSON.parse(response.data.result.specification_images);
+                }
                 if (response.data.result.amenities_images != null) {
                     $scope.amenities_images = response.data.result.amenities_images.split(',');
                 }
+//                console.log($scope.amenities_images);
                 $scope.project_address = response.data.result.project_address;
                 $scope.email_sending_id = response.data.result.email_sending_id;
                 $scope.project_broacher = response.data.result.project_broacher;
                 $scope.project_contact_numbers = response.data.result.project_contact_numbers;
                 if (response.data.result.amenities_images != null) {
                     $scope.gallery = response.data.result.project_gallery.split(',');
+
                 }
                 $scope.projects = response.data.projects;
                 $scope.googleMap = response.data.result.google_map_iframe;
@@ -158,15 +163,22 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                     data: data
                 });
                 photo_url.upload.then(function (response) {
-                    $timeout(function () {
-                        $scope.testimonial = {};
-                        $scope.photo_url = '';
-                        $scope.testimonialForm.$setPristine();
+                    if (response.data.status == true) {
                         $scope.submitted = true;
-                        $scope.sbtBtn = false;
-                        grecaptcha.reset();
-                        $scope.recaptcha = '';
-                    });
+                        $timeout(function () {
+                            $scope.submitted = false;
+                        }, 3000);
+
+                        $timeout(function () {
+                            $scope.testimonial = {};
+                            $scope.photo_url = '';
+                            $scope.testimonialForm.$setPristine();
+//                            $scope.submitted = true;
+                            $scope.sbtBtn = false;
+                            grecaptcha.reset();
+                            $scope.recaptcha = '';
+                        });
+                    }
                 }, function (response) {
                     if (response.status !== 200) {
                         $scope.err_msg = "Please Select image for upload";
@@ -339,18 +351,38 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
 
 
         $scope.doContactAction = function (contact) {
-
             var v = grecaptcha.getResponse();
+//            alert(v)
             if (v.length != '0') {
-                $scope.recaptcha = '';
-                $scope.sbtBtn = false;
-                $scope.submitted = true;
+            $http.post(baseUrl + 'addContact', 
+                {contactData: contact}).then(function (response) {
+                    if (response.data.status == true) {
+                        $scope.submitted = true;
+                        $timeout(function () {
+                            $scope.submitted = false;
+                        }, 3000);
+
+                        $timeout(function () {
+                            $scope.contact = {};
+                            $scope.contactForm.$setPristine();
+                            grecaptcha.reset();
+                            $scope.sbtBtn = false;
+                            $scope.recaptcha = '';
+//                        $scope.loginAlertMessage = true;
+                        });
+                    }
+                }, function (response) {
+                    if (response.status !== 200) {
+                        $scope.err_msg = "Please Select image for upload";
+                    }
+                });
             } else {
                 $scope.recaptcha = "Please revalidate captcha";
             }
         }
         $scope.doApplicantAction = function (career, resumeFileName, photoUrl)
         {
+
             var v = grecaptcha.getResponse();
             if (v.length != '0') {
                 var url = baseUrl + 'register_applicant';
@@ -361,14 +393,21 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                     data: data
                 });
                 resumeFileName.upload.then(function (response) {
-                    $timeout(function () {
-                        $scope.career = {};
-                        $scope.careerForm.$setPristine();
+                    if (response.data.status == true) {
                         $scope.submitted = true;
-                        grecaptcha.reset();
-                        $scope.sbtBtn = false;
-                        $scope.recaptcha = '';
-                    });
+                        $timeout(function () {
+                            $scope.submitted = false;
+                        }, 3000);
+
+                        $timeout(function () {
+                            $scope.career = {};
+                            $scope.careerForm.$setPristine();
+                            grecaptcha.reset();
+                            $scope.sbtBtn = false;
+                            $scope.recaptcha = '';
+//                        $scope.loginAlertMessage = true;
+                        });
+                    }
                 }, function (response) {
                     if (response.status !== 200) {
                         $scope.err_msg = "Please Select image for upload";
@@ -378,6 +417,8 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
                 $scope.recaptcha = "Please revalidate captcha";
             }
         }
+
+
         $scope.checkImageExtension = function (employeePhoto) {
 
             if (typeof employeePhoto !== 'undefined' || typeof employeePhoto !== 'object') {
