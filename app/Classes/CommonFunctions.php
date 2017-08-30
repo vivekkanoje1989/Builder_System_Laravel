@@ -204,7 +204,7 @@ class CommonFunctions {
         else
             $emp_attachedfile = "";
 
-        $model_id = $alertdata['project_id'];
+       // $model_id = $alertdata['project_id'];
         $car_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/car.png";
         $loc_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/loc2.png";
 

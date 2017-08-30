@@ -610,7 +610,6 @@ app.controller('getEmployeeCtrl', function ($scope, Data, $timeout) {
     $scope.employees1 = [];
     $scope.memployees = [];
     var ct_id = $("#id").val();
-    //alert($scope.);   
     var flag = 0;
     $timeout(function () {
         Data.post('virtualnumber/editEmp', {ct_id: ct_id}).then(function (response) {

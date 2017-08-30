@@ -94,6 +94,7 @@ class MasterSalesController extends Controller {
             $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : '';
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $create);
+            
             $createCustomer = Customer::create($input['customerData']); //insert data into employees table
             CustomersLog::create($input['customerData']);
             $input['customerData']['main_record_id'] = $createCustomer->id;
@@ -109,16 +110,12 @@ class MasterSalesController extends Controller {
                     $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;
                     $contacts['mobile_alerts_inactivation_timestamp'] = $contacts['landline_verification_timestamp'] = $contacts['landline_alerts_inactivation_timestamp'] = $contacts['email_verification_timestamp'] = $contacts['email_alerts_inactivation_timestamp'] = "0000-00-00 00:00:00";
 
-                    if (!empty($contacts['mobile_number'])) {
-                        $mobileNumber = explode("-", $contacts['mobile_number']);
-                        $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? (int) $mobileNumber[0] : "";
-                        $contacts['mobile_number'] = (!empty($mobileNumber[1])) ? (int) $mobileNumber[1] : "";
+                    if (!empty($contacts['mobile_calling_code'])) {
+                        $contacts['mobile_calling_code'] = (int) $contacts['mobile_calling_code'];
                     }
 
-                    if (!empty($contacts['landline_number'])) {
-                        $landlineNumber = explode("-", $contacts['landline_number']);
-                        $contacts['landline_calling_code'] = (!empty($landlineNumber[1])) ? (int) $landlineNumber[0] : "";
-                        $contacts['landline_number'] = (!empty($landlineNumber[1])) ? (int) $landlineNumber[1] : "";
+                    if (!empty($contacts['landline_calling_code'])) {
+                        $contacts['landline_calling_code'] = (int) $contacts['landline_calling_code'];
                     }
                     $contacts = array_merge($contacts, $create);
                     CustomersContact::create($contacts); //insert data into customer_contacts table
@@ -232,6 +229,7 @@ class MasterSalesController extends Controller {
             }
 
 
+            $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "";
@@ -264,19 +262,12 @@ class MasterSalesController extends Controller {
                     $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;
                     $contacts['mobile_verification_timestamp'] = $contacts['mobile_alerts_inactivation_timestamp'] = $contacts['landline_verification_timestamp'] = $contacts['landline_alerts_inactivation_timestamp'] = $contacts['email_verification_timestamp'] = $contacts['email_alerts_inactivation_timestamp'] = "0000-00-00 00:00:00";
 
-                    if (preg_match("/^(\+\d{1,4}-)\d{10}+$/", $contacts['mobile_number'])) {
-                        if (!empty($contacts['mobile_number'])) {
-                            $mobileNumber = explode("-", $contacts['mobile_number']);
-                            $calling_code = (int) $mobileNumber[0];
-                            $contacts['mobile_calling_code'] = !empty($mobileNumber[1]) ? $calling_code : "";
-                            $contacts['mobile_number'] = !empty($mobileNumber[1]) ? (int) $mobileNumber[1] : "";
-                        }
-                        if (!empty($contacts['landline_number'])) {
-                            $landlineNumber = explode("-", $contacts['landline_number']);
-                            $landline_calling_code = (int) $landlineNumber[0];
-                            $contacts['landline_calling_code'] = !empty($landlineNumber[1]) ? $landline_calling_code : "";
-                            $contacts['landline_number'] = !empty($landlineNumber[1]) ? (int) $landlineNumber[1] : "";
-                        }
+                    if (!empty($contacts['mobile_calling_code'])) {
+                        $contacts['mobile_calling_code'] = (int) $contacts['mobile_calling_code'];
+                    }
+
+                    if (!empty($contacts['landline_calling_code'])) {
+                        $contacts['landline_calling_code'] = (int) $contacts['landline_calling_code'];
                     }
                     $checkMobileNumber = CustomersContact::where(['customer_id' => $id, "mobile_number" => $contacts['mobile_number']])->get();
 
@@ -402,11 +393,33 @@ class MasterSalesController extends Controller {
         return response()->json($result);
     }
 
+//        public function getCustomerAllDetails() {
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+////echo $request['data']['customerId'];exit;
+//        $customerId = !empty($request['data']['customerId']) ? $request['data']['customerId'] : "0";
+//        $getCustomerContacts = DB::select('CALL proc_get_customer_contacts_details("' . $customerId . '")');
+//
+//        if (count($getCustomerContacts) > 0) {
+//            $getCustomerPersonalDetails = Customer::where('customers.id', '=', $getCustomerContacts[0]->customer_id)->leftjoin('lmsauto_master_final.mlst_lmsa_companies as mlc', 'mlc.id', '=', 'customers.company_id')
+//                            ->select('customers.*', 'mlc.company_name')->get();
+//            $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts];
+//            return json_encode($result);
+//        } else {
+//            $result = ['success' => false, "message" => "No record found"];
+//            return json_encode($result);
+//        }
+//    }
     public function getCustomerDataWithId() {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            $data = Customer::where('id', $request['data']['customerId'])->get();
+            //$data = Customer::where('id', $request['data']['customerId'])->get();
+            
+            $data = Customer::select('customers.*', 'mlc.company_name')
+                    ->where('customers.id', '=', $request['data']['customerId'])
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_companies as mlc', 'mlc.id', '=', 'customers.company_id')
+                    ->get();
             $data['get_customer_contacts'] = CustomersContact::where('customer_id', $request['data']['customerId'])->get();
             if (count($data) > 0) {
                 $result = ['success' => true, 'customerPersonalDetails' => $data];
@@ -743,6 +756,55 @@ class MasterSalesController extends Controller {
     public function getTodayRemark() {
         try {
             $postdata = file_get_contents("php://input");
+            $input = json_decode($postdata, true);
+            $enquiryId = $input['enquiryId'];
+            $followupId = $input['followupId'];
+            $projectId = $blockId = $emailId = $mobileNumber = array();
+            $getRemarkDetails = DB::select('CALL proc_get_today_remark(' . $enquiryId . ',"' . $followupId . '")');
+            $decodeRemarkDetails = json_decode(json_encode($getRemarkDetails), true);
+            if (!empty($decodeRemarkDetails[0]['project_block_id'])) {
+                $explodeComma = explode(",", $decodeRemarkDetails[0]['project_block_id']);
+                if (!empty($explodeComma)) {
+                    foreach ($explodeComma as $value) {
+                        $explodeDash = explode("-", $value);
+                        $projectId[] = $explodeDash[0];
+                        $blockId[] = $explodeDash[1];
+                    }
+                }
+            }
+            
+            if (!empty($decodeRemarkDetails[0]['customer_mobile_no'])) {
+                $mobileNumber = explode(",", $decodeRemarkDetails[0]['customer_mobile_no']);
+                $mobileNumber = array_unique($mobileNumber);
+            }
+            if (!empty($decodeRemarkDetails[0]['customer_email_id'])) {
+                $emailId = explode(",", $decodeRemarkDetails[0]['customer_email_id']);
+                $emailId = array_values(array_filter($emailId));
+                $emailId = array_unique($emailId);
+            }
+            $getProjects = Project::select("id", "project_name")->whereIn('id', $projectId)->get();
+            $getBlocks = MlstBmsbBlockType::select("id", "block_name")->whereIn('id', $blockId)->get();
+
+            $decodeRemarkDetails['selectedProjects'] = $getProjects;
+            $decodeRemarkDetails['selectedBlocks'] = $getBlocks;
+            $decodeRemarkDetails['mobileNumber'] = $mobileNumber;
+            $decodeRemarkDetails['emailId'] = $emailId;
+            $useremail = Auth::guard('admin')->user()->personal_email1;
+            $userpermissions = Auth::guard('admin')->user()->employee_submenus;
+            $reassignData['id'] = $decodeRemarkDetails[0]['sales_employee_id'];
+            $reassignData['first_name'] = $decodeRemarkDetails[0]['first_name'] . " " . $decodeRemarkDetails[0]['last_name'];
+
+            $getBookingId = Booking::select("id")->where("enquiry_id", $enquiryId)->get();
+            $bookingId = empty($getBookingId[0]) ? "0" : $getBookingId;
+            $result = ['success' => true, 'enquiryDetails' => $decodeRemarkDetails, 'useremail' => $useremail, "reassignData" => $reassignData, 'bookingId' => $bookingId, 'userpermissions' => $userpermissions];
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+        return json_encode($result);
+    }
+    /*public function getTodayRemark() {
+        try {
+            $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $getRemarkDetails = DB::select('CALL proc_get_today_remark(' . $request['enquiryId'] . ')');
             $decodeRemarkDetails = json_decode(json_encode($getRemarkDetails), true);
@@ -783,7 +845,7 @@ class MasterSalesController extends Controller {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
         return response()->json($result);
-    }
+    }*/
 
     public function insertTodayRemark() {
         try {
