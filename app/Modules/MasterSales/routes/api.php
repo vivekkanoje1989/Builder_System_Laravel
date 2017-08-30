@@ -45,4 +45,6 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
     Route::post('api/master-sales/getTeamPendingFollowups', 'MasterSalesController@getTeamPendingFollowups'); // get team pending followups
     Route::post('api/master-sales/getTeamPreviousFollowups', 'MasterSalesController@getTeamPreviousFollowups'); // get team previous followups    
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+    
+    Route::post('api/master-sales/exportToExcel', 'MasterSalesController@exportToExcel');//export data in excel sheet    
 });	

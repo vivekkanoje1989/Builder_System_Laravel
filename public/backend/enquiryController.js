@@ -593,7 +593,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
         }
         
-        $scope.getCustomerModal = function (cid) {
+        $scope.getTodayRemarkCustomerModal = function (cid) {
             Data.post('master-sales/getCustomerDetails', {
                 data: {customerMobileNo: cid},
             }).then(function (response) {
@@ -664,7 +664,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             });
         }
-        $scope.updateCustomerModal = function (customerData, customerContacts, customerId) { //Customer Details tab inseide today remark popup
+        $scope.updateTodayRemarkCustomerModal = function (customerData, customerContacts, customerId) { //Customer Details tab inseide today remark popup
             var contactArr = [];
             contactArr[0] = customerContacts;
             Data.put('/master-sales/' + customerId, {
