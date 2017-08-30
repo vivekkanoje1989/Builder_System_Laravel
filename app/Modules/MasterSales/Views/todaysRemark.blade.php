@@ -159,13 +159,13 @@
                 <tab heading="Today Remarks" id="remarkTab">
                     
                 </tab>
-                <tab heading="Customer Details" ng-click="getCustomerModal(7777777777)" id="customerTab">
+                <tab heading="Customer Details" ng-click="getTodayRemarkCustomerModal(remarkData.customerId)" id="customerTab">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="form-title">
                             Personal Details
                         </div>
                     </div>
-                    <form novalidate role="form" ng-submit="customerForm.$valid && updateCustomerModal(customerData, customerContacts, remarkData.customerId)" name="customerForm">
+                    <form novalidate role="form" ng-submit="customerForm.$valid && updateTodayRemarkCustomerModal(customerData, customerContacts, remarkData.customerId)" name="customerForm">
                         <div class="row">
                             <div class="col-sm-2">
                                 <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.title_id.$dirty && customerForm.title_id.$invalid)}">
