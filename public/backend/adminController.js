@@ -525,6 +525,17 @@ app.controller('verticalCtrl', function ($scope, Data) {
         }
     });
 });
+app.controller('salesemployeesCtrl', function ($scope, Data) {
+    $scope.salesemployeeList = [];
+    Data.get('getsalesEmployees').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            
+            $scope.salesemployeeList = response.records;
+        }
+    });
+});
 /****************************UMA************************************/
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {
