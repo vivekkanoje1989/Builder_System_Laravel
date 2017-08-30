@@ -43,7 +43,7 @@
     
     
     <!-- end horizontal filter --> 
-    <div class="container">
+    <div class="container bigMessage">
         <div id="system-message-container">
         </div>
         <div class="pageData  homepage">
@@ -78,57 +78,25 @@
             <h3>CURRENT PROJECTS </h3>
             <div class="divider"></div>
             <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <div class="propertyItem" ng-repeat="list in current">
+                <div class="col-lg-3 col-md-3 col-sm-6"  ng-repeat="list in current">
+                    <div class="propertyItem">
                         <div class="propertyContent"> <a class="propertyImgLink" href="project-details.html">
-                                <img alt="" src="[[config('global.s3Path')]]project/project_logo/{{list.project_logo}}" class="propertyImg"></a>
+                                <img alt="" src="[[config('global.s3Path')]]/project/project_logo/{{list.project_logo}}" class="propertyImg"></a>
                             <h4><a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/project-details/{{list.id}}">{{list.project_name}}</a></h4>
                             <p> {{list.short_description|htmlToPlaintext | limitTo : 15}}{{list.short_description.length > 15? '': '...'}} </p>
                             <div class="divider thin"></div>
-                            <p class="forSale"><a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/project-details/{{list.id}}">Read More</a></p>
+                            <p class="forSale"><a href="[[ URL::to('/') ]]/project-details/{{list.id}}">Read More</a></p>
                             <div class="clearfix"></div>
                         </div>
                     </div>
                 </div>
-<!--                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <div class="propertyItem">
-                        <div class="propertyContent"> <a class="propertyImgLink" href="project-details.html"><img alt="" src="frontend/Gagan/img/lawish.jpg" class="propertyImg"></a>
-                            <h4><a href="project-details.html">Gagan Lawish, Pisoli</a></h4>
-                            <p> 1, 2 & 2.5 BHK Apartments </p>
-                            <div class="divider thin"></div>
-                            <p class="forSale"><a href="project-details.html">Read More</a></p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6">
-                    <div class="propertyItem">
-                        <div class="propertyContent"> <a class="propertyImgLink" href="project-details.html"><img alt="" src="frontend/Gagan/img/lawish.jpg" class="propertyImg"></a>
-                            <h4><a href="project-details.html">Gagan Lawish, Pisoli</a></h4>
-                            <p> 1, 2 & 2.5 BHK Apartments </p>
-                            <div class="divider thin"></div>
-                            <p class="forSale"><a href="project-details.html">Read More</a></p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>  <div class="col-lg-3 col-md-3 col-sm-6">
-                    <div class="propertyItem">
-                        <div class="propertyContent"> <a class="propertyImgLink" href="project-details.html"><img alt="" src="frontend/Gagan/img/lawish.jpg" class="propertyImg"></a>
-                            <h4><a href="project-details.html">Gagan Lawish, Pisoli</a></h4>
-                            <p> 1, 2 & 2.5 BHK Apartments </p>
-                            <div class="divider thin"></div>
-                            <p class="forSale"><a href="project-details.html">Read More</a></p>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>-->
             </div>
 
 
         </div>
         <!-- end container --> 
         <!-- start call to action -->
-        <section class="callToAction">
+        <section class="callToAction ">
             <div class="container">
                 <div class="ctaBox">
                     <div class="ctaBox">

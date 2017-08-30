@@ -46,6 +46,7 @@
 </div>
 <!-- JavaScript file links --> 
 <script src="frontend/Gagan/js/jquery.js"></script> <!-- Jquery --> 
+<script src="frontend/Gagan/js/recaptcha.js"></script> <!-- Jquery --> 
 <script src="frontend/Gagan/js/bootstrap.min.js"></script> <!-- bootstrap 3.0 --> 
 <script src="frontend/Gagan/js/respond.js"></script> 
 <script src="frontend/Gagan/js/jquery.bxslider.min.js"></script> <!-- bxslider --> 
