@@ -2,44 +2,8 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
         <group>
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Controllers/BlogManagementController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/contact.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/update.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/editApprovedList.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/frontend/Gagan/header.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/frontend/Gagan/css/style.css</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Controllers/TestimonialsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Theme32/about.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/about.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Theme32/contact.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/testimonials.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Theme32/testimonials.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Views/update.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/index.blade.php</file>
-=======
-            <file>file:/var/www/html/Builder_System_Laravel/public/index.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/allmyimages.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/config/global.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/config/app.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlogManagement/Controllers/BlogManagementController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/allimages.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/config/filesystems.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/S3.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/subfolderimages.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Views/listtorestore.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/.env</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MyStorage/Controllers/MyStorageController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/storageController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/Auth/LoginController.php</file>
->>>>>>> 319da11f1ffefc5ede0bdf8816a6c5ac5d886ae8
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
         </group>
->>>>>>> f7678f35bd90059cf89400eb5fcbfc4f5cf1d8e2
     </open-files>
 </project-private>

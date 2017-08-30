@@ -11,7 +11,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
     Route::post('api/master-sales/checkEmailExist', 'MasterSalesController@checkEmailExist');
     Route::post('api/master-sales/saveEnquiry', 'MasterSalesController@saveEnquiry');
     
-    Route::post('api/master-sales/getDataForTodayRemark', 'MasterSalesController@getDataForTodayRemark');
+    Route::post('api/master-sales/getTodayRemark', 'MasterSalesController@getTodayRemark');
     Route::post('api/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');
     
     Route::post('api/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // getCustomerDataWithId

@@ -331,11 +331,13 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+            
             $customerMobileNo = !empty($request['data']['customerMobileNo']) ? $request['data']['customerMobileNo'] : "0";
             $customerEmailId = !empty($request['data']['customerEmailId']) ? $request['data']['customerEmailId'] : "0";
             $searchData = !empty($customerMobileNo) ? $customerMobileNo : $customerEmailId;
 
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '")');
+//            echo "<pre>";print_r($getCustomerContacts);exit;
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
                 unset($getCustomerPersonalDetails[0]['pan_number']);
@@ -738,7 +740,7 @@ class MasterSalesController extends Controller {
         return response()->json($result);
     }
 
-    public function getDataForTodayRemark() {
+    public function getTodayRemark() {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);

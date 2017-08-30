@@ -608,6 +608,30 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     });
                     $scope.customerContacts = response.customerContactDetails[0];
                     $scope.customerContacts.country_id = '101';
+                    
+                    if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
+                        $scope.customerData.birth_date = "";
+                    }else{
+                        var bdt = new Date(response.customerPersonalDetails[0].birth_date);
+                        if (bdt.getDate() < 10) {
+                            $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
+                        }else{
+                            $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
+                        }
+                        $scope.maxDates = response.customerPersonalDetails[0].birth_date;
+                    }
+
+                    if(response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00"){
+                        $scope.customerData.marriage_date = "";
+                    }else{
+                       var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
+                        if (marriage_date.getDate() < 10) {
+                            $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
+                        }else{
+                            $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
+                        }
+                    }
+                    
                     Data.post('getStates', {
                         data: {countryId: $scope.customerContacts.country_id},
                     }).then(function (response) {
@@ -685,8 +709,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.sbtBtn1 = $scope.sbtBtn3 = false;
         }
         /******************************************************************************/
-        $scope.todayRemark = function (enquiryId, followupId, customerId) {
-            Data.post('master-sales/getDataForTodayRemark', {enquiryId: enquiryId}).then(function (response) {
+        $scope.getTodayRemark = function (enquiryId, followupId, customerId) {
+            Data.post('master-sales/getTodayRemark', {enquiryId: enquiryId}).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.errorMsg;
                 } else {
@@ -805,27 +829,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
         };
 
-        $scope.checkedMobileNo = function (mobileNo, inc) {
-            if ($('#mob_' + inc).is(':checked')) {
-                $scope.mobile_number.push(mobileNo);
-            } else {
-                var mobIndex = $scope.mobile_number.indexOf(mobileNo);
-                if (mobIndex > -1) {
-                    $scope.mobile_number.splice(mobIndex, 1);
-                }
-            }
-        }
-        
-        $scope.checkedEmailId = function (emailId, inc) {
-            if ($('#email_' + inc).is(':checked')) {
-                $scope.email_id_arr.push(emailId);
-            } else {
-                var mobIndex = $scope.email_id_arr.indexOf(emailId);
-                if (mobIndex > -1) {
-                    $scope.email_id_arr.splice(mobIndex, 1);
-                }
-            }
-        }
         
         /*********************TODAY REMARK (GEETA)*********************/
         /*********************IMPORT ENQUIRIES (GEETA)*********************/
