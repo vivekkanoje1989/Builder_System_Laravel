@@ -21,6 +21,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.flagForChange = 0;
         $scope.report_name;
         $scope.listType = 0;
+        $scope.BulkReasign = false;
+        $scope.bulkData = {};
+        $scope.Bulkflag = [];
+        
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };
@@ -66,6 +70,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         /****************************ENQUIRIES****************************/
         $scope.pageChanged = function (pageNo, functionName, id, type, newpage,listType) {
+            
+            $('#all_chk_reassign_enq').prop('checked', false);
+            $scope.BulkReasign = false;
+            $(".chk_reassign_enq").prop('checked', false);
+            $scope.BulkReasign = false;
             $scope.flagForChange++;
             if ($scope.flagForChange == 1)
             {
@@ -336,51 +345,83 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             return false;
         }
         
-        /****************************FILTER (UMA)***************************************/
-        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************
-        $scope.getTeamTotalEnquiries = function ()
+          $scope.singleSelect = function ()
         {
-            $scope.pageHeading = "Team Total Enquiries";
-            Data.post('master-sales/getTeamTotalEnquiries').then(function (response) {
-                $scope.listsIndex = response;
+            var result = false;
+            var cnt = 0;
+            $(".chk_reassign_enq").each(function () {
+                if ($(this).is(':checked'))
+                {
+                    result = true;cnt++;
+                }
+            }); 
+            if(cnt === $scope.enquiries.length)
+            {
+                 $('#all_chk_reassign_enq').prop('checked', true);
+            }
+            else
+            {
+                 $('#all_chk_reassign_enq').prop('checked', false);
+            }            
+            if (result === true)
+            {
+                $scope.BulkReasign = true;
+                $("#BulkReasign").show();
+            } else
+            {
+                $scope.BulkReasign = false;
+                $("#BulkReasign").hide();
+            }
+        }
+        $scope.checkAll = function (result) {
+            $(':checkbox.chk_reassign_enq').prop('checked', result);
+            if (result == true) {
+                $scope.BulkReasign = true;
+                $("#BulkReasign").show();
+
+            } else {
+                $scope.BulkReasign = false;
+                $("#BulkReasign").hide();
+            }
+
+        }
+        
+         $scope.initBulkModal = function () {
+            var flag = [];
+            $(".chk_reassign_enq").each(function (key, value) {
+                if ($(this).is(':checked')) {
+                    var str = $(this).val();
+                    flag.push(str);
+                } else {}
+            });
+            $scope.Bulkflag = flag;
+        }
+        
+        $scope.bulkreasignemployee = function (bulkData) {
+            //console.log($scope.Bulkflag);return false;
+            Data.post('master-sales/BulkReasignEmployee', {
+                employee_id: bulkData, enquiry_id: $scope.Bulkflag
+            }).then(function (response) {
+                var successMsg = response.message;
+                toaster.pop('success', 'Bulk Reassign Enquiries', successMsg);
+                $('#BulkModal').modal('toggle');
+                $(".modal-backdrop").hide();
+                $scope.Bulkflag = {};
+                $state.transitionTo($state.current, $stateParams, {
+                    reload: true, //reload current page
+                    inherit: false, //if set to true, the previous param values are inherited
+                    notify: true //reinitialise object
+                });
+
             });
         }
-        $scope.getTeamLostEnquiries = function ()
-        {
-            $scope.pageHeading = "Team Lost Enquiries";
-            Data.post('master-sales/getTeamLostEnquiries').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamClosedEnquiries = function ()
-        {
-            $scope.pageHeading = "Team Closed Enquiries";
-            Data.post('master-sales/getTeamClosedEnquiries').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamTodayFollowups = function ()
-        {
-            $scope.pageHeading = "Team Today's Followups";
-            Data.post('master-sales/getTeamTodayFollowups').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamPendingFollowups = function ()
-        {
-            $scope.pageHeading = "Team Pending Followups";
-            Data.post('master-sales/getTeamPendingFollowups').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamPreviousFollowups = function ()
-        {
-            $scope.pageHeading = "Team Previous Followups";
-            Data.post('master-sales/getTeamPreviousFollowups').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+       $scope.dropevent = function(e)
+       {
+            var span = document.querySelector('.fa-sort-desc');
+            span.addEventListener('click', function(event) {
+                
+            });           
+       }
         /*********************TODAY REMARK (GEETA)*********************/
         
         $scope.projectList = [];
