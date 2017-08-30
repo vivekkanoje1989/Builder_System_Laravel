@@ -4,11 +4,32 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
 <<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/api.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/S3.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/closeEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Controllers/WebPagesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Customers/Models/Customers.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bookedenquiry.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/pendingFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Models/ProjectWebPage.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Models/Project.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/lostenquiries.blade.php</file>
+=======
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
 =======
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Controllers/TestimonialsController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/testimonials.blade.php</file>
 >>>>>>> 1449e46873c7fcf581736a2d2f994bbd1e06947a
+>>>>>>> 9eea51557d244a13987bcf87c7fad7810ee780cf
         </group>
     </open-files>
 </project-private>
