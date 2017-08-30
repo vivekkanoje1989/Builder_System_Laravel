@@ -31,9 +31,10 @@ app.config(['$stateProvider', '$urlRouterProvider',
 }]);
                                 
 app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
-
+alert('fg');
         $scope.submitted = false;
         $scope.empl = true;
+        $scope.career = true;
         var baseUrl = 'website/';
         $scope.getPostsDropdown = function () {
             $http.get(baseUrl + 'jobPost').then(function (response) {

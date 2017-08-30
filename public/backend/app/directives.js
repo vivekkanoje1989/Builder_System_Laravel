@@ -108,7 +108,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                 }).then(function (response) {
                     if (response.success) { //response true
                         if (response.flag === 0)//if customer exist
-                        {
+                        { 
                             $scope.company_list = [];var result='';
                             $scope.showDiv = false;
                             $scope.showDivCustomer = true;
@@ -151,8 +151,9 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }
         
                             for (var i = 0; i < response.customerContactDetails.length; i++) {
-                                if (response.customerContactDetails[i].mobile_calling_code === parseInt(0) || response.customerContactDetails[i].mobile_calling_code === '') {
+                                if (response.customerContactDetails[i].mobile_number === '0' || response.customerContactDetails[i].mobile_number === '' || response.customerContactDetails[i].mobile_number === null || response.customerContactDetails[i].mobile_number === "null") {
                                     $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
+                                    $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '';
                                 } else {
                                     $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = parseInt(response.customerContactDetails[i].mobile_number);
                                     $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code);
@@ -227,14 +228,14 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             $scope.hideloader();
                         }
                     } else {//response false
-                        $scope.locations = [];                         
+                        $scope.locations = [];                    
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
                         if ($scope.searchData.searchWithMobile === undefined) {
                             $scope.searchData.searchWithMobile = '';
                         }
                         $scope.searchData.customerId = '';
-                        $scope.contacts = [{"mobile_number": '+91-' + $scope.searchData.searchWithMobile, "email_id_lable": 1, "email_id": $scope.searchData.searchWithEmail, "mobile_number_lable": 1, "landline_lable": 1, "landline_number": '+91-'}];
+                        $scope.contacts = [{"mobile_calling_code":"+91","mobile_number": $scope.searchData.searchWithMobile, "email_id_lable": 1, "email_id": $scope.searchData.searchWithEmail, "mobile_number_lable": 1, "landline_lable": 1, "landline_number": ''}];
                         $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
                         $scope.customerData.title_id = $scope.customerData.first_name = $scope.customerData.middle_name =
                                 $scope.customerData.last_name = $scope.customerData.birth_date =
@@ -246,7 +247,6 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.contactData.country_id = $scope.contactData.pin =
                                 $scope.contactData.state_id = $scope.contactData.city_id =
                                 $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
-                        $scope.contactData.mobile_number = $scope.contactData.landline_number = '+91-';
                         $scope.hideloader();
                     }
                 });

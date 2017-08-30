@@ -73,7 +73,7 @@ class MasterSalesController extends Controller {
             } else {
                 $loggedInUserId = $input['customerData']['loggedInUserId'];
             }
-            
+
             $validationRules = Customer::validationRules();
             $validationMessages = Customer::validationMessages();
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -231,8 +231,8 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['id']);
             }
 
-            
-            $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer']=='true') ? '1' : '0';
+
+            $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
             $input['customerData']['birth_date'] = !empty($input['customerData']['birth_date']) ? date('Y-m-d', strtotime($input['customerData']['birth_date'])) : "";
             $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : "null";
@@ -586,7 +586,7 @@ class MasterSalesController extends Controller {
 
                 $request['followupDetails'] = array_merge($request['followupDetails'], $create);
                 $Enq = EnquiryFollowup ::create($request['followupDetails']);
-                
+
                 // ************* template for new enquiry..
                 if (!empty($reassign_emp_id)) {
                     $templatedata['employee_id'] = $reassign_emp_id;
@@ -602,12 +602,10 @@ class MasterSalesController extends Controller {
                 $templatedata['project_id'] = $request['projectEnquiryDetails'][0]['project_id'];
                 $templatedata['arrExtra'][0] = array();
                 $templatedata['arrExtra'][1] = array();
-                //print_r($templatedata);exit;
+                // print_r($templatedata);exit;
                 $result = CommonFunctions::templateData($templatedata);
                 //print_r($result);exit;
                 // ************* End template for new enquiry..
-                
-                
                 $result = ['success' => true, 'message' => 'Record Inserted Successfully.'];
             } else {
                 $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -1025,6 +1023,7 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+            //print_r($request);exit;
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId']))
                     $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -1037,14 +1036,23 @@ class MasterSalesController extends Controller {
                     }
                 }
             } else { // team total
-                if (empty($request['empId']))
+                if (empty($request['empId'])) {
                     $loggedInUserId = Auth::guard('admin')->user()->id;
-                else
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                } else {
                     $loggedInUserId = $request['empId'];
-                $this->allusers = array();
-                $this->getTeamIds($loggedInUserId);
-                $alluser = $this->allusers;
-                $loggedInUserId = implode(',', $alluser);
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $alluser = $this->allusers;
+                    $loggedInUserId = implode(',', $alluser);
+                    if ($request['filterFlag'] == 1) {
+                        MasterSalesController::$procname = "proc_get_total_enquiries";
+                        return $this->filteredData();
+                        exit;
+                    }
+                }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
@@ -1083,14 +1091,22 @@ class MasterSalesController extends Controller {
                     }
                 }
             } else { // team total
-                if (empty($request['empId']))
+                if (empty($request['empId'])) {
                     $loggedInUserId = Auth::guard('admin')->user()->id;
-                else
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                } else {
                     $loggedInUserId = $request['empId'];
-                $this->allusers = array();
-                $this->getTeamIds($loggedInUserId);
-                $alluser = $this->allusers;
-                $loggedInUserId = implode(',', $alluser);
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                    if ($request['filterFlag'] == 1) {
+                        MasterSalesController::$procname = "proc_get_today_followups";
+                        return $this->filteredData();
+                        exit;
+                    }
+                }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getTodaysFollowups = DB::select('CALL proc_get_today_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
@@ -1130,14 +1146,22 @@ class MasterSalesController extends Controller {
                     }
                 }
             } else { // team total
-                if (empty($request['empId']))
+                if (empty($request['empId'])) {
                     $loggedInUserId = Auth::guard('admin')->user()->id;
-                else
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                } else {
                     $loggedInUserId = $request['empId'];
-                $this->allusers = array();
-                $this->getTeamIds($loggedInUserId);
-                $alluser = $this->allusers;
-                $loggedInUserId = implode(',', $alluser);
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                    if ($request['filterFlag'] == 1) {
+                        MasterSalesController::$procname = "proc_get_lost_enquiries";
+                        return $this->filteredData();
+                        exit;
+                    }
+                }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getlostEnquiryDetails = DB::select('CALL proc_get_lost_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
@@ -1175,14 +1199,22 @@ class MasterSalesController extends Controller {
                     }
                 }
             } else { // team total
-                if (empty($request['empId']))
+                if (empty($request['empId'])) {
                     $loggedInUserId = Auth::guard('admin')->user()->id;
-                else
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                } else {
                     $loggedInUserId = $request['empId'];
-                $this->allusers = array();
-                $this->getTeamIds($loggedInUserId);
-                $alluser = $this->allusers;
-                $loggedInUserId = implode(',', $alluser);
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                    if ($request['filterFlag'] == 1) {
+                        MasterSalesController::$procname = "proc_get_booked_enquiries";
+                        return $this->filteredData();
+                        exit;
+                    }
+                }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getbookedEnquiryDetails = DB::select('CALL proc_get_booked_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
@@ -1222,14 +1254,22 @@ class MasterSalesController extends Controller {
                     }
                 }
             } else { // team total
-                if (empty($request['empId']))
+                if (empty($request['empId'])) {
                     $loggedInUserId = Auth::guard('admin')->user()->id;
-                else
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                } else {
                     $loggedInUserId = $request['empId'];
-                $this->allusers = array();
-                $this->getTeamIds($loggedInUserId);
-                $alluser = $this->allusers;
-                $loggedInUserId = implode(',', $alluser);
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                    if ($request['filterFlag'] == 1) {
+                        MasterSalesController::$procname = "proc_get_previous_followups";
+                        return $this->filteredData();
+                        exit;
+                    }
+                }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
 
@@ -1268,14 +1308,22 @@ class MasterSalesController extends Controller {
                     }
                 }
             } else { // team total
-                if (empty($request['empId']))
+                if (empty($request['empId'])) {
                     $loggedInUserId = Auth::guard('admin')->user()->id;
-                else
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                } else {
                     $loggedInUserId = $request['empId'];
-                $this->allusers = array();
-                $this->getTeamIds($loggedInUserId);
-                $alluser = $this->allusers;
-                $loggedInUserId = implode(',', $alluser);
+                    $this->allusers = array();
+                    $this->getTeamIds($loggedInUserId);
+                    $loggedInUserId = implode(',', $this->allusers);
+                    if ($request['filterFlag'] == 1) {
+                        MasterSalesController::$procname = "proc_get_pending_followups";
+                        return $this->filteredData();
+                        exit;
+                    }
+                }
             }
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
             $getpendingfollowups = DB::select('CALL proc_get_pending_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
@@ -1306,6 +1354,8 @@ class MasterSalesController extends Controller {
             return;
         }
     }
+    
+    /*
 
     public function getTeamTotalEnquiries() {
 
@@ -1454,6 +1504,8 @@ class MasterSalesController extends Controller {
         return response()->json($result);
     }
 
+    
+    */
     public function exportToExcel() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -2384,4 +2436,3 @@ class MasterSalesController extends Controller {
     }
 
 }
-

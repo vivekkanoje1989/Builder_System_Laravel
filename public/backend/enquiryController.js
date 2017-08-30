@@ -269,236 +269,14 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         /****************************FOLLOWUPS****************************/
-
-        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
-        $scope.getTeamTotalEnquiries = function ()
-        {
-            $scope.pageHeading = "Team Total Enquiries";
-            Data.post('master-sales/getTeamTotalEnquiries').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamLostEnquiries = function ()
-        {
-            $scope.pageHeading = "Team Lost Enquiries";
-            Data.post('master-sales/getTeamLostEnquiries').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamClosedEnquiries = function ()
-        {
-            $scope.pageHeading = "Team Closed Enquiries";
-            Data.post('master-sales/getTeamClosedEnquiries').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamTodayFollowups = function ()
-        {
-            $scope.pageHeading = "Team Today's Followups";
-            Data.post('master-sales/getTeamTodayFollowups').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamPendingFollowups = function ()
-        {
-            $scope.pageHeading = "Team Pending Followups";
-            Data.post('master-sales/getTeamPendingFollowups').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamPreviousFollowups = function ()
-        {
-            $scope.pageHeading = "Team Previous Followups";
-            Data.post('master-sales/getTeamPreviousFollowups').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
-        $scope.projectList = [];
-        $scope.blockTypeList = [];
-        $scope.mobileList = [];
-        $scope.mobile_number = [];
-        $scope.email_id_arr = [];
-        $scope.custInfo = $scope.editableCustInfo = $scope.source = false;
-        var d = new Date();
-        $scope.hstep = 1;
-        $scope.mstep = 15;
-        $scope.enquiryId = $scope.followupId = $scope.customerId = '';
-
-        $scope.text = function () {
-            $scope.divText = true;
-            $scope.divSms = false;
-            $scope.divEmail = false;
-            $scope.email_id_arr = $scope.mobile_number = [];
-            $scope.remarkData.msgRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
-            $('.clsMobile').prop("checked", false);
-            $('.clsEmail').prop("checked", false);
-            $scope.sbtBtn1 = $scope.sbtBtn2 = false;
-        }
-        $scope.sms = function () {
-            $scope.divText = false;
-            $scope.divSms = true;
-            $scope.divEmail = false;
-            $scope.email_id_arr = [];
-            $scope.remarkData.textRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
-            $('.clsEmail').prop("checked", false);
-            $scope.sbtBtn2 = $scope.sbtBtn3 = false;
-        }
-        $scope.email = function () {
-            $scope.divText = false;
-            $scope.divSms = false;
-            $scope.divEmail = true;
-            $scope.mobile_number = [];
-            $scope.remarkData.msgRemark = $scope.remarkData.textRemark = '';
-            $('.clsMobile').prop("checked", false);
-            $scope.sbtBtn1 = $scope.sbtBtn3 = false;
-        }
-
-        $scope.todayRemark = function (enquiryId, followupId, customerId) {
-            Data.post('master-sales/getDataForTodayRemark', {enquiryId: enquiryId}).then(function (response) {
-                if (!response.success) {
-                    $scope.errorMsg = response.errorMsg;
-                } else {
-                    var setTime = response.data[0].next_followup_time.split(":");
-                    var setMin = setTime[1].split(" ");
-                    d.setHours(setTime[0]);
-                    d.setMinutes(setMin[0]);
-                    response.data[0].next_followup_time = d;
-                    $scope.remarkData = angular.copy(response.data[0]);
-                    $scope.projectList = response.data.selectedProjects;
-                    $scope.blockTypeList = response.data.selectedBlocks;
-                    $scope.mobileList = response.data.mobileNumber;
-                    $scope.emailList = response.data.emailId;
-                    $scope.remarkData.next_followup_date = (d.getFullYear() + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getDate());
-
-                    $timeout(function () {
-                        $scope.remarkData.project_id = response.data.selectedProjects;
-                        $scope.remarkData.block_id = response.data.selectedBlocks;
-                    }, 500);
-                    if ($scope.remarkData.customer_fname !== '') {
-                        $scope.custInfo = true;
-                        $scope.editableCustInfo = false;
-                    } else {
-                        $scope.custInfo = false;
-                        $scope.editableCustInfo = true;
-                    }
-                    if ($scope.remarkData.sales_source_id !== '' || $scope.remarkData.sales_source_id !== 0) {
-                        $scope.source = false;
-                    } else {
-                        $scope.source = true;
-                    }
-                    $scope.enquiryId = enquiryId;
-                    $scope.followupId = followupId;
-                    $scope.customerId = customerId;
-
-                    Data.post('getSalesEnqSubCategory', {categoryId: response.data[0].sales_category_id}).then(function (response) {
-                        if (!response.success) {
-                            $scope.errorMsg = response.message;
-                        } else {
-                            $scope.salesEnqSubCategoryList = response.records;
-                        }
-                    });
-                    Data.post('getSalesEnqSubStatus', {statusId: response.data[0].sales_status_id}).then(function (response) {
-                        if (!response.success) {
-                            $scope.errorMsg = response.message;
-                        } else {
-                            $scope.salesEnqSubStatusList = response.records;
-                        }
-                    });
-                }
-            });
-        }
-        $scope.checkProjectLength = function () {
-            if ($scope.remarkData.project_id.length === 0) {
-                $scope.emptyProjectId = true;
-                $scope.applyClassProject = 'ng-active';
-            } else {
-                $scope.emptyProjectId = false;
-                $scope.applyClassProject = 'ng-inactive';
-            }
-        };
-        $scope.checkBlockLength = function () {
-            if ($scope.remarkData.block_id.length === 0) {
-                $scope.emptyBlockId = true;
-                $scope.applyClassProject = 'ng-active';
-            } else {
-                $scope.emptyBlockId = false;
-                $scope.applyClassProject = 'ng-inactive';
-            }
-        };
-
-        $scope.checkedMobileNo = function (mobileNo, inc) {
-            if ($('#mob_' + inc).is(':checked')) {
-                $scope.mobile_number.push(mobileNo);
-            } else {
-                var mobIndex = $scope.mobile_number.indexOf(mobileNo);
-                if (mobIndex > -1) {
-                    $scope.mobile_number.splice(mobIndex, 1);
-                }
-            }
-        }
-        $scope.checkedEmailId = function (emailId, inc) {
-            if ($('#email_' + inc).is(':checked')) {
-                $scope.email_id_arr.push(emailId);
-            } else {
-                var mobIndex = $scope.email_id_arr.indexOf(emailId);
-                if (mobIndex > -1) {
-                    $scope.email_id_arr.splice(mobIndex, 1);
-                }
-            }
-        }
-        $scope.insertRemark = function (modalData) {
-            if ($scope.editableCustInfo === true) {
-                var custInfo = {title_id: modalData.title_id, customer_fname: modalData.customer_fname, customer_lname: modalData.customer_lname};
-            }
-            if ($scope.source === true) {
-                var sourceInfo = {source_id: modalData.source_id, sales_subsource_id: modalData.sales_subsource_id, sales_source_description: modalData.sales_source_description, };
-            }
-
-            var data = {enquiry_id: $scope.enquiryId,
-                followupId: $scope.followupId,
-                customerId: $scope.customerId,
-                sales_category_id: modalData.sales_category_id,
-                sales_subcategory_id: modalData.sales_subcategory_id,
-                followup_by_employee_id: modalData.followup_by_employee_id,
-                next_followup_date: modalData.next_followup_date,
-                next_followup_time: modalData.next_followup_time,
-                sales_status_id: modalData.sales_status_id,
-                sales_substatus_id: modalData.sales_substatus_id,
-                project_id: modalData.project_id,
-                block_id: modalData.block_id,
-                title_id: modalData.title_id,
-                first_name: modalData.first_name,
-                last_name: modalData.last_name,
-                source_id: modalData.source_id,
-                subsource_id: modalData.subsource_id,
-                source_description: modalData.source_description,
-                textRemark: modalData.textRemark,
-                mobileNumber: $scope.mobile_number,
-                msgRemark: modalData.msgRemark,
-                email_id: modalData.email_id,
-                email_id_arr: $scope.email_id_arr,
-                email_content: modalData.email_content,
-                subject: modalData.subject
-            };
-
-            Data.post('master-sales/insertTodayRemark', {data: data, custInfo: custInfo, sourceInfo: sourceInfo}).then(function (response) {
-                if (!response.success) {
-                    $scope.errorMsg = response.errorMsg;
-                } else {
-                    $('#todaysRemarkModal').modal('toggle');
-                    toaster.pop('success', '', response.message);
-                }
-            });
-        };
-
-
+        /****************************FILTER (UMA)***************************************/
+        
         $scope.procName = function (procedureName, functionName) {
             $scope.getProcName = angular.copy(procedureName);
             $scope.getFunctionName = angular.copy(functionName);
         }
-        $scope.getFilteredData = function (filterData,page, recordsperpage)
-        {
+        
+        $scope.getFilteredData = function (filterData,page, recordsperpage){
             Object.keys($scope.filterData).forEach(function (key) {
                 if ($scope.filterData[key] == '')
                 {
@@ -557,7 +335,500 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.hideloader();
             return false;
         }
+        
+        /****************************FILTER (UMA)***************************************/
+        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************
+        $scope.getTeamTotalEnquiries = function ()
+        {
+            $scope.pageHeading = "Team Total Enquiries";
+            Data.post('master-sales/getTeamTotalEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamLostEnquiries = function ()
+        {
+            $scope.pageHeading = "Team Lost Enquiries";
+            Data.post('master-sales/getTeamLostEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamClosedEnquiries = function ()
+        {
+            $scope.pageHeading = "Team Closed Enquiries";
+            Data.post('master-sales/getTeamClosedEnquiries').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamTodayFollowups = function ()
+        {
+            $scope.pageHeading = "Team Today's Followups";
+            Data.post('master-sales/getTeamTodayFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamPendingFollowups = function ()
+        {
+            $scope.pageHeading = "Team Pending Followups";
+            Data.post('master-sales/getTeamPendingFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        $scope.getTeamPreviousFollowups = function ()
+        {
+            $scope.pageHeading = "Team Previous Followups";
+            Data.post('master-sales/getTeamPreviousFollowups').then(function (response) {
+                $scope.listsIndex = response;
+            });
+        }
+        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+        /*********************TODAY REMARK (GEETA)*********************/
+        
+        $scope.projectList = [];
+        $scope.blockTypeList = [];
+        $scope.mobileList = [];
+        $scope.mobile_number = [];
+        $scope.email_id_arr = [];
+        $scope.custInfo = $scope.editableCustInfo = $scope.source = false;
+        var d = new Date();
+        $scope.hstep = 1;
+        $scope.mstep = 15;
+        $scope.enquiryId = $scope.followupId = $scope.customerId = '';
+        var selectedMobKey;
+        var selectedEmKey;
+        //display all mobile numbers for customer info 
+        $scope.manageMobText = function (key, num) {
+            $scope.addMob = true;
+            selectedMobKey = key;
+            if (num !== '') {
+                $timeout(function () {
+                    $("#prevMob").val(num);
+                    $("#mobile_number").val(num);
+                    $scope.remarkData.mobile_number = angular.copy(num);
+                }, 200);
+            } else {
+                $("#prevMob").val('');
+                $("#pkid").val('');
+                $scope.remarkData.mobile_number = '';
+            }
+        }
+        $scope.manageEmailText = function (key, emailid) {
+            $scope.addEmail = true;
+            selectedEmKey = key;
+            if (emailid !== '') {
+                $timeout(function () {
+                    $("#prevEmail").val(emailid);
+                    $("#email_id").val(emailid);
+                    $scope.remarkData.email_id = angular.copy(emailid);
+                }, 200);
+            } else {
+                $("#prevEmail").val('');
+                $("#pkid").val('');
+                $scope.remarkData.email_id = '';
+            }
+        }
+        
+        //close mobile/email textbox 
+        $scope.closeMobText = function () {
+            $scope.addMob = false;
+        }
+        $scope.closeEmailText = function () {
+            $scope.addEmail = false;
+        }
+        
+        //add new mobile number or email address
+        $scope.addInfo = function (custId, callingCode, attrVal, elem) {
+            var callingCode1 = parseInt(callingCode);
+            $scope.flag = false;
+            if (elem === "mobile_number") {
+                var regex = /^[789]\d{9}$/;
+                if (attrVal == '') {
+                    $("#pkid").val();
+                } else if (!regex.test(attrVal)) {
+                    $scope.mobErr = "Please Enter Valid Mobile Number";
+                    return false;
+                } else {
+                    $scope.mobErr = "";
+                    $scope.flag = true;
+                }
+            }
+            if (elem === "email_id") {
+                var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                if (attrVal == '') {
+                    $("#pkid").val();
+                } else if (!regex.test(attrVal)) {
+                    $scope.emailErr = "Please Enter Valid Email Address";
+                    return false;
+                } else {
+                    $scope.emailErr = "";
+                    $scope.flag = true;
+                }
+            }
 
+            if ($scope.flag) {
+                $timeout(function () {
+                    Data.post('/master-sales/addInfo', {
+                        custId: $("#custId").val(), callingCode: callingCode1, attrVal: attrVal, elem: elem, pkid: $("#pkid").val(), prevMob: $("#prevMob").val(), prevEmail: $("#prevEmail").val(),
+                    }).then(function (response) {
+                        if (!response.success) {
+                            if (elem === "mobile_number") {
+                                $scope.mobErr = response.message;
+                            }
+                            if (elem === "email_id") {
+                                $scope.emailErr = response.message;
+                            }
+                            return false;
+                        } else {
+                            $scope.mobErr = "";
+                            $scope.pkid = response.pkid;
+                            $("#pkid").val(response.pkid);
+                            if (elem === "email_id") {
+                                $scope.emailIcon = true;
+                                $scope.addEmail = false;
+                                if (response.updated) {
+                                    /*angular.forEach($scope.emailList, function (value, key) {
+                                     if (value === $("#prevEmail").val()) {console.log(key+"==="+value);
+                                     $scope.emailList[key] = value;
+                                     }
+                                     });*/
+
+                                    $scope.emailList[selectedEmKey] = attrVal;
+                                } else
+                                    $scope.emailList[$scope.emailList.length] = attrVal;
+                            }
+                            if (elem === "mobile_number") {
+                                $scope.mobileIcon = true;
+                                $scope.addMob = false;
+                                //console.log(selectedMobKey);
+                                if (response.updated)
+                                    $scope.mobileList[selectedMobKey] = attrVal;
+                                else
+                                    $scope.mobileList[$scope.mobileList.length] = attrVal;
+                            }
+                            toaster.pop('success', 'Customer Details', "Record updated successfully");
+                        }
+                    });
+                }, 3000);
+            }
+        }
+        //add new company or update company
+        $scope.company_list = [];
+        $scope.setCompany = function (company) {
+            $scope.remarkData.company_id = company.id;
+            $scope.remarkData.company_name = company.company_name;
+            $scope.showComapnyList = false;
+        }
+        $scope.showComapnyList = false;
+        $scope.getCompanyList = function (name) {
+            if (name != null && name != '') {
+                $scope.remarkData.company_id = 0;
+                $scope.showComapnyList = true; //show ul li
+                $scope.remarkData.corporateCust = true; //show checkbox
+            } else {
+                $scope.remarkData.company_id = 0;
+                $scope.showComapnyList = false; //hide ul li
+                $scope.remarkData.corporateCust = false; //hide checkbox
+            }
+        }
+        $scope.isChecked = function (corporateCust) {
+            if (corporateCust == true) {
+                $scope.companyInput = true;
+                Data.get('getCompanyList').then(function (response) {
+                    if (!response.success) {
+                        $scope.company_list = [];
+                        $scope.showComapnyList = false;
+                        $scope.errorMsg = response.message;
+                    } else {
+                        $scope.company_list = response.records;
+                    }
+                });
+            } else {
+                $scope.companyInput = false;
+                $scope.remarkData.company_id = 0;
+                $scope.remarkData.company_name = "";
+            }
+        }
+        
+        $scope.gotoCustomerTab = function () {
+
+            $("li#remarkTab").removeClass('active');
+            $("li#customerTab").addClass('active');
+            $timeout(function () {
+                $("li#customerTab a").trigger('click');
+            }, 200);
+            return false;
+        }
+        
+        //display all mobile numbers on today remark box - for send message to selected mobile numbers
+        $scope.checkedMobileNo = function (mobileNo, inc) {
+            if ($('#mob_' + inc).is(':checked')) {
+                $scope.mobile_number.push(mobileNo);
+            } else {
+                var mobIndex = $scope.mobile_number.indexOf(mobileNo);
+                if (mobIndex > -1) {
+                    $scope.mobile_number.splice(mobIndex, 1);
+                }
+            }
+        };
+        $scope.checkedEmailId = function (emailId, inc) {
+            if ($('#email_' + inc).is(':checked')) {
+                $scope.email_id_arr.push(emailId);
+            } else {
+                var mobIndex = $scope.email_id_arr.indexOf(emailId);
+                if (mobIndex > -1) {
+                    $scope.email_id_arr.splice(mobIndex, 1);
+                }
+            }
+        }
+        
+        //hide message and email icon when enquiry status is booked or lost
+        $scope.hideIcon = function (id) {
+            if (id == 3 || id == 4) {
+                $(".checkLost").hide();
+                $scope.divEmail = false;
+                $scope.divSms = false;
+                $scope.divText = true;
+            } else {
+                $(".checkLost").show();
+                $scope.divText = true;
+            }
+        }
+        
+        $scope.getCustomerModal = function (cid) {
+            Data.post('master-sales/getCustomerDetails', {
+                data: {customerMobileNo: cid},
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.customerData = response.customerPersonalDetails[0];
+                    angular.forEach(response.customerContactDetails[0], function (value, key) {
+                        if (value === "null" || value === 0) {
+                            response.customerContactDetails[0][key] = '';
+                        }
+                    });
+                    $scope.customerContacts = response.customerContactDetails[0];
+                    $scope.customerContacts.country_id = '101';
+                    Data.post('getStates', {
+                        data: {countryId: $scope.customerContacts.country_id},
+                    }).then(function (response) {
+                        if (!response.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+
+                            $scope.stateList = response.records;
+                            $timeout(function () {
+                                $("#current_state_id").val($scope.customerContacts.state_id);
+                                $scope.customerContacts.state_id = angular.copy($scope.customerContacts.state_id);
+                            }, 500);
+                        }
+                    });
+                    if ($scope.customerContacts.state_id !== '0') {
+                        Data.post('getCities', {
+                            data: {stateId: $scope.customerContacts.state_id},
+                        }).then(function (cityresult) {
+                            if (!cityresult.success) {
+                                $scope.errorMsg = cityresult.message;
+                            } else {
+                                $scope.cityList = cityresult.records;
+                                $timeout(function () {
+                                    $("#current_city_id").val($scope.customerContacts.city_id);
+                                    $scope.customerContacts.city_id = angular.copy($scope.customerContacts.city_id);
+                                }, 500);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        $scope.updateCustomerModal = function (customerData, customerContacts, customerId) { //Customer Details tab inseide today remark popup
+            var contactArr = [];
+            contactArr[0] = customerContacts;
+            Data.put('/master-sales/' + customerId, {
+                _method: "PUT", customerData: customerData, customerContacts: contactArr,
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    toaster.pop('success', 'Customer Details', "Record updated successfully");
+                    $('#contactDataModal').modal('toggle');
+                    return false;
+                }
+            });
+        }
+        
+        $scope.text = function () {
+            $scope.divText = true;
+            $scope.divSms = false;
+            $scope.divEmail = false;
+            $scope.email_id_arr = $scope.mobile_number = [];
+            $scope.remarkData.msgRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
+            $('.clsMobile').prop("checked", false);
+            $('.clsEmail').prop("checked", false);
+            $scope.sbtBtn1 = $scope.sbtBtn2 = false;
+        }
+        $scope.sms = function () {
+            $scope.divText = false;
+            $scope.divSms = true;
+            $scope.divEmail = false;
+            $scope.email_id_arr = [];
+            $scope.remarkData.textRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
+            $('.clsEmail').prop("checked", false);
+            $scope.sbtBtn2 = $scope.sbtBtn3 = false;
+        }
+        $scope.email = function () {
+            $scope.divText = false;
+            $scope.divSms = false;
+            $scope.divEmail = true;
+            $scope.mobile_number = [];
+            $scope.remarkData.msgRemark = $scope.remarkData.textRemark = '';
+            $('.clsMobile').prop("checked", false);
+            $scope.sbtBtn1 = $scope.sbtBtn3 = false;
+        }
+        /******************************************************************************/
+        $scope.todayRemark = function (enquiryId, followupId, customerId) {
+            Data.post('master-sales/getDataForTodayRemark', {enquiryId: enquiryId}).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.errorMsg;
+                } else {
+                    var setTime = response.data[0].next_followup_time.split(":");
+                    var setMin = setTime[1].split(" ");
+                    d.setHours(setTime[0]);
+                    d.setMinutes(setMin[0]);
+                    response.data[0].next_followup_time = d;
+                    $scope.remarkData = angular.copy(response.data[0]);
+                    $scope.projectList = response.data.selectedProjects;
+                    $scope.blockTypeList = response.data.selectedBlocks;
+                    $scope.mobileList = response.data.mobileNumber;
+                    $scope.emailList = response.data.emailId;
+                    $scope.remarkData.next_followup_date = (d.getFullYear() + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getDate());
+
+                    $timeout(function () {
+                        $scope.remarkData.project_id = response.data.selectedProjects;
+                        $scope.remarkData.block_id = response.data.selectedBlocks;
+                    }, 500);
+                    if ($scope.remarkData.customer_fname !== '') {
+                        $scope.custInfo = true;
+                        $scope.editableCustInfo = false;
+                    } else {
+                        $scope.custInfo = false;
+                        $scope.editableCustInfo = true;
+                    }
+                    if ($scope.remarkData.sales_source_id !== '' || $scope.remarkData.sales_source_id !== 0) {
+                        $scope.source = false;
+                    } else {
+                        $scope.source = true;
+                    }
+                    $scope.enquiryId = enquiryId;
+                    $scope.followupId = followupId;
+                    $scope.customerId = customerId;
+
+                    Data.post('getSalesEnqSubCategory', {categoryId: response.data[0].sales_category_id}).then(function (response) {
+                        if (!response.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+                            $scope.salesEnqSubCategoryList = response.records;
+                        }
+                    });
+                    Data.post('getSalesEnqSubStatus', {statusId: response.data[0].sales_status_id}).then(function (response) {
+                        if (!response.success) {
+                            $scope.errorMsg = response.message;
+                        } else {
+                            $scope.salesEnqSubStatusList = response.records;
+                        }
+                    });
+                }
+            });
+        }
+        
+        $scope.insertRemark = function (modalData) {
+            if ($scope.editableCustInfo === true) {
+                var custInfo = {title_id: modalData.title_id, customer_fname: modalData.customer_fname, customer_lname: modalData.customer_lname};
+            }
+            if ($scope.source === true) {
+                var sourceInfo = {source_id: modalData.source_id, sales_subsource_id: modalData.sales_subsource_id, sales_source_description: modalData.sales_source_description, };
+            }
+
+            var data = {enquiry_id: $scope.enquiryId,
+                followupId: $scope.followupId,
+                customerId: $scope.customerId,
+                sales_category_id: modalData.sales_category_id,
+                sales_subcategory_id: modalData.sales_subcategory_id,
+                followup_by_employee_id: modalData.followup_by_employee_id,
+                next_followup_date: modalData.next_followup_date,
+                next_followup_time: modalData.next_followup_time,
+                sales_status_id: modalData.sales_status_id,
+                sales_substatus_id: modalData.sales_substatus_id,
+                project_id: modalData.project_id,
+                block_id: modalData.block_id,
+                title_id: modalData.title_id,
+                first_name: modalData.first_name,
+                last_name: modalData.last_name,
+                source_id: modalData.source_id,
+                subsource_id: modalData.subsource_id,
+                source_description: modalData.source_description,
+                textRemark: modalData.textRemark,
+                mobileNumber: $scope.mobile_number,
+                msgRemark: modalData.msgRemark,
+                email_id: modalData.email_id,
+                email_id_arr: $scope.email_id_arr,
+                email_content: modalData.email_content,
+                subject: modalData.subject
+            };
+
+            Data.post('master-sales/insertTodayRemark', {data: data, custInfo: custInfo, sourceInfo: sourceInfo}).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.errorMsg;
+                } else {
+                    $('#todaysRemarkModal').modal('toggle');
+                    toaster.pop('success', '', response.message);
+                }
+            });
+        };
+        
+        $scope.checkProjectLength = function () {
+            if ($scope.remarkData.project_id.length === 0) {
+                $scope.emptyProjectId = true;
+                $scope.applyClassProject = 'ng-active';
+            } else {
+                $scope.emptyProjectId = false;
+                $scope.applyClassProject = 'ng-inactive';
+            }
+        };
+        
+        $scope.checkBlockLength = function () {
+            if ($scope.remarkData.block_id.length === 0) {
+                $scope.emptyBlockId = true;
+                $scope.applyClassProject = 'ng-active';
+            } else {
+                $scope.emptyBlockId = false;
+                $scope.applyClassProject = 'ng-inactive';
+            }
+        };
+
+        $scope.checkedMobileNo = function (mobileNo, inc) {
+            if ($('#mob_' + inc).is(':checked')) {
+                $scope.mobile_number.push(mobileNo);
+            } else {
+                var mobIndex = $scope.mobile_number.indexOf(mobileNo);
+                if (mobIndex > -1) {
+                    $scope.mobile_number.splice(mobIndex, 1);
+                }
+            }
+        }
+        
+        $scope.checkedEmailId = function (emailId, inc) {
+            if ($('#email_' + inc).is(':checked')) {
+                $scope.email_id_arr.push(emailId);
+            } else {
+                var mobIndex = $scope.email_id_arr.indexOf(emailId);
+                if (mobIndex > -1) {
+                    $scope.email_id_arr.splice(mobIndex, 1);
+                }
+            }
+        }
+        
+        /*********************TODAY REMARK (GEETA)*********************/
+        /*********************IMPORT ENQUIRIES (GEETA)*********************/
         $scope.ImportEnquiryData = function (importfile) {
             $scope.showhisrtory = false;
             $scope.btnupload = true;
@@ -613,6 +884,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }      
         
+        /*********************IMPORT ENQUIRIES (GEETA)*********************/
+
          $scope.getModulesWiseHistory = function (enquiry_id, opt, htype)
         {
             /*
@@ -651,8 +924,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
             $scope.gethisotryDataModal(enquiry_id, modules, htype)
         }
-
-
         
     }]);
 

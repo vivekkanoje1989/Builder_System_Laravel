@@ -1,0 +1,20 @@
+
+.tabLink {
+	display: block;
+}
+.tabLinkActive {
+	display: block;
+	text-decoration: none;
+	color: #000;
+}
+.tabContent {
+	display: none;
+	height:auto;
+}
+.tabContentActive {
+	display: block;
+	clear: both;
+	padding: 10px;
+	height:auto;
+	white-space:normal;
+}

@@ -51,8 +51,10 @@ class MasterHrController extends Controller {
                 $manageUser[$i]['department_id'] = explode(',', $manage['department_id']);
                 $i++;
             }
+           
             for ($i = 0; $i < count($manageUser); $i++) {
                 $blogData['id'] = $manageUser[$i]['id'];
+                $blogData['employee_id'] = $manageUser[$i]['id'];
                 $blogData['first_name'] = $manageUser[$i]['first_name'];
                 $blogData['last_name'] = $manageUser[$i]['last_name'];
                 $blogData['joining_date'] = $manageUser[$i]['joining_date'];
@@ -67,6 +69,47 @@ class MasterHrController extends Controller {
                 $blogData['firstName'] = $blogData['first_name'] . ' ' . $blogData['last_name'];
                 $blogData['team_lead_name'] = $blogData['team_lead_fname'] . ' ' . $blogData['team_lead_lname'];
                 $blogData['reporting_to_name'] = $blogData['reporting_to_fname'] . ' ' . $blogData['reporting_to_lname'];
+                $blogData['title_id'] = $manageUser[$i]['title_id'];
+                $blogData['date_of_birth'] = $manageUser[$i]['date_of_birth'];
+                $blogData['marital_status'] = $manageUser[$i]['marital_status'];
+                $blogData['marriage_date'] = $manageUser[$i]['marriage_date'];
+                $blogData['blood_group_id'] = $manageUser[$i]['blood_group_id'];
+                $blogData['physic_status'] = $manageUser[$i]['physic_status'];
+                $blogData['physic_desc'] = $manageUser[$i]['physic_desc'];
+                $blogData['personal_mobile1_calling_code'] = $manageUser[$i]['personal_mobile1_calling_code'];
+                $blogData['personal_mobile1'] = $manageUser[$i]['personal_mobile1'];
+                $blogData['personal_mobile2_calling_code'] = $manageUser[$i]['personal_mobile2_calling_code'];
+                $blogData['personal_mobile2'] = $manageUser[$i]['personal_mobile2'];
+                $blogData['personal_landline_calling_code'] = $manageUser[$i]['personal_landline_calling_code'];
+                $blogData['personal_landline_no'] = $manageUser[$i]['personal_landline_no'];
+                $blogData['personal_email1'] = $manageUser[$i]['personal_email1'];
+                $blogData['personal_email2'] = $manageUser[$i]['personal_email2'];
+                $blogData['office_mobile_calling_code'] = $manageUser[$i]['office_mobile_calling_code'];
+                $blogData['office_mobile_no'] = $manageUser[$i]['office_mobile_no'];
+                $blogData['office_email_id'] = $manageUser[$i]['office_email_id'];
+                $blogData['current_country_id'] = $manageUser[$i]['current_country_id'];
+                $blogData['current_state_id'] = $manageUser[$i]['current_state_id'];
+                $blogData['current_city_id'] = $manageUser[$i]['current_city_id'];
+                $blogData['current_address'] = $manageUser[$i]['current_address'];
+                $blogData['current_pin'] = $manageUser[$i]['current_pin'];
+                $blogData['permenent_country_id'] = $manageUser[$i]['permenent_country_id'];
+                $blogData['permenent_state_id'] = $manageUser[$i]['permenent_state_id'];
+                $blogData['permenent_city_id'] = $manageUser[$i]['permenent_city_id'];
+                $blogData['permenent_pin'] = $manageUser[$i]['permenent_pin'];
+                $blogData['permenent_address'] = $manageUser[$i]['permenent_address'];
+                $blogData['highest_education_id'] = $manageUser[$i]['highest_education_id'];
+                $blogData['education_details'] = $manageUser[$i]['education_details'];
+                $blogData['employee_photo_file_name'] = $manageUser[$i]['employee_photo_file_name'];
+                $blogData['employee_photo_file_name'] = $manageUser[$i]['employee_photo_file_name'];
+                $blogData['show_on_homepage'] = $manageUser[$i]['show_on_homepage'];
+                $blogData['username'] = $manageUser[$i]['username'];
+                $blogData['high_security_password_type'] = $manageUser[$i]['high_security_password_type'];
+                $blogData['high_security_password'] = $manageUser[$i]['high_security_password'];
+                $blogData['team_lead_id'] = $manageUser[$i]['team_lead_id'];
+                $blogData['reporting_to_id'] = $manageUser[$i]['reporting_to_id'];
+                $blogData['designation_id'] = $manageUser[$i]['designation_id'];
+                $blogData['gender_id'] = $manageUser[$i]['gender_id'];
+                $blogData['department_id'] = $manageUser[$i]['department_id'];
 
                 $manageUsers[] = $blogData;
             }

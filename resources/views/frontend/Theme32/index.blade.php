@@ -124,7 +124,8 @@
                         </div><br><br>
                     </div>
                     <div class="col-md-12 col-xs-12"><br>
-                        <button type="submit" class="btn" ng-click="sbtBtn = true" value="{{ !careerForm.$valid && 'invalid' || 'valid' }}">Apply For job</button>
+                        <!--value="{{ !careerForm.$valid && 'invalid' || 'valid' }}"-->
+                        <button type="submit" class="btn" ng-click="sbtBtn = true" >Apply For job</button>
                     </div>
                 </form>
             </div>

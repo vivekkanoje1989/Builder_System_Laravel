@@ -220,7 +220,8 @@ class CommonFunctions {
                 }
             }
         }
-
+        
+        
         if (!empty($template_customer)) {
             $cust_email_subject = $template_customer->email_subject;
             $cust_emailTemplate = $template_customer->email_body;
@@ -308,10 +309,8 @@ class CommonFunctions {
         // echo 'color->'.$brand->color;exit;
 //        if (!empty($brand->brand_name))
 //            $brandName = $brand->brand_name;
-
         $search = array('[#companyMarketingName#]', '[#companyGoogleMap#]', '[#companyAddress#]', '[#companyLogo#]', '[#displayImage#]', '[#projectLogo#]','[#projectName#]', '[#greeting#]','[#locimg#]', '[#vehicleimg#]', '[#lmsAuto#]');
         $replace = array($companyMarketingName, '', $companyAddress, $companyLogo, $displayImage, $projectLogo, $projectName, $greeting_msg, $loc_image, $car_image, 'BMS Builder');
-
         if (!empty($template_employee)) {
             $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
             $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate);
@@ -480,7 +479,6 @@ class CommonFunctions {
                         $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile];
                         //print_r(array('mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile));exit;
                         $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-                        echo "senddddd".$sentSuccessfully."-----------";
                     }
                 }
                 if ($template_settings_customer->sms_status == 1 && !empty($customer_mobile_to) && !empty($cust_smsTemplate)) {
@@ -498,13 +496,11 @@ class CommonFunctions {
             } elseif (empty($template_employee->email_cc_ids) && !empty($alertdata['emp_cc'])) {
                 $template_employee->email_cc_ids = $alertdata['emp_cc'];
             }
-
             if (!empty($template_settings_employee)) {
                 if ($template_settings_employee->email_status == 1 || !empty($alertdata['email_status'])) {
                     $subject = $emp_email_subject;
                     $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids, "attachment" => $emp_attachedfile];                    
                     $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-                    echo "emp--".$sentSuccessfully;
                 }
                 if ($template_settings_employee->sms_status == 1 || !empty($alertdata['sms_status'])) {
                     if (!empty($alertdata['emp_sms_cc'])) {
@@ -514,8 +510,7 @@ class CommonFunctions {
                     }
                     $customer = "No";
                     $customerId = 0;
-                    //$result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
-             
+                    //$result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);             
                     }
             }
         }

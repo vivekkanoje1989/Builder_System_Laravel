@@ -50,59 +50,7 @@ class PromotionalSMSController extends Controller {
      *
      * @return Response
      */
-//    public function store()
-//	{
-//		//$postdata = file_get_contents("php://input");
-//               // $request = json_decode($postdata, true);
-//                $input = Input::all();
-//                $smsbody = $input['promotionalsmsData']['sms_body'];
-//                $smstype = $input['promotionalsmsData']['sms_type'];
-//                
-//                if($input['promotionalsmsData']['send_sms_type'] == 1){ 
-//                    $mobile = $input['promotionalsmsData']['smsnumbers'];
-//                    //$smsresult = Gupshup::sendSMS($smsbody, $mobile, $smstype);
-//                    $loggedInUserId = 1;
-//                    $customer = "Yes";
-//                    $customerId = 0;
-//                    $isInternational = 0; //0 OR 1
-//                    $sendingType = $smstype; //always 0 for T_SMS
-//                    $smsType = "P_SMS";
-//                    $result = Gupshup::sendSMS($smsbody, $mobile, $loggedInUserId, $customer, $customerId, $isInternational,$sendingType, $smsType);
-//                    $decodeResult = json_decode($result,true);
-//                   // return $decodeResult["success"];
-//                    if($decodeResult["success"] == true){
-//                        $result = ['success' => true, 'message' => "SMS Send Successfully"];
-//                        echo json_encode($result);
-//                    }else{
-//                        $result = ['success' => false, 'message' => "SMS Not Send, Please Try Again..."];
-//                        echo json_encode($result);
-//                    }
-//                }elseif($input['promotionalsmsData']['send_sms_type'] == 2){
-//                    if(!empty($input['promotionalsmsData']['mobilenumbers'])){
-//                        if(!empty($input['promotionalsmsData']['mobilenumbers'])){
-//                        $wfileName = 'bulk_sms_file'.date('Ymd').'.'.$input['promotionalsmsData']['mobilenumbers']->getClientOriginalExtension();
-//                        $input['promotionalsmsData']['mobilenumbers']->move(base_path()."/common/tunes/", $wfileName);
-//                        $file = base_path()."/common/tunes/".$wfileName;
-//                        }
-//                        $mobile = '';
-//                        //$smsresult = CommonFunctions::sendBULKSMS($smsbody, $smstype, $file);
-//                        $data = ["fileName" => $wfileName,"filePath" => $file, "sendingType" => 1, "textSmsBody" => $smsbody, "smsType" => "bulk_sms"];
-//                        $result = Gupshup::sendBulkSMS($data);
-//                        $decodeResult = json_decode($result,true);
-//                        //return $decodeResult["message"];
-//
-//                        if($decodeResult["success"] == true){
-//                            $result = ['success' => true, 'message' => "SMS Send Successfully"];
-//                            echo json_encode($result);
-//                        }else{
-//                            $result = ['success' => false, 'message' => "SMS Not Send, Please Try Again..."];
-//                            echo json_encode($result);
-//                        }
-//                    }
-//                    
-//                }
-//	}
-//        
+      
     public function store() {
 
         $postdata = file_get_contents("php://input");
@@ -224,42 +172,20 @@ class PromotionalSMSController extends Controller {
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+
     public function show($id) {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+    
     public function edit($id) {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
+   
     public function update($id) {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
     public function destroy($id) {
         //
     }
@@ -269,9 +195,7 @@ class PromotionalSMSController extends Controller {
     }
 
     public function tuserid($id) {
-
         $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
-
         if (!empty($admin)) {
 
             foreach ($admin as $item) {
@@ -327,15 +251,11 @@ class PromotionalSMSController extends Controller {
         else
             $loggedInUserId = Auth::guard('admin')->user()->id;
 
-        /* filter data from filter record */
-
         $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
 
         $filterData["fromDate"] = !empty($filterData['fromDate']) ? date('Y-m-d', strtotime($filterData['fromDate'])) : "";
         $filterData["toDate"] = !empty($filterData['toDate']) ? date('Y-m-d', strtotime($filterData['toDate'])) : "";
         $filterData["mobile_number"] = !empty($filterData['mobile_number']) ? $filterData['mobile_number'] : "";
-
-
         if ($request['isTeam'] == 1) {
 
             $this->tuserid($loggedInUserId);
@@ -348,14 +268,12 @@ class PromotionalSMSController extends Controller {
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;
         } else {
-
             $getsmsLogs = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $request["pageNumber"] . '","' .
                             $request["itemPerPage"] . '","' . $filterData["fromDate"] . '","' . $filterData['toDate'] . '","' . $filterData['mobile_number'] . '")');
 
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;
         }
-
         if (!empty($getsmsLogs[0])) {
             $result = ['success' => true, 'records' => $getsmsLogs, 'totalCount' => $getsmsCount];
         } else {
@@ -376,17 +294,13 @@ class PromotionalSMSController extends Controller {
         $startFrom = ($input['pageNumber'] - 1) * $input['itemPerPage'];
 
         if ($input['isTeam'] == 1) {
-
             $this->tuserid($loggedInUserId);
             $alluser = $this->allusers;
             $loggedInUserId = !empty($alluser) ? implode(',', $alluser) : $loggedInUserId;
-
-
             $getsmsLogs = DB::select('CALL proc_smslogconsumption("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;
         } else if ($input['isTeam'] == 0) {
-
             $getsmsLogs = DB::select('CALL proc_smslogconsumption("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;
@@ -400,12 +314,9 @@ class PromotionalSMSController extends Controller {
     }
 
     public function getFilterdataconsumption() {
-
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         $filterData = $request['filterData'];
-
         if (!empty($request['loggedInUserId']))
             $loggedInUserId = $request['loggedInUserId'];
         else
@@ -545,7 +456,6 @@ class PromotionalSMSController extends Controller {
             $filterData["model_id"] = !empty($filterData['model_id']) ? $filterData["model_id"] : "";
             $filterData['status_id'] = !empty($filterData['status_id']) ? $filterData["status_id"] : "";
             $filterData["lostReason_id"] = !empty($filterData['lostReason_id']) ? $filterData["lostReason_id"] : "";
-
             $filterData["customerFirstName"] = !empty($filterData['fname']) ? $filterData['fname'] : "";
             $filterData["customerLastName"] = !empty($filterData['lname']) ? $filterData['lname'] : "";
             $filterData["company_name"] = !empty($filterData['company_name']) ? $filterData['company_name'] : "";
@@ -619,5 +529,5 @@ class PromotionalSMSController extends Controller {
             return json_encode($result);
         }
     }
-
+ 
 }
