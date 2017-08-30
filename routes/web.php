@@ -75,11 +75,20 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/password/reset', 'backend\Auth\ResetPasswordController@reset');
 
     //Website frontend
+      $frontActions = ["/index", "/about", "/careers", "/blogs", "/contact", "/testimonials", "/projects", "/project-details/{projectId}", "/blog-details/{blogId}",
+        "/news", "/news-details/{newsId}", "/press-release", "/events", "/getVehicles", "/scheduleTestDrive", "/sendwebEnquiry", "/sendwebContact", "/insurance",
+        "/sendJobpost", "/sendcontact", "/addAppointment", "/getservicelocation", "getfCities", "getfCountries", "/sendInsurance", "/getServiceVehicles", "/customerform/{id}","/scheduletestdriveform/{id}", "getfGender", "getfProfession", '/getemployeedetails/{id}', '/registration/{id}', '/getfBloodGroup', '/getfEducationList', '/thanking-you', '/compassdetails', '/grandcherokee', '/wrangler', '/vehicles','/linea','/getnextfollowupTime','/sendCustomerFeedback','/getfTestDriveVehicles','/linkexpire'];
+
+    if (in_array(\Request::server('REQUEST_URI'), $frontActions)) {
+        Route::get('/{param}', 'frontend\UserController@onPageReload');
+    }
+    
     $getWebsiteUrl = config('global.getWebsiteUrl');
     Route::get($getWebsiteUrl . '/index', 'frontend\UserController@index');
     Route::get($getWebsiteUrl . '/about', 'frontend\UserController@about');
-    Route::get($getWebsiteUrl . '/career', 'frontend\UserController@career');
+    Route::get($getWebsiteUrl . '/careers', 'frontend\UserController@career');
     Route::post($getWebsiteUrl . '/register_applicant', 'frontend\UserController@register_applicant');
+    Route::post($getWebsiteUrl . '/addContact', 'frontend\UserController@addContact');
     Route::get($getWebsiteUrl . '/jobPost', 'frontend\UserController@jobPost');
     Route::get($getWebsiteUrl . '/background', 'frontend\UserController@getBackGroundImages');
     Route::get($getWebsiteUrl . '/contact', 'frontend\UserController@contact');
@@ -97,7 +106,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get($getWebsiteUrl . '/getMenus', 'frontend\UserController@getMenus');
     Route::get($getWebsiteUrl . '/getCareers', 'frontend\UserController@getCareers');
     Route::get($getWebsiteUrl . '/testimonials', 'frontend\UserController@testimonials');
-    Route::get($getWebsiteUrl . '/blog', 'frontend\UserController@blog');
+    Route::get($getWebsiteUrl . '/blogs', 'frontend\UserController@blog');
     Route::get($getWebsiteUrl . '/blog-details/{blogId}', 'frontend\UserController@blogdetails');
     Route::get($getWebsiteUrl . '/getBlogs', 'frontend\UserController@getBlogs');
     Route::post($getWebsiteUrl . '/create_testimonials', 'frontend\UserController@create_testimonials');

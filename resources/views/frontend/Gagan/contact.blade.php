@@ -43,9 +43,9 @@
                         <iframe width="100%" height="550" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.in/maps?oe=utf-8&amp;client=firefox-a&amp;ie=UTF8&amp;q=gagan+properties&amp;fb=1&amp;gl=in&amp;hq=gagan+properties&amp;hnear=0x3bc2bf2e67461101:0x828d43bf9d9ee343,Pune,+Maharashtra&amp;cid=0,0,14708408796273501409&amp;ll=18.519867,73.874001&amp;spn=0.006295,0.006295&amp;t=h&amp;iwloc=A&amp;output=embed"></iframe>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-12"> 
-                         <h2>Send a message</h2>
+                        <h2>Send a message</h2>
                         <form class="contact" method="post" name="contactForm"  ng-submit="contactForm.$valid && doContactAction(contact)" novalidate>
-                           
+
                             <div class="form-item">
                                 <label class="form-item-label">Name<span class="err">*</span></label>
                                 <input type="text" name="name" ng-model="contact.name" class="form-control" required>
@@ -55,16 +55,16 @@
                             </div>
                             <div class="form-item">
                                 <label class="form-item-label">E-mail<span class="err">*</span></label>
-                                <input type="email" name="email" ng-model="contact.email" class="form-control" required>
-                                <div class="help-block" ng-show="sbtBtn" ng-messages="contactForm.email.$error" class="err">
+                                <input type="email" name="email_id" ng-model="contact.email_id" class="form-control" required>
+                                <div class="help-block" ng-show="sbtBtn" ng-messages="contactForm.email_id.$error" class="err">
                                     <div ng-message="required" class="err">Email is required</div>
                                     <div ng-message="email" class="err">Invalid email address </div>
                                 </div>
                             </div>
                             <div class="form-item">
                                 <label class="form-item-label">Mobile Number<span class="err">*</span></label>
-                                <input type="tel" name="contact_number1" ng-model="contact.contact_number1"  ng-maxlength="10" ng-minlength="10" class="form-control" required>
-                                <div class="help-block" ng-show="sbtBtn" ng-messages="contactForm.contact_number1.$error" class="err">
+                                <input type="tel" name="mobile_number" ng-model="contact.mobile_number"  ng-maxlength="10" ng-minlength="10" class="form-control" required>
+                                <div class="help-block" ng-show="sbtBtn" ng-messages="contactForm.mobile_number.$error" class="err">
                                     <div ng-message="required" class="err">Mobile number is required</div>
                                     <div ng-message="maxlength" class="err">Mobile number is must be 10 digit</div>
                                     <div ng-message="minlength" class="err">Mobile number is must be 10 digit</div>
@@ -72,7 +72,7 @@
                             </div>
                             <div class="form-item">
                                 <label class="form-item-label">Message<span class="err">*</span></label>
-                                <textarea name="message" ng-model="contact.massage"  class="form-control" cols="90" rows="4" required></textarea>
+                                <textarea name="message" ng-model="contact.message"  class="form-control" cols="90" rows="4" required></textarea>
                                 <div ng-show="sbtBtn" ng-messages="contactForm.message.$error">
                                     <div ng-message="required" class="err">Message is required</div>
                                 </div>
@@ -90,9 +90,9 @@
 
 
                         <script type="text/javascript">rsfp_addEvent(window, 'load', function () {
-                                var form = rsfp_getForm(3);
-                                form.onsubmit = ajaxValidation;
-                            });</script>
+                                        var form = rsfp_getForm(3);
+                                        form.onsubmit = ajaxValidation;
+                                    });</script>
                     </div>
                 </div> 
             </div>

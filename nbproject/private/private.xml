@@ -3,7 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Controllers/TestimonialsController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/testimonials.blade.php</file>
+>>>>>>> 1449e46873c7fcf581736a2d2f994bbd1e06947a
         </group>
     </open-files>
 </project-private>

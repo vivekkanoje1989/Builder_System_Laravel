@@ -1,9 +1,12 @@
 @extends('layouts/frontend/Gagan/main')
 @section('content')
 <style>
- a {
-     text-decoration: none ;
-  }
+    a {
+        text-decoration: none ;
+    }
+     .err{
+        color:red;
+    }
 </style>
 <main class="main-content">
     <div class="container">
@@ -15,20 +18,28 @@
         <div  class="testimonials owl-carousel owl-separated offset-bottom" data-slideshow-options='{"items":3,"itemsDesktop":false,"itemsDesktopSmall":false,"itemsTablet":[768,1],"singleItem":false,"pagination":false}'>
             @for($i = 0; $i < count($testimonials); $i++)
             <a href="[[ URL::to('/') ]]/[[config('global.getWebsiteUrl')]]/testimonial/[[$testimonials[$i]->testimonial_id]]">
+
                 <div class="testimonials-item" >
-                    <p>[[$testimonials[$i]->description]]</p>
-                <div class="person" >
-                    <div class="person-photo">
-                        <img src="[[config('global.s3Path')]]/Testimonial/[[$testimonials[$i]->photo_url]]" width="110" height="110" alt="">
-                    </div>
-                    <div class="person-info">
-                        [[$testimonials[$i]->customer_name]]
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="person" >
+                                <div class="person-photo">
+                                    <img src="[[config('global.s3Path')]]/Testimonial/[[$testimonials[$i]->photo_url]]" width="110" height="110" alt="">
+                                </div>
+                            </div>
+                            <div class="person-info">
+                                [[$testimonials[$i]->customer_name]]
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <p>[[$testimonials[$i]->description]]</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <hr>
             </a>
             @endfor
-            
+
         </div>
         <br>
         <header class="heading page-heading">
@@ -56,19 +67,7 @@
                         </div> 
                     </div>
                 </div>  
-                <div class="row"  >     
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
-                        <label class="form-item-label">Upload Photo<span class="err">*</span></label>
-                        <input type="file" ngf-select valid-file  name="photo_url" ng-model="photo_url" class="form-control" required>
-                        <div ng-if="sbtBtn" ng-messages="testimonialForm.photo_url.$error" class="err">
-                            <div ng-message="required">Photo is required</div>
-                        </div> 
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
-                        <label class="form-item-label">Video Url</label>
-                        <input type="text" name="video_url" ng-model="testimonial.video_url" class="form-control" >
-                    </div>
-                </div>   
+
                 <div class="row">      
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
                         <label class="form-item-label">Mobile Number<span class="err">*</span></label>
@@ -80,13 +79,27 @@
                         </div> 
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
+                        <label class="form-item-label">Video Url</label>
+                        <input type="text" name="video_url" ng-model="testimonial.video_url" class="form-control" >
+                    </div>
+                </div> 
+                <div class="row"  >     
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
+                        <label class="form-item-label">Upload Photo<span class="err">*</span></label>
+                        <input type="file" ngf-select valid-file  name="photo_url" ng-model="photo_url" class="form-control" required>
+                        <div ng-if="sbtBtn" ng-messages="testimonialForm.photo_url.$error" class="err">
+                            <div ng-message="required">Photo is required</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
                         <label class="form-item-label">Message<span class="err">*</span></label>
                         <textarea name="description" cols="90" rows="3" ng-model="testimonial.description" class="form-control" required></textarea>
                         <div ng-if="sbtBtn" ng-messages="testimonialForm.description.$error" class="err">
                             <div ng-message="required">Description is required</div>
                         </div> 
                     </div>
-                </div> 
+
+                </div>   
                 <div class="row">     
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 form-item">
                         <div class="g-recaptcha" data-sitekey="6LezFyAUAAAAAM1fRUDpyRXLSjHPiYFQkIQWYK2d"></div>
@@ -101,9 +114,9 @@
                     </div>
                 </div>    
             </form>
-        
-    </div>
 
-</div>
+        </div>
+
+    </div>
 </main>
 @endsection() 
