@@ -11,7 +11,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
     Route::post('api/master-sales/checkEmailExist', 'MasterSalesController@checkEmailExist');
     Route::post('api/master-sales/saveEnquiry', 'MasterSalesController@saveEnquiry');
     
-    Route::post('api/master-sales/getDataForTodayRemark', 'MasterSalesController@getDataForTodayRemark');
+    Route::post('api/master-sales/getTodayRemark', 'MasterSalesController@getTodayRemark');
     Route::post('api/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');
     
     Route::post('api/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // getCustomerDataWithId
@@ -45,4 +45,6 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
     Route::post('api/master-sales/getTeamPendingFollowups', 'MasterSalesController@getTeamPendingFollowups'); // get team pending followups
     Route::post('api/master-sales/getTeamPreviousFollowups', 'MasterSalesController@getTeamPreviousFollowups'); // get team previous followups    
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+    
+    Route::post('api/master-sales/exportToExcel', 'MasterSalesController@exportToExcel');//export data in excel sheet    
 });	

@@ -151,6 +151,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getPropertyPortalType', 'backend\AdminController@getPropertyPortalType'); //uma 
     Route::get('/getVerticals', 'backend\AdminController@getVerticals'); //uma  
     Route::get('/getFinanceTieupAgency', 'backend\AdminController@getFinanceTieupAgency'); //uma
+    Route::get('/getsalesEmployees', 'backend\AdminController@getsalesEmployees'); //uma
     Route::get('/getDesignations', 'backend\AdminController@getDesignations'); //geeta
     Route::get('/getProjects', 'backend\AdminController@getProjects'); //geeta
     Route::get('/getCompany', 'backend\AdminController@getCompany'); //geeta

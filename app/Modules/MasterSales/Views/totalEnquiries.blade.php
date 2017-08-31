@@ -29,16 +29,16 @@
                     <div class="col-md-5 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
-                            <span class="input-icon icon-right">                                
-                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_total_enquiries')"><i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                <button type="button"  class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Bulk Reassign</button>
+                            <span class="input-icon icon-right">                                                                
+                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_total_enquiries')"><i class="btn-label fa fa-filter"></i>Show Filter</button>                                
                                 <div ng-if="enquiriesLength != 0">
-                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-right: 5px;">
+                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                                    <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-right: 5px;">
+                                    <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-left: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                                     </a> 
                                 </div>
+                                <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Reassign</button>
                             </span>
                         </div>
                     </div>
@@ -89,9 +89,7 @@
                                 <label>
                                     <input type="checkbox" ng-click='checkAll(all_chk_reassign[pageNumber])' ng-model="all_chk_reassign[pageNumber]" name="all_chk_reassign_enq" id="all_chk_reassign_enq">
                                     <span class="text"></span>
-
                                 </label>
-
                             </th>
                             <th class="enq-table-th">Customer</th>
                             <th class="enq-table-th">Enquiry</th>
@@ -106,8 +104,7 @@
                                     {{itemsPerPage * (pageNumber - 1) + $index + 1}}<br> 
 
                                     <label> 
-                                        <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq">
-
+                                        <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="enquiry.chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq_{{enquiry.id}}">
                                         <span class="text"></span>
                                 </label>                                
                                 </center>
@@ -250,7 +247,7 @@
                                 <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            
                                 <hr class="enq-hr-line">
                                 <div>
-                                    <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="gettodayremarksEnquiry({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
+                                    <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
                                     <a href="javascript:void(0)" ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
                                     <!--<a href="javascript:void(0)"  ><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Add Test Drive</a><br/>-->
                                     <a href="javascript:void(0)"  ><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Quotation</a><br/>
@@ -300,13 +297,31 @@
                         </div>
                     </div>
                 </div>
-            </div>        
+            </div>   
+            
+            <!-- reassign ===============================================================================================   -->
+            <div class="modal fade" id="BulkModal" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-md" >
+                    <div class="modal-content">
+                        <div class="modal-header navbar-inner">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" align="center">Reassign</h4>
+                        </div>
+                        <!--<div data-ng-include="'/MasterSales/showFilter'"></div>-->
+                        <div data-ng-include="'/MasterSales/blukreassign'"></div> 
+                        <div class="modal-footer" align="center">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
     </div>
     
-    <!--<div data-ng-include="'/MasterSales/blukreassign'"></div>--> 
+    
 
 </div>
-    
+   
     <div data-ng-include="'/MasterSales/showFilter'"></div>
     
 </div>

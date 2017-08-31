@@ -159,13 +159,13 @@
                 <tab heading="Today Remarks" id="remarkTab">
                     
                 </tab>
-                <tab heading="Customer Details" ng-click="getCustomerModal(remarkData.customerId)" id="customerTab">
+                <tab heading="Customer Details" ng-click="getTodayRemarkCustomerModal(remarkData.customerId)" id="customerTab">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="form-title">
                             Personal Details
                         </div>
                     </div>
-                    <form novalidate role="form" ng-submit="customerForm.$valid && updateCustomerModal(customerData, customerContacts, remarkData.customerId)" name="customerForm">
+                    <form novalidate role="form" ng-submit="customerForm.$valid && updateTodayRemarkCustomerModal(customerData, customerContacts, remarkData.customerId)" name="customerForm">
                         <div class="row">
                             <div class="col-sm-2">
                                 <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.title_id.$dirty && customerForm.title_id.$invalid)}">
@@ -238,9 +238,9 @@
                                     <label for="">Birth Date<span class="sp-err">*</span></label>
                                     <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                         <p class="input-group">
-                                            <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=dt datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                            <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" readonly/>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
                                         </p>
                                     </div>             
@@ -254,9 +254,9 @@
                                     <label for="">Marriage Date</label>
                                     <div ng-controller="DatepickerDemoCtrl" class="form-group">
                                         <p class="input-group">
-                                            <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" max-date=dt datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
+                                            <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
                                         </p>
                                     </div>

@@ -14,11 +14,7 @@ use DB;
 use App\Models\backend\Employee;
 use Auth;
 
-
-
 class S3 {
-    
-
     // google storage
     public static function s3Configuration() {
        $data = DB::table('system_configs')->where('id', 1)->get();

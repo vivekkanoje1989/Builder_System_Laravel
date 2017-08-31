@@ -18,7 +18,7 @@
                 <span class="widget-caption">{{pagetitle}}</span>                
             </div>
             <div class="widget-body table-responsive">
-                <div class="row">                    
+                <div class="row" ng-if="enquiriesLength != 0 ">                    
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label for="search">Records per page:</label>
@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">                                
-                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_booked_enquiries')"><i class="btn-label fa fa-filter"></i>Show Filter</button>
+                                <button type="button"  class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_booked_enquiries')"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                                 <!--<button type="button"  class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Bulk Reassign</button>-->
                                 <div ng-if="enquiriesLength != 0">
                                     <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-right: 5px;">
