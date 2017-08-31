@@ -317,6 +317,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             date.setMinutes("00");
             $scope.enquiryData.next_followup_time = date;
             if (customerId !== 0 && enquiryId === 0) {
+                $scope.showloader();
                 Data.post('master-sales/getCustomerDataWithId', {
                     data: {customerId: customerId},
                 }).then(function (response) {
@@ -325,6 +326,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     $scope.showDivCustomer = true;
                     $scope.enquiryList = true;
                     $scope.disableDataOnEnqUpdate = true;
+                    
+                    
                     Data.post('getEnquirySubSource', {
                         data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {
                         $scope.subSourceList = '';
@@ -334,65 +337,66 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $scope.subSourceList = response.records;
                         }
                     });
-                    $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
-                    var bdate = new Date($scope.customerData.birth_date);
-                    $scope.enquiryData.birth_date = (bdate.getFullYear() + '-' + ("0" + (bdate.getMonth() + 1)).slice(-2) + '-' + bdate.getDate());
+                    $timeout(function(){
+                        $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
+                        var bdate = new Date($scope.customerData.birth_date);
+                        $scope.enquiryData.birth_date = (bdate.getFullYear() + '-' + ("0" + (bdate.getMonth() + 1)).slice(-2) + '-' + bdate.getDate());
+                        $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
+                        $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
+                        $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
 
-                    $scope.contacts = angular.copy(response.customerPersonalDetails.get_customer_contacts);
-                    $scope.contactData = angular.copy(response.customerPersonalDetails.get_customer_contacts);
-                    $scope.searchData.searchWithMobile = response.customerPersonalDetails.get_customer_contacts[0].mobile_number;
-                    
-                    if(response.customerPersonalDetails[0].monthly_income == "0")
-                        $scope.customerData.monthly_income = "";
-                    else
-                        $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
-                    
-                    if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
-                        $scope.customerData.birth_date = "";
-                    }else{
-                        var bdt = new Date(response.customerPersonalDetails[0].birth_date);
-                        if (bdt.getDate() < 10) {
-                            $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
+                        if(response.customerPersonalDetails[0].monthly_income == "0")
+                            $scope.customerData.monthly_income = "";
+                        else
+                            $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
+
+                        if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
+                            $scope.customerData.birth_date = "";
                         }else{
-                            $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
+                            var bdt = new Date(response.customerPersonalDetails[0].birth_date);
+                            if (bdt.getDate() < 10) {
+                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
+                            }else{
+                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
+                            }
+                            $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
-                        $scope.maxDates = response.customerPersonalDetails[0].birth_date;
-                    }
 
-                    if(response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00"){
-                        $scope.customerData.marriage_date = "";
-                    }else{
-                       var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
-                        if (marriage_date.getDate() < 10) {
-                            $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
+                        if(response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00"){
+                            $scope.customerData.marriage_date = "";
                         }else{
-                            $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
+                           var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
+                            if (marriage_date.getDate() < 10) {
+                                $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
+                            }else{
+                                $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
+                            }
                         }
-                    }
 
-                    for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
-                        if (response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '0' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === null || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === "null") {
-                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
-                        } else {
-                            $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_number);
-                            $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code);
-                        }
-                        if (response.customerPersonalDetails.get_customer_contacts[i].landline_number === '0' || response.customerPersonalDetails.get_customer_contacts[i].landline_number === '' || response.customerPersonalDetails.get_customer_contacts[i].landline_number === null || response.customerPersonalDetails.get_customer_contacts[i].landline_number === "null") {
-                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
-                        } else {
-                            $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
-                            $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code);
-                        }
-                        if (response.customerPersonalDetails.get_customer_contacts[i].pin === 0)
-                            $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
-                        if (response.customerPersonalDetails.get_customer_contacts[i].email_id === '' || response.customerPersonalDetails.get_customer_contacts[i].email_id === 'null')
-                            $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
+                        for (var i = 0; i < response.customerPersonalDetails.get_customer_contacts.length; i++) {
+                            if (response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '0' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === '' || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === null || response.customerPersonalDetails.get_customer_contacts[i].mobile_number === "null") {
+                                $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
+                            } else {
+                                $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_number);
+                                $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].mobile_calling_code);
+                            }
+                            if (response.customerPersonalDetails.get_customer_contacts[i].landline_number === '0' || response.customerPersonalDetails.get_customer_contacts[i].landline_number === '' || response.customerPersonalDetails.get_customer_contacts[i].landline_number === null || response.customerPersonalDetails.get_customer_contacts[i].landline_number === "null") {
+                                $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
+                            } else {
+                                $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_number);
+                                $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerPersonalDetails.get_customer_contacts[i].landline_calling_code);
+                            }
+                            if (response.customerPersonalDetails.get_customer_contacts[i].pin === 0)
+                                $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
+                            if (response.customerPersonalDetails.get_customer_contacts[i].email_id === '' || response.customerPersonalDetails.get_customer_contacts[i].email_id === 'null')
+                                $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
 
-                        $scope.contactData.index = i;
-                    }
-                    $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
-                    $scope.searchData.customerId = response.customerPersonalDetails[0].id;
-//                    $scope.disableText = true;
+                            $scope.contactData.index = i;
+                        }
+                        $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
+                        $scope.searchData.customerId = response.customerPersonalDetails[0].id;
+                    },500);
+                    $scope.hideloader();
                 });
             }
             if (customerId !== 0 && enquiryId !== 0) {

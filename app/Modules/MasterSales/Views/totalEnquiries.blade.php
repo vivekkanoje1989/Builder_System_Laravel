@@ -247,7 +247,7 @@
                                 <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            
                                 <hr class="enq-hr-line">
                                 <div>
-                                    <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="gettodayremarksEnquiry({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
+                                    <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
                                     <a href="javascript:void(0)" ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
                                     <!--<a href="javascript:void(0)"  ><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Add Test Drive</a><br/>-->
                                     <a href="javascript:void(0)"  ><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Quotation</a><br/>
