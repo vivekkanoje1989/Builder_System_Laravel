@@ -104,7 +104,7 @@
                             <h1>Welcome to the world of <span>GAGAN</span> </h1>
                             <p>It has its core business as prime construction and real estate ventures since last 20 years.</p>
                         </div>
-                        <div class="col-lg-3"> <a style="float:right; margin-top:15px;" class="buttonColor" href="contact-us.html">ENQUIRE NOW</a> </div>
+                        <div class="col-lg-3"> <a style="float:right; margin-top:15px;" class="buttonColor" href="[[ URL::to('/') ]]/contact">ENQUIRE NOW</a> </div>
                         <div style="clear:both;"></div>
                     </div>
                 </div>

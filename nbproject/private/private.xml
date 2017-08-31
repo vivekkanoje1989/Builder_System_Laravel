@@ -3,8 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Controllers/TestimonialsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/testimonials.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/index.blade.php</file>
         </group>
     </open-files>
 </project-private>
