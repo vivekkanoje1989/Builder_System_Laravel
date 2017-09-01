@@ -24,7 +24,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.BulkReasign = false;
         $scope.bulkData = {};
         $scope.Bulkflag = [];
-        
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };
@@ -74,7 +73,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $('#all_chk_reassign_enq').prop('checked', false);
             $scope.BulkReasign = false;
             $(".chk_reassign_enq").prop('checked', false);
-            $scope.BulkReasign = false;
             $scope.flagForChange++;
             if ($scope.flagForChange == 1)
             {
@@ -366,22 +364,18 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             if (result === true)
             {
                 $scope.BulkReasign = true;
-                $("#BulkReasign").show();
             } else
             {
                 $scope.BulkReasign = false;
-                $("#BulkReasign").hide();
             }
         }
         $scope.checkAll = function (result) {
             $(':checkbox.chk_reassign_enq').prop('checked', result);
             if (result == true) {
                 $scope.BulkReasign = true;
-                $("#BulkReasign").show();
 
             } else {
                 $scope.BulkReasign = false;
-                $("#BulkReasign").hide();
             }
 
         }

@@ -38,7 +38,7 @@
                                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                                     </a> 
                                 </div>
-                                <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Reassign</button>
+                                <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >Reassign</button>
                             </span>
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                                 </center>
                             </td>
                             <td width="20%">
-                                <div>{{enquiry.customer_title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
+                                <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
                                 <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1 && enquiry.mobile !=''" ng-init="mobile_list=enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list | limitTo:2">
                                     <a style="cursor: pointer;" class="Linkhref"
@@ -307,19 +307,14 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" align="center">Reassign</h4>
                         </div>
-                        <!--<div data-ng-include="'/MasterSales/showFilter'"></div>-->
                         <div data-ng-include="'/MasterSales/blukreassign'"></div> 
                         <div class="modal-footer" align="center">
                         </div>
                     </div>
 
                 </div>
-            </div>
-            
+            </div>            
     </div>
-    
-    
-
 </div>
    
     <div data-ng-include="'/MasterSales/showFilter'"></div>
