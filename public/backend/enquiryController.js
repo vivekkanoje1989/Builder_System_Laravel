@@ -745,8 +745,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.remarkData.msgRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
             $('.clsMobile').prop("checked", false);
             $('.clsEmail').prop("checked", false);
+            $('#footerContent').removeClass("content2");
             $scope.sbtBtn1 = $scope.sbtBtn2 = false;
-        }
+        };
         $scope.sms = function () {
             $scope.divText = false;
             $scope.divSms = true;
@@ -754,8 +755,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.email_id_arr = [];
             $scope.remarkData.textRemark = $scope.remarkData.subject = $scope.remarkData.email_content = '';
             $('.clsEmail').prop("checked", false);
+            $('#footerContent').removeClass("content2");
             $scope.sbtBtn2 = $scope.sbtBtn3 = false;
-        }
+        };
         $scope.email = function () {
             $scope.divText = false;
             $scope.divSms = false;
@@ -763,8 +765,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.mobile_number = [];
             $scope.remarkData.msgRemark = $scope.remarkData.textRemark = '';
             $('.clsMobile').prop("checked", false);
+            $('#footerContent').addClass("content2");
             $scope.sbtBtn1 = $scope.sbtBtn3 = false;
-        }
+        };
         /******************************************************************************/
         $scope.getTodayRemark = function (enqid, followupId) {
             $scope.minDate = new Date();

@@ -1,46 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
-        <group>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/index.blade.php</file>
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/api.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/createEnquiry.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/S3.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/closeEnquiries.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/enquiryHistory.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Controllers/WebPagesController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Customers/Models/Customers.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bookedenquiry.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
->>>>>>> bb84327d088ba9e20a98e8ce94a464b28d46087c
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/blukreassign.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/reassignEnquiries.blade.php</file>
-=======
-=======
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Controllers/TestimonialsController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/frontend/Gagan/testimonials.blade.php</file>
->>>>>>> 1449e46873c7fcf581736a2d2f994bbd1e06947a
->>>>>>> 9eea51557d244a13987bcf87c7fad7810ee780cf
->>>>>>> 79edbb08fd21aec7043d876461db8c2e989fc44a
->>>>>>> bb84327d088ba9e20a98e8ce94a464b28d46087c
-        </group>
->>>>>>> ff8e4084129e24cc8e65ce1c5ac39b8db8669990
-    </open-files>
 </project-private>

@@ -28,13 +28,13 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         Data.post('authenticate', {
             username: loginData.mobile, password: loginData.password,
         }).then(function (response) {
-            if (response.success) {
-                $state.reload();
+            if (response.success) {                
                 $scope.showloader();
+                $state.reload();
                 $rootScope.authenticated = true;
                 $state.go('dashboard');
                 $scope.hideloader();
-
+                return false;
             } else {
                 $scope.errorMsg = response.message;
             }
