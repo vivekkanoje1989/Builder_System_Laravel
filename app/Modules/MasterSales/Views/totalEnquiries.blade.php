@@ -115,11 +115,11 @@
                                     <span ng-repeat="mobile_obj in mobile_list | limitTo:2">
                                     <a style="cursor: pointer;" class="Linkhref"
                                            ng-if="mobile_obj != null" 
-                                           ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,'<?php if (!empty(Auth::guard('admin')->user()->office_mobile_no)) {
+                                           ng-click="cloudCallingLog(1,[[Auth::guard('admin')->user()->id]],'<?php if (!empty(Auth::guard('admin')->user()->office_mobile_no)) {
                                             echo Auth::guard('admin')->user()->office_mobile_no;
                                         } else {
                                             echo Auth::guard('admin')->user()->personal_mobile1;
-                                            } ?>','{{ mobile_obj}}','<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>',{{ enquiry.id}},<?php echo Auth::guard('admin')->user()->client_id; ?>)">
+                                            } ?>','{{ mobile_obj}}','<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>',{{ enquiry.id}},[[Auth::guard('admin')->user()->client_id]])">
 
                                         <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                     </a>
@@ -132,7 +132,7 @@
                                             +91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}
                                         </span>
                                     </p>
-                                    <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email !='' " ng-init="all_email_list=enquiry.email.split(',');" >
+                                    <p ng-if="[[Auth::guard('admin')->user()->customer_email]] == 1 && enquiry.email !='' " ng-init="all_email_list=enquiry.email.split(',');" >
                                         
                                         <span ng-repeat="emailobj in all_email_list | limitTo:2">
                                                 {{emailobj}}
@@ -140,8 +140,7 @@
                                                     /
                                                 </span>
                                               
-                                        </span>
-                                        
+                                        </span>                                        
                                     </p>
                                 </div>                               
                                 <hr class="enq-hr-line">

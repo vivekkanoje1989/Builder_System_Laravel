@@ -2493,6 +2493,9 @@ class MasterSalesController extends Controller {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             //print_r($request['enquiry_id']);exit;
+            $ressigndate = date('d-m-Y');
+            $ressigntime = date('H:i:s');
+                
             if (!empty($request)) {
                 $employee_id = $request['employee_id'];
                 $ressignEmpData = \App\Models\backend\Employee::with('designationName')->select('first_name', 'last_name', 'designation_id')->where('id', $employee_id)->first();
@@ -2501,9 +2504,11 @@ class MasterSalesController extends Controller {
                 if (!empty($request['loggedInUserId'])) { // for app
                     $loggedInUserId = $request['loggedInUserId'];
                     $LoginName = $request['emp_name'];
+                    $emp_email = $request['personal_email1'];
                 } else {// web
                     $loggedInUserId = Auth::guard('admin')->user()->id;
                     $LoginName = Auth::guard('admin')->user()->first_name . " " . Auth::guard('admin')->user()->last_name;
+                    $emp_email = Auth::guard('admin')->user()->personal_email1;
                 }
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $enq['sales_employee_id'] = $employee_id;
@@ -2541,7 +2546,28 @@ class MasterSalesController extends Controller {
                         $insertFollowupDetails = EnquiryFollowup::create($insertFollowupData);
                     }
                 }
-            }
+            }            
+            // template 
+            $templatedata['employee_id'] = $request['employee_id'];
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 0;
+            $templatedata['template_setting_employee'] = 34;
+            $templatedata['customer_id'] = 0;
+            $templatedata['project_id'] = 0;
+            $templatedata['emp_cc'] = $emp_email;
+
+            $templatedata['arrExtra'][0] = array(
+                '[#ressignemployeeName#]',
+                '[#ressignDate#]',
+                '[#ressignTime#]',
+            );
+            $templatedata['arrExtra'][1] = array(
+                $LoginName,
+                $ressigndate,
+                $ressigntime,
+            );
+           $Templateresult = CommonFunctions::templateData($templatedata);
+            
             $result = ["success" => true, "message" => 'Enquiries Reassigned Successfully..'];
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
