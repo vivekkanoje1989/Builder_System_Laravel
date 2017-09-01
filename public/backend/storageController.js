@@ -25,6 +25,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
         {
             Data.post('storage-list/folderStorage', {
                 folder: folder, folderName: $scope.folderName}).then(function (response) {
+                console.log(response)
                 if (response.status)
                 {
                     toaster.pop('success', 'My storage', 'Record successfully created');
@@ -129,11 +130,10 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
                 $scope.recycleDirectories = response.result;
             });
         };
-        $scope.deleteFolder = function (id, index, type)
+        $scope.deleteFolder = function (id, index, type,folderId)
         {
-
             Data.post('storage-list/deleteFolder', {
-                id: id}).then(function (response) {
+                id: id,type:type,folderId:folderId}).then(function (response) {
                 console.log(response);
                 if (response.result)
                 {
@@ -145,7 +145,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
                         $scope.subDirectories.splice(index, 1);
                         toaster.pop('success', 'My storage', 'Record successfully deleted');
                     }
-
                 }
             });
         };

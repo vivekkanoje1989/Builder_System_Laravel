@@ -64,9 +64,9 @@
                             </span>
                         </div>
                     </div>
-                </div>   
+                </div>  
 
-                <h5 class="row-title ng-scope" ng-if="subDirectories != ''"><i class="fa fa-folder-open-o"></i>Folders</h5> 
+                <h5 class="row-title ng-scope" ng-if="subDirectories.length >= 0"><i class="fa fa-folder-open-o"></i>Folders</h5> 
                 <div class="row" >   
                     <div class="foldr-main" ng-repeat="imgs in subDirectories track by $index | unique:'imgs' ">
                         <div class="databox databoxone databox-halved radius-bordered databox-shadowed databox-vertical">
@@ -75,7 +75,7 @@
                                     <img ng-src="/backend/assets/img/folder-img.png" class="folder-img">                   
                                     <span class="databox-number lightcarbon foldr-icon-div"> 
                                         <i class="fa fa-share-alt" data-toggle="modal" data-target="#sharedModel" ng-click="share(imgs.id)"></i><br>
-                                        <i class="fa fa-trash-o" confirmed-click="deleteFolder(imgs.id,$index,2);" ng-confirm-click="Are you sure delete folder?"></i>
+                                        <i class="fa fa-trash-o" confirmed-click="deleteFolder(imgs.id,$index,2,[[$folderId]]);" ng-confirm-click="Are you sure delete folder?"></i>
                                     </span>
                                 </div>
                             </div>
@@ -89,16 +89,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" ng-if="subDirectories.length == 0">
-                            <div class="col-md-12">
-                                <h3 >Sub folders not availble</h3>
-                            </div>
-                        </div>
-                        <br/><br/>
                     </div>
-                </div>    
+                </div> 
+                <div class="row" ng-if="subDirectories.length >= 0">
+                    <div class="col-md-12">
+                        <h3 >Sub folders not availble</h3>
+                    </div>
+                </div>
+                <br/><br/>
                 <hr>
-                <h5 class="row-title ng-scope" ng-if="folderImages != ''"><i class="fa fa-picture-o"></i>Images</h5>
+                <h5 class="row-title ng-scope" ng-if="folderImages.length >= 0"><i class="fa fa-picture-o"></i>Images</h5>
                 <div class="row">
                     <div class="col-md-2" ng-repeat="imgs in folderImages track by $index | unique:'imgs' " style="margin:15px 0 25px 0;">
                         <div class="img-wrap"> 

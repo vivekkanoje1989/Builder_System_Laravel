@@ -469,6 +469,7 @@ class Employee extends Authenticatable {
 //        return $this->belongsTo('App\Models\MlstBmsbDesignation', 'id')->where("employees.designation_id", 'id'); //(designation model name, primary of designation model) 
 //    }
     
+    
     public static function doAction($input) {
         if (!empty($input['userData']['departmentid'])) {
             $input['userData']['department_id'] = $input['userData']['departmentid'];

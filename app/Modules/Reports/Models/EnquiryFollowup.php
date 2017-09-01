@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\MasterSales\Models;
+namespace App\Modules\Reports\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Classes\CommonFunctions;
 class EnquiryFollowup extends Model
