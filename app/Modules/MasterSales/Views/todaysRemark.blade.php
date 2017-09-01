@@ -157,7 +157,924 @@
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <tabset>
                 <tab heading="Today Remarks" id="remarkTab">
-                    
+                    <div class="row">
+                        <div class="col-lg-21 col-sm-12 col-xs-12">                            
+                            <form name="remarkForm" novalidate ng-submit="remarkForm.$valid && insertTodayRemark(remarkData)" class="main-container1">
+                                <input type="hidden" ng-model="remarkData.enquiryId" name="enquiryId" id="enquiryId" value="{{remarkData.enquiryId}}">
+                                <input type="hidden" ng-model="remarkData.customerId" name="customerId" id="custId" value="{{remarkData.customerId}}">
+                                <input type="hidden" ng-model="remarkData.bookingId" name="bookingId" id="bookingId">
+                                <div class="row">
+                                    <div class="col-md-6 col-xs-12">
+                                        <span ng-show="custInfo"><b style="font-size: 17px;">{{remarkData.title}} {{remarkData.customer_fname}} {{remarkData.customer_lname}}</b></span>  	
+                                        <div class="row" ng-show="editableCustInfo">
+                                            <div class="col-sm-4">
+                                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.title_id.$dirty && remarkForm.title_id.$invalid)}">
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-model="remarkData.title_id" ng-controller="titleCtrl" name="title_id" class="form-control" ng-required="editableCustInfo">
+                                                            <option value="">Select Title</option>
+                                                            <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == remarkData.title_id}}">{{t.title}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                        <div ng-show="sbtBtn" ng-messages="remarkForm.title_id.$error" class="help-block">
+                                                            <div ng-message="required">This field is required.</div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.customer_fname.$dirty && remarkForm.customer_fname.$invalid)}">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" placeholder="First Name" ng-model="remarkData.customer_fname" name="customer_fname" capitalization class="form-control" ng-required="editableCustInfo">
+                                                        <i class="fa fa-user"></i>
+                                                        <div ng-show="sbtBtn" ng-messages="remarkForm.first_name.$error" class="help-block">
+                                                            <div ng-message="required">This field is required.</div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.customer_lname.$dirty && remarkForm.customer_lname.$invalid)}">
+                                                    <span class="input-icon icon-right">
+                                                        <input type="text" placeholder="Last Name" ng-model="remarkData.customer_lname" name="customer_lname" capitalization class="form-control" ng-required="editableCustInfo">
+                                                        <i class="fa fa-user"></i>
+                                                        <div ng-show="sbtBtn" ng-messages="remarkForm.last_name.$error" class="help-block">
+                                                            <div ng-message="required">This field is required.</div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div ng-if ="displaymobile != '-1'">
+                                                    <span ng-if="mobileList" ng-repeat="(key,value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
+                                                        <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
+                                                        <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">{{value}}</span>
+                                                    </span> 
+                                                    <div class="col-sm-12"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
+                                                    <span class="input-icon icon-right" ng-if="addMob">
+                                                        <div style="float: left;margin-left: 15px;width: 66%;">
+                                                            <span class="input-icon icon-right">
+                                                                <input type="text && uniqueMobile" ng-model="remarkData.mobile_number" placeholder="Enter Mobile Number" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" id="mobile_number" name="mobile_number" class="form-control" ng-model-options="{ allowInvalid: true, debounce: 500 }"
+                                                                       ng-change="addInfo(remarkData.customerId, remarkData.mobile_calling_code1, remarkData.mobile_number, 'mobile_number')">
+                                                                <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeMobText()"></i>
+                                                            </span>
+                                                            <div ng-show="remarkData.mobile_number.length > 0" ng-messages="remarkForm.mobile_number.$error" class="help-block {{ applyClassPMobile}}">
+                                                                <div ng-message="minlength" style="color: red !important;">Length of mobile number minimum 10 digit required.</div>
+                                                                <div ng-message="pattern" style="color: red !important;">Mobile number should be 10 digits and pattern should be for ex. +91-9999999999</div>
+                                                                <div ng-message="uniqueMobile">Mobile number already exist</div>
+                                                            </div>
+                                                            <div ng-if="mobErr" style="color: red;">{{mobErr}}</div>
+                                                        </div>
+                                                    </span>
+                                                    <input type="hidden" ng-mode="prevMob" name="prevMob" id="prevMob"><br>
+                                                </div>
+                                                <span ng-if="displaymobile == '-1' && mobileList" ng-repeat="(key,value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
+                                                    <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
+                                                    <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
+                                                </span> 
+                                                <div class="col-sm-12" ng-if ="displayemail != '-1'">
+                                                    <span ng-if="emailList.length > 0" ng-repeat="(key,value) in emailList track by $index" style="float: left;  margin: 7px 20px 5px 0px;">    
+                                                        <span class="text" ng-click="manageEmailText(key, value)">{{value}}</span>
+                                                    </span>
+                                                    <div class="col-sm-12" style=" margin-left: -13px;"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
+                                                    <span class="input-icon icon-right" ng-if="addEmail">
+                                                        <input type="email" ng-model="remarkData.email_id" name="email_id" placeholder="Enter Email Address" class="form-control" maxlength="40" ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 550 }"
+                                                               ng-change="addInfo(remarkData.customerId, '', remarkData.email_id, 'email_id')">
+                                                        <i class="fa fa-times" aria-hidden="true" id="iconformob" style="cursor: pointer;" ng-click="closeEmailText()"></i>
+                                                        <div ng-if="emailErr" style="color: red;">{{emailErr}}</div>
+                                                    </span>   
+                                                    <input type="hidden" ng-mode="prevEmail" name="prevEmail" id="prevEmail">
+                                                    <input type="hidden" ng-mode="pkid" name="pkid" id="pkid">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="row">
+                                            <div class="col-sm-5">
+                                                <span class="checkbox" style="margin: 0;">
+                                                    <label>
+                                                        <input type="checkbox" id="corporateCust" ng-model="remarkData.corporateCust" name="corporateCust" ng-click="isChecked(remarkData.corporateCust)">
+                                                        <span class="text"> Corporate Customer</span>
+                                                    </label>
+                                                </span>	
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <div class="form-group" ng-if="companyInput">
+                                                    <input type="text" class="form-control" placeholder="Company name" ng-model="remarkData.company_name" name="company_name" ng-keyup="getCompanyList(remarkData.company_name)" required>
+                                                    <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList">
+                                                        <li ng-repeat="company in company_list| filter : remarkData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
+                                                    </ul> 
+                                                    <div ng-show="sbtBtn" ng-messages="remarkForm.company_name.$error" class="help-block">
+                                                        <div ng-message="required">This field is required.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <strong ng-if="customer_address">Address:</strong> <span>{{customer_address}}</span><br>
+                                                <strong ng-if="customer_area_name">Area:</strong> <span> {{customer_area_name}}</span>
+                                                <a href ng-if="!customer_address" ng-click="gotoCustomerTab()">Add Address</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <strong>Source: </strong><span ng-bind-html="sourceDetails"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6"></div>                            
+                                </div>
+                                <br/>
+
+                                <div class="row" ng-controller="salesStatusCtrl">
+                                    <div class="col-sm-6">
+                                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.sales_status_id.$dirty && remarkForm.sales_status_id.$invalid)}">
+                                            <label for="">Enquiry Status<span class="sp-err">*</span></label>
+                                            <span class="input-icon icon-right">
+                                                <select class="form-control" ng-model="remarkData.sales_status_id" name="sales_status_id" ng-change="onsalesStatusChange(remarkData.sales_status_id)" ng-click="hideIcon(remarkData.sales_status_id)" required ng-disabled="!booked">
+                                                    <option value="">Select Status</option>
+                                                    <option ng-repeat="list in salesstatus" ng-if="list.id != 1" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>          
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_status_id.$error" class="help-block errMsg">
+                                                    <div ng-message="required">Please Select Status</div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" ng-if="remarkData.sales_status_id != 4 && remarkData.sales_status_id != 3">
+                                        <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && subsalesStatusList.length != 0) && (!remarkForm.sales_substatus_id.$dirty && remarkForm.sales_substatus_id.$invalid)}">
+                                            <label for="">Enquiry Sub Status<span class="sp-err" ng-if="subsalesStatusList.length != 0">*</span></label>
+                                            <span class="input-icon icon-right">
+                                                <select class="form-control" ng-model="remarkData.sales_substatus_id" name="sales_substatus_id" id="sales_substatus_id" ng-required="subsalesStatusList.length != 0">
+                                                    <option value="">Select Sub Status</option>
+                                                    <option ng-repeat="list in subsalesStatusList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_substatus_id}}">({{list.listing_position}}) {{list.enquiry_sales_substatus}}</option>          
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_substatus_id.$error" class="help-block errMsg" ng-if="subsalesStatusList.length != 0">
+                                                    <div ng-message="required">Please Select Substatus</div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" ng-if="remarkData.sales_status_id == 3">
+                                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.booking_date.$dirty && remarkForm.booking_date.$invalid)}">
+                                            <label>Booking Date<span class="sp-err">*</span></label>                                    
+                                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                                                <p class="input-group">
+                                                    <input type="text" ng-model="remarkData.booking_date" name="booking_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required  ng-disabled="!booked"/>
+                                                    <span class="input-group-btn" >
+                                                        <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)" ng-disabled="!booked"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                    </span>
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.booking_date.$error" class="help-block enqFormBtn">
+                                                    <div ng-message="required">Please select booking date</div>
+                                                </div>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-controller="salesLostReasonCtrl" ng-if="remarkData.sales_status_id == 4">
+                                    <div class="col-sm-6">
+                                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.sales_lost_reason_id.$dirty && remarkForm.sales_lost_reason_id.$invalid)}">
+                                            <label for="">Lost Reason<span class="sp-err">*</span></label>
+                                            <span class="input-icon icon-right">
+                                                <select class="form-control" ng-model="remarkData.sales_lost_reason_id" name="sales_lost_reason_id" id="sales_lost_reason_id" ng-required="remarkData.sales_status_id == 4" ng-change="getlostsubreason(remarkData.sales_lost_reason_id)">
+                                                    <option value="">Select Lost Reason</option>
+                                                    <option ng-repeat="list in saleslostreasons" value="{{list.id}}">({{list.id}}) {{list.enquiry_lost_reason}}</option>          
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                            </span>
+                                            <div ng-show="sbtBtn" ng-messages="remarkForm.sales_lost_reason_id.$error" class="help-block enqFormBtn">
+                                                <div ng-message="required">Please select lost reason</div>
+                                            </div>
+                                        </div>                    
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && salessublostreasons.length > 0) && (!remarkForm.sales_lost_sub_reason_id.$dirty && remarkForm.sales_sublost_reason_id.$invalid)}">
+                                            <label for="">Lost Sub Reason<span class="sp-err" ng-if="salessublostreasons.length > 0">*</span></label>
+                                            <span class="input-icon icon-right">
+                                                <select class="form-control" ng-model="remarkData.sales_lost_sub_reason_id" name="sales_lost_sub_reason_id" ng-required="remarkData.sales_status_id == 4 && salessublostreasons.length > 0">
+                                                    <option value="">Select Lost Sub Reason</option>
+                                                    <option ng-repeat="list in salessublostreasons" value="{{list.id}}">({{list.listing_position}}) {{list.sub_reason}}</option>          
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                            </span>
+                                            <div ng-show="sbtBtn" ng-messages="remarkForm.sales_lost_sub_reason_id.$error" class="help-block enqFormBtn">
+                                                <div ng-message="required">Please select lost reason</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" ng-controller="salesCategoryCtrl" ng-if="remarkData.sales_status_id != 3 && remarkData.sales_status_id != 4">
+                                    <div class="col-sm-6">
+                                        <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.sales_category_id.$dirty && remarkForm.sales_category_id.$invalid)}">
+                                            <label for="">Enquiry Category<span class="sp-err">*</span></label>
+                                            <span class="input-icon icon-right">
+                                                <select class="form-control" ng-model="remarkData.sales_category_id" name="sales_category_id" id="sales_category_id" ng-change="onsalesCategoryChange(remarkData.sales_category_id)" required>
+                                                    <option value="">Select Category</option>
+                                                    <option ng-repeat="list in salescategories" ng-if="list.id != 1" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_category_id}}">{{list.enquiry_category}}</option>          
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_category_id.$error" class="help-block errMsg">
+                                                    <div ng-message="required">Please select category</div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && salesSubCategoriesList.length != 0) && (!remarkForm.sales_subcategory_id.$dirty && remarkForm.sales_subcategory_id.$invalid)}">
+                                            <label for="">Enquiry Sub Category<span class="sp-err" ng-if="salesSubCategoriesList.length != 0">*</span></label>
+                                            <span class="input-icon icon-right">
+                                                <select class="form-control" ng-model="remarkData.sales_subcategory_id" name="sales_subcategory_id" id="sales_subcategory_id" ng-required="salesSubCategoriesList.length != 0">
+                                                    <option value="">Select Sub Category</option>
+                                                    <option ng-repeat="list in salesSubCategoriesList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_subcategory_id}}">({{list.listing_position}}) {{list.enquiry_sales_subcategory}}</option>
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_subcategory_id.$error" class="help-block errMsg" ng-if="salesSubCategoriesList.length != 0">
+                                                    <div ng-message="required">Please Select Sub category</div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-6" ng-if="remarkData.sales_status_id != 3">
+                                        <div class="form-group">
+                                            <label for="" ng-if="remarkData.sales_status_id != 4">Next Followup Date & Time<span class="sp-err">*</span></label>
+                                            <label for="" ng-if="remarkData.sales_status_id == 4">Lost Date<span class="sp-err">*</span></label>
+                                            <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                                                <p class="input-group">
+                                                    <input type="text" ng-model="remarkData.next_followup_date" name="next_followup_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required />
+                                                    <span class="input-group-btn" >
+                                                        <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && openMinDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                    </span>
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
+                                                    <div ng-message="required">Please select followup date</div>
+                                                </div>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-6" ng-if="remarkData.sales_status_id != 3 && remarkData.sales_status_id != 4">  
+                                        <div class="form-group">
+                                            <div ng-controller="TimepickerDemoCtrl">
+                                                <timepicker ng-model="remarkData.next_followup_time" ng-change="changed1(remarkData.next_followup_time)" hour-step="hstep" format="HH:mm" minute-step="mstep" show-meridian="ismeridian" value="{{ remarkData.next_followup_time | date:'HH:mm:ss' }}" style="margin: -0.5% 0 0 0%; position: fixed;" id="timepicker" readonly-input="true"></timepicker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" >
+                                    <div class="col-sm-6 col-xs-12" ng-if="remarkData.sales_status_id != 4">
+                                        <div class="form-group">
+                                            <label ng-if="remarkData.sales_status_id != 3">Reassign to</label>
+                                            <label ng-if="remarkData.sales_status_id == 3">Reassign this booking to</label>
+                                            <ui-select ng-controller="reassignCtrl" ng-model="remarkData.followup_by" name="followup_by" theme="bootstrap">
+                                                <ui-select-match placeholder="Select Employee">{{remarkData.followup_by.first_name}}</ui-select-match>
+                                                <ui-select-choices repeat="item in employees1 | filter: $select.search">
+                                                    <div ng-bind-html="item.first_name | highlight: $select.search"></div>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>                          
+                                </div>
+
+                                <tabset justified="true" ng-if="remarkData.sales_status_id == 3">
+                                    <tab heading="Booking Details" id="bookingTab">
+                                        <div ng-controller="vehicleDetailsCtlr" ng-if="remarkData.sales_status_id == 3">
+                                            <div class="row" ng-if="remarkData.sales_status_id == 3">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && modelList.length != 0) && (!remarkForm.model_id.$dirty && remarkForm.model_id.$invalid)}">
+                                                        <label for="">Model<span class="sp-err">*</span></label>
+                                                        <span class="input-icon icon-right">
+                                                            <select ng-model="remarkData.model_id" ng-change="modelChange(remarkData.model_id)" id="model_id" name="model_id" class="form-control" ng-required="modelList.length > 0">
+                                                                <option value="">Select Model</option>
+                                                                <option ng-repeat="vmodel in modelList" value="{{vmodel.id}}" ng-selected="{{ vmodel.id == remarkData.model_id}}">{{vmodel.model_name}}</option>
+                                                            </select>
+                                                            <i class="fa fa-sort-desc"></i>
+                                                            <div ng-show="bookBtn" ng-messages="remarkForm.model_id.$error" class="help-block">
+                                                                <div ng-message="required">Please Select Model</div>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && submodelList.length != 0) && (!remarkForm.sub_model_id.$dirty && remarkForm.sub_model_id.$invalid)}">
+                                                        <label for="">Sub Model<span class="sp-err" ng-if="submodelList.length > 0">*</span></label>
+                                                        <span class="input-icon icon-right">
+                                                            <select ng-model="remarkData.sub_model_id" ng-change="submodelChange(remarkData.model_id, remarkData.sub_model_id)" id="sub_model_id" name="sub_model_id" class="form-control" ng-required="submodelList.length > 0">
+                                                                <option value="">Select Sub Model</option>
+                                                                <option ng-repeat="vsmodel in submodelList" value="{{vsmodel.id}}" ng-selected="{{ vsmodel.id == remarkData.sub_model_id}}">{{vsmodel.sub_model_name}}</option>
+                                                            </select>
+                                                            <i class="fa fa-sort-desc"></i>
+                                                            <div ng-show="bookBtn" ng-messages="remarkForm.sub_model_id.$error" class="help-block">
+                                                                <div ng-message="required">Please Select Sub Model</div>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && variantList.length != 0) && (!remarkForm.veriant_id.$dirty && remarkForm.veriant_id.$invalid)}">
+                                                        <label for="">Variant<span class="sp-err" ng-if="variantList.length > 0">*</span></label>
+                                                        <span class="input-icon icon-right">
+                                                            <select ng-model="remarkData.veriant_id" ng-change="variantChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id)" id="veriant_id" name="veriant_id" class="form-control" ng-required="variantList.length > 0">
+                                                                <option value="">Select Variant</option>
+                                                                <option ng-repeat="variant in variantList" value="{{variant.id}}" ng-selected="{{ variant.id == remarkData.veriant_id}}">{{variant.varient_name}}</option>
+                                                            </select>
+                                                            <i class="fa fa-sort-desc"></i>
+                                                            <div ng-show="bookBtn" ng-messages="remarkForm.veriant_id.$error" class="help-block">
+                                                                <div ng-message="required">Please Select Variant</div>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && subvariantList.length != 0) && (!remarkForm.sub_veriant_id.$dirty && remarkForm.sub_veriant_id.$invalid)}">
+                                                        <label for="">Sub Variant<span class="sp-err" ng-if="subvariantList.length > 0">*</span></label>
+                                                        <span class="input-icon icon-right">
+                                                            <select ng-model="remarkData.sub_veriant_id" ng-change="subvariantChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id, remarkData.sub_veriant_id)" id="sub_veriant_id" name="sub_veriant_id" class="form-control" ng-required="subvariantList.length > 0">
+                                                                <option value="">Select Sub Variant</option>
+                                                                <option ng-repeat="vsvmodel in subvariantList" value="{{vsvmodel.id}}" ng-selected="{{ vsvmodel.id == remarkData.sub_veriant_id}}">{{vsvmodel.sub_varient}}</option>
+                                                            </select>
+                                                            <i class="fa fa-sort-desc"></i>
+                                                            <div ng-show="bookBtn" ng-messages="remarkForm.sub_veriant_id.$error" class="help-block">
+                                                                <div ng-message="required">Please Select Sub Variant</div>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>                                   
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && transmissionList.length != 0) && (!remarkForm.transmission_id.$dirty && remarkForm.transmission_id.$invalid)}">
+                                                        <label for="">Transmission Type<span class="sp-err" ng-if="transmissionList.length > 0">*</span></label>
+                                                        <span class="input-icon icon-right">
+                                                            <select ng-model="remarkData.transmission_id" ng-change="transmissionChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id, remarkData.sub_veriant_id, remarkData.transmission_id)" id="transmission_id" name="transmission_id" class="form-control" ng-required="transmissionList.length > 0">
+                                                                <option value="">Select Transmission</option>
+                                                                <option ng-repeat="transmission in transmissionList" value="{{transmission.id}}" ng-selected="{{ transmission.id == remarkData.transmission_id}}">{{transmission.transmissiontype_name.transmission_type}}</option>
+                                                            </select>
+                                                            <i class="fa fa-sort-desc"></i>
+                                                            <div ng-show="bookBtn" ng-messages="remarkForm.transmission_id.$error" class="help-block">
+                                                                <div ng-message="required">Please Select Transmission</div>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && engineList.length != 0) && (!remarkForm.engine_id.$dirty && remarkForm.engine_id.$invalid)}">
+                                                        <label for="">Engine Type<span class="sp-err" ng-if="engineList.length > 0">*</span></label>
+                                                        <span class="input-icon icon-right">
+                                                            <select ng-model="remarkData.engine_id" ng-change="engineChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id, remarkData.sub_veriant_id, remarkData.transmission_id, remarkData.engine_id)" id="engine_id"  name="engine_id" class="form-control" ng-required="engineList.length > 0">
+                                                                <option value="">Select Engine</option>
+                                                                <option ng-repeat="engine in engineList" value="{{engine.id}}" ng-selected="{{ engine.id == remarkData.engine_id}}">{{engine.engine_type_name}}</option>
+                                                            </select>
+                                                            <i class="fa fa-sort-desc"></i>
+                                                            <div ng-show="bookBtn" ng-messages="remarkForm.engine_id.$error" class="help-block">
+                                                                <div ng-message="required">Please Select Transmission</div>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && fuelList.length != 0) && (!remarkForm.fuel_id.$dirty && remarkForm.fuel_id.$invalid)}">
+                                                        <label for="">Fuel Type<span class="sp-err" ng-if="fuelList.length > 0">*</span></label>
+                                                        <span class="input-icon icon-right">
+                                                            <select ng-model="remarkData.fuel_id" ng-change="fuelChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id, remarkData.sub_veriant_id, remarkData.transmission_id, remarkData.engine_id, remarkData.fuel_id)" id="fuel_id" name="fuel_id" class="form-control" ng-required="fuelList.length > 0">
+                                                                <option value="">Select Fuel Type</option>
+                                                                <option ng-repeat="fuel in fuelList" value="{{fuel.id}}" ng-selected="{{ fuel.id == remarkData.fuel_id}}">{{fuel.fueltype_name.fuel_type}}</option>
+                                                            </select>
+                                                            <i class="fa fa-sort-desc"></i>
+                                                            <div ng-show="bookBtn" ng-messages="remarkForm.fuel_id.$error" class="help-block">
+                                                                <div ng-message="required">Please Select Fuel</div>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && colorList.length != 0) && (!remarkForm.color_id.$dirty && remarkForm.color_id.$invalid)}">
+                                                        <label for="">Color<span class="sp-err">*</span></label>
+                                                        <span class="input-icon icon-right">
+                                                            <select ng-model="remarkData.color_id" id="color_id" name="color_id" class="form-control" ng-required="colorList.length > 0">
+                                                                <option value="">Select Color</option>
+                                                                <option ng-repeat="color in colorList" value="{{color.id}}" ng-selected="{{ color.id == remarkData.color_id}}">{{color.colortype_name.color_name}}</option>
+                                                            </select>
+                                                            <i class="fa fa-sort-desc"></i>
+                                                            <div ng-show="bookBtn" ng-messages="remarkForm.color_id.$error" class="help-block">
+                                                                <div ng-message="required">Please Select Color</div>
+                                                            </div>
+                                                        </span>
+                                                    </div>
+                                                </div>                               
+                                            </div>   
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div id="divMyTags"><br>
+                                                        <label>Booking Remarks</label>
+                                                        <div class="existingTag bordered-themeprimary">
+                                                            <div class="col-sm-12 csspadding">
+                                                                <div class="form-group">
+                                                                    <span class="input-icon icon-right">
+                                                                        <textarea class="form-control" rows="5" cols="50" ng-model="remarkData.textRemark" name="textRemark" ng-required="divText" capitalization></textarea>
+                                                                    </span>
+                                                                    <div ng-show="bookBtn" ng-messages="remarkForm.textRemark.$error" class="help-block">
+                                                                        <div ng-message="required">Please enter remark</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <span class="input-icon icon-right">
+                                                        <button type="submit" class="btn btn-primary custom-btn" ng-click="bookBtn = true">Submit</button>
+                                                    </span>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                    </tab>
+                                    <tab heading="Collection Details" ng-click="checkAmount(collectionData.total_recievable_amount1)" disabled="!collectedTab" id="collectedTab">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group" ng-class="{ 'has-error' : collectionBtn && (!remarkForm.total_recievable_amount1.$dirty && remarkForm.total_recievable_amount1.$invalid)}">
+                                                    <label for="">Total Receivable Amount (Please enter total on road amount)<span class="sp-err">*</span></label>
+                                                    <span class="input-icon icon-right">                                        
+                                                        <input type="text" ng-model="collectionData.total_recievable_amount1" name="total_recievable_amount1" class="form-control" ng-pattern="/^[1-9]\d*$/" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="8" ng-required="!booked">
+                                                        <i class="fa fa-money" aria-hidden="true"></i>
+                                                        <div ng-show="collectionBtn" ng-messages="remarkForm.total_recievable_amount1.$error" class="help-block">
+                                                            <div ng-message="required">Please Enter Amount</div>
+                                                            <div ng-message="pattern">Please Enter Valid Amount</div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="row">
+                                            <div class="col-sm-3" ng-controller="collectionStagesCtrl">
+                                                <div class="form-group" ng-class="{ 'has-error' : (collectionBtn && !funcalled) && (!remarkForm.collection_stage_id1.$dirty || remarkForm.collection_stage_id1.$invalid)}">
+                                                    <label for="">Collection Stage<span class="sp-err">*</span></label>
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-model="collectionData.collection_stage_id1" id="collection_stage_id1" name="collection_stage_id1" class="form-control" ng-required="!booked">
+                                                            <option value="">Select</option>
+                                                            <option ng-repeat="list in collectionStagesList" value="{{list.id}}_{{list.stages}}" ng-selected="{{ list.id == remarkData.collection_stage_id1}}">{{list.stages}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                        <div ng-show="collectionBtn && !funcalled" ng-messages="remarkForm.collection_stage_id1.$error" class="help-block">
+                                                            <div ng-message="required">Please Select Collection Stage</div>
+                                                        </div>
+                                                        <div ng-show="existStage" style="color: red;">{{existStage}}</div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group" ng-class="{ 'has-error' : (collectionBtn && !funcalled) && (!remarkForm.collection_date1.$dirty || remarkForm.collection_date1.$invalid)}">
+                                                    <label for="">Payment Date<span class="sp-err">*</span></label>
+                                                    <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                                                        <p class="input-group">
+                                                            <input type="text" ng-model="collectionData.collection_date1" name="collection_date1" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly ng-required="!booked"/>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && openMaxDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                            </span>
+                                                        <div ng-show="collectionBtn && !funcalled" ng-messages="remarkForm.collection_date1.$error" class="help-block enqFormBtn">
+                                                            <div ng-message="required">Please select date</div>
+                                                        </div>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>                                
+                                            <div class="col-sm-3">
+                                                <div class="form-group" ng-class="{ 'has-error' : (collectionBtn && !funcalled) && (!remarkForm.collection_amount.$dirty || remarkForm.collection_amount.$invalid)}">
+                                                    <label for="">Payment Amount<span class="sp-err">*</span></label>
+                                                    <span class="input-icon icon-right">                                        
+                                                        <input type="text" ng-model="collectionData.collection_amount" name="collection_amount" class="form-control" ng-pattern="/^[1-9]\d*$/" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="7" ng-required="!booked">
+                                                        <i class="fa fa-inr" aria-hidden="true"></i>
+                                                        <div ng-show="collectionBtn && !funcalled" ng-messages="remarkForm.collection_amount.$error" class="help-block">
+                                                            <div ng-message="required">Please Enter Amount</div>
+                                                            <div ng-message="pattern">Please Enter Valid Amount</div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for=""></label>
+                                                    <a href class="btn btn-labeled btn-primary btn-sm" ng-click="collectionBtn = true; addCollectionRow(collectionData);" style="margin-top: 25px;">
+                                                        <i class="btn-sm fa fa-plus"></i>{{collectionBtnLbl}}
+                                                    </a>
+                                                </div>
+                                            </div>                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                                <span style="color: red;" ng-if="amountExcess">{{amountExcess}}</span><br>
+                                                <table class="table table-hover table-striped table-bordered collectiontbl" at-config="config">
+                                                    <thead class="bord-bot">
+                                                        <tr>
+                                                            <th style="width:5%;text-align: center;">SR No.</th>
+                                                            <th style="width:5%;text-align: center;">Collection Stage</th>
+                                                            <th style="width:5%;text-align: center;">Payment Date</th>
+                                                            <th style="width:5%;text-align: center;">Payment Amount</th>                        
+                                                            <th style="width:5%;text-align: center;">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr role="row" ng-repeat="rec in crecords track by $index">
+                                                            <td style="text-align: center;">{{ $index + 1}}</td>
+                                                            <td style="text-align: center;">{{ rec.collection_stage_id1 | split:'_':1 }}</td>
+                                                            <td style="text-align: center;">{{ rec.collection_date1 | date:"dd-MM-yyyy"}}</td>
+                                                            <td style="text-align: center;">{{ rec.collection_amount}}</td>
+                                                            <td class="fa-div">
+                                                                <div class="fa-hover" tooltip-html-unsafe="Edit Collection"><a href><i class="fa fa-pencil editMode{{$index + 1}}" ng-click="editIndex(collectionData.total_recievable_amount1, rec)"></i></a> &nbsp;&nbsp;</div>
+                                                                <div class="fa-hover" tooltip-html-unsafe="Delete Collection" style="display: block;" ng-click="deleteIndex(collectionData.total_recievable_amount1, rec)"><a href><i class="fa fa-trash-o"></i></a> &nbsp;&nbsp;</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-if="crecords.length > 0">
+                                                            <td colspan="2"></td>
+                                                            <td style="text-align: center;">Total</td>
+                                                            <td style="text-align: center;">{{amountTotal}}</td>
+                                                            <td colspan="2"></td>
+                                                        </tr>
+                                                        <tr ng-if="crecords.length == 0"><td colspan="5" align="center">No records found</td></tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <span class="input-icon icon-right">
+                                                    <button type="button" class="btn btn-primary custom-btn" ng-click="insertCollection(remarkData);" ng-disabled="disSubmitBtn">Submit</button>
+                                                </span>
+                                            </div>
+                                        </div> 
+                                    </tab>
+                                    <tab heading="Receipts" ng-click="initRecieptTab()" disabled="!receiptTab" id="receiptTab">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group" ng-class="{ 'has-error' : receiptBtn && (!remarkForm.received_amount.$dirty && remarkForm.received_amount.$invalid)}">
+                                                    <label for="">Collected Amount<span class="sp-err">*</span></label><span style="color:red;" ng-if="rexcessAmount"> {{rexcessAmount}}</span>
+                                                    <span style="float: right;">Total on road amount: {{totalOnRoadAmount}}</span>
+                                                    <span class="input-icon icon-right">                                        
+                                                        <input type="text" ng-model="receiptData.received_amount" name="received_amount" class="form-control" ng-pattern="/^[1-9]\d*$/" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" maxlength="7" ng-required="!collected" ng-change="checkPayableAmount(receiptData.received_amount)" ng-model-options="{ allowInvalid: true, debounce: 600 }">
+                                                        <i class="fa fa-money" aria-hidden="true"></i>
+                                                        <div ng-show="receiptBtn && !rfuncalled" ng-messages="remarkForm.received_amount.$error" class="help-block">
+                                                            <div ng-message="required">Please Enter Amount</div>
+                                                            <div ng-message="pattern">Please Enter Valid Amount</div>
+                                                        </div>
+                                                        <div class="col-sm-12" ng-if="receiptData.collection_stage_id_receipt">
+                                                            <span style="float: left;font-weight: bold;">Total amount: {{totalAmount}}</span>
+                                                            <span style="text-align: center;font-weight: bold;color:red;margin-left: 25%;">Pending amount: {{pendingAmount}}</span>
+                                                            <span style="float: right;font-weight: bold;">Balance amount: {{balanceAmount}}</span>                                                                            
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group" ng-class="{ 'has-error' : receiptBtn && (!remarkForm.collection_stage_id_receipt.$dirty && remarkForm.collection_stage_id_receipt.$invalid)}">
+                                                    <label for="">Collection Stage<span class="sp-err">*</span></label>
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-model="receiptData.collection_stage_id_receipt" id="collection_stage_id_receipt" name="collection_stage_id_receipt" class="form-control" ng-click="getCollectionStageReceipt(receiptData.collection_stage_id_receipt.split('_')[0])" ng-required="!collected" ng-disabled="disReceiptField || disReceiptField1">
+                                                            <option value="">Select</option>
+                                                            <option ng-repeat="list in recieptStagesList" value="{{list.id}}_{{list.stages}}" ng-selected="{{ list.id == remarkData.collection_stage_id_receipt}}">{{list.stages}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>                                                        
+                                                    </span>
+                                                    <div ng-show="receiptBtn && !rfuncalled" ng-messages="remarkForm.collection_stage_id_receipt.$error" class="help-block">
+                                                        <div ng-message="required">Please Select Collection Stage</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group" ng-class="{ 'has-error' : receiptBtn && (!remarkForm.payment_date.$dirty && remarkForm.payment_date.$invalid)}">
+                                                    <label for="">Payment Date<span class="sp-err">*</span></label>
+                                                    <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                                                        <p class="input-group">
+                                                            <input type="text" ng-model="receiptData.payment_date" name="payment_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly ng-required="!collected"/>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && openMaxDate($event)" ng-disabled="disReceiptField"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                            </span>
+                                                        <div ng-show="receiptBtn && !rfuncalled" ng-messages="remarkForm.payment_date.$error" class="help-block">
+                                                            <div ng-message="required">Please select date</div>
+                                                        </div>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3" ng-controller="paymentModeCtrl">
+                                                <div class="form-group" ng-class="{ 'has-error' : (receiptBtn && !rfuncalled && receiptData.payment_mode_id1 == '0') && (!remarkForm.payment_mode_id1.$dirty && remarkForm.payment_mode_id1.$invalid)}">
+                                                    <label for="">Payment Mode<span class="sp-err">*</span></label>
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-model="receiptData.payment_mode_id1" id="payment_mode_id1" name="payment_mode_id1" class="form-control" ng-required="!collected" ng-disabled="disReceiptField">
+                                                            <option value="0">Select</option>
+                                                            <option ng-repeat="list in paymentModeList" value="{{list.id}}_{{list.payment_mode}}" ng-selected="{{ list.id == receiptData.payment_mode_id1}}">{{list.payment_mode}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                        <div ng-show="receiptBtn && !rfuncalled && receiptData.payment_mode_id1 == '0'" ng-messages="remarkForm.payment_mode_id1.$error" class="help-block">
+                                                            <div>Please Select Payment Status</div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3" ng-show="receiptData.payment_mode_id1.split('_')[0] != '1' && receiptData.payment_mode_id1 != '0'">
+                                                <div class="form-group" ng-class="{ 'has-error' : (receiptBtn && !rfuncalled) && (!remarkForm.pdc_date.$dirty && remarkForm.pdc_date.$invalid)}">
+                                                    <label for="">Cheque / DD Date<span class="sp-err">*</span></label>
+                                                    <div ng-controller="DatepickerDemoCtrl" class="form-group">
+                                                        <p class="input-group">
+                                                            <input type="text" ng-model="receiptData.pdc_date" name="pdc_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly ng-required="receiptData.payment_mode_id1 != '1' && !collected"/>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                            </span>
+                                                        <div ng-show="receiptBtn && !rfuncalled" ng-messages="remarkForm.pdc_date.$error" class="help-block">
+                                                            <div ng-message="required">Please select date</div>
+                                                        </div>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3" ng-show="receiptData.payment_mode_id1.split('_')[0] != '1' && receiptData.payment_mode_id1 != '0'">
+                                                <div class="form-group" ng-class="{ 'has-error' : receiptBtn && (!remarkForm.transaction_number.$dirty && remarkForm.transaction_number.$invalid)}">
+                                                    <label for="">UTR / REF / Cheque / DD Number</label>
+                                                    <span class="input-icon icon-right">                                        
+                                                        <input type="text" ng-model="receiptData.transaction_number" name="transaction_number" class="form-control">
+                                                        <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                            </div>           
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Receipt Remarks</label>
+                                                    <span class="input-icon icon-right">
+                                                        <textarea class="form-control" rows="2" cols="30" ng-model="receiptData.receiptRemarks" name="receiptRemarks" maxlength="300" capitalization></textarea>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <label for=""></label>
+                                                    <a href class="btn btn-labeled btn-primary btn-sm" ng-click="receiptBtn = true; addReceiptRow(receiptData);" style="margin-top: 25px;">
+                                                        <i class="btn-sm fa fa-plus"></i>{{receiptBtnLbl}}
+                                                    </a>
+                                                </div>
+                                            </div>                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                                <table class="table table-hover table-striped table-bordered collectiontbl table-responsive" at-config="config">
+                                                    <thead class="bord-bot">
+                                                        <tr>
+                                                            <th style="width:2%;text-align: center;">SR</th>
+                                                            <th style="width:20%;text-align: center;">Collection Stage</th>
+                                                            <th style="width:15%;text-align: center;">Payment Date</th>
+                                                            <th style="width:10%;text-align: center;">Amount</th>                        
+                                                            <th style="width:15%;text-align: center;">Payment Mode</th>  
+                                                            <th style="width:20%;text-align: center;">Transaction Status</th>  
+                                                            <th style="width:10%;text-align: center;">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr role="row" ng-repeat="rec in receiptRecords track by $index">
+                                                            <td style="text-align: center;">{{ $index + 1}}</td>
+                                                            <td style="text-align: center;">{{ rec.collection_stage_id_receipt | split:'_':1}}</td>
+                                                            <td style="text-align: center;">{{ rec.payment_date | date:"dd-MM-yyyy"}}</td>
+                                                            <td style="text-align: center;">{{ rec.received_amount}}</td>
+                                                            <td style="text-align: center;">{{ rec.payment_mode_id1 | split:'_':1 }}</td>
+                                                            <td style="text-align: center;">{{ rec.transaction_status_id | split:'_':1 }}</td>
+                                                            <td class="fa-div">
+                                                                <div class="fa-hover" tooltip-html-unsafe="Edit Receipt" ng-hide="rec.id && (rec.transaction_status_id == '3_Credited' || rec.transaction_status_id == '4_Rejected')">
+                                                                    <a href><i class="fa fa-pencil" ng-click="editReceiptIndex(rec)"></i></a> &nbsp;&nbsp;</div>
+                                                                <div class="fa-hover" tooltip-html-unsafe="Delete Receipt" style="display: block;" ng-click="deleteReceiptIndex(rec)" ng-hide="rec.id && (rec.transaction_status_id == '3_Credited' || rec.transaction_status_id == '4_Rejected')">
+                                                                    <a href><i class="fa fa-trash-o"></i></a> &nbsp;&nbsp;</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-if="receiptRecords.length > 0">
+                                                            <td colspan="2"></td>
+                                                            <td style="text-align: center;">Total</td>
+                                                            <td style="text-align: center;">{{receiptAmountTotal}}</td>
+                                                            <td colspan="3"></td>
+                                                        </tr>
+                                                        <tr ng-if="receiptRecords.length == 0"><td colspan="7" align="center">No records found</td></tr>
+                                                    </tbody>
+                                                </table>                                                
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <span class="input-icon icon-right">
+                                                    <button type="button" class="btn btn-primary custom-btn" ng-click="insertReciept(receiptData)" ng-disabled="receiptSbtBtn">Submit</button>
+                                                </span>
+                                            </div>
+                                        </div> 
+                                    </tab>
+                                </tabset>
+
+                                <div ng-if="remarkData.sales_status_id != 3"><br><br><br></div>
+                                <div class="content1" id="footerContent">
+                                    <div class="row" ng-if="remarkData.sales_status_id != 3">
+                                        <div class="col-sm-12 col-lg-12">
+                                            <div class="row" ng-if="remarkData.sales_status_id != 3 && remarkData.sales_status_id != 4">
+                                                <div class="col-sm-12 col-lg-12">
+                                                    <div class="timeline-unit"> Remark through </div>
+                                                    <a href ng-click="text()" class="atext"><img src="/images/text_blue.png" tooltip-html-unsafe="Enter Remark" class="imgcls"/></a><span class="checkLost" ng-show="mobileList.length > 0 || mobileIcon">&nbsp; OR &nbsp;</span>
+                                                    <a href ng-click="sms()" class="checkLost asms" ng-show="mobileList.length > 0 || mobileIcon"><img src="/images/sms_blue.png" tooltip-html-unsafe="Send SMS" class="imgcls"/></a><span ng-show="emailList.length > 0 || emailIcon" class="checkLost">&nbsp; OR &nbsp;</span>
+                                                    <a href ng-click="email()" class="checkLost aemail" ng-show="emailList.length > 0"><img src="/images/mail_blue.png" tooltip-html-unsafe="Send Email" class="imgcls"/></a>
+                                                </div>
+                                            </div>
+                                            <div class="row" class="overlay">
+                                                <div class="col-sm-12 col-lg-12">
+                                                    <div class="row mod-sh-div" ng-show="divText">
+                                                        <div class="col-sm-12">
+                                                            <div id="divMyTags"><br>
+                                                                <label for="" ng-if="remarkData.sales_status_id != 4">Today's Remarks</label>
+                                                                <label for="" ng-if="remarkData.sales_status_id == 4">Lost Remarks</label>
+                                                                <div class="existingTag bordered-themeprimary">
+                                                                    <div class="col-sm-12 csspadding">
+                                                                        <div class="form-group">
+                                                                            <span class="input-icon icon-right">
+                                                                                <textarea class="form-control" rows="5" cols="50" ng-model="remarkData.textRemark" name="textRemark" ng-required="divText" capitalization></textarea>
+                                                                            </span>
+                                                                            <div ng-show="sbtBtn3" ng-messages="remarkForm.textRemark.$error" class="help-block">
+                                                                                <div ng-message="required">Please enter remark</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">                       
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group" style="float: left;margin-right: 30px;">
+                                                                    <label for="">SMS Privacy Status</label>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
+                                                                </div>
+                                                                <div class="form-group" style="float: left;">
+                                                                    <label for="">Email Privacy Status</label>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn3 = true, sbtBtn = true]">Submit</button>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row mod-sh-div" ng-show="divSms">
+                                                        <div class="col-sm-12">
+                                                            <div id="divMyTags"><br>
+                                                                <label for="">Send / Schedule SMS</label>
+                                                                <div class="existingTag bordered-themeprimary" style="padding: 10px 0px 0px 0px;">   
+                                                                    <div class="col-sm-3">
+                                                                        <div class="form-group">
+                                                                            <label for="">Select mobile number <span class="sp-err">*</span></label>
+                                                                            <div class="control-group">                                                            
+                                                                                <div class="checkbox" ng-repeat="mlist in mobileList track by $index">
+                                                                                    <label>
+                                                                                        <input type="checkbox" ng-model="mobile_number" ng-change="checkedMobileNo(mlist, $index)" value="{{mlist}}" id="mob_{{$index}}" class="clsMobile">
+                                                                                        <span class="text">{{mlist}}</span>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div><br/><br/>
+                                                                        <div ng-show="sbtBtn1" ng-messages="remarkForm.mobile_number.$error" class="help-block">
+                                                                            <div ng-message="required">Please select mobile number</div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-sm-9">
+                                                                        <div class="form-group">
+                                                                            <label for="">Remark <span class="sp-err">*</span></label>
+                                                                            <span class="input-icon icon-right">
+                                                                                <textarea class="form-control" rows="4" ng-model="remarkData.msgRemark" name="msgRemark" ng-required="divSms" capitalization></textarea>
+                                                                            </span>
+                                                                            <div ng-show="sbtBtn1" ng-messages="remarkForm.msgRemark.$error" class="help-block">
+                                                                                <div ng-message="required">Please enter remark</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">                       
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group" style="float: left;margin-right: 30px;">
+                                                                    <label for="">SMS Privacy Status</label>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
+                                                                </div>
+                                                                <div class="form-group" style="float: left;">
+                                                                    <label for="">Email Privacy Status</label>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]">Schedule For Later</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn1 = true, sbtBtn = true]">Send Now</button>
+                                                            </div> 
+                                                        </div>  
+                                                    </div>
+
+                                                    <div class="row mod-sh-div" ng-show="divEmail">
+                                                        <div class="col-sm-12 csspadding">
+                                                            <div id="divMyTags">
+                                                                <label for="">Send / Schedule Email</label>
+                                                                <div class="existingTag bordered-themeprimary csspadding">
+                                                                    <div class="row">                                                    
+                                                                        <div class="col-sm-6">
+                                                                            <div class="form-group">
+                                                                                <label>Select email id<span class="sp-err">*</span></label>
+                                                                                <div class="control-group">
+                                                                                    <div class="checkbox" ng-repeat="elist in emailList track by $index">
+                                                                                        <label>
+                                                                                            <input type="checkbox" ng-model="email_id" ng-change="checkedEmailId(elist, $index)" value="{{elist}}" id="email_{{$index}}" class="clsEmail">
+                                                                                            <span class="text">{{elist}}</span>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div ng-show="sbtBtn2" ng-messages="remarkForm.email_id.$error" class="help-block">
+                                                                                <div ng-message="required">Please select email id</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-6">
+                                                                            <div class="form-group">
+                                                                                <label for="">Subject<span class="sp-err">*</span></label>
+                                                                                <span class="input-icon icon-right">
+                                                                                    <input type="text" ng-model="remarkData.subject" name="subject" class="form-control" ng-required="divEmail">
+                                                                                </span>
+                                                                                <div ng-show="sbtBtn2" ng-messages="remarkForm.subject.$error" class="help-block">
+                                                                                    <div ng-message="required">Please enter subject</div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">                                                    
+                                                                        <div class="col-sm-12">
+                                                                            <div class="form-group">
+                                                                                <label for="">Mail Content<span class="sp-err">*</span></label>
+                                                                                <span class="input-icon icon-right">
+                                                                                    <div class="widget flat radius-bordered" style="margin: 0 0 -15px 0 !important;">
+                                                                                        <div class="widget-body no-padding">   
+                                                                                            <div class="form-group">
+                                                                                                <div text-angular name="email_content" ng-model="remarkData.email_content" ta-text-editor-class="editor-text form-control myform1-height" ta-html-editor-class="editor-text form-control myform1-height" ng-required="divEmail" style="height: 130px;"></div>
+                                                                                            </div>                                                                        
+                                                                                        </div>
+                                                                                        <div ng-show="sbtBtn2" ng-messages="remarkForm.email_content.$error" class="help-block">
+                                                                                            <div ng-message="required">Please enter email content</div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-12">                       
+                                                            <div class="col-sm-6">
+                                                                <div class="form-group" style="float: left;margin-right: 30px;">
+                                                                    <label for="">SMS Privacy Status</label>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
+                                                                </div>
+                                                                <div class="form-group" style="float: left;">
+                                                                    <label for="">Email Privacy Status</label>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <button type="submit" class="btn btn-primary custom-btn">Schedule For Later</button>
+                                                                <button type="submit" class="btn btn-primary custom-btn" ng-click="[sbtBtn2 = true, sbtBtn = true]">Send Now</button>
+                                                            </div> 
+                                                        </div> 
+                                                    </div>   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </form>                           
+                        </div>
+                    </div>
                 </tab>
                 <tab heading="Customer Details" ng-click="getTodayRemarkCustomerModal(remarkData.customerId)" id="customerTab">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -165,7 +1082,7 @@
                             Personal Details
                         </div>
                     </div>
-                    <form novalidate role="form" ng-submit="customerForm.$valid && updateTodayRemarkCustomerModal(customerData, customerContacts, remarkData.customerId)" name="customerForm">
+                    <form novalidate role="form" ng-submit="customerForm.$valid && updateTodayRemarkCustomerModal(customerData, customerContacts, remarkData.customerId,'')" name="customerForm">
                         <div class="row">
                             <div class="col-sm-2">
                                 <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.title_id.$dirty && customerForm.title_id.$invalid)}">
@@ -283,7 +1200,7 @@
                                 <div class="form-group">
                                     <label for="">PAN Number</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" maxlength="10" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" minlength="10" maxlength="10" class="form-control">
                                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -292,7 +1209,7 @@
                                 <div class="form-group">
                                     <label for="">Aadhar Number</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" maxlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" minlength="11" maxlength="11" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -306,7 +1223,7 @@
                                         <span class="input-icon icon-right">
                                             <select ng-model="customerContacts.address_type" name="address_type" class="form-control">
                                                 <option value="">Select Type</option>
-                                                <option value="1">Home</option>
+                                                <option value="1">Personal</option>
                                                 <option value="2">Office</option>
                                             </select>
                                             <i class="fa fa-sort-desc"></i>

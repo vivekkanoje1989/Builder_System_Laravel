@@ -642,72 +642,91 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-                    $scope.customerData = response.customerPersonalDetails[0];
-                    $scope.customerContacts = response.customerPersonalDetails.get_customer_contacts;
-                    $scope.customerContacts.country_id = '101';
-                    
-                    if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
-                        $scope.customerData.birth_date = "";
-                    }else{
-                        var bdt = new Date(response.customerPersonalDetails[0].birth_date);
-                        if (bdt.getDate() < 10) {
-                            $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
-                        }else{
-                            $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
-                        }
-                        $scope.maxDates = response.customerPersonalDetails[0].birth_date;
-                    }
+                    $timeout(function () {
+                        $scope.customerData = response.customerPersonalDetails[0];
+                        $scope.customerContacts = response.customerPersonalDetails.get_customer_contacts[0];
 
-                    if(response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00"){
-                        $scope.customerData.marriage_date = "";
-                    }else{
-                       var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
-                        if (marriage_date.getDate() < 10) {
-                            $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
+                        if(response.customerPersonalDetails[0].aadhar_number === "null" || response.customerPersonalDetails[0].aadhar_number === 0){
+                            $scope.customerData.aadhar_number = "";
+                        }
+                        if(response.customerPersonalDetails[0].pan_number === "null" || response.customerPersonalDetails[0].pan_number === 0){
+                            $scope.customerData.pan_number = "";
+                        }
+                        if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
+                            $scope.customerData.birth_date = "";
                         }else{
-                            $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
+                            var bdt = new Date(response.customerPersonalDetails[0].birth_date);
+                            if (bdt.getDate() < 10) {
+                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
+                            }else{
+                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
+                            }
+                            $scope.maxDates = response.customerPersonalDetails[0].birth_date;
                         }
-                    }
-                    Data.post('getStates', {
-                        data: {countryId: $scope.customerContacts.country_id},
-                    }).then(function (response) {
-                        if (!response.success) {
-                            $scope.errorMsg = response.message;
-                        } else {
 
-                            $scope.stateList = response.records;
-                            $timeout(function () {
-                                $("#current_state_id").val($scope.customerContacts.state_id);
-                                $scope.customerContacts.state_id = angular.copy($scope.customerContacts.state_id);
-                            }, 500);
+                        if(response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00"){
+                            $scope.customerData.marriage_date = "";
+                        }else{
+                           var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
+                            if (marriage_date.getDate() < 10) {
+                                $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
+                            }else{
+                                $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
+                            }
                         }
-                    });
-                    
-                    if ($scope.customerContacts.state_id !== undefined && $scope.customerContacts.state_id !== '0') {
-                        Data.post('getCities', {
-                            data: {stateId: $scope.customerContacts.state_id},
-                        }).then(function (cityresult) {
-                            if (!cityresult.success) {
-                                $scope.errorMsg = cityresult.message;
+                        
+                        Data.post('getStates', {
+                            data: {countryId: $scope.customerContacts.country_id},
+                        }).then(function (response) {
+                            if (!response.success) {
+                                $scope.errorMsg = response.message;
                             } else {
-                                $scope.cityList = cityresult.records;
+
+                                $scope.stateList = response.records;
                                 $timeout(function () {
-                                    $("#current_city_id").val($scope.customerContacts.city_id);
-                                    $scope.customerContacts.city_id = angular.copy($scope.customerContacts.city_id);
-                                }, 500);
+                                    $("#current_state_id").val($scope.customerContacts.state_id);
+                                    $scope.customerContacts.state_id = angular.copy($scope.customerContacts.state_id);
+                                }, 200);
                             }
                         });
-                    }
+
+                        if ($scope.customerContacts.state_id !== undefined && $scope.customerContacts.state_id !== '0') {
+                            Data.post('getCities', {
+                                data: {stateId: $scope.customerContacts.state_id},
+                            }).then(function (cityresult) {
+                                if (!cityresult.success) {
+                                    $scope.errorMsg = cityresult.message;
+                                } else {
+                                    $scope.cityList = cityresult.records;
+                                    $timeout(function () {
+                                        $("#current_city_id").val($scope.customerContacts.city_id);
+                                        $scope.customerContacts.city_id = angular.copy($scope.customerContacts.city_id);
+                                    }, 200);
+                                }
+                            });
+                        }
+                    }, 350);
                 }
             });
+            
         }
         
-        $scope.updateTodayRemarkCustomerModal = function (customerData, customerContacts, customerId) { //Customer Details tab inseide today remark popup
+        $scope.updateTodayRemarkCustomerModal = function (customerData, customerContacts, customerId, customerPhoto) { //Customer Details tab inseide today remark popup
             var contactArr = [];
             contactArr[0] = customerContacts;
-            Data.put('/master-sales/' + customerId, {
-                _method: "PUT", customerData: customerData, customerContacts: contactArr,
-            }).then(function (response) {
+            
+            if (typeof customerPhoto === 'string' || typeof customerPhoto === 'undefined') {
+                customerPhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+            }
+            var url = '/master-sales/' + customerId;
+            var data = {_method: "PUT", customerData: customerData, customerContacts: contactArr, image_file: customerPhoto};
+            
+            customerPhoto.upload = Upload.upload({
+                url: url,
+                headers: {enctype: 'multipart/form-data'},
+                data: data,
+            });
+            customerPhoto.upload.then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
