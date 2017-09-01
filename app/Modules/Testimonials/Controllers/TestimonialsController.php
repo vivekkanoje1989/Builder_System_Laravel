@@ -126,7 +126,7 @@ class TestimonialsController extends Controller {
                
                 S3::s3FileUpload($input['photo_url']->getPathName(), $imageName, $s3FolderName);
                 $fileName = trim($imageName, ",");
-                print_r($imageName);
+              
                 $input['testimonial']['photo_url'] = $imageName;
             } else {
                 unset($input['testimonial']['photo_url']);

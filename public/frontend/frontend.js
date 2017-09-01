@@ -2,36 +2,38 @@ var app = angular.module('app', ['ngFileUpload',
     'ngMessages']);
 
 /*app.config(
-                ['$stateProvider', '$urlRouterProvider',
-                    function ($stateProvider, $urlRouterProvider) {
-    $stateProvider.
-      when('/index', {
-		templateUrl: 'website/index',
-		controller: 'AppCtrl'
-	}).
-      when('/about', {
-		templateUrl: 'website/about',
-		controller: 'AppCtrl'
-      }).
-      otherwise({
-		redirectTo: '/index'
-      });
-}]);*/
+ ['$stateProvider', '$urlRouterProvider',
+ function ($stateProvider, $urlRouterProvider) {
+ $stateProvider.
+ when('/index', {
+ templateUrl: 'website/index',
+ controller: 'AppCtrl'
+ }).
+ when('/about', {
+ templateUrl: 'website/about',
+ controller: 'AppCtrl'
+ }).
+ otherwise({
+ redirectTo: '/index'
+ });
+ }]);*/
 
-app.config(['$stateProvider', '$urlRouterProvider', 
-    function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider
-        .otherwise('/index');
-    $stateProvider
-        .state('website', {
-            //abstract: true,
-            url: '/',
-            templateUrl: 'website/index',
-        })
-}]);
-                                
+
+
+//app.config(['$stateProvider', '$urlRouterProvider', 
+//    function ($stateProvider, $urlRouterProvider) {
+//    $urlRouterProvider
+//        .otherwise('/index');
+//    $stateProvider
+//        .state('website', {
+//            //abstract: true,
+//            url: '/',
+//            templateUrl: 'website/index',
+//        })
+//}]);
+
 app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location', '$rootScope', function ($scope, Upload, $timeout, $http, $location, $rootScope) {
-alert('fg');
+        alert('fg');
         $scope.submitted = false;
         $scope.empl = true;
         $scope.career = true;
@@ -51,7 +53,7 @@ alert('fg');
             $scope.blogId = blogId;
         }
         $scope.getProjectDetails = function (id)
-        {
+        {  
             $http.post(baseUrl + 'getProjectDetails', {'id': id}).then(function (response) {
                 $scope.aminities = response.aminities;
                 $scope.availble = response.availble;
@@ -70,6 +72,7 @@ alert('fg');
                 if (response.data.result.amenities_images != null) {
                     $scope.amenities_images = response.data.result.amenities_images.split(',');
                 }
+              
                 $scope.project_address = response.data.result.project_address;
                 $scope.email_sending_id = response.data.result.email_sending_id;
                 $scope.project_broacher = response.data.result.project_broacher;
@@ -80,6 +83,7 @@ alert('fg');
                 $scope.projects = response.data.projects;
                 $scope.googleMap = response.data.result.google_map_iframe;
                 $scope.project_name = response.data.result.project_name;
+                
             });
         }
 
@@ -195,7 +199,6 @@ alert('fg');
         {
             $http.post(baseUrl + 'getBlogDetails', {'blog_id': blog_id}).then(function (response) {
                 $scope.blogDetail = response.data.result;
-                console.log($scope.blogDetail)
                 $scope.blog_images = $scope.blogDetail.blog_images.split(',');
             });
         }
@@ -204,7 +207,7 @@ alert('fg');
         {
             $http.get(baseUrl + 'getNews').then(function (response) {
                 $scope.news = response.data.result;
-                console.log($scope.news)
+              
             });
         }
 
@@ -234,7 +237,7 @@ alert('fg');
 
             });
         }
-        
+
         $scope.getEvents = function ()
         {
             $http.get(baseUrl + 'getEvents').then(function (response) {
