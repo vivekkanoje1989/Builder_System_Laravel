@@ -19,6 +19,7 @@ Route::group(array('module' => 'MyStorage', 'middleware' => ['auth:admin'],'name
     Route::get('/storage-list/{folderId}/SubFolderRestore', 'MyStorageController@SubFolderRestore');
     Route::post('/storage-list/subFolder', 'MyStorageController@subFolder');
     Route::post('/storage-list/deleteImages', 'MyStorageController@deleteImages');
+    Route::post('/storage-list/deleteImages', 'MyStorageController@deleteImages');
     Route::get('/getEmployees', 'MyStorageController@getEmployees');
     Route::post('/storage-list/sharedWith', 'MyStorageController@sharedWith');
     Route::get('/sharedwith-me', 'MyStorageController@sharedWithMe');

@@ -5,6 +5,9 @@
 <<<<<<< HEAD
         <group/>
 =======
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/blukreassign.blade.php</file>
@@ -19,5 +22,6 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bookedenquiry.blade.php</file>
         </group>
 >>>>>>> ff8e4084129e24cc8e65ce1c5ac39b8db8669990
+>>>>>>> dfc3a2426892e5deeca75d2e96853aa6d7ae9e66
     </open-files>
 </project-private>
