@@ -21,6 +21,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.flagForChange = 0;
         $scope.report_name;
         $scope.listType = 0;
+        $scope.BulkReasign = false;
+        $scope.bulkData = {};
+        $scope.Bulkflag = [];
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };
@@ -66,6 +69,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
         /****************************ENQUIRIES****************************/
         $scope.pageChanged = function (pageNo, functionName, id, type, newpage,listType) {
+            
+            $('#all_chk_reassign_enq').prop('checked', false);
+            $scope.BulkReasign = false;
+            $(".chk_reassign_enq").prop('checked', false);
             $scope.flagForChange++;
             if ($scope.flagForChange == 1)
             {
@@ -336,51 +343,79 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             return false;
         }
         
-        /****************************FILTER (UMA)***************************************/
-        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************
-        $scope.getTeamTotalEnquiries = function ()
+          $scope.singleSelect = function ()
         {
-            $scope.pageHeading = "Team Total Enquiries";
-            Data.post('master-sales/getTeamTotalEnquiries').then(function (response) {
-                $scope.listsIndex = response;
+            var result = false;
+            var cnt = 0;
+            $(".chk_reassign_enq").each(function () {
+                if ($(this).is(':checked'))
+                {
+                    result = true;cnt++;
+                }
+            }); 
+            if(cnt === $scope.enquiries.length)
+            {
+                 $('#all_chk_reassign_enq').prop('checked', true);
+            }
+            else
+            {
+                 $('#all_chk_reassign_enq').prop('checked', false);
+            }            
+            if (result === true)
+            {
+                $scope.BulkReasign = true;
+            } else
+            {
+                $scope.BulkReasign = false;
+            }
+        }
+        $scope.checkAll = function (result) {
+            $(':checkbox.chk_reassign_enq').prop('checked', result);
+            if (result == true) {
+                $scope.BulkReasign = true;
+
+            } else {
+                $scope.BulkReasign = false;
+            }
+
+        }
+        
+         $scope.initBulkModal = function () {
+            var flag = [];
+            $(".chk_reassign_enq").each(function (key, value) {
+                if ($(this).is(':checked')) {
+                    var str = $(this).val();
+                    flag.push(str);
+                } else {}
+            });
+            $scope.Bulkflag = flag;
+        }
+        
+        $scope.bulkreasignemployee = function (bulkData) {
+            //console.log($scope.Bulkflag);return false;
+            Data.post('master-sales/BulkReasignEmployee', {
+                employee_id: bulkData, enquiry_id: $scope.Bulkflag
+            }).then(function (response) {
+                var successMsg = response.message;
+                toaster.pop('success', 'Bulk Reassign Enquiries', successMsg);
+                $('#BulkModal').modal('toggle');
+                $(".modal-backdrop").hide();
+                $scope.Bulkflag = {};
+                $state.transitionTo($state.current, $stateParams, {
+                    reload: true, //reload current page
+                    inherit: false, //if set to true, the previous param values are inherited
+                    notify: true //reinitialise object
+                });
+
             });
         }
-        $scope.getTeamLostEnquiries = function ()
-        {
-            $scope.pageHeading = "Team Lost Enquiries";
-            Data.post('master-sales/getTeamLostEnquiries').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamClosedEnquiries = function ()
-        {
-            $scope.pageHeading = "Team Closed Enquiries";
-            Data.post('master-sales/getTeamClosedEnquiries').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamTodayFollowups = function ()
-        {
-            $scope.pageHeading = "Team Today's Followups";
-            Data.post('master-sales/getTeamTodayFollowups').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamPendingFollowups = function ()
-        {
-            $scope.pageHeading = "Team Pending Followups";
-            Data.post('master-sales/getTeamPendingFollowups').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        $scope.getTeamPreviousFollowups = function ()
-        {
-            $scope.pageHeading = "Team Previous Followups";
-            Data.post('master-sales/getTeamPreviousFollowups').then(function (response) {
-                $scope.listsIndex = response;
-            });
-        }
-        /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
+       $scope.dropevent = function(e)
+       {
+            var span = document.querySelector('.fa-sort-desc');
+            span.addEventListener('click', function(event) {
+                
+            });           
+       }
         /*********************TODAY REMARK (GEETA)*********************/
         
         $scope.projectList = [];
@@ -569,6 +604,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             }
         };
+        
         $scope.checkedEmailId = function (emailId, inc) {
             if ($('#email_' + inc).is(':checked')) {
                 $scope.email_id_arr.push(emailId);
@@ -593,59 +629,98 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
         }
         
-        $scope.getCustomerModal = function (cid) {
-            Data.post('master-sales/getCustomerDetails', {
-                data: {customerMobileNo: cid},
+        $scope.getTodayRemarkCustomerModal = function (cid) {
+            Data.post('master-sales/getCustomerDataWithId', {
+                data: {customerId: cid},
             }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-                    $scope.customerData = response.customerPersonalDetails[0];
-                    angular.forEach(response.customerContactDetails[0], function (value, key) {
-                        if (value === "null" || value === 0) {
-                            response.customerContactDetails[0][key] = '';
-                        }
-                    });
-                    $scope.customerContacts = response.customerContactDetails[0];
-                    $scope.customerContacts.country_id = '101';
-                    Data.post('getStates', {
-                        data: {countryId: $scope.customerContacts.country_id},
-                    }).then(function (response) {
-                        if (!response.success) {
-                            $scope.errorMsg = response.message;
-                        } else {
+                    $timeout(function () {
+                        $scope.customerData = response.customerPersonalDetails[0];
+                        $scope.customerContacts = response.customerPersonalDetails.get_customer_contacts[0];
 
-                            $scope.stateList = response.records;
-                            $timeout(function () {
-                                $("#current_state_id").val($scope.customerContacts.state_id);
-                                $scope.customerContacts.state_id = angular.copy($scope.customerContacts.state_id);
-                            }, 500);
+                        if(response.customerPersonalDetails[0].aadhar_number === "null" || response.customerPersonalDetails[0].aadhar_number === 0){
+                            $scope.customerData.aadhar_number = "";
                         }
-                    });
-                    if ($scope.customerContacts.state_id !== '0') {
-                        Data.post('getCities', {
-                            data: {stateId: $scope.customerContacts.state_id},
-                        }).then(function (cityresult) {
-                            if (!cityresult.success) {
-                                $scope.errorMsg = cityresult.message;
+                        if(response.customerPersonalDetails[0].pan_number === "null" || response.customerPersonalDetails[0].pan_number === 0){
+                            $scope.customerData.pan_number = "";
+                        }
+                        if(response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00"){
+                            $scope.customerData.birth_date = "";
+                        }else{
+                            var bdt = new Date(response.customerPersonalDetails[0].birth_date);
+                            if (bdt.getDate() < 10) {
+                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
+                            }else{
+                                $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
+                            }
+                            $scope.maxDates = response.customerPersonalDetails[0].birth_date;
+                        }
+
+                        if(response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00"){
+                            $scope.customerData.marriage_date = "";
+                        }else{
+                           var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
+                            if (marriage_date.getDate() < 10) {
+                                $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
+                            }else{
+                                $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
+                            }
+                        }
+                        
+                        Data.post('getStates', {
+                            data: {countryId: $scope.customerContacts.country_id},
+                        }).then(function (response) {
+                            if (!response.success) {
+                                $scope.errorMsg = response.message;
                             } else {
-                                $scope.cityList = cityresult.records;
+
+                                $scope.stateList = response.records;
                                 $timeout(function () {
-                                    $("#current_city_id").val($scope.customerContacts.city_id);
-                                    $scope.customerContacts.city_id = angular.copy($scope.customerContacts.city_id);
-                                }, 500);
+                                    $("#current_state_id").val($scope.customerContacts.state_id);
+                                    $scope.customerContacts.state_id = angular.copy($scope.customerContacts.state_id);
+                                }, 200);
                             }
                         });
-                    }
+
+                        if ($scope.customerContacts.state_id !== undefined && $scope.customerContacts.state_id !== '0') {
+                            Data.post('getCities', {
+                                data: {stateId: $scope.customerContacts.state_id},
+                            }).then(function (cityresult) {
+                                if (!cityresult.success) {
+                                    $scope.errorMsg = cityresult.message;
+                                } else {
+                                    $scope.cityList = cityresult.records;
+                                    $timeout(function () {
+                                        $("#current_city_id").val($scope.customerContacts.city_id);
+                                        $scope.customerContacts.city_id = angular.copy($scope.customerContacts.city_id);
+                                    }, 200);
+                                }
+                            });
+                        }
+                    }, 350);
                 }
             });
+            
         }
-        $scope.updateCustomerModal = function (customerData, customerContacts, customerId) { //Customer Details tab inseide today remark popup
+        
+        $scope.updateTodayRemarkCustomerModal = function (customerData, customerContacts, customerId, customerPhoto) { //Customer Details tab inseide today remark popup
             var contactArr = [];
             contactArr[0] = customerContacts;
-            Data.put('/master-sales/' + customerId, {
-                _method: "PUT", customerData: customerData, customerContacts: contactArr,
-            }).then(function (response) {
+            
+            if (typeof customerPhoto === 'string' || typeof customerPhoto === 'undefined') {
+                customerPhoto = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date()});
+            }
+            var url = '/master-sales/' + customerId;
+            var data = {_method: "PUT", customerData: customerData, customerContacts: contactArr, image_file: customerPhoto};
+            
+            customerPhoto.upload = Upload.upload({
+                url: url,
+                headers: {enctype: 'multipart/form-data'},
+                data: data,
+            });
+            customerPhoto.upload.then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
@@ -685,8 +760,154 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.sbtBtn1 = $scope.sbtBtn3 = false;
         }
         /******************************************************************************/
-        $scope.todayRemark = function (enquiryId, followupId, customerId) {
-            Data.post('master-sales/getDataForTodayRemark', {enquiryId: enquiryId}).then(function (response) {
+        $scope.getTodayRemark = function (enqid, followupId) {
+            $scope.minDate = new Date();
+            $scope.booked = $scope.collected = true;
+            var time = new Date();
+            if (enqid !== '') {
+                $scope.pageHeading = 'Today`s Remark';
+                Data.post('master-sales/getTodayRemark', {
+                    enquiryId: enqid, followupId: followupId
+                }).then(function (response) {
+                    if (!response.success) {
+                        $scope.errorMsg = response.message;
+                    } else {
+                        $scope.addEmail = false;
+                        $scope.addMob = false;
+                        $scope.remarkData = angular.copy(response.enquiryDetails[0]);
+                        $scope.remarkData.customerId = angular.copy(response.enquiryDetails[0].customerId);
+                        $("#custId").val(response.enquiryDetails[0].customerId);
+                        if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null) {
+                            $scope.remarkData.title_id = '';
+                        }
+                        if (time.getHours() > 19 || time.getHours() < 9) {
+                            time.setHours(9);
+                        }
+                        var minuteStr = time.getMinutes().toString();
+                        if (minuteStr.length == 1 && minuteStr != '0') {
+                            minuteStr = '0' + minuteStr;
+                        } else {
+                            var minuteStr = time.getMinutes();
+                        }
+                        if (minuteStr == 0) {
+                            time.setHours(time.getHours());
+                            time.setMinutes("00");
+                        } else if (minuteStr > 0 && minuteStr <= 15) {
+                            time.setMinutes(15);
+                        } else if (minuteStr > 15 && minuteStr <= 30) {
+                            time.setMinutes(30);
+                        } else if (minuteStr > 30 && minuteStr <= 45) {
+                            time.setMinutes(45);
+                        } else {
+                            time.setHours(time.getHours() + 1);
+                            time.setMinutes("00");
+                        }
+                        $scope.remarkData.next_followup_time = time;
+                        $scope.useremail = angular.copy(response.useremail);
+                        $scope.userpermissions = angular.copy(response.userpermissions);
+//                        $scope.displaymobile = $scope.userpermissions.indexOf("1602");
+//                        $scope.displayemail = $scope.userpermissions.indexOf("1601");
+                        $scope.mobileList = response.enquiryDetails.mobileNumber;
+                        $scope.emailList = response.enquiryDetails.emailId;
+                        var source = (response.enquiryDetails[0].sales_source_name == null) ? ' ' : response.enquiryDetails[0].sales_source_name;
+                        var subsource = (response.enquiryDetails[0].enquiry_subsource == null) ? ' ' : ' / ' + response.enquiryDetails[0].enquiry_subsource;
+                        $scope.sourceDetails = source + subsource;
+                        $scope.remarkData.enquiryId = enqid;
+                        if (response.enquiryDetails[0].corporate_customer == '1') {
+                            $scope.remarkData.corporateCust = true;
+                            $scope.isChecked(true);
+                        } else {
+                            $scope.remarkData.corporateCust = false;
+                            $scope.isChecked(false);
+                        }
+
+                        $scope.remarkData.company_id = response.enquiryDetails[0].company_id;
+                        $scope.remarkData.company_name = response.enquiryDetails[0].company_name;
+                        $scope.customer_area_name = response.enquiryDetails[0].customer_area_name;
+                        $scope.customer_address = (response.enquiryDetails[0].customer_address == '') ? '' : response.enquiryDetails[0].customer_address;
+                        $scope.remarkData.followup_by = {"id": response.enquiryDetails[0].sales_employee_id, "first_name": response.enquiryDetails[0].first_name + " " + response.enquiryDetails[0].last_name};
+
+                        if ($scope.editExistingFollowup == true) {
+                            $scope.remarkData.textRemark = response.enquiryDetails[0].remarks;
+                        }
+                        if (response.enquiryDetails[0].sales_status_id == 1) {
+                            $scope.remarkData.sales_status_id = "";
+                        } else {
+                            $scope.remarkData.sales_status_id = response.enquiryDetails[0].sales_status_id;
+                        }
+                        if (response.enquiryDetails[0].sales_category_id == 1) {
+                            $scope.remarkData.sales_category_id = "";
+                        } else {
+                            $scope.remarkData.sales_category_id = response.enquiryDetails[0].sales_category_id;
+                        }
+
+                        var sales_substatus_id = response.enquiryDetails[0].sales_substatus_id;
+                        var sales_subcategory_id = response.enquiryDetails[0].sales_subcategory_id;
+
+                        if (d.getDate() < 10) {
+                            $scope.remarkData.next_followup_date = (("0" + d.getDate()) + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear());
+                            $scope.remarkData.booking_date = (("0" + d.getDate()) + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear());
+                        } else {
+                            $scope.remarkData.next_followup_date = ((d.getDate()) + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear());
+                            $scope.remarkData.booking_date = ((d.getDate()) + '-' + ("0" + (d.getMonth() + 1)).slice(-2) + '-' + d.getFullYear());
+                        }
+
+                        Data.post('getSalesEnqSubStatus', {
+                           statusId: response.enquiryDetails[0].sales_status_id
+                        }).then(function (response) {
+                            if (!response.success) {
+                                $scope.errorMsg = response.message;
+                            } else {
+                                $scope.subsalesStatusList = response.records;
+                                $("#sales_substatus_id").val(sales_substatus_id);
+                                $scope.remarkData.sales_substatus_id = angular.copy(sales_substatus_id);
+
+                                if ($scope.remarkData.sales_substatus_id == 0 || $scope.remarkData.sales_substatus_id == null || $scope.remarkData.sales_substatus_id === undefined) {
+                                    $scope.remarkData.sales_substatus_id = "";
+                                } else {
+                                    $scope.remarkData.sales_substatus_id = angular.copy(sales_substatus_id);
+                                }
+                            }
+                        });
+
+                        Data.post('getSalesEnqSubCategory', {
+                            categoryId: response.enquiryDetails[0].sales_category_id
+                        }).then(function (response) {
+                            if (!response.success) {
+                                $scope.errorMsg = response.message;
+                            } else {
+
+                                $scope.salesSubCategoriesList = response.records;
+                                if ($scope.remarkData.sales_subcategory_id == 0 || $scope.remarkData.sales_subcategory_id == null || $("#sales_subcategory_id").val() === undefined) {
+                                    $scope.remarkData.sales_subcategory_id = "";
+                                } else {
+                                    $("#sales_subcategory_id").val(sales_subcategory_id);
+                                    $scope.remarkData.sales_subcategory_id = angular.copy(sales_subcategory_id);
+                                }
+                            }
+                        });
+
+                        if ($scope.remarkData.customer_fname !== '') {
+                            $scope.custInfo = true;
+                            $scope.editableCustInfo = false;
+                        } else {
+                            $scope.custInfo = false;
+                            $scope.editableCustInfo = true;
+                        }
+                        if ($scope.remarkData.sales_source_id != '' || $scope.remarkData.sales_source_id != '0') {
+                            $scope.source = false;
+                        } else {
+                            $scope.source = true;
+                        }
+                    }
+                });
+                $timeout(function () {
+                    $("li#remarkTab a").trigger('click');
+                }, 200);
+            }
+        }
+        /*$scope.getTodayRemark = function (enquiryId, followupId, customerId) {
+            Data.post('master-sales/getTodayRemark', {enquiryId: enquiryId}).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.errorMsg;
                 } else {
@@ -738,7 +959,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     });
                 }
             });
-        }
+        }*/
         
         $scope.insertRemark = function (modalData) {
             if ($scope.editableCustInfo === true) {
@@ -805,27 +1026,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }
         };
 
-        $scope.checkedMobileNo = function (mobileNo, inc) {
-            if ($('#mob_' + inc).is(':checked')) {
-                $scope.mobile_number.push(mobileNo);
-            } else {
-                var mobIndex = $scope.mobile_number.indexOf(mobileNo);
-                if (mobIndex > -1) {
-                    $scope.mobile_number.splice(mobIndex, 1);
-                }
-            }
-        }
-        
-        $scope.checkedEmailId = function (emailId, inc) {
-            if ($('#email_' + inc).is(':checked')) {
-                $scope.email_id_arr.push(emailId);
-            } else {
-                var mobIndex = $scope.email_id_arr.indexOf(emailId);
-                if (mobIndex > -1) {
-                    $scope.email_id_arr.splice(mobIndex, 1);
-                }
-            }
-        }
         
         /*********************TODAY REMARK (GEETA)*********************/
         /*********************IMPORT ENQUIRIES (GEETA)*********************/
@@ -994,7 +1194,6 @@ app.filter('split', function () {
 
 $(document).ready(function () {
     $('.toggleForm').click(function () {
-        alert("hi");
         $('#slideout').toggleClass('on');
         if ($(".wrap-filter-form").hasClass("on")) {
             $(".mainDiv").css("opacity", "0.2");

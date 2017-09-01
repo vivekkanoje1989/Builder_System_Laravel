@@ -14,6 +14,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/MasterSales/enquiryHistory', function () {
         return View::make('MasterSales::enquiryHistory');
     });
+     Route::get('/MasterSales/blukreassign', function () {
+        return View::make('MasterSales::blukreassign');
+    });
     Route::get('/MasterSales/enquiryListing', function () {
         return View::make('MasterSales::enquiryListing');
     });
@@ -69,8 +72,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/delEnquiryDetailRow', 'MasterSalesController@delEnquiryDetailRow');
     Route::post('/master-sales/addEnquiryDetailRow', 'MasterSalesController@addEnquiryDetailRow');
     Route::post('/master-sales/getEnquiryHistory', 'MasterSalesController@getEnquiryHistory');
-    Route::post('/master-sales/getDataForTodayRemark', 'MasterSalesController@getDataForTodayRemark');
+    Route::post('/master-sales/getTodayRemark', 'MasterSalesController@getTodayRemark');
     Route::post('/master-sales/insertTodayRemark', 'MasterSalesController@insertTodayRemark');
+    Route::post('/master-sales/BulkReasignEmployee', 'MasterSalesController@BulkReasignEmployee'); // uma
     Route::post('/master-sales/exportToExcel', 'MasterSalesController@exportToExcel');//export data in excel sheet    
     Route::post('/master-sales/filteredData', 'MasterSalesController@filteredData');//filtered data
     

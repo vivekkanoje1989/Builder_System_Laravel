@@ -5,7 +5,8 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
 
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
-        window.history.back();
+       // window.history.back();
+        $state.reload();
         return false;
     }
 
@@ -525,6 +526,17 @@ app.controller('verticalCtrl', function ($scope, Data) {
         }
     });
 });
+app.controller('salesemployeesCtrl', function ($scope, Data) {
+    $scope.salesemployeeList = [];
+    Data.get('getsalesEmployees').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            
+            $scope.salesemployeeList = response.records;
+        }
+    });
+});
 /****************************UMA************************************/
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {
@@ -610,7 +622,6 @@ app.controller('getEmployeeCtrl', function ($scope, Data, $timeout) {
     $scope.employees1 = [];
     $scope.memployees = [];
     var ct_id = $("#id").val();
-    //alert($scope.);   
     var flag = 0;
     $timeout(function () {
         Data.post('virtualnumber/editEmp', {ct_id: ct_id}).then(function (response) {

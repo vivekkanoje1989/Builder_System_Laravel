@@ -485,6 +485,37 @@ class AdminController extends Controller {
         }
     }
 
+      public function getsalesEmployees() {
+       $client_id = config('global.client_id');
+       $loggedInUserId = Auth::guard('admin')->user()->id;
+       $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name','designation_id', 'employee_submenus')                
+                ->where("client_id", $client_id)->where(["employee_status" => 1])->whereNotIn('id', [$loggedInUserId])->get();
+        $i=0;
+        if(!empty($getEmployees)){
+            foreach($getEmployees as $emp){
+                if(!empty($emp->employee_submenus)){
+                    $a = json_decode($emp->employee_submenus, true);
+                    if(in_array("0401",$a) == 1){
+                        $emp->first_name = $emp->first_name." ".$emp->last_name;
+                        unset($emp->employee_submenus,$emp->last_name);
+                        $getEmployees1[] = $emp;
+                    }
+                }$i++;
+            }
+        }
+
+        if (!empty($getEmployees1)) {
+            $result = ['success' => true, 'records' => $getEmployees1];
+
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            
+        }
+        return json_encode($result);  
+        
+        
+    }
+    
     public function getTeamLead($id) {
         $designation = MlstBmsbDesignation::with('employeeName')->get();
         foreach ($designation as $desg) {
