@@ -1,5 +1,5 @@
 'use strict';
-app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams) {
+app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams,$timeout) {
     $scope.registration = {};
     $scope.errorMsg = '';
 
@@ -31,11 +31,27 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
             if (response.success) {
                 $state.reload();
                 $scope.showloader();
+                $rootScope.currentPath = "/dashboard";
                 $rootScope.authenticated = true;
+                $rootScope.id = response.loggedInUserId;
+                $rootScope.loginFullName = response.fullname;                
+                $scope.errlMsg= false;
+//                $http.get('/getMenuItems').then(function (response) {
+//                    $rootScope.getMenu = response.data;
+//                }, function (error) {
+//                    alert('Error');
+//                });
+                
                 $state.go('dashboard');
-                $scope.hideloader();
+                window.location.reload(true);
+                $scope.hideloader();                
+                return false;
 
             } else {
+                 $scope.errlMsg= true;
+                $timeout(function () {
+                $scope.errlMsg = false;
+                }, 6000);
                 $scope.errorMsg = response.message;
             }
         });
@@ -48,9 +64,12 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         }).then(function (response) {
             if (response.success) {
                 $rootScope.authenticated = false;
+                $rootScope.currentPath = "/login";
+                $state.reload();
                 $state.go('login');
-//            window.location.reload();
-                $scope.hideloader();
+                window.location.reload();
+                $scope.hideloader();      
+                return false;
             } else {
                 $scope.errorMsg = response.message;
             }
@@ -98,6 +117,34 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
             class: type,
             messages: $rootScope.message
         }
+    }
+    
+    
+$scope.getpassword = function (username) {
+        Data.post('getforgotpassword', {
+            username: username
+        }).then(function (response) {
+            console.log(response);
+            if (response.success) {
+                $scope.collapsed = false;
+                $scope.showmsg = true;
+                $scope.changedPassword = response.message;
+                $timeout(function () {
+                $scope.showmsg = false;
+                }, 10000);
+                
+                
+            } else {
+                $scope.changedPassword = response.message;
+                $scope.next1 = true;
+                $scope.showmsg = true;
+                $timeout(function () {
+                    $scope.showmsg = false;
+                }, 3000);
+                $scope.next2 = false;
+            }
+            
+        });
     }
 }
 );
@@ -200,7 +247,23 @@ app.controller('salesLostReasonCtrl', function ($scope, Data) {
 });
 
 
-
+app.controller('employeesWiseTeamCtrl', function ($scope, Data,$timeout) {
+    $scope.employeesData = [];
+    Data.post('getTeamEmployees', {
+        data: {empId: ''},
+    }).then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+            $scope.employeesData = response.records;
+        } else {
+            $timeout(function () {console.log($("input[name=customer_number]"));
+                
+                $scope.employeesData = response.records;
+            },1000);
+            
+        }
+    });
+});
 app.controller('projectCtrl', function ($scope, Data) {
     Data.get('getProjects').then(function (response) {
         if (!response.success) {

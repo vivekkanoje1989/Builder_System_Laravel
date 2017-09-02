@@ -70,6 +70,7 @@ Route::group(['middleware' => ['web']], function () {
         return $request;
     });
     Route::post('/password/email', 'backend\Auth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('/getforgotpassword', 'backend\Auth\LoginController@getforgotpassword');
     // Reset Password
     Route::get('/password/reset/{token}/{checkState?}', 'backend\Auth\ResetPasswordController@showResetForm');
     Route::post('/password/reset', 'backend\Auth\ResetPasswordController@reset');
@@ -126,6 +127,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get($getWebsiteUrl . '/testimonial/{id}', 'frontend\UserController@testimonialdetail');
     Route::post($getWebsiteUrl . '/getTestimonialDetails', 'frontend\UserController@getTestimonialDetails');
     Route::get($getWebsiteUrl . '/enquiry/{id}', 'frontend\UserController@enquiry');
+    
 
     $result = \DB::table('web_themes')->where('status', '1')->select(['id', 'theme_name'])->first();
     $result = json_decode(json_encode($result), true);
@@ -182,6 +184,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getCompanyList', 'backend\AdminController@getCompanyList');
     Route::get('/getSalesLostReason', 'backend\AdminController@getSalesLostReason');
     Route::post('/getSalesLostSubReason', 'backend\AdminController@getSalesLostSubReason');
+    Route::post('/getTeamEmployees', 'CloudCallingLogsController@getTeamEmployees');
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });

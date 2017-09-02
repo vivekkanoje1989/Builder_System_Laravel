@@ -1922,6 +1922,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
                                                                 files: [
+                                                                    '/backend/cloudtelephonyController.js',
                                                                     '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                 ]
                                                             }
@@ -1953,11 +1954,11 @@ angular.module('app')
                                                             return $ocLazyLoad.load(['ui.select', {
                                                                     serie: true,
                                                                     files: [
-                                                                         '/js/intlTelInput.js',
-                                                                             '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                                            '/backend/extensionemployeeController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                            '/backend/app/controllers/select.js',
+                                                                        '/js/intlTelInput.js',
+                                                                        '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                        '/backend/extensionemployeeController.js',
+                                                                        '/backend/app/controllers/datepicker.js',
+                                                                        '/backend/app/controllers/select.js',
                                                                     ]
                                                                 }]);
                                                         }
@@ -2040,6 +2041,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
                                                                 files: [
+                                                                    '/backend/cloudtelephonyController.js',
                                                                     '/backend/app/controllers/datepicker.js',
                                                                     '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                     '/backend/app/controllers/select.js',
@@ -2074,6 +2076,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
                                                                 files: [
+                                                                    '/backend/cloudtelephonyController.js',
                                                                     '/backend/app/controllers/datepicker.js',
                                                                     '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                     '/backend/app/controllers/select.js',
@@ -2106,6 +2109,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
                                                                 files: [
+                                                                    '/backend/cloudtelephonyController.js',
                                                                     '/backend/app/controllers/datepicker.js',
                                                                     '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                     '/backend/app/controllers/select.js',
@@ -2138,6 +2142,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
                                                                 files: [
+                                                                    '/backend/cloudtelephonyController.js',
                                                                     '/backend/app/controllers/datepicker.js',
                                                                     '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                     '/backend/app/controllers/select.js',
@@ -4451,6 +4456,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load({
                                                                     serie: true,
                                                                     files: [
+                                                                        '/backend/cloudtelephonyController.js',
                                                                         '/backend/app/controllers/datepicker.js',
                                                                         '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                         '/backend/app/controllers/select.js',
@@ -4483,6 +4489,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load( {
                                                                     serie: true,
                                                                     files: [
+                                                                        '/backend/cloudtelephonyController.js',
                                                                         '/backend/app/controllers/datepicker.js',
                                                                         '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                         '/backend/app/controllers/select.js',
@@ -4515,6 +4522,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load(['ui.select', {
                                                                     serie: true,
                                                                     files: [
+                                                                        '/backend/cloudtelephonyController.js',
                                                                         '/backend/app/controllers/datepicker.js',
                                                                         '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                         '/backend/app/controllers/select2.js',
@@ -4547,6 +4555,7 @@ angular.module('app')
                                                             return $ocLazyLoad.load(['ui.select', {
                                                                     serie: true,
                                                                     files: [
+                                                                        '/backend/cloudtelephonyController.js',
                                                                         '/backend/app/controllers/datepicker.js',
                                                                         '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
                                                                         '/backend/app/controllers/select2.js',
@@ -4729,7 +4738,7 @@ angular.module('app')
                     $http.get('/getMenuItems').then(function (response) {
                         $rootScope.getMenu = response.data;
                     }, function (error) {
-                        alert('Error');
+                        console.log('showMenu');
                     });
                     modifiedUrl = nextUrl.replace(new RegExp(modifiedUrl), '');
                     if (nextUrl === '/register' || nextUrl === '/login' || nextUrl === '/forgotPassword' || modifiedUrl === '/resetPassword') {

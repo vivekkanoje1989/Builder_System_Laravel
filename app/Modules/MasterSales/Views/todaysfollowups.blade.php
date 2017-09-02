@@ -99,8 +99,7 @@
                             <th class="enq-table-th">Next</th>
                         </tr>
                     </thead>
-                    <tbody>
-
+                    <tbody>                       
                         <tr dir-paginate="enquiry in  enquiries | filter:search | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength}}">
                              <td width="6%" style="vertical-align:middle">
                                 <center>
