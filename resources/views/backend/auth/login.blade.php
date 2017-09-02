@@ -23,7 +23,7 @@
 
                             <p class="usr-name ng-scope" ng-if="!fullName">Hello, GUEST</p>
                             <p class="usr-name ng-scope" ng-if="fullName">Hello, {{fullName}}</p>
-
+                            <p class="pwd-succ" style="color: #fff;" ng-if="showmsg">{{changedPassword}}</p>
                         </div>
                         <div id="login-form" class="w3-animate-right col-xs-12 col-md-12" >
                             <div class="input-group">
@@ -48,14 +48,15 @@
                                 <div ng-message="required"  class="sp-err">Required</div>
                                 <div ng-message="minlength"  class="sp-err">Too short (Minimum length is 6 characters)</div>
                                 <div ng-message="maxlength"  class="sp-err">Too long (Maximum length is 15 characters)</div>
-                                <div ng-message="wrongCredentials" class="sp-err">Wrong password!</div>                                
+                                <div ng-message="wrongCredentials" class="sp-err">Wrong password!</div>
+                                <div ng-if="errlMsg" class="sp-err">{{errorMsg}}</div>
                             </div>
                             <div class="mar10">
                                 <a href="javascript:void(0);" ng-model="collapsed" ng-click="collapsed = !collapsed">Forgot Password?</a>
                                 <div ng-show="collapsed">
                                     <h5>You really forgot your password ?</h5>                                     
                                     <div>
-                                        <button ng-show="collapsed" ng-click="collapsed = !collapsed" class="for-btn">Yes</button>
+                                        <button ng-show="collapsed" ng-click="getpassword(loginData.mobile)" class="for-btn">Yes</button>
                                         <button ng-show="collapsed" ng-click="collapsed = !collapsed" class="for-btn">No</button>
                                     </div>   
                                 </div>

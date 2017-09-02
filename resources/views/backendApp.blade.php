@@ -107,15 +107,15 @@
         <script src="/backend/lib/angular/angular-messages.min.js"></script>
         <script src="/backend/app/directives.js"></script>        
         <script src="/backend/adminController.js"></script>
+        
         <script src="/backend/hrController.js"></script>
         <script src="/backend/customerController.js"></script>
-        <script src="/backend/smsConsumptionController.js"></script>
-        
+        <script src="/backend/smsConsumptionController.js"></script>        
         <!--mandar-->
         <script src="/backend/cloudtelephonyController.js"></script>
         <script src="/backend/promotionalsmsController.js"></script>
-        <script src="/backend/alertsController.js"></script>
-        <script src="/backend/customalertsController.js"></script>
+<!--        <script src="/backend/alertsController.js"></script>
+        <script src="/backend/customalertsController.js"></script>-->
         
         <!-- Layout Related Directives -->
         <script src="/backend/app/directives/loading.js"></script>

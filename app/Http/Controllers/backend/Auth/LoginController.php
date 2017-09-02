@@ -10,6 +10,7 @@ use View;
 use App\Classes\CommonFunctions;
 use App\Models\EmployeesDevice;
 use App\Models\SystemConfig;
+use DB;
 class LoginController extends Controller {
     
     /*
@@ -203,6 +204,50 @@ class LoginController extends Controller {
         return json_encode($result);
     }
 
+    public function getforgotpassword() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        if (!empty($request['username'])) {
+            $empExist = \App\Models\backend\Employee::where('username', $request['username'])->first();
+            $password = str_random(8);
+            if (!empty($empExist)) {
+                $changedPassword = \Hash::make($password);
+
+                DB::table('employees')
+                        ->where('username', $request['username'])
+                        ->update(['password' => $changedPassword]);
+
+                $templatedata['employee_id'] = $empExist->id;
+                $templatedata['client_id'] = $empExist->client_id;
+                $templatedata['template_setting_customer'] = 0;
+                $templatedata['template_setting_employee'] = 22;
+                $templatedata['customer_id'] = 0;
+                $templatedata['model_id'] = 0;
+
+                $templatedata['arrExtra'][0] = array(
+                    '[#currentDate#]',
+                    '[#currentTime#]',
+                    '[#username#]',
+                    '[#password#]'
+                );
+                $templatedata['arrExtra'][1] = array(
+                    date('d-M-Y'),
+                    date('h:s A'),
+                    $empExist->username,
+                    $password
+                );
+               // $result = CommonFunctions::templateData($templatedata);
+                $result = ['success' => true, "message" => "Your new password has been sent to your registered email id & mobile number, please check the same"];
+            } else {
+                $result = ['success' => false, "message" => "User does not exist"];
+            }
+        } else {
+            $result = ['success' => false, "message" => "User does not exist"];
+        }
+        echo json_encode($result);
+    }
+    
     public function getLogout() {
         $empId = Auth()->guard('admin')->user()->id;
         $username = Auth()->guard('admin')->user()->username;

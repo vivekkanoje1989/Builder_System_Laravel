@@ -2960,7 +2960,7 @@ Regards,<br>
                 $ressigndate,
                 $ressigntime,
             );
-           $Templateresult = CommonFunctions::templateData($templatedata);
+           // $Templateresult = CommonFunctions::templateData($templatedata);
             
             $result = ["success" => true, "message" => 'Enquiries Reassigned Successfully..'];
         } catch (\Exception $ex) {
