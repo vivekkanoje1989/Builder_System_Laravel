@@ -40,6 +40,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class EnquirySalesSubcategory extends Eloquent
 {
 	protected $casts = [
+                'listing_position' => 'int',
 		'enquiry_sales_category_id' => 'int',
 		'status' => 'int',
 		'created_by' => 'int',
@@ -58,6 +59,7 @@ class EnquirySalesSubcategory extends Eloquent
 	];
 
 	protected $fillable = [
+                'listing_position',
 		'enquiry_sales_category_id',
 		'enquiry_sales_subcategory',
 		'status',

@@ -194,6 +194,7 @@ app.controller('salesLostReasonCtrl', function ($scope, Data) {
                 $scope.errorMsg = response.message;
             } else {
                 $scope.salessublostreasons = response.records;
+                console.log($scope.salessublostreasons);
             }
         }); 
     }
