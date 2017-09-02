@@ -28,10 +28,9 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         Data.post('authenticate', {
             username: loginData.mobile, password: loginData.password,
         }).then(function (response) {
-            if (response.success) {
-                $state.reload();
+            if (response.success) {                
                 $scope.showloader();
-                $rootScope.currentPath = "/dashboard";
+                $state.reload();
                 $rootScope.authenticated = true;
                 $rootScope.id = response.loggedInUserId;
                 $rootScope.loginFullName = response.fullname;                
@@ -40,8 +39,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
 //                    $rootScope.getMenu = response.data;
 //                }, function (error) {
 //                    alert('Error');
-//                });
-                
+//                });                
                 $state.go('dashboard');
                 window.location.reload(true);
                 $scope.hideloader();                

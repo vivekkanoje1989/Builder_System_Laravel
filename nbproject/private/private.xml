@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+<<<<<<< HEAD
+=======
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
@@ -21,4 +23,5 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/lostenquiries.blade.php</file>
         </group>
     </open-files>
+>>>>>>> 21e8e0b1797eae6266dbf096e821f66c142c109b
 </project-private>
