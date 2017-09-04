@@ -458,158 +458,95 @@
 
                                 <tabset justified="true" ng-if="remarkData.sales_status_id == 3">
                                     <tab heading="Booking Details" id="bookingTab">
-                                        <div ng-controller="vehicleDetailsCtlr" ng-if="remarkData.sales_status_id == 3">
-                                            <div class="row" ng-if="remarkData.sales_status_id == 3">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && modelList.length != 0) && (!remarkForm.model_id.$dirty && remarkForm.model_id.$invalid)}">
-                                                        <label for="">Model<span class="sp-err">*</span></label>
-                                                        <span class="input-icon icon-right">
-                                                            <select ng-model="remarkData.model_id" ng-change="modelChange(remarkData.model_id)" id="model_id" name="model_id" class="form-control" ng-required="modelList.length > 0">
-                                                                <option value="">Select Model</option>
-                                                                <option ng-repeat="vmodel in modelList" value="{{vmodel.id}}" ng-selected="{{ vmodel.id == remarkData.model_id}}">{{vmodel.model_name}}</option>
-                                                            </select>
-                                                            <i class="fa fa-sort-desc"></i>
-                                                            <div ng-show="bookBtn" ng-messages="remarkForm.model_id.$error" class="help-block">
-                                                                <div ng-message="required">Please Select Model</div>
-                                                            </div>
-                                                        </span>
-                                                    </div>
+                                        <div class="row" ng-controller="blockTypeCtrl" ng-show="remarkData.sales_status_id == 3">
+                                            <div class="col-sm-6">
+                                                <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && modelList.length != 0) && (!remarkForm.project_id.$dirty && remarkForm.project_id.$invalid)}">
+                                                    <label for="">Project<span class="sp-err">*</span></label>
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-controller="projectCtrl" ng-model="remarkData.project_id" name="project_id"  id ="project_id" class="form-control" ng-change="getBlockTypes(enquiryData.project_id)">
+                                                            <option value="">Select Project</option>
+                                                            <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}">{{plist.project_name}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                        <div ng-show="bookBtn" ng-messages="remarkForm.project_id.$error" class="help-block">
+                                                            <div ng-message="required">Please Select project</div>
+                                                        </div>
+                                                    </span>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && submodelList.length != 0) && (!remarkForm.sub_model_id.$dirty && remarkForm.sub_model_id.$invalid)}">
-                                                        <label for="">Sub Model<span class="sp-err" ng-if="submodelList.length > 0">*</span></label>
-                                                        <span class="input-icon icon-right">
-                                                            <select ng-model="remarkData.sub_model_id" ng-change="submodelChange(remarkData.model_id, remarkData.sub_model_id)" id="sub_model_id" name="sub_model_id" class="form-control" ng-required="submodelList.length > 0">
-                                                                <option value="">Select Sub Model</option>
-                                                                <option ng-repeat="vsmodel in submodelList" value="{{vsmodel.id}}" ng-selected="{{ vsmodel.id == remarkData.sub_model_id}}">{{vsmodel.sub_model_name}}</option>
-                                                            </select>
-                                                            <i class="fa fa-sort-desc"></i>
-                                                            <div ng-show="bookBtn" ng-messages="remarkForm.sub_model_id.$error" class="help-block">
-                                                                <div ng-message="required">Please Select Sub Model</div>
-                                                            </div>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && variantList.length != 0) && (!remarkForm.veriant_id.$dirty && remarkForm.veriant_id.$invalid)}">
-                                                        <label for="">Variant<span class="sp-err" ng-if="variantList.length > 0">*</span></label>
-                                                        <span class="input-icon icon-right">
-                                                            <select ng-model="remarkData.veriant_id" ng-change="variantChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id)" id="veriant_id" name="veriant_id" class="form-control" ng-required="variantList.length > 0">
-                                                                <option value="">Select Variant</option>
-                                                                <option ng-repeat="variant in variantList" value="{{variant.id}}" ng-selected="{{ variant.id == remarkData.veriant_id}}">{{variant.varient_name}}</option>
-                                                            </select>
-                                                            <i class="fa fa-sort-desc"></i>
-                                                            <div ng-show="bookBtn" ng-messages="remarkForm.veriant_id.$error" class="help-block">
-                                                                <div ng-message="required">Please Select Variant</div>
-                                                            </div>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && subvariantList.length != 0) && (!remarkForm.sub_veriant_id.$dirty && remarkForm.sub_veriant_id.$invalid)}">
-                                                        <label for="">Sub Variant<span class="sp-err" ng-if="subvariantList.length > 0">*</span></label>
-                                                        <span class="input-icon icon-right">
-                                                            <select ng-model="remarkData.sub_veriant_id" ng-change="subvariantChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id, remarkData.sub_veriant_id)" id="sub_veriant_id" name="sub_veriant_id" class="form-control" ng-required="subvariantList.length > 0">
-                                                                <option value="">Select Sub Variant</option>
-                                                                <option ng-repeat="vsvmodel in subvariantList" value="{{vsvmodel.id}}" ng-selected="{{ vsvmodel.id == remarkData.sub_veriant_id}}">{{vsvmodel.sub_varient}}</option>
-                                                            </select>
-                                                            <i class="fa fa-sort-desc"></i>
-                                                            <div ng-show="bookBtn" ng-messages="remarkForm.sub_veriant_id.$error" class="help-block">
-                                                                <div ng-message="required">Please Select Sub Variant</div>
-                                                            </div>
-                                                        </span>
-                                                    </div>
-                                                </div>                                   
                                             </div>
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && transmissionList.length != 0) && (!remarkForm.transmission_id.$dirty && remarkForm.transmission_id.$invalid)}">
-                                                        <label for="">Transmission Type<span class="sp-err" ng-if="transmissionList.length > 0">*</span></label>
-                                                        <span class="input-icon icon-right">
-                                                            <select ng-model="remarkData.transmission_id" ng-change="transmissionChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id, remarkData.sub_veriant_id, remarkData.transmission_id)" id="transmission_id" name="transmission_id" class="form-control" ng-required="transmissionList.length > 0">
-                                                                <option value="">Select Transmission</option>
-                                                                <option ng-repeat="transmission in transmissionList" value="{{transmission.id}}" ng-selected="{{ transmission.id == remarkData.transmission_id}}">{{transmission.transmissiontype_name.transmission_type}}</option>
-                                                            </select>
-                                                            <i class="fa fa-sort-desc"></i>
-                                                            <div ng-show="bookBtn" ng-messages="remarkForm.transmission_id.$error" class="help-block">
-                                                                <div ng-message="required">Please Select Transmission</div>
-                                                            </div>
-                                                        </span>
-                                                    </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && submodelList.length != 0) && (!remarkForm.wing_id.$dirty && remarkForm.wing_id.$invalid)}">
+                                                    <label for="">Wing<span class="sp-err" ng-if="submodelList.length > 0">*</span></label>
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-model="remarkData.wing_id" id="wing_id" name="wing_id" class="form-control" ng-required="submodelList.length > 0">
+                                                            <option value="">Select Sub Model</option>
+                                                            <option ng-repeat="vsmodel in submodelList" value="{{vsmodel.id}}" ng-selected="{{ vsmodel.id == remarkData.wing_id}}">{{vsmodel.sub_model_name}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                        <div ng-show="bookBtn" ng-messages="remarkForm.wing_id.$error" class="help-block">
+                                                            <div ng-message="required">Please Select Sub Model</div>
+                                                        </div>
+                                                    </span>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && engineList.length != 0) && (!remarkForm.engine_id.$dirty && remarkForm.engine_id.$invalid)}">
-                                                        <label for="">Engine Type<span class="sp-err" ng-if="engineList.length > 0">*</span></label>
-                                                        <span class="input-icon icon-right">
-                                                            <select ng-model="remarkData.engine_id" ng-change="engineChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id, remarkData.sub_veriant_id, remarkData.transmission_id, remarkData.engine_id)" id="engine_id"  name="engine_id" class="form-control" ng-required="engineList.length > 0">
-                                                                <option value="">Select Engine</option>
-                                                                <option ng-repeat="engine in engineList" value="{{engine.id}}" ng-selected="{{ engine.id == remarkData.engine_id}}">{{engine.engine_type_name}}</option>
-                                                            </select>
-                                                            <i class="fa fa-sort-desc"></i>
-                                                            <div ng-show="bookBtn" ng-messages="remarkForm.engine_id.$error" class="help-block">
-                                                                <div ng-message="required">Please Select Transmission</div>
-                                                            </div>
-                                                        </span>
-                                                    </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && blockTypeList.length != 0) && (!remarkForm.block_id.$dirty && remarkForm.block_id.$invalid)}">
+                                                    <label for="">Block Type<span class="sp-err" ng-if="blockTypeList.length > 0">*</span></label>
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-model="remarkData.block_id" id="block_id" name="block_id" class="form-control" ng-required="blockTypeList.length > 0" ng-change="checkBlockLength(remarkData.block_id)">
+                                                            <option value="">Select Block</option>
+                                                            <option ng-repeat="list in blockTypeList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.block_id}}">{{list.block_name}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                        <div ng-show="bookBtn" ng-messages="remarkForm.block_id.$error" class="help-block">
+                                                            <div ng-message="required">Please Select Variant</div>
+                                                        </div>
+                                                    </span>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && fuelList.length != 0) && (!remarkForm.fuel_id.$dirty && remarkForm.fuel_id.$invalid)}">
-                                                        <label for="">Fuel Type<span class="sp-err" ng-if="fuelList.length > 0">*</span></label>
-                                                        <span class="input-icon icon-right">
-                                                            <select ng-model="remarkData.fuel_id" ng-change="fuelChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id, remarkData.sub_veriant_id, remarkData.transmission_id, remarkData.engine_id, remarkData.fuel_id)" id="fuel_id" name="fuel_id" class="form-control" ng-required="fuelList.length > 0">
-                                                                <option value="">Select Fuel Type</option>
-                                                                <option ng-repeat="fuel in fuelList" value="{{fuel.id}}" ng-selected="{{ fuel.id == remarkData.fuel_id}}">{{fuel.fueltype_name.fuel_type}}</option>
-                                                            </select>
-                                                            <i class="fa fa-sort-desc"></i>
-                                                            <div ng-show="bookBtn" ng-messages="remarkForm.fuel_id.$error" class="help-block">
-                                                                <div ng-message="required">Please Select Fuel</div>
-                                                            </div>
-                                                        </span>
-                                                    </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && subvariantList.length != 0) && (!remarkForm.sub_block_id.$dirty && remarkForm.sub_block_id.$invalid)}">
+                                                    <label for="">Block Sub Type<span class="sp-err" ng-if="subvariantList.length > 0">*</span></label>
+                                                    <span class="input-icon icon-right">
+                                                        <select ng-model="remarkData.sub_block_id" ng-change="subvariantChange(remarkData.model_id, remarkData.sub_model_id, remarkData.veriant_id, remarkData.sub_veriant_id)" id="sub_veriant_id" name="sub_veriant_id" class="form-control" ng-required="subvariantList.length > 0">
+                                                            <option value="">Select Sub Block</option>
+                                                            <option ng-repeat="list1 in subBlockList" value="{{list1.id}}" ng-selected="{{ list1.id == remarkData.sub_block_id}}">{{list1.block_sub_type}}</option>
+                                                        </select>
+                                                        <i class="fa fa-sort-desc"></i>
+                                                        <div ng-show="bookBtn" ng-messages="remarkForm.sub_block_id.$error" class="help-block">
+                                                            <div ng-message="required">Please Select Sub Variant</div>
+                                                        </div>
+                                                    </span>
                                                 </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && colorList.length != 0) && (!remarkForm.color_id.$dirty && remarkForm.color_id.$invalid)}">
-                                                        <label for="">Color<span class="sp-err">*</span></label>
-                                                        <span class="input-icon icon-right">
-                                                            <select ng-model="remarkData.color_id" id="color_id" name="color_id" class="form-control" ng-required="colorList.length > 0">
-                                                                <option value="">Select Color</option>
-                                                                <option ng-repeat="color in colorList" value="{{color.id}}" ng-selected="{{ color.id == remarkData.color_id}}">{{color.colortype_name.color_name}}</option>
-                                                            </select>
-                                                            <i class="fa fa-sort-desc"></i>
-                                                            <div ng-show="bookBtn" ng-messages="remarkForm.color_id.$error" class="help-block">
-                                                                <div ng-message="required">Please Select Color</div>
-                                                            </div>
-                                                        </span>
-                                                    </div>
-                                                </div>                               
-                                            </div>   
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div id="divMyTags"><br>
-                                                        <label>Booking Remarks</label>
-                                                        <div class="existingTag bordered-themeprimary">
-                                                            <div class="col-sm-12 csspadding">
-                                                                <div class="form-group">
-                                                                    <span class="input-icon icon-right">
-                                                                        <textarea class="form-control" rows="5" cols="50" ng-model="remarkData.textRemark" name="textRemark" ng-required="divText" capitalization></textarea>
-                                                                    </span>
-                                                                    <div ng-show="bookBtn" ng-messages="remarkForm.textRemark.$error" class="help-block">
-                                                                        <div ng-message="required">Please enter remark</div>
-                                                                    </div>
+                                            </div>                                   
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div id="divMyTags"><br>
+                                                    <label>Booking Remarks</label>
+                                                    <div class="existingTag bordered-themeprimary">
+                                                        <div class="col-sm-12 csspadding">
+                                                            <div class="form-group">
+                                                                <span class="input-icon icon-right">
+                                                                    <textarea class="form-control" rows="5" cols="50" ng-model="remarkData.textRemark" name="textRemark" ng-required="divText" capitalization></textarea>
+                                                                </span>
+                                                                <div ng-show="bookBtn" ng-messages="remarkForm.textRemark.$error" class="help-block">
+                                                                    <div ng-message="required">Please enter remark</div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <span class="input-icon icon-right">
-                                                        <button type="submit" class="btn btn-primary custom-btn" ng-click="bookBtn = true">Submit</button>
-                                                    </span>
-                                                </div>
-                                            </div>                                            
                                         </div>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <span class="input-icon icon-right">
+                                                    <button type="submit" class="btn btn-primary custom-btn" ng-click="bookBtn = true">Submit</button>
+                                                </span>
+                                            </div>
+                                        </div> 
                                     </tab>
                                     <tab heading="Collection Details" ng-click="checkAmount(collectionData.total_recievable_amount1)" disabled="!collectedTab" id="collectedTab">
                                         <div class="row">
@@ -890,7 +827,7 @@
 
                                 <div ng-if="remarkData.sales_status_id != 3"><br><br><br></div>
                                 <div class="content1" id="footerContent">
-                                    <div class="row" ng-if="remarkData.sales_status_id != 3">
+                                    <div class="row" ng-show="remarkData.sales_status_id != 3">
                                         <div class="col-sm-12 col-lg-12">
                                             <div class="row" ng-if="remarkData.sales_status_id != 3 && remarkData.sales_status_id != 4">
                                                 <div class="col-sm-12 col-lg-12">

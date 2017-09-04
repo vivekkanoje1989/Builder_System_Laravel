@@ -20,7 +20,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.8 || ^5.0"
         },
-        "time": "2016-09-01 10:05:43",
+        "time": "2016-09-01T10:05:43+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -69,7 +69,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-10-10 12:19:37",
+        "time": "2016-10-10T12:19:37+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -125,7 +125,7 @@
             "phpunit/phpunit": "3.7.*",
             "squizlabs/php_codesniffer": "1.*"
         },
-        "time": "2014-04-08 15:00:19",
+        "time": "2014-04-08T15:00:19+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -171,7 +171,7 @@
             "phpunit/phpunit": "~4.0",
             "squizlabs/php_codesniffer": "~1.5"
         },
-        "time": "2015-04-20 18:58:01",
+        "time": "2015-04-20T18:58:01+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -212,7 +212,7 @@
         "require-dev": {
             "phpunit/phpunit": "@stable"
         },
-        "time": "2014-10-24 07:27:01",
+        "time": "2014-10-24T07:27:01+00:00",
         "type": "project",
         "installation-source": "dist",
         "autoload": {
@@ -249,7 +249,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.0|^5.0"
         },
-        "time": "2016-12-07 09:37:55",
+        "time": "2016-12-07T09:37:55+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -308,7 +308,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.8|^5.0"
         },
-        "time": "2016-09-16 12:50:15",
+        "time": "2016-09-16T12:50:15+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -369,7 +369,7 @@
             "phpunit/php-file-iterator": "1.3.3",
             "satooshi/php-coveralls": "dev-master"
         },
-        "time": "2015-05-11 14:41:42",
+        "time": "2015-05-11T14:41:42+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -407,7 +407,7 @@
         "require": {
             "php": ">=5.6"
         },
-        "time": "2016-10-03 07:35:21",
+        "time": "2016-10-03T07:35:21+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -452,7 +452,7 @@
         "require": {
             "php": ">=5.6.0"
         },
-        "time": "2015-07-28 20:34:47",
+        "time": "2015-07-28T20:34:47+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -499,7 +499,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.4"
         },
-        "time": "2016-11-19 07:33:16",
+        "time": "2016-11-19T07:33:16+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -557,7 +557,7 @@
         "suggest": {
             "ext-uopz": "*"
         },
-        "time": "2015-10-12 03:26:01",
+        "time": "2015-10-12T03:26:01+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -609,7 +609,7 @@
             "ext-mbstring": "*",
             "phpunit/phpunit": "~4.4"
         },
-        "time": "2016-11-19 08:54:04",
+        "time": "2016-11-19T08:54:04+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -676,7 +676,7 @@
         "require-dev": {
             "phpunit/phpunit": "^5.0"
         },
-        "time": "2016-11-26 07:53:53",
+        "time": "2016-11-26T07:53:53+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -732,7 +732,7 @@
             "phpunit/phpunit": "~4.0",
             "squizlabs/php_codesniffer": "~2.0"
         },
-        "time": "2015-06-14 21:17:01",
+        "time": "2015-06-14T21:17:01+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -781,7 +781,7 @@
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2015-06-21 13:50:34",
+        "time": "2015-06-21T13:50:34+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -824,7 +824,7 @@
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2016-10-03 07:40:28",
+        "time": "2016-10-03T07:40:28+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -877,7 +877,7 @@
             "phpunit/phpunit": "^4.6",
             "sebastian/version": "^1.0.1"
         },
-        "time": "2016-11-23 20:04:58",
+        "time": "2016-11-23T20:04:58+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -928,7 +928,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.6"
         },
-        "time": "2015-12-27 11:43:31",
+        "time": "2015-12-27T11:43:31+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -986,7 +986,7 @@
             "friendsofphp/php-cs-fixer": "~2",
             "phpunit/phpunit": "~4.0 || ~5.0"
         },
-        "time": "2017-01-16 07:55:07",
+        "time": "2017-01-16T07:55:07+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1036,7 +1036,7 @@
         "require": {
             "php": ">=5.3.2"
         },
-        "time": "2014-09-09 13:34:57",
+        "time": "2014-09-09T13:34:57+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1103,7 +1103,7 @@
             "mockery/mockery": "0.9.*",
             "phpunit/phpunit": "~5.0"
         },
-        "time": "2017-01-09 03:25:37",
+        "time": "2017-01-09T03:25:37+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1149,7 +1149,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0|~5.0"
         },
-        "time": "2017-01-23 04:29:33",
+        "time": "2017-01-23T04:29:33+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1196,7 +1196,7 @@
             "doctrine/coding-standard": "~0.1@dev",
             "phpunit/phpunit": "^5.7"
         },
-        "time": "2017-01-03 10:49:41",
+        "time": "2017-01-03T10:49:41+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1268,7 +1268,7 @@
         "suggest": {
             "ext-symfony_debug": ""
         },
-        "time": "2017-01-24 13:02:38",
+        "time": "2017-01-24T13:02:38+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1341,7 +1341,7 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2017-01-21 17:01:39",
+        "time": "2017-01-21T17:01:39+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1412,7 +1412,7 @@
             "symfony/http-foundation": "For using a Symfony Request object",
             "symfony/yaml": "For using the YAML loader"
         },
-        "time": "2017-01-28 00:04:57",
+        "time": "2017-01-28T00:04:57+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1469,7 +1469,7 @@
         "require": {
             "php": ">=5.5.9"
         },
-        "time": "2017-01-21 17:13:55",
+        "time": "2017-01-21T17:13:55+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1524,7 +1524,7 @@
         "require-dev": {
             "symfony/expression-language": "~2.8|~3.0"
         },
-        "time": "2017-01-08 20:43:43",
+        "time": "2017-01-08T20:43:43+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1583,7 +1583,7 @@
             "symfony/class-loader": "~2.8|~3.0",
             "symfony/http-kernel": "~2.8|~3.0"
         },
-        "time": "2017-01-28 00:04:57",
+        "time": "2017-01-28T00:04:57+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1667,7 +1667,7 @@
             "symfony/finder": "",
             "symfony/var-dumper": ""
         },
-        "time": "2017-01-28 02:53:17",
+        "time": "2017-01-28T02:53:17+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1718,7 +1718,7 @@
         "require": {
             "php": ">=5.5.9"
         },
-        "time": "2017-01-02 20:31:54",
+        "time": "2017-01-02T20:31:54+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1781,7 +1781,7 @@
             "symfony/event-dispatcher": "",
             "symfony/process": ""
         },
-        "time": "2017-01-08 20:43:43",
+        "time": "2017-01-08T20:43:43+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1832,7 +1832,7 @@
         "require": {
             "php": ">=5.5.9"
         },
-        "time": "2017-01-02 20:31:54",
+        "time": "2017-01-02T20:31:54+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1894,7 +1894,7 @@
         "suggest": {
             "symfony/css-selector": ""
         },
-        "time": "2017-01-21 17:13:55",
+        "time": "2017-01-21T17:13:55+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1950,7 +1950,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.4"
         },
-        "time": "2017-01-29 09:50:25",
+        "time": "2017-01-29T09:50:25+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2016,7 +2016,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.6.*"
         },
-        "time": "2015-07-21 20:07:31",
+        "time": "2015-07-21T20:07:31+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2065,7 +2065,7 @@
             "ext-gmp": "bcmath or gmp is requred for decoding larger integers with the pure PHP decoder",
             "ext-maxminddb": "A C-based database decoder that provides significantly faster lookups"
         },
-        "time": "2017-01-19 23:49:38",
+        "time": "2017-01-19T23:49:38+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2117,7 +2117,7 @@
         "require-dev": {
             "phpunit/phpunit": "4.2.*"
         },
-        "time": "2015-09-24 17:29:28",
+        "time": "2015-09-24T17:29:28+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2170,7 +2170,7 @@
         "suggest": {
             "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
         },
-        "time": "2017-03-13 16:27:32",
+        "time": "2017-03-13T16:27:32+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2220,7 +2220,7 @@
             "mockery/mockery": "~0.9",
             "orchestra/testbench": "~3.2"
         },
-        "time": "2017-01-26 14:46:46",
+        "time": "2017-01-26T14:46:46+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2272,7 +2272,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0"
         },
-        "time": "2017-02-28 12:52:32",
+        "time": "2017-02-28T12:52:32+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2338,7 +2338,7 @@
         "require-dev": {
             "phpunit/phpunit": "~5"
         },
-        "time": "2017-02-18 15:18:39",
+        "time": "2017-02-18T15:18:39+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2385,7 +2385,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
         },
-        "time": "2017-02-26 11:10:40",
+        "time": "2017-02-26T11:10:40+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2436,7 +2436,7 @@
         "require-dev": {
             "phpunit/phpunit": "^5.7 || ^6.0"
         },
-        "time": "2017-03-04 06:30:41",
+        "time": "2017-03-04T06:30:41+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2488,7 +2488,7 @@
             "phpspec/phpspec": "^2.5|^3.2",
             "phpunit/phpunit": "^4.8 || ^5.6.5"
         },
-        "time": "2017-03-02 20:05:34",
+        "time": "2017-03-02T20:05:34+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2550,7 +2550,7 @@
             "doctrine/cache": "1.*",
             "phpunit/phpunit": "^5.7"
         },
-        "time": "2017-02-24 16:22:25",
+        "time": "2017-02-24T16:22:25+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2619,7 +2619,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.8|5.1.*"
         },
-        "time": "2016-09-20 12:50:39",
+        "time": "2016-09-20T12:50:39+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2647,6 +2647,65 @@
         "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles"
     },
     {
+        "name": "phpoffice/phpexcel",
+        "version": "1.8.1",
+        "version_normalized": "1.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPOffice/PHPExcel.git",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
+            "shasum": ""
+        },
+        "require": {
+            "ext-xml": "*",
+            "ext-xmlwriter": "*",
+            "php": ">=5.2.0"
+        },
+        "time": "2015-05-01T07:00:55+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "PHPExcel": "Classes/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Maarten Balliauw",
+                "homepage": "http://blog.maartenballiauw.be"
+            },
+            {
+                "name": "Mark Baker"
+            },
+            {
+                "name": "Franck Lefevre",
+                "homepage": "http://blog.rootslabs.net"
+            },
+            {
+                "name": "Erik Tilt"
+            }
+        ],
+        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
+        "homepage": "http://phpexcel.codeplex.com",
+        "keywords": [
+            "OpenXML",
+            "excel",
+            "php",
+            "spreadsheet",
+            "xls",
+            "xlsx"
+        ]
+    },
+    {
         "name": "mtdowling/jmespath.php",
         "version": "2.4.0",
         "version_normalized": "2.4.0.0",
@@ -2667,7 +2726,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0"
         },
-        "time": "2016-12-03 22:08:25",
+        "time": "2016-12-03T22:08:25+00:00",
         "bin": [
             "bin/jp.php"
         ],
@@ -2721,7 +2780,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-08-06 14:39:51",
+        "time": "2016-08-06T14:39:51+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2776,7 +2835,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.0"
         },
-        "time": "2016-12-20 10:07:11",
+        "time": "2016-12-20T10:07:11+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2829,7 +2888,7 @@
         "suggest": {
             "ext-mbstring": "For best performance"
         },
-        "time": "2017-06-14 15:44:48",
+        "time": "2017-06-14T15:44:48+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2887,7 +2946,7 @@
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2017-07-05 15:09:33",
+        "time": "2017-07-05T15:09:33+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -2942,7 +3001,7 @@
             "php": ">=5.3.3",
             "symfony/polyfill-util": "~1.0"
         },
-        "time": "2017-06-14 15:44:48",
+        "time": "2017-06-14T15:44:48+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3003,7 +3062,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0|~5.0"
         },
-        "time": "2017-07-28 14:45:09",
+        "time": "2017-07-28T14:45:09+00:00",
         "bin": [
             "bin/php-parse"
         ],
@@ -3066,7 +3125,7 @@
             "symfony/dependency-injection": "",
             "symfony/http-kernel": ""
         },
-        "time": "2017-06-09 14:53:08",
+        "time": "2017-06-09T14:53:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3121,7 +3180,7 @@
             "mockery/mockery": "~0.9.1",
             "symfony/phpunit-bridge": "~3.2"
         },
-        "time": "2017-05-01 15:54:03",
+        "time": "2017-05-01T15:54:03+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3199,7 +3258,7 @@
             "ramsey/uuid-console": "A console application for generating UUIDs with ramsey/uuid",
             "ramsey/uuid-doctrine": "Allows the use of Ramsey\\Uuid\\Uuid as Doctrine field type."
         },
-        "time": "2017-08-04 13:39:04",
+        "time": "2017-08-04T13:39:04+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3275,7 +3334,7 @@
             "ext-readline": "Enables support for arrow-key history navigation, and showing and manipulating command history.",
             "hoa/console": "A pure PHP readline implementation. You'll want this if your PHP install doesn't already support readline or libedit."
         },
-        "time": "2017-07-29 19:30:02",
+        "time": "2017-07-29T19:30:02+00:00",
         "bin": [
             "bin/psysh"
         ],
@@ -3362,7 +3421,7 @@
             "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
             "sentry/sentry": "Allow sending log messages to a Sentry server"
         },
-        "time": "2017-06-19 01:22:40",
+        "time": "2017-06-19T01:22:40+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3435,7 +3494,7 @@
             "spatie/flysystem-dropbox": "Allows you to use Dropbox storage",
             "srmklive/flysystem-dropbox-v2": "Allows you to use Dropbox storage for PHP 5 applications"
         },
-        "time": "2017-08-06 17:41:04",
+        "time": "2017-08-06T17:41:04+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3500,7 +3559,7 @@
         "require-dev": {
             "phpunit/phpunit": "^6.2"
         },
-        "time": "2017-07-22 12:18:28",
+        "time": "2017-07-22T12:18:28+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3644,7 +3703,7 @@
             "symfony/dom-crawler": "Required to use most of the crawler integration testing tools (3.1.*).",
             "symfony/psr-http-message-bridge": "Required to use psr7 bridging features (0.2.*)."
         },
-        "time": "2017-03-24 16:31:06",
+        "time": "2017-03-24T16:31:06+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3679,6 +3738,86 @@
         ]
     },
     {
+        "name": "maatwebsite/excel",
+        "version": "2.1.20",
+        "version_normalized": "2.1.20.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
+            "reference": "a8baf7de1030d261318f90fa5c273a47ef616b59"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/a8baf7de1030d261318f90fa5c273a47ef616b59",
+            "reference": "a8baf7de1030d261318f90fa5c273a47ef616b59",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/cache": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+            "illuminate/config": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+            "illuminate/filesystem": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+            "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+            "jeremeamia/superclosure": "^2.3",
+            "nesbot/carbon": "~1.0",
+            "php": ">=5.5",
+            "phpoffice/phpexcel": "1.8.*",
+            "tijsverkoyen/css-to-inline-styles": "~2.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "~0.9",
+            "orchestra/testbench": "3.1.*|3.2.*|3.3.*|3.4.*|3.5.*",
+            "phpseclib/phpseclib": "~1.0",
+            "phpunit/phpunit": "~4.0"
+        },
+        "suggest": {
+            "illuminate/http": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+            "illuminate/queue": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+            "illuminate/routing": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+            "illuminate/view": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*"
+        },
+        "time": "2017-07-26T18:04:04+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Maatwebsite\\Excel\\ExcelServiceProvider"
+                ],
+                "aliases": {
+                    "Excel": "Maatwebsite\\Excel\\Facades\\Excel"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src/Maatwebsite/Excel"
+            ],
+            "psr-0": {
+                "Maatwebsite\\Excel\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Maatwebsite.nl",
+                "email": "patrick@maatwebsite.nl"
+            }
+        ],
+        "description": "An eloquent way of importing and exporting Excel and CSV in Laravel 4 with the power of PHPExcel",
+        "keywords": [
+            "PHPExcel",
+            "batch",
+            "csv",
+            "excel",
+            "export",
+            "import",
+            "laravel"
+        ]
+    },
+    {
         "name": "guzzlehttp/psr7",
         "version": "1.4.2",
         "version_normalized": "1.4.2.0",
@@ -3703,7 +3842,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0"
         },
-        "time": "2017-03-20 17:10:46",
+        "time": "2017-03-20T17:10:46+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3773,7 +3912,7 @@
         "suggest": {
             "psr/log": "Required for using the Log middleware"
         },
-        "time": "2017-06-22 18:50:49",
+        "time": "2017-06-22T18:50:49+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3855,7 +3994,7 @@
             "ext-curl": "To send requests using cURL",
             "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages"
         },
-        "time": "2017-08-21 20:34:30",
+        "time": "2017-08-21T20:34:30+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3918,7 +4057,7 @@
             "henrikbjorn/phpspec-code-coverage": "~1.0.1",
             "phpspec/phpspec": "^2.0.0"
         },
-        "time": "2017-06-30 06:29:25",
+        "time": "2017-06-30T06:29:25+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -3966,7 +4105,7 @@
             "phpunit/phpunit": "^4.0 || ^5.0",
             "squizlabs/php_codesniffer": "^1.5"
         },
-        "time": "2017-08-15 16:48:10",
+        "time": "2017-08-15T16:48:10+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4019,7 +4158,7 @@
         "suggest": {
             "symfony/console": "For validating YAML files using the lint command"
         },
-        "time": "2017-07-23 12:43:26",
+        "time": "2017-07-23T12:43:26+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4073,7 +4212,7 @@
         "require-dev": {
             "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
         },
-        "time": "2017-05-22 07:24:03",
+        "time": "2017-05-22T07:24:03+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4136,7 +4275,7 @@
         "suggest": {
             "ext-soap": "*"
         },
-        "time": "2017-06-30 09:13:00",
+        "time": "2017-06-30T09:13:00+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4189,7 +4328,7 @@
         "require-dev": {
             "phpunit/phpunit": "^6.2.4"
         },
-        "time": "2017-08-20 05:47:52",
+        "time": "2017-08-20T05:47:52+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4251,7 +4390,7 @@
         "suggest": {
             "ext-xdebug": "^2.5.1"
         },
-        "time": "2017-04-02 07:44:40",
+        "time": "2017-04-02T07:44:40+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4306,7 +4445,7 @@
             "mockery/mockery": "^0.9.4",
             "phpunit/phpunit": "^5.2||^4.8.24"
         },
-        "time": "2017-06-03 08:32:36",
+        "time": "2017-06-03T08:32:36+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4357,7 +4496,7 @@
             "mockery/mockery": "^0.9.4",
             "phpunit/phpunit": "^4.4"
         },
-        "time": "2017-08-08 06:39:58",
+        "time": "2017-08-08T06:39:58+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -4401,7 +4540,7 @@
             "doctrine/collections": "1.*",
             "phpunit/phpunit": "~4.1"
         },
-        "time": "2017-04-12 18:52:22",
+        "time": "2017-04-12T18:52:22+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -4472,7 +4611,7 @@
             "ext-xdebug": "*",
             "phpunit/php-invoker": "~1.1"
         },
-        "time": "2017-06-21 08:11:54",
+        "time": "2017-06-21T08:11:54+00:00",
         "bin": [
             "phpunit"
         ],
@@ -4533,7 +4672,7 @@
             "predis/predis": "~1.0",
             "satooshi/php-coveralls": "~0.6"
         },
-        "time": "2017-07-22 12:49:21",
+        "time": "2017-07-22T12:49:21+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4605,7 +4744,7 @@
         "require-dev": {
             "phpunit/phpunit": "^5.4.6"
         },
-        "time": "2017-07-22 08:35:12",
+        "time": "2017-07-22T08:35:12+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4680,7 +4819,7 @@
         "suggest": {
             "symfony/console": "For helpful console commands such as SQL execution and import of files."
         },
-        "time": "2017-07-22 20:44:48",
+        "time": "2017-07-22T20:44:48+00:00",
         "bin": [
             "bin/doctrine-dbal"
         ],
@@ -4738,7 +4877,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Artem-Schander/L5Modular/zipball/5cf09c427e392131a730533d0a600b6ffbf8dc4e",
+            "url": "https://api.github.com/repos/Artem-Schander/L5Modular/zipball/ba7cd3b9f5e2fdb4eb7f556acc330dc67a524afc",
             "reference": "ba7cd3b9f5e2fdb4eb7f556acc330dc67a524afc",
             "shasum": ""
         },
@@ -4746,7 +4885,7 @@
             "laravel/framework": ">=5.1",
             "php": ">=5.4.0"
         },
-        "time": "2017-03-23 09:40:07",
+        "time": "2017-03-23T09:40:07+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -4801,7 +4940,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.0.0"
         },
-        "time": "2017-06-14 03:57:53",
+        "time": "2017-06-14T03:57:53+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -4844,7 +4983,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2016-08-06 20:24:11",
+        "time": "2016-08-06T20:24:11+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4895,7 +5034,7 @@
         "require-dev": {
             "phpunit/phpunit": " 4.8.35"
         },
-        "time": "2017-06-27 22:17:23",
+        "time": "2017-06-27T22:17:23+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -4949,7 +5088,7 @@
             "friendsofphp/php-cs-fixer": "^1.11",
             "phpunit/phpunit": "3.7.*"
         },
-        "time": "2017-07-31 16:34:40",
+        "time": "2017-07-31T16:34:40+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -5032,7 +5171,7 @@
             "google/proto-client": "Required to support gRPC",
             "phpseclib/phpseclib": "May be used in place of OpenSSL for creating signed Cloud Storage URLs. Please require version ^2."
         },
-        "time": "2017-07-18 00:02:56",
+        "time": "2017-07-18T00:02:56+00:00",
         "bin": [
             "src/Core/bin/google-cloud-batch"
         ],
@@ -5117,7 +5256,7 @@
             "mockery/mockery": "0.9.*",
             "phpunit/phpunit": "~4.0"
         },
-        "time": "2017-07-18 14:56:52",
+        "time": "2017-07-18T14:56:52+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -5166,7 +5305,7 @@
         "require-dev": {
             "phpunit/phpunit": ">=4.8"
         },
-        "time": "2017-05-19 13:28:58",
+        "time": "2017-05-19T13:28:58+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -5190,144 +5329,5 @@
             }
         ],
         "description": "A Google Cloud Storage filesystem for Laravel"
-    },
-    {
-        "name": "phpoffice/phpexcel",
-        "version": "1.8.1",
-        "version_normalized": "1.8.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/PHPOffice/PHPExcel.git",
-            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/PHPOffice/PHPExcel/zipball/372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
-            "reference": "372c7cbb695a6f6f1e62649381aeaa37e7e70b32",
-            "shasum": ""
-        },
-        "require": {
-            "ext-xml": "*",
-            "ext-xmlwriter": "*",
-            "php": ">=5.2.0"
-        },
-        "time": "2015-05-01 07:00:55",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "PHPExcel": "Classes/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL"
-        ],
-        "authors": [
-            {
-                "name": "Maarten Balliauw",
-                "homepage": "http://blog.maartenballiauw.be"
-            },
-            {
-                "name": "Mark Baker"
-            },
-            {
-                "name": "Franck Lefevre",
-                "homepage": "http://blog.rootslabs.net"
-            },
-            {
-                "name": "Erik Tilt"
-            }
-        ],
-        "description": "PHPExcel - OpenXML - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",
-        "homepage": "http://phpexcel.codeplex.com",
-        "keywords": [
-            "OpenXML",
-            "excel",
-            "php",
-            "spreadsheet",
-            "xls",
-            "xlsx"
-        ]
-    },
-    {
-        "name": "maatwebsite/excel",
-        "version": "2.1.22",
-        "version_normalized": "2.1.22.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-            "reference": "bb7b3d9a72f56ddab974e6a629e4f5e51cd945a2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/bb7b3d9a72f56ddab974e6a629e4f5e51cd945a2",
-            "reference": "bb7b3d9a72f56ddab974e6a629e4f5e51cd945a2",
-            "shasum": ""
-        },
-        "require": {
-            "illuminate/cache": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-            "illuminate/config": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-            "illuminate/filesystem": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-            "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-            "jeremeamia/superclosure": "^2.3",
-            "nesbot/carbon": "~1.0",
-            "php": ">=5.5",
-            "phpoffice/phpexcel": "1.8.*",
-            "tijsverkoyen/css-to-inline-styles": "~2.0"
-        },
-        "require-dev": {
-            "mockery/mockery": "~0.9",
-            "orchestra/testbench": "3.1.*|3.2.*|3.3.*|3.4.*|3.5.*",
-            "phpseclib/phpseclib": "~1.0",
-            "phpunit/phpunit": "~4.0"
-        },
-        "suggest": {
-            "illuminate/http": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-            "illuminate/queue": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-            "illuminate/routing": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*",
-            "illuminate/view": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*"
-        },
-        "time": "2017-08-31 14:52:24",
-        "type": "library",
-        "extra": {
-            "laravel": {
-                "providers": [
-                    "Maatwebsite\\Excel\\ExcelServiceProvider"
-                ],
-                "aliases": {
-                    "Excel": "Maatwebsite\\Excel\\Facades\\Excel"
-                }
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src/Maatwebsite/Excel"
-            ],
-            "psr-0": {
-                "Maatwebsite\\Excel\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "LGPL"
-        ],
-        "authors": [
-            {
-                "name": "Maatwebsite.nl",
-                "email": "patrick@maatwebsite.nl"
-            }
-        ],
-        "description": "An eloquent way of importing and exporting Excel and CSV in Laravel 4 with the power of PHPExcel",
-        "keywords": [
-            "PHPExcel",
-            "batch",
-            "csv",
-            "excel",
-            "export",
-            "import",
-            "laravel"
-        ]
     }
 ]
