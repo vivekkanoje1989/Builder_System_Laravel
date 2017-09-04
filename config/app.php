@@ -52,6 +52,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://192.168.0.118:8000'),
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -231,7 +232,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Location' => Stevebauman\Location\Facades\Location::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class
     ],
 
 ];

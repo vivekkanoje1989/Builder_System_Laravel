@@ -3,10 +3,10 @@ app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scop
         $scope.itemsPerPage = 30;
         $scope.desig_btn = false;
         $scope.noOfRows = 1;
-        
-           $scope.searchDetails = {};
-         $scope.searchData = {};
-       
+
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
         $scope.filterDetails = function (search) {
 //             $scope.searchDetails = {};
             $scope.searchData = search;
@@ -19,10 +19,13 @@ app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scop
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
-        
+
+
         $scope.manageDesignations = function () {
+            $scope.showloader();
             Data.post('manage-designations/manageDesignations').then(function (response) {
+                $scope.hideloader();
+
                 $scope.designationsRow = response.records;
 
             });

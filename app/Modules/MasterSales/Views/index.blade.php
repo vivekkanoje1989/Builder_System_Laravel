@@ -78,9 +78,8 @@
                                                 <div ng-message="minlength">Invalid mobile no.</div>
                                                 <div ng-message="customerInputs">Mobile number does not exist!</div>
                                                 <div ng-message="customerPattern">Mobile number wrong!</div>
-                                                <div ng-show="customerData.searchWithMobile.$error.pattern">Invalid pattern!</div>
-                                            </div>
-                                            
+                                            </div>                                            
+                                            <div ng-show="errMobile">Mobile number wrong!</div>
                                         </span>
                                     </div>
                                 </div>

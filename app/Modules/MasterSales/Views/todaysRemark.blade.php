@@ -118,15 +118,16 @@
         color:#fff;
     }
     /*******************Company END**********************/
+   
     .main-container1 {
-        position: relative;
-        overflow: hidden;
+/*        position: relative;
+        overflow-y: hidden;*/
     }
     .main-container1 > .content1 {
         width: 100%;
-        position: absolute;
+        /*position: absolute;*/
         height: 320px;
-        bottom: -265px;
+        /*bottom: -265px;*/
         left: 0;
         right: 0;
         z-index: 101;
@@ -136,9 +137,9 @@
     }
     .main-container1 > .content2 {
         width: 100%;
-        position: absolute;
+        /*position: absolute;*/
         height: 490px;
-        bottom: -432px;
+        /*bottom: -432px;*/
         left: 0;
         right: 0;
         z-index: 101;
@@ -153,6 +154,7 @@
 </style>
 
 <div class="modal-body">
+    <div class="modal-content">
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <tabset>
@@ -257,15 +259,16 @@
                                             <div class="col-sm-5">
                                                 <span class="checkbox" style="margin: 0;">
                                                     <label>
-                                                        <input type="checkbox" id="corporateCust" ng-model="remarkData.corporateCust" name="corporateCust" ng-click="isChecked(remarkData.corporateCust)">
+                                                        <input type="checkbox" id="corporateCust" ng-model="remarkData.corporateCust" name="corporateCust" ng-change="isChecked(remarkData.corporateCust)">
                                                         <span class="text"> Corporate Customer</span>
                                                     </label>
                                                 </span>	
                                             </div>
                                             <div class="col-sm-7">
                                                 <div class="form-group" ng-if="companyInput">
-                                                    <input type="text" class="form-control" placeholder="Company name" ng-model="remarkData.company_name" name="company_name" ng-keyup="getCompanyList(remarkData.company_name)" required>
-                                                    <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList">
+                                                    <input type="text" class="form-control" placeholder="Company name" ng-model="remarkData.company_name" name="company_name" ng-keyup="getCompanyList(remarkData.company_name)" 
+                                                           required>
+                                                    <ul class="companyField" ng-if="company_list.length > 0 && showComapnyList" >
                                                         <li ng-repeat="company in company_list| filter : remarkData.company_name" ng-click="setCompany(company)"><span>{{company.company_name}}</span></li>
                                                     </ul> 
                                                     <div ng-show="sbtBtn" ng-messages="remarkForm.company_name.$error" class="help-block">
@@ -300,7 +303,7 @@
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.sales_status_id.$dirty && remarkForm.sales_status_id.$invalid)}">
                                             <label for="">Enquiry Status<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="remarkData.sales_status_id" name="sales_status_id" ng-change="onsalesStatusChange(remarkData.sales_status_id)" ng-click="hideIcon(remarkData.sales_status_id)" required ng-disabled="!booked">
+                                                <select class="form-control" ng-model="remarkData.sales_status_id" name="sales_status_id" ng-change="getSubStatus(remarkData.sales_status_id)" ng-click="hideIcon(remarkData.sales_status_id)" required ng-disabled="!booked">
                                                     <option value="">Select Status</option>
                                                     <option ng-repeat="list in salesEnqStatusList" ng-if="list.id != 1" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>          
                                                 </select>
@@ -312,15 +315,15 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6" ng-if="remarkData.sales_status_id != 4 && remarkData.sales_status_id != 3">
-                                        <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && subsalesStatusList.length != 0) && (!remarkForm.sales_substatus_id.$dirty && remarkForm.sales_substatus_id.$invalid)}">
-                                            <label for="">Enquiry Sub Status<span class="sp-err" ng-if="subsalesStatusList.length != 0">*</span></label>
+                                        <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && salesEnqSubStatusList.length != 0) && (!remarkForm.sales_substatus_id.$dirty && remarkForm.sales_substatus_id.$invalid)}">
+                                            <label for="">Enquiry Sub Status<span class="sp-err" ng-if="salesEnqSubStatusList.length != 0">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="remarkData.sales_substatus_id" name="sales_substatus_id" id="sales_substatus_id" ng-required="subsalesStatusList.length != 0">
+                                                <select class="form-control" ng-model="remarkData.sales_substatus_id" name="sales_substatus_id" id="sales_substatus_id" ng-required="salesEnqSubStatusList.length != 0">
                                                     <option value="">Select Sub Status</option>
-                                                    <option ng-repeat="list in salesEnqSubStatusList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_substatus_id}}">({{list.listing_position}}) {{list.enquiry_sales_substatus}}</option>          
+                                                    <option ng-repeat="list in salesEnqSubStatusList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_substatus_id}}">({{list.listing_position}}) {{list.enquiry_sales_substatus}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_substatus_id.$error" class="help-block errMsg" ng-if="subsalesStatusList.length != 0">
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_substatus_id.$error" class="help-block errMsg" ng-if="salesEnqSubStatusList.length != 0">
                                                     <div ng-message="required">Please Select Substatus</div>
                                                 </div>
                                             </span>
@@ -351,7 +354,7 @@
                                             <span class="input-icon icon-right">
                                                 <select class="form-control" ng-model="remarkData.sales_lost_reason_id" name="sales_lost_reason_id" id="sales_lost_reason_id" ng-required="remarkData.sales_status_id == 4" ng-change="getlostsubreason(remarkData.sales_lost_reason_id)">
                                                     <option value="">Select Lost Reason</option>
-                                                    <option ng-repeat="list in saleslostreasons" value="{{list.id}}">({{list.id}}) {{list.enquiry_lost_reason}}</option>          
+                                                    <option ng-repeat="list in saleslostreasons" value="{{list.id}}">({{list.id}}) {{list.reason}}</option>          
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                             </span>
@@ -366,7 +369,7 @@
                                             <span class="input-icon icon-right">
                                                 <select class="form-control" ng-model="remarkData.sales_lost_sub_reason_id" name="sales_lost_sub_reason_id" ng-required="remarkData.sales_status_id == 4 && salessublostreasons.length > 0">
                                                     <option value="">Select Lost Sub Reason</option>
-                                                    <option ng-repeat="list in salessublostreasons" value="{{list.id}}">({{list.listing_position}}) {{list.sub_reason}}</option>          
+                                                    <option ng-repeat="list in salessublostreasons" value="{{list.id}}">({{list.listing_position}}) {{list.sub_reason}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
                                             </span>
@@ -382,7 +385,7 @@
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.sales_category_id.$dirty && remarkForm.sales_category_id.$invalid)}">
                                             <label for="">Enquiry Category<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="remarkData.sales_category_id" name="sales_category_id" id="sales_category_id" ng-change="onsalesCategoryChange(remarkData.sales_category_id)" required>
+                                                <select class="form-control" ng-model="remarkData.sales_category_id" name="sales_category_id" id="sales_category_id" ng-change="getSubCategory(remarkData.sales_category_id)" required>
                                                     <option value="">Select Category</option>
                                                     <option ng-repeat="list in salesEnqCategoryList" ng-if="list.id != 1" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_category_id}}">{{list.enquiry_category}}</option>          
                                                 </select>
@@ -394,15 +397,15 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && salesSubCategoriesList.length != 0) && (!remarkForm.sales_subcategory_id.$dirty && remarkForm.sales_subcategory_id.$invalid)}">
-                                            <label for="">Enquiry Sub Category<span class="sp-err" ng-if="salesSubCategoriesList.length != 0">*</span></label>
+                                        <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && salesEnqSubCategoryList.length != 0) && (!remarkForm.sales_subcategory_id.$dirty && remarkForm.sales_subcategory_id.$invalid)}">
+                                            <label for="">Enquiry Sub Category<span class="sp-err" ng-if="salesEnqSubCategoryList.length != 0">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="remarkData.sales_subcategory_id" name="sales_subcategory_id" id="sales_subcategory_id" ng-required="salesSubCategoriesList.length != 0">
+                                                <select class="form-control" ng-model="remarkData.sales_subcategory_id" name="sales_subcategory_id" id="sales_subcategory_id" ng-required="salesEnqSubCategoryList.length != 0">
                                                     <option value="">Select Sub Category</option>
                                                     <option ng-repeat="list in salesEnqSubCategoryList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_subcategory_id}}">({{list.listing_position}}) {{list.enquiry_sales_subcategory}}</option>
                                                 </select>
                                                 <i class="fa fa-sort-desc"></i>
-                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_subcategory_id.$error" class="help-block errMsg" ng-if="salesSubCategoriesList.length != 0">
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.sales_subcategory_id.$error" class="help-block errMsg" ng-if="salesEnqSubCategoryList.length != 0">
                                                     <div ng-message="required">Please Select Sub category</div>
                                                 </div>
                                             </span>
@@ -1201,7 +1204,7 @@
                                 <div class="form-group">
                                     <label for="">PAN Number</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" minlength="10" maxlength="10" class="form-control">
+                                        <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control">
                                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -1210,7 +1213,7 @@
                                 <div class="form-group">
                                     <label for="">Aadhar Number</label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" minlength="11" maxlength="11" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                                        <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
                                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                                     </span>
                                 </div>
@@ -1267,7 +1270,7 @@
                                     <div class="form-group">
                                         <label for="">Area Name</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="customerContacts.area_name" name="area_name" maxlength="25" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" class="form-control date-picker">
+                                            <input type="text" ng-model="customerContacts.area_name" name="area_name" maxlength="25" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" class="form-control">
                                             <i class="fa fa-building-o"></i>
                                         </span>                                      
                                     </div>
@@ -1285,7 +1288,7 @@
                                     <div class="form-group">
                                         <label for="">Landmark</label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" ng-model="customerContacts.landmark" name="landmark" maxlength="25" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" class="form-control date-picker">
+                                            <input type="text" ng-model="customerContacts.landmark" name="landmark" maxlength="25" capitalization oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')" class="form-control">
                                             <i class="fa fa-building-o"></i>
                                         </span>
                                     </div>

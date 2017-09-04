@@ -40,7 +40,9 @@ app.controller('statesCtrl', ['$scope', 'Data', function ($scope, Data) {
 //        }
 
         $scope.manageStates = function (empId, pageNumber, itemPerPage) {
+            $scope.showloader();
             Data.post('manage-states/manageStates').then(function (response) {
+                $scope.hideloader();
                 $scope.statesRow = response.records;
                 $scope.statesRowLength = response.totalCount;
                 $scope.flagForChange = 0;

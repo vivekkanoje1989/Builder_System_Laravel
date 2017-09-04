@@ -4,7 +4,9 @@ app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($
         $scope.itemsPerPage = 30;
         $scope.profBtn = false;
         $scope.manageProfession = function () {
+             $scope.showloader();
             Data.post('manage-profession/manageProfession').then(function (response) {
+                 $scope.hideloader();
                 $scope.professionRow = response.records;
 
             });

@@ -4,7 +4,9 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
         $scope.itemsPerPage = 30;
         $scope.manageBlockType = false;
         $scope.manageBlockTypes = function () {
+             $scope.showloader();
             Data.post('block-types/manageBlockTypes').then(function (response) {
+                 $scope.hideloader();
                 $scope.BlockTypesRow = response.records;
             });
         };

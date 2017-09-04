@@ -1,6 +1,6 @@
 app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster) {
         $scope.itemsPerPage = 30;
-        $scope.pageNumber = 1;
+        $scope.noOfRows = 1;
         $scope.btnExport = true;
         $scope.dnExcelSheet = false;
         $scope.report_name;
@@ -10,7 +10,21 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             $scope[functionName](id, pageNo, $scope.itemsPerPage);
             $scope.pageNumber = pageNo;
         };
+        $scope.searchDetails = {};
+        $scope.searchData = {};
 
+        $scope.filterDetails = function (search) {
+//            $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
 
         $scope.smsLogsLists = function (empId, pageNumber, itemPerPage) {
             $scope.showloader();
@@ -48,37 +62,37 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             $scope.type = angular.copy(isTeam);
         }
 
+//
+//        $scope.filterData = {};
+//        $scope.filterReportData = {};
+//        $scope.data = {};
 
-        $scope.filterData = {};
-        $scope.filterReportData = {};
-        $scope.data = {};
-
-        $scope.filteredData = function (data, page, noOfRecords) {
-            $scope.showloader();
-            page = noOfRecords * (page - 1);
-            Data.post('bmsConsumption/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
-                if (response.success)
-                {
-                    $scope.smsLogsList = response.records;
-                    $scope.smsLogLength = response.totalCount;
-                } else
-                {
-                    $scope.smsLogsList = response.records;
-                    $scope.smsLogLength = 0;
-                }
-                $('#showSmsFilterModal').modal('hide');
-                $scope.showFilterData = $scope.filterData;
-                $scope.hideloader();
-                return false;
-
-            });
-        }
-
-        $scope.removeDataFromFilter = function (keyvalue)
-        {
-            delete $scope.filterData[keyvalue];
-            $scope.filteredData($scope.filterData, 1, 30);
-        }
+//        $scope.filteredData = function (data, page, noOfRecords) {
+//            $scope.showloader();
+//            page = noOfRecords * (page - 1);
+//            Data.post('bmsConsumption/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
+//                if (response.success)
+//                {
+//                    $scope.smsLogsList = response.records;
+//                    $scope.smsLogLength = response.totalCount;
+//                } else
+//                {
+//                    $scope.smsLogsList = response.records;
+//                    $scope.smsLogLength = 0;
+//                }
+//                $('#showSmsFilterModal').modal('hide');
+//                $scope.showFilterData = $scope.filterData;
+//                $scope.hideloader();
+//                return false;
+//
+//            });
+//        }
+//
+//        $scope.removeDataFromFilter = function (keyvalue)
+//        {
+//            delete $scope.filterData[keyvalue];
+//            $scope.filteredData($scope.filterData, 1, 30);
+//        }
 
         $scope.removeReportDataFromFilter = function (keyvalue)
         {

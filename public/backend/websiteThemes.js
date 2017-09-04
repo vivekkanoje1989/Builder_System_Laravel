@@ -20,7 +20,9 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         }
         
         $scope.manageThemes = function () {
+            $scope.showloader();
             Data.post('website/getThemes').then(function (response) {
+                $scope.hideloader();
                 $scope.themesRow = response.records;
 
             });

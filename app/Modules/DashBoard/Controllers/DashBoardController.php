@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use DB;
 use Auth;
 use App\Classes\CommonFunctions;
+use Excel;
 
 class DashBoardController extends Controller {
 
@@ -187,4 +188,21 @@ class DashBoardController extends Controller {
         return json_encode($result);
     }
 
+//function to export data to xls
+//    public function exportToxls() {
+//        $loggedInUserId = Auth::guard('admin')->user()->id;
+//        $getCount = EmployeeRequest::where('created_by', '=', $loggedInUserId)->get()->count();
+//        $myRequest = EmployeeRequest::select('id as SrNo')->where('created_by', '=', $loggedInUserId)->get();
+////        print_r($myRequest);
+////        exit;
+//        if ($getCount < 1) {
+//            return false;
+//        } else {
+//            Excel::create('Export Data', function($excel) use($myRequest) {
+//                $excel->sheet('sheet1', function($sheet) use($myRequest) {
+//                    $sheet->fromArray($myRequest);
+//                });
+//            })->export('xlsx');
+//        }
+//    }
 }

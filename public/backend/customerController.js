@@ -91,6 +91,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.showDiv = false;
                 $scope.showDivCustomer = false;
             }
+            var regex = /^[789]\d{9}$/;
+            if (!regex.test($scope.customerData.searchWithMobile)) {alert("if");
+                $scope.errMobile = "Mobile number should be 10 digits and pattern should be for ex. +91-9999999999";
+            }else {alert("else");
+                $scope.errMobile = "";
+            }
         }
 
         $scope.validateMobileNumber = function (value) {

@@ -15,7 +15,6 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
-            console.log(search);
 //            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
@@ -27,10 +26,14 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
+        $scope.getWebPages = function () {
+            $scope.showloader();
+            Data.get('web-pages/getWebPages').then(function (response) {
+                $scope.hideloader();
+                $scope.listPages = response.records.data;
+            });
+        }
 
-        Data.get('web-pages/getWebPages').then(function (response) {
-            $scope.listPages = response.records.data;
-        });
         $scope.manageWebPage = function (pageid)
         {
             Data.post('web-pages/getEditWebPage', {

@@ -16,7 +16,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $client_id
  * @property int $enquiry_lost_reason_id
  * @property int $sub_reason
- * @property int $lost_sub_reason_status
+ * @property int $status
  * @property \Carbon\Carbon $created_date
  * @property \Carbon\Carbon $created_at
  * @property int $created_by
@@ -45,9 +45,9 @@ class EnquiryLostSubReason extends Eloquent
 	protected $casts = [
 		'id' => 'int',
 		'client_id' => 'int',
+		'listing_position' => 'int',
 		'enquiry_lost_reason_id' => 'int',
-		'sub_reason' => 'int',
-		'lost_sub_reason_status' => 'int',
+		'status' => 'int',
 		'created_by' => 'int',
 		'updated_by' => 'int',
 		'deleted_status' => 'int',
@@ -66,9 +66,10 @@ class EnquiryLostSubReason extends Eloquent
 	protected $fillable = [
 		'id',
 		'client_id',
+                'listing_position',
 		'enquiry_lost_reason_id',
 		'sub_reason',
-		'lost_sub_reason_status',
+		'status',
 		'created_date',
 		'created_by',
 		'created_IP',
