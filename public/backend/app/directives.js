@@ -227,7 +227,7 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                             }
                             $scope.hideloader();
                         }
-                    } else {//response false
+                    } else {//response false                        
                         $scope.locations = [];                    
                         $scope.showDiv = false;
                         $scope.showDivCustomer = true;
