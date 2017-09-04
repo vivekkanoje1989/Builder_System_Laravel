@@ -21,7 +21,9 @@ app.controller('highestEducationCtrl', ['$scope', 'Data', function ($scope, Data
         }
         
         $scope.manageHighestEducation = function () {
+             $scope.showloader();
             Data.post('highest-education/manageHighestEducation').then(function (response) {
+                 $scope.hideloader();
                 $scope.educationRow = response.records;
 
             });

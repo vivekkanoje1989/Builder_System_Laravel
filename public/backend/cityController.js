@@ -20,7 +20,9 @@ app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
 
 
         $scope.manageCities = function () {
+            $scope.showloader();
             Data.get('manage-city/manageCity').then(function (response) {
+                 $scope.hideloader();
                 $scope.citiesRow = response.records;
             });
         };

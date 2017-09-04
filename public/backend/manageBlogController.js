@@ -24,7 +24,9 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         
         $scope.blogData = {};
         $scope.manageBlogs = function () {
+            $scope.showloader();
             Data.post('manage-blog/manageBlogs').then(function (response) {
+                 $scope.hideloader();
                 $scope.blogsRow = response.records;
             });
         };

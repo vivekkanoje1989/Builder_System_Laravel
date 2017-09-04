@@ -12,7 +12,9 @@ app.controller('paymentHeadingController', ['$scope', 'Data', 'toaster', '$rootS
 
         $scope.noOfRows = 1;
         $scope.managePaymentHeading = function (empId, pageNumber, itemPerPage) {
+            $scope.showloader();
             Data.post('payment-headings/managePaymentHeading').then(function (response) {
+                $scope.hideloader();
                 $scope.paymentDetails = response.records;
                 $scope.paymentDetailsLength = response.totalCount;
             });

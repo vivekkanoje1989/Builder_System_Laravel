@@ -4,7 +4,9 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
         $scope.noOfRows = 1;
         $scope.deptBtn = false;
         $scope.manageDepartment = function () {
+            $scope.showloader();
             Data.post('manage-department/manageDepartment').then(function (response) {
+                $scope.hideloader();
                 $scope.departmentRow = response.records;
             });
         };
@@ -40,7 +42,7 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
             $scope.searchData = {};
         }
 
-        
+
         $scope.doDepartmentAction = function (deptData) {
             $scope.errorMsg = '';
             $scope.deptBtn = true;

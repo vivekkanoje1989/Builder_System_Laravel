@@ -1,4 +1,4 @@
-app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function ($scope, Data, toaster, $state) {
+app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$location', function ($scope, Data, toaster, $state, $location) {
 
         $scope.itemsPerPage = 30;
         $scope.reqLeave = false;
@@ -10,7 +10,26 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function
                 $scope.employeeRow = response.records;
             });
         };
-        
+
+        //vivek Export to xlsx
+        $scope.ExportToxls = function () {
+            // $location.url('/manageVerticals/exportToxls');
+//            $getexcel = window.location = "/my-request/exportToxls";
+//            if ($getexcel) {
+//                 alert("getexcel if");
+//                toaster.pop('info', '', 'Exporting....');
+//            } else {
+//                alert("getexcel else");
+//                toaster.pop('error', '', 'Exporting fails....');
+//            }
+//                alert("ExportToxls");
+//            Data.post('/my-request/exportToxls').then(function (response) {
+//
+//                alert(JSON.stringify(response));
+//            });
+
+        };
+
         $scope.searchDetails = {};
         $scope.searchData = {};
 
@@ -18,25 +37,25 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function
 //            $scope.searchDetails = {};
             if (search.from_date != undefined) {
                 var today = new Date(search.from_date);
-                  var day = today.getDate().toString();
-                if(day.length > 1){
-                     search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
-                }else{
-                     search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getDate());
+                var day = today.getDate().toString();
+                if (day.length > 1) {
+                    search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+                } else {
+                    search.from_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-0' + today.getDate());
                 }
             }
-            
+
             if (search.to_date != undefined) {
                 var loginDate = new Date(search.to_date);
-                
+
                 var day = loginDate.getDate().toString();
-                if(day.length > 1){
+                if (day.length > 1) {
                     search.to_date = (loginDate.getFullYear() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getDate());
-                }else{
+                } else {
                     search.to_date = (loginDate.getFullYear() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-0' + loginDate.getDate());
                 }
-                
-                
+
+
             }
 //            console.log(search);
             $scope.searchData = search;
@@ -48,8 +67,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
-        
+
+
         $scope.clearToDate = function ()
         {
             $scope.request.to_date = '';
@@ -109,16 +128,21 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', function
         };
         $scope.getMyRequest = function ()
         {
+            $scope.showloader();
             Data.post('my-request/getMyRequest', {
                 uid: $scope.application_to, cc: $scope.application_cc, req_desc: $scope.req_desc}).then(function (response) {
+                $scope.hideloader();
                 $scope.myRequest = response.records;
+                $scope.totalCount = $scope.myRequest.length;
             });
         };
         $scope.getRequestForMe = function ()
         {
+            $scope.showloader();
             Data.get('my-request/getRequestForMe').then(function (response) {
+                $scope.hideloader();
                 $scope.myRequest = response.records;
-
+                $scope.totalCount = $scope.myRequest.length;
             });
         }
         $scope.changeStatus = function ()

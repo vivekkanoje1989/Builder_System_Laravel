@@ -9,11 +9,11 @@
         "laravel/framework": "5.3.*",
         "reliese/laravel": "^0.0.12",
 		"artem-schander/l5-modular": "dev-master",
-		"stevebauman/location": "2.0.*",
-        "maatwebsite/excel": "~2.1.17",
+		"stevebauman/location": "2.0.*",        
         "league/flysystem-aws-s3-v3": "~1.0",
         "superbalist/flysystem-google-storage": "^5.0",
-        "superbalist/laravel-google-cloud-storage": "^1.0"
+        "superbalist/laravel-google-cloud-storage": "^1.0",
+        "maatwebsite/excel": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

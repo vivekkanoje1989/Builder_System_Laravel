@@ -8,8 +8,7 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Default Templates</span>
-                <!--a href="#/dafaultalerts/create " class="btn btn-info">Create New Alert</a-->&nbsp;&nbsp;&nbsp;
-                
+               
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">
@@ -22,7 +21,7 @@
                       <label for="search">Records per page:</label>
                       <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:25%;" class="form-control" ng-model="itemsPerPage">
                     </div>
-                </div><br>
+                </div>
                 <table class="table table-hover table-striped table-bordered" at-config="config">
                     <thead class="bord-bot">
                         <tr>

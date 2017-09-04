@@ -7,8 +7,6 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Templates Settings</span>
-
-
             </div>
             <div class="widget-body table-responsive">
                 <div class="row">

@@ -5,7 +5,9 @@ app.controller('projectpaymentController', ['$scope', 'Data', 'toaster', functio
         $scope.proPayStage = false;
         $scope.fix_stage = 1;
         $scope.manageProjectPaymentStages = function () {
+             $scope.showloader();
             Data.post('project-payment/manageProjectPaymentStages').then(function (response) {
+                 $scope.hideloader();
                 $scope.ProjectPaymentStagesRow = response.records;
             });
         };

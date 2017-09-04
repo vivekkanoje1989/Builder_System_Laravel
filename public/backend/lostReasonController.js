@@ -3,8 +3,10 @@ app.controller('lostReasonsController', ['$scope', 'Data', 'toaster', function (
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
         $scope.manageLostReasons = function () {
+             $scope.showloader();
             $scope.modal = {};
             Data.post('lost-reasons/manageLostReason').then(function (response) {
+                 $scope.hideloader();
                 $scope.listLostReasons = response.records;
             });
         };

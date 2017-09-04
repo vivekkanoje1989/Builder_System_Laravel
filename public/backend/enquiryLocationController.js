@@ -23,7 +23,9 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', 'toaster', function ($s
 //
 
         $scope.enquiryLocation = function (empId, pageNumber, itemPerPage) {
+             $scope.showloader();
             Data.post('enquiry-location/enquiryLocation').then(function (response) {
+                 $scope.hideloader();
                 $scope.enquiryLocationRow = response.records;
                 $scope.enquiryLocationRowLength = response.totalCount;
                 $scope.flagFor = 0;
@@ -45,44 +47,6 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', 'toaster', function ($s
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-
-
-//        $scope.getProcName = $scope.type = '';
-//        $scope.procName = function (procedureName, isTeam) {
-//            $scope.getProcName = angular.copy(procedureName);
-//            $scope.type = angular.copy(isTeam);
-//        }
-//
-//
-//        $scope.filterData = {};
-//        $scope.data = {};
-//
-//        $scope.filteredData = function (data, page, noOfRecords) {
-//            $scope.showloader();
-//            Data.post('enquiry-location/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
-//                if (response.success)
-//                {
-//                    $scope.enquiryLocationRow = response.records;
-//                    $scope.enquiryLocationRowLength = response.totalCount;
-//                } else
-//                {
-//                    $scope.enquiryLocationRow = response.records;
-//                    $scope.enquiryLocationRowLength = 0;
-//                }
-//                $('#showFilterModal').modal('hide');
-//                $scope.showFilterData = $scope.filterData;
-//                $scope.hideloader();
-//                $scope.flagFor = 0; 
-//                return false;
-//
-//            });
-//        }
-//
-//        $scope.removeDataFromFilter = function (keyvalue)
-//        {
-//            delete $scope.filterData[keyvalue];
-//            $scope.filteredData($scope.filterData, 1, 30);
-//        }
 
 
         $scope.manageStates = function (country_id) {
