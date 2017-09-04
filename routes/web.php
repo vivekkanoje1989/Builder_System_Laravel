@@ -184,7 +184,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getCompanyList', 'backend\AdminController@getCompanyList');
     Route::get('/getSalesLostReason', 'backend\AdminController@getSalesLostReason');
     Route::post('/getSalesLostSubReason', 'backend\AdminController@getSalesLostSubReason');
-    Route::post('/getTeamEmployees', 'CloudCallingLogsController@getTeamEmployees');
+    Route::post('/getTeamEmployees', 'CloudCallingLogsController@getTeamEmployees'); // by uma
+    Route::post('/getnextfollowupTime', 'backend\AdminController@getnextfollowupTime'); // by uma
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });

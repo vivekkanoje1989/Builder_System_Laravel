@@ -1,4 +1,4 @@
-<br/> {{list.email_id}}<style>
+<style>
     .btn-round{
         border-radius: 50%;
         height: 40px;
