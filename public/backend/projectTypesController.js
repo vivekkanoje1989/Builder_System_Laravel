@@ -4,7 +4,9 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
         $scope.itemsPerPage = 30;
         $scope.proTypeBtn = false;
         $scope.manageProjectTypes = function () {
+             $scope.showloader();
             Data.post('project-types/manageProjectTypes').then(function (response) {
+                 $scope.hideloader();
                 $scope.ProjectTypesRow = response.records;
             });
         };

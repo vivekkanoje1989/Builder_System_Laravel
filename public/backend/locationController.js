@@ -37,7 +37,9 @@ app.controller('locationCtrl', ['$scope', 'Data', 'toaster', function ($scope, D
 //
 //        }
         $scope.manageLocation = function (empId, pageNumber, itemPerPage) {
+             $scope.showloader();
             Data.post('manage-location/manageLocation').then(function (response) {
+                 $scope.hideloader();
                 $scope.locationRow = response.records;
                 $scope.locationRowLength = response.totalCount;
                 $scope.flagForPageChange = 0;

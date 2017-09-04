@@ -10,16 +10,18 @@ app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Da
         };
 
         $scope.manageCountry = function (empId, pageNumber, itemPerPage) {
-            Data.post ('manage-country/manageCountry', {
+            $scope.showloader();
+            Data.post('manage-country/manageCountry', {
                 id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
             }).then(function (response) {
+                $scope.hideloader();
                 $scope.countryRow = response.records;
                 $scope.countryRowLength = response.totalCount;
 
             });
         };
-        
-         $scope.searchData = {};
+
+        $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
 //            $scope.searchDetails = {};
@@ -105,7 +107,7 @@ app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Da
                         $scope.countryRow.push({'name': $scope.name, 'id': response.lastinsertid, 'sortname': $scope.sortname, 'phonecode': $scope.phonecode});
                         $('#countryModal').modal('toggle');
                         //$scope.success("Country details created successfully");
-                         toaster.pop('success', 'Manage Country', 'Record Created Successfully' );
+                        toaster.pop('success', 'Manage Country', 'Record Created Successfully');
                     }
                 });
             } else { //for update
@@ -121,7 +123,7 @@ app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Da
                         $scope.countryRow.splice($scope.index - 1, 0, {
                             name: $scope.name, id: $scope.id, name: $scope.name, 'sortname': $scope.sortname, 'phonecode': $scope.phonecode});
                         $('#countryModal').modal('toggle');
-                        toaster.pop('success', 'Manage Country', 'Record Updated Successfully' );
+                        toaster.pop('success', 'Manage Country', 'Record Updated Successfully');
                     }
                 });
             }

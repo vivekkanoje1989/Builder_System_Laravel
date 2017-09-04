@@ -1,6 +1,7 @@
 div.help-block{
-   color: red !important; 
+    color: red !important; 
 }
+
 .btn-right{
     float: right; 
 }
@@ -2035,7 +2036,7 @@ a:active {
     float: left;
     position: relative;
     height: 45px;
-        width: 188px;
+    width: 188px;
 }
 
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li>a {
@@ -11406,7 +11407,7 @@ ul.nav.nav-list.abn-tree .level-9 .indented {
 }
 
 .wizard ul li {
-/*    float: left;*/
+    /*    float: left;*/
     margin: 0;
     padding: 0 20px 0 30px;
     line-height: 46px;

@@ -23,16 +23,17 @@ app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'to
 //        }
 
         $scope.manageDiscountHeading = function (empId, pageNumber, itemPerPage) {
-
+            $scope.showloader();
             Data.post('discount-headings/manageDiscountHeading').then(function (response) {
+                $scope.hideloader();
                 $scope.DiscountHeadingRow = response.records;
                 $scope.DiscountHeadingRowLength = response.totalCount;
             });
         };
-        
-          $scope.searchDetails = {};
-         $scope.searchData = {};
-       
+
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
         $scope.filterDetails = function (search) {
 //             $scope.searchDetails = {};
             $scope.searchData = search;
@@ -45,7 +46,7 @@ app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'to
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
+
 
 
 //        $scope.getProcName = $scope.type = '';
