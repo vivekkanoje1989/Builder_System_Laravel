@@ -4,6 +4,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         $scope.btnExport = true;
         $scope.dnExcelSheet = false;
         $scope.report_name;
+        $scope.filterData = {};
 
 
         $scope.pageChanged = function (pageNo, functionName, id) {
@@ -25,6 +26,11 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
+        
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
 
         $scope.smsLogsLists = function (empId, pageNumber, itemPerPage) {
             $scope.showloader();
@@ -101,6 +107,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         }
 
         $scope.filteredReportData = function (data, page, noOfRecords) {
+            alert('hj');
             $scope.showloader();
             page = noOfRecords * (page - 1);
             Data.post('bmsConsumption/filterReportData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords}).then(function (response) {
@@ -112,6 +119,25 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                     for (var j = 0; j < $scope.totalSms.length; j++) {
                         $scope.fail = response.records[j].fail;
                     }
+                    $scope.categorylabels = ["Delivered", "Undelivered"];
+                    $scope.categorydata = [$scope.totalSms[0].success, $scope.totalSms[0].fail];
+                    $scope.categorycolors = ['#FFA500', '#DCDCDC'];
+                    $scope.categoryoptions = {
+                        cutoutPercentage: 60,
+                        animation: {
+                            animatescale: true
+                        }
+                    };
+
+                    $scope.categorylabels1 = ["Operator issue"];
+                    $scope.categorydata1 = [$scope.fail];
+                    $scope.categorycolors1 = ['#00ADF9'];
+                    $scope.categoryoptions = {
+                        cutoutPercentage: 60,
+                        animation: {
+                            animatescale: true
+                        }
+                    };
 
                 } else
                 {

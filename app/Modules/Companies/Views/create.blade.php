@@ -170,7 +170,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="list in documentDetails">
+                                            <tr ng-repeat="list in documents">
                                                 <td>{{$index + 1}}</td>
                                                 <td>{{list.document_name}}</td>
                                                 <td>{{list.document_file}} </td>
