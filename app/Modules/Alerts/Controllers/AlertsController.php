@@ -110,7 +110,7 @@ class AlertsController extends Controller {
                     ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'ts.templates_event_id', '=', 'te.id')
                     ->leftjoin('templates_customs as tc', 'ts.custom_template_id', '=', 'tc.id')
                     ->select('ts.*', 'te.event_name', 'te.module_names','tc.friendly_name')
-                    ->where('ts.client_id', '=', config('global.client_id'))
+                    ->where('ts.client_id', '=',1)
                     ->get();
             
             $customTemplate = TemplatesCustom::select('id','friendly_name','sr_no')->get();

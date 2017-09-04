@@ -120,7 +120,7 @@
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="CompanyData.firm_logo" name="firm_logo" id="firm_logo"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >        
                                         </span><br/><br/>
-                                        <img ng-src="{{firm_logo}}"  height="80px" width="80px" >
+                                        <img ng-src="[[ Config('global.s3Path') ]]/Company/firmlogo/{{firm_logo}}"  height="80px" width="80px" >
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-12 ">
