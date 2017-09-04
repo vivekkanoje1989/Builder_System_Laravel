@@ -17,7 +17,7 @@
                 <span class="widget-caption">{{pagetitle}}</span>                
             </div>
             <div  class="widget-body table-responsive">                               
-                <div class="row">                    
+                <div class="row" ng-if="enquiriesLength != 0">
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label for="search">Records per page:</label>
@@ -95,7 +95,7 @@
                         <tr dir-paginate="enquiry in filtered = ( enquiries | filter:search)  | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength }}">
                             <td width="4%">{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>
                             <td width="20%">
-                                <div>{{enquiry.customer_title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
+                                <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
                                 <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1" ng-init="mobile_list=enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list | limitTo:2">
                                     <a style="cursor: pointer;" class="Linkhref"

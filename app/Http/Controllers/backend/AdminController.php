@@ -339,7 +339,7 @@ class AdminController extends Controller {
         $channelList = MlstEnquirySalesChannel::select('id', 'channel_name')->get();
         $getCompanyList = MlstBmsbCompany::select('id','company_name')->get();
         $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id','reason')->where('lost_reason_status',1)->orderBy('id')->get();
-        $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id','enquiry_lost_reason_id','sub_reason')->where(['lost_sub_reason_status'=>1])->get();
+        $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id','enquiry_lost_reason_id','sub_reason')->where(['status'=>1])->get();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource,
@@ -485,19 +485,19 @@ class AdminController extends Controller {
         }
     }
 
-      public function getsalesEmployees() {
-       $client_id = config('global.client_id');
-       $loggedInUserId = Auth::guard('admin')->user()->id;
-       $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name','designation_id', 'employee_submenus')                
-                ->where("client_id", $client_id)->where(["employee_status" => 1])->whereNotIn('id', [$loggedInUserId])->get();
-        $i=0;
-        if(!empty($getEmployees)){
-            foreach($getEmployees as $emp){
-                if(!empty($emp->employee_submenus)){
+    public function getsalesEmployees() {
+        $client_id = config('global.client_id');
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name', 'designation_id', 'employee_submenus')
+                        ->where("client_id", $client_id)->where(["employee_status" => 1])->whereNotIn('id', [$loggedInUserId])->get();
+        $i = 0;
+        if (!empty($getEmployees)) {
+            foreach ($getEmployees as $emp) {
+                if (!empty($emp->employee_submenus)) {
                     $a = json_decode($emp->employee_submenus, true);
-                    if(in_array("0401",$a) == 1){
-                        $emp->first_name = $emp->first_name." ".$emp->last_name;
-                        unset($emp->employee_submenus,$emp->last_name);
+                    if (in_array("0401", $a) == 1) {
+                        $emp->first_name = $emp->first_name . " " . $emp->last_name;
+                        unset($emp->employee_submenus, $emp->last_name);
                         $getEmployees1[] = $emp;
                     }
                 }$i++;
@@ -506,16 +506,12 @@ class AdminController extends Controller {
 
         if (!empty($getEmployees1)) {
             $result = ['success' => true, 'records' => $getEmployees1];
-
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            
         }
-        return json_encode($result);  
-        
-        
+        return json_encode($result);
     }
-    
+
     public function getTeamLead($id) {
         $designation = MlstBmsbDesignation::with('employeeName')->get();
         foreach ($designation as $desg) {
@@ -624,14 +620,12 @@ class AdminController extends Controller {
     public function getSalesEnqSubCategory() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $categoryId = $request['categoryId'];
-
-        $salesEnqSubCategoryList = EnquirySalesSubcategory::where(['enquiry_sales_category_id' => $categoryId, 'status' => 1])->select('id', 'enquiry_sales_subcategory')->get();
-        if (!empty($salesEnqSubCategoryList)) {
-            $result = ['success' => true, 'records' => $salesEnqSubCategoryList];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
+        $salesEnqSubCategoryList = [];
+        if(!empty($request['categoryId'])){
+            $categoryId = $request['categoryId'];
+            $salesEnqSubCategoryList = EnquirySalesSubcategory::where(['enquiry_sales_category_id' => $categoryId, 'status' => 1])->select('id', 'enquiry_sales_subcategory','listing_position')->get();
         }
+        $result = ['success' => true, 'records' => $salesEnqSubCategoryList];
         return json_encode($result);
     }
 
@@ -648,40 +642,35 @@ class AdminController extends Controller {
     public function getSalesEnqSubStatus() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $statusId = $request['statusId'];
-
-        $salesEnqSubStatusList = EnquirySalesSubstatus::where(['enquiry_sales_status_id' => $statusId, 'status' => 1])->select('id', 'enquiry_sales_substatus')->get();
-        if (!empty($salesEnqSubStatusList)) {
-            $result = ['success' => true, 'records' => $salesEnqSubStatusList];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
+        $salesEnqSubStatusList = [];
+        if(!empty($request['statusId'])){
+            $statusId = $request['statusId'];
+            $salesEnqSubStatusList = EnquirySalesSubstatus::where(['enquiry_sales_status_id' => $statusId, 'status' => 1])->select('id', 'enquiry_sales_substatus','listing_position')->get();
         }
-        return json_encode($result);
+        $result = ['success' => true, 'records' => $salesEnqSubStatusList];
+        return json_encode($result);        
     }
 
      public function getSalesLostReason() {
         $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id','reason')->where('lost_reason_status',1)->orderBy('id')->get();
         if (!empty($getSalesLostReason)) {
             $result = ['success' => true, 'records' => $getSalesLostReason];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function getSalesLostSubReason() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $lostReasonId = $request['data']['lostReasonId'];
-        $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id','sub_reason')->where(['enquiry_lost_reason_id'=>$lostReasonId,'lost_sub_reason_status'=>1])->get();
-        if (!empty($getSalesLostSubReason)) {
-            $result = ['success' => true, 'records' => $getSalesLostSubReason];
-            return json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        $getSalesLostSubReason = [];
+        if(!empty($request['data']['lostReasonId'])){
+            $lostReasonId = $request['data']['lostReasonId'];
+            $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id','sub_reason','listing_position')->where(['enquiry_lost_reason_id'=>$lostReasonId,'status'=>1])->get();
         }
+        $result = ['success' => true, 'records' => $getSalesLostSubReason];
+        return json_encode($result);
     }
     public function getAmenitiesList() {
         $amenitiesList = MlstBmsbAmenity::select('id', 'name_of_amenity')->where("amenity_status", 1)->get();

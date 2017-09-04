@@ -113,6 +113,15 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/importEnquiry', 'MasterSalesController@importEnquiry');
     Route::post('/master-sales/getImportHistory', 'MasterSalesController@getImportHistory');
     /*********************IMPORT ENQUIRIES*********************/
+    
+    /*********************TODAY REMARK*********************/
+    Route::post('/master-sales/addInfo', 'MasterSalesController@addInfo');
+    Route::post('/master-sales/getCollectionDetails', 'MasterSalesController@getCollectionDetails');
+    Route::post('/master-sales/manageCollection', 'MasterSalesController@manageCollection');
+    Route::post('/master-sales/getrCollectionReceipt', 'MasterSalesController@getrCollectionReceipt');
+    Route::post('/master-sales/insertCollection', 'MasterSalesController@insertCollection');
+    Route::post('/master-sales/insertReceipt', 'MasterSalesController@insertReceipt');
+    /*********************TODAY REMARK*********************/
 });
 
 

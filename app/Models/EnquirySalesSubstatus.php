@@ -42,6 +42,7 @@ class EnquirySalesSubstatus extends Eloquent
 {
 	protected $casts = [
 		'client_id' => 'int',
+                'listing_position' => 'int',
 		'enquiry_sales_status_id' => 'int',
 		'status' => 'int',
 		'created_by' => 'int',
@@ -61,6 +62,7 @@ class EnquirySalesSubstatus extends Eloquent
 
 	protected $fillable = [
 		'client_id',
+                'listing_position',
 		'enquiry_sales_status_id',
 		'enquiry_sales_substatus',
 		'status',

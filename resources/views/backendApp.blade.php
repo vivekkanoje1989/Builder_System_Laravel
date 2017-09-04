@@ -72,6 +72,7 @@
                             @include('layouts.backend.layout')
                             <!--<div ui-view ng-show="!loader.loading"></div>-->
 
+
                             <!-- Scripts -->
                             <script src="/backend/lib/jquery/jquery.min.js"></script>
                             <script src="/backend/lib/jquery/bootstrap.js"></script>
@@ -135,3 +136,4 @@
 <?php } ?>
                     </body>
                     </html>
+

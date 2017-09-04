@@ -177,7 +177,7 @@ class CommonFunctions {
         $customer_id = $alertdata['customer_id'];
         $employee_id = $alertdata['employee_id'];
         $client_id = $alertdata['client_id'];
-        if(!empty($alertdata['project_id']))
+        if(!empty($alertdata['project_id']) && $alertdata['project_id'] <> 0)
         {
             $project_id = $alertdata['project_id'];
         }
@@ -244,7 +244,7 @@ class CommonFunctions {
                 }
             }
         }
-
+       
         if (!empty($template_employee)) {
             $emp_email_subject = $template_employee->email_subject;
             $emp_emailTemplate = $template_employee->email_body;
@@ -292,7 +292,7 @@ class CommonFunctions {
             $displayImage = config('global.s3Path') . '/project_images/' . $project_details->project_logo;
             $projectLogo = $project_details->project_logo;
         }
-        if (!empty($client->company_logo))
+        if (!empty($client->company_logo))            
             $companyLogo = config('global.s3Path') . '/client/' . $client_id . '/' . $client->company_logo;
         if (!empty($client->marketing_name))
             $companyMarketingName = ucwords($client->marketing_name);
@@ -302,15 +302,15 @@ class CommonFunctions {
 
         if (!empty($client->pin_code))
             $companyAddress .= $client->pin_code;
-
+        $brandColor = '#054449';
 
 //        if (!empty($brand->brand_color))
-//            $brandColor = $brand->brand_color;
+            
         // echo 'color->'.$brand->color;exit;
 //        if (!empty($brand->brand_name))
 //            $brandName = $brand->brand_name;
-        $search = array('[#companyMarketingName#]', '[#companyGoogleMap#]', '[#companyAddress#]', '[#companyLogo#]', '[#displayImage#]', '[#projectLogo#]','[#projectName#]', '[#greeting#]','[#locimg#]', '[#vehicleimg#]', '[#lmsAuto#]');
-        $replace = array($companyMarketingName, '', $companyAddress, $companyLogo, $displayImage, $projectLogo, $projectName, $greeting_msg, $loc_image, $car_image, 'BMS Builder');
+        $search = array('[#companyMarketingName#]', '[#companyGoogleMap#]', '[#companyAddress#]', '[#companyLogo#]', '[#displayImage#]','[#brandColor#]', '[#projectLogo#]','[#projectName#]', '[#greeting#]','[#locimg#]', '[#vehicleimg#]', '[#lmsAuto#]');
+        $replace = array($companyMarketingName, '', $companyAddress, $companyLogo, $displayImage, $brandColor,$projectLogo, $projectName, $greeting_msg, $loc_image, $car_image, 'BMS Builder');
         if (!empty($template_employee)) {
             $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
             $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate);
@@ -380,7 +380,7 @@ class CommonFunctions {
             } else if (!empty($employee->personal_email1)) {
                 $emp_email = $employee->personal_email1;
             }
-
+            
             $search = array('[#employeeName#]', '[#employeeMobile#]', '[#employeeEmail#]');
             $replace = array($employeeName, $employeeMobile, $emp_email);
              if (!empty($template_employee)) {
@@ -489,14 +489,14 @@ class CommonFunctions {
                 }
             }
         }
-
+        
         if (!empty($employee_id > 0)) {
             if (!empty($alertdata['emp_cc']) && !empty($template_employee->email_cc_ids)) {
                 $template_employee->email_cc_ids = $template_employee->email_cc_ids . ',' . $alertdata['emp_cc'];
             } elseif (empty($template_employee->email_cc_ids) && !empty($alertdata['emp_cc'])) {
                 $template_employee->email_cc_ids = $alertdata['emp_cc'];
             }
-            if (!empty($template_settings_employee)) {
+             if (!empty($template_settings_employee)) {
                 if ($template_settings_employee->email_status == 1 || !empty($alertdata['email_status'])) {
                     $subject = $emp_email_subject;
                     $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids, "attachment" => $emp_attachedfile];                    

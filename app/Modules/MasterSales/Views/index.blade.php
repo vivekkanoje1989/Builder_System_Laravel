@@ -79,6 +79,8 @@
                                                 <div ng-message="customerInputs">Mobile number does not exist!</div>
                                                 <div ng-message="customerPattern">Mobile number wrong!</div>
                                             </div> 
+                                            
+                                            <div ng-show="errMobile">Mobile number wrong!</div>
                                         </span>
                                     </div>
                                 </div>

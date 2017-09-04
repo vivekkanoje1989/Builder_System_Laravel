@@ -18,11 +18,11 @@
                 <span class="widget-caption">{{pagetitle}}</span>                
             </div>
             <div class="widget-body table-responsive"> 
-                <div class="row">                    
+                <div class="row" ng-if="enquiriesLength != 0 "> 
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label for="search">Records per page:</label>
-                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:45%;" class="form-control" ng-model="itemsPerPage">
+                            <input type="text" minlength="1" maxlength="3"  ng-change="lostEnquiries('', [[$type]],{{pageNumber}}, itemsPerPage,7)" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:45%;" class="form-control" ng-model="itemsPerPage">
                         </div>
                     </div>
                     <div class="col-md-5 col-xs-12">
@@ -38,9 +38,10 @@
                                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                                     </a> 
                                 </div>
+                                <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign">Reassign</button>
                             </span>
                         </div>
-                    </div>
+                    </div>                    
                     <div class="col-sm-5 col-xs-12" ng-if="enquiriesLength != 0">
                         <div class="form-group">
                             <label for=""></label>
@@ -110,7 +111,7 @@
                                 </center>
                             </td>
                             <td width="20%">
-                                <div>{{enquiry.customer_title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
+                                <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
                                 <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1 && enquiry.mobile !=''" ng-init="mobile_list=enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list | limitTo:2">
                                         {{ mobile_obj}}
@@ -278,8 +279,23 @@
                     </div>
                 </div>
             </div>
+            
+             <!-- reassign ===============================================================================================   -->
+            <div class="modal fade" id="BulkModal" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-md" >
+                    <div class="modal-content">
+                        <div class="modal-header navbar-inner">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" align="center">Reassign</h4>
+                        </div>
+                        <div data-ng-include="'/MasterSales/blukreassign'"></div> 
+                        <div class="modal-footer" align="center">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
              <div data-ng-include="'/MasterSales/showFilter'"></div>
-             <!--<div data-ng-include="'/MasterSales/blukreassign'"></div>--> 
 </div>

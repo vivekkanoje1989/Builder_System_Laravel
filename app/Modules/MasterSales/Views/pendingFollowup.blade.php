@@ -19,11 +19,11 @@
                 <span class="widget-caption">{{pagetitle}}</span>                
             </div>
             <div class="widget-body table-responsive">               
-                <div class="row">                    
+                <div class="row" ng-if="enquiriesLength != 0 "> 
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label for="search">Records per page:</label>
-                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:45%;" class="form-control" ng-model="itemsPerPage">
+                            <input type="text" minlength="1" maxlength="3" ng-change="pendingsFollowups('', [[$type]],{{pageNumber}}, itemsPerPage,2)" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:45%;" class="form-control" ng-model="itemsPerPage">
                         </div>
                     </div>
                     <div class="col-md-5 col-xs-12">
@@ -31,14 +31,14 @@
                             <label for=""></label>
                             <span class="input-icon icon-right">                                
                                 <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_pending_followups')"><i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                <button type="button"  class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Bulk Reassign</button>
                                 <div ng-if="enquiriesLength != 0">
-                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-right: 5px;">
+                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                                    <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-right: 5px;">
+                                    <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-left: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                                     </a> 
                                 </div>
+                                <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >Reassign</button>
                             </span>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                                 </div>
                             </td>
                             <td width="20%">
-                                <div>{{enquiry.customer_title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
+                                <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
                                 <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1 && enquiry.mobile !='' " ng-init="mobile_list=enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list | limitTo:2">
                                         <a style="cursor: pointer;" class="Linkhref"
@@ -292,11 +292,26 @@
                         </div>
                     </div>
                 </div>
-            </div>           
+            </div>
+            
+             <!-- reassign ===============================================================================================   -->
+            <div class="modal fade" id="BulkModal" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-md" >
+                    <div class="modal-content">
+                        <div class="modal-header navbar-inner">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" align="center">Reassign</h4>
+                        </div>
+                        <div data-ng-include="'/MasterSales/blukreassign'"></div> 
+                        <div class="modal-footer" align="center">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
     <div data-ng-include="'/MasterSales/showFilter'"></div>
-    <!--<div data-ng-include="'/MasterSales/blukreassign'"></div>--> 
 </div>
 
 

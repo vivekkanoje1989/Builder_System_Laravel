@@ -16,6 +16,8 @@ use App\Modules\MasterSales\Models\EnquiryFollowup;
 use Validator;
 use DB;
 use Auth;
+use App\Models\MlstTitle;
+use App\Models\CtSetting;
 use App\Classes\CommonFunctions;
 use App\Modules\MasterSales\Models\Enquiry;
 use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
@@ -94,7 +96,7 @@ class MasterSalesController extends Controller {
             $input['customerData']['marriage_date'] = !empty($input['customerData']['marriage_date']) ? date('Y-m-d', strtotime($input['customerData']['marriage_date'])) : '';
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $input['customerData'] = array_merge($input['customerData'], $create);
-            
+
             $createCustomer = Customer::create($input['customerData']); //insert data into employees table
             CustomersLog::create($input['customerData']);
             $input['customerData']['main_record_id'] = $createCustomer->id;
@@ -403,7 +405,7 @@ class MasterSalesController extends Controller {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             //$data = Customer::where('id', $request['data']['customerId'])->get();
-            
+
             $data = Customer::select('customers.*', 'mlc.company_name')
                     ->where('customers.id', '=', $request['data']['customerId'])
                     ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_companies as mlc', 'mlc.id', '=', 'customers.company_id')
@@ -633,7 +635,7 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
-            //print_r($request['enquiryData']['next_followup_date']);exit;
+            //print_r($request);exit;
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
@@ -642,6 +644,7 @@ class MasterSalesController extends Controller {
             if (!empty($request['enquiryData']['next_followup_date'])) {
                 // uppdate followups
                 $next_followup_time = date('H:i:s', strtotime($request['enquiryData']['next_followup_time']));
+                $next_followup_time = $request['enquiryData']['remarks'];
                 //echo "update enquiry_followups set next_followup_date = '".$request['enquiryData']['next_followup_date']."',followup_by_employee_id = ".$request['enquiryData']['followup_by_employee_id'].", next_followup_time='".$request['enquiryData']['next_followup_time']."',sales_category_id = ".$request['enquiryData']['sales_category_id']."  where enquiry_id = ".$request['enquiryData']['id']." ORDER BY `id` DESC LIMIT 1";exit;
                 $updatefollowups = DB::select("update enquiry_followups set next_followup_date = '" . $request['enquiryData']['next_followup_date'] . "',followup_by_employee_id = " . $request['enquiryData']['followup_by_employee_id'] . ", next_followup_time='" . $next_followup_time . "',sales_category_id = " . $request['enquiryData']['sales_category_id'] . "  where enquiry_id = " . $request['enquiryData']['id'] . " ORDER BY `id` DESC LIMIT 1");
             }
@@ -740,7 +743,125 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
+    
+    public function addInfo() {
+        try {
+            $postdata = file_get_contents("php://input");
+            $input = json_decode($postdata, true);
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            if ($input['elem'] == 'company_details') {
+                Customer::whereId(['id' => $input['custId']])->update(['corporate_customer' => $input['corporate_customer'],'company_id' => $input['company_id']]);
+                $result = ["success" => true, 'updated' => '1'];
+            }           
+            else if ($input['elem'] == 'mobile_number') {
+                if (!empty($input['prevMob'])) {
+                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['prevMob'], 'customer_id' => $input['custId']])->get();
+                } else {
+                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['attrVal'], 'customer_id' => $input['custId']])->get();
+                }
+                if (!empty($checkCustomerExist)) {
+                    if (!empty($checkCustomerExist[0]['mobile_number'])) {
+                        $input['pkid'] = $checkCustomerExist[0]['id'];
+                    }
+                    $contacts = $contacts1 = array();
+                    $contacts['customer_id'] = $input['custId'];
+                    $contacts['mobile_calling_code'] = $input['callingCode'];
+                    $contacts['mobile_number'] = $input['attrVal'];
+                    $contacts['client_id'] = config('global.client_id');
+                    if (!empty($input['pkid']) || !empty($checkCustomerExist[0]['mobile_number'])) {
+                        $contacts1 = $contacts;
+                        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                        $contacts = array_merge($contacts, $update);
+                        CustomersContact::whereId(['id' => $input['pkid']])->update($contacts);
+                        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                        $contacts1 = array_merge($contacts1, $create);
+                        CustomersContactsLog::create($contacts1);
 
+                        $result = ["success" => true, 'pkid' => $input['pkid'], 'updated' => '1'];
+                    } else if (empty($checkCustomerExist[0]['customer_id']) && empty($input['pkid'])) {
+                        $checkEmptyMobile = CustomersContact::select('id', 'mobile_number')->where(['customer_id' => $input['custId']])->get();
+                        foreach ($checkEmptyMobile as $rec) {
+                            if (empty($rec['mobile_number'])) {
+                                $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                                $contacts = array_merge($contacts, $update);
+                                CustomersContact::whereId(['id' => $rec['id']])->update($contacts);
+                                $insert = 0;
+                                $pk = $rec['id'];
+                                break;
+                            } else {
+                                $insert = 1;
+                            }
+                        }
+                        if ($insert) {
+                            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                            $contacts = array_merge($contacts, $create);
+                            $pkid1 = CustomersContact::create($contacts);
+                            $pk = $pkid1->id;
+                        }
+                        CustomersContactsLog::create($contacts);
+                        $result = ["success" => true, 'pkid' => $pk];
+                    } else {
+                        $result = ["success" => false, "message" => "Mobile number already exist"];
+                    }
+                }
+            } 
+            else {
+                if (!empty($input['prevEmail'])) {
+                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'email_id')->where(['email_id' => $input['prevEmail'], 'customer_id' => $input['custId']])->get();
+                } else {
+                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'email_id')->where(['email_id' => $input['attrVal'], 'customer_id' => $input['custId']])->get();
+                }
+                if (!empty($checkCustomerExist)) {
+                    if (!empty($checkCustomerExist[0]['email_id'])) {
+                        $input['pkid'] = $checkCustomerExist[0]['id'];
+                    }
+                    $email = $email1 = array();
+                    $email['customer_id'] = $input['custId'];
+                    $email['email_id'] = $input['attrVal'];
+                    $email['client_id'] = config('global.client_id');
+                    if (!empty($input['pkid']) || !empty($checkCustomerExist[0]['email_id'])) {
+                        $email1 = $email;
+                        $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                        $email = array_merge($email, $update);
+                        CustomersContact::whereId(['id' => $input['pkid']])->update($email);
+                        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                        $email1 = array_merge($email1, $create);
+                        CustomersContactsLog::create($email1);
+                        $result = ["success" => true, 'pkid' => $input['pkid'], 'updated' => '1'];
+                    } else if (empty($checkCustomerExist[0]['customer_id']) && empty($input['pkid'])) {
+
+                        $checkEmptyEmail = CustomersContact::select('id', 'email_id')->where(['customer_id' => $input['custId']])->get();
+                        foreach ($checkEmptyEmail as $rec) {
+                            if (empty($rec['email_id'])) {
+                                $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                                $email = array_merge($email, $update);
+                                CustomersContact::whereId(['id' => $rec['id']])->update($email);
+                                $insert = 0;
+                                $pk = $rec['id'];
+                                break;
+                            } else {
+                                $insert = 1;
+                            }
+                        }
+                        if ($insert) {
+                            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                            $email = array_merge($email, $create);
+                            $pkid = CustomersContact::create($email); //insert data into customer_contacts table
+                            $pk = $pkid->id;
+                        }
+                        CustomersContactsLog::create($email); //insert data into customer_contacts_logs table
+                        $result = ["success" => true, 'pkid' => $pk];
+                    } else {
+                        $result = ["success" => false, "message" => "Email id already exist"];
+                    }
+                }
+            }
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+        return json_encode($result);
+    }
+    
     public function getTodayRemark() {
         try {
             $postdata = file_get_contents("php://input");
@@ -760,7 +881,7 @@ class MasterSalesController extends Controller {
                     }
                 }
             }
-            
+
             if (!empty($decodeRemarkDetails[0]['customer_mobile_no'])) {
                 $mobileNumber = explode(",", $decodeRemarkDetails[0]['customer_mobile_no']);
                 $mobileNumber = array_unique($mobileNumber);
@@ -790,52 +911,327 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-    /*public function getTodayRemark() {
+    
+    public function insertTodayRemark() {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            $getRemarkDetails = DB::select('CALL proc_get_today_remark(' . $request['enquiryId'] . ')');
-            $decodeRemarkDetails = json_decode(json_encode($getRemarkDetails), true);
-            $projectId = $blockId = $emailId = array();
-            if (!empty($decodeRemarkDetails[0]['project_block_id'])) {
-                $explodeComma = explode(",", $decodeRemarkDetails[0]['project_block_id']);
-                if (!empty($explodeComma)) {
-                    foreach ($explodeComma as $value) {
-                        $explodeDash = explode("-", $value);
-                        $projectId[] = $explodeDash[0];
-                        $blockId[] = $explodeDash[1];
+
+            $input = $request['data'];
+            if (empty($input['userData']['loggedInUserId'])) {
+                $loggedInUserId = Auth::guard('admin')->user()->id;
+                $getTitle = MlstTitle::select("title")->where("id", Auth::guard('admin')->user()->title_id)->get();
+                $fullName = $getTitle[0]["title"] . " " . Auth::guard('admin')->user()->first_name . " " . Auth::guard('admin')->user()->last_name;
+            } else {
+                $loggedInUserId = $input['userData']['loggedInUserId'];
+                $fullName = $input['userData']['fullName'];
+            }
+            $msgs = '';
+            $bookingId = '';
+            $enquiryId = $input['enquiry_id'];
+            $followupId = $input['followupId'];
+            $customerId = $input['customerId'];
+            if (!empty($input['bookingId'])) {
+                $bookingId = $input['bookingId'];
+            }
+
+            $todayDateTime = date('Y-m-d H:i:s');
+            $getvalues = Enquiry::select('sales_category_id', 'sales_subcategory_id', 'sales_status_id')->where('id', $enquiryId)->get();
+            $sales_category_id = !empty($input['sales_category_id']) ? $input['sales_category_id'] : $getvalues[0]['sales_category_id'];
+            $sales_subcategory_id = !empty($input['sales_subcategory_id']) ? $input['sales_subcategory_id'] : $getvalues[0]['sales_subcategory_id'];
+            $sales_status_id = !empty($input['sales_status_id']) ? $input['sales_status_id'] : $getvalues[0]['sales_status_id'];
+            $sales_substatus_id = !empty($input['sales_substatus_id']) ? $input['sales_substatus_id'] : "0";            
+            $input['actual_followup_date_time'] = '0000-00-00 00:00:00';
+            $input['followup_date_time'] = $todayDateTime;            
+            $input['followup_entered_through'] = 1;            
+            $corporate_customer = $input['corporate_customer'];
+            $company_id = $input['company_id'];
+            
+            if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
+                $companyId = MlstLmsaCompany::select('id', 'company_name')->where('company_name', $input['company_name'])->get();
+
+                if (!empty($companyId[0])) {
+                    $company_id = $companyId[0]['id'];
+                } else {
+                    $createCompany['corporate_customer'] = $corporate_customer;
+                    $createCompany['company_name'] = $input['company_name'];
+                    $createC = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                    $insertCompany = array_merge($createCompany, $createC);
+                    $insertcompany = MlstLmsaCompany::create($insertCompany);
+                    $company_id = $insertcompany->id;
+                }
+            } elseif ($company_id == 0) { //uncheck checkbox
+                $corporate_customer = 0;
+            }
+            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+            if ($company_id >= 0) {
+                $custUpdate = array();
+                $custUpdate = array_merge($custUpdate, $update);
+                $recUpdate['company_id'] = $company_id;
+                $recUpdate['corporate_customer'] = $corporate_customer;
+                $recUpdate['company_location_id'] = 1;
+                $recUpdate = Customer::where('id', $customerId)->update($recUpdate);
+            }
+            /*****************EDIT CUSTOMER INFO********************/
+            if (!empty($request['custInfo'])) {
+                $custInfo = $request['custInfo'];
+                if (!empty($custInfo['title_id']) && (!empty($custInfo['customer_fname']) || !empty($custInfo['customer_lname']))) {
+                    $custUpdate = Customer::where('id', $customerId)->update(["title_id" => $custInfo['title_id'], "first_name" => $custInfo['customer_fname'], "last_name" => $custInfo['customer_lname']]);
+                }
+
+                /*****************************Mobile / Email Update [For Mobile App Only]*****************************/
+                if (!empty($request['custInfo']['mobile_number']) || !empty($request['custInfo']['email_id'])) {
+                    $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number', 'email_id')->where('customer_id', $customerId)->get();
+
+                    if (!empty($request['custInfo']['mobile_number'])) {
+                        $contacts = $contacts1 = array();
+                        $contacts['customer_id'] = $customerId;
+                        $contacts['mobile_calling_code'] = $request['custInfo']['mobile_calling_code'];
+                        $contacts['mobile_number'] = $request['custInfo']['mobile_number'];
+                        $contacts['client_id'] = $request['custInfo']['client_id'];
+                        if (!empty($checkCustomerExist[0]['customer_id']) && empty($checkCustomerExist[0]['mobile_number'])) {
+                            $contacts1 = $contacts;
+                            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                            $contacts = array_merge($contacts, $update);
+                            CustomersContact::whereId(['id' => $checkCustomerExist[0]['id'], 'customer_id' => $customerId])->update($contacts);
+                            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                            $contacts1 = array_merge($contacts1, $create);
+                            CustomersContactsLog::create($contacts1);
+                        } else {
+                            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                            $contacts = array_merge($contacts, $create);
+                            CustomersContact::create($contacts); //insert data into customer_contacts table
+                            CustomersContactsLog::create($contacts); //insert data into customer_contacts_logs table
+                        }
+                    }
+                    if (!empty($request['custInfo']['email_id'])) {
+
+                        $email = $email1 = array();
+                        $email['customer_id'] = $customerId;
+                        $email['email_id'] = $request['custInfo']['email_id'];
+                        $email['client_id'] = $request['custInfo']['client_id'];
+                        if (!empty($checkCustomerExist[0]['customer_id']) && empty($checkCustomerExist[0]['email_id'])) {
+                            $email1 = $email;
+                            $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                            $email = array_merge($email, $update);
+                            CustomersContact::whereId(['id' => $checkCustomerExist[0]['id'], 'customer_id' => $customerId])->update($email);
+                            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                            $email1 = array_merge($email1, $create);
+                            CustomersContactsLog::create($email1);
+                        } else {
+                            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                            $email = array_merge($email, $create);
+                            CustomersContact::create($email); //insert data into customer_contacts table
+                            CustomersContactsLog::create($email); //insert data into customer_contacts_logs table
+                        }
                     }
                 }
+                /*****************************Mobile / Email Update [For Mobile App Only]*****************************/
+            }
+            
+            /*****************EDIT SOURCE INFO********************/
+            if (!empty($request['sourceInfo'])) {
+                $sourceInfo = $request['sourceInfo'];
+                $custUpdate = Customer::where('id', $customerId)->update(["source_id" => $sourceInfo['source_id'], "subsource_id" => $sourceInfo['sales_subsource_id'], "source_description" => $sourceInfo['sales_source_description']]);
+                $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_source_id" => $sourceInfo['source_id'], "sales_subsource_id" => $sourceInfo['sales_subsource_id'], "sales_source_description" => $sourceInfo['sales_source_description']]);
             }
 
-            if (!empty($decodeRemarkDetails[0]['customer_mobile_no'])) {
-                $mobileNumber = explode(",", $decodeRemarkDetails[0]['customer_mobile_no']);
-                $mobileNumber = array_unique($mobileNumber);
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+            
+            $getFollowupId = Enquiry::select('sales_employee_id')->where('id', $enquiryId)->get();
+            $reassignEnq = "";
+            if ($getFollowupId[0]['sales_employee_id'] != $input['followup_by']['id']) {
+                $oldSalesEmployee = Employee::select("first_name", "last_name")->where('id', $getFollowupId[0]['sales_employee_id'])->get();
+                $newSalesEmployee = Employee::select("first_name", "last_name")->where('id', $input['followup_by']['id'])->get();
+                $reassignEnq = "(Enquiry reassigned by " . $oldSalesEmployee[0]["first_name"] . " " . $oldSalesEmployee[0]["last_name"] . " to " . $newSalesEmployee[0]["first_name"] . " " . $newSalesEmployee[0]["last_name"] . ")";
+                $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by']['id']]); 
             }
-            if (!empty($decodeRemarkDetails[0]['customer_email_id'])) {
-                $emailId = explode(",", $decodeRemarkDetails[0]['customer_email_id']);
-                $emailId = array_values(array_filter($emailId));
-                $emailId = array_unique($emailId);
-            }
-            $getProjects = Project::select("id", "project_name")->whereIn('id', $projectId)->get();
-            $getBlocks = MlstBmsbBlockType::select("id", "block_name")->whereIn('id', $blockId)->get();
 
-            $decodeRemarkDetails['selectedProjects'] = $getProjects;
-            $decodeRemarkDetails['selectedBlocks'] = $getBlocks;
-            $decodeRemarkDetails['mobileNumber'] = $mobileNumber;
-            $decodeRemarkDetails['emailId'] = $emailId;
-            if (count($decodeRemarkDetails) != 0) {
-                $result = ['success' => true, 'data' => $decodeRemarkDetails];
+            $input['followup_by'] = $loggedInUserId;
+            if (!empty($input)) {
+                $lostReason = $lostSubReason = 0;
+                if ($input['sales_status_id'] == 3) {//booked
+                    $input['booking'] = array_merge($input['booking'], $create);
+                    $input['booking']['enquiry_id'] = $enquiryId;
+                    $input['booking']['brand_id'] = config('global.brand_id');
+                    $input['booking']['sales_person_id'] = $loggedInUserId;
+                    $input['booking']['booking_date'] = date('Y-m-d', strtotime($input['booking']['booking_date']));
+                                        
+                    if (empty($bookingId)) {
+                        unset($input['booking']['brand_id']);
+                        $enqDetails = EnquiryDetail::create($input['booking']);
+                        $bookingDetails = Booking::create($input['booking']);
+                        $bookingId = $bookingDetails->id;
+                        $input['booked_vehicle_id'] = $enqDetails->id;
+                        $msgs = 'Remark inserted successfully';
+                    } else {
+                        unset($input['booking']['brand_id']);
+                        Booking::where('enquiry_id', $enquiryId)->update($input['booking']);
+                        unset($input['booking']['booking_date'], $input['booking']['sales_person_id']);
+                        EnquiryDetail::where('enquiry_id', $enquiryId)->update($input['booking']);
+                        
+                        $msgs = 'Remark updated successfully';
+                    }
+                    $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));                    
+                } else if ($input['sales_status_id'] == 4) {//lost                    
+                    $lostReason = $input['sales_lost_reason_id'];
+                    $lostSubReason = !empty($input['sales_lost_sub_reason_id']) ? $input['sales_lost_sub_reason_id'] : "0";
+                    $sales_substatus_id = 0;
+                    $input['next_followup_date'] = "0000-00-00";
+                    $input['next_followup_time'] = "00:00:00";
+                } else { //open & future
+                    $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
+                    $input['next_followup_time'] = date('H:i:s', strtotime($input['next_followup_time']));
+                }                
+                /*                 * ****************REMARK FUNCTIONAL******************* */
+                $client = json_decode(config('global.client_info'), true);
+                $marketing_name = $client['marketing_name'];
+
+                if ($input['textRemark'] !== '') {//for text
+                    $input['remarks'] = $input['textRemark'] . " " . $reassignEnq;
+                    if (!empty($msgs))
+                        $msg = $msgs;
+                    else
+                        $msg = 'Remark inserted successfully';
+                } 
+                else if ($input['msgRemark'] !== '') {// for message
+                    $getCallBackNo = CtSetting::select('virtual_display_number')->where("default_number", 1)->get();
+                    $contactText = "
+Regards,
+" . $fullName . "
+" . $marketing_name . "
+" . $getCallBackNo[0]['virtual_display_number'] . "";
+                    $input['remarks'] = "Sent Sms: " . $input['msgRemark'] . $contactText;
+                    $templatedata['employee_id'] = $loggedInUserId;
+                    $templatedata['client_id'] = config('global.client_id');
+                    $templatedata['template_setting_customer'] = 33; //50;
+                    $templatedata['template_setting_employee'] = 0;
+                    $templatedata['customer_id'] = $customerId;
+                    $templatedata['customer_number'] = $input['mobileNumber'];
+                    $templatedata['model_id'] = 0;
+                    $templatedata['sms_status'] = 1;
+                    $templatedata['email_status'] = 0;
+                    $input['msgRemark'] = $input['msgRemark'] . $contactText;
+                    $templatedata['arrExtra'][0] = array(
+                        '[#mailtodaysremark#]',
+                        '[#smstodaysremark#]',
+                        '[#emailsubject#]'
+                    );
+                    $templatedata['arrExtra'][1] = array(
+                        "",
+                        $input['msgRemark'],
+                        ""
+                    );
+                    $result = CommonFunctions::templateData($templatedata);
+                    $msg = 'Remark inserted successfully';
+                    $input['remarks'] = $input['msgRemark'] . " " . $reassignEnq;
+                } else { //for email
+                    $getCallBackNo = CtSetting::select('virtual_display_number')->where("default_number", 1)->get();
+                    $contactText = "
+Regards,<br>
+" . $fullName . "<br>
+" . $marketing_name . "<br>
+" . $getCallBackNo[0]['virtual_display_number'] . "";
+                    $input['remarks'] = "Sent mail: " . strip_tags($input['email_content']) . $contactText;
+                    $templatedata['employee_id'] = $loggedInUserId;
+                    $templatedata['client_id'] = config('global.client_id');
+                    $templatedata['template_setting_customer'] = 33; //50;
+                    $templatedata['template_setting_employee'] = 0;
+                    $templatedata['customer_id'] = $customerId;
+                    $templatedata['customer_email'] = $input['email_id_arr'];
+                    $templatedata['email_subject'] = $input['subject'];
+                    $templatedata['model_id'] = 0;
+                    $templatedata['sms_status'] = 0;
+                    $templatedata['email_status'] = 1;
+                    $input['email_content'] = $input['email_content'] . $contactText;
+                    $templatedata['arrExtra'][0] = array(
+                        '[#mailtodaysremark#]',
+                        '[#emailsubject#]',
+                        '[#smstodaysremark#]'
+                    );
+                    $templatedata['arrExtra'][1] = array(
+                        $input['email_content'],
+                        $input['subject'],
+                        ""
+                    );
+                    $result = CommonFunctions::templateData($templatedata);
+                    $msg = 'Remark inserted successfully';
+                    $input['remarks'] = strip_tags($input['email_content']) . " " . $reassignEnq;
+                }
+
+                $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+//                if (!empty($input['editExistingFollowup']))
+                $editExistingFollowup = $input['editExistingFollowup'];
+                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup']);
+                $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
+                    "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
+                    "sales_lost_sub_reason_id" => $lostSubReason], $update);
+                unset($input['company_id'], $input['corporate_customer'], $input['company_name'], $input['booking']);
+
+                EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
+                if ($editExistingFollowup == true) {
+                    $input = array_merge($input, $update);
+                    $insertFollowup = EnquiryFollowup::where("id", $followupId)->update($input);
+                    $result = ['success' => true, 'message' => "", 'bookingId' => $bookingId];
+                } else {
+                    $input = array_merge($input, $create);
+                    $insertFollowup = EnquiryFollowup::create($input);
+                    $result = ['success' => true, 'message' => $msg, 'bookingId' => $bookingId];
+                }
             } else {
-                $result = ['success' => false, 'errorMsg' => 'Something went wrong'];
+                $result = ['success' => false, 'message' => 'Remark not inserted. Please try again'];
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
         return response()->json($result);
-    }*/
+    }
+    /* public function getTodayRemark() {
+      try {
+      $postdata = file_get_contents("php://input");
+      $request = json_decode($postdata, true);
+      $getRemarkDetails = DB::select('CALL proc_get_today_remark(' . $request['enquiryId'] . ')');
+      $decodeRemarkDetails = json_decode(json_encode($getRemarkDetails), true);
+      $projectId = $blockId = $emailId = array();
+      if (!empty($decodeRemarkDetails[0]['project_block_id'])) {
+      $explodeComma = explode(",", $decodeRemarkDetails[0]['project_block_id']);
+      if (!empty($explodeComma)) {
+      foreach ($explodeComma as $value) {
+      $explodeDash = explode("-", $value);
+      $projectId[] = $explodeDash[0];
+      $blockId[] = $explodeDash[1];
+      }
+      }
+      }
 
-    public function insertTodayRemark() {
+      if (!empty($decodeRemarkDetails[0]['customer_mobile_no'])) {
+      $mobileNumber = explode(",", $decodeRemarkDetails[0]['customer_mobile_no']);
+      $mobileNumber = array_unique($mobileNumber);
+      }
+      if (!empty($decodeRemarkDetails[0]['customer_email_id'])) {
+      $emailId = explode(",", $decodeRemarkDetails[0]['customer_email_id']);
+      $emailId = array_values(array_filter($emailId));
+      $emailId = array_unique($emailId);
+      }
+      $getProjects = Project::select("id", "project_name")->whereIn('id', $projectId)->get();
+      $getBlocks = MlstBmsbBlockType::select("id", "block_name")->whereIn('id', $blockId)->get();
+
+      $decodeRemarkDetails['selectedProjects'] = $getProjects;
+      $decodeRemarkDetails['selectedBlocks'] = $getBlocks;
+      $decodeRemarkDetails['mobileNumber'] = $mobileNumber;
+      $decodeRemarkDetails['emailId'] = $emailId;
+      if (count($decodeRemarkDetails) != 0) {
+      $result = ['success' => true, 'data' => $decodeRemarkDetails];
+      } else {
+      $result = ['success' => false, 'errorMsg' => 'Something went wrong'];
+      }
+      } catch (\Exception $ex) {
+      $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+      }
+      return response()->json($result);
+      } */
+
+    /*public function insertTodayRemark() {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
@@ -915,7 +1311,7 @@ class MasterSalesController extends Controller {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
         return response()->json($result);
-    }
+    }*/
 
     public function filteredData() {
         $postdata = file_get_contents("php://input");
@@ -2490,25 +2886,87 @@ class MasterSalesController extends Controller {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
+            //print_r($request['enquiry_id']);exit;
+            $ressigndate = date('d-m-Y');
+            $ressigntime = date('H:i:s');
+                
             if (!empty($request)) {
-                $employee_id = $request['employee_id']; 
+                $employee_id = $request['employee_id'];
                 $ressignEmpData = \App\Models\backend\Employee::with('designationName')->select('first_name', 'last_name', 'designation_id')->where('id', $employee_id)->first();
                 $date = date('Y-m-d h:i:s');
-                
-                if (!empty($request['loggedInUserId'])) {
-                    // for app
+
+                if (!empty($request['loggedInUserId'])) { // for app
+                    $loggedInUserId = $request['loggedInUserId'];
+                    $LoginName = $request['emp_name'];
+                    $emp_email = $request['personal_email1'];
+                } else {// web
+                    $loggedInUserId = Auth::guard('admin')->user()->id;
+                    $LoginName = Auth::guard('admin')->user()->first_name . " " . Auth::guard('admin')->user()->last_name;
+                    $emp_email = Auth::guard('admin')->user()->personal_email1;
                 }
-                else
-                {
-                    // web
-                    $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-                    
+                $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
+                $enq['sales_employee_id'] = $employee_id;
+                $updateEnq = array_merge($enq, $update);
+                $updateEnq = Enquiry::whereIn('id', $request['enquiry_id'])->update($updateEnq);
+
+                if ($updateEnq > 0) {
+                    foreach ($request['enquiry_id'] as $key => $val) {
+                        
+                        $followupData = EnquiryFollowup::select('*')->where('enquiry_id', $val)->orderBy('id', 'DESC')->limit(1)->get();
+                        // -------update previous Follow up  actual followup date time by current time
+                        $updatedActualFollowup['actual_followup_date_time'] = $date;
+                        $followupUpdate = array_merge($updatedActualFollowup, $update);
+                        EnquiryFollowup::where('id', $followupData[0]['id'])->update($followupUpdate);
+
+                        // -------insert new follow up
+                        $insertFollowup['followup_date_time'] = $followupData[0]['followup_date_time'];
+                        $insertFollowup['sales_status_id'] = $followupData[0]['sales_status_id'];
+                        $insertFollowup['sales_substatus_id'] = $followupData[0]['sales_substatus_id'];
+                        $insertFollowup['sales_category_id'] = $followupData[0]['sales_category_id'];
+                        $insertFollowup['sales_subcategory_id'] = $followupData[0]['sales_subcategory_id'];
+                        $insertFollowup['finance_category_id'] = $followupData[0]['finance_category_id'];
+                        $insertFollowup['finance_subcategory_id'] = $followupData[0]['finance_subcategory_id'];
+                        $insertFollowup['finance_status_id'] = $followupData[0]['finance_status_id'];
+                        $insertFollowup['finance_substatus_id'] = $followupData[0]['finance_substatus_id'];
+                        $insertFollowup['next_followup_date'] = $followupData[0]['next_followup_date'];
+                        $insertFollowup['next_followup_time'] = $followupData[0]['next_followup_time'];
+                        $insertFollowup['actual_followup_date_time'] = '0000-00-00 00:00:00';
+                        $insertFollowup['enquiry_id'] = $val;
+                        $insertFollowup['followup_by_employee_id'] = $loggedInUserId;
+                        $insertFollowup['remarks'] = $LoginName . " Enquiry Reassigned to " . $ressignEmpData->first_name . " " . $ressignEmpData->last_name;
+                        $insertFollowup['followup_entered_through'] = 1;
+                        $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+                        $insertFollowupData = array_merge($insertFollowup, $create);
+                        $insertFollowupDetails = EnquiryFollowup::create($insertFollowupData);
+                    }
                 }
-                 
-            }
+            }            
+            // template 
+            $templatedata['employee_id'] = $request['employee_id'];
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 0;
+            $templatedata['template_setting_employee'] = 34;
+            $templatedata['customer_id'] = 0;
+            $templatedata['project_id'] = 0;
+            $templatedata['emp_cc'] = $emp_email;
+
+            $templatedata['arrExtra'][0] = array(
+                '[#ressignemployeeName#]',
+                '[#ressignDate#]',
+                '[#ressignTime#]',
+            );
+            $templatedata['arrExtra'][1] = array(
+                $LoginName,
+                $ressigndate,
+                $ressigntime,
+            );
+           // $Templateresult = CommonFunctions::templateData($templatedata);
+            
+            $result = ["success" => true, "message" => 'Enquiries Reassigned Successfully..'];
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-        }
+        }        
+        return response()->json($result);
     }
 
 }

@@ -52,9 +52,11 @@ class ExtensionEmployeeController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         for ($i = 0; $i < count($input['employees']); $i++) {
-            $emp_ids[] = $input['employees'][$i]['employee_id'];
+            if(!empty($input['employees'][$i]['employee_id']))
+            {
+                $emp_ids[] = $input['employees'][$i]['employee_id'];
+            }            
         }
-
         if (!empty($emp_ids)) {
             $emp = @implode(',', $emp_ids);
             $ExtensionEmployees = Employee::select('employees.id as id', 'employees.first_name', 'employees.last_name', 'mld.designation')->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'employees.designation_id')->whereRaw("employees.id NOT IN($emp)")->get();
@@ -81,7 +83,7 @@ class ExtensionEmployeeController extends Controller {
         }
 
         if (!empty($ExtensionEmployees)) {
-            $final = '';
+            $final = array();
             for ($i = 0; $i < count($ExtensionEmployees); $i++) {
                 $final[$i]['id'] = $ExtensionEmployees[$i]['id'];
                 $final[$i]['first_name'] = $ExtensionEmployees[$i]['first_name'] . ' ' . $ExtensionEmployees[$i]['last_name'];
