@@ -392,9 +392,9 @@
                                                     <input type="text" ng-model="contactData.email_id" name="email_id" class="form-control" maxlength="50" check-email-exist ng-pattern="/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" ng-model-options="{ allowInvalid: true, debounce: 500 }">
                                                     <i class="glyphicon glyphicon-envelope"></i>
                                                 </span>
-                                                <div ng-show="modalSbtBtn && modalForm.email_id.$invalid" ng-messages="modalForm.email_id.$error" class="help-block">
+                                                <div ng-show="modalSbtBtn" ng-messages="modalForm.email_id.$error" class="help-block">
                                                     <div ng-message="pattern">Please enter valid email id</div>
-                                                    <div ng-message="uniqueEmail">Email Id already exist</div>
+                                                    <div ng-message="uniqueEmail" ng-if="contactData.email_id">Email Id already exist</div>
                                                 </div>
                                             </div>
                                         </div>

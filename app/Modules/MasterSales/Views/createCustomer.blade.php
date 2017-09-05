@@ -259,8 +259,8 @@
                         <tbody>
                             <tr ng-repeat="list in contacts">
                                 <td>{{$index + 1}}</td>
-                                <td>{{list.mobile_calling_code}}-{{list.mobile_number}}</td>
-                                <td>{{list.landline_number}}</td>
+                                <td>{{list.mobile_calling_code}} {{list.mobile_number}}</td>
+                                <td>{{list.landline_calling_code}} {{list.landline_number}}</td>
                                 <td>{{list.email_id}}</td>
                                 <td>{{list.pin}}</td>
                                 <td>

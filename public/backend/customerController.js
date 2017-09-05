@@ -113,19 +113,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.errMobile = "";
                 $scope.applyClassMobile = 'ng-inactive';
             }
-        };
-        /*$scope.validateLandlineNumber = function (value) {
-         var regex = /^(\+\d{1,4}-\d{1,4})\d{6}$/;
-         if (value !== "+91-") {
-         if (!regex.test(value)) {
-         $scope.errLandline = "Landline number should be 12 digits and pattern should be for ex. +91-1234999999";
-         $scope.applyClass = 'ng-active';
-         } else {
-         $scope.errLandline = "";
-         $scope.applyClass = 'ng-inactive';
-         }
-         }
-         };*/
+        };      
         $scope.editContactDetails = function (index) {
             $scope.contactData.index = index;
             $scope.contactData = $scope.contacts[index];
@@ -157,12 +145,14 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     'city_id': $scope.contactData.city_id,
                     'google_map_link': $scope.contactData.google_map_link,
                     'other_remarks': $scope.contactData.other_remarks,
-                });
+                });                
+               
             } else {
                 var i = $scope.contactData.index;
                 if (i < $scope.contacts.length) {
                     angular.forEach($scope.contacts, function (data, index) {
                         if (index === i) {
+                            $scope.contactData.mobile_calling_code = $("#mobile_calling_code").val();
                             $scope.contacts.splice(index, 1); //Remove index
                             $scope.contacts.splice(index, 0, contactData);  //Update new value and returns array
                             $scope.contactData = {};
@@ -170,7 +160,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     });
                 } else {
                     $scope.contacts.push({
-                        'mobile_calling_code': $scope.contactData.mobile_calling_code,
+                        'mobile_calling_code': $("#mobile_calling_code").val(),
                         'mobile_number_lable': $scope.contactData.mobile_number_lable,
                         'mobile_number': $scope.contactData.mobile_number,
                         'landline_calling_code': $scope.contactData.landline_calling_code,
@@ -193,6 +183,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         'other_remarks': $scope.contactData.other_remarks,
                     })
                 }
+                console.log("3="+$scope.contacts[i].mobile_number);
+                console.log("3="+$scope.contactData.mobile_calling_code+"-"+$("#mobile_calling_code").val() );
             }
             sessionContactData = $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
             $scope.contactData = {};
@@ -201,23 +193,26 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $('#contactDataModal').modal('toggle');
         };
         function resetContactDetails() {
-            $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
-                    $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
-            $scope.contactData.email_id = $scope.contactData.house_number =
-                    $scope.contactData.building_house_name = $scope.contactData.wing_name =
-                    $scope.contactData.area_name = $scope.contactData.lane_name =
-                    $scope.contactData.landmark = $scope.contactData.country_id =
-                    $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
-                    $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
-            $scope.contactData.index = $scope.contacts.length;
+            $timeout(function(){
+                $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable = 
+                $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
+            
+                $scope.contactData.email_id = $scope.contactData.house_number =
+                        $scope.contactData.building_house_name = $scope.contactData.wing_name =
+                        $scope.contactData.area_name = $scope.contactData.lane_name =
+                        $scope.contactData.landmark = $scope.contactData.country_id =
+                        $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
+                        $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
+                $scope.contactData.index = $scope.contacts.length;
+            },200);
         }
         $scope.initContactModal = function () {
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
-//            resetContactDetails();
+            resetContactDetails();
             $scope.contactData = {};
             $scope.modalForm.$setPristine();
             $scope.modalForm.$setUntouched();
-            $scope.contactData.mobile_calling_code = $scope.contactData.landline_calling_code = "+91";
+//            $scope.contactData.mobile_calling_code = "+91";
             $scope.modalSbtBtn = false;
         }
         $window.sessionStorage.setItem("sessionAttribute", "");
@@ -777,8 +772,12 @@ app.directive('checkEmailExist', function ($timeout, $q, Data) {
         restrict: 'AE',
         require: 'ngModel',
         link: function ($scope, element, attributes, model) {
-            model.$asyncValidators.uniqueMobile = function (modelValue) {
-                var emailid = modelValue;
+            model.$asyncValidators.uniqueEmail = function (modelValue) {
+            if (model.$isEmpty(modelValue))
+                return $q.when();
+            else{
+                //if(typeof modelValue !== 'undefined' || modelValue !== ''){
+                var emailid = modelValue;console.log(emailid);
                 var customerId = $scope.searchData.customerId;
                 return Data.post('master-sales/checkEmailExist', {
                     data: {emailid: emailid, customerId: customerId},
@@ -787,6 +786,8 @@ app.directive('checkEmailExist', function ($timeout, $q, Data) {
                         model.$setValidity('uniqueEmail', !!response.success);
                     }, 1000);
                 });
+                
+                }
             };
         }
     }

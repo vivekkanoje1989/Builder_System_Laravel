@@ -38,6 +38,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
+        
         $scope.clearData = function () {
             $scope.stationary = {};
 //            $scope.stationaryDetails1 = [];
@@ -163,7 +164,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 $scope.CompanyData.domain_name = response.result.domain_name;
                 $scope.CompanyData.office_address = response.result.office_address;
                 $scope.CompanyData.cloud_telephoney_client = response.result.cloud_telephoney_client;
-                $scope.firm_logo = 'https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/Company/firmlogo/' + response.result.firm_logo;
+                $scope.firm_logo = response.result.firm_logo;
                 $scope.documents = [];
                 angular.forEach(response.documents, function (value, key) {
                     $scope.documents.push({'document_name': value.document_name,
