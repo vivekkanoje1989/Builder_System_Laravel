@@ -24,7 +24,7 @@ use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\LstEnquiryLocation;
 use App\Models\MlstBmsbCompany;
 use Illuminate\Support\Facades\Session;
-use App\Models\Project;
+use App\Modules\Projects\Models\Project;
 use App\Models\Booking;
 use App\Classes\Gupshup;
 use Maatwebsite\Excel\Facades\Excel;
@@ -2368,7 +2368,7 @@ Regards,<br>
                         }
 
                         if (!empty($sheetData[$j][28])) {
-                            $projectName = \App\Models\Project::select('id')->where('project_name', '=', $sheetData[$j][28])->first();
+                            $projectName = Project::select('id')->where('project_name', '=', $sheetData[$j][28])->first();
                             if (!empty($projectName)) {
                                 $enquiries['project_id'] = $projectName->id;
                             } else {
