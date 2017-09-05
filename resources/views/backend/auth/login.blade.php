@@ -27,7 +27,7 @@
                         </div>
                         <div id="login-form" class="w3-animate-right col-xs-12 col-md-12" >
                             <div class="input-group">
-                                <input type="text" name="mobile" class="form-control in-tag ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength" placeholder="Mobile" ng-model="loginData.mobile" check-login-credentials="" minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required="" ng-model-options="{allowInvalid: true, debounce: 100}">
+                                <input type="text" name="mobile" class="form-control in-tag" placeholder="Mobile" ng-model="loginData.mobile" check-login-credentials="" minlength="10" maxlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required="" ng-model-options="{allowInvalid: true, debounce: 100}">
                                 <div ng-show="next1" ng-messages="loginForm.mobile.$error" class="help-block next1">
                                     <div ng-message="required" class="sp-err">Username is required</div>
                                     <div ng-message="minlength"  class="sp-err">Invalid mobile no.</div>
@@ -42,15 +42,16 @@
                         </div>
                         <div id="forgot-form" class="w3-animate-right col-xs-12 col-md-12">
                             <div class="input-group">
-                                <input class="form-control in-tag ng-pristine ng-untouched ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength" placeholder="Password" type="password" name="password" minlength="6" maxlength="15" ng-model="loginData.password" required="" ng-model-options="{allowInvalid: true, debounce: 100}">
+                                <input class="form-control in-tag" placeholder="Password" type="password" name="password" minlength="6" maxlength="15" ng-model="loginData.password" required="" ng-model-options="{allowInvalid: true, debounce: 100}" ng-change="resetErrorMsg()">
                             </div>
                             <div ng-show="next2" ng-messages="loginForm.password.$error" class="help-block next2">
                                 <div ng-message="required"  class="sp-err">Required</div>
                                 <div ng-message="minlength"  class="sp-err">Too short (Minimum length is 6 characters)</div>
                                 <div ng-message="maxlength"  class="sp-err">Too long (Maximum length is 15 characters)</div>
                                 <div ng-message="wrongCredentials" class="sp-err">Wrong password!</div>
-                                <div ng-if="errlMsg" class="sp-err">{{errorMsg}}</div>
+                                <div ng-show="errlMsg" class="sp-err">{{ errorMsg }}</div>
                             </div>
+                            
                             <div class="mar10">
                                 <a href="javascript:void(0);" ng-model="collapsed" ng-click="collapsed = !collapsed">Forgot Password?</a>
                                 <div ng-show="collapsed">

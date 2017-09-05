@@ -2,7 +2,6 @@
 app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams,$timeout) {
     $scope.registration = {};
     $scope.errorMsg = '';
-
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
        // window.history.back();
@@ -25,6 +24,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         $scope.errorMsg = '';
     }
     $scope.login = function (loginData) {
+        $scope.errorMsg = '';
         Data.post('authenticate', {
             username: loginData.mobile, password: loginData.password,
         }).then(function (response) {
@@ -46,10 +46,9 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
                 return false;
 
             } else {
-                 $scope.errlMsg= true;
-                $timeout(function () {
-                $scope.errlMsg = false;
-                }, 6000);
+                //alert($scope.errorMsg);
+                
+                $scope.errlMsg= true;                
                 $scope.errorMsg = response.message;
             }
         });

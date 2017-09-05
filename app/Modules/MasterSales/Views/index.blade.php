@@ -79,7 +79,7 @@
                                                 <div ng-message="customerInputs">Mobile number does not exist!</div>
                                                 <div ng-message="customerPattern">Mobile number wrong!</div>
                                             </div>                                            
-                                            <div ng-show="errMobile">Mobile number wrong!</div>
+                                            <div ng-show="errMobile" class="sp-err">Invalid Mobile number!</div>
                                         </span>
                                     </div>
                                 </div>
@@ -187,8 +187,7 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-                                    </table>
-
+                                    </table>                                    
                                 </div>
                                 <!-- Modal -->
                                 <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
@@ -265,7 +264,7 @@
                                                         </tr>
 
                                                     </tbody>
-                                                </table>
+                                                </table>                                                
                                             </div>
                                             <div class="modal-footer" align="center">
                                             </div>
@@ -285,11 +284,12 @@
                                 </div>
                             </div>
                         </div>-->
-<!--                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="enqType == 0"><br>
                             <div class="form-group" align="center">
-                                <button type="submit" class="btn btn-primary" ng-click="createEnquiry()">Insert New Enquiry</button>
+                                <button type="submit" class="btn btn-primary" ng-click="createEnquiry()">Create New Enquiry</button>
+                                <button type="submit" class="btn btn-primary" ng-click="newEnquiryCreate()">Create Customer And New Enquiry</button>
                             </div> 
-                        </div> -->
+                        </div> 
                     </div>
                 </div>            
             </div>
@@ -399,9 +399,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>    
-                                    
-                                
+                                </div> 
                                 <div><strong>Customer Address</strong> 
                                     <span class="custAdress" ng-show="showaddress" ng-click="showAddress()"> <i class="fa fa-plus-square fa-2" aria-hidden="true"></i></span>&nbsp;
                                     <span ng-show="hideaddress" ng-click="hideAddress()" class="custAdress"><i class="fa fa-minus-square fa-2" aria-hidden="true"></i></span>

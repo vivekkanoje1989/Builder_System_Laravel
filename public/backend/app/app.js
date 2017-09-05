@@ -16,6 +16,7 @@ var app = angular.module('app', [
     'angularUtils.directives.dirPagination',
     'chart.js',
     'rzModule',
+    'oitozero.ngSweetAlert',
 ]);
 var getUrl = 'office';
 var getWebsiteUrl = 'website';

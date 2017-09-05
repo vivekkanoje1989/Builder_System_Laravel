@@ -43,6 +43,7 @@
                         <link ng-href="{{settings.skin}}" rel="stylesheet" type="text/css" />
                         <link href="/backend/assets/css/loader.css" rel="stylesheet" />
                         <link href="/css/filterSlider.css" rel="stylesheet" />
+                        <link rel="stylesheet" type="text/css" href="/backend/assets/css/sweet-alert.css">
 
                     <?php } else {
                         $getThemeName = config('global.themeName'); ?>
@@ -131,6 +132,8 @@
                             <script src="/backend/app/directives/navbar.js"></script>
                             <script src="/backend/app/directives/chatbar.js"></script>
                             <script src="/backend/app/directives/widget.js"></script>
+                            <script src="/backend/lib/SweetAlert.min.js"></script>
+                            <script src="/backend/lib/sweet-alert.min.js"></script>
                         <?php } else { ?>
                             <div ng-view></div>
 <?php } ?>

@@ -25,5 +25,6 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('/getCities','backend\AdminController@getCities');
     Route::post('/getMenuItems', 'backend\AdminController@getMenuItems');
     Route::post('/checkDomainExists', 'backend\Auth\LoginController@checkDomainExists');
+    Route::post('/getnextfollowupTime', 'backend\AdminController@getnextfollowupTime'); // by uma
 });
 
