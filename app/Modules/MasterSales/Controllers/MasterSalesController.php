@@ -897,7 +897,7 @@ class MasterSalesController extends Controller {
             $decodeRemarkDetails['selectedProjects'] = $getProjects;
             $decodeRemarkDetails['selectedBlocks'] = $getBlocks;
             $decodeRemarkDetails['mobileNumber'] = $mobileNumber;
-            $decodeRemarkDetails['emailId'] = $emailId;
+            $decodeRemarkDetails['emailId'] = json_decode(json_encode($emailId),true);
             $useremail = Auth::guard('admin')->user()->personal_email1;
             $userpermissions = Auth::guard('admin')->user()->employee_submenus;
             $reassignData['id'] = $decodeRemarkDetails[0]['sales_employee_id'];

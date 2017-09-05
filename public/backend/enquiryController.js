@@ -581,17 +581,18 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     }
                 });
             } else {
+                console.log($scope.remarkData.company_id);
                 $scope.companyInput = false;
                 $scope.remarkData.company_id = 0;
                 $scope.remarkData.company_name = "";
                 
                 $timeout(function () {
-                    Data.post('/master-sales/addInfo', {
-                        custId: $("#custId").val(),corporate_customer:0, company_id: '',elem: 'company_details'
-                    }).then(function (response) {
-                        if (response.updated)
-                        toaster.pop('success', 'Company Details', "Record updated successfully");
-                    });
+                    if($scope.remarkData.company_id == ''){
+                        Data.post('/master-sales/addInfo', {
+                            custId: $("#custId").val(),corporate_customer:0, company_id: '',elem: 'company_details'
+                        }).then(function (response) {
+                        });
+                    }
                 }, 2000);
                 
             }
@@ -929,6 +930,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                             $scope.source = true;
                         }
                     }
+                    console.log(response.enquiryDetails.emailId);
                 });
                 $timeout(function () {
                     $("li#remarkTab a").trigger('click');

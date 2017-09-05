@@ -382,13 +382,14 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
             }
         });
     }
-    $scope.checkBlockLength = function () {
+    $scope.checkBlockLength = function (blockId) {
         var blockTypeId = [];
-        angular.forEach($scope.enquiryData.block_id, function (value, key) {
+console.log(blockId);
+        angular.forEach(blockId, function (value, key) {
             blockTypeId.push(value.id);
         });
         var myJsonString = JSON.stringify(blockTypeId);
-        if ($scope.enquiryData.block_id.length === 0) {
+        if (blockId.length === 0) {
             $scope.emptyBlockId = true;
             $scope.applyClassBlock = 'ng-active';
             $scope.subBlockList = [];
