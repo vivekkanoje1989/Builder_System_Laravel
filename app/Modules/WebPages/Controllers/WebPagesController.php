@@ -9,6 +9,8 @@ use App\Classes\CommonFunctions;
 use Illuminate\Support\Facades\Input;
 use App\Classes\S3;
 use Auth;
+use Excel;
+
 
 class WebPagesController extends Controller {
 
@@ -47,6 +49,37 @@ class WebPagesController extends Controller {
         }
     }
 
+    public function contentManagementExportToxls() {
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $getCount = WebPage::all()->count();
+//        $myRequest = EmployeeRequest::select('id as SrNo','Request Type as request_type')->where('created_by', '=', $loggedInUserId)->get();
+        $data = WebPage::all();
+        $webPages = array();
+        for ($i = 0; $i < count($data); $i++) {
+            $webData['Sr No.'] = $data[$i]['id'];
+            $webData['Page Name'] = $data[$i]['page_name'];
+            $webData['Page Title'] = $data[$i]['page_title'];
+            $status = $data[$i]['status'];
+            if ($status == 1) {
+                $webData['status'] = 'active';
+            } else {
+                $webData['status'] = 'inactive';
+            }
+
+            $webPages[] = $webData;
+        }
+        if ($getCount < 1) {
+            return false;
+        } else {
+            Excel::create('Export Data', function($excel) use($webPages) {
+                $excel->sheet('sheet1', function($sheet) use($webPages) {
+                    $sheet->fromArray($webPages);
+                    
+                });
+            })->download('xls');
+        }
+    }
+    
     public function create() {
 //
     }

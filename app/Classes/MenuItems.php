@@ -353,7 +353,58 @@ class MenuItems {
                     2 => array('id' => '01202', 'name' => 'Shared With Me', 'icon' => '', 'url' => '/storagelist/index', 'slug' => 'sharedWithMe', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     3 => array('id' => '01203', 'name' => 'Recycle Bin', 'icon' => '', 'url' => '/recyclebin/index', 'slug' => 'recycleBin', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
-          
+            13 => array('name' => 'Customer Care', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'customer-care', 'has_submenu' => true, 'total_submenu' => 3,
+                'submenu_ids' => '01301,01302,01303,01304', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                    1 => array('id' => '01301', 'name' => 'Pre-Sales', 'icon' => '', 'micon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                        'submenu_ids' => '0130101,0130102', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                            1 => array('id' => '0130101', 'name' => 'My Followups', 'icon' => '', 'micon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                                'submenu_ids' => '013010101,013010102,013010103,013010104,013010105', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                                    1 => array('id' => '013010101', 'name' => 'My Today`s Followups', 'icon' => '', 'micon' => 'img/myFollow.png', 'url' => '/customer-care/pre-sales/mytoday', 'slug' => 'customer-care-pre-sales-my-today', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '013010102', 'name' => 'My Pending Followups', 'icon' => '', 'micon' => 'img/pendingFollow.png', 'url' => '/customer-care/pre-sales/mypending', 'slug' => 'customer-care-pre-sales-my-pending', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '013010103', 'name' => 'My Previous Followups', 'icon' => '', 'micon' => 'img/previousFollow.png', 'url' => '/customer-care/pre-sales/myprevious', 'slug' => 'customer-care-pre-sales-my-previous', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    4 => array('id' => '013010104', 'name' => 'My Total Followups', 'icon' => '', 'micon' => 'img/totalEnq.png', 'url' => '/customer-care/pre-sales/mytotal', 'slug' => 'customer-care-pre-sales-my-total', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    5 => array('id' => '013010105', 'name' => 'My Completed Followups', 'icon' => '', 'micon' => 'img/bookedEnq.png', 'url' => '/customer-care/pre-sales/mycompleted', 'slug' => 'customer-care-pre-sales-my-completed', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                )),
+                            2 => array('id' => '0130102', 'name' => 'Team`s  Followups', 'icon' => '', 'micon' => '', 'ui-sref-active' => '', 'slug' => 'Team', 'has_submenu' => true, 'total_submenu' => 2,
+                                'submenu_ids' => '013010201,013010202,013010203,013010204,013010205', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                                    1 => array('id' => '013010201', 'name' => 'Today`s Followups', 'icon' => '', 'micon' => 'img/Team_todays_follow_ups.png', 'url' => '/customer-care/pre-sales/teamtoday', 'slug' => 'customer-care-pre-sales-team-today', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '013010202', 'name' => 'Pending Followups', 'icon' => '', 'micon' => 'img/Team_pending_follow_ups.png', 'url' => '/customer-care/pre-sales/teampending', 'slug' => 'customer-care-pre-sales-team-pending', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '013010203', 'name' => 'Previous Followups', 'icon' => '', 'micon' => 'img/Team_previous_Follow_ups.png', 'url' => '/customer-care/pre-sales/teamprevious', 'slug' => 'customer-care-pre-sales-team-previous', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    4 => array('id' => '013010204', 'name' => 'Total Followups', 'icon' => '', 'micon' => 'img/Team_total_followups.png', 'url' => '/customer-care/pre-sales/teamtotal', 'slug' => 'customer-care-pre-sales-team-total', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    5 => array('id' => '013010205', 'name' => 'Completed Followups', 'icon' => '', 'micon' => 'img/Team_book_enquiries.png', 'url' => '/customer-care/pre-sales/teamcompleted', 'slug' => 'customer-care-pre-sales-team-completed', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                )),
+                        )),
+                    2 => array('id' => '01302', 'name' => 'Pre-Sales', 'icon' => '', 'micon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                        'submenu_ids' => '0130201,0130202', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                            1 => array('id' => '0130201', 'name' => 'My Followups', 'icon' => '', 'micon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 5,
+                                'submenu_ids' => '013020101,013020102,013020103,013020104,013020105', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                                    1 => array('id' => '013020101', 'name' => 'My Today`s Followups', 'icon' => '', 'micon' => 'img/myFollow.png', 'url' => '/customer-care/post-sales/mytoday', 'slug' => 'customer-care-post-sales-my-today', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '013020102', 'name' => 'My Pending Followups', 'icon' => '', 'micon' => 'img/pendingFollow.png', 'url' => '/customer-care/post-sales/mypending', 'slug' => 'customer-care-post-sales-my-pending', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '013020103', 'name' => 'My Previous Followups', 'icon' => '', 'micon' => 'img/previousFollow.png', 'url' => '/customer-care/post-sales/myprevious', 'slug' => 'customer-care-post-sales-my-previous', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    4 => array('id' => '013020104', 'name' => 'My Total Followups', 'icon' => '', 'micon' => 'img/totalEnq.png', 'url' => '/customer-care/post-sales/mytotal', 'slug' => 'customer-care-post-sales-my-total', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    5 => array('id' => '013020105', 'name' => 'My Completed Followups', 'icon' => '', 'micon' => 'img/bookedEnq.png', 'url' => '/customer-care/post-sales/mycompleted', 'slug' => 'customer-care-post-sales-my-completed', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                )),
+                            2 => array('id' => '0130102', 'name' => 'Team`s  Followups', 'icon' => '', 'micon' => '', 'ui-sref-active' => '', 'slug' => 'Team', 'has_submenu' => true, 'total_submenu' => 5,
+                                'submenu_ids' => '013020201,013020202,013020203,013020204,013020205', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                                    1 => array('id' => '013020201', 'name' => 'Today`s Followups', 'icon' => '', 'micon' => 'img/Team_todays_follow_ups.png', 'url' => '/customer-care/post-sales/teamtoday', 'slug' => 'customer-care-post-sales-team-today', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    2 => array('id' => '013020202', 'name' => 'Pending Followups', 'icon' => '', 'micon' => 'img/Team_pending_follow_ups.png', 'url' => '/customer-care/post-sales/teampending', 'slug' => 'customer-care-post-sales-team-pending', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    3 => array('id' => '013020203', 'name' => 'Previous Followups', 'icon' => '', 'micon' => 'img/Team_previous_Follow_ups.png', 'url' => '/customer-care/post-sales/teamprevious', 'slug' => 'customer-care-post-sales-team-previous', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    4 => array('id' => '013020204', 'name' => 'Total Followups', 'icon' => '', 'micon' => 'img/Team_total_followups.png', 'url' => '/customer-care/post-sales/teamtotal', 'slug' => 'customer-care-post-sales-team-total', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                    5 => array('id' => '013020205', 'name' => 'Completed Followups', 'icon' => '', 'micon' => 'img/Team_book_enquiries.png', 'url' => '/customer-care/post-sales/teamcompleted', 'slug' => 'customer-care-post-sales-team-completed', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                                )),
+                        )),
+                    2 => array('id' => '01302', 'name' => 'Post-Sales', 'icon' => '', 'micon' => 'img/ccPostSales.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    3 => array('id' => '01303', 'name' => 'Pre-Services', 'icon' => '', 'micon' => 'img/ccPreServices.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    4 => array('id' => '01304', 'name' => 'Post-Services', 'icon' => '', 'micon' => 'img/ccPostServies.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1)
+                )),
+            14 => array('name' => 'Other', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'other', 'has_submenu' => true, 'total_submenu' => 5,
+                'submenu_ids' => '01401,01402,01403,01404,01405', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                    1 => array('id' => '01401', 'name' => 'Customer Email', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    2 => array('id' => '01402', 'name' => 'Customer Contact Number', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    3 => array('id' => '01403', 'name' => 'Export To Excel', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    4 => array('id' => '01404', 'name' => 'Bulk Reassign', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    5 => array('id' => '01405', 'name' => 'Outbound Call', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                )),
         );
         return $menulist;
     }

@@ -12,6 +12,7 @@
         width: 110%;
     }
 </style>
+<?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);?>
 <div class="row" ng-controller="contactUsCtrl" ng-init="manageContactUs(); manageCountry();">  
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
@@ -40,8 +41,9 @@
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                     <?php if (in_array('01403', $array)) { ?>
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view" ng-click="contactUsExportToxls()" >
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -51,19 +53,11 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
+                                
                             </ul>
                         </a>
                     </div>
+                     <?php }?>
                     <div  class="dataTables_filter">
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >

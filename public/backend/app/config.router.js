@@ -97,7 +97,7 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select','toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
@@ -320,7 +320,7 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                
+
                                 .state('createQuickEnquiry', {
                                     url: '/sales/quickEnquiry',
                                     templateUrl: '/master-sales/createQuickEnquiry',
@@ -1469,7 +1469,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
-                                                                            '/js/accordian.js', 
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     }
                                                                     );
@@ -1858,21 +1858,21 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                        [
-                                            '$ocLazyLoad',
-                                            function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load('toaster').then(
-                                                    function () {
-                                                        return $ocLazyLoad.load({
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/cloudtelephonyController.js',
-                                                            ]
-                                                        });
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/cloudtelephonyController.js',
+                                                                        ]
+                                                                    });
+                                                                }
+                                                        );
                                                     }
-                                                );
-                                            }
-                                        ]
+                                                ]
                                     }
                                 })
                                 .state('cloudtelephony', {
@@ -1888,16 +1888,16 @@ angular.module('app')
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(['ui.select', 'toaster']).then(
-                                                    function () {
-                                                        return $ocLazyLoad.load({
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/cloudtelephonyController.js',
-                                                                '/backend/app/controllers/datepicker.js',
-                                                                '/backend/app/controllers/select.js',
-                                                            ]
-                                                        });
-                                                    }
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/cloudtelephonyController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            });
+                                                        }
                                                 );
                                             }
                                         ]
@@ -1935,7 +1935,7 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                
+
                                 .state('extensionemplist', {
                                     url: '/extensionemployee/index',
                                     templateUrl: '/extensionemployee/viewextemployee',
@@ -1968,8 +1968,8 @@ angular.module('app')
                                         ]
                                     }
                                 })
-                                
-                               .state('numbersIndex', {
+
+                                .state('numbersIndex', {
 
                                     url: '/cloudtelephony/index',
                                     templateUrl: '/cloudtelephony/',
@@ -1984,8 +1984,8 @@ angular.module('app')
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(['toaster']).then(
-                                                   
-                                                );
+
+                                                        );
                                             }
                                         ]
                                     }
@@ -2008,14 +2008,14 @@ angular.module('app')
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(['toaster']).then(
-                                                    function () {
-                                                        return $ocLazyLoad.load({
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/app/controllers/datepicker.js',
-                                                            ]
-                                                        });
-                                                    }
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
                                                 );
                                             }
                                         ]
@@ -3101,7 +3101,7 @@ angular.module('app')
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
-                                                                            '/backend/manageBlogController.js',                                                  
+                                                                            '/backend/manageBlogController.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -3445,18 +3445,19 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/dashBoardController.js',
-                                                                            '/backend/app/controllers/datepicker.js'
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
-                                                                    }
-                                                                    );
+                                                                    });
                                                                 }
                                                         );
+
                                                     }
                                                 ]
                                     }
@@ -3474,13 +3475,14 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/dashBoardController.js',
-                                                                            '/backend/app/controllers/datepicker.js'
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
                                                                         ]
                                                                     }
                                                                     );
@@ -4451,17 +4453,17 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
+                                                return $ocLazyLoad.load(['toaster', 'ui.select']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
-                                                                    serie: true,
-                                                                    files: [
-                                                                        '/backend/cloudtelephonyController.js',
-                                                                        '/backend/app/controllers/datepicker.js',
-                                                                        '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                                        '/backend/app/controllers/select.js',
-                                                                    ]
-                                                                });
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/cloudtelephonyController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            });
                                                         }
                                                 );
                                             }
@@ -4484,17 +4486,17 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load(['toaster','ui.select']).then(
+                                                return $ocLazyLoad.load(['toaster', 'ui.select']).then(
                                                         function () {
-                                                            return $ocLazyLoad.load( {
-                                                                    serie: true,
-                                                                    files: [
-                                                                        '/backend/cloudtelephonyController.js',
-                                                                        '/backend/app/controllers/datepicker.js',
-                                                                        '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                                        '/backend/app/controllers/select.js',
-                                                                    ]
-                                                                });
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/cloudtelephonyController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            });
                                                         }
                                                 );
                                             }
@@ -4630,7 +4632,341 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                /****************************Rohit*********************************/
+                                /*--------------------------------------------customer care pre-sales------------------------------------------------------------*/
+                                .state('customer-care-pre-sales-my-total', {
+                                    url: '/customer-care/pre-sales/mytotal',
+                                    templateUrl: '/customer-care/presales/total/0',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'My Total Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+
+                                .state('customer-care-pre-sales-team-total', {
+                                    url: '/customer-care/pre-sales/teamtotal',
+                                    templateUrl: '/customer-care/presales/total/1',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team`s Total Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+                                .state('customer-care-pre-sales-my-completed', {
+                                    url: '/customer-care/pre-sales/mycompleted',
+                                    templateUrl: '/customer-care/presales/completed/0',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'My Completed Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+                                .state('customer-care-pre-sales-team-completed', {
+                                    url: '/customer-care/pre-sales/teamcompleted',
+                                    templateUrl: '/customer-care/presales/completed/1',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team`s Completed Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+                                .state('customer-care-pre-sales-my-previous', {
+                                    url: '/customer-care/pre-sales/myprevious',
+                                    templateUrl: '/customer-care/presales/previous/0',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'My Previous Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+
+                                .state('customer-care-pre-sales-team-previous', {
+                                    url: '/customer-care/pre-sales/teamprevious',
+                                    templateUrl: '/customer-care/presales/previous/1',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team`s Previous Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+                                .state('customer-care-pre-sales-my-today', {
+                                    url: '/customer-care/pre-sales/mytoday',
+                                    templateUrl: '/customer-care/presales/today/0',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'My Today`s Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+                                .state('customer-care-pre-sales-team-today', {
+                                    url: '/customer-care/pre-sales/teamtoday',
+                                    templateUrl: '/customer-care/presales/today/1',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team`s Today`s Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+                                .state('customer-care-pre-sales-my-pending', {
+                                    url: '/customer-care/pre-sales/mypending',
+                                    templateUrl: '/customer-care/presales/pending/0',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'My Pending Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+                                .state('customer-care-pre-sales-team-pending', {
+                                    url: '/customer-care/pre-sales/teampending',
+                                    templateUrl: '/customer-care/presales/pending/1',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Team`s Pending Followups'
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster', 'textAngular']).then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/js/intlTelInput.js',
+                                                                            '/backend/customercarepresalesController.js',
+                                                                            '/backend/outboundCallController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/textangular.js',
+                                                                            '/backend/app/controllers/timepicker.js',
+                                                                            '/backend/app/controllers/select2.js',
+                                                                        ]
+                                                                    });
+                                                                });
+                                                    }
+                                                ]
+                                    }
+                                })
+
+
+
+
+
+
+                                /*--------------------end customer care pre sales----------------------------------------------------------------- */
                                 .state('underconstruction', {
                                     url: '/underconstruction',
                                     templateUrl: '/undercConstruction',

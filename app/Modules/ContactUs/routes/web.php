@@ -4,6 +4,7 @@ Route::group(array('module' => 'ContactUs', 'middleware' => ['auth:admin'],'name
 
     $getUrl = config('global.getUrl');
      Route::post('/contact-us/getContactUsRow','ContactUsController@getContactUsRow');
+      Route::get('/contact-us/contactUsExportToxls','ContactUsController@contactUsExportToxls'); 
     Route::resource('/contact-us', 'ContactUsController');
     
     Route::post('/contact-us/manageContactUs','ContactUsController@manageContactUs');
@@ -12,6 +13,7 @@ Route::group(array('module' => 'ContactUs', 'middleware' => ['auth:admin'],'name
     Route::post('/contact-us/manageCountry','ContactUsController@manageCountry'); 
     Route::post('/contact-us/manageCity','ContactUsController@manageCity'); 
     Route::post('/contact-us/manageLocation','ContactUsController@manageLocation'); 
+   
    
     
     Route::get('/ContactUs/showFilter', function () {

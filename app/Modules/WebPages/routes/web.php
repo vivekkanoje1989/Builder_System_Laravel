@@ -4,6 +4,7 @@ Route::group(array('module' => 'WebPages', 'middleware' => ['auth:admin'], 'name
 
     $getUrl = config('global.getUrl');    
     Route::get('/web-pages/getWebPages', 'WebPagesController@getWebPages'); //get contentpages pages
+    Route::get('/web-pages/contentManagementExportToxls', 'WebPagesController@contentManagementExportToxls'); //export contentpages pages
     Route::resource('/web-pages', 'WebPagesController');
     Route::post('/web-pages/getEditWebPage', 'WebPagesController@getEditWebPage');// get update content page data
     Route::post('/web-pages/updateWebPage', 'WebPagesController@updateWebPage'); //update content management tab page

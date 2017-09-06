@@ -10,6 +10,7 @@ use App\Classes\CommonFunctions;
 use Illuminate\Support\Facades\Input;
 use App\Classes\S3;
 use Auth;
+use Excel;
 use Validator;
 use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\Filesystem;
@@ -56,15 +57,15 @@ class ThemesController extends Controller {
             return json_encode($result);
         } else {
             if (!empty($input['imageUrl'])) {
-                
+
                 $imageName = 'theme_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['imageUrl']->getClientOriginalExtension();
-                
-                
-                
+
+
+
                 $disk = \Storage::disk('gcs');
                 \Storage::disk('gcs')->put('myfolder/', $input['imageUrl']);
 //                $url = $disk->url('myfolder/'.$imageName);
-                
+
                 exit;
                 $originalName = $input['imageUrl']->getClientOriginalName();
                 if ($originalName !== 'fileNotSelected') {
@@ -136,6 +137,28 @@ class ThemesController extends Controller {
             $result = WebThemes::where('id', '=', $id)->update($create['Themes']);
 
             return json_encode(['records' => $result, 'image' => $create['Themes']['image_url'], 'success' => true]);
+        }
+    }
+
+    public function themeExportToxls() {
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $getCount = WebThemes::all()->count();
+         $theme = WebThemes::all();
+        $themePages = array();
+        for ($i = 0; $i < count($theme); $i++) {
+            $themeData['id'] = $theme[$i]['id'];
+            $themeData['theme_name'] = $theme[$i]['theme_name'];
+            $themePages[] = $themeData;
+        }
+
+        if ($getCount < 1) {
+            return false;
+        } else {
+            Excel::create('Export Data', function($excel) use($themePages) {
+                $excel->sheet('sheet1', function($sheet) use($themePages) {
+                    $sheet->fromArray($themePages);
+                });
+            })->download('xls');
         }
     }
 

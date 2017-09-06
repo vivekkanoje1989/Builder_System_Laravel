@@ -11,7 +11,16 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
+ $scope.contentManagementExportToxls = function () {
+            // $location.url('/manageVerticals/exportToxls');
+            $scope.getexcel = window.location = "/web-pages/contentManagementExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        };
+        
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {

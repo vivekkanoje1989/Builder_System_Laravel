@@ -56,5 +56,6 @@ return [
         "Events",
         "Reports",
         "BmsConsumption",
+        "CustomerCare",
     ),
 ];
