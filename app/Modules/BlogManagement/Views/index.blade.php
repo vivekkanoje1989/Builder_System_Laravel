@@ -12,6 +12,7 @@
         width: 110%;
     }
 </style>
+<?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);?>
 <div class="row" ng-controller="blogsCtrl" ng-init="manageBlogs()">  
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
@@ -27,8 +28,9 @@
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                     <?php if (in_array('01403', $array)) { ?>
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Execl" ng-click="blogManagementExportToxls()">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -38,19 +40,10 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
                             </ul>
                         </a>
                     </div>
+                     <?php }?>
                     <div  class="dataTables_filter">
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
@@ -137,7 +130,7 @@
                                 <td>{{item.meta_keywords}}</td>
                                 <td>{{item.blog_status}}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal" ng-click="editBlogData({{item}},{{$index}})"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}" class="btn-info btn-xs"><i class="fa fa-pencil"></i>Edit</a></div>
+                                    <div class="" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal" ng-click="editBlogData({{item}},{{$index}})"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
                                 </td>
                             </tr>
                         </tbody>

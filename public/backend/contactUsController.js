@@ -11,6 +11,16 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }
+        
+         $scope.contactUsExportToxls = function () {
+            $scope.getexcel = window.location = "/contact-us/contactUsExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        };
+        
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];
             $scope.filterDetails($scope.searchData);

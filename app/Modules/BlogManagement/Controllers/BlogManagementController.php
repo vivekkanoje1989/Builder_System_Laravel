@@ -10,6 +10,7 @@ use DB;
 use Illuminate\Support\Facades\Input;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 use Validator;
 use App\Classes\S3;
 
@@ -22,20 +23,20 @@ class BlogManagementController extends Controller {
     public function manageBlogs() {
         $getBlogs = WebBlogs::all();
         $blogDetails = array();
-         for($i=0;$i<count($getBlogs);$i++){
-             $blogData['id'] = $getBlogs[$i]['id'];
-             $blogData['blog_title'] = $getBlogs[$i]['blog_title'];
-             $blogData['blog_seo_url'] = $getBlogs[$i]['blog_seo_url'];
-             $blogData['meta_description'] = $getBlogs[$i]['meta_description'];
-             $blogData['meta_keywords'] = $getBlogs[$i]['meta_keywords'];
-             $status = $getBlogs[$i]['blog_status'];
-             if($status == 1){
-                 $blogData['blog_status'] = 'Yes';
-             }else{
-                 $blogData['blog_status'] = 'No';
-             }
-             
-             $blogDetails[] = $blogData;
+        for ($i = 0; $i < count($getBlogs); $i++) {
+            $blogData['id'] = $getBlogs[$i]['id'];
+            $blogData['blog_title'] = $getBlogs[$i]['blog_title'];
+            $blogData['blog_seo_url'] = $getBlogs[$i]['blog_seo_url'];
+            $blogData['meta_description'] = $getBlogs[$i]['meta_description'];
+            $blogData['meta_keywords'] = $getBlogs[$i]['meta_keywords'];
+            $status = $getBlogs[$i]['blog_status'];
+            if ($status == 1) {
+                $blogData['blog_status'] = 'Yes';
+            } else {
+                $blogData['blog_status'] = 'No';
+            }
+
+            $blogDetails[] = $blogData;
         }
         if (!empty($blogDetails)) {
             $result = ['success' => true, 'records' => $blogDetails];
@@ -188,7 +189,7 @@ class BlogManagementController extends Controller {
                         unset($name[$i]);
                     }
                     $name = implode(',', $name);
-                    
+
                     $input['blogData']['blog_images'] = $name;
                 }
             } else {
@@ -204,7 +205,7 @@ class BlogManagementController extends Controller {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['blogData'] = array_merge($input['blogData'], $create);
-            
+
             unset($input['blogData']['blogImages']);
 //            unset($input['blogData']['galleryImage']);
             unset($input['blogData']['allgallery']);
@@ -215,8 +216,7 @@ class BlogManagementController extends Controller {
         return json_encode($result);
     }
 
-    
-     public function removeImage() {
+    public function removeImage() {
         $postdata = file_get_contents("php://input");
         $obj = json_decode($postdata, true);
         $name = implode(',', $obj['galleryImage_preview']);
@@ -225,6 +225,36 @@ class BlogManagementController extends Controller {
         $msg = S3::s3FileDelete($obj['imageName'], $s3FolderName);
         $updatedata = WebBlogs::where('id', $obj['pageId'])->update(['blog_images' => $name]);
     }
-    
+
+    public function blogManagementExportToxls() {
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $getCount = WebBlogs::all()->count();
+        $getBlogs = WebBlogs::all();
+        $blogDetails = array();
+        for ($i = 0; $i < count($getBlogs); $i++) {
+            $blogData['Sr No'] = $getBlogs[$i]['id'];
+            $blogData['Blog Title'] = $getBlogs[$i]['blog_title'];
+            $blogData['Blog Seo Url'] = $getBlogs[$i]['blog_seo_url'];
+            $blogData['Meta Description'] = $getBlogs[$i]['meta_description'];
+            $blogData['Meta Keywords'] = $getBlogs[$i]['meta_keywords'];
+            $status = $getBlogs[$i]['blog_status'];
+            if ($status == 1) {
+                $blogData['Blog Status'] = 'Yes';
+            } else {
+                $blogData['Blog Status'] = 'No';
+            }
+
+            $blogDetails[] = $blogData;
+        }
+        if ($getCount < 1) {
+            return false;
+        } else {
+            Excel::create('Export Data', function($excel) use($blogDetails) {
+                $excel->sheet('sheet1', function($sheet) use($blogDetails) {
+                    $sheet->fromArray($blogDetails);
+                });
+            })->download('xls');
+        }
+    }
 
 }
