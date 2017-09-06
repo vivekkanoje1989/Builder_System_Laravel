@@ -188,6 +188,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/getTeamEmployees', 'CloudCallingLogsController@getTeamEmployees'); // by uma
     Route::post('/getnextfollowupTime', 'backend\AdminController@getnextfollowupTime'); // by uma
     Route::post('/getProjectWings', 'backend\AdminController@getProjectWings'); // by geeta
+    Route::post('/getBlocks', 'backend\AdminController@getBlocks'); // by geeta
+    Route::post('/getSubBlocksList', 'backend\AdminController@getSubBlocksList'); // by geeta
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });

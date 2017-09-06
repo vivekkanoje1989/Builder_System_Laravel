@@ -713,7 +713,7 @@ class AdminController extends Controller {
         if (!empty($projectWingList)) {
             return json_encode(['result' => $projectWingList, 'status' => true]);
         } else {
-            return json_encode(['result' => "No wings found", 'status' => true]);
+            return json_encode(['result' => "No wings found", 'status' => false]);
         }
     }
     public function getBlocks() {
@@ -721,11 +721,34 @@ class AdminController extends Controller {
         $request = json_decode($postdata, true);
 
         $blockList = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')->where('project_id', $request['projectId'])->get();
+        
+        $getBlockTypeId = array();
         if (!empty($blockList)) {
-            return json_encode(['result' => $blockList, 'status' => true]);
-        } else {
-            return json_encode(['result' => "No wings found", 'status' => true]);
+            foreach ($blockList as $key => $value) {
+                $getBlockTypeId[] = $value['block_type_id'];
+            }
         }
+        $blockTypeId = implode(",", $getBlockTypeId);
+        $blockTypeList = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId)->get();
+        
+        if (!empty($blockList)) {
+            return json_encode(['records' => $blockTypeList, 'success' => true]);
+        } else {
+            return json_encode(['records' => "No wings found", 'success' => false]);
+        }
+    }
+    
+    public function getSubBlocksList() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $subBlocksList = ProjectBlock::select("id", "block_sub_type")
+                ->where(["project_id" => $request['data']['projectId'],"block_type_id" => $request['data']['blockId']])->get();
+        if (!empty($subBlocksList)) {
+            $result = ['success' => true, 'records' => $subBlocksList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
     }
     /*     * **************************UMA*********************************** */
 

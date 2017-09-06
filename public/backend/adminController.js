@@ -593,12 +593,11 @@ app.controller('projectBlocksCtrl', function ($scope, Data) {
     $scope.getWings = function(projectId){
         Data.post('getProjectWings',{
             projectId:projectId
-        }).then(function (response) {
-            $scope.wingList = [];
-            if (!response.success) {
+        }).then(function (response) {            
+            if (!response.status) {
                 $scope.errorMsg = response.message;
             } else {
-                $scope.wingList = response.records;
+                $scope.wingList = response.result;
             }
         });
     }
@@ -614,9 +613,10 @@ app.controller('projectBlocksCtrl', function ($scope, Data) {
             }
         });
     }
-    $scope.getSubBlocks = function(projecId,blockId){
-        Data.post('getSubBlocks',{
-            projectId:projectId,myJsonString:blockId
+    $scope.getSubBlocks = function(projectId,blockId){
+      
+        Data.post('getSubBlocksList',{
+            data:{projectId:projectId,blockId:blockId}
         }).then(function (response) {
             $scope.subBlockList = [];
             if (!response.success) {
