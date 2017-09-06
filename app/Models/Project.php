@@ -5,7 +5,7 @@
  * Date: Fri, 31 Mar 2017 16:22:36 +0530.
  */
 
-namespace App\Models;
+namespace App\Modules\Projects\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -51,64 +51,92 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class Project extends Eloquent
-{
-	protected $casts = [
-		'project_type_id' => 'int',
-		'project_status' => 'int',
-		'project_head_employee' => 'int',
-		'receipt_tax_heading_status' => 'int',
-		'demand_letter_tax_heading_status' => 'int',
-		'sms_sender_id' => 'int',
-		'email_sending_id' => 'int',
-		'created_by' => 'int',
-		'updated_by' => 'int',
-		'deleted_status' => 'int',
-		'deleted_by' => 'int',
-		'deleted_IP' => 'int',
-		'deleted_browser' => 'int',
-		'deleted_mac_id' => 'int'
-	];
-
-	protected $dates = [
-		'created_date',
-		'updated_date',
-		'deleted_date'
-	];
-
-	protected $fillable = [
-		'project_name',
-		'project_punch_line',
-		'project_type_id',
-		'project_status',
-		'pre_sales_employees',
-		'post_sales_employees',
-		'authorities_employees',
-		'project_head_employee',
-		'accountant_employees',
-		'receipt_html_code',
-		'receipt_tax_heading_status',
-		'booking_html_code',
-		'demand_letter_html_code',
-		'demand_letter_tax_heading_status',
-		'welcome_file',
-		'sms_sender_id',
-		'email_sending_id',
-		'created_date',
-		'created_by',
-		'created_IP',
-		'created_browser',
-		'created_mac_id',
-		'updated_date',
-		'updated_by',
-		'updated_IP',
-		'updated_browser',
-		'updated_mac_id',
-		'deleted_status',
-		'deleted_date',
-		'deleted_by',
-		'deleted_IP',
-		'deleted_browser',
-		'deleted_mac_id'
-	];
+class Project extends Eloquent {
+    protected $primaryKey = 'id';
+    protected $casts = [
+        'project_type_id' => 'int',
+        'project_status' => 'int',
+        'project_head_employee' => 'int',
+        'receipt_tax_heading_status' => 'int',
+        'demand_letter_tax_heading_status' => 'int',
+        'sms_sender_id' => 'int',
+        'email_sending_id' => 'int',
+        'created_by' => 'int',
+        'updated_by' => 'int',
+        'deleted_status' => 'int',
+        'deleted_by' => 'int',
+        'deleted_IP' => 'int',
+        'deleted_browser' => 'int',
+        'deleted_mac_id' => 'int'
+    ];
+    protected $dates = [
+        'created_date',
+        'updated_date',
+        'deleted_date'
+    ];
+    protected $fillable = [
+        'project_name',
+        'project_punch_line',
+        'project_type_id',
+        'project_status',
+        'pre_sales_employees',
+        'post_sales_employees',
+        'authorities_employees',
+        'project_head_employee',
+        'accountant_employees',
+        'receipt_html_code',
+        'receipt_tax_heading_status',
+        'booking_html_code',
+        'demand_letter_html_code',
+        'demand_letter_tax_heading_status',
+        'welcome_file',
+        'sms_sender_id',
+        'email_sending_id',
+        'created_date',
+        'created_by',
+        'created_IP',
+        'created_browser',
+        'created_mac_id',
+        'updated_date',
+        'updated_by',
+        'updated_IP',
+        'updated_browser',
+        'updated_mac_id',
+        'deleted_status',
+        'deleted_date',
+        'deleted_by',
+        'created_at',
+        'deleted_IP',
+        'deleted_browser',
+        'deleted_mac_id'
+    ];
+        
+    public function wings()
+    {
+        return $this->hasMany('App\Modules\Wings\Models\ProjectWing','project_id');
+    }
+  
+    public function projectTypes() {
+        return $this->belongsTo('App\Modules\Projects\Models\MlstBmsbProjectType', 'project_type_id','id')->select("id", "project_type");
+    }
+    
+    public function projectStatus() {
+        return $this->belongsTo('App\Modules\Projects\Models\MlstBmsbProjectStatus', 'project_status','id')->select("id", "project_status");
+    }
+   
+    public function getProjectStatus() {
+        return $this->belongsTo('App\Modules\Projects\Models\MlstBmsbProjectStatus', 'project_status','id')->where('project_status',"Current")->select("id", "project_status");
+    }
+    
+    public function getEmployee() {
+        return $this->belongsTo('App\Models\backend\Employee', 'created_by', 'id')->select("id","first_name","last_name");
+    }
+    
+    public function projectWebPage() {
+        return $this->hasOne('App\Modules\Projects\Models\ProjectWebPage','project_id');
+    }
+    
+    public function projectAminities() {
+        return $this->hasMany('App\Modules\Projects\Models\MlstBmsbAmenities','id','project_amenities_list')->select('id','name_of_amenity');
+    }
 }

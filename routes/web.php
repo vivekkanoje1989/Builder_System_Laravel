@@ -184,8 +184,10 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getCompanyList', 'backend\AdminController@getCompanyList');
     Route::get('/getSalesLostReason', 'backend\AdminController@getSalesLostReason');
     Route::post('/getSalesLostSubReason', 'backend\AdminController@getSalesLostSubReason');
+    Route::get('/getpaymentModeList', 'backend\AdminController@getpaymentModeList');
     Route::post('/getTeamEmployees', 'CloudCallingLogsController@getTeamEmployees'); // by uma
     Route::post('/getnextfollowupTime', 'backend\AdminController@getnextfollowupTime'); // by uma
+    Route::post('/getProjectWings', 'backend\AdminController@getProjectWings'); // by geeta
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });

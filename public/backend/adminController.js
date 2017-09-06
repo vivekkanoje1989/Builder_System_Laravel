@@ -383,7 +383,7 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
     }
     $scope.checkBlockLength = function (blockId) {
         var blockTypeId = [];
-console.log(blockId);
+        var projectId = $("#project_id").val().split('_')[0];
         angular.forEach(blockId, function (value, key) {
             blockTypeId.push(value.id);
         });
@@ -396,7 +396,7 @@ console.log(blockId);
             $scope.emptyBlockId = false;
             $scope.applyClassBlock = 'ng-inactive';
             Data.post('getSubBlocks/', {
-                data: {myJsonString}
+                data: {myJsonString,projectId:projectId}
             }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
@@ -569,6 +569,66 @@ app.controller('channelCtrl', function ($scope, Data) {
         }
     });
 });
+
+app.controller('paymentModeCtrl', function ($scope, Data) {
+    Data.get('getpaymentModeList').then(function (response) {
+        $scope.paymentModeList = [];
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.paymentModeList = response.records;
+        }
+    });
+});
+
+app.controller('projectBlocksCtrl', function ($scope, Data) {
+    Data.get('getProjects').then(function (response) {
+        $scope.paymentModeList = [];
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.paymentModeList = response.records;
+        }
+    });
+    $scope.getWings = function(projectId){
+        Data.post('getProjectWings',{
+            projectId:projectId
+        }).then(function (response) {
+            $scope.wingList = [];
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.wingList = response.records;
+            }
+        });
+    }
+    $scope.getBlocks = function(projectId){
+        Data.post('getBlocks',{
+            projectId:projectId
+        }).then(function (response) {
+            $scope.blockList = [];
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.blockList = response.records;
+            }
+        });
+    }
+    $scope.getSubBlocks = function(projecId,blockId){
+        Data.post('getSubBlocks',{
+            projectId:projectId,myJsonString:blockId
+        }).then(function (response) {
+            $scope.subBlockList = [];
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.subBlockList = response.records;
+            }
+        });
+    }
+});
+
+
 /****************************UMA************************************/
 app.controller('webPageListCtrl', function ($scope, Data) {
     Data.get('getWebPageList').then(function (response) {

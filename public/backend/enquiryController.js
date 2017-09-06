@@ -930,7 +930,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                             $scope.source = true;
                         }
                     }
-                    console.log(response.enquiryDetails.emailId);
                 });
                 $timeout(function () {
                     $("li#remarkTab a").trigger('click');
