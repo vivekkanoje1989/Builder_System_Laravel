@@ -12,26 +12,27 @@
         width: 110%;
     }
 </style>
+<?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);?>
 <div class="row" ng-controller="dashboardCtrl" ng-init="getMyRequest()">    
     <div class=" mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">My Request</span>          
             </div>
-<!--                <div class="widget-header ">
-			<span class="widget-caption">My Request</span>
-			<div class="widget-buttons">
-				<a href="" data-toggle="maximize">
-					<i class="fa fa-expand"></i>
-				</a>
-				<a href="#" data-toggle="collapse">
-					<i class="fa fa-minus"></i>
-				</a>
-				<a href="" data-toggle="dispose">
-					<i class="fa fa-times"></i>
-				</a>
-			</div>
-		</div>-->
+            <!--                <div class="widget-header ">
+                                    <span class="widget-caption">My Request</span>
+                                    <div class="widget-buttons">
+                                            <a href="" data-toggle="maximize">
+                                                    <i class="fa fa-expand"></i>
+                                            </a>
+                                            <a href="#" data-toggle="collapse">
+                                                    <i class="fa fa-minus"></i>
+                                            </a>
+                                            <a href="" data-toggle="dispose">
+                                                    <i class="fa fa-times"></i>
+                                            </a>
+                                    </div>
+                            </div>-->
             <!--</div>-->
             <div class="widget-body table-responsive">
 
@@ -42,6 +43,7 @@
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                     <?php if (in_array('01403', $array)) { ?>
                     <div class="DTTT btn-group">
                         <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="ExportToxls()" >
                             <span>Export</span> <!--href="/manageVerticals/exportToxls"  ng-click="ExportToxls()"-->
@@ -53,19 +55,10 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
                             </ul>
                         </a>
                     </div>
+                     <?php }?>
                     <div  class="dataTables_filter">
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
@@ -83,7 +76,7 @@
                                         <strong ng-if="key === 'application_to'" data-toggle="tooltip" title="Application To"><strong> Application To : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'from_date'" data-toggle="tooltip" title="From Date"><strong> From Date : </strong> {{ value| date:'yyyy-MM-dd' }}</strong>
                                         <strong ng-if="key === 'to_date'" data-toggle="tooltip" title="To Date"><strong> To Date : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'status'" data-toggle="tooltip" title=" Status"><strong> Status : </strong> {{ value== 1 ? "Leave" : "Approved"}}</strong>
+                                        <strong ng-if="key === 'status'" data-toggle="tooltip" title=" Status"><strong> Status : </strong> {{ value== 1 ? " Leave" : "Approved"}}</strong>
                                     </div>
                                 </div>
                             </b>                        
@@ -118,13 +111,13 @@
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a></th>
                                 <th style="width:15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'job_eligibility'; reverseSort = !reverseSort">Request Type
-                                        <span ng-show="orderByField == 'job_eligibility'">
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'request_type'; reverseSort = !reverseSort">Request Type
+                                        <span ng-show="orderByField == 'request_type'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a></th>
                                 <th style="width:15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'first_name'; reverseSort = !reverseSort">Application To
-                                        <span ng-show="orderByField == 'first_name'">
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'application_to'; reverseSort = !reverseSort">Application To
+                                        <span ng-show="orderByField == 'application_to'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a></th>
                                 <th style="width:20%">
@@ -138,15 +131,16 @@
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a></th>
                                 <th style="width:10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'application_close_date'; reverseSort = !reverseSort">Description
-                                        <span ng-show="orderByField == 'application_close_date'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th>
-                                <th style="width:10%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Status
                                         <span ng-show="orderByField == 'status'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a></th>
+                                <th style="width:10%">
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'application_close_date'; reverseSort = !reverseSort">Description
+                                        <span ng-show="orderByField == 'application_close_date'">
+                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    </a></th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -158,8 +152,9 @@
                                 <td>{{list.application_to}}</td>
                                 <td>{{list.from_date}}</td> 
                                 <td>{{list.to_date}}</td>
-                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-primary" ng-click="view_description({{list}})">View Description</a></td>
-                                <td>{{list.status === 1 ? "Leave" : "Approved" }}</td>
+                                <td>{{list.status == 1 ? "Leave" : "Approved" }}</td>
+                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+
                             </tr>
                         </tbody>
                     </table>
@@ -256,7 +251,7 @@
                             <select class="form-control" ng-model="searchDetails.status" name="status">
                                 <option value="">Select Status</option>
                                 <option value="1">Leave</option>
-                                <option value="2">Approved</option>
+                                <option value="3">Approved</option>
                             </select>
                         </span>
                     </div>

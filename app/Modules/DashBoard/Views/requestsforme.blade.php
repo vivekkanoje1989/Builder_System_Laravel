@@ -11,6 +11,7 @@
         width: 110%;
     }
 </style>
+<?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);?>
 <div class="row" ng-controller="dashboardCtrl" ng-init="getRequestForMe()">  
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
@@ -40,30 +41,22 @@
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                    <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
-                            <span>Export</span>
-                        </a>
-                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu dropdown-default">
-                                <li>
-                                    <a href="javascript:void(0);">Action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
-                            </ul>
-                        </a>
-                    </div>
+                    <?php if (in_array('01403', $array)) { ?>
+                        <div class="DTTT btn-group">
+                            <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="requestForMeExportToxls()" >
+                                <span>Export</span> <!--href="/manageVerticals/exportToxls"  ng-click="ExportToxls()"-->
+                            </a>
+                            <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                                <span>Options</span>
+                                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                                <ul class="dropdown-menu dropdown-default">
+                                    <li>
+                                        <a href="javascript:void(0);">Action</a>
+                                    </li>
+                                </ul>
+                            </a>
+                        </div>
+                    <?php } ?>
                     <div  class="dataTables_filter">
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
@@ -155,8 +148,8 @@
                                 <td>{{list.application_from}}</td>
                                 <td>{{list.from_date}}</td> 
                                 <td>{{list.to_date}}</td>
-                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-primary" ng-click="view_description({{list}})">View Description</a></td>
-                                <td><a href="" data-toggle="modal" data-target="#newModal" class="btn btn-primary" ng-click="statusChange({{list}},$index);" >Status Description</a></td>
+                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn-info btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                <td><a href="" data-toggle="modal" data-target="#newModal" class="btn-info btn-xs" ng-click="statusChange({{list}},$index); view_description({{list}})" ><i class="fa fa-info-circle" aria-hidden="true"></i>Action</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -205,6 +198,14 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">Status Description</h4>
                 </div>
+                <table class="table table-stripped table-bordered" style="margin:20px 20px 20px 20px; width:90%;">
+                    <tr><td>Date</td><td>{{in_date}}</td></tr>
+                    <tr><td>Request Type</td><td>{{request_type}}</td></tr>
+                    <tr><td>To</td><td>{{to_name}}</td></tr>
+                    <tr><td>CC</td><td>{{cc_name}}</td></tr>
+                    <tr><td>Description</td><td>{{req_desc}}</td></tr>
+                    <tr><td>Status</td><td>{{status == 1 ? "Requested" : status == 2 ? "Rejected" :"Accepted" }}</td></tr>
+                </table>
                 <form novalidate ng-submit="requestForForm.$valid && changeStatus()" name="requestForForm">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
 
@@ -232,7 +233,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="Submit" class="btn btn-sub" ng-click="sbtBtn = true" ng-disabled="reqForMe">Submit</button>
+                        <button type="Submit" class="btn btn-sub btn-primary" ng-click="sbtBtn = true" ng-disabled="reqForMe">Submit</button>
                     </div> 
                 </form>           
             </div>

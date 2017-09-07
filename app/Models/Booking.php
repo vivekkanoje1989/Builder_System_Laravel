@@ -21,6 +21,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $block_name
  * @property int $sub_block_id
  * @property string $sub_block_name
+ * @property int $wing_id
+ * @property string $wing_name
  * @property int $area_in_sqft
  * @property string $registration_number
  * @property int $sales_person_id
@@ -53,6 +55,7 @@ class Booking extends Eloquent
 		'project_id' => 'int',
 		'block_id' => 'int',
 		'sub_block_id' => 'int',
+		'wing_id' => 'int',
 		'area_in_sqft' => 'int',
 		'sales_person_id' => 'int',
 		'total_recievable_amount' => 'int',
@@ -81,6 +84,8 @@ class Booking extends Eloquent
 		'block_name',
 		'sub_block_id',
 		'sub_block_name',
+		'wing_id',
+		'wing_name',
 		'area_in_sqft',
 		'registration_number',
 		'sales_person_id',
