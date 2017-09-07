@@ -39,7 +39,7 @@
                                                     <div ng-messages="contentPageForm.page_name.$error">
                                                         <div ng-message="required" class="err">Page name is required.</div>
                                                     </div>
-                                                     <div ng-if="page_name" class="errMsg page_name sp-err">{{page_name}}</div>
+                                                    <div ng-if="page_name" class="errMsg page_name sp-err">{{page_name}}</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -106,7 +106,7 @@
                                                     <div ng-messages="contentPageForm.status.$error">
                                                         <div ng-message="required" class="err">Select status</div>
                                                     </div>
-                                                     <div ng-if="status" class="errMsg status sp-err">{{status}}</div>
+                                                    <div ng-if="status" class="errMsg status sp-err">{{status}}</div>
                                                     <i class="fa fa-caret-down" aria-hidden="true"></i>
                                                 </span>
                                             </div> 
@@ -142,7 +142,7 @@
                                             </div>
                                             <div class="col-sm-8 col-xs-6">
                                                 <div class="img-div2" ng-if="imgs" data-title="name" ng-repeat="img in imgs track by $index" ng-model="imagePage.allimages">   
-                                                    <i class="fa fa-times rem-icon" ng-if="img"  title="{{ img}}" ng-click="removeImg('{{img}}',{{$index}},[[ $pageId]])"></i>
+                                                    <i class="fa fa-times rem-icon" ng-if="img"  title="{{ img}}" ng-click="removeImg('{{img}}',{{$index}}, [[ $pageId]])"></i>
                                                     <img ng-if="img" ng-src="[[ Config('global.s3Path') ]]/website/banner-images/{{img}}" style="width: 60px;height: 60px;">
                                                 </div>
                                             </div>
@@ -191,7 +191,7 @@
                                                     <div  ng-if="sbtBtn"  ng-messages="imageMgntForm.page_name.$error">
                                                         <div ng-message="required" class="err">Page name is required.</div>
                                                     </div>
-                                                     <div ng-if="page_name" class="errMsg page_name sp-err">{{page_name}}</div>
+                                                    <div ng-if="page_name" class="errMsg page_name sp-err">{{page_name}}</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -204,7 +204,7 @@
                                                     <div ng-if="sbtBtn" ng-messages="imageMgntForm.page_title.$error">
                                                         <div ng-message="required" class="err">Page title is required.</div>
                                                     </div>
-                                                     <div ng-if="page_title" class="errMsg page_title sp-err">{{page_title}}</div>
+                                                    <div ng-if="page_title" class="errMsg page_title sp-err">{{page_title}}</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -318,13 +318,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-12 col-xs-12" align="right">
-                                                <button type="submit" class="btn btn-primary btn-submit-last" ng-click="sbtBtn = true;" ng-disabled="">Save</button>
-                                                <span class="sp-err">{{err_msg}}</span>
-                                                <a href="[[ config('global.backendUrl') ]]#/webpages/index" class="btn btn-primary"><< Back To List</a>
-                                            </div>
-                                        </div>
+
                                         <div class="widget-body table-responsive" ng-init="getSubPages([[ $pageId]])">
                                             <table class="table table-hover table-striped table-bordered" at-config="config">
                                                 <thead class="bord-bot">
@@ -348,6 +342,13 @@
                                                     </tr>                                            
                                                 </tbody>
                                             </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 col-xs-12" align="right">
+                                                <button type="submit" class="btn btn-primary btn-submit-last" ng-click="sbtBtn = true;" ng-disabled="">Save</button>
+                                                <span class="sp-err">{{err_msg}}</span>
+                                                <a href="[[ config('global.backendUrl') ]]#/webpages/index" class="btn btn-primary"><< Back To List</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

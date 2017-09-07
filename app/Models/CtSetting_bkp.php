@@ -66,7 +66,7 @@ use App\Classes\CommonFunctions;
  *
  * @package App\Models
  */
-class CtSetting extends Eloquent
+class CtSetting_bkp extends Eloquent
 {
 	public $timestamps = false;
         

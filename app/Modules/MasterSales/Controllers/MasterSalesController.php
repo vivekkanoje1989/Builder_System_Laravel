@@ -24,7 +24,7 @@ use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\LstEnquiryLocation;
 use App\Models\MlstBmsbCompany;
 use Illuminate\Support\Facades\Session;
-use App\Models\Project;
+use App\Modules\Projects\Models\Project;
 use App\Models\Booking;
 use App\Classes\Gupshup;
 use Maatwebsite\Excel\Facades\Excel;
@@ -1044,14 +1044,14 @@ class MasterSalesController extends Controller {
                 $reassignEnq = "(Enquiry reassigned by " . $oldSalesEmployee[0]["first_name"] . " " . $oldSalesEmployee[0]["last_name"] . " to " . $newSalesEmployee[0]["first_name"] . " " . $newSalesEmployee[0]["last_name"] . ")";
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by']['id']]);
             }
-
+            
             $input['followup_by'] = $loggedInUserId;
             if (!empty($input)) {
                 $lostReason = $lostSubReason = 0;
                 if ($input['sales_status_id'] == 3) {//booked
                     $input['booking'] = array_merge($input['booking'], $create);
                     $input['booking']['enquiry_id'] = $enquiryId;
-                    $input['booking']['brand_id'] = config('global.brand_id');
+                    $input['booking']['client_id'] = config('global.client_id');
                     $input['booking']['sales_person_id'] = $loggedInUserId;
                     $input['booking']['booking_date'] = date('Y-m-d', strtotime($input['booking']['booking_date']));
 
@@ -1060,14 +1060,13 @@ class MasterSalesController extends Controller {
                         $enqDetails = EnquiryDetail::create($input['booking']);
                         $bookingDetails = Booking::create($input['booking']);
                         $bookingId = $bookingDetails->id;
-                        $input['booked_vehicle_id'] = $enqDetails->id;
+                        $input['booked_project_id'] = $enqDetails->id;
                         $msgs = 'Remark inserted successfully';
                     } else {
                         unset($input['booking']['brand_id']);
                         Booking::where('enquiry_id', $enquiryId)->update($input['booking']);
                         unset($input['booking']['booking_date'], $input['booking']['sales_person_id']);
-                        EnquiryDetail::where('enquiry_id', $enquiryId)->update($input['booking']);
-
+                        EnquiryDetail::where('enquiry_id', $enquiryId)->orderBy('id','desc')->update($input['booking']);                        
                         $msgs = 'Remark updated successfully';
                     }
                     $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
@@ -1124,6 +1123,7 @@ Regards,
                     $msg = 'Remark inserted successfully';
                     $input['remarks'] = $input['msgRemark'] . " " . $reassignEnq;
                 } else { //for email
+                    
                     $getCallBackNo = CtSetting::select('virtual_display_number')->where("default_number", 1)->get();
                     $contactText = "
 Regards,<br>
@@ -1169,6 +1169,7 @@ Regards,<br>
                 EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDateTime]);
                 if ($editExistingFollowup == true) {
                     $input = array_merge($input, $update);
+                    $input['client_id'] = config('global.client_id');
                     $insertFollowup = EnquiryFollowup::where("id", $followupId)->update($input);
                     $result = ['success' => true, 'message' => "", 'bookingId' => $bookingId];
                 } else {
@@ -2367,7 +2368,7 @@ Regards,<br>
                         }
 
                         if (!empty($sheetData[$j][28])) {
-                            $projectName = \App\Models\Project::select('id')->where('project_name', '=', $sheetData[$j][28])->first();
+                            $projectName = Project::select('id')->where('project_name', '=', $sheetData[$j][28])->first();
                             if (!empty($projectName)) {
                                 $enquiries['project_id'] = $projectName->id;
                             } else {

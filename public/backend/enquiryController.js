@@ -985,7 +985,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                             $scope.source = true;
                         }
                     }
-                    console.log(response.enquiryDetails.emailId);
                 });
                 $timeout(function () {
                     $("li#remarkTab a").trigger('click');
@@ -1091,17 +1090,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
          }
          });
          };*/
-
+       
+        $scope.bookingId = '';        
         $scope.insertTodayRemark = function (modalData) {
-            if ($scope.editableCustInfo == true && $scope.nocustName == false) {
-                if (modalData.customer_fname == '' && modalData.customer_lname == '') {
+            if ($scope.editableCustInfo == true) {
+                if(modalData.customer_fname == '' && modalData.customer_lname == ''){
                     toaster.pop('error', 'Required', 'Please update customer name');
                     return false;
                 }
                 var custInfo = {title_id: modalData.title_id, customer_fname: modalData.customer_fname, customer_lname: modalData.customer_lname};
-            }
-            if ($scope.source == true) {
-                var sourceInfo = {source_id: modalData.source_id, sales_subsource_id: modalData.sales_subsource_id, sales_source_description: modalData.sales_source_description, };
             }
             var str = modalData.next_followup_time.toString();
             var splitTime = str.split(" ");
@@ -1131,14 +1128,10 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 email_content: modalData.email_content,
                 subject: modalData.subject,
                 editExistingFollowup: $scope.editExistingFollowup,
-                booking: {model_id: $("#model_id").val(),
-                    sub_model_id: $("#sub_model_id").val(),
-                    veriant_id: $("#veriant_id").val(), //variant_id
-                    sub_veriant_id: $("#sub_veriant_id").val(), //subvariant_id
-                    transmission_id: $("#transmission_id").val(),
-                    engine_id: $("#engine_id").val(),
-                    fuel_id: $("#fuel_id").val(),
-                    color_id: $("#color_id").val(),
+                booking: {project_id: $("#project_id").val(),
+                    block_id: $("#block_id").val(),
+                    sub_block_id: $("#sub_block_id").val(), 
+                    wing_id: $("#wing_id").val(), 
                     booking_date: modalData.booking_date,
                     booked_vehicle_id: modalData.booked_vehicle_id,
                     total_recievable_amount: modalData.total_recievable_amount,
@@ -1151,7 +1144,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             };
             $scope.sbtbtndis = true;
             Data.post('master-sales/insertTodayRemark', {
-                data: data, custInfo: custInfo, sourceInfo: sourceInfo
+                data: data, custInfo: custInfo
             }).then(function (response) {
                 $scope.sbtbtndis = false;
                 if (!response.success) {

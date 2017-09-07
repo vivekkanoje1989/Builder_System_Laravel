@@ -4,8 +4,8 @@ Route::group(array('module' => 'DashBoard', 'middleware' => ['auth:admin'], 'nam
 
     $getUrl = config('global.getUrl');
     Route::get('/my-request/exportToxls', 'DashBoardController@exportToxls');
-
     Route::get('/request-approval/index', 'DashBoardController@other');
+    Route::get('/request-for-me/requestForMeExportToxls', 'DashBoardController@requestForMeExportToxls');
     Route::get('/request-for-me/index', 'DashBoardController@requestsForMe');
     Route::get('/my-request/index', 'DashBoardController@myRequest');
     Route::get('/getEmployees', 'DashBoardController@getEmployees');

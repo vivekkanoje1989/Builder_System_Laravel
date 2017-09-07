@@ -27,7 +27,8 @@ use App\Models\MlstBmsbDesignation;
 use App\Models\LstEnquiryLocation;
 use App\Models\MlstBmsbBlockType;
 use App\Models\ProjectBlock;
-use App\Models\Project;
+use App\Modules\Projects\Models\Project;
+use App\Modules\Projects\Models\ProjectWing;
 use App\Models\Company;
 use App\Models\MlstBmsbCompany;
 use App\Models\CompanyStationary;
@@ -306,7 +307,9 @@ class AdminController extends Controller {
     public function getSubBlocks() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        $subBlocksList = ProjectBlock::select("id", "block_sub_type")->whereIn("block_type_id", json_decode($request['data']['myJsonString']))->get();
+        $subBlocksList = ProjectBlock::select("id", "block_sub_type")
+                ->where("project_id",$request['data']['projectId'])
+                ->whereIn("block_type_id", json_decode($request['data']['myJsonString']))->get();
         if (!empty($subBlocksList)) {
             $result = ['success' => true, 'records' => $subBlocksList];
         } else {
@@ -691,7 +694,62 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+    public function getpaymentModeList() {
+        $getpaymentModeList = \App\Models\MlstPaymentModes::all();
+        if (!empty($getpaymentModeList)) {
+            $result = ['success' => true, 'records' => $getpaymentModeList];            
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
 
+
+    public function getProjectWings() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        
+        $projectWingList = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $request['projectId'])->get();
+        if (!empty($projectWingList)) {
+            return json_encode(['result' => $projectWingList, 'status' => true]);
+        } else {
+            return json_encode(['result' => "No wings found", 'status' => false]);
+        }
+    }
+    public function getBlocks() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        $blockList = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')->where('project_id', $request['projectId'])->get();
+        
+        $getBlockTypeId = array();
+        if (!empty($blockList)) {
+            foreach ($blockList as $key => $value) {
+                $getBlockTypeId[] = $value['block_type_id'];
+            }
+        }
+        $blockTypeId = implode(",", $getBlockTypeId);
+        $blockTypeList = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId)->get();
+        
+        if (!empty($blockList)) {
+            return json_encode(['records' => $blockTypeList, 'success' => true]);
+        } else {
+            return json_encode(['records' => "No wings found", 'success' => false]);
+        }
+    }
+    
+    public function getSubBlocksList() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $subBlocksList = ProjectBlock::select("id", "block_sub_type")
+                ->where(["project_id" => $request['data']['projectId'],"block_type_id" => $request['data']['blockId']])->get();
+        if (!empty($subBlocksList)) {
+            $result = ['success' => true, 'records' => $subBlocksList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
     /*     * **************************UMA*********************************** */
 
     public function getWebPageList() {

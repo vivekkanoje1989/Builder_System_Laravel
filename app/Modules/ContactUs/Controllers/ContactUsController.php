@@ -13,6 +13,7 @@ use App\Modules\ManageCity\Models\MlstCities;
 use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 
 class ContactUsController extends Controller {
 
@@ -121,6 +122,31 @@ class ContactUsController extends Controller {
         $result = WebContactus::where('id', $request['id'])->update($input['contactUsData']);
         $result = ['success' => true, 'result' => $result];
         return json_encode($result);
+    }
+
+    public function contactUsExportToxls() {
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $getCount = WebContactus::all()->count();
+        $getContactus = WebContactus::all();
+        $contactUs = array();
+        for ($i = 0; $i < count($getContactus); $i++) {
+            $contactData['Sr. No'] = $getContactus[$i]['id'];
+            $contactData['Address'] = $getContactus[$i]['address'];
+            $contactData['Pin Code'] = $getContactus[$i]['pin_code'];
+            $contactData['Email'] = $getContactus[$i]['email'];
+            $contactData['Contact Person Name'] = $getContactus[$i]['contact_person_name'];
+            $contactUs[] = $contactData;
+        }
+
+        if ($getCount < 1) {
+            return false;
+        } else {
+            Excel::create('Export Data', function($excel) use($contactUs) {
+                $excel->sheet('sheet1', function($sheet) use($contactUs) {
+                    $sheet->fromArray($contactUs);
+                });
+            })->download('xls');
+        }
     }
 
 }

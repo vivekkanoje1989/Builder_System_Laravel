@@ -1,10 +1,10 @@
-app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$location','$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $location,$rootScope) {
+app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toaster', '$parse', '$window', '$location', '$rootScope', function ($scope, Data, Upload, $timeout, toaster, $parse, $window, $location, $rootScope) {
 
         $scope.noOfRows = 1;
         $scope.webTheme = false;
         $scope.theme = {};
         $scope.itemsPerPage = 30;
-        
+
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
@@ -18,7 +18,7 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
+
         $scope.manageThemes = function () {
             $scope.showloader();
             Data.post('website/getThemes').then(function (response) {
@@ -52,6 +52,15 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         }
 
 
+        $scope.themeExportToxls = function () {
+            alert('fg0');
+            $scope.getexcel = window.location = "/website-themes/themeExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        };
 
         $scope.doThemesAction = function (imageUrl, themeData) {
             $scope.webTheme = true;

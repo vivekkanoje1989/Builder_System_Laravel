@@ -30,6 +30,16 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 $scope.blogsRow = response.records;
             });
         };
+        
+        $scope.blogManagementExportToxls = function(){
+             $scope.getexcel = window.location = "/manage-blog/blogManagementExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
         $scope.doblogscreateAction = function (bannerImage, galleryImage, blogData, blogimgs) {
 
             $scope.errorMsg = '';

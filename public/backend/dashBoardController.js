@@ -14,26 +14,32 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         //vivek Export to xlsx
         $scope.ExportToxls = function () {
             // $location.url('/manageVerticals/exportToxls');
-//            $getexcel = window.location = "/my-request/exportToxls";
-//            if ($getexcel) {
-//                 alert("getexcel if");
-//                toaster.pop('info', '', 'Exporting....');
-//            } else {
-//                alert("getexcel else");
-//                toaster.pop('error', '', 'Exporting fails....');
-//            }
-//                alert("ExportToxls");
-//            Data.post('/my-request/exportToxls').then(function (response) {
-//
-//                alert(JSON.stringify(response));
-//            });
-
+            $scope.getexcel = window.location = "/my-request/exportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        };
+        
+        $scope.requestForMeExportToxls = function () {
+            // $location.url('/manageVerticals/exportToxls');
+            $scope.get_excel = window.location = "/request-for-me/requestForMeExportToxls";
+            if ($scope.get_excel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
         };
 
+        $scope.resetForm = function (form) {
+           angular.copy({}, form);
+        }
         $scope.searchDetails = {};
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
+            
 //            $scope.searchDetails = {};
             if (search.from_date != undefined) {
                 var today = new Date(search.from_date);
@@ -57,7 +63,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
 
 
             }
-//            console.log(search);
+           
             $scope.searchData = search;
         }
         $scope.removeFilterData = function (keyvalue) {
