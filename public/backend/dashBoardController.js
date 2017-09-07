@@ -4,6 +4,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         $scope.reqLeave = false;
         $scope.reqOtherLeave = false;
         $scope.noOfRows = 1;
+        $scope.exportMyRequest = '';
+        $scope.exportData = '';
         $scope.request = {};
         $scope.getEmployees = function () {
             Data.get('getEmployees').then(function (response) {
@@ -11,9 +13,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
             });
         };
 
-        //vivek Export to xlsx
         $scope.ExportToxls = function () {
-            // $location.url('/manageVerticals/exportToxls');
             $scope.getexcel = window.location = "/my-request/exportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
@@ -21,9 +21,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
-        
+
         $scope.requestForMeExportToxls = function () {
-            // $location.url('/manageVerticals/exportToxls');
             $scope.get_excel = window.location = "/request-for-me/requestForMeExportToxls";
             if ($scope.get_excel) {
                 toaster.pop('info', '', 'Exporting....');
@@ -33,13 +32,13 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         };
 
         $scope.resetForm = function (form) {
-           angular.copy({}, form);
+            angular.copy({}, form);
         }
         $scope.searchDetails = {};
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            
+
 //            $scope.searchDetails = {};
             if (search.from_date != undefined) {
                 var today = new Date(search.from_date);
@@ -63,7 +62,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
 
 
             }
-           
+
             $scope.searchData = search;
         }
         $scope.removeFilterData = function (keyvalue) {
@@ -139,6 +138,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 uid: $scope.application_to, cc: $scope.application_cc, req_desc: $scope.req_desc}).then(function (response) {
                 $scope.hideloader();
                 $scope.myRequest = response.records;
+                $scope.exportMyRequest = response.exportData;
                 $scope.totalCount = $scope.myRequest.length;
             });
         };
@@ -148,6 +148,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
             Data.get('my-request/getRequestForMe').then(function (response) {
                 $scope.hideloader();
                 $scope.myRequest = response.records;
+                $scope.exportData = response.exportData;
                 $scope.totalCount = $scope.myRequest.length;
             });
         }

@@ -38,13 +38,18 @@ class BlogManagementController extends Controller {
 
             $blogDetails[] = $blogData;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        }else{
+              $export = '';
+        }
         if (!empty($blogDetails)) {
-            $result = ['success' => true, 'records' => $blogDetails];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $blogDetails, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function createBlogs() {
@@ -227,33 +232,38 @@ class BlogManagementController extends Controller {
     }
 
     public function blogManagementExportToxls() {
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $getCount = WebBlogs::all()->count();
-        $getBlogs = WebBlogs::all();
-        $blogDetails = array();
-        for ($i = 0; $i < count($getBlogs); $i++) {
-            $blogData['Sr No'] = $getBlogs[$i]['id'];
-            $blogData['Blog Title'] = $getBlogs[$i]['blog_title'];
-            $blogData['Blog Seo Url'] = $getBlogs[$i]['blog_seo_url'];
-            $blogData['Meta Description'] = $getBlogs[$i]['meta_description'];
-            $blogData['Meta Keywords'] = $getBlogs[$i]['meta_keywords'];
-            $status = $getBlogs[$i]['blog_status'];
-            if ($status == 1) {
-                $blogData['Blog Status'] = 'Yes';
-            } else {
-                $blogData['Blog Status'] = 'No';
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getCount = WebBlogs::all()->count();
+            $getBlogs = WebBlogs::select('blog_title', 'id', 'blog_seo_url', 'meta_description', 'meta_keywords', 'blog_status')->get();
+            $blogDetails = array();
+            $j = 1;
+            for ($i = 0; $i < count($getBlogs); $i++) {
+                $blogData['Sr No'] = $j++;
+                $blogData['Blog Title'] = $getBlogs[$i]['blog_title'];
+                $blogData['Blog Seo Url'] = $getBlogs[$i]['blog_seo_url'];
+                $blogData['Meta Description'] = $getBlogs[$i]['meta_description'];
+                $blogData['Meta Keywords'] = $getBlogs[$i]['meta_keywords'];
+                $status = $getBlogs[$i]['blog_status'];
+                if ($status == 1) {
+                    $blogData['Blog Status'] = 'Yes';
+                } else {
+                    $blogData['Blog Status'] = 'No';
+                }
+
+                $blogDetails[] = $blogData;
             }
 
-            $blogDetails[] = $blogData;
-        }
-        if ($getCount < 1) {
-            return false;
-        } else {
-            Excel::create('Export Data', function($excel) use($blogDetails) {
-                $excel->sheet('sheet1', function($sheet) use($blogDetails) {
-                    $sheet->fromArray($blogDetails);
-                });
-            })->download('xls');
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export BlogManagement Data', function($excel) use($blogDetails) {
+                    $excel->sheet('sheet1', function($sheet) use($blogDetails) {
+                        $sheet->fromArray($blogDetails);
+                    });
+                })->download('xls');
+            }
         }
     }
 

@@ -4,6 +4,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         $scope.blogId = 0;
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
+        $scope.exportData = '';
         $scope.createBlog = false;
         $scope.updateBlog = false;
          $scope.searchDetails = {};
@@ -28,6 +29,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             Data.post('manage-blog/manageBlogs').then(function (response) {
                  $scope.hideloader();
                 $scope.blogsRow = response.records;
+                $scope.exportData = response.exportData;
             });
         };
         

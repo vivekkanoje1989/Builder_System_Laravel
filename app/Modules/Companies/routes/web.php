@@ -3,6 +3,7 @@
 Route::group(array('module' => 'Companies', 'middleware' => ['auth:admin'], 'namespace' => 'App\Modules\Companies\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
+    Route::get('/manage-companies/companiesExportToxls', 'CompaniesController@companiesExportToxls');
     Route::get('/manage-companies/manageCompany', 'CompaniesController@manageCompany');
     Route::get('/manage-companies/create', 'CompaniesController@create');
     Route::get('/manage-companies/manageBankAccount', 'CompaniesController@manageBankAccount');

@@ -3,6 +3,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
         $scope.subId = '0';
+        $scope.exportData = '';
         $scope.submitted = true;
         $scope.sbtBtn = false;
         $scope.subcontentPage = {};
@@ -11,8 +12,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
- $scope.contentManagementExportToxls = function () {
-            // $location.url('/manageVerticals/exportToxls');
+        $scope.contentManagementExportToxls = function () {
             $scope.getexcel = window.location = "/web-pages/contentManagementExportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
@@ -20,7 +20,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
-        
+
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
@@ -40,6 +40,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             Data.get('web-pages/getWebPages').then(function (response) {
                 $scope.hideloader();
                 $scope.listPages = response.records.data;
+                $scope.exportData = response.records.exportData;
             });
         }
 

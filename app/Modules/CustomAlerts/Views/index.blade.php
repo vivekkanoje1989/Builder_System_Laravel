@@ -2,12 +2,13 @@
     .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;margin-left: 15px;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;margin-left: 15px;}
 </style>
+
 <div class="row" ng-controller="customalertsController" ng-init="manageAlerts('', 'index', 1, [[config('global.recordsPerPage')]])">
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Custom Templates</span>
-               
+
             </div>
             <div class="widget-body table-responsive">
                 <!--                <div class="row">
@@ -22,37 +23,25 @@
                                     </div>
                                 </div><br>-->
                 <div class="row table-toolbar">
-                     <a href="[[ config('global.backendUrl') ]]#/customalerts/create " class="btn btn-default">Create New Template</a>&nbsp;&nbsp;&nbsp;
-                    <!--                    <a title="Create bank account" class="btn btn-default" data-toggle="modal" ng-click="initialModel('0', '', '', '')" data-target="#bankAccountModal" >Create Bank Account</a>
-                                        <div class="btn-group pull-right">
-                                            <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
-                                        </div>-->
+                    <a href="[[ config('global.backendUrl') ]]#/customalerts/create " class="btn btn-default">Create New Template</a>&nbsp;&nbsp;&nbsp;
+                   
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                    <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
-                            <span>Export</span>
-                        </a>
-                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
-                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu dropdown-default">
-                                <li>
-                                    <a href="javascript:void(0);">Action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
-                            </ul>
-                        </a>
-                    </div>
+                        <div class="DTTT btn-group">
+                            <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="customTemplatesExportToxls()" ng-show="exportData == '1'" >
+                                <span>Export</span>
+                            </a>
+                            <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                                <span>Options</span>
+                                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                                <ul class="dropdown-menu dropdown-default">
+                                    <li>
+                                        <a href="javascript:void(0);">Action</a>
+                                    </li>
+                                </ul>
+                            </a>
+                        </div>
+                   
                     <div  class="dataTables_filter">
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
@@ -120,7 +109,7 @@
                             <tr dir-paginate="listAlert in listcustomAlerts | filter:search | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" >
                                 <td>
                         <center>
-                           {{itemsPerPage * (noOfRows - 1) + $index + 1}}<br>                              
+                            {{itemsPerPage * (noOfRows - 1) + $index + 1}}<br>                              
                         </center>
                         </td>
                         <td>{{ listAlert.friendly_name}}</td>
