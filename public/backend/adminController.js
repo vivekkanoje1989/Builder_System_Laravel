@@ -4,8 +4,8 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
     $scope.errorMsg = '';
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
-       // window.history.back();
-        $state.reload();
+//        window.history.back();
+       // window.location.reload();
         return false;
     }
 
@@ -759,3 +759,19 @@ app.controller('getEmployeeCtrl', function ($scope, Data, $timeout) {
 });
 /****************************MANDAR*********************************/
 
+app.filter('split', function () {
+    return function (input, splitChar, splitIndex) {console.log(input);
+        // do some bounds checking here to ensure it has that index
+        return input.split(splitChar)[splitIndex];
+    }
+});
+app.filter('underscoreless', function () {
+ return function (input) {
+     return input.replace(/_/g, ' ');
+ };
+});
+app.filter('capitalize', function() {
+    return function(input) {
+      return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+    }
+}); 

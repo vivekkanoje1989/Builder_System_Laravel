@@ -29,6 +29,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/MasterSales/scheduletestdrive', function () {
         return View::make('MasterSales::scheduletestdrive');
     });
+     Route::get('/MasterSales/sendDocument', function () {
+        return View::make('MasterSales::sendDocument');
+    });
     Route::get('/master-sales/createQuickEnquiry','MasterSalesController@createQuickEnquiry');
  
     
@@ -77,6 +80,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/BulkReasignEmployee', 'MasterSalesController@BulkReasignEmployee'); // uma
     Route::post('/master-sales/exportToExcel', 'MasterSalesController@exportToExcel');//export data in excel sheet    
     Route::post('/master-sales/filteredData', 'MasterSalesController@filteredData');//filtered data
+    Route::post('/master-sales/sendDocuments', 'MasterSalesController@sendDocuments');// get customer data send document
+    Route::post('/master-sales/getDocumentsList', 'MasterSalesController@getDocumentsList');// get documents  //uma 
+    
     
     /****************************ENQUIRIES****************************/
     Route::get('/master-sales/totalEnquiry/{type}', 'MasterSalesController@totalEnquiry'); // get total enq with type

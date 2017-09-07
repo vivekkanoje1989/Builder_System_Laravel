@@ -31,6 +31,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Classes\S3;
 use PHPExcel;
 use PHPExcel_IOFactory;
+use App\Modules\Projects\Models\ProjectWebPage;
 
 class MasterSalesController extends Controller {
 
@@ -214,7 +215,7 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['loggedInUserId']);
                 unset($input['customerData']['id']);
             }
-//echo "<pre>";print_r($input);exit;
+
             $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
@@ -239,11 +240,11 @@ class MasterSalesController extends Controller {
             }
             if (!empty($input['customerContacts'])) {
                 $i = 0;
-                //echo "<pre>";print_r($input['customerContacts']);exit;
+                
                 foreach ($input['customerContacts'] as $contacts) {
-                    
-                    if(!empty($contacts['$hashKey']))
-                    unset($contacts['$hashKey'],$contacts['$$hashKey'],$contacts['index']);
+
+                    if (!empty($contacts['$hashKey']))
+                        unset($contacts['$hashKey'], $contacts['$$hashKey'], $contacts['index']);
 //                    $contacts['mobile_optin_status'] = $contacts['mobile_verification_status'] = $contacts['landline_optin_status'] = $contacts['landline_verification_status'] = $contacts['landline_alerts_status'] = $contacts['email_optin_status'] = $contacts['email_verification_status'] = 0;
 //                    $contacts['mobile_optin_info'] = $contacts['mobile_verification_details'] = $contacts['mobile_alerts_inactivation_details'] = $contacts['landline_optin_info'] = $contacts['landline_verification_details'] = $contacts['landline_alerts_inactivation_details'] = $contacts['email_optin_info'] = $contacts['email_verification_details'] = $contacts['email_alerts_inactivation_details'] = NULL;
 //                    $contacts['mobile_alerts_status'] = $contacts['landline_alerts_status'] = $contacts['email_alerts_status'] = 1;
@@ -256,9 +257,8 @@ class MasterSalesController extends Controller {
                     if (!empty($contacts['landline_calling_code'])) {
                         $contacts['landline_calling_code'] = (int) $contacts['landline_calling_code'];
                     }
-                    if(!empty($contacts['mobile_number'])){
+                    if (!empty($contacts['mobile_number'])) {
                         $checkMobileNumber = CustomersContact::where(['customer_id' => $id, "mobile_number" => $contacts['mobile_number']])->get();
-//echo "in if";exit;
                         if (!empty($contacts['id'])) {//for existing mobile number
                             $contacts['updated_date'] = date('Y-m-d', strtotime($contacts['created_date']));
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -287,7 +287,6 @@ class MasterSalesController extends Controller {
                         }
                         $i++;
                     }
-//                    echo "in else";exit;
                 }
             }
         } catch (\Exception $ex) {
@@ -315,10 +314,7 @@ class MasterSalesController extends Controller {
 
             $customerMobileNo = !empty($request['data']['customerMobileNo']) ? $request['data']['customerMobileNo'] : "0";
             $customerEmailId = !empty($request['data']['customerEmailId']) ? $request['data']['customerEmailId'] : "0";
-            $searchData = !empty($customerMobileNo) ? $customerMobileNo : $customerEmailId;
-
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '")');
-//            echo "<pre>";print_r($getCustomerContacts);exit;
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
                 unset($getCustomerPersonalDetails[0]['pan_number']);
@@ -383,28 +379,10 @@ class MasterSalesController extends Controller {
         return response()->json($result);
     }
 
-//        public function getCustomerAllDetails() {
-//        $postdata = file_get_contents("php://input");
-//        $request = json_decode($postdata, true);
-////echo $request['data']['customerId'];exit;
-//        $customerId = !empty($request['data']['customerId']) ? $request['data']['customerId'] : "0";
-//        $getCustomerContacts = DB::select('CALL proc_get_customer_contacts_details("' . $customerId . '")');
-//
-//        if (count($getCustomerContacts) > 0) {
-//            $getCustomerPersonalDetails = Customer::where('customers.id', '=', $getCustomerContacts[0]->customer_id)->leftjoin('lmsauto_master_final.mlst_lmsa_companies as mlc', 'mlc.id', '=', 'customers.company_id')
-//                            ->select('customers.*', 'mlc.company_name')->get();
-//            $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts];
-//            return json_encode($result);
-//        } else {
-//            $result = ['success' => false, "message" => "No record found"];
-//            return json_encode($result);
-//        }
-//    }
     public function getCustomerDataWithId() {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            //$data = Customer::where('id', $request['data']['customerId'])->get();
 
             $data = Customer::select('customers.*', 'mlc.company_name')
                     ->where('customers.id', '=', $request['data']['customerId'])
@@ -500,7 +478,6 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
-            //print_r($request);exit;
             unset($request['$$hashKey']);
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -603,13 +580,10 @@ class MasterSalesController extends Controller {
                 $templatedata['template_setting_employee'] = 0;
                 $templatedata['customer_id'] = $customer_id;
                 $templatedata['enquiry_id'] = $insertEnquiry->id;
-                //$templatedata['model_id'] = $input['vehicleListData'][0]['model_id'];
                 $templatedata['project_id'] = $request['projectEnquiryDetails'][0]['project_id'];
                 $templatedata['arrExtra'][0] = array();
                 $templatedata['arrExtra'][1] = array();
-                // print_r($templatedata);exit;
                 $result = CommonFunctions::templateData($templatedata);
-                //print_r($result);exit;
                 // ************* End template for new enquiry..
                 $result = ['success' => true, 'message' => 'Record Inserted Successfully.'];
             } else {
@@ -635,7 +609,6 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
-            //print_r($request);exit;
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
@@ -743,17 +716,16 @@ class MasterSalesController extends Controller {
         }
         return response()->json($result);
     }
-    
+
     public function addInfo() {
         try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
             $loggedInUserId = Auth::guard('admin')->user()->id;
             if ($input['elem'] == 'company_details') {
-                Customer::whereId(['id' => $input['custId']])->update(['corporate_customer' => $input['corporate_customer'],'company_id' => $input['company_id']]);
+                Customer::whereId(['id' => $input['custId']])->update(['corporate_customer' => $input['corporate_customer'], 'company_id' => $input['company_id']]);
                 $result = ["success" => true, 'updated' => '1'];
-            }           
-            else if ($input['elem'] == 'mobile_number') {
+            } else if ($input['elem'] == 'mobile_number') {
                 if (!empty($input['prevMob'])) {
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number')->where(['mobile_number' => $input['prevMob'], 'customer_id' => $input['custId']])->get();
                 } else {
@@ -804,8 +776,7 @@ class MasterSalesController extends Controller {
                         $result = ["success" => false, "message" => "Mobile number already exist"];
                     }
                 }
-            } 
-            else {
+            } else {
                 if (!empty($input['prevEmail'])) {
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'email_id')->where(['email_id' => $input['prevEmail'], 'customer_id' => $input['custId']])->get();
                 } else {
@@ -861,7 +832,7 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-    
+
     public function getTodayRemark() {
         try {
             $postdata = file_get_contents("php://input");
@@ -893,11 +864,10 @@ class MasterSalesController extends Controller {
             }
             $getProjects = Project::select("id", "project_name")->whereIn('id', $projectId)->get();
             $getBlocks = MlstBmsbBlockType::select("id", "block_name")->whereIn('id', $blockId)->get();
-
             $decodeRemarkDetails['selectedProjects'] = $getProjects;
             $decodeRemarkDetails['selectedBlocks'] = $getBlocks;
             $decodeRemarkDetails['mobileNumber'] = $mobileNumber;
-            $decodeRemarkDetails['emailId'] = json_decode(json_encode($emailId),true);
+            $decodeRemarkDetails['emailId'] = json_decode(json_encode($emailId), true);
             $useremail = Auth::guard('admin')->user()->personal_email1;
             $userpermissions = Auth::guard('admin')->user()->employee_submenus;
             $reassignData['id'] = $decodeRemarkDetails[0]['sales_employee_id'];
@@ -911,7 +881,7 @@ class MasterSalesController extends Controller {
         }
         return json_encode($result);
     }
-    
+
     public function insertTodayRemark() {
         try {
             $postdata = file_get_contents("php://input");
@@ -940,13 +910,13 @@ class MasterSalesController extends Controller {
             $sales_category_id = !empty($input['sales_category_id']) ? $input['sales_category_id'] : $getvalues[0]['sales_category_id'];
             $sales_subcategory_id = !empty($input['sales_subcategory_id']) ? $input['sales_subcategory_id'] : $getvalues[0]['sales_subcategory_id'];
             $sales_status_id = !empty($input['sales_status_id']) ? $input['sales_status_id'] : $getvalues[0]['sales_status_id'];
-            $sales_substatus_id = !empty($input['sales_substatus_id']) ? $input['sales_substatus_id'] : "0";            
+            $sales_substatus_id = !empty($input['sales_substatus_id']) ? $input['sales_substatus_id'] : "0";
             $input['actual_followup_date_time'] = '0000-00-00 00:00:00';
-            $input['followup_date_time'] = $todayDateTime;            
-            $input['followup_entered_through'] = 1;            
+            $input['followup_date_time'] = $todayDateTime;
+            $input['followup_entered_through'] = 1;
             $corporate_customer = $input['corporate_customer'];
             $company_id = $input['company_id'];
-            
+
             if (!empty($corporate_customer) && $company_id == 0) { //checked checkbox and new value in textbox
                 $companyId = MlstLmsaCompany::select('id', 'company_name')->where('company_name', $input['company_name'])->get();
 
@@ -1026,10 +996,10 @@ class MasterSalesController extends Controller {
                         }
                     }
                 }
-                /*****************************Mobile / Email Update [For Mobile App Only]*****************************/
+                /*                 * ***************************Mobile / Email Update [For Mobile App Only]**************************** */
             }
-            
-            /*****************EDIT SOURCE INFO********************/
+
+            /*             * ***************EDIT SOURCE INFO******************* */
             if (!empty($request['sourceInfo'])) {
                 $sourceInfo = $request['sourceInfo'];
                 $custUpdate = Customer::where('id', $customerId)->update(["source_id" => $sourceInfo['source_id'], "subsource_id" => $sourceInfo['sales_subsource_id'], "source_description" => $sourceInfo['sales_source_description']]);
@@ -1037,14 +1007,14 @@ class MasterSalesController extends Controller {
             }
 
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-            
+
             $getFollowupId = Enquiry::select('sales_employee_id')->where('id', $enquiryId)->get();
             $reassignEnq = "";
             if ($getFollowupId[0]['sales_employee_id'] != $input['followup_by']['id']) {
                 $oldSalesEmployee = Employee::select("first_name", "last_name")->where('id', $getFollowupId[0]['sales_employee_id'])->get();
                 $newSalesEmployee = Employee::select("first_name", "last_name")->where('id', $input['followup_by']['id'])->get();
                 $reassignEnq = "(Enquiry reassigned by " . $oldSalesEmployee[0]["first_name"] . " " . $oldSalesEmployee[0]["last_name"] . " to " . $newSalesEmployee[0]["first_name"] . " " . $newSalesEmployee[0]["last_name"] . ")";
-                $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by']['id']]); 
+                $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by']['id']]);
             }
             
             $input['followup_by'] = $loggedInUserId;
@@ -1056,7 +1026,7 @@ class MasterSalesController extends Controller {
                     $input['booking']['client_id'] = config('global.client_id');
                     $input['booking']['sales_person_id'] = $loggedInUserId;
                     $input['booking']['booking_date'] = date('Y-m-d', strtotime($input['booking']['booking_date']));
-                        // echo "<pre>";print_r($input);exit;               
+
                     if (empty($bookingId)) {
                         unset($input['booking']['brand_id']);
                         $enqDetails = EnquiryDetail::create($input['booking']);
@@ -1068,11 +1038,10 @@ class MasterSalesController extends Controller {
                         unset($input['booking']['brand_id']);
                         Booking::where('enquiry_id', $enquiryId)->update($input['booking']);
                         unset($input['booking']['booking_date'], $input['booking']['sales_person_id']);
-                        EnquiryDetail::where('enquiry_id', $enquiryId)->orderBy('id','desc')->update($input['booking']);
-                        
+                        EnquiryDetail::where('enquiry_id', $enquiryId)->orderBy('id','desc')->update($input['booking']);                        
                         $msgs = 'Remark updated successfully';
                     }
-                    $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));                    
+                    $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
                 } else if ($input['sales_status_id'] == 4) {//lost                    
                     $lostReason = $input['sales_lost_reason_id'];
                     $lostSubReason = !empty($input['sales_lost_sub_reason_id']) ? $input['sales_lost_sub_reason_id'] : "0";
@@ -1082,7 +1051,7 @@ class MasterSalesController extends Controller {
                 } else { //open & future
                     $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
                     $input['next_followup_time'] = date('H:i:s', strtotime($input['next_followup_time']));
-                }                
+                }
                 /*                 * ****************REMARK FUNCTIONAL******************* */
                 $client = json_decode(config('global.client_info'), true);
                 $marketing_name = $client['marketing_name'];
@@ -1093,7 +1062,7 @@ class MasterSalesController extends Controller {
                         $msg = $msgs;
                     else
                         $msg = 'Remark inserted successfully';
-                } 
+                }
                 else if ($input['msgRemark'] !== '') {// for message
                     $getCallBackNo = CtSetting::select('virtual_display_number')->where("default_number", 1)->get();
                     $contactText = "
@@ -1122,6 +1091,7 @@ Regards,
                         $input['msgRemark'],
                         ""
                     );
+                    
                     $result = CommonFunctions::templateData($templatedata);
                     $msg = 'Remark inserted successfully';
                     $input['remarks'] = $input['msgRemark'] . " " . $reassignEnq;
@@ -1133,6 +1103,7 @@ Regards,<br>
 " . $fullName . "<br>
 " . $marketing_name . "<br>
 " . $getCallBackNo[0]['virtual_display_number'] . "";
+
                     $input['remarks'] = "Sent mail: " . strip_tags($input['email_content']) . $contactText;
                     $templatedata['employee_id'] = $loggedInUserId;
                     $templatedata['client_id'] = config('global.client_id');
@@ -1155,13 +1126,13 @@ Regards,<br>
                         $input['subject'],
                         ""
                     );
+                   
                     $result = CommonFunctions::templateData($templatedata);
                     $msg = 'Remark inserted successfully';
                     $input['remarks'] = strip_tags($input['email_content']) . " " . $reassignEnq;
                 }
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-//                if (!empty($input['editExistingFollowup']))
                 $editExistingFollowup = $input['editExistingFollowup'];
                 unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
@@ -1188,6 +1159,7 @@ Regards,<br>
         }
         return response()->json($result);
     }
+
     /* public function getTodayRemark() {
       try {
       $postdata = file_get_contents("php://input");
@@ -1233,87 +1205,87 @@ Regards,<br>
       return response()->json($result);
       } */
 
-    /*public function insertTodayRemark() {
-        try {
-            $postdata = file_get_contents("php://input");
-            $request = json_decode($postdata, true);
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-            $input = $request['data'];
-            $enquiryId = $input['enquiry_id'];
-            $followupId = $input['followupId'];
-            $customerId = $input['customerId'];
-            if (!empty($input['title_id']) && !empty($input['first_name']) && !empty($input['last_name'])) {
-                $titleId = $input['title_id'];
-                $firstName = $input['first_name'];
-                $lastName = $input['last_name'];
-            }
-            if (!empty($input['source_id']) && !empty($input['subsource_id']) && !empty($input['source_description'])) {
-                $sourceId = $input['source_id'];
-                $subSourceId = $input['subsource_id'];
-                $sourceDescription = $input['source_description'];
-            }
+    /* public function insertTodayRemark() {
+      try {
+      $postdata = file_get_contents("php://input");
+      $request = json_decode($postdata, true);
+      $loggedInUserId = Auth::guard('admin')->user()->id;
+      $input = $request['data'];
+      $enquiryId = $input['enquiry_id'];
+      $followupId = $input['followupId'];
+      $customerId = $input['customerId'];
+      if (!empty($input['title_id']) && !empty($input['first_name']) && !empty($input['last_name'])) {
+      $titleId = $input['title_id'];
+      $firstName = $input['first_name'];
+      $lastName = $input['last_name'];
+      }
+      if (!empty($input['source_id']) && !empty($input['subsource_id']) && !empty($input['source_description'])) {
+      $sourceId = $input['source_id'];
+      $subSourceId = $input['subsource_id'];
+      $sourceDescription = $input['source_description'];
+      }
 
-            if (!empty($input)) {
-                $todayDate = date('Y-m-d H:i:s');
-                EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDate]);
-                $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
-                $input['next_followup_time'] = date('H:i:s', strtotime($input['next_followup_time']));
-                $input['actual_followup_date_time'] = "0000-00-00 00:00:00";
-                if ($input['textRemark'] !== '') {
-                    $input['remarks'] = $input['textRemark'];
-                    $msg = 'Remark inserted successfully';
-                } else if ($input['msgRemark'] !== '') {
-                    $input['remarks'] = $input['msgRemark'];
+      if (!empty($input)) {
+      $todayDate = date('Y-m-d H:i:s');
+      EnquiryFollowup::where('id', $followupId)->update(["actual_followup_date_time" => $todayDate]);
+      $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
+      $input['next_followup_time'] = date('H:i:s', strtotime($input['next_followup_time']));
+      $input['actual_followup_date_time'] = "0000-00-00 00:00:00";
+      if ($input['textRemark'] !== '') {
+      $input['remarks'] = $input['textRemark'];
+      $msg = 'Remark inserted successfully';
+      } else if ($input['msgRemark'] !== '') {
+      $input['remarks'] = $input['msgRemark'];
 
-                    $implodeMobileNo = implode(",", $input['mobileNumber']);
-                    $mobileNo = $implodeMobileNo;
-                    $customer = "No";
-                    $isInternational = 0; //0 OR 1
-                    $sendingType = 0; //always 0 for T_SMS
-                    $smsType = "T_SMS";
-                    $smsBody = $input['msgRemark'];
-                    $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational, $sendingType, $smsType);
-                    $decodeResult = json_decode($result, true);
-                    $msg = $decodeResult["message"];
-                } else {
-                    $input['remarks'] = $input['email_content'];
-                    $implodeEmailId = implode(",", $input['email_id_arr']);
-                    $userName = "support@edynamics.co.in";
-                    $password = "edsupport@2016#";
-                    $mailBody = $input['email_content'];
-                    $companyName = config('global.companyName');
-                    $subject = $input['subject'];
-                    $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => $implodeEmailId, "cc" => ""];
-                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-                    if ($sentSuccessfully)
-                        $msg = "Email sent successfully";
-                    else {
-                        $msg = "Email not sent successfully";
-                    }
-                }
-                unset($input['followupId'], $input['customerId'], $input['title_id'], $input['first_name'], $input['last_name'], $input['source_id'], $input['subsource_id'], $input['source_description'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject']);
+      $implodeMobileNo = implode(",", $input['mobileNumber']);
+      $mobileNo = $implodeMobileNo;
+      $customer = "No";
+      $isInternational = 0; //0 OR 1
+      $sendingType = 0; //always 0 for T_SMS
+      $smsType = "T_SMS";
+      $smsBody = $input['msgRemark'];
+      $result = Gupshup::sendSMS($smsBody, $mobileNo, $loggedInUserId, $customer, $customerId, $isInternational, $sendingType, $smsType);
+      $decodeResult = json_decode($result, true);
+      $msg = $decodeResult["message"];
+      } else {
+      $input['remarks'] = $input['email_content'];
+      $implodeEmailId = implode(",", $input['email_id_arr']);
+      $userName = "support@edynamics.co.in";
+      $password = "edsupport@2016#";
+      $mailBody = $input['email_content'];
+      $companyName = config('global.companyName');
+      $subject = $input['subject'];
+      $data = ['mailBody' => $mailBody, "fromEmail" => "support@edynamics.co.in", "fromName" => $companyName, "subject" => $subject, "to" => $implodeEmailId, "cc" => ""];
+      $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
+      if ($sentSuccessfully)
+      $msg = "Email sent successfully";
+      else {
+      $msg = "Email not sent successfully";
+      }
+      }
+      unset($input['followupId'], $input['customerId'], $input['title_id'], $input['first_name'], $input['last_name'], $input['source_id'], $input['subsource_id'], $input['source_description'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject']);
 
-                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                $input = array_merge($input, $create);
-                $insertFollowup = EnquiryFollowup::create($input);
-            }
-            if (!empty($request['custInfo'])) {
-                Customer::where('id', $customerId)->update(["title_id" => $titleId, "first_name" => $firstName, "last_name" => $lastName]);
-            }
-            if (!empty($request['sourceInfo'])) {
-                Customer::where('id', $customerId)->update(["source_id" => $sourceId, "subsource_id" => $subSourceId, "source_description" => $sourceDescription]);
-                Enquiry::where('id', $enquiryId)->update(["sales_source_id" => $sourceId, "sales_subsource_id" => $subSourceId, "sales_source_description" => $sourceDescription]);
-            }
-            if ($insertFollowup) {
-                $result = ['success' => true, 'message' => $msg];
-            } else {
-                $result = ['success' => false, 'message' => 'Remark not inserted'];
-            }
-        } catch (Exception $ex) {
-            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-        }
-        return response()->json($result);
-    }*/
+      $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+      $input = array_merge($input, $create);
+      $insertFollowup = EnquiryFollowup::create($input);
+      }
+      if (!empty($request['custInfo'])) {
+      Customer::where('id', $customerId)->update(["title_id" => $titleId, "first_name" => $firstName, "last_name" => $lastName]);
+      }
+      if (!empty($request['sourceInfo'])) {
+      Customer::where('id', $customerId)->update(["source_id" => $sourceId, "subsource_id" => $subSourceId, "source_description" => $sourceDescription]);
+      Enquiry::where('id', $enquiryId)->update(["sales_source_id" => $sourceId, "sales_subsource_id" => $subSourceId, "sales_source_description" => $sourceDescription]);
+      }
+      if ($insertFollowup) {
+      $result = ['success' => true, 'message' => $msg];
+      } else {
+      $result = ['success' => false, 'message' => 'Remark not inserted'];
+      }
+      } catch (Exception $ex) {
+      $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+      }
+      return response()->json($result);
+      } */
 
     public function filteredData() {
         $postdata = file_get_contents("php://input");
@@ -2891,7 +2863,7 @@ Regards,<br>
             //print_r($request['enquiry_id']);exit;
             $ressigndate = date('d-m-Y');
             $ressigntime = date('H:i:s');
-                
+
             if (!empty($request)) {
                 $employee_id = $request['employee_id'];
                 $ressignEmpData = \App\Models\backend\Employee::with('designationName')->select('first_name', 'last_name', 'designation_id')->where('id', $employee_id)->first();
@@ -2913,7 +2885,7 @@ Regards,<br>
 
                 if ($updateEnq > 0) {
                     foreach ($request['enquiry_id'] as $key => $val) {
-                        
+
                         $followupData = EnquiryFollowup::select('*')->where('enquiry_id', $val)->orderBy('id', 'DESC')->limit(1)->get();
                         // -------update previous Follow up  actual followup date time by current time
                         $updatedActualFollowup['actual_followup_date_time'] = $date;
@@ -2942,7 +2914,7 @@ Regards,<br>
                         $insertFollowupDetails = EnquiryFollowup::create($insertFollowupData);
                     }
                 }
-            }            
+            }
             // template 
             $templatedata['employee_id'] = $request['employee_id'];
             $templatedata['client_id'] = config('global.client_id');
@@ -2962,13 +2934,48 @@ Regards,<br>
                 $ressigndate,
                 $ressigntime,
             );
-           // $Templateresult = CommonFunctions::templateData($templatedata);
-            
+            // $Templateresult = CommonFunctions::templateData($templatedata);
+
             $result = ["success" => true, "message" => 'Enquiries Reassigned Successfully..'];
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-        }        
+        }
         return response()->json($result);
     }
 
+    public function sendDocuments() {
+        try {
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            $query = DB::select('select c.first_name as customer_fname,c.last_name as customer_lname,ed.project_id,title,c.title_id,(SELECT GROUP_CONCAT(distinct cc.mobile_number) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_mobile_no,(SELECT GROUP_CONCAT(distinct cc.email_id) FROM 
+                    `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_email_id,(SELECT GROUP_CONCAT(cc.area_name) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_area_name, 
+                    (SELECT GROUP_CONCAT(cc.house_number," ",cc.building_house_name," ",cc.wing_name," ",cc.area_name," ",cc.lane_name," ",cc.landmark,cc.pin) FROM `customers_contacts`as cc WHERE c.`id` = cc.customer_id limit 1) AS customer_address
+                    from `enquiries` as `enq` LEFT JOIN `enquiry_details` as `ed` on `ed`.`enquiry_id` = `enq`.`id` LEFT JOIN `customers` as c ON c.id = enq.customer_id  LEFT JOIN laravel_developement_master_edynamics.`mlst_titles` as mt ON mt.id = c.title_id
+                    WHERE `enq`.`id` ="'.$request['enquiryId'].'" ');
+            $result =  ["success" => true, "records" => $query[0]];
+        } catch (\Exception $ex) {
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+        return response()->json($result);
+    }
+
+    public function getDocumentsList()
+    {
+        try{
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            $list = ProjectWebPage::where('id',$request['projectId'])->select('location_map_images','floor_plan_images','layout_plan_images','floor_plan_images','project_brochure','specification_images','amenities_images','video_link')->get();
+            //echo"<pre>";print_r($list);exit;
+            if(count($list) > 0)
+            {
+                $result =  ["success" => true, "records" => $list];
+            }
+            else{
+                $result =  ["success" => false, "message" => "No records in project web page"];
+            }            
+        } catch (\Exception $ex) {
+             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+         return response()->json($result);
+    }
 }
