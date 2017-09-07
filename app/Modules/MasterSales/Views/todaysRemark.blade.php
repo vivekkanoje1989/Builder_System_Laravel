@@ -1,11 +1,4 @@
 <style>
-    .toggleClassActive{
-        font-size: 40px !important;
-        cursor: pointer;
-        color: #5cb85c !important;
-        vertical-align: middle;
-        margin-left: 5px;
-    }
     .imgcls{
         width:40px;
         border-radius: 50%;
@@ -117,17 +110,20 @@
         background: #ccc;
         color:#fff;
     }
+    .dropdown-menu{
+        top: -254px !important;
+    }
     /*******************Company END**********************/
    
     .main-container1 {
-/*        position: relative;
-        overflow-y: hidden;*/
+        position: relative;
+        overflow: hidden;
     }
     .main-container1 > .content1 {
         width: 100%;
-        /*position: absolute;*/
+        position: absolute;
         height: 320px;
-        /*bottom: -265px;*/
+        bottom: -265px;
         left: 0;
         right: 0;
         z-index: 101;
@@ -137,9 +133,9 @@
     }
     .main-container1 > .content2 {
         width: 100%;
-        /*position: absolute;*/
+        position: absolute;
         height: 490px;
-        /*bottom: -432px;*/
+        bottom: -432px;
         left: 0;
         right: 0;
         z-index: 101;
@@ -151,6 +147,9 @@
         bottom: 0px;
         transition: all ease 1s;
     }
+    
+    .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;}
+    .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;}
 </style>
 
 <div class="modal-body">
@@ -548,7 +547,7 @@
                                             </div>
                                         </div> 
                                     </tab>
-                                    <tab heading="Collection Details" ng-click="checkAmount(collectionData.total_recievable_amount1)" disabled="!collectedTab" id="collectedTab">
+<!--                                    <tab heading="Collection Details" ng-click="checkAmount(collectionData.total_recievable_amount1)" disabled="!collectedTab" id="collectedTab">
                                         <div class="row">
                                             <div class="col-sm-6">
                                                 <div class="form-group" ng-class="{ 'has-error' : collectionBtn && (!remarkForm.total_recievable_amount1.$dirty && remarkForm.total_recievable_amount1.$invalid)}">
@@ -565,7 +564,7 @@
                                             </div>
                                         </div> 
                                         <div class="row">
-                                            <!--<div class="col-sm-3" ng-controller="collectionStagesCtrl">-->
+                                            <div class="col-sm-3" ng-controller="collectionStagesCtrl">
                                             <div class="col-sm-3" >
                                                 <div class="form-group" ng-class="{ 'has-error' : (collectionBtn && !funcalled) && (!remarkForm.collection_stage_id1.$dirty || remarkForm.collection_stage_id1.$invalid)}">
                                                     <label for="">Collection Stage<span class="sp-err">*</span></label>
@@ -823,7 +822,7 @@
                                                 </span>
                                             </div>
                                         </div> 
-                                    </tab>
+                                    </tab>-->
                                 </tabset>
 
                                 <div ng-if="remarkData.sales_status_id != 3"><br><br><br></div>
@@ -862,14 +861,14 @@
                                                         <div class="col-sm-12">                       
                                                             <div class="col-sm-6">
                                                                 <div class="form-group" style="float: left;margin-right: 30px;">
-                                                                    <label for="">SMS Privacy Status</label>
-                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
-                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
+                                                                    <label for="">SMS Privacy Status</label>    
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="remarkData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="remarkData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
                                                                 </div>
                                                                 <div class="form-group" style="float: left;">
                                                                     <label for="">Email Privacy Status</label>
-                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
-                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-show="remarkData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-show="remarkData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
@@ -918,13 +917,13 @@
                                                             <div class="col-sm-6">
                                                                 <div class="form-group" style="float: left;margin-right: 30px;">
                                                                     <label for="">SMS Privacy Status</label>
-                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
-                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="remarkData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="remarkData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
                                                                 </div>
                                                                 <div class="form-group" style="float: left;">
                                                                     <label for="">Email Privacy Status</label>
-                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
-                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="remarkData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="remarkData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
@@ -994,13 +993,13 @@
                                                             <div class="col-sm-6">
                                                                 <div class="form-group" style="float: left;margin-right: 30px;">
                                                                     <label for="">SMS Privacy Status</label>
-                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
-                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="remarkData.sms_privacy_status === 1" ng-click="changeSmsPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="remarkData.sms_privacy_status === 0" ng-click="changeSmsPrivacyStatus(1);"></span>
                                                                 </div>
                                                                 <div class="form-group" style="float: left;">
                                                                     <label for="">Email Privacy Status</label>
-                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="customerData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
-                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="customerData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive" ng-if="remarkData.email_privacy_status === 1" ng-click="changeEmailPrivacyStatus(0);"></span>
+                                                                    <span class="fa fa-toggle-on toggleClassActive fa-rotate-180 toggleClassInactive" ng-if="remarkData.email_privacy_status === 0" ng-click="changeEmailPrivacyStatus(1);"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">

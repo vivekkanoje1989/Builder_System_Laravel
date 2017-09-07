@@ -12,8 +12,6 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
         $scope.blockTypeList = [];
         $scope.contacts = [];
         $scope.enqType = '';
-        $scope.customerData.sms_privacy_status = 1;
-        $scope.customerData.email_privacy_status = 1;
         $scope.errMobile = '';
         $scope.customerData.sms_privacy_status = $scope.customerData.email_privacy_status = 1;
         resetContactDetails();

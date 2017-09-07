@@ -343,13 +343,15 @@ class AdminController extends Controller {
         $getCompanyList = MlstBmsbCompany::select('id','company_name')->get();
         $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id','reason')->where('lost_reason_status',1)->orderBy('id')->get();
         $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id','enquiry_lost_reason_id','sub_reason')->where(['status'=>1])->get();
+        $projectWingList = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->get();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource,
                 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation, 'states' => $getStates,
                 "blocks" => $blockTypeList, "projects" => $projectList, 'subblocks' => $subBlocksList, 'agencyList' => $enquiryFinanceTieup,
                 'enquiryLocation' => $getEnquiryLocation, 'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
-                'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList,"getCompanyList"=>$getCompanyList,"getLostReasons"=>$getSalesLostReason,"getLostSubReasons"=>$getSalesLostSubReason];
+                'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList,"getCompanyList"=>$getCompanyList,
+                "getLostReasons"=>$getSalesLostReason,"getLostSubReasons"=>$getSalesLostSubReason,"projectWingList" => $projectWingList];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

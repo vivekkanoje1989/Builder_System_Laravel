@@ -2,13 +2,12 @@
 
 /**
  * Created by Reliese Model.
- * Date: Mon, 06 Feb 2017 10:46:09 +0000.
+ * Date: Thu, 07 Sep 2017 09:27:39 +0530.
  */
 
 namespace App\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
-use App\Classes\CommonFunctions;
 
 /**
  * Class CtSetting
@@ -16,7 +15,11 @@ use App\Classes\CommonFunctions;
  * @property int $id
  * @property int $ct_billing_settings_id
  * @property int $client_id
- * @property int $virtual_display_number
+ * @property string $virtual_display_number
+ * @property int $editing_status
+ * @property string $forwarding_number_knowlarity
+ * @property string $forwarding_number_relience
+ * @property int $forwarding_operator
  * @property bool $default_number
  * @property bool $menu_status
  * @property int $ivr_type_id
@@ -46,7 +49,6 @@ use App\Classes\CommonFunctions;
  * @property bool $lost_enquiry_other_emp_action
  * @property bool $read_cust_name
  * @property bool $read_emp_name
-
  * @property int $nwh_status
  * @property \Carbon\Carbon $nwh_start_time
  * @property \Carbon\Carbon $nwh_end_time
@@ -58,12 +60,26 @@ use App\Classes\CommonFunctions;
  * @property bool $msc_facility_status
  * @property int $msc_welcome_tune_type_id
  * @property string $msc_welcome_tune
- * @property int $created_by
- * @property \Carbon\Carbon $created_date
- * @property int $updated_by
- * @property \Carbon\Carbon $updated_date
  * @property bool $inbound_call_status
  * @property bool $outbound_call_status
+ * @property \Carbon\Carbon $created_date
+ * @property \Carbon\Carbon $created_at
+ * @property int $created_by
+ * @property string $created_IP
+ * @property string $created_browser
+ * @property string $created_mac_id
+ * @property \Carbon\Carbon $updated_date
+ * @property \Carbon\Carbon $updated_at
+ * @property int $updated_by
+ * @property string $updated_IP
+ * @property string $updated_browser
+ * @property string $updated_mac_id
+ * @property int $deleted_status
+ * @property \Carbon\Carbon $deleted_date
+ * @property int $deleted_by
+ * @property int $deleted_IP
+ * @property int $deleted_browser
+ * @property int $deleted_mac_id
  *
  * @package App\Models
  */
@@ -192,7 +208,6 @@ class CtSetting extends Eloquent {
 
     public static function updateStep1($input = array()) {
 
-
         if (empty($input['set_to_all_welcome_tone'])) {
             $input['set_to_all_welcome_tone'] = false;
         }
@@ -200,11 +215,8 @@ class CtSetting extends Eloquent {
             $input['set_to_all_hold_tone'] = false;
         }
 
-
         if (empty($input['default_number']))
             $input['default_number'] = 0;
-
-
 
         if ($input['menu_status'] == 0)
             $input['ivr_type_id'] = 1;
@@ -216,7 +228,7 @@ class CtSetting extends Eloquent {
 
         if (empty($input['project_id']))
             $input['project_id'] = 0;
-        
+
         if (empty($input['block_id']))
             $input['block_id'] = 0;
 
@@ -404,4 +416,5 @@ class CtSetting extends Eloquent {
     public function subsourceName() {
         return $this->belongsTo('App\Models\EnquirySalesSubsource', 'sub_source_id'); //(customer model name, primary of customer model) 
     }
+
 }

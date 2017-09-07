@@ -1,4 +1,6 @@
-<?php namespace App\Classes;
+<?php
+
+namespace App\Classes;
 
 use DB;
 use Auth;
@@ -59,7 +61,7 @@ class CommonFunctions {
         $data = \Location::get("175.100.138.136");
         $otherInfoArray = "Country:$data->countryName,State:$data->regionName,City:$data->cityName,Latitude:$data->latitude,Logitude:$data->longitude";
         $otherInfo = iconv('UTF-8', 'ISO-8859-1//TRANSLIT//IGNORE', $otherInfoArray);
-        DB::select('CALL employees_login_logs(' . $empId . ',"' . $mobile . '","' . $password . '","' . $loginDateTime . '",' . $loginStatus . ',' . $loginFailureReason . ','.$platformType.',"' . $loginIP . '","' . $loginBrowser . '","' . $loginMacId . '","' . $otherInfo . '")');
+        DB::select('CALL employees_login_logs(' . $empId . ',"' . $mobile . '","' . $password . '","' . $loginDateTime . '",' . $loginStatus . ',' . $loginFailureReason . ',' . $platformType . ',"' . $loginIP . '","' . $loginBrowser . '","' . $loginMacId . '","' . $otherInfo . '")');
     }
 
     public static function insertMainTableRecords($loggedInUserId) {
@@ -73,10 +75,10 @@ class CommonFunctions {
         $create = ['updated_date' => date('Y-m-d'), 'updated_by' => $loggedInUserId, 'updated_IP' => $_SERVER['REMOTE_ADDR'], 'updated_browser' => $_SERVER['HTTP_USER_AGENT'], 'updated_mac_id' => $getMacAddress];
         return $create;
     }
-    
+
     public static function deleteMainTableRecords($loggedInUserId) {
         $getMacAddress = CommonFunctions::getMacAddress();
-        $create = ['deleted_status'=> '1','deleted_date' => date('Y-m-d'), 'deleted_by' => $loggedInUserId, 'deleted_IP' => $_SERVER['REMOTE_ADDR'], 'deleted_browser' => $_SERVER['HTTP_USER_AGENT'], 'deleted_mac_id' => $getMacAddress];
+        $create = ['deleted_status' => '1', 'deleted_date' => date('Y-m-d'), 'deleted_by' => $loggedInUserId, 'deleted_IP' => $_SERVER['REMOTE_ADDR'], 'deleted_browser' => $_SERVER['HTTP_USER_AGENT'], 'deleted_mac_id' => $getMacAddress];
         return $create;
     }
 
@@ -89,79 +91,63 @@ class CommonFunctions {
     }
 
     public static function sendMail($userName, $password, $data) {
-       
-//        try {            
-//            config(['mail.username' => $userName, 'mail.password' => $password]);
-//            $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
-//                        $message->from($data['fromEmail'], $data['fromName']);
-//                        $message->subject($data['subject']);
-//                        $message->to($data['to'])->cc($data['cc']);
-//                    });                 
-//            if (count(Mail::failures()) <= 0) {
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        } catch (\Exception $ex) {
-//            return false;
-//        }
-        
         try {
             config(['mail.username' => $userName, 'mail.password' => $password]);
+            $to = explode(",", $data['to']);
             if (!empty($data['attachment'])) {
                 if (!empty($data['cc']) && !empty($data['bcc'])) {
-                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
+                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject']);
-                                $message->to($data['to'])->cc($data['cc'])->bcc($data['bcc'])->attach($data['attachment']);
+                                $message->to($to)->cc($data['cc'])->bcc($data['bcc'])->attach($data['attachment']);
                             });
                 } elseif (!empty($data['bcc'])) {
-                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
+                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject']);
-                                $message->to($data['to'])->bcc($data['bcc'])->attach($data['attachment']);
+                                $message->to($to)->bcc($data['bcc'])->attach($data['attachment']);
                             });
                 } elseif (!empty($data['cc'])) {
-                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
+                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject']);
-                                $message->to($data['to'])->cc($data['cc'])->attach($data['attachment']);
+                                $message->to($to)->cc($data['cc'])->attach($data['attachment']);
                             });
                 } else {
-                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
+                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject'])->attach($data['attachment']);
-                                $message->to($data['to']);
+                                $message->to($to);
                             });
                 }
             } else {
                 if (!empty($data['cc']) && !empty($data['bcc'])) {
-                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
+                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject']);
-                                $message->to($data['to'])->cc($data['cc'])->bcc($data['bcc']);
+                                $message->to($to)->cc($data['cc'])->bcc($data['bcc']);
                             });
                 } elseif (!empty($data['bcc'])) {
-                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
+                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject']);
-                                $message->to($data['to'])->bcc($data['bcc']);
+                                $message->to($to)->bcc($data['bcc']);
                             });
                 } elseif (!empty($data['cc'])) {
-                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
+                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject']);
-                                $message->to($data['to'])->cc($data['cc']);
+                                $message->to($to)->cc($data['cc']);
                             });
                 } else {
-                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data) {
+                    $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject']);
-                                $message->to($data['to']);
+                                $message->to($to);
                             });
                 }
             }
-             if (count(Mail::failures()) <= 0) {
+            if (count(Mail::failures()) <= 0) {
                 return true;
             } else {
                 return false;
@@ -170,19 +156,15 @@ class CommonFunctions {
             return false;
         }
     }
-    
-    
-    
+
     public static function templateData($alertdata) {
         $customer_id = $alertdata['customer_id'];
         $employee_id = $alertdata['employee_id'];
         $client_id = $alertdata['client_id'];
-        if(!empty($alertdata['project_id']) && $alertdata['project_id'] <> 0)
-        {
+        if (!empty($alertdata['project_id']) && $alertdata['project_id'] <> 0) {
             $project_id = $alertdata['project_id'];
-        }
-        else {
-           $project_id = 0;  
+        } else {
+            $project_id = 0;
         }
         if (!empty($alertdata['obj_inbound'])) {
             $obj_inbound = $alertdata['obj_inbound'];
@@ -204,7 +186,7 @@ class CommonFunctions {
         else
             $emp_attachedfile = "";
 
-       // $model_id = $alertdata['project_id'];
+        // $model_id = $alertdata['project_id'];
         $car_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/car.png";
         $loc_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/loc2.png";
 
@@ -220,8 +202,8 @@ class CommonFunctions {
                 }
             }
         }
-        
-        
+
+
         if (!empty($template_customer)) {
             $cust_email_subject = $template_customer->email_subject;
             $cust_emailTemplate = $template_customer->email_body;
@@ -244,7 +226,7 @@ class CommonFunctions {
                 }
             }
         }
-       
+
         if (!empty($template_employee)) {
             $emp_email_subject = $template_employee->email_subject;
             $emp_emailTemplate = $template_employee->email_body;
@@ -267,19 +249,14 @@ class CommonFunctions {
         else if ($h >= 04 and $h < 12 and $a == 'PM')
             $greeting_msg = "Good Evening";
 
-
-        //  if (!empty($client_id > 0)) {
         // ----------- Replace Company and brand tags --------------//
         $client = \App\Models\ClientInfo::where('id', $client_id)->first();
-        //  print_r($client);
-        //$brand = \App\Models\MlstBmsbProjectType::where('id', $client->project_id)->first();
+
         $companyMarketingName = $companyGoogleMap = $companyAddress = $companyLogo = $brandColor = $brandName = $brandlogo = $displayImage = $employeeName = $employeeMobile = $employeeEmail = $mobile_number = $customerEmail = $customerName = " ";
-//        if (empty($brand->brand_logo))
-//            $brandlogo = config('global.s3Path') . '/brand_logo/' . $brand->brand_logo;         
+
         if (!empty($project_id) && $project_id <> 0) {
-        //    $model_data = \App\Models\MlstLmsaModel::where('id', $project_id)->first();
             $project_data = \App\Modules\Projects\Models\Project::where('id', $project_id)->first();
-            $project_details = \App\Modules\Projects\Models\ProjectWebPage::where('project_id', $project_id)->first();            
+            $project_details = \App\Modules\Projects\Models\ProjectWebPage::where('project_id', $project_id)->first();
         } else {
             //$model_data = \App\Models\MlstLmsaModel::where('brand_id', $client->brand_id)->orderBy('id', 'DESC')->first();            
         }
@@ -292,7 +269,7 @@ class CommonFunctions {
             $displayImage = config('global.s3Path') . '/project_images/' . $project_details->project_logo;
             $projectLogo = $project_details->project_logo;
         }
-        if (!empty($client->company_logo))            
+        if (!empty($client->company_logo))
             $companyLogo = config('global.s3Path') . '/client/' . $client_id . '/' . $client->company_logo;
         if (!empty($client->marketing_name))
             $companyMarketingName = ucwords($client->marketing_name);
@@ -304,13 +281,8 @@ class CommonFunctions {
             $companyAddress .= $client->pin_code;
         $brandColor = '#054449';
 
-//        if (!empty($brand->brand_color))
-            
-        // echo 'color->'.$brand->color;exit;
-//        if (!empty($brand->brand_name))
-//            $brandName = $brand->brand_name;
-        $search = array('[#companyMarketingName#]', '[#companyGoogleMap#]', '[#companyAddress#]', '[#companyLogo#]', '[#displayImage#]','[#brandColor#]', '[#projectLogo#]','[#projectName#]', '[#greeting#]','[#locimg#]', '[#vehicleimg#]', '[#lmsAuto#]');
-        $replace = array($companyMarketingName, '', $companyAddress, $companyLogo, $displayImage, $brandColor,$projectLogo, $projectName, $greeting_msg, $loc_image, $car_image, 'BMS Builder');
+        $search = array('[#companyMarketingName#]', '[#companyGoogleMap#]', '[#companyAddress#]', '[#companyLogo#]', '[#displayImage#]', '[#brandColor#]', '[#projectLogo#]', '[#projectName#]', '[#greeting#]', '[#locimg#]', '[#vehicleimg#]', '[#lmsAuto#]');
+        $replace = array($companyMarketingName, '', $companyAddress, $companyLogo, $displayImage, $brandColor, $projectLogo, $projectName, $greeting_msg, $loc_image, $car_image, 'BMS Builder');
         if (!empty($template_employee)) {
             $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
             $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate);
@@ -380,10 +352,10 @@ class CommonFunctions {
             } else if (!empty($employee->personal_email1)) {
                 $emp_email = $employee->personal_email1;
             }
-            
+
             $search = array('[#employeeName#]', '[#employeeMobile#]', '[#employeeEmail#]');
             $replace = array($employeeName, $employeeMobile, $emp_email);
-             if (!empty($template_employee)) {
+            if (!empty($template_employee)) {
                 $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
                 $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
                 $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
@@ -394,7 +366,7 @@ class CommonFunctions {
                 $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
             }
         }
-        
+
         if ($customer_id > 0) {
 
             $customer_contact = \App\Models\CustomersContact::where('customer_id', $customer_id)->first();
@@ -458,18 +430,18 @@ class CommonFunctions {
                 $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
             }
         }
-        //echo $employee_id.'here'.$cust_emailTemplate; exit;
+        
         $emailConfig = EmailConfiguration::where('id', $email_from_id)->first();
         $isInternational = 0; //0 OR 1
         $sendingType = 1; //always 0 for T_SMS
         $smsType = "T_SMS";
-        if(!empty($emailConfig->email)){
+        if (!empty($emailConfig->email)) {
             $userName = $emailConfig->email; //$emailConfig->email;
-        $password = $emailConfig->password;  //$emailConfig->password;
-        }else{
+            $password = $emailConfig->password;  //$emailConfig->password;
+        } else {
             $userName = '';
             $password = '';
-        }        
+        }
         $companyName = $client->marketing_name;
         if (!empty($customer_id > 0)) {
             if (!empty($template_settings_customer)) {
@@ -477,7 +449,7 @@ class CommonFunctions {
                     $subject = $cust_email_subject;
                     if (!empty($subject)) {
                         $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile];
-                        //print_r(array('mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile));exit;
+//                        print_r(array('mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile));exit;
                         $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
                     }
                 }
@@ -485,21 +457,21 @@ class CommonFunctions {
                     $mobile = $customer_mobile_number;
                     $customer = "Yes";
                     $customerId = $customer_contact->customer_id;
-                   // $result = Gupshup::sendSMS($cust_smsTemplate, $customer_mobile_to, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
+                    $result = Gupshup::sendSMS($cust_smsTemplate, $customer_mobile_to, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
                 }
             }
         }
-        
+
         if (!empty($employee_id > 0)) {
             if (!empty($alertdata['emp_cc']) && !empty($template_employee->email_cc_ids)) {
                 $template_employee->email_cc_ids = $template_employee->email_cc_ids . ',' . $alertdata['emp_cc'];
             } elseif (empty($template_employee->email_cc_ids) && !empty($alertdata['emp_cc'])) {
                 $template_employee->email_cc_ids = $alertdata['emp_cc'];
             }
-             if (!empty($template_settings_employee)) {
+            if (!empty($template_settings_employee)) {
                 if ($template_settings_employee->email_status == 1 || !empty($alertdata['email_status'])) {
                     $subject = $emp_email_subject;
-                    $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids, "attachment" => $emp_attachedfile];                    
+                    $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids, "attachment" => $emp_attachedfile];
                     $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
                 }
                 if ($template_settings_employee->sms_status == 1 || !empty($alertdata['sms_status'])) {
@@ -510,558 +482,10 @@ class CommonFunctions {
                     }
                     $customer = "No";
                     $customerId = 0;
-                    //$result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);             
-                    }
+                    $result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);             
+                }
             }
         }
         return true;
     }
-
-    
-    
-    
-/*
-    public static function templateData($alertdata) {
-        $customer_id = $alertdata['customer_id'];
-        $employee_id = $alertdata['employee_id'];
-        $client_id = $alertdata['client_id'];
-        $arrExtra = $alertdata['arrExtra'];
-        $eventid_customer = !empty($alertdata['event_id_customer']) ? $alertdata['event_id_customer'] : "0";
-        $eventid_employee = !empty($alertdata['event_id_employee']) ? $alertdata['event_id_employee'] : "0";
-		if(!empty($alertdata['cust_attached_file']))
-			$cust_attachedfile = $alertdata['cust_attached_file'];
-	   else
-		   $cust_attachedfile = "";
-		if(!empty($alertdata['emp_attached_file']))
-			$emp_attachedfile = $alertdata['emp_attached_file'];
-	   else
-		   $emp_attachedfile = "";
-		   
-        //$model_id = $alertdata['model_id'];
-        $car_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/car.png";
-        $loc_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/loc2.png";
-       
-        if (!empty($customer_id > 0)) {
-            $template_settings_customer = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_customer, 'template_for' => 1])->first();
-            if (!empty($template_settings_customer)) {
-                if ($template_settings_customer->template_type == 0) {
-                    $template_customer = TemplatesDefault::where(['templates_event_id' => $eventid_customer, 'template_for' => 1])->first();
-                } else {
-                    $template_customer = TemplatesCustom::where(['client_id' => $client_id, 'template_event_id' => $eventid_customer])->first();
-                }
-            }
-        }
-        
-        //employee  
-        if (!empty($employee_id > 0)) {
-            $template_settings_employee = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
-             
-            if (!empty($template_settings_employee)) {
-                $template_employee = MlstBmsbTemplatesDefaults::where(['templates_event_id' => $eventid_employee, 'template_for' => 0])->first();
-            }
-        }
-       
-        $email_from_id = "";
-        if (!empty($template_employee)) {
-            $emp_emailTemplate = $template_employee->email_body;
-            $emp_smsTemplate = $template_employee->sms_body;
-
-            $email_from_id = $template_settings_employee->from_mail_id;
-        } else {
-            $emp_emailTemplate = "";
-            $emp_smsTemplate = "";
-        }
-        
-        if (!empty($template_customer)) {
-            $cust_emailTemplate = $template_customer->email_body;
-            $cust_smsTemplate = $template_customer->sms_body;
-            $email_from_id = $template_settings_customer->from_mail_id;
-        } else {
-            $cust_emailTemplate = "";
-            $cust_smsTemplate = "";
-        }
-        date_default_timezone_set('Asia/Kolkata');
-        $h = date('h');
-        $a = date('A');
-        if ($h >= 05 and $h < 12 and $a == 'AM')
-            $greeting_msg = "Good Morning";
-        else if (( $h == 12 || $h < 04 ) and $a == 'PM')
-            $greeting_msg = "Good Afternoon";
-        else if ($h >= 04 and $h < 10 and $a == 'PM')
-            $greeting_msg = "Good Evening";
-        else
-            $greeting_msg = '';
-
-        if (!empty($client_id > 0)) {
-
-            $client = \App\Models\ClientInfo::where('id', $client_id)->first();
-            $brand = Project::where('id', $client->project_id)->first();
-            $brandlogo = 'https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/hr/employee-photos/1492516782.jpg';
-//            $model_data = \App\Models\MlstLmsaModel::where('id', $model_id)->first();
-//            if (empty($model_data)) {
-//                $model_name = "";
-//            } else {
-//                $model_name = $model_data->model_name;
-//            }
-            $logo = $client->company_logo;
-
-            $search = array('[#companyMktName#]', '[#showroomGoogleMap#]', '[#companyAddress#]', '[#companyLogo#]', '[#brandLogo#]', '[#brandName#]', '[#greeting#]', '[#modelName#]', '[#locimg#]', '[#vehicleimg#]');
-
-            $replace = array(ucwords($client->marketing_name), '', $client->address, $logo, $brandlogo, $brand->project_name, $greeting_msg, $loc_image, $car_image);
-            if (!empty($template_employee)) {
-                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
-                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
-            }
-            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
-            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
-        }
-
-        if ($employee_id > 0) {
-            $employee = Employee::where('id','=', $employee_id)->first();
-            if (empty($employee->office_email_id)) {
-                $emp_email = $employee->personal_email1;
-            } else {
-                $emp_email = $employee->office_email_id;
-            }
-
-            $search = array('[#employeeName#]', '[#employeeMobile#]', '[#employeeEmail#]');
-
-            $replace = array(ucwords($employee->first_name . ' ' . $employee->last_name), $employee->username, $emp_email);
-            if (!empty($template_employee)) {
-                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
-                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
-            }
-            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
-            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
-        }
-
-        if ($customer_id > 0) {
-            $customer_contact = \App\Models\CustomersContact::where('customer_id', $customer_id)->first();
-
-            $customer_data =Customer::where('id', $customer_id)->first();
-			//echo '<pre>';print_r($customer_data);print_r($customer_contact);exit;
-            $search = array('[#custName#]', '[#custMobile#]', '[#custEmail#]');
-
-            $replace = array(ucwords($customer_data->first_name . ' ' . $customer_data->last_name), $customer_contact->mobile_number, $customer_contact->email_id);
-            if (!empty($template_employee)) {
-                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
-                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
-            }
-            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
-            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
-        }
-
-
-
-        if (!empty($arrExtra[0])) {
-            $search = $arrExtra[0];
-            $replace = $arrExtra[1];
-            if (!empty($template_employee)) {
-                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
-                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
-            }
-            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
-            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
-        }
-
-        $emailConfig = EmailConfiguration::where('id', $email_from_id)->first();
-
-        $isInternational = 0; //0 OR 1
-        $sendingType = 1; //always 0 for T_SMS
-        $smsType = "T_SMS";
-
-        $userName = "bmstracking@edynamics.co.in"; //$emailConfig->email;
-        $password = "bmstrack@2016#"; //$emailConfig->password;
-        $companyName = $client->marketing_name;
-        
-        if (!empty($customer_id > 0)) {            
-            if (!empty($template_settings_customer)) {
-                if ($template_settings_customer->email_status == 1) {
-                   
-                    $subject = $template_customer->email_subject;
-                    $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_contact->email_id, "cc" => $template_customer->email_cc_ids,"attachment"=>$cust_attachedfile];
-                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-                    echo"send".$sentSuccessfully;exit;return false;
-                }
-                if ($template_settings_customer->sms_status == 1) {
-                    $mobile = $customer_contact->mobile_number;
-                    $customer = "Yes";
-                    $customerId = $customer_contact->customer_id;
-                    $result = Gupshup::sendSMS($cust_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
-                }
-            }
-        }
-        
-
-        if (!empty($employee_id > 0)) {
-            if (!empty($template_settings_employee)) {
-                if ($template_settings_employee->email_status == 1) {
-
-                    $subject = $template_employee->email_subject;
-                    $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids,"attachment"=>$emp_attachedfile];
-                    print_r($data);
-                    //$sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-                    
-                }
-                if ($template_settings_employee->sms_status == 1) {
-                    $mobile = $employee->username;
-                    $customer = "No";
-                    $customerId = 0;
-                    print_r(array($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType));
-                    //$result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
-                }
-            }
-        }        
-        return true;
-    }
- * 
- */
-    
-//    public static function templateData($alertdata) {
-//        $customer_id = $alertdata['customer_id'];
-//        $employee_id = $alertdata['employee_id'];
-//        $client_id = $alertdata['client_id'];
-//        if (!empty($alertdata['obj_enquiry'])) {
-//            $obj_enquiry = $alertdata['obj_enquiry'];
-//        } else {
-//            $obj_enquiry = "";
-//        }
-//        $arrExtra = $alertdata['arrExtra'];
-//        $template_setting_customer = $alertdata['template_setting_customer'];
-//        $template_setting_employee = $alertdata['template_setting_employee'];
-//
-//        if (!empty($alertdata['cust_attached_file']))
-//            $cust_attachedfile = $alertdata['cust_attached_file'];
-//        else
-//            $cust_attachedfile = "";
-//
-//        if (!empty($alertdata['emp_attached_file']))
-//            $emp_attachedfile = $alertdata['emp_attached_file'];
-//        else
-//            $emp_attachedfile = "";
-//
-//        $model_id = $alertdata['model_id'];
-//        $car_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/car.png";
-//        $loc_image = "https://s3-ap-south-1.amazonaws.com/lms-auto-common/images/loc2.png";
-//
-//
-//        //---- customer Template ----//
-//        if (!empty($customer_id > 0)) {
-//            //$template_settings_customer = TemplatesSetting::where(['client_id' => $client_id, 'templates_event_id' => $eventid_customer, 'template_for' => 1])->first();
-//            $template_settings_customer = TemplatesSetting::where(['id' => $template_setting_customer])->first();
-//
-//            if (!empty($template_settings_customer)) {
-//                if ($template_settings_customer->template_type == 0) {                    // check defualt template = 0 or custom template =1
-//                    $template_customer = TemplatesDefault::where(['id' => $template_settings_customer->default_template_id])->first();
-//                } else {
-//                    $template_customer = TemplatesCustom::where(['id' => $template_settings_customer->custom_template_id])->first();
-//                }
-//            }
-//        }
-//        
-//        if (!empty($template_customer)) {
-//            $cust_email_subject = $template_customer->email_subject;
-//            $cust_emailTemplate = $template_customer->email_body;
-//            $cust_smsTemplate = $template_customer->sms_body;
-//            $email_from_id = $template_settings_customer->from_mail_id;
-//        } else {
-//            $cust_emailTemplate = "";
-//            $cust_smsTemplate = "";
-//            $email_from_id = "";
-//        }
-//
-//        //---- employee  Template ----//
-//        if (!empty($employee_id > 0)) {
-//            $template_settings_employee = TemplatesSetting::where(['id' => $template_setting_employee])->first();
-//
-//            if (!empty($template_settings_employee)) {
-//                if ($template_settings_employee->template_type == 0) {
-//                    $template_employee = TemplatesDefault::where(['id' => $template_settings_employee->default_template_id])->first();
-//                } else {
-//                    $template_employee = TemplatesCustom::where(['id' => $template_settings_employee->custom_template_id])->first();
-//                }
-//            }
-//        }
-//
-//        if (!empty($template_employee)) {
-//            $emp_email_subject = $template_employee->email_subject;
-//            $emp_emailTemplate = $template_employee->email_body;
-//            $emp_smsTemplate = $template_employee->sms_body;
-//            $email_from_id = $template_settings_employee->from_mail_id;
-//        } else {
-//            $emp_emailTemplate = "";
-//            $emp_smsTemplate = "";
-//        }
-//
-//
-//        // geeting in mail and sms body
-//
-//        date_default_timezone_set('Asia/Kolkata');
-//        $h = date('h');
-//        $a = date('A');
-//
-//        $greeting_msg = "";
-//        if ($h >= 05 and $h < 12 and $a == 'AM')
-//            $greeting_msg = "Good Morning";
-//        else if (( $h == 12 || $h < 04 ) and $a == 'PM')
-//            $greeting_msg = "Good Afternoon";
-//        else if ($h >= 04 and $h < 12 and $a == 'PM')
-//            $greeting_msg = "Good Evening";
-//
-//
-//        //  if (!empty($client_id > 0)) {
-//        // ----------- Replace Company and brand tags --------------//
-//        $client = \App\Models\ClientInfo::where('id', $client_id)->first();
-//        //  print_r($client);
-////        $brand = \App\Models\MlstLmsaBrand::where('id', $client->brand_id)->first();
-//
-////        $companyMarketingName = $companyGoogleMap = $companyAddress = $companyLogo = $brandColor = $brandName = $brandlogo = $displayImage = $employeeName = $employeeMobile = $employeeEmail = $mobile_number = $customerEmail = $customerName = " ";
-////
-////        if (empty($brand->brand_logo))
-////            $brandlogo = config('global.s3Path') . '/brand_logo/' . $brand->brand_logo;
-////
-////        if (!empty($model_id)) {
-////            $model_data = \App\Models\MlstLmsaModel::where('id', $model_id)->first();
-////        } else {
-////            $model_data = \App\Models\MlstLmsaModel::where('brand_id', $client->brand_id)->orderBy('id', 'DESC')->first();
-////        }
-////
-////        if (empty($model_data)) {
-////            $model_name = "";
-////        } else {
-////            $model_name = $model_data->model_name;
-////            $displayImage = config('global.s3Path') . '/model_images/' . $model_data->display_image;
-////        }
-////
-////        if (!empty($client->company_logo))
-////            $companyLogo = config('global.s3Path') . '/client/' . $client_id . '/' . $client->company_logo;
-////
-////        if (!empty($client->marketing_name))
-////            $companyMarketingName = ucwords($client->marketing_name);
-////
-////        $companyGoogleMap = '';
-////        if (!empty($client->office_addres))
-////            $companyAddress = $client->office_addres;
-////
-////        if (!empty($client->pin_code))
-////            $companyAddress .= $client->pin_code;
-////
-////
-////        if (!empty($brand->brand_color))
-////            $brandColor = $brand->brand_color;
-////        // echo 'color->'.$brand->color;exit;
-////        if (!empty($brand->brand_name))
-////            $brandName = $brand->brand_name;
-////
-////        $search = array('[#companyMarketingName#]', '[#companyGoogleMap#]', '[#companyAddress#]', '[#companyLogo#]', '[#displayImage#]', '[#brandLogo#]', '[#brandColor#]', '[#brandName#]', '[#greeting#]', '[#modelName#]', '[#locimg#]', '[#vehicleimg#]', '[#lmsAuto#]');
-////        $replace = array($companyMarketingName, '', $companyAddress, $companyLogo, $displayImage, $brandlogo, $brandColor, $brandName, $greeting_msg, $model_name, $loc_image, $car_image, 'LMS Auto');
-//
-//        if (!empty($template_employee)) {
-//            $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
-//            $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate);
-//            $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate);
-//        }
-//        if (!empty($template_customer)) {
-//            $cust_email_subject = str_replace($search, $replace, $cust_email_subject);
-//            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate);
-//            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate);
-//        }
-//        $sourceName = "";
-//        $subsourceName = "";
-//        $sourceDesc = "";
-//        //start for source and subsource
-//        if (!empty($obj_enquiry)) {
-//            if (empty($obj_enquiry->sales_source_id))
-//                $sourceName = '';
-//            else
-//                $sourceName = $obj_enquiry->sourceName->sales_source_name;
-//
-//            if (empty($obj_enquiry->sales_subsource_id))
-//                $subsourceName = '';
-//            else
-//                $subsourceName = $obj_enquiry->subsourceName->enquiry_subsource;
-//
-//            if (empty($obj_enquiry->sales_source_description))
-//                $sourceDesc = '';
-//            else
-//                $sourceDesc = $obj_enquiry->sales_source_description;
-//        }
-//
-//
-//        $search = array('[#enuiqrySource#]', '[#enuiqrySubSource#]', '[#enuiqrySourceDescription#]', '[#nextfollowupDate#]', '[#nextfollowupTime#]');
-//        $replace = array($sourceName, $subsourceName, $sourceDesc, '', '');
-//
-//        //end for source and subsource
-//
-//
-//        if (!empty($template_employee)) {
-//            $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
-//            $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate);
-//            $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate);
-//        }
-//        if (!empty($template_customer)) {
-//            $cust_email_subject = str_replace($search, $replace, $cust_email_subject);
-//            $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate);
-//            $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate);
-//        }
-//
-//
-//
-//        if ($employee_id > 0) {
-//            // ----------- Replace employee tags --------------//
-//
-//            $employee = \App\Models\backend\Employee::where('id', $employee_id)->first();
-//
-//
-//            if (!empty($employee->office_mobile_no)) {
-//                $employeeMobile = $employee->office_mobile_no;
-//            } else if (!empty($employee->personal_mobile1)) {
-//                $employeeMobile = $employee->personal_mobile1;
-//            }
-//
-//            if (!empty($employee->first_name))
-//                $employeeName = ucwords($employee->first_name . ' ' . $employee->last_name);
-//
-//
-//            if (!empty($employee->office_email_id)) {
-//                $emp_email = $employee->office_email_id;
-//            } else if (!empty($employee->personal_email1)) {
-//                $emp_email = $employee->personal_email1;
-//            }
-//
-//            $search = array('[#employeeName#]', '[#employeeMobile#]', '[#employeeEmail#]');
-//            $replace = array($employeeName, $employeeMobile, $emp_email);
-//            // print_r($replace);
-//            if (!empty($template_employee)) {
-//                $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
-//                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
-//                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
-//            }
-//            if (!empty($template_customer)) {
-//                $cust_email_subject = str_replace($search, $replace, $cust_email_subject);
-//                $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
-//                $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
-//            }
-//        }
-//
-//        if ($customer_id > 0) {
-//
-//            $customer_contact = \App\Models\CustomersContact::where('customer_id', $customer_id)->first();
-//
-//            $customer_data = \App\Models\Customer::where('id', $customer_id)->first();
-//            //echo '<pre>';print_r($customer_data);print_r($customer_contact);exit;
-//            $search = array('[#customerName#]', '[#customerMobile#]', '[#customerEmail#]');
-//
-//            if (!empty($customer_data->first_name)) {
-//                $customerName = ucwords($customer_data->first_name . ' ' . $customer_data->last_name);
-//            } else {
-//                $customerName = 'Customer';
-//            }
-//
-//            if (!empty($customer_contact)) {
-//                if (!empty($customer_contact->mobile_number)) {
-//                    $customer_mobile_number = $customer_contact->mobile_number;
-//                    $customer_mobile_to = $customer_contact->mobile_number;
-//                }
-//                if (!empty($alertdata['customer_number'])) {
-//                    $customer_mobile_to = @implode(',', $alertdata['customer_number']);
-//                }
-//
-//                if (!empty($customer_contact->email_id)) {
-//                    $customerEmail = $customer_contact->email_id;
-//                    $customer_email_to = $customer_contact->email_id;
-//                }
-//                if (!empty($alertdata['customer_email'])) {
-//                    $customer_email_to = @implode(',', $alertdata['customer_email']);
-//                }
-//            }
-//
-//            if (empty($customer_mobile_number))
-//                $customer_mobile_number = '';
-//
-//            if (empty($customerName))
-//                $customerName = '';
-//
-//            $replace = array($customerName, $customer_mobile_number);
-//
-//
-//            if (!empty($template_employee)) {
-//                $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
-//                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate);
-//                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate);
-//            }
-//            if (!empty($template_customer)) {
-//                $cust_email_subject = str_replace($search, $replace, $cust_email_subject);
-//                $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate);
-//                $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate);
-//            }
-//        }
-//
-//
-//        if (!empty($arrExtra[0])) {
-//            $search = $arrExtra[0];
-//            $replace = $arrExtra[1];
-//            if (!empty($template_employee)) {
-//                $emp_email_subject = str_replace($search, $replace, $emp_email_subject);
-//                $emp_emailTemplate = str_replace($search, $replace, $emp_emailTemplate); //email
-//                $emp_smsTemplate = str_replace($search, $replace, $emp_smsTemplate); //sms
-//            }
-//            if (!empty($template_customer)) {
-//                $cust_email_subject = str_replace($search, $replace, $cust_email_subject);
-//                $cust_emailTemplate = str_replace($search, $replace, $cust_emailTemplate); //email
-//                $cust_smsTemplate = str_replace($search, $replace, $cust_smsTemplate); //sms
-//            }
-//        }
-//        //echo $employee_id.'here'.$cust_emailTemplate; exit;
-//        $emailConfig = EmailConfiguration::where('id', $email_from_id)->first();
-//        
-//        $isInternational = 0; //0 OR 1
-//        $sendingType = 1; //always 0 for T_SMS
-//        $smsType = "T_SMS";
-//
-//        $userName = $emailConfig->email; //$emailConfig->email;
-//        $password = $emailConfig->password;  //$emailConfig->password;
-//
-//
-//        $companyName = $client->marketing_name;
-//
-//
-//        if (!empty($customer_id > 0)) {
-//            if (!empty($template_settings_customer)) {
-//                if ($template_settings_customer->email_status == 1 && !empty($customer_email_to)) {
-//
-//                    $subject = $cust_email_subject;
-//                    $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile];
-//
-//                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-//                }
-//                if ($template_settings_customer->sms_status == 1 && !empty($customer_mobile_to)) {
-//                    $mobile = $customer_mobile_number;
-//                    $customer = "Yes";
-//                    $customerId = $customer_contact->customer_id;
-//                    $result = Gupshup::sendSMS($cust_smsTemplate, $customer_mobile_to, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
-//                }
-//            }
-//        }
-//
-//
-//        if (!empty($employee_id > 0)) {
-//            if (!empty($template_settings_employee)) {
-//                if ($template_settings_employee->email_status == 1 || !empty($alertdata['email_status'])) {
-//
-//                    $subject = $emp_email_subject;
-//                    $data = ['mailBody' => $emp_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $emp_email, "cc" => $template_employee->email_cc_ids, "attachment" => $emp_attachedfile];
-//                    $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
-//                }
-//                if ($template_settings_employee->sms_status == 1 || !empty($alertdata['sms_status'])) {
-//                    $mobile = $employeeMobile;
-//                    $customer = "No";
-//                    $customerId = 0;
-//                    $result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
-//                }
-//            }
-//        }
-//        return true;
-//    }
-
 }
