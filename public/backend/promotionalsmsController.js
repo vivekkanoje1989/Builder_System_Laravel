@@ -140,9 +140,11 @@ app.controller('promotionalsmsController', ['$scope', 'Data', '$filter', 'Upload
                     if (type == 1) {
                         $scope.teamsmslogslist = response.records;
                         $scope.teamsmslogslength = response.totalCount;
+                        $scope.teamSmsExport = response.exportSmsLogs;
                     } else if (type == 0) {
                         $scope.smslogslist = response.records;
                         $scope.smslogslength = response.totalCount;
+                        $scope.exportSmsLogs = response.exportSmsLogs;
                     }
 
                 }
@@ -152,6 +154,25 @@ app.controller('promotionalsmsController', ['$scope', 'Data', '$filter', 'Upload
             });
         }
 
+        $scope.teamSmsLogsExpotToxls = function () {
+              $scope.getexcel = window.location = "/promotionalsms/teamSmsLogsExpotToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
+        
+        $scope.smsLogsExpotToxls = function () {
+              $scope.getexcel = window.location = "/promotionalsms/smsLogsExpotToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
         $scope.getCustomerFilteredData = function (filterData) {
 
             $scope.showloader();

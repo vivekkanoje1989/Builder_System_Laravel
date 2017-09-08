@@ -19,48 +19,7 @@
                 <span class="widget-caption">Testimonial</span>                
             </div>
             <div class="widget-body table-responsive">
-                <!--                <div class="row">
-                                    <div class="col-md-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Search:</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="search" name="search" class="form-control">
-                                                <i class="fa fa-search" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Records per page:</label>
-                                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage" name="itemsPerPage">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-xs-12">
-                                        <div class="form-group">
-                                            <label for=""></label>
-                                            <span class="input-icon icon-right">
-                                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>         
-                                 filter data
-                                <div class="row" style="border:2px;" id="filter-show">
-                                    <div class="col-sm-12 col-xs-12">
-                                        <b ng-repeat="(key, value) in searchData">
-                                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
-                                                <div class="alert alert-info fade in">
-                                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
-                                                    <strong ng-if="key === 'customer_name'" data-toggle="tooltip" title="Customer Name"><strong> Customer Name : </strong> {{ value}}</strong>
-                                                    <strong ng-if="key === 'mobile_number'" data-toggle="tooltip" title="Mobile Number"><strong> Mobile Number : </strong> {{ value}}</strong>
-                                                    <strong ng-if="key === 'company_name'" data-toggle="tooltip" title="Company Name"><strong> Company Name : </strong> {{ value}}</strong>
-                                                    <strong ng-if="key === 'approve_status'" data-toggle="tooltip" title="Status"><strong>  Status : </strong> {{ value.approve_status == 1 ? "Approved" : "Not Approve"}}</strong>
-                                                </div>
-                                            </div>
-                                        </b>                        
-                                    </div>
-                                </div>-->
-                <!-- filter data-->
+                
                 <div class="row table-toolbar">
                     <!--<a  href="[[ config('global.backendUrl') ]]#/employeeDevice/create" class="btn btn-default">Add Device</a>-->
                     <div class="btn-group pull-right">
@@ -69,7 +28,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="manageTestimonialApproveExportToExcel()" ng-shoe="exportDetails== '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">

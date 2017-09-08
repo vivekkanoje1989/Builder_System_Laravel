@@ -19,54 +19,7 @@
                 <span class="widget-caption">Manage Career</span>                
             </div>
             <div class="widget-body table-responsive">
-                <!--                <div class="row">
-                                    <div class="col-md-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Search:</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="search" name="search" class="form-control">
-                                                <i class="fa fa-search" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Records per page:</label>
-                                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for=""></label>
-                                            <span class="input-icon icon-right">
-                                                <a href="[[ config('global.backendUrl') ]]#/job-posting/create" class="btn btn-primary btn-right">Post Job</a>
-                                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                                            <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
-                                        </div>
-                                    </div>
-                                </div>
-                                 filter data
-                                <div class="row" style="border:2px;" id="filter-show">
-                                    <div class="col-sm-12 col-xs-12">
-                                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
-                                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
-                                                <div class="alert alert-info fade in">
-                                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
-                                                    <strong ng-if="key === 'job_title'" data-toggle="tooltip" title="Job Title"><strong> Job Title : </strong> {{ value}}</strong>
-                                                    <strong ng-if="key === 'application_start_date'" data-toggle="tooltip" title="Page Title"><strong> Application Start Date : </strong> {{ value }}</strong>
-                                                    <strong ng-if="key === 'application_close_date'" data-toggle="tooltip" title="Page Title"><strong> Application Close Date : </strong> {{ value}}</strong>
-                                                    <strong ng-if="key === 'meta_keywords'" data-toggle="tooltip" title="Page Title"><strong> Page Title : </strong> {{ value}}</strong>
-                                                </div>
-                                            </div>
-                                        </b>                        
-                                    </div>
-                                </div>-->
-                <!-- filter data-->
+                
                 <div class="row table-toolbar">
                     <a href="[[ config('global.backendUrl') ]]#/job-posting/create" class="btn btn-default">Post Job</a>
                     <div class="btn-group pull-right">
@@ -75,7 +28,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="jobPostingExportToxls()" ng-show="exportData=='1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -84,16 +37,6 @@
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
                                 </li>
                             </ul>
                         </a>
@@ -176,7 +119,7 @@
                                 <td>{{list.job_eligibility}}</td> 
                                 <td>{{list.application_start_date}}</td> 
                                 <td>{{list.application_close_date}}</td>
-                                <td><a href="[[ config('global.backendUrl') ]]#/job-posting/show/{{ list.id}}" class="btn btn-primary">View Application</a></td>
+                                <td><a href="[[ config('global.backendUrl') ]]#/job-posting/show/{{ list.id}}" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>View Application</a></td>
                                 <td class="">	
                                     <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/job-posting/update/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span class="" tooltip-html-unsafe="Delete"><a ng-click="deleteJob({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>

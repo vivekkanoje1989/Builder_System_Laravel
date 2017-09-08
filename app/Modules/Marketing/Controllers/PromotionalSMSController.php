@@ -50,7 +50,6 @@ class PromotionalSMSController extends Controller {
      *
      * @return Response
      */
-      
     public function store() {
 
         $postdata = file_get_contents("php://input");
@@ -76,8 +75,7 @@ class PromotionalSMSController extends Controller {
             $sendingType = $smstype; //always 0 for T_SMS
             $smsType = "P_SMS";
             $result = Gupshup::sendSMS($smsbody, $mobile, $loggedInUserId, $customer, $customerId, $isInternational, $sendingType, $smsType);
-           print_r($result);
-           die();
+
             $decodeResult = json_decode($result, true);
             // return $decodeResult["success"];
             if ($decodeResult["success"] == true) {
@@ -172,16 +170,14 @@ class PromotionalSMSController extends Controller {
         }
     }
 
-
     public function show($id) {
         //
     }
-    
+
     public function edit($id) {
         //
     }
 
-   
     public function update($id) {
         //
     }
@@ -231,12 +227,115 @@ class PromotionalSMSController extends Controller {
             $getCount = DB::select("select FOUND_ROWS() totalCount");
             $getsmsCount = $getCount[0]->totalCount;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getsmsLogs[0])) {
-            $result = ['success' => true, 'records' => $getsmsLogs, 'totalCount' => $getsmsCount];
+            $result = ['success' => true, 'records' => $getsmsLogs, 'exportSmsLogs' => $export, 'totalCount' => $getsmsCount];
         } else {
             $result = ['success' => false, 'records' => $getsmsLogs, 'totalCount' => $getsmsCount];
         }
         return json_encode($result);
+    }
+
+    public function smsLogsExpotToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $manageSms = DB::table('sms_logs as sl')
+                    ->leftjoin('employees as e', 'sl.employee_id', '=', 'e.id')
+                    ->select('sl.*', 'e.first_name', 'e.last_name')
+                    ->where('sl.employee_id', '=', $loggedInUserId)
+                    ->where('sl.sms_type', '=', 'P_SMS')
+                    ->groupBy('sl.externalId1')
+                    ->get();
+
+            $getCount = DB::table('sms_logs as sl')
+                    ->leftjoin('employees as e', 'sl.employee_id', '=', 'e.id')
+                    ->select('sl.*', 'e.first_name', 'e.last_name')
+                    ->where('sl.employee_id', '=', $loggedInUserId)
+                    ->where('sl.sms_type', '=', 'P_SMS')
+                    ->groupBy('sl.externalId1')
+                    ->get()
+                    ->count();
+            $manageSms = json_decode(json_encode($manageSms), true);
+            $getsmsLog = array();
+            $j = 1;
+            for ($i = 0; $i < count($manageSms); $i++) {
+
+                $smsData['Sr No.'] = $j++;
+                $smsData['Sent Date & Time'] = $manageSms[$i]['sent_date_time'];
+                $smsData['Transaction Id'] = $manageSms[$i]['externalId1'];
+                $smsData['Mobile Number'] = $manageSms[$i]['mobile_number'];
+                $smsData['SMS Body'] = preg_replace( "/\r|\n/", "", $manageSms[$i]['sms_body'] );
+                $smsData['Delivered Status'] = $manageSms[$i]['status'];
+                $smsData['SMS Send By'] = $manageSms[$i]['first_name'] . ' ' . $manageSms[$i]['last_name'];
+                $getsmsLog[] = $smsData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export SmsLogs Details', function($excel) use($getsmsLog) {
+                    $excel->sheet('sheet1', function($sheet) use($getsmsLog) {
+                        $sheet->fromArray($getsmsLog);
+                    });
+                })->download('xls');
+            }
+        }
+    }
+
+    public function teamSmsLogsExpotToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $this->tuserid($loggedInUserId);
+            $alluser = $this->allusers;
+            $loggedInUserId = !empty($alluser) ? implode(',', $alluser) : $loggedInUserId;
+            $manageSms = DB::table('sms_logs as sl')
+                    ->leftjoin('employees as e', 'sl.employee_id', '=', 'e.id')
+                    ->select('sl.*', 'e.first_name', 'e.last_name')
+                    ->where('sl.employee_id', '=', $loggedInUserId)
+                    ->where('sl.sms_type', '=', 'P_SMS')
+                    ->groupBy('sl.externalId1')
+                    ->get();
+
+            $getCount = DB::table('sms_logs as sl')
+                    ->leftjoin('employees as e', 'sl.employee_id', '=', 'e.id')
+                    ->select('sl.*', 'e.first_name', 'e.last_name')
+                    ->where('sl.employee_id', '=', $loggedInUserId)
+                    ->where('sl.sms_type', '=', 'P_SMS')
+                    ->groupBy('sl.externalId1')
+                    ->get()
+                    ->count();
+            $manageSms = json_decode(json_encode($manageSms), true);
+            $getsmsLog = array();
+            $j = 1;
+            for ($i = 0; $i < count($manageSms); $i++) {
+
+                $smsData['Sr No.'] = $j++;
+                $smsData['Sent Date & Time'] = $manageSms[$i]['sent_date_time'];
+                $smsData['Transaction Id'] = $manageSms[$i]['externalId1'];
+                $smsData['Mobile Number'] = $manageSms[$i]['mobile_number'];
+                $smsData['SMS Body'] = preg_replace( "/\r|\n/", "", $manageSms[$i]['sms_body'] );
+                $smsData['Delivered Status'] = $manageSms[$i]['status'];
+                $smsData['SMS Send By'] = $manageSms[$i]['first_name'] . ' ' . $manageSms[$i]['last_name'];
+                $getsmsLog[] = $smsData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export SmsLogs Details', function($excel) use($getsmsLog) {
+                    $excel->sheet('sheet1', function($sheet) use($getsmsLog) {
+                        $sheet->fromArray($getsmsLog);
+                    });
+                })->download('xls');
+            }
+        }
     }
 
     public function getFilterdata() {
@@ -376,14 +475,65 @@ class PromotionalSMSController extends Controller {
 
         $getsmsLogs = DB::select('CALL proc_smslogdetail("' . $externalId1 . '","' . $employee_id . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '","","","")');
         $getCount = DB::select("select FOUND_ROWS() totalCount");
-        $getsmsCount = $getCount[0]->totalCount;
 
+        $getsmsCount = $getCount[0]->totalCount;
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getsmsLogs[0])) {
-            $result = ['success' => true, 'records' => $getsmsLogs, 'totalCount' => $getsmsCount];
+            $result = ['success' => true, 'records' => $getsmsLogs, 'logDetailsExport' => $export, 'totalCount' => $getsmsCount];
         } else {
             $result = ['success' => false, 'records' => $getsmsLogs, 'totalCount' => $getsmsCount];
         }
         return json_encode($result);
+    }
+
+    public function logDetailsExportToxls($transId) {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $manageSms = DB::table('sms_logs as sl')
+                    ->leftjoin('employees as e', 'sl.employee_id', '=', 'e.id')
+                    ->select('sl.*', 'e.first_name', 'e.last_name')
+                    ->where('sl.employee_id', '=', $loggedInUserId)
+                    ->where('sl.externalId1', '=', $transId)
+                    ->get();
+
+            $getCount = DB::table('sms_logs as sl')
+                    ->leftjoin('employees as e', 'sl.employee_id', '=', 'e.id')
+                    ->select('sl.*', 'e.first_name', 'e.last_name')
+                    ->where('sl.employee_id', '=', $loggedInUserId)
+                    ->where('sl.externalId1', '=', $transId)
+                    ->get()
+                    ->count();
+            $manageSms = json_decode(json_encode($manageSms), true);
+            $getsmsLog = array();
+            $j = 1;
+            for ($i = 0; $i < count($manageSms); $i++) {
+
+                $smsData['Sr No.'] = $j++;
+                $smsData['Sent Date & Time'] = $manageSms[$i]['sent_date_time'];
+                $smsData['Transaction Id'] = $manageSms[$i]['externalId1'];
+                $smsData['Mobile Number'] = $manageSms[$i]['mobile_number'];
+                $smsData['SMS Body'] = preg_replace( "/\r|\n/", "", $manageSms[$i]['sms_body'] );
+                $smsData['Delivered Status'] = $manageSms[$i]['status'];
+                $smsData['SMS Send By'] = $manageSms[$i]['first_name'] . ' ' . $manageSms[$i]['last_name'];
+                $getsmsLog[] = $smsData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export SmsLogs Details', function($excel) use($getsmsLog) {
+                    $excel->sheet('sheet1', function($sheet) use($getsmsLog) {
+                        $sheet->fromArray($getsmsLog);
+                    });
+                })->download('xls');
+            }
+        }
     }
 
     public function getDetailFilterdata() {
@@ -529,5 +679,5 @@ class PromotionalSMSController extends Controller {
             return json_encode($result);
         }
     }
- 
+
 }

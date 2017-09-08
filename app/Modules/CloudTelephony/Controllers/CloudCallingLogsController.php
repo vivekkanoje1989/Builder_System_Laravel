@@ -1793,10 +1793,8 @@ class CloudCallingLogsController extends Controller {
     }
 
     public function myInboundLogs() {
-
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         if (!empty($request["employee_id"])) {
             $emp_id = $request["employee_id"];
             if ($request['filterFlag'] == 1) {
@@ -1825,7 +1823,6 @@ class CloudCallingLogsController extends Controller {
                 ->orderBy('ct_logs_inbounds.id', 'DESC')
                 ->select('ct_logs_inbounds.id', 'ct_logs_inbounds.call_log_push_url', DB::raw('DATE_FORMAT(ct_logs_inbounds.call_date, "%d-%m-%Y") as call_date'), DB::raw('DATE_FORMAT(ct_logs_inbounds.call_time, "%h:%i %p") as call_time'), 'ct_logs_inbounds.customer_call_status', 'ct_logs_inbounds.customer_call_duration', 'ct_logs_inbounds.virtual_number', 'ct_logs_inbounds.customer_number', 'ct_logs_inbounds.call_recording_url', 'emp.first_name', 'emp.last_name', 'ls.sales_source_name', 'subs.sub_source', 'cust.first_name as cfirst_name', 'cust.last_name as clast_name', 'emp.title_id as emp_title_id', 'cust.title_id as cust_title_id')
                 ->where('ct_logs_inbounds.employee_id', $emp_id)
-                ->take($request['itemPerPage'])->offset($startFrom)
                 ->get();
 
 
@@ -1855,12 +1852,73 @@ class CloudCallingLogsController extends Controller {
                 $i++;
             }
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getInboundLogs[0])) {
-            $result = ['success' => true, 'records' => $getInboundLogs, 'totalCount' => $getCountInboundLogs];
+            $result = ['success' => true, 'records' => $getInboundLogs, 'myInboundExport' => $export, 'totalCount' => $getCountInboundLogs];
         } else {
             $result = ['success' => false, 'records' => $getInboundLogs, 'totalCount' => $getCountInboundLogs];
         }
         return json_encode($result);
+    }
+
+    public function myInboundExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getInboundLoglist = array();
+            $emp_id = Auth::guard('admin')->user()->id;
+            $getCount = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
+                    ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
+                    ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
+                    ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
+                    ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                    ->orderBy('ct_logs_inbounds.id', 'DESC')
+                    ->where('ct_logs_inbounds.employee_id', $emp_id)
+                    ->count();
+
+            $getInboundLogs = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
+                    ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
+                    ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
+                    ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
+                    ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                    ->orderBy('ct_logs_inbounds.id', 'DESC')
+                    ->select('ct_logs_inbounds.id', 'ct_logs_inbounds.call_log_push_url', DB::raw('DATE_FORMAT(ct_logs_inbounds.call_date, "%d-%m-%Y") as call_date'), DB::raw('DATE_FORMAT(ct_logs_inbounds.call_time, "%h:%i %p") as call_time'), 'ct_logs_inbounds.customer_call_status', 'ct_logs_inbounds.customer_call_duration', 'ct_logs_inbounds.virtual_number', 'ct_logs_inbounds.customer_number', 'ct_logs_inbounds.call_recording_url', 'emp.first_name', 'emp.last_name', 'ls.sales_source_name', 'subs.sub_source', 'cust.first_name as cfirst_name', 'cust.last_name as clast_name', 'emp.title_id as emp_title_id', 'cust.title_id as cust_title_id')
+                    ->where('ct_logs_inbounds.employee_id', $emp_id)
+                    ->get();
+
+            $manageCallLogs = json_decode(json_encode($getInboundLogs), true);
+            $manageUsers = array();
+            $j = 1;
+            for ($i = 0; $i < count($manageCallLogs); $i++) {
+                $blogData['Sr No.'] = $j++;
+                $first_name = $manageCallLogs[$i]['first_name'];
+                $last_name = $manageCallLogs[$i]['last_name'];
+                $callDate = $manageCallLogs[$i]['call_date'];
+                $callTime = $manageCallLogs[$i]['call_time'];
+                $blogData['Call Date and Time'] = $callDate . ' @ ' . $callTime;
+                $blogData['Virtual Number'] = $manageCallLogs[$i]['virtual_number'].'('. $manageCallLogs[$i]['sales_source_name'].')';
+                $blogData['Customer Number'] = $manageCallLogs[$i]['customer_number'];
+                $blogData['Call Ansered By'] = $first_name . ' ' . $last_name;
+                $blogData['Call Status'] = $manageCallLogs[$i]['customer_call_status'];
+                $blogData['Call Duration'] = $manageCallLogs[$i]['customer_call_duration'];
+               
+                $manageUsers[] = $blogData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Inbound Logs', function($excel) use($manageUsers) {
+                    $excel->sheet('sheet1', function($sheet) use($manageUsers) {
+                        $sheet->fromArray($manageUsers);
+                    });
+                })->download('xls');
+            }
+        }
     }
 
     public function teamInboundLogs() {
@@ -2784,4 +2842,5 @@ class CloudCallingLogsController extends Controller {
         }
         return json_encode($result);
     }
+
 }
