@@ -264,7 +264,7 @@
                     <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'previous','', [[$type]], newPageNumber, itemsPerPage)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
                 </div>     
             <!-- Today history model =============================================================================-->
-            <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">

@@ -173,7 +173,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="myModal" role="dialog" tabindex="-1">    
+    <div class="modal fade modal-primary" id="myModal" role="dialog" tabindex="-1">    
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">

@@ -118,7 +118,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="storageModel" role="dialog" tabindex="-1">    
+    <div class="modal fade modal-primary" id="storageModel" role="dialog" tabindex="-1">    
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -146,7 +146,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="sharedImageModel" role="dialog" tabindex="-1" ng-init="getEmployees()">    
+    <div class="modal fade modal-primary" id="sharedImageModel" role="dialog" tabindex="-1" ng-init="getEmployees()">    
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -195,7 +195,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="folderModel" role="dialog" tabindex="-1">    
+    <div class="modal fade modal-primary" id="folderModel" role="dialog" tabindex="-1">    
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -224,7 +224,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="sharedModel" role="dialog" tabindex="-1" ng-init="getEmployees()">    
+    <div class="modal fade modal-primary" id="sharedModel" role="dialog" tabindex="-1" ng-init="getEmployees()">    
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

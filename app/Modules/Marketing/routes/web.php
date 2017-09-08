@@ -42,7 +42,7 @@ Route::group(array('module' => 'Marketing', ['middleware' => 'auth:admin'], 'nam
     
         
     Route::post('/promotionalsms/getalllogdetail', 'PromotionalSMSController@getalllogdetail');
-    Route::get('/realtimereport/pushgupshupapi', 'RealtimereportController@pushgupshupapi');
+//    Route::get('/realtimereport/pushgupshupapi', 'RealtimereportController@pushgupshupapi');
    
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');

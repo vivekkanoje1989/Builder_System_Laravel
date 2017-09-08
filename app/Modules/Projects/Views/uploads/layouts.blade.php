@@ -49,7 +49,7 @@
 </div>
 
  <!-- Layout Modal -->
-<div class="modal fade" id="layoutDataModal" role="dialog" tabindex='-1'>
+<div class="modal fade modal-primary" id="layoutDataModal" role="dialog" tabindex='-1'>
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -106,7 +106,7 @@
  
   <!-- Floor Modal -->
   
-  <div class="modal fade" id="floorDataModal" role="dialog" tabindex='-1'>
+  <div class="modal fade modal-primary" id="floorDataModal" role="dialog" tabindex='-1'>
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">

@@ -158,7 +158,7 @@
     <script src="/js/filterSlider.js"></script>
     <!-- Filter Form End-->
 
-    <div class="modal fade" id="themesModal" role="dialog" tabindex="-1">    
+    <div class="modal fade modal-primary" id="themesModal" role="dialog" tabindex="-1">    
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">

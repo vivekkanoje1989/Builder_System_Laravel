@@ -80,7 +80,7 @@
     </div>
 
 <!-- show history model-->
-<div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+<div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">

@@ -2,25 +2,26 @@
 
 namespace App\Modules\CloudTelephony\Controllers;
 
-use Mail;
+//use Mail;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use App\Models\EmployeesDevice;
-use Validator;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Http\UploadedFile;
-use File;
-use DB;
 use Illuminate\Http\Request;
-use App\Models\CtTuneType;
-use App\Models\CtForwardingType;
-use App\Models\EnquirySubSource;
+use App\Http\Controllers\Controller;
+//use App\Models\EmployeesDevice;
+//use Validator;
+//use Illuminate\Support\Facades\Input;
+//use Illuminate\Http\UploadedFile;
+//use File;
+use DB;
+
+//use App\Models\CtTuneType;
+//use App\Models\CtForwardingType;
+//use App\Models\EnquirySubSource;
 use App\Models\CtSetting;
 use App\Models\backend\Employee;
-use App\Models\CtEmployeesExtension;
+//use App\Models\CtEmployeesExtension;
 use App\Models\Customer;
 use App\Models\CustomersContact;
-use App\Models\LstTitle;
+//use App\Models\LstTitle;
 use App\Models\Enquiry;
 use App\Models\CtLogsInbound;
 use App\Models\ClientInfo;
@@ -28,11 +29,11 @@ use App\Classes\CommonFunctions;
 use App\Models\CtMenuSetting;
 use App\Models\EnquiryFollowup;
 use App\Classes\S3;
-use App\Models\TemplatesSetting;
-use App\Models\TemplatesCustom;
-use App\Models\TemplatesDefault;
-use App\Models\EmailConfiguration;
-use App\Classes\Gupshup;
+//use App\Models\TemplatesSetting;
+//use App\Models\TemplatesCustom;
+//use App\Models\TemplatesDefault;
+//use App\Models\EmailConfiguration;
+//use App\Classes\Gupshup;
 use Auth;
 use App\Models\CtLogsOutbound;
 use Maatwebsite\Excel\Facades\Excel;
@@ -1936,7 +1937,6 @@ class CloudCallingLogsController extends Controller {
     }
 
     public function outboundCalltrigger() {
-
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         date_default_timezone_set('Asia/Kolkata');
@@ -2071,7 +2071,7 @@ class CloudCallingLogsController extends Controller {
     public function teamOutgoingLogs() {
         return view("CloudTelephony::teamoutboundlogs")->with("loggedInUserId", Auth::guard('admin')->user()->id);
     }
-
+    
     public function myOutboundLogs() {
 
         $postdata = file_get_contents("php://input");

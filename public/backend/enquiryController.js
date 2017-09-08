@@ -32,6 +32,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.remarkData.sms_privacy_status = 1;
         $scope.remarkData.email_privacy_status = 1;
         
+        $scope.cloudCallingLog = function (modules, employee_id, enquire_id, customer_id, sequence) {
+            Data.post('cloudcallinglogs/outboundCalltrigger', {
+                modules: modules, employee_id: employee_id, enquire_id: enquire_id, customer_id: customer_id, sequence: sequence
+            }).then(function (response) {
+                var successMsg = response.message;
+                toaster.pop('success', 'Call Status', successMsg);
+            });
+        }
+        
         $scope.changeSmsPrivacyStatus = function (val) {
             $scope.remarkData.sms_privacy_status = val;
         }

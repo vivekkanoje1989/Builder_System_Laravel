@@ -2,21 +2,21 @@
 
 namespace App\Modules\CloudTelephony\Controllers;
 
-use App\Http\Requests;
+//use App\Http\Requests;
 use App\Http\Controllers\Controller;
 //use Illuminate\Foundation\Auth\AuthenticatesUsers;
 //use Illuminate\Support\Facades\Session;
 //use Illuminate\Support\Facades\Auth;
 use App\Models\CtBillingSetting;
-use App\Models\EmployeesDevice;
+//use App\Models\EmployeesDevice;
 use Validator;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Http\UploadedFile;
-use File;
+//use Illuminate\Support\Facades\Input;
+//use Illuminate\Http\UploadedFile;
+//use File;
 use DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Classes\CommonFunctions;
+//use Illuminate\Http\Request;
+//use Illuminate\Support\Facades\Auth;
+//use App\Classes\CommonFunctions;
 
 class CloudTelephonyController extends Controller {
 
@@ -32,7 +32,7 @@ class CloudTelephonyController extends Controller {
     public function index() {
         return view("CloudTelephony::index");
     }
-
+    
     public function showvirtualnumusers() {
         return view("CloudTelephony::virtualnumberwiseusers");
     }

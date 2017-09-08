@@ -168,7 +168,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="bankAccountModal" role="dialog" tabindex="-1" ng-cloak  ng-init="managePaymentHeading()">    
+    <div class="modal fade modal-primary" id="bankAccountModal" role="dialog" tabindex="-1" ng-cloak  ng-init="managePaymentHeading()">    
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
