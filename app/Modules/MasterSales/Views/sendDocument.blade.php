@@ -7,8 +7,8 @@
                         <div class="row">
                             <div class="col-lg-21 col-sm-12 col-xs-12">                            
                                 <form name="sendDocumentForm" novalidate ng-submit="sendDocumentForm.$valid && insertSendDocument(documentData)" class="main-container1">
-                                    <input type="hidden" ng-model="documentData.enquiryId" name="enquiryId" id="enquiryId" value="{{documentData.enquiryId}}">
-                                    <input type="hidden" ng-model="documentData.customerId" name="customerId" id="custId" value="{{documentData.customerId}}">
+                                    <!--<input type="hidden" ng-model="documentData.enquiryId" name="enquiryId" id="enquiryId" value="{{documentData.enquiryId}}">-->
+                                    <!--<input type="hidden" ng-model="documentData.customerId" name="customerId" id="custId" value="{{documentData.customerId}}">-->
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 col-xs-12">
                                         <span ng-show="custInfo"><b style="font-size: 16px;">{{documentData.title}} {{documentData.customer_fname}} {{documentData.customer_lname}}</b></span>  	
@@ -23,7 +23,7 @@
                                                         <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == documentData.title_id}}">{{t.title}}</option>
                                                     </select>
                                                     <i class="fa fa-sort-desc"></i>
-                                                    <div ng-show="sbtBtn" ng-messages="sendDocumentForm.title_id.$error" class="help-block">
+                                                    <div ng-show="sendbtn" ng-messages="sendDocumentForm.title_id.$error" class="help-block">
                                                         <div ng-message="required">This field is required.</div>
                                                     </div>
                                                 </span>
@@ -34,7 +34,7 @@
                                                 <span class="input-icon icon-right">
                                                     <input type="text" placeholder="First Name" ng-model="documentData.customer_fname" name="customer_fname" capitalization class="form-control" ng-required="editableCustInfo">
                                                     <i class="fa fa-user"></i>
-                                                    <div ng-show="sbtBtn" ng-messages="sendDocumentForm.first_name.$error" class="help-block">
+                                                    <div ng-show="sendbtn" ng-messages="sendDocumentForm.first_name.$error" class="help-block">
                                                         <div ng-message="required">This field is required.</div>
                                                     </div>
                                                 </span>
@@ -45,7 +45,7 @@
                                                 <span class="input-icon icon-right">
                                                     <input type="text" placeholder="Last Name" ng-model="documentData.customer_lname" name="customer_lname" capitalization class="form-control" ng-required="editableCustInfo">
                                                     <i class="fa fa-user"></i>
-                                                    <div ng-show="sbtBtn" ng-messages="sendDocumentForm.last_name.$error" class="help-block">
+                                                    <div ng-show="sendbtn" ng-messages="sendDocumentForm.last_name.$error" class="help-block">
                                                         <div ng-message="required">This field is required.</div>
                                                     </div>
                                                 </span>
@@ -80,7 +80,7 @@
                                                             <option ng-repeat="plist in projectList" value="{{plist.id}}" >{{plist.project_name}}</option>
                                                         </select>
                                                         <i class="fa fa-sort-desc"></i>
-                                                        <div ng-show="savebtn" ng-messages="sendDocumentForm.project_id.$error" class="help-block errMsg">
+                                                        <div ng-show="sendbtn" ng-messages="sendDocumentForm.project_id.$error" class="help-block errMsg">
                                                             <div ng-message="required">Please select project</div>
                                                         </div>
                                                     </span>
@@ -95,9 +95,9 @@
                                                         <span class="text">Select All</span>
                                                     </label>-->
                                                 <div class="form-group">                                                    
-                                                    <div class="col-sm-3" ng-repeat="(key,value) in documentListData" ng-if="value !='' && value!= null ">
+                                                    <div class="col-sm-3" ng-repeat="(key,value) in documentListData" ng-if="value !='' && value!= null && value!= 'null' ">
                                                         <label> 
-                                                            <input type="checkbox" name="{{ key }}" value="{{ key }}" id="{{ key }}" class="chkDocList">
+                                                            <input type="checkbox" name="{{ key }}" value="{{ key }}@{{ value }}" id="{{ key }}" class="chkDocList">
                                                             <span class="text" >{{ key | split:"_images":0 | underscoreless:' ' | capitalize }}</span>
                                                         </label>                                        
                                                     </div>
@@ -106,14 +106,14 @@
                                         </div>
                                     </div><hr>
                                     <div class="row" style="float:right;margin-right: 0px;">
-                                        <input type="submit" class="btn btn-primary" name="sendbtn"  id="sendbtn" ng-disabled="" value="Send">
+                                        <input type="submit" class="btn btn-primary" name="sendbtn"  id="sendbtn" ng-disabled="(documentListData | json) == '{}'" value="Send">
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Documents History" id="historyTab">
-
+                    <tab heading="Documents History" id="historyTab" ng-click="sendingList()">
+                        <div data-ng-include="'/MasterSales/sendDocumentHistory'"></div>                        
                     </tab>
                 </tabset>
             </div>
