@@ -2,6 +2,7 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
 
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
+        $scope.exportData = '';
         $scope.contactUs = false;
 
         $scope.searchData = {};
@@ -11,8 +12,8 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }
-        
-         $scope.contactUsExportToxls = function () {
+
+        $scope.contactUsExportToxls = function () {
             $scope.getexcel = window.location = "/contact-us/contactUsExportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
@@ -20,7 +21,7 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
-        
+
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];
             $scope.filterDetails($scope.searchData);
@@ -33,6 +34,7 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
             $scope.showloader();
             Data.post('contact-us/manageContactUs').then(function (response) {
                 $scope.contactUsRow = response.records;
+                $scope.exportData = response.exportData;
                 $scope.hideloader();
             });
         };

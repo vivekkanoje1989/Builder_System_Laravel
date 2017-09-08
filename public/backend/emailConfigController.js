@@ -16,12 +16,22 @@ app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
         }
     }; 
     
+    $scope.configEmailExportToxls = function (){
+          $scope.getexcel = window.location = "email-config/configEmailExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+    }
+    
     $scope.manageEmailConfig = function (id)
     {
         $scope.pageHeading = "Edit Email Account";
         Data.post('email-config/manageEmails', {id: id}).then(function (response) {
             if (id === 'index'){ // index
                 $scope.listmails = response.records;
+                $scope.exportData = response.exportData;
             }
             if (id > 0){ // Edit
                 $scope.emailData = angular.copy(response.records[0]);

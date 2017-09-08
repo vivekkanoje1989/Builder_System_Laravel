@@ -6,15 +6,25 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
         $scope.manageBankAccounts = function () {
             Data.get('bank-account/manageBankAccount').then(function (response) {
                 $scope.bankAccountRow = response.records;
+                $scope.exportData = response.exportData;
             });
         };
+
+        $scope.bankAccountExportToxls = function () {
+            $scope.getexcel = window.location = "/bank-account/bankAccountExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
 //            $scope.searchDetails = {};
-            $scope.searchData = search; 
+            $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }
         $scope.removeFilterData = function (keyvalue) {

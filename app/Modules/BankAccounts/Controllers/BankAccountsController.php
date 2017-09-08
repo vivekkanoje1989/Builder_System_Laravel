@@ -8,6 +8,7 @@ use App\Modules\BankAccounts\Models\CompaniesBankaccounts;
 use Illuminate\Http\Request;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 use App\Modules\PaymentHeadings\Models\LstDlPaymentHeadings;
 use App\Modules\Companies\Models\Companies;
 
@@ -66,7 +67,7 @@ class BankAccountsController extends Controller {
         $create = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['bankAccount'] = array_merge($request, $create);
         $result = CompaniesBankaccounts::where('id', '=', $id)->update($input['bankAccount']);
-        
+
         $company = Companies::where('id', $request['company_id'])->first();
 
         if (!empty($result)) {
@@ -77,13 +78,62 @@ class BankAccountsController extends Controller {
     }
 
     public function manageBankAccount() {
-        $result = CompaniesBankaccounts::join('companies', 'companies.id', '=', 'companies_bankaccounts.company_id')->select(['companies_bankaccounts.id','companies_bankaccounts.company_id','companies_bankaccounts.name','companies_bankaccounts.branch',
-                'companies_bankaccounts.ifsc','companies_bankaccounts.micr','companies_bankaccounts.account_number','companies_bankaccounts.account_type','companies_bankaccounts.address'
-                ,'companies_bankaccounts.phone','companies_bankaccounts.email','companies_bankaccounts.preffered_payment_headings_ids','companies.legal_name'])->get();
-        if (!empty($result)) {
-            return json_encode(['records' => $result, 'status' => true]);
+        $result = CompaniesBankaccounts::join('companies', 'companies.id', '=', 'companies_bankaccounts.company_id')->select(['companies_bankaccounts.id', 'companies_bankaccounts.company_id', 'companies_bankaccounts.name', 'companies_bankaccounts.branch',
+                    'companies_bankaccounts.ifsc', 'companies_bankaccounts.micr', 'companies_bankaccounts.account_number', 'companies_bankaccounts.account_type', 'companies_bankaccounts.address'
+                    , 'companies_bankaccounts.phone', 'companies_bankaccounts.email', 'companies_bankaccounts.preffered_payment_headings_ids', 'companies.legal_name'])->get();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
         } else {
-            return json_encode(['errorMSg' => 'No record found', 'status' => true]);
+            $export = '';
+        }
+        if (!empty($result)) {
+            return json_encode(['records' => $result, 'exportData' => $export, 'status' => true]);
+        } else {
+            return json_encode(['errorMSg' => 'No record found', 'status' => false]);
+        }
+    }
+
+    public function bankAccountExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getCount = CompaniesBankaccounts::join('companies', 'companies.id', '=', 'companies_bankaccounts.company_id')
+                    ->select(['companies_bankaccounts.id', 'companies_bankaccounts.company_id', 'companies_bankaccounts.name', 'companies_bankaccounts.branch',
+                        'companies_bankaccounts.ifsc', 'companies_bankaccounts.micr', 'companies_bankaccounts.account_number', 'companies_bankaccounts.account_type', 'companies_bankaccounts.address'
+                        , 'companies_bankaccounts.phone', 'companies_bankaccounts.email', 'companies_bankaccounts.preffered_payment_headings_ids', 'companies.legal_name'])
+                    ->get()
+                    ->count();
+            $result = CompaniesBankaccounts::join('companies', 'companies.id', '=', 'companies_bankaccounts.company_id')
+                    ->select(['companies_bankaccounts.id', 'companies_bankaccounts.company_id', 'companies_bankaccounts.name', 'companies_bankaccounts.branch',
+                        'companies_bankaccounts.ifsc', 'companies_bankaccounts.micr', 'companies_bankaccounts.account_number', 'companies_bankaccounts.account_type', 'companies_bankaccounts.address'
+                        , 'companies_bankaccounts.phone', 'companies_bankaccounts.email', 'companies_bankaccounts.preffered_payment_headings_ids', 'companies.legal_name'])
+                    ->get();
+            $bankAccountData = array();
+            $j = 1;
+            $manageresult = json_decode(json_encode($result), true);
+            for ($i = 0; $i < count($result); $i++) {
+                $bankAccount['Sr No'] = $j++;
+                $bankAccount['Company'] = $manageresult[$i]['legal_name'];
+                $bankAccount['Name'] = $manageresult[$i]['name'];
+                $bankAccount['Branch'] = $manageresult[$i]['branch'];
+                if ($manageresult[$i]['account_type'] == '1') {
+                    $bankAccount['Account Type'] = 'Saving';
+                } else {
+                    $bankAccount['Account Type'] = 'Current';
+                }
+                $bankAccount['Account Number'] = $manageresult[$i]['account_number'];
+                $bankAccountData[] = $bankAccount;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Default Template Data', function($excel) use($bankAccountData) {
+                    $excel->sheet('sheet1', function($sheet) use($bankAccountData) {
+                        $sheet->fromArray($bankAccountData);
+                    });
+                })->download('xls');
+            }
         }
     }
 

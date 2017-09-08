@@ -2,6 +2,7 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
         $scope.noOfRows = 1;
         $scope.webTheme = false;
+        $scope.exportData = '';
         $scope.theme = {};
         $scope.itemsPerPage = 30;
 
@@ -24,6 +25,7 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             Data.post('website/getThemes').then(function (response) {
                 $scope.hideloader();
                 $scope.themesRow = response.records;
+                $scope.exportData = response.exportData;
 
             });
         };

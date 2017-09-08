@@ -25,6 +25,15 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
         }
 
 
+        $scope.employeeDeviceExportToxls = function (){
+              $scope.getexcel = window.location = "/employee-device/employeeDeviceExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
         $scope.manageDevice = function (id, action)
         {
             Data.post('employee-device/manageDevice', {
@@ -33,6 +42,7 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
                 if (id === 'index')
                 {
                     $scope.listDevices = response.records;
+                    $scope.exportData = response.exportData;
                 }
                 if (id > 0)
                 {

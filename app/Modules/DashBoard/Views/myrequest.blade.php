@@ -12,28 +12,12 @@
         width: 110%;
     }
 </style>
-<?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);?>
 <div class="row" ng-controller="dashboardCtrl" ng-init="getMyRequest()">    
     <div class=" mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">My Request</span>          
             </div>
-            <!--                <div class="widget-header ">
-                                    <span class="widget-caption">My Request</span>
-                                    <div class="widget-buttons">
-                                            <a href="" data-toggle="maximize">
-                                                    <i class="fa fa-expand"></i>
-                                            </a>
-                                            <a href="#" data-toggle="collapse">
-                                                    <i class="fa fa-minus"></i>
-                                            </a>
-                                            <a href="" data-toggle="dispose">
-                                                    <i class="fa fa-times"></i>
-                                            </a>
-                                    </div>
-                            </div>-->
-            <!--</div>-->
             <div class="widget-body table-responsive">
 
                 <div class="row table-toolbar">
@@ -43,9 +27,8 @@
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                     <?php if (in_array('01403', $array)) { ?>
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="ExportToxls()" >
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="ExportToxls()" ng-show="exportMyRequest=='1'" >
                             <span>Export</span> <!--href="/manageVerticals/exportToxls"  ng-click="ExportToxls()"-->
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -58,7 +41,6 @@
                             </ul>
                         </a>
                     </div>
-                     <?php }?>
                     <div  class="dataTables_filter">
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >

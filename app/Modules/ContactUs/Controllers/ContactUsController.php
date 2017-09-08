@@ -32,8 +32,14 @@ class ContactUsController extends Controller {
             $contactData['contact_person_name'] = $getContactus[$i]['contact_person_name'];
             $contactUs[] = $contactData;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        }else{
+              $export = '';
+        }
         if (!empty($contactUs)) {
-            $result = ['success' => true, 'records' => $contactUs];
+            $result = ['success' => true, 'records' => $contactUs, 'exportData' => $export];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -125,27 +131,30 @@ class ContactUsController extends Controller {
     }
 
     public function contactUsExportToxls() {
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $getCount = WebContactus::all()->count();
-        $getContactus = WebContactus::all();
-        $contactUs = array();
-        for ($i = 0; $i < count($getContactus); $i++) {
-            $contactData['Sr. No'] = $getContactus[$i]['id'];
-            $contactData['Address'] = $getContactus[$i]['address'];
-            $contactData['Pin Code'] = $getContactus[$i]['pin_code'];
-            $contactData['Email'] = $getContactus[$i]['email'];
-            $contactData['Contact Person Name'] = $getContactus[$i]['contact_person_name'];
-            $contactUs[] = $contactData;
-        }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getCount = WebContactus::all()->count();
+            $getContactus = WebContactus::all();
+            $contactUs = array();
+            $j = 1;
+            for ($i = 0; $i < count($getContactus); $i++) {
+                $contactData['Sr. No'] = $j++;
+                $contactData['Address'] = $getContactus[$i]['address'];
+                $contactData['Pin Code'] = $getContactus[$i]['pin_code'];
+                $contactData['Email'] = $getContactus[$i]['email'];
+                $contactData['Contact Person Name'] = $getContactus[$i]['contact_person_name'];
+                $contactUs[] = $contactData;
+            }
 
-        if ($getCount < 1) {
-            return false;
-        } else {
-            Excel::create('Export Data', function($excel) use($contactUs) {
-                $excel->sheet('sheet1', function($sheet) use($contactUs) {
-                    $sheet->fromArray($contactUs);
-                });
-            })->download('xls');
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Contact Us Data', function($excel) use($contactUs) {
+                    $excel->sheet('sheet1', function($sheet) use($contactUs) {
+                        $sheet->fromArray($contactUs);
+                    });
+                })->download('xls');
+            }
         }
     }
 

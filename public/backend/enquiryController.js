@@ -27,7 +27,19 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.listType = 0;
         $scope.BulkReasign = false;
         $scope.bulkData = {};
-        $scope.Bulkflag = [];        
+        $scope.Bulkflag = [];
+        $scope.remarkData = {};
+        $scope.remarkData.sms_privacy_status = 1;
+        $scope.remarkData.email_privacy_status = 1;
+        
+        $scope.changeSmsPrivacyStatus = function (val) {
+            $scope.remarkData.sms_privacy_status = val;
+        }
+
+        $scope.changeEmailPrivacyStatus = function (val) {
+            $scope.remarkData.email_privacy_status = val;
+        }
+        
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };

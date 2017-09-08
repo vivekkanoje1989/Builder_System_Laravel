@@ -11,26 +11,11 @@
 
             </div>
             <div class="widget-body table-responsive">
-                <!--                <div class="row">
-                                    <div class="col-sm-6 col-xs-12">
-                                      <label for="search">Search:</label>
-                                      <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
-                                    </div>
-                
-                                    <div class="col-sm-6 col-xs-12">
-                                      <label for="search">Records per page:</label>
-                                      <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:25%;" class="form-control" ng-model="itemsPerPage">
-                                    </div>
-                                </div>-->
                 <div class="row table-toolbar">
-                    <!--                    <a title="Create bank account" class="btn btn-default" data-toggle="modal" ng-click="initialModel('0', '', '', '')" data-target="#bankAccountModal" >Create Bank Account</a>
-                                        <div class="btn-group pull-right">
-                                            <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
-                                        </div>-->
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="defaultTemplatesExportToxls();" ng-show="exportData=='1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -39,16 +24,6 @@
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
                                 </li>
                             </ul>
                         </a>

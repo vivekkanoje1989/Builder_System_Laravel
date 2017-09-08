@@ -16,7 +16,7 @@
 
     <div class=" mainDiv col-xs-12 col-md-12">
         <div class="widget">
-            <div class="widget-header ">
+            <div class="widget-header bordered-bottom bordered-themeprimary ">
                 <span class="widget-caption">Sms Logs</span>
             </div>
             <div class="widget-body table-responsive">

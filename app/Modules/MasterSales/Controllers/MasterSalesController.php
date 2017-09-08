@@ -216,7 +216,7 @@ class MasterSalesController extends Controller {
                 unset($input['customerData']['loggedInUserId']);
                 unset($input['customerData']['id']);
             }
-//echo "<pre>";print_r($input);exit;
+
             $input['customerData']['gender_id'] = $input['customerData']['gender_id'];
             $input['customerData']['corporate_customer'] = ($input['customerData']['corporate_customer'] == 'true') ? '1' : '0';
             $input['customerData']['company_id'] = !empty($input['customerData']['company_id']) ? $input['customerData']['company_id'] : '0';
@@ -241,7 +241,7 @@ class MasterSalesController extends Controller {
             }
             if (!empty($input['customerContacts'])) {
                 $i = 0;
-                //echo "<pre>";print_r($input['customerContacts']);exit;
+                
                 foreach ($input['customerContacts'] as $contacts) {
 
                     if (!empty($contacts['$hashKey']))
@@ -260,7 +260,6 @@ class MasterSalesController extends Controller {
                     }
                     if (!empty($contacts['mobile_number'])) {
                         $checkMobileNumber = CustomersContact::where(['customer_id' => $id, "mobile_number" => $contacts['mobile_number']])->get();
-//echo "in if";exit;
                         if (!empty($contacts['id'])) {//for existing mobile number
                             $contacts['updated_date'] = date('Y-m-d', strtotime($contacts['created_date']));
                             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
@@ -289,7 +288,6 @@ class MasterSalesController extends Controller {
                         }
                         $i++;
                     }
-//                    echo "in else";exit;
                 }
             }
         } catch (\Exception $ex) {
@@ -317,10 +315,7 @@ class MasterSalesController extends Controller {
 
             $customerMobileNo = !empty($request['data']['customerMobileNo']) ? $request['data']['customerMobileNo'] : "0";
             $customerEmailId = !empty($request['data']['customerEmailId']) ? $request['data']['customerEmailId'] : "0";
-            $searchData = !empty($customerMobileNo) ? $customerMobileNo : $customerEmailId;
-
             $getCustomerContacts = DB::select('CALL proc_get_customer_contacts("' . $customerMobileNo . '","' . $customerEmailId . '")');
-//            echo "<pre>";print_r($getCustomerContacts);exit;
             if (count($getCustomerContacts) > 0) {
                 $getCustomerPersonalDetails = Customer::where('id', '=', $getCustomerContacts[0]->customer_id)->get();
                 unset($getCustomerPersonalDetails[0]['pan_number']);
@@ -385,28 +380,10 @@ class MasterSalesController extends Controller {
         return response()->json($result);
     }
 
-//        public function getCustomerAllDetails() {
-//        $postdata = file_get_contents("php://input");
-//        $request = json_decode($postdata, true);
-////echo $request['data']['customerId'];exit;
-//        $customerId = !empty($request['data']['customerId']) ? $request['data']['customerId'] : "0";
-//        $getCustomerContacts = DB::select('CALL proc_get_customer_contacts_details("' . $customerId . '")');
-//
-//        if (count($getCustomerContacts) > 0) {
-//            $getCustomerPersonalDetails = Customer::where('customers.id', '=', $getCustomerContacts[0]->customer_id)->leftjoin('lmsauto_master_final.mlst_lmsa_companies as mlc', 'mlc.id', '=', 'customers.company_id')
-//                            ->select('customers.*', 'mlc.company_name')->get();
-//            $result = ['success' => true, 'customerPersonalDetails' => $getCustomerPersonalDetails, 'customerContactDetails' => $getCustomerContacts];
-//            return json_encode($result);
-//        } else {
-//            $result = ['success' => false, "message" => "No record found"];
-//            return json_encode($result);
-//        }
-//    }
     public function getCustomerDataWithId() {
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            //$data = Customer::where('id', $request['data']['customerId'])->get();
 
             $data = Customer::select('customers.*', 'mlc.company_name')
                     ->where('customers.id', '=', $request['data']['customerId'])
@@ -502,7 +479,6 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
-            //print_r($request);exit;
             unset($request['$$hashKey']);
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -605,13 +581,10 @@ class MasterSalesController extends Controller {
                 $templatedata['template_setting_employee'] = 0;
                 $templatedata['customer_id'] = $customer_id;
                 $templatedata['enquiry_id'] = $insertEnquiry->id;
-                //$templatedata['model_id'] = $input['vehicleListData'][0]['model_id'];
                 $templatedata['project_id'] = $request['projectEnquiryDetails'][0]['project_id'];
                 $templatedata['arrExtra'][0] = array();
                 $templatedata['arrExtra'][1] = array();
-                // print_r($templatedata);exit;
                 $result = CommonFunctions::templateData($templatedata);
-                //print_r($result);exit;
                 // ************* End template for new enquiry..
                 $result = ['success' => true, 'message' => 'Record Inserted Successfully.'];
             } else {
@@ -637,7 +610,6 @@ class MasterSalesController extends Controller {
                     return json_encode($result, true);
                 }
             }
-            //print_r($request);exit;
             if (empty($request['enquiryData']['loggedInUserId'])) {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             } else {
@@ -971,14 +943,14 @@ class MasterSalesController extends Controller {
                 $recUpdate['company_location_id'] = 1;
                 $recUpdate = Customer::where('id', $customerId)->update($recUpdate);
             }
-            /*             * ***************EDIT CUSTOMER INFO******************* */
+            /*****************EDIT CUSTOMER INFO********************/
             if (!empty($request['custInfo'])) {
                 $custInfo = $request['custInfo'];
                 if (!empty($custInfo['title_id']) && (!empty($custInfo['customer_fname']) || !empty($custInfo['customer_lname']))) {
                     $custUpdate = Customer::where('id', $customerId)->update(["title_id" => $custInfo['title_id'], "first_name" => $custInfo['customer_fname'], "last_name" => $custInfo['customer_lname']]);
                 }
 
-                /*                 * ***************************Mobile / Email Update [For Mobile App Only]**************************** */
+                /*****************************Mobile / Email Update [For Mobile App Only]*****************************/
                 if (!empty($request['custInfo']['mobile_number']) || !empty($request['custInfo']['email_id'])) {
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number', 'email_id')->where('customer_id', $customerId)->get();
 
@@ -1120,6 +1092,7 @@ Regards,
                         $input['msgRemark'],
                         ""
                     );
+                    
                     $result = CommonFunctions::templateData($templatedata);
                     $msg = 'Remark inserted successfully';
                     $input['remarks'] = $input['msgRemark'] . " " . $reassignEnq;
@@ -1131,6 +1104,7 @@ Regards,<br>
 " . $fullName . "<br>
 " . $marketing_name . "<br>
 " . $getCallBackNo[0]['virtual_display_number'] . "";
+
                     $input['remarks'] = "Sent mail: " . strip_tags($input['email_content']) . $contactText;
                     $templatedata['employee_id'] = $loggedInUserId;
                     $templatedata['client_id'] = config('global.client_id');
@@ -1153,13 +1127,13 @@ Regards,<br>
                         $input['subject'],
                         ""
                     );
+                   
                     $result = CommonFunctions::templateData($templatedata);
                     $msg = 'Remark inserted successfully';
                     $input['remarks'] = strip_tags($input['email_content']) . " " . $reassignEnq;
                 }
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-//                if (!empty($input['editExistingFollowup']))
                 $editExistingFollowup = $input['editExistingFollowup'];
                 unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
