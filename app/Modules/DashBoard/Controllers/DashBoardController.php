@@ -130,8 +130,14 @@ class DashBoardController extends Controller {
             $employees[$i]['application_to'] = $employee['first_name'] . ' ' . $employee['last_name'];
             $i++;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        }else{
+              $export = '';
+        }
         if (!empty($employees)) {
-            $result = ['status' => true, 'records' => $employees];
+            $result = ['status' => true, 'records' => $employees, 'exportData' => $export];
         } else {
             $result = ['status' => false, 'message' => "No record"];
         }
@@ -169,8 +175,14 @@ class DashBoardController extends Controller {
             $employees[$i]['application_from'] = $employee['first_name'] . ' ' . $employee['last_name'];
             $i++;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        }else{
+              $export = '';
+        }
         if (!empty($employees)) {
-            $result = ['status' => true, 'records' => $employees];
+            $result = ['status' => true, 'records' => $employees, 'exportData' => $export];
         } else {
             $result = ['status' => false, 'message' => "Something went wrong"];
         }
@@ -196,85 +208,90 @@ class DashBoardController extends Controller {
 
 //function to export data to xls
     public function exportToxls() {
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $getCount = EmployeeRequest::where('created_by', '=', $loggedInUserId)->get()->count();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $getCount = EmployeeRequest::where('created_by', '=', $loggedInUserId)->get()->count();
 //        $myRequest = EmployeeRequest::select('id as SrNo','Request Type as request_type')->where('created_by', '=', $loggedInUserId)->get();
-        $myRequest = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
-                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
-                ->where('request.created_by', '=', $loggedInUserId)
-                ->get();
-        $i = 0;
-        foreach ($myRequest as $employee) {
-            $myRequest[$i]['application_to'] = $employee['first_name'] . ' ' . $employee['last_name'];
-            $i++;
-        }
-        $myRequestData = [];
-        $data = [];
-       
-        for ($j = 0; $j < count($myRequest); $j++) {
-            $myRequestData['Sr No'] = $myRequest[$j]['id'];
-            $myRequestData['Application To'] = $myRequest[$j]['application_to'];
-            $myRequestData['Request Type'] = $myRequest[$j]['request_type'];
-            $myRequestData['From Date'] = $myRequest[$j]['from_date'];
-            $myRequestData['To Date'] = $myRequest[$j]['to_date'];
-            if ($myRequest[$j]['status'] == '1') {
-                $myRequestData['Status'] = 'Leave';
-            } else {
-                $myRequestData['Status'] = 'Approved';
+            $myRequest = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                    ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
+                    ->where('request.created_by', '=', $loggedInUserId)
+                    ->get();
+            $i = 0;
+            foreach ($myRequest as $employee) {
+                $myRequest[$i]['application_to'] = $employee['first_name'] . ' ' . $employee['last_name'];
+                $i++;
             }
-            $data[] = $myRequestData;
-        }
-        if ($getCount < 1) {
-            return false;
-        } else {
-            Excel::create('Export Data', function($excel) use($data) {
-                $excel->sheet('sheet1', function($sheet) use($data) {
-                    $sheet->fromArray($data);
-                    
-                });
-            })->download('xls');
+            $myRequestData = [];
+            $data = [];
+            $k = 1;
+            for ($j = 0; $j < count($myRequest); $j++) {
+                $myRequestData['Sr No'] = $k++;
+                $myRequestData['Application To'] = $myRequest[$j]['application_to'];
+                $myRequestData['Request Type'] = $myRequest[$j]['request_type'];
+                $myRequestData['From Date'] = $myRequest[$j]['from_date'];
+                $myRequestData['To Date'] = $myRequest[$j]['to_date'];
+                if ($myRequest[$j]['status'] == '1') {
+                    $myRequestData['Status'] = 'Leave';
+                } else {
+                    $myRequestData['Status'] = 'Approved';
+                }
+                $data[] = $myRequestData;
+            }
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export My Request Data', function($excel) use($data) {
+                    $excel->sheet('sheet1', function($sheet) use($data) {
+                        $sheet->fromArray($data);
+                    });
+                })->download('xls');
+            }
         }
     }
-    
+
     public function requestForMeExportToxls() {
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $getCount = EmployeeRequest::where('created_by', '=', $loggedInUserId)->get()->count();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $getCount = EmployeeRequest::where('created_by', '=', $loggedInUserId)->get()->count();
 //        $myRequest = EmployeeRequest::select('id as SrNo','Request Type as request_type')->where('created_by', '=', $loggedInUserId)->get();
-        $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
-                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
-                ->where('request.uid', '=', $loggedInUserId)
-                ->get();
-        $i = 0;
-        foreach ($employees as $employee) {
-            $employees[$i]['application_from'] = $employee['first_name'] . ' ' . $employee['last_name'];
-            $i++;
-        }
-//        print_r($employees);exit;
-        $myRequestData = [];
-        $data = [];
-       
-        for ($j = 0; $j < count($employees); $j++) {
-            $myRequestData['Sr No'] = $employees[$j]['id'];
-            $myRequestData['Application To'] = $employees[$j]['application_from'];
-            $myRequestData['Request Type'] = $employees[$j]['request_type'];
-            $myRequestData['From Date'] = $employees[$j]['from_date'];
-            $myRequestData['To Date'] = $employees[$j]['to_date'];
-            if ($employees[$j]['status'] == '1') {
-                $myRequestData['Status'] = 'Leave';
-            } else {
-                $myRequestData['Status'] = 'Approved';
+            $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                    ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
+                    ->where('request.uid', '=', $loggedInUserId)
+                    ->get();
+            $i = 0;
+            foreach ($employees as $employee) {
+                $employees[$i]['application_from'] = $employee['first_name'] . ' ' . $employee['last_name'];
+                $i++;
             }
-            $data[] = $myRequestData;
-        }
-        if ($getCount < 1) {
-            return false;
-        } else {
-            Excel::create('Export Data', function($excel) use($data) {
-                $excel->sheet('sheet1', function($sheet) use($data) {
-                    $sheet->fromArray($data);
-                    
-                });
-            })->download('xls');
+//        print_r($employees);exit;
+            $myRequestData = [];
+            $data = [];
+            $k = 1;
+            for ($j = 0; $j < count($employees); $j++) {
+                $myRequestData['Sr No'] = $k++;
+                $myRequestData['Application To'] = $employees[$j]['application_from'];
+                $myRequestData['Request Type'] = $employees[$j]['request_type'];
+                $myRequestData['From Date'] = $employees[$j]['from_date'];
+                $myRequestData['To Date'] = $employees[$j]['to_date'];
+                if ($employees[$j]['status'] == '1') {
+                    $myRequestData['Status'] = 'Leave';
+                } else {
+                    $myRequestData['Status'] = 'Approved';
+                }
+                $data[] = $myRequestData;
+            }
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Request For Me Data', function($excel) use($data) {
+                    $excel->sheet('sheet1', function($sheet) use($data) {
+                        $sheet->fromArray($data);
+                    });
+                })->download('xls');
+            }
         }
     }
 

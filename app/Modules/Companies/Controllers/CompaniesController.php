@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Classes\CommonFunctions;
 use DB;
+use Excel;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use App\Classes\S3;
@@ -32,10 +33,43 @@ class CompaniesController extends Controller {
 
     public function manageCompany() {
         $result = companies::select('punch_line', 'legal_name', 'id')->get();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($result)) {
-            return json_encode(['result' => $result, 'status' => true]);
+            return json_encode(['result' => $result, 'exportData' => $export, 'status' => true]);
         } else {
             return json_encode(['errorMsg' => "No record found", 'status' => true]);
+        }
+    }
+
+    public function companiesExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $result = companies::select('punch_line', 'legal_name', 'id')->get();
+            $getCount = companies::select('punch_line', 'legal_name', 'id')->get()->count();
+            $companies = array();
+            $j = 1;
+            $manageCompany = json_decode(json_encode($result), true);
+            for ($i = 0; $i < count($manageCompany); $i++) {
+                $companyData['Sr No'] = $j++;
+                $companyData['Punch Line'] = $manageCompany[$i]['punch_line'];
+                $companyData['Legal Name'] = $manageCompany[$i]['legal_name'];
+                $companies[] = $companyData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Companies Data', function($excel) use($companies) {
+                    $excel->sheet('sheet1', function($sheet) use($companies) {
+                        $sheet->fromArray($companies);
+                    });
+                })->download('xls');
+            }
         }
     }
 

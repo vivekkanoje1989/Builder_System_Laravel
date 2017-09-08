@@ -82,11 +82,23 @@ app.controller('logdetailController', ['$scope', 'Data', '$filter', 'Upload', '$
                 if (response.success) {
                     $scope.smslogslistdetail = response.records;
                     $scope.smslogslength = response.totalCount;
+                    $scope.logDetailsExport = response.logDetailsExport;
 
                 }
                 $scope.flagForChange = 0;
             });
         }
+
+        $scope.logDetailsExportToxls = function () {
+//            alert( $scope.tranid);
+            $scope.getexcel = window.location = "/promotionalsms/logDetailsExportToxls/"+$scope.tranid;
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+
 
         $scope.getDetailFilteredData = function (filterData, page, noOfRecords) {
             $scope.showloader();

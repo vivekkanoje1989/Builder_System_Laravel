@@ -32,6 +32,7 @@ use App\Classes\S3;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use App\Modules\Projects\Models\ProjectWebPage;
+use App\Models\SendDocumentHistory;
 
 class MasterSalesController extends Controller {
 
@@ -2947,7 +2948,7 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            $query = DB::select('select c.first_name as customer_fname,c.last_name as customer_lname,ed.project_id,title,c.title_id,(SELECT GROUP_CONCAT(distinct cc.mobile_number) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_mobile_no,(SELECT GROUP_CONCAT(distinct cc.email_id) FROM 
+            $query = DB::select('select c.id as customer_id,c.first_name as customer_fname,c.last_name as customer_lname,ed.project_id,title,c.title_id,(SELECT GROUP_CONCAT(distinct cc.mobile_number) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_mobile_no,(SELECT GROUP_CONCAT(distinct cc.email_id) FROM 
                     `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_email_id,(SELECT GROUP_CONCAT(cc.area_name) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_area_name, 
                     (SELECT GROUP_CONCAT(cc.house_number," ",cc.building_house_name," ",cc.wing_name," ",cc.area_name," ",cc.lane_name," ",cc.landmark,cc.pin) FROM `customers_contacts`as cc WHERE c.`id` = cc.customer_id limit 1) AS customer_address
                     from `enquiries` as `enq` LEFT JOIN `enquiry_details` as `ed` on `ed`.`enquiry_id` = `enq`.`id` LEFT JOIN `customers` as c ON c.id = enq.customer_id  LEFT JOIN laravel_developement_master_edynamics.`mlst_titles` as mt ON mt.id = c.title_id
@@ -2978,4 +2979,91 @@ Regards,<br>
         }
          return response()->json($result);
     }
+    public function insertSendDocument()
+    {
+        try{
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata,true);
+            $doc = array();
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            //print_r($request);exit;
+            if($request['isUpdate'])
+            { // update customer
+                $update =Customer::where('id',$request['documentData']['customer_id'])->update(['first_name'=>$request['documentData']['customer_fname'],'last_name'=>$request['documentData']['customer_lname'],'title_id'=>$request['documentData']['title_id']]);               
+            }
+            // sms mail template             
+            $templatedata['employee_id'] = $loggedInUserId;
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 47;
+            $templatedata['template_setting_employee'] = 0;
+            $templatedata['customer_id'] = $request['documentData']['customer_id'];
+            $templatedata['project_id'] = $request['documentData']['project_id'];
+            
+            //$templatedata['cust_attached_file'] = 'http://www.pdf995.com/samples/pdf.pdf';
+            $templatedata['cust_attached_file'] = !empty($project_brochure) ? 'http://www.pdf995.com/samples/pdf.pdf' : '';
+            $layoutPlan = $locationMap = $floorPlan = $amenities = $videoLink = '';
+            $templatedata['arrExtra'][0] = array(
+                '[#layoutPlan#]',
+                '[#floorPlan#]',
+                '[#locationMap#]',                
+                '[#Amenities#]',
+                '[#videoLink#]',
+            );
+            $templatedata['arrExtra'][1] = array(
+                $layoutPlan,
+                $floorPlan,
+                $locationMap,
+                $amenities,
+                $videoLink,
+            );
+            //print_r($templatedata);exit;
+            $Templateresult = CommonFunctions::templateData($templatedata);
+            print_r($Templateresult);exit;
+            
+            // insert into send document history
+            
+            $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
+            $insertDocument['enquiry_id'] =$request['enquiry_id'] ;
+            $insertDocument['project_id'] = $request['documentData']['project_id'];
+            foreach($request['sendDocument'] as $val)
+            {
+                $arr = array();
+                $arr = explode('@',$val);
+                $doc[$arr[0]] = $arr[1];                
+            }
+            $insertDocument['send_datetime'] = date('Y-m-d H:i:s');
+            $insertDocument['send_documents'] = json_encode($doc);
+            $insertDocument['send_by'] =$loggedInUserId ;
+            $insertDocument = array_merge($insertDocument,$create);
+            //print_r($insertDocument);exit;
+            $dataInsert = SendDocumentHistory::create($insertDocument);
+            if($dataInsert){
+                $result = ["success" => true,"message"=>"Send Document Successfully."];
+            }
+        } catch (Exception $ex) {
+                $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+        return response()->json($result);
+    }
+    
+    public function sendDocList()
+    {
+        try{
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata,true);
+            $allSend = SendDocumentHistory::select('id','enquiry_id','project_id','send_documents','send_datetime','send_by')->get();
+            if(count($allSend) > 0)
+            {
+                $result = ["success" => true, 'records'=>$allSend];
+            }
+            else
+            {
+                $result = ["success" => false, "message" => 'No records Found','records'=>0];
+            }
+        } catch (Exception $ex) {
+             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+        return response()->json($result);
+    }
+    
 }

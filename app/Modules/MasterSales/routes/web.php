@@ -32,6 +32,9 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
      Route::get('/MasterSales/sendDocument', function () {
         return View::make('MasterSales::sendDocument');
     });
+     Route::get('/MasterSales/sendDocumentHistory', function () {
+        return View::make('MasterSales::sendDocumentHistory');
+    });
     Route::get('/master-sales/createQuickEnquiry','MasterSalesController@createQuickEnquiry');
  
     
@@ -82,6 +85,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::post('/master-sales/filteredData', 'MasterSalesController@filteredData');//filtered data
     Route::post('/master-sales/sendDocuments', 'MasterSalesController@sendDocuments');// get customer data send document
     Route::post('/master-sales/getDocumentsList', 'MasterSalesController@getDocumentsList');// get documents  //uma 
+    Route::post('/master-sales/insertSendDocument', 'MasterSalesController@insertSendDocument');// get documents  //uma 
+    Route::post('/master-sales/sendDocList', 'MasterSalesController@sendDocList');// get documents  //uma 
     
     
     /****************************ENQUIRIES****************************/

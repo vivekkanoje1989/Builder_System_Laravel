@@ -307,6 +307,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             });
         };
 
+        $scope.hrDetailsExporToxls = function () {
+              $scope.getexcel = window.location = "/master-hr/hrDetailsExporToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
+        
         $scope.manageUsers = function (id, action) {
             $scope.modal = {};
             $scope.showloader();
@@ -322,6 +332,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     if (action == "index") {
                         $scope.listUsers = response.records.data;
                         $scope.listUsersLength = response.records.total;
+                        $scope.exportData = response.records.exportData;
 
                     } else if (action == "edit") {
                         if (id !== 0) {
@@ -970,12 +981,23 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             Data.get('master-hr/getRoles').then(function (response) {
                 if (response.success) {
                     $scope.roleList = response.list;
+                    $scope.exportDetails = response.exportDetails;
                 } else {
                     $scope.errorMsg = response.message;
                 }
             });
         }
 
+        $scope.manageRoleExportToExcel = function () {
+              $scope.getexcel = window.location = "/master-hr/manageRoleExportToExcel";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
+        
         $scope.createRole = function (RoleData) {
             Data.post('master-hr/createUserRole', {
                 data: {role_name: RoleData.role_name, masterRole: $rootScope.roleMenuList.menuId}

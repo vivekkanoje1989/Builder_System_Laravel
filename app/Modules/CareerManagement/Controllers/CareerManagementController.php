@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Modules\CareerManagement\Models\WebCareers;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 use Validator;
 use App\Modules\CareerManagement\Models\WebCareersApplications;
 use Illuminate\Support\Facades\Input;
@@ -49,12 +50,47 @@ class CareerManagementController extends Controller {
 
     public function manageCareers() {
         $careers = WebCareers::where('deleted_status', '!=', 1)->get();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($careers)) {
-            $result = ['success' => true, 'records' => $careers];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $careers, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function jobPostingExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $careers = WebCareers::where('deleted_status', '!=', 1)->get();
+            $getCount = WebCareers::where('deleted_status', '!=', 1)->get()->count();
+            $careers = json_decode(json_encode($careers), true);
+
+            $manageCareers = array();
+            $j = 1;
+            for ($i = 0; $i < count($careers); $i++) {
+                $careerData['Sr No.'] = $j++;
+                $careerData['Job Title'] = $careers[$i]['job_title'];
+                $careerData['Job Eligibility'] = preg_replace("/\r|\n/", "", $careers[$i]['job_eligibility']);
+                $careerData['Application Start Date'] = $careers[$i]['application_start_date'];
+                $careerData['Application Close Date'] = $careers[$i]['application_close_date'];
+                $manageCareers[] = $careerData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Job Posting Details', function($excel) use($manageCareers) {
+                    $excel->sheet('sheet1', function($sheet) use($manageCareers) {
+                        $sheet->fromArray($manageCareers);
+                    });
+                })->download('xls');
+            }
         }
     }
 
@@ -126,12 +162,48 @@ class CareerManagementController extends Controller {
 
         $careers = WebCareersApplications::where('career_id', $request['career_id'])
                         ->where('deleted_status', '!=', 1)->get();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($careers)) {
-            $result = ['success' => true, 'records' => $careers];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $careers, 'exportApplicationData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function jobPostingApplicationExportToxls($career_id) {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $careers = WebCareersApplications::where('career_id', $career_id)
+                            ->where('deleted_status', '!=', 1)->get();
+            $getCount = WebCareersApplications::where('career_id', $career_id)
+                            ->where('deleted_status', '!=', 1)->get()->count();
+            $careers = json_decode(json_encode($careers), true);
+            $manageCareers = array();
+            $j = 1;
+            for ($i = 0; $i < count($careers); $i++) {
+                $careerData['Sr No.'] = $j++;
+                $careerData['First Name'] = $careers[$i]['first_name'];
+                $careerData['Last Name'] = $careers[$i]['last_name'];
+                $careerData['Mobile Number'] = $careers[$i]['mobile_number'];
+                $careerData['Email'] = $careers[$i]['email_id'];
+                $manageCareers[] = $careerData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Job Posting Details', function($excel) use($manageCareers) {
+                    $excel->sheet('sheet1', function($sheet) use($manageCareers) {
+                        $sheet->fromArray($manageCareers);
+                    });
+                })->download('xls');
+            }
         }
     }
 

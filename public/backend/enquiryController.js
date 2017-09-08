@@ -445,7 +445,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.sendDocuments = function (id)
         {
-            $scope.documentData.enquiryId = id;
+            $rootScope.enquiryId = id;
             Data.post('master-sales/sendDocuments', {enquiryId: id}).then(function (response) {
                 if (response.success)
                 {
@@ -486,9 +486,20 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 } else {
                 }
             });
-            $scope.SelectedDocs = flag;
-            
-
+            $scope.SelectedDocs = flag;            
+            Data.post('master-sales/insertSendDocument',{documentData : documentdata,isUpdate:$scope.editableCustInfo,sendDocument:$scope.SelectedDocs,enquiry_id :$rootScope.enquiryId,}).then(function(response){
+                
+            });
+        }
+        $scope.sendingList = function()
+        {
+            alert($rootScope.enquiryId);
+            Data.post('master-sales/sendDocList',{enquiry_id :$rootScope.enquiryId,}).then(function(response){
+                if(response.success)
+                {
+                    $scope.sendList = response.records;
+                }
+            });
         }
         /* ********************* uma End ******************************** */
         /*********************TODAY REMARK (GEETA)*********************/

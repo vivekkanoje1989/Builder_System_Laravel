@@ -30,8 +30,14 @@ class ThemesController extends Controller {
             $themeData['theme_name'] = $theme[$i]['theme_name'];
             $themePages[] = $themeData;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($themePages)) {
-            return json_encode(['records' => $themePages, 'status' => true]);
+            return json_encode(['records' => $themePages, 'exportData' => $export, 'status' => true]);
         } else {
             return json_encode(['errorMsg' => 'No record', 'status' => false]);
         }
@@ -141,24 +147,26 @@ class ThemesController extends Controller {
     }
 
     public function themeExportToxls() {
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $getCount = WebThemes::all()->count();
-         $theme = WebThemes::all();
-        $themePages = array();
-        for ($i = 0; $i < count($theme); $i++) {
-            $themeData['id'] = $theme[$i]['id'];
-            $themeData['theme_name'] = $theme[$i]['theme_name'];
-            $themePages[] = $themeData;
-        }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getCount = WebThemes::all()->count();
+            $theme = WebThemes::all();
+            $themePages = array();
+            for ($i = 0; $i < count($theme); $i++) {
+                $themeData['id'] = $theme[$i]['id'];
+                $themeData['theme_name'] = $theme[$i]['theme_name'];
+                $themePages[] = $themeData;
+            }
 
-        if ($getCount < 1) {
-            return false;
-        } else {
-            Excel::create('Export Data', function($excel) use($themePages) {
-                $excel->sheet('sheet1', function($sheet) use($themePages) {
-                    $sheet->fromArray($themePages);
-                });
-            })->download('xls');
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Theme Data', function($excel) use($themePages) {
+                    $excel->sheet('sheet1', function($sheet) use($themePages) {
+                        $sheet->fromArray($themePages);
+                    });
+                })->download('xls');
+            }
         }
     }
 

@@ -5,32 +5,11 @@
                 <span class="widget-caption">Manage Roles</span>                
             </div>
             <div class="widget-body table-responsive">
-                <!--                <div class="row">
-                                    <div class="col-md-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Search:</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="search" name="search" class="form-control">
-                                                <i class="fa fa-search" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Records per page:</label>
-                                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage" name="itemsPerPage">
-                                        </div>
-                                    </div>
-                                </div>-->
                 <div class="row table-toolbar">
-                    <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
-                    <!--                <div class="btn-group pull-right">
-                                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
-                                    </div>-->
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View excel" ng-click="manageRoleExportToExcel()" ng-show="exportDetails=='1'"> 
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -40,16 +19,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
+                               
                             </ul>
                         </a>
                     </div>

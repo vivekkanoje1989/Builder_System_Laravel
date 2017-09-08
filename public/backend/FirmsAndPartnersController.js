@@ -9,11 +9,13 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.editPage = {};
         $scope.documents = [];
         $scope.documentData = [];
+        $scope.exportData = '';
         $scope.firmBtn = false;
         $scope.companyDocTab = true;
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
                 $scope.CompanyRow = response.result;
+                $scope.exportData = response.exportData;
             });
         };
 
@@ -38,11 +40,21 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-        
+
+        $scope.companiesExportToxls = function () {
+            $scope.getexcel = window.location = "/manage-companies/companiesExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+
         $scope.clearData = function () {
             $scope.stationary = {};
 //            $scope.stationaryDetails1 = [];
         }
+
         /*push client the stationary info*/
         $scope.stationaries = function (stationaryData, estimateLogoFile, companyid)
         {
@@ -96,7 +108,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         $scope.documentDetails = function (documentData, documentFile, companyid)
         {
-           
+
             if ($scope.id == 0) {
                 var url = '/manage-companies/addDocument';
                 var data = {

@@ -20,20 +20,48 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
         /*export Excel*/
         $scope.registrationData.id = $scope.registrationData.forwarding_type_id = '';
 
+        $scope.noOfRows = 1;
         $scope.pageNumber = 1;
         $scope.virtualnumList = [];
 
-        $scope.pageChanged = function (pageNo,functionName,id) {
-         
+        $scope.pageChanged = function (pageNo, functionName, id) {
+
             if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
                 $scope.filteredData($scope.filterData, pageNo, $scope.itemsPerPage);
             } else {
-               
-                $scope[functionName](id,pageNo, $scope.itemsPerPage);
+
+                $scope[functionName](id, pageNo, $scope.itemsPerPage);
             }
             $scope.pageNumber = pageNo;
         }
-        $scope.showvirtualnumusers = function(){
+
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+            if (search.joining_date != undefined) {
+                var today = new Date(search.joining_date);
+                search.joining_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+            }
+            if (search.login_date_time != undefined) {
+                var loginDate = new Date(search.login_date_time);
+                search.login_date_time = (loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
+            }
+            $scope.searchData = search;
+
+//                }
+//            });
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
+
+        $scope.showvirtualnumusers = function () {
             Data.post('cloudtelephony/getVirtualNumList').then(function (response, evt) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
@@ -42,17 +70,17 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 }
             });
         }
-        $scope.removeEmpID = function(pmKey,empId,extid,removeType){
-            Data.post('cloudtelephony/removeEmpID',{data:{pmKey:pmKey,empId:empId,extid:extid,removeType:removeType}}).then(function (response, evt) {
+        $scope.removeEmpID = function (pmKey, empId, extid, removeType) {
+            Data.post('cloudtelephony/removeEmpID', {data: {pmKey: pmKey, empId: empId, extid: extid, removeType: removeType}}).then(function (response, evt) {
                 if (!response.success) {
                     toaster.pop('error', '', response.message);
                 } else {
                     toaster.pop('success', '', 'Employee removed successfully');
                 }
                 $state.reload();
-                $timeout(function(){
-                    angular.element("a.accordion-toggle."+response.data).trigger("click");
-                },500);
+                $timeout(function () {
+                    angular.element("a.accordion-toggle." + response.data).trigger("click");
+                }, 500);
             });
         }
 
@@ -60,7 +88,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             var date = new Date($scope.registrationData.activation_date);
             $scope.registrationData.activation_date = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
             $scope.submitted = true;
-            
+
             Data.post('cloudtelephony', {
                 data: {registrationData: registrationData},
             }).then(function (response, evt) {
@@ -73,9 +101,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     $scope.registrationData.incoming_pulse_duration = '60';
                     $scope.registrationData.outbound_pulse_duration = '60';
                     $scope.registrationData.rent_duration = '1';
-                    $scope.step1 = false;   
-                    toaster.pop('success', '',response.message);
-                    $timeout(function () {                        
+                    $scope.step1 = false;
+                    toaster.pop('success', '', response.message);
+                    $timeout(function () {
                         $state.go('numbersIndex');
                     }, 1000);
                 }
@@ -591,6 +619,16 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             });
         };
 
+        $scope.myInboundExportToxls = function (empId) {
+            $scope.getexcel = window.location = "/cloudcallinglogs/myInboundExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+
+
         $scope.inboundLists = function (empId, pageNumber, itemPerPage) {
             $scope.report_name = "Inbound Logs";
             Data.post('cloudcallinglogs/myInboundLogs', {
@@ -599,6 +637,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 if (response.success) {
                     $scope.inboundList = response.records;
                     $scope.inboundLength = response.totalCount;
+                    $scope.myInboundExport = response.myInboundExport;
                     $timeout(function () {
                         for (i = 0; i < $scope.inboundList.length; i++) {
                             if ($scope.inboundList[i].customer_call_status == "Connected") {
@@ -611,7 +650,11 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 }
             });
         };
-
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
+        
         $scope.setAudio = function () {
             $timeout(function () {
                 for (i = 0; i < $scope.inboundList.length; i++) {
@@ -724,33 +767,33 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             });
         };
 
-     /* Export To excel Data */
-        $scope.inLogexportReport = function(result){
+        /* Export To excel Data */
+        $scope.inLogexportReport = function (result) {
 
-        Data.post('cloudcallinglogs/inLogexportToExcel',{result:result, reportName:$scope.report_name.replace(/ /g,"_")}).then(function (response) {
-            //$("#downloadExcel").attr("href",response.fileUrl);
-            window.location.href = response.fileUrl;
-            $scope.sheetName = response.sheetName;
-            toaster.pop('success', '', response.message);
-            $scope.btnExport = true;
-            $scope.dnExcelSheet = false;
-        });
-    }
+            Data.post('cloudcallinglogs/inLogexportToExcel', {result: result, reportName: $scope.report_name.replace(/ /g, "_")}).then(function (response) {
+                //$("#downloadExcel").attr("href",response.fileUrl);
+                window.location.href = response.fileUrl;
+                $scope.sheetName = response.sheetName;
+                toaster.pop('success', '', response.message);
+                $scope.btnExport = true;
+                $scope.dnExcelSheet = false;
+            });
+        }
 
 
-    $scope.outLogexportReport = function(result){
+        $scope.outLogexportReport = function (result) {
 
-        Data.post('cloudcallinglogs/outLogexportToExcel',{result:result, reportName:$scope.report_name.replace(/ /g,"_")}).then(function (response) {
-           //  $("#downloadExcel").attr("href",response.fileUrl);
-            window.location.href = response.fileUrl;
-            $scope.sheetName = response.sheetName;
-            toaster.pop('success', '', response.message);
-            $scope.btnExport = true;
-            $scope.dnExcelSheet = false;
-        });
-    }
-    /* end export to excel*/
-        
+            Data.post('cloudcallinglogs/outLogexportToExcel', {result: result, reportName: $scope.report_name.replace(/ /g, "_")}).then(function (response) {
+                //  $("#downloadExcel").attr("href",response.fileUrl);
+                window.location.href = response.fileUrl;
+                $scope.sheetName = response.sheetName;
+                toaster.pop('success', '', response.message);
+                $scope.btnExport = true;
+                $scope.dnExcelSheet = false;
+            });
+        }
+        /* end export to excel*/
+
         //end outbound call listing
         $scope.getsubsource = function (source_id) {
             $scope.enquirysubsources = {};
@@ -828,9 +871,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
         $scope.procName = function (procedureName, isTeam) {
             $scope.getProcName = angular.copy(procedureName);
             $scope.type = angular.copy(isTeam);
-            $timeout(function () {                
+            $timeout(function () {
                 $("input[name=customer_number]").trigger("click");
-            },200);
+            }, 200);
         }
 
         $scope.filterData = {};
@@ -933,12 +976,12 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             delete $scope.filterData[keyvalue];
             $scope.filteredoutboundData($scope.filterData, 1, 30);
         }
-          
 
-        $scope.checkLength=function(type){            
+
+        $scope.checkLength = function (type) {
             var keys = Object.keys(type);
             var len = keys.length;
-            return len; 
+            return len;
         }
 
     }]);
@@ -953,7 +996,7 @@ app.controller('virtualnumberCtrl', function ($scope, Data) {
         }
     });
 });
-app.controller('employeesWiseTeamCtrl', function ($scope, Data,$timeout) {
+app.controller('employeesWiseTeamCtrl', function ($scope, Data, $timeout) {
     $scope.employeesData = [];
     Data.post('getTeamEmployees', {
         data: {empId: ''},
@@ -962,11 +1005,12 @@ app.controller('employeesWiseTeamCtrl', function ($scope, Data,$timeout) {
             $scope.errorMsg = response.message;
             $scope.employeesData = response.records;
         } else {
-            $timeout(function () {console.log($("input[name=customer_number]"));
-                
+            $timeout(function () {
+                console.log($("input[name=customer_number]"));
+
                 $scope.employeesData = response.records;
-            },1000);
-            
+            }, 1000);
+
         }
     });
 });
@@ -977,7 +1021,7 @@ app.filter('split', function () {
     }
 });
 app.filter('underscore', function () {
-  return function (input) {
-      return input.replace(/ /g, '_');
-  };
+    return function (input) {
+        return input.replace(/ /g, '_');
+    };
 });

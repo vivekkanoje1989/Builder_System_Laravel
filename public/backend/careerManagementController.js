@@ -10,6 +10,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
         $scope.manageCareers = function () {
             Data.get('manage-job/manageCareers').then(function (response) {
                 $scope.careerRow = response.records;
+                $scope.exportData = response.exportData;
             });
         };
         $scope.clearToDate = function ()
@@ -31,6 +32,25 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
             });
         };
 
+        $scope.jobPostingExportToxls = function () {
+            $scope.getexcel = window.location = "/manage-job/jobPostingExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+
+        $scope.jobPostingApplicationExportToxls = function(){
+//            alert($scope.careerId);
+             $scope.getexcel = window.location = "/manage-job/jobPostingApplicationExportToxls/"+$scope.careerId;
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        };
+        
         $scope.searchDetails = {};
         $scope.searchData = {};
 
@@ -130,10 +150,12 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
             }
         }
         $scope.viewApplicants = function (id)
-        {
+        { 
+            $scope.careerId = id;
             Data.post('manage-job/viewapplicants', {
                 'career_id': id}).then(function (response) {
                 $scope.viewApplicantsRow = response.records;
+                $scope.exportApplicationData = response.exportApplicationData;
             });
         }
         $scope.pageChangeHandler = function (num) {

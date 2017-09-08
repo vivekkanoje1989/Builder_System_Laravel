@@ -16,6 +16,7 @@ use App\Models\MlstBmsbBlockType;
 use App\Models\ProjectBlock;
 use App\Models\ProjectStatus;
 use Auth;
+use Excel;
 use App\Classes\CommonFunctions;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
@@ -42,13 +43,48 @@ class ProjectsController extends Controller {
             $getProjects[$i]['projectType'] = $getProject['projectTypes']['project_type'];
             $i++;
         }
-
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getProjects)) {
-            $result = ['success' => true, 'records' => $getProjects];
+            $result = ['success' => true, 'records' => $getProjects, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
+    }
+
+    public function manageProjectsExportToExcel() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+
+        $getProjectData = array();
+        if (in_array('01401', $array)) {
+            $getProjects = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get();
+            $getCount = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get()->count();
+            $j = 1;
+            for ($i = 0; $i < count($getProjects); $i++) {
+                $getProject['Sr No.'] = $j++;
+                $getProject['Registration Date & Time'] = $getProjects[$i]['created_at'];
+                $getProject['Registered by'] = $getProjects[$i]['getEmployee']['first_name'] . ' ' . $getProjects[$i]['getEmployee']['last_name'];
+                $getProject['Project Name'] = $getProjects[$i]['project_name'];
+                $getProject['Project Type'] = $getProjects[$i]['projectTypes']['project_type'];
+                $getProject['Project Status'] = $getProjects[$i]['projectStatus']['project_status'];
+                $getProjectData[] = $getProject;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Project Details', function($excel) use($getProjectData) {
+                    $excel->sheet('sheet1', function($sheet) use($getProjectData) {
+                        $sheet->fromArray($getProjectData);
+                    });
+                })->download('xls');
+            }
+        }
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Modules\WebPages\Controllers;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,7 +12,6 @@ use Illuminate\Support\Facades\Input;
 use App\Classes\S3;
 use Auth;
 use Excel;
-
 
 class WebPagesController extends Controller {
 
@@ -39,47 +40,53 @@ class WebPagesController extends Controller {
 
             $webPages[] = $webData;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        }else{
+              $export = '';
+        }
         if ($webPages) {
-            $result = ['success' => true, 'records' => ["data" => $webPages, "total" => count($webPages), 'per_page' => count($webPages),
+            $result = ['success' => true, 'records' => ["data" => $webPages, 'exportData' => $export, "total" => count($webPages), 'per_page' => count($webPages),
                     "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($webPages)]];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function contentManagementExportToxls() {
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $getCount = WebPage::all()->count();
-//        $myRequest = EmployeeRequest::select('id as SrNo','Request Type as request_type')->where('created_by', '=', $loggedInUserId)->get();
-        $data = WebPage::all();
-        $webPages = array();
-        for ($i = 0; $i < count($data); $i++) {
-            $webData['Sr No.'] = $data[$i]['id'];
-            $webData['Page Name'] = $data[$i]['page_name'];
-            $webData['Page Title'] = $data[$i]['page_title'];
-            $status = $data[$i]['status'];
-            if ($status == 1) {
-                $webData['status'] = 'active';
-            } else {
-                $webData['status'] = 'inactive';
-            }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getCount = WebPage::all()->count();
+            $data = WebPage::all();
+            $webPages = array();
+            $j = 1;
+            for ($i = 0; $i < count($data); $i++) {
+                $webData['Sr No.'] = $j++;
+                $webData['Page Name'] = $data[$i]['page_name'];
+                $webData['Page Title'] = $data[$i]['page_title'];
+                $status = $data[$i]['status'];
+                if ($status == 1) {
+                    $webData['status'] = 'active';
+                } else {
+                    $webData['status'] = 'inactive';
+                }
 
-            $webPages[] = $webData;
-        }
-        if ($getCount < 1) {
-            return false;
-        } else {
-            Excel::create('Export Data', function($excel) use($webPages) {
-                $excel->sheet('sheet1', function($sheet) use($webPages) {
-                    $sheet->fromArray($webPages);
-                    
-                });
-            })->download('xls');
+                $webPages[] = $webData;
+            }
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Data', function($excel) use($webPages) {
+                    $excel->sheet('sheet1', function($sheet) use($webPages) {
+                        $sheet->fromArray($webPages);
+                    });
+                })->download('xls');
+            }
         }
     }
-    
+
     public function create() {
 //
     }

@@ -18,6 +18,7 @@ use App\Modules\MasterHr\Models\EmployeeRole;
 use App\Models\MlstBmsbDesignation;
 use App\Models\MlstBmsbDepartment;
 use Session;
+use Excel;
 use App\Models\MlstTitle;
 
 class MasterHrController extends Controller {
@@ -51,7 +52,7 @@ class MasterHrController extends Controller {
                 $manageUser[$i]['department_id'] = explode(',', $manage['department_id']);
                 $i++;
             }
-           
+
             for ($i = 0; $i < count($manageUser); $i++) {
                 $blogData['id'] = $manageUser[$i]['id'];
                 $blogData['employee_id'] = $manageUser[$i]['id'];
@@ -114,10 +115,63 @@ class MasterHrController extends Controller {
                 $manageUsers[] = $blogData;
             }
         }
-
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if ($manageUsers) {
-            $result = ['success' => true, "records" => ["data" => $manageUsers, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
+            $result = ['success' => true, "records" => ["data" => $manageUsers, 'exportData'=>$export,"total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
             return json_encode($result);
+        }
+    }
+
+    public function hrDetailsExporToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $manageData = DB::select('CALL proc_manage_users(0,0)');
+            $cnt = DB::select('select FOUND_ROWS() totalCount');
+            $getCount = $cnt[0]->totalCount;
+            $manageUser = json_decode(json_encode($manageData), true);
+            $k = 0;
+            foreach ($manageUser as $manage) {
+                $manageUser[$k]['department_id'] = explode(',', $manage['department_id']);
+                $k++;
+            }
+            $manageUsers = array();
+            $j = 1;
+            for ($i = 0; $i < count($manageUser); $i++) {
+                 $blogData['Sr No.'] = $j++;
+                $first_name = $manageUser[$i]['first_name'];
+                $team_lead_fname = $manageUser[$i]['team_lead_fname'];
+                $team_lead_lname = $manageUser[$i]['team_lead_lname'];
+                $reporting_to_fname = $manageUser[$i]['reporting_to_fname'];
+                $reporting_to_lname = $manageUser[$i]['reporting_to_lname'];
+                $last_name = $manageUser[$i]['last_name'];
+                $blogData['Employee Name'] = $first_name . ' ' . $last_name;
+                $blogData['Designation'] = $manageUser[$i]['designation'];
+                $blogData['Reporting To'] = $reporting_to_fname . ' ' . $reporting_to_lname;
+                $blogData['Team Lead'] = $team_lead_fname . ' ' . $team_lead_lname;
+                $blogData['Departments'] = $manageUser[$i]['departmentName'];
+                $blogData['Joining Date'] = $manageUser[$i]['joining_date'];
+                $blogData['Login Date Time'] = $manageUser[$i]['login_date_time'];
+                if($manageUser[$i]['employee_status'] == '1'){
+                    
+                $blogData['Employee Status'] ='Active' ;
+                }
+                $manageUsers[] = $blogData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Hr Details', function($excel) use($manageUsers) {
+                    $excel->sheet('sheet1', function($sheet) use($manageUsers) {
+                        $sheet->fromArray($manageUsers);
+                    });
+                })->download('xls');
+            }
         }
     }
 
@@ -199,8 +253,15 @@ class MasterHrController extends Controller {
 
     public function getRoles() {
         $roles = EmployeeRole::orderBy('role_name', 'ASC')->get();
+        
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        }else{
+              $export = '';
+        }
         if (!empty($roles)) {
-            $result = ['success' => true, "list" => $roles];
+            $result = ['success' => true, 'exportDetails'=>$export,"list" => $roles];
             echo json_encode($result);
         } else {
             $result = ['success' => false, "message" => "No records found"];
@@ -208,6 +269,35 @@ class MasterHrController extends Controller {
         }
     }
 
+    public function manageRoleExportToExcel() {
+         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+           $roles = EmployeeRole::orderBy('role_name', 'ASC')->get();
+            $getCount =EmployeeRole::orderBy('role_name', 'ASC')->get()->count();
+            $roles = json_decode(json_encode($roles), true);
+            
+            $manageRoles = array();
+            $j = 1;
+            for ($i = 0; $i < count($roles); $i++) {
+                 
+                $roleData['Sr No.'] = $j++;
+                $roleData['Role Name'] = $roles[$i]['role_name'];
+                $manageRoles[] = $roleData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Role Details', function($excel) use($manageRoles) {
+                    $excel->sheet('sheet1', function($sheet) use($manageRoles) {
+                        $sheet->fromArray($manageRoles);
+                    });
+                })->download('xls');
+            }
+        }
+    }
+    
+    
     public function changePassword() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
