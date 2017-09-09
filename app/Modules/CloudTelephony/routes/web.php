@@ -41,8 +41,12 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     Route::get('/virtualnumber/{id}/nonworkinghoursUpdate', 'VirtualNumberController@nonworkingUpdate');
     Route::post('virtualnumber/updateNonworkinghours', 'VirtualNumberController@updateNonworkinghours');
     
-    
-    Route::get('/cloudcallinglogs/myInboundExportToxls', 'CloudCallingLogsController@myInboundExportToxls');
+//    export
+    Route::get('/cloudcallinglogs/myInboundExportToxls', 'CloudCallingLogsController@myInboundExportToxls'); 
+    Route::get('/cloudcallinglogs/myOutboundExportToxls', 'CloudCallingLogsController@myOutboundExportToxls');
+    Route::get('/cloudcallinglogs/teamInboundExportToxls', 'CloudCallingLogsController@teamInboundExportToxls');
+    Route::get('/cloudcallinglogs/teamOutboundExportToxls', 'CloudCallingLogsController@teamOutboundExportToxls');
+//    End Export
     Route::get('/cloudcallinglogs/myIncomingLogs', 'CloudCallingLogsController@myIncomingLogs');
     Route::post('/cloudcallinglogs/myInboundLogs', 'CloudCallingLogsController@myInboundLogs');
     Route::get('/cloudcallinglogs/teamIncomingLogs', 'CloudCallingLogsController@teamIncomingLogs');
