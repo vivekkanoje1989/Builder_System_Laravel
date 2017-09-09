@@ -166,7 +166,7 @@ class CustomAlertsController extends Controller {
                 $customAlert['Sr No'] = $j++;
                 $customAlert['Template For'] = $manageAlerts[$i]['friendly_name'];
                 $customAlert['Email Subject'] = $manageAlerts[$i]['email_subject'];
-                $customAlert['Sms Body'] = $manageAlerts[$i]['email_body'];
+                $customAlert['Sms Body'] =   str_replace('&nbsp;','',strip_tags(preg_replace( "/\r|\n/", "",$manageAlerts[$i]['sms_body'])));
                 $customAlerts[] = $customAlert;
             }
 

@@ -190,7 +190,7 @@
                                     </table>                                    
                                 </div>
                                 <!-- Modal -->
-                                <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+                                <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
                                     <div class="modal-dialog modal-lg">
                                         <!-- Modal content-->
                                         <div class="modal-content">
@@ -294,7 +294,7 @@
                 </div>            
             </div>
             <!--  Modal   --> 
-            <div class="modal fade" id="contactDataModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="contactDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content" style="width: 115%;">                        

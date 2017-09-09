@@ -261,7 +261,7 @@
                 </div>
             </div>
             <!-- Today history model =========================================================================================-->
-            <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -276,7 +276,7 @@
                 </div>
             </div>
             <!-- Today remark model =============================================================================-->
-            <div class="modal fade" id="todayremarkDataModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="todayremarkDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">

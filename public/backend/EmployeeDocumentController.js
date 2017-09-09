@@ -4,6 +4,7 @@ app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeo
         $scope.manageEmployeeDocuments = function () {
             Data.get('employee-document/employeeDocuments').then(function (response) {
                 $scope.DocumentsRow = response.records;
+                $scope.exportData = response.exportData;
             });
         };
 
@@ -59,7 +60,14 @@ app.controller('employeeDocumentsCtrl', ['$scope', 'Data', '$rootScope', '$timeo
                 });
             }
         }
-
+        $scope.manageDocumentExportToExcel = function () {
+            $scope.getexcel = window.location = "/employee-document/manageDocumentExportToExcel";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
 
 
     }]);

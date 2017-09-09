@@ -126,7 +126,8 @@
                                             +91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}
                                         </span>
                                     </p>
-                                    <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' " ng-init="all_email_list=enquiry.email.split(',');" >                                        
+                                    <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' " ng-init="all_email_list=enquiry.email.split(',');" >
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
                                         <span ng-repeat="emailobj in all_email_list | limitTo:2">
                                                 {{emailobj}}
                                                 <span ng-if="$index == 0 && all_email_list.length >= 2">
@@ -249,7 +250,7 @@
                     </div>
 
             <!-- Today history model =============================================================================-->
-            <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -264,7 +265,7 @@
                 </div>
             </div>
             <!-- Today remark model =============================================================================-->
-            <div class="modal fade" id="todayremarkDataModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="todayremarkDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -281,7 +282,7 @@
             </div>
             
              <!-- reassign ===============================================================================================   -->
-            <div class="modal fade" id="BulkModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="BulkModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-md" >
                     <div class="modal-content">
                         <div class="modal-header navbar-inner">

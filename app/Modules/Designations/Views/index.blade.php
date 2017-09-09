@@ -130,7 +130,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="designations" role="dialog" tabindex="-1">    
+    <div class="modal fade modal-primary" id="designations" role="dialog" tabindex="-1">    
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">

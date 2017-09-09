@@ -18,6 +18,9 @@ Route::group(array('module' => 'Marketing', ['middleware' => 'auth:admin'], 'nam
     });
        
     Route::get('/promotionalsms/smslogs', 'PromotionalSMSController@smslogs');
+    Route::get('/promotionalsms/smsLogsExpotToxls', 'PromotionalSMSController@smsLogsExpotToxls');
+    Route::get('/promotionalsms/logDetailsExportToxls/{transId}', 'PromotionalSMSController@logDetailsExportToxls');
+    Route::get('/promotionalsms/teamSmsLogsExpotToxls', 'PromotionalSMSController@teamSmsLogsExpotToxls');
     Route::get('/promotionalsms/teamsmslogs', 'PromotionalSMSController@teamsmslogs');
     
     Route::get('/promotionalsms/smslogconsumption', 'PromotionalSMSController@smslogconsumption');
@@ -42,7 +45,7 @@ Route::group(array('module' => 'Marketing', ['middleware' => 'auth:admin'], 'nam
     
         
     Route::post('/promotionalsms/getalllogdetail', 'PromotionalSMSController@getalllogdetail');
-    Route::get('/realtimereport/pushgupshupapi', 'RealtimereportController@pushgupshupapi');
+//    Route::get('/realtimereport/pushgupshupapi', 'RealtimereportController@pushgupshupapi');
    
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');

@@ -3,6 +3,8 @@
 Route::group(array('module' => 'CareerManagement', 'middleware' => ['auth:admin'],'namespace' => 'App\Modules\CareerManagement\Controllers'), function() {
 
     $getUrl = config('global.getUrl');
+    Route::get('/manage-job/jobPostingExportToxls', 'CareerManagementController@jobPostingExportToxls');
+    Route::get('/manage-job/jobPostingApplicationExportToxls/{id}', 'CareerManagementController@jobPostingApplicationExportToxls');
     Route::get('/manage-job/manageCareers', 'CareerManagementController@manageCareers');
      Route::get('/manage-Job/{id}/edit', 'CareerManagementController@edit');
      Route::get('/manage-job/{id}/show', 'CareerManagementController@show');

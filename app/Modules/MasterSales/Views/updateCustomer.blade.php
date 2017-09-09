@@ -278,7 +278,7 @@
     </div>
 
 <!-- modal contact detail -->
-<div class="modal fade" id="contactDataModal" role="dialog" tabindex='-1'>
+<div class="modal fade modal-primary" id="contactDataModal" role="dialog" tabindex='-1'>
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">

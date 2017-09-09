@@ -230,7 +230,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="documentModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
+    <div class="modal fade modal-primary" id="documentModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header navbar-inner">
@@ -268,7 +268,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="stationaryModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
+    <div class="modal fade modal-primary" id="stationaryModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header navbar-inner">

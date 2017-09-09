@@ -33,6 +33,7 @@ Route::group(array('module' => 'Projects', 'middleware' => ['auth:admin'], 'name
         return View::make('Projects::uploads.specification');
     }]);
 
+    Route::get( '/projects/manageProjectsExportToExcel', 'ProjectsController@manageProjectsExportToExcel'); //for populate dropdown
     Route::get( '/projects/projectType', 'ProjectsController@projectType'); //for populate dropdown
     Route::get( '/projects/projectStatus', 'ProjectsController@projectStatus'); //for populate dropdown
     Route::get( '/projects/getProjects', 'ProjectsController@getProjects'); //for populate dropdown

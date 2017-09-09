@@ -288,7 +288,7 @@ class MasterHrController extends Controller {
             if ($getCount < 1) {
                 return false;
             } else {
-                Excel::create('Export Hr Details', function($excel) use($manageRoles) {
+                Excel::create('Export Role Details', function($excel) use($manageRoles) {
                     $excel->sheet('sheet1', function($sheet) use($manageRoles) {
                         $sheet->fromArray($manageRoles);
                     });

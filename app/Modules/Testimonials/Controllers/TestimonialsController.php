@@ -11,6 +11,7 @@ use App\Classes\CommonFunctions;
 use Illuminate\Support\Facades\Input;
 use App\Classes\S3;
 use Auth;
+use Excel;
 use Validator;
 
 class TestimonialsController extends Controller {
@@ -32,25 +33,119 @@ class TestimonialsController extends Controller {
     }
 
     public function getDisapproveList() {
-       
-        $getApprovedTestimonials = WebTestimonials::select('approve_status','company_name','customer_name','mobile_number','testimonial_id')->where('approve_status', '0')->get();
-        
+
+        $getApprovedTestimonials = WebTestimonials::select('approve_status', 'company_name', 'customer_name', 'mobile_number', 'testimonial_id')->where('approve_status', '0')->get();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getApprovedTestimonials)) {
-            $result = ['success' => true, 'records' => $getApprovedTestimonials];
+            $result = ['success' => true, 'records' => $getApprovedTestimonials, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
     }
 
+    public function manageTestimonialDisapproveExportToExcel() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getApprovedTestimonials = WebTestimonials::select('approve_status', 'company_name', 'customer_name', 'mobile_number', 'testimonial_id')
+                    ->where('approve_status', '0')
+                    ->get();
+
+            $getCount = WebTestimonials::select('approve_status', 'company_name', 'customer_name', 'mobile_number', 'testimonial_id')
+                    ->where('approve_status', '0')
+                    ->get()
+                    ->count();
+            $getApprovedTestimonials = json_decode(json_encode($getApprovedTestimonials), true);
+            $testimonialData = array();
+            $j = 1;
+            for ($i = 0; $i < count($getApprovedTestimonials); $i++) {
+
+                $testimonial['Sr No.'] = $j++;
+                $testimonial['Customer Name'] = $getApprovedTestimonials[$i]['customer_name'];
+                $testimonial['Mobile Number'] = $getApprovedTestimonials[$i]['mobile_number'];
+                $testimonial['Company Name'] = $getApprovedTestimonials[$i]['company_name'];
+                if ($getApprovedTestimonials[$i]['approve_status'] == '1') {
+                    $testimonial['Status'] = 'Approved';
+                } else {
+                    $testimonial['Status'] = 'Not Approve';
+                }
+                $testimonialData[] = $testimonial;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Testimonial Details', function($excel) use($testimonialData) {
+                    $excel->sheet('sheet1', function($sheet) use($testimonialData) {
+                        $sheet->fromArray($testimonialData);
+                    });
+                })->download('xls');
+            }
+        }
+    }
+
     public function getApprovedList() {
-        $getApprovedTestimonials = WebTestimonials::select('approve_status','company_name','customer_name','mobile_number','testimonial_id')->where('approve_status', '1')->get();
+        $getApprovedTestimonials = WebTestimonials::select('approve_status', 'company_name', 'customer_name', 'mobile_number', 'testimonial_id')
+                ->where('approve_status', '1')
+                ->get();
+
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getApprovedTestimonials)) {
-            $result = ['success' => true, 'records' => $getApprovedTestimonials];
+            $result = ['success' => true, 'records' => $getApprovedTestimonials, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
+    }
+
+    public function manageTestimonialApproveExportToExcel() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getApprovedTestimonials = WebTestimonials::select('approve_status', 'company_name', 'customer_name', 'mobile_number', 'testimonial_id')
+                    ->where('approve_status', '1')
+                    ->get();
+
+            $getCount = WebTestimonials::select('approve_status', 'company_name', 'customer_name', 'mobile_number', 'testimonial_id')
+                    ->where('approve_status', '1')
+                    ->get()
+                    ->count();
+            $getApprovedTestimonials = json_decode(json_encode($getApprovedTestimonials), true);
+            $testimonialData = array();
+            $j = 1;
+            for ($i = 0; $i < count($getApprovedTestimonials); $i++) {
+
+                $testimonial['Sr No.'] = $j++;
+                $testimonial['Customer Name'] = $getApprovedTestimonials[$i]['customer_name'];
+                $testimonial['Mobile Number'] = $getApprovedTestimonials[$i]['mobile_number'];
+                $testimonial['Company Name'] = $getApprovedTestimonials[$i]['company_name'];
+                if ($getApprovedTestimonials[$i]['approve_status'] == '1') {
+                    $testimonial['Status'] = 'Approved';
+                } else {
+                    $testimonial['Status'] = 'Not Approve';
+                }
+                $testimonialData[] = $testimonial;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Testimonial Details', function($excel) use($testimonialData) {
+                    $excel->sheet('sheet1', function($sheet) use($testimonialData) {
+                        $sheet->fromArray($testimonialData);
+                    });
+                })->download('xls');
+            }
+        }
     }
 
     public function getTestimonialData() {
@@ -123,25 +218,25 @@ class TestimonialsController extends Controller {
 //                $path = $s3FolderName . $getOldPhoto[0]['photo_url'];
 //                S3::s3FileDelete($path);
                 $imageName = "testimonial_" . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $fileName;
-               
+
                 S3::s3FileUpload($input['photo_url']->getPathName(), $imageName, $s3FolderName);
                 $fileName = trim($imageName, ",");
-              
+
                 $input['testimonial']['photo_url'] = $imageName;
             } else {
                 unset($input['testimonial']['photo_url']);
             }
         }
-        
-         
+
+
 
         unset($input['_method']);
-        
+
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
         $input['testimonialsData'] = array_merge($input['testimonial'], $update);
         $updateTestimonials = WebTestimonials::where('testimonial_id', $input['testimonial_id'])->update($input['testimonialsData']);
-       
+
         $result = ['success' => true, "records" => $input['testimonialsData']];
         echo json_encode($result);
     }

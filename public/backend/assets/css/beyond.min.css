@@ -1,7 +1,12 @@
 div.help-block{
     color: red !important; 
 }
-
+.fa-envelope{
+    color:#797979;
+}
+.modal-body {
+    padding: 12px !important; 
+}
 .btn-right{
     float: right; 
 }
@@ -5611,7 +5616,8 @@ a:active {
 }
 
 .nav-tabs>li {
-    margin-bottom: -2px
+    margin-bottom: -2px;
+    border-right: 1px solid #000;
 }
 
 .nav-tabs>li>a:hover {
@@ -5622,7 +5628,7 @@ a:active {
 
 .nav-tabs>li>a:active,
 .nav-tabs>li>a:focus {
-    outline: none !important
+    outline: none !important;
 }
 
 .nav-tabs>li>a,
@@ -5658,13 +5664,14 @@ a:active {
 .nav-tabs>li.active>a,
 .nav-tabs>li.active>a:hover,
 .nav-tabs>li.active>a:focus {
+    border-right: 1px solid #000 !important;
     color: #262626;
     border: 0;
     border-top: 2px solid #2dc3e8;
     border-bottom-color: transparent;
     background-color: #fbfbfb;
     z-index: 12;
-    line-height: 16px;
+    line-height: 12px;
     margin-top: -2px;
     box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, .15)
 }

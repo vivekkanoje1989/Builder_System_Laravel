@@ -20,40 +20,7 @@
                 <span class="widget-caption">Sms Logs</span>
             </div>
             <div class="widget-body table-responsive">
-                <!--                <div class="row">    
-                                    <div class="col-sm-3 col-xs-12" style="float:left"> 
-                                            <input type="text" minlength="1" maxlength="3"  ng-model="itemsPerPage" ng-change="managesmsLogs('0',{{pageNumber}}, itemsPerPage)" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
-                                        
-                                    </div>     
-                                    <div class="col-sm-6 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
-                                        <span ng-if="smslogslength != 0" >&nbsp; &nbsp; &nbsp; Showing {{smslogslist.length}}  Logs Out Of Total {{smslogslength}} Logs.  &nbsp;</span>
-                                        <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,0,'managesmsLogs',itemsPerPage)" template-url="/dirPagination" ng-if="smslogslength"></dir-pagination-controls>                        
-                                    </div>
-                                                        <div class="col-sm-6 col-xs-12">
-                                                            <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                                        </div>
-                                    <div class="col-sm-3 ">
-                                        <button type="button" class="btn btn-primary ng-click-active btn-right toggleForm"  data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_smslogs', '0')">
-                                            <i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                    </div>
-                                </div>
-                                <hr>
-                                 filter data
-                                <div class="row" style="border:2px;" id="filter-show">
-                                    <div class="col-sm-12 col-xs-12">
-                                        <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate'">
-                                            <div class="col-sm-3" data-toggle="tooltip"> 
-                                                <div class="alert alert-info fade in">
-                                                    <button class="close" ng-click="removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
-                                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="From Date"><strong>From Date : </strong>  {{ showFilterData.fromDate | date : 'dd-MM-yyyy' }} <span ng-if="showFilterData.toDate">To  {{ showFilterData.toDate | date : 'dd-MM-yyyy' }}</span></strong>
-                                                    <strong ng-if="key === 'mobile_number'"><strong>Mobile Number : </strong>{{ value}}</strong>
-                                                    <strong ng-if="key != 'fromDate' && key != 'toDate' && key != 'mobile_number'" data-toggle="tooltip" title="{{ key}}"> {{ value}}</strong>
-                                                </div>
-                                            </div>
-                                        </b>                        
-                                    </div>
-                                </div>-->
-                <!-- filter data-->
+                
                 <div class="row table-toolbar">
                     <!--<a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-default">Permission Wise Users</a>-->
                     <div class="btn-group pull-right">
@@ -62,7 +29,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click='smsLogsExpotToxls()' ng-show='exportSmsLogs=="1"'>
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -72,16 +39,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
+                                
                             </ul>
                         </a>
                     </div>

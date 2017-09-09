@@ -152,8 +152,7 @@
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;}
 </style>
 
-<div class="modal-body">
-    <div class="modal-content">
+<div class="modal-body"> 
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <tabset>
@@ -237,6 +236,7 @@
                                                 </span> 
                                                 <div class="col-sm-12" ng-if ="displayemail != '-1'">
                                                     <span ng-if="emailList.length > 0" ng-repeat="(key,value) in emailList track by $index" style="float: left;  margin: 7px 20px 5px 0px;">    
+                                                        <i class="fa fa-envelope" aria-hidden="true"></i>
                                                         <span class="text" ng-click="manageEmailText(key, value)">{{value}}</span>
                                                     </span>
                                                     <div class="col-sm-12" style=" margin-left: -13px;"><a href ng-click="manageEmailText('', '')">Add Email Id</a></div>
@@ -1290,7 +1290,9 @@
                     </form>
                 </tab>
                 <tab heading="Enquiry History" ng-click="initHistoryDataModal(remarkData.enquiryId)" id="historyTab">
-                    <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
+                    <div class="model-body">
+                        <div data-ng-include=" '/MasterSales/enquiryHistory'"></div>
+                    </div>
                 </tab>
             </tabset>
         </div>

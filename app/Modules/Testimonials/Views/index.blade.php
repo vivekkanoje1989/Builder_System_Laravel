@@ -28,7 +28,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="manageTestimonialDisapproveExportToExcel()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -38,16 +38,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
+                                
                             </ul>
                         </a>
                     </div>
@@ -90,7 +81,7 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th>                          
                                 <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'customer_name'; reverseSort = !reverseSort">Customer name
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'customer_name'; reverseSort = !reverseSort">Customer Name
                                         <span ng-show="orderByField == 'customer_name'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                         </span>
@@ -104,7 +95,7 @@
                                     </a>
                                 </th> 
                                 <th style="width: 20%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'company_name'; reverseSort = !reverseSort">Company name
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'company_name'; reverseSort = !reverseSort">Company Name
                                         <span ng-show="orderByField == 'company_name'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                         </span>

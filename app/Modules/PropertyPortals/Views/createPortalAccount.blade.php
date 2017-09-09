@@ -144,7 +144,7 @@
         </div>
     </div>
      <!-- Modal -->
-    <div class="modal fade" id="projectModal" role="dialog" tabindex="-1">    
+    <div class="modal fade modal-primary" id="projectModal" role="dialog" tabindex="-1">    
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

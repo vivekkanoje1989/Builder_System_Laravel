@@ -121,13 +121,7 @@
                                 <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1 && enquiry.mobile !='' " ng-init="mobile_list=enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list | limitTo:2">
                                         <a style="cursor: pointer;" class="Linkhref"
-                                           ng-if="mobile_obj != null" 
-                                           ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,'<?php if (!empty(Auth::guard('admin')->user()->office_mobile_no)) {
-                                                echo Auth::guard('admin')->user()->office_mobile_no;
-                                            } else {
-                                                echo Auth::guard('admin')->user()->personal_mobile1;
-                                            } ?>','{{ mobile_obj}}','<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>',{{ enquiry.id}},<?php echo Auth::guard('admin')->user()->client_id; ?>)">
-
+                                           ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin')->user()->id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                             <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                         </a>
                                         {{ mobile_obj}}
@@ -140,7 +134,7 @@
                                         </span>
                                     </p>
                                     <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' " ng-init="all_email_list=enquiry.email.split(',');" >
-                                        
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
                                         <span ng-repeat="emailobj in all_email_list | limitTo:2">
                                                 {{emailobj}}
                                                 <span ng-if="$index == 0 && all_email_list.length >= 2">
@@ -243,7 +237,7 @@
                                 <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            
                                 <hr class="enq-hr-line">
                                 <div>
-                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#todayremarkDataModal" ng-click="gettodayremarksEnquiry({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remark</a><br/>
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remark</a><br/>
                                     <a href="javascript:void(0)"  ><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Quotation</a><br/>
                                 </div>
 
@@ -263,7 +257,7 @@
                 </div>
         </div>
             <!-- Today history model =============================================================================-->
-            <div class="modal fade" id="historyDataModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -279,7 +273,7 @@
             </div>
 
             <!-- Today remark model =============================================================================-->
-            <div class="modal fade" id="todayremarkDataModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="todayremarkDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -287,7 +281,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" align="center">Today Remarks</h4>
                         </div>
-                        <!--<div data-ng-include=" '/MasterSales/todayremarks'"></div>-->
+                        <div data-ng-include=" '/MasterSales/todaysRemark'"></div>
                         <div class="modal-footer" align="center">
                         </div>
                     </div>
@@ -295,7 +289,7 @@
             </div>
             
              <!-- reassign ===============================================================================================   -->
-            <div class="modal fade" id="BulkModal" role="dialog" tabindex='-1'>
+            <div class="modal fade modal-primary" id="BulkModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-md" >
                     <div class="modal-content">
                         <div class="modal-header navbar-inner">
