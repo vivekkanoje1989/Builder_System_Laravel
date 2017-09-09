@@ -1917,13 +1917,14 @@ angular.module('app')
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
-                                                return $ocLazyLoad.load('toaster').then(
+                                                 return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                         function () {
                                                             return $ocLazyLoad.load({
                                                                 serie: true,
                                                                 files: [
                                                                     '/backend/cloudtelephonyController.js',
                                                                     '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/select.js',
                                                                 ]
                                                             }
                                                             );

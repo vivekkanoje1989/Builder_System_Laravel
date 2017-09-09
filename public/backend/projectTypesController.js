@@ -4,12 +4,22 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
         $scope.itemsPerPage = 30;
         $scope.proTypeBtn = false;
         $scope.manageProjectTypes = function () {
-             $scope.showloader();
+            $scope.showloader();
             Data.post('project-types/manageProjectTypes').then(function (response) {
-                 $scope.hideloader();
+                $scope.hideloader();
                 $scope.ProjectTypesRow = response.records;
+                $scope.exportData = response.exportData;
             });
         };
+
+        $scope.projectTypesExportToxls = function () {
+            $scope.getexcel = window.location = "project-types/projectTypesExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};

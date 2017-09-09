@@ -1992,32 +1992,32 @@ class CloudCallingLogsController extends Controller {
         }
         return json_encode($result);
     }
-    
-     public function teamInboundExportToxls() {
+
+    public function teamInboundExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
-             $this->tuserid($emp_id);
-        $alluser = $this->allusers;
-        $getInboundLoglist = array();
-        $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        $getCount = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
-                ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
-                ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
-                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
-                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
-                ->orderBy('ct_logs_inbounds.id', 'DESC')
-                ->whereIN('ct_logs_inbounds.employee_id', $alluser)
-                ->count();
+            $this->tuserid($emp_id);
+            $alluser = $this->allusers;
+            $getInboundLoglist = array();
+            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            $getCount = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
+                    ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
+                    ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
+                    ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
+                    ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                    ->orderBy('ct_logs_inbounds.id', 'DESC')
+                    ->whereIN('ct_logs_inbounds.employee_id', $alluser)
+                    ->count();
 
-        $getInboundLogs = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
-                ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
-                ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
-                ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
-                ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
-                ->orderBy('ct_logs_inbounds.id', 'DESC')
-                ->select('ct_logs_inbounds.id', 'ct_logs_inbounds.call_log_push_url', DB::raw('DATE_FORMAT(ct_logs_inbounds.call_date, "%d-%m-%Y") as call_date'), DB::raw('DATE_FORMAT(ct_logs_inbounds.call_time, "%h:%i %p") as call_time'), 'ct_logs_inbounds.customer_call_status', 'ct_logs_inbounds.customer_call_duration', 'ct_logs_inbounds.virtual_number', 'ct_logs_inbounds.customer_number', 'ct_logs_inbounds.call_recording_url', 'emp.first_name', 'emp.last_name', 'ls.sales_source_name', 'subs.sub_source', 'cust.first_name as cfirst_name', 'cust.last_name as clast_name', 'emp.title_id as emp_title_id', 'cust.title_id as cust_title_id')
-                ->whereIN('ct_logs_inbounds.employee_id', $alluser)
-                ->get();
+            $getInboundLogs = CtLogsInbound::leftjoin('laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as ls', 'ls.id', '=', 'ct_logs_inbounds.source_id')
+                    ->leftjoin('enquiry_sales_sub_sources as subs', 'subs.id', '=', 'ct_logs_inbounds.sub_source_id')
+                    ->leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_inbounds.employee_id')
+                    ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_inbounds.customer_number')
+                    ->leftjoin('customers as cust', 'cust.id', '=', 'cc.customer_id')
+                    ->orderBy('ct_logs_inbounds.id', 'DESC')
+                    ->select('ct_logs_inbounds.id', 'ct_logs_inbounds.call_log_push_url', DB::raw('DATE_FORMAT(ct_logs_inbounds.call_date, "%d-%m-%Y") as call_date'), DB::raw('DATE_FORMAT(ct_logs_inbounds.call_time, "%h:%i %p") as call_time'), 'ct_logs_inbounds.customer_call_status', 'ct_logs_inbounds.customer_call_duration', 'ct_logs_inbounds.virtual_number', 'ct_logs_inbounds.customer_number', 'ct_logs_inbounds.call_recording_url', 'emp.first_name', 'emp.last_name', 'ls.sales_source_name', 'subs.sub_source', 'cust.first_name as cfirst_name', 'cust.last_name as clast_name', 'emp.title_id as emp_title_id', 'cust.title_id as cust_title_id')
+                    ->whereIN('ct_logs_inbounds.employee_id', $alluser)
+                    ->get();
 
             $manageCallLogs = json_decode(json_encode($getInboundLogs), true);
             $manageUsers = array();
@@ -2251,14 +2251,15 @@ class CloudCallingLogsController extends Controller {
             $export = '';
         }
 
-        if (!empty($getOutboundLogs[0])) {
+        if (!empty($getOutboundLogs)) {
+           
             $result = ['success' => true, 'records' => $getOutboundLogs, 'myOutboundExport' => $export, 'totalCount' => $getCountOutboundLogs];
+            return json_encode($result);
         } else {
             $result = ['success' => false, 'records' => $getOutboundLogs, 'totalCount' => $getCountOutboundLogs];
+
+            return json_encode($result);
         }
-
-
-        return json_encode($result);
     }
 
     public function myOutboundExportToxls() {
@@ -2371,15 +2372,15 @@ class CloudCallingLogsController extends Controller {
                 $i++;
             }
         }
-         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
         } else {
             $export = '';
         }
-        
+
         if (!empty($getOutboundLogs[0])) {
-            $result = ['success' => true, 'records' => $getOutboundLogs,'teamOutboundExport'=>$export, 'totalCount' => $getCountOutboundLogs];
+            $result = ['success' => true, 'records' => $getOutboundLogs, 'teamOutboundExport' => $export, 'totalCount' => $getCountOutboundLogs];
         } else {
             $result = ['success' => false, 'records' => $getOutboundLogs, 'totalCount' => $getCountOutboundLogs];
         }

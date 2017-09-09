@@ -3,6 +3,7 @@
 Route::group(array('module' => 'BlockStages', 'middleware' => ['auth:admin'], 'namespace' => 'App\Modules\BlockStages\Controllers'), function() {
     $getUrl = config('global.getUrl');
 
+    Route::get('/block-stages/blockStagesExportToxls', 'BlockStagesController@blockStagesExportToxls');
     Route::post('/block-stages/manageBlockStages', 'BlockStagesController@manageBlockStages');
     Route::post('/block-stages/manageProjectTypes', 'BlockStagesController@manageProjectTypes');
     Route::post('/block-stages/filteredData', 'BlockStagesController@filteredData');

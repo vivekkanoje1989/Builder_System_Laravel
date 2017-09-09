@@ -28,8 +28,18 @@ app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'to
                 $scope.hideloader();
                 $scope.DiscountHeadingRow = response.records;
                 $scope.DiscountHeadingRowLength = response.totalCount;
+                $scope.exportData = response.exportData;
             });
         };
+        
+        $scope.discountHeadingExportToxls = function () {
+            $scope.getexcel = window.location = "/discount-headings/discountHeadingExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};

@@ -10,6 +10,7 @@ use App\Modules\ManageProjectTypes\Models\MlstBmsbProjectTypes;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 use Validator;
 
 class BlockStagesController extends Controller {
@@ -25,22 +26,47 @@ class BlockStagesController extends Controller {
             $blockData['id'] = $getBlockstage[$i]['id'];
             $blockData['block_stage_name'] = $getBlockstage[$i]['block_stage_name'];
             $blockData['project_type_id'] = $getBlockstage[$i]['project_type_id'];
-//            $blockData['page_title'] = $getBlockstage[$i]['page_title'];
-//            $status = $getBlockstage[$i]['status'];
-//            if ($status == 1) {
-//                $blockData['status'] = 'active';
-//            } else {
-//                $blockData['status'] = 'inactive';
-//            }
 
             $blockStages[] = $blockData;
         }
+         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($blockStages)) {
-            $result = ['success' => true, 'records' => $blockStages, 'totalCount' =>count($getBlockstage)];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $blockStages,'exportData'=>$export, 'totalCount' =>count($getBlockstage)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
             return json_encode($result);
+    }
+    
+    public function blockStagesExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+             $getBlockstage = LstDlBlockStages::select('block_stage_name')->get();
+            $getCount = LstDlBlockStages::select('block_stage_name')->get()->count();
+            $getBlockstage = json_decode(json_encode($getBlockstage), true);
+            
+            $manageBlockstage = array();
+            $j = 1;
+            for ($i = 0; $i < count($getBlockstage); $i++) {
+                 $blogData['Sr No.'] = $j++;
+                $blogData['Block Stage Name'] = $getBlockstage[$i]['block_stage_name'];
+                $manageBlockstage[] = $blogData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Block Stage Details', function($excel) use($manageBlockstage) {
+                    $excel->sheet('sheet1', function($sheet) use($manageBlockstage) {
+                        $sheet->fromArray($manageBlockstage);
+                    });
+                })->download('xls');
+            }
         }
     }
 

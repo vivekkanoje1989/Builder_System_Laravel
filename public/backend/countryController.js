@@ -17,9 +17,18 @@ app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Da
                 $scope.hideloader();
                 $scope.countryRow = response.records;
                 $scope.countryRowLength = response.totalCount;
+                $scope.exportData = response.exportData;
 
             });
         };
+        $scope.countryExportToxls = function () {
+            $scope.getexcel = window.location = "manage-country/countryExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
 
         $scope.searchData = {};
         $scope.searchDetails = {};

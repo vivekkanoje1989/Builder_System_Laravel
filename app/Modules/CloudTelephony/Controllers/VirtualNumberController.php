@@ -18,6 +18,7 @@ use App\Models\CtSetting;
 use App\Models\backend\Employee;
 use App\Classes\S3;
 use Auth;
+use Excel;
 
 class VirtualNumberController extends Controller {
 
@@ -34,6 +35,98 @@ class VirtualNumberController extends Controller {
         return view("CloudTelephony::virtualnumberslist");
     }
 
+    public function virtualNumberExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $client_id = config('global.client_id');
+            $manageLists = DB::select('CALL proc_manage_ctsettings(0,0,' . $client_id . ')');
+            $getCount = count($manageLists);
+            $i = 0;
+            foreach ($manageLists as $list) {
+                if (!empty($list->source_id)) {
+                    $sourcename = \App\Models\MlstBmsbEnquirySalesSource::select('sales_source_name')->where("id", "=", $list->source_id)->first();
+                    $manageLists[$i]->source_name = $sourcename->sales_source_name;
+                }
+                if ($list->sub_source_id == 0) {
+                    $manageLists[$i]->subsource = "";
+                } else {
+                    $sub = \App\Models\EnquirySalesSubsource::select('enquiry_subsource')->where("id", "=", $list->sub_source_id)->first();
+                    $manageLists[$i]->subsource = $sub->enquiry_subsource;
+                }
+                if ($list->menu_status == 0) {
+                    if (!empty($list->employees)) {
+                        $menuemployee = array();
+                        $menuemployee = \App\Models\backend\Employee::select('first_name', 'last_name')->whereRaw("id IN($list->employees)")->get();
+                        $getemployee = array();
+                        for ($j = 0; $j < count($menuemployee); $j++) {
+                            $getemployee[] = $menuemployee[$j]->first_name . " " . $menuemployee[$j]->last_name;
+                        }
+                        $implodeemployee = implode(",", $getemployee);
+                        $manageLists[$i]->employee_name = $implodeemployee;
+                    }
+                } else {
+                    if (empty($list->employees)) {
+                        $menusetting = \App\Models\CtMenuSetting::select('ext_number', 'ext_name', 'employees')->where('ct_settings_id', '=', $list->id)->get();
+                        $menuemployee = array();
+                        $getemployee = array();
+                        $getExtensionName = array();
+                        for ($k = 0; $k < count($menusetting); $k++) {
+                            $getExtensionName[] = " <b>(" . $menusetting[$k]->ext_number . ")</b> " . $menusetting[$k]->ext_name;
+                            if (!empty($menusetting[$k]->employees)) {
+                                $menuemployee = \App\Model\backend\Employee::select('first_name', 'last_name')->whereRaw("id IN(" . $menusetting[$k]->employees . ")")->get();
+                                $getemployee[] = "<b> (" . $menusetting[$k]->ext_number . ")</b>";
+                                for ($j = 0; $j < count($menuemployee); $j++) {
+                                    $getemployee[] .= $menuemployee[$j]->first_name . " " . $menuemployee[$j]->last_name . ",";
+                                }
+                            }
+                        }
+                        $implodeemployee = implode(" ", $getemployee);
+                        $manageLists[$i]->employee_name = rtrim($implodeemployee, ",");
+
+                        $implodeext = implode(",", $getExtensionName);
+                        $manageLists[$i]->ext_name = $implodeext;
+                    }
+                }
+                if ($list->forwarding_type_id == 1) {
+                    $manageLists[$i]->forwarding_type = 'Parallel Forwarding';
+                } else if ($list->forwarding_type_id == 2) {
+                    $manageLists[$i]->forwarding_type = 'Sequential Forwarding';
+                } else {
+                    $manageLists[$i]->forwarding_type = 'Round Robin Forwarding';
+                }
+                $i++;
+            }
+            $manageLists = json_decode(json_encode($manageLists), true);
+            $manageVirtualNumber = array();
+            $j = 1;
+            for ($i = 0; $i < count($manageLists); $i++) {
+                $blogData['Sr No.'] = $j++;
+                $blogData['Virtual Number'] = $manageLists[$i]['virtual_display_number'];
+                $blogData['Source'] = $manageLists[$i]['source_name'];
+                $blogData['Subsource'] = $manageLists[$i]['subsource'];
+                $blogData['Forwarding Type'] = $manageLists[$i]['forwarding_type'];
+                if ($manageLists[$i]['menu_status'] == '1') {
+                    $blogData['Menu'] = $manageLists[$i]['ext_name'];
+                } else {
+                    $blogData['Menu'] = 'No';
+                }
+
+                $blogData['Employee Name'] = $manageLists[$i]['employee_name'];
+                $manageVirtualNumber[] = $blogData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Virtual Number Details', function($excel) use($manageVirtualNumber) {
+                    $excel->sheet('sheet1', function($sheet) use($manageVirtualNumber) {
+                        $sheet->fromArray($manageVirtualNumber);
+                    });
+                })->download('xls');
+            }
+        }
+    }
+
     public function manageLists() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -45,7 +138,7 @@ class VirtualNumberController extends Controller {
             $manageLists = DB::select('CALL proc_manage_ctsettings(0,0,' . $client_id . ')');
             $i = 0;
             foreach ($manageLists as $list) {
-                if(!empty($list->source_id)){
+                if (!empty($list->source_id)) {
                     $sourcename = \App\Models\MlstBmsbEnquirySalesSource::select('sales_source_name')->where("id", "=", $list->source_id)->first();
                     $manageLists[$i]->source_name = $sourcename->sales_source_name;
                 }
@@ -56,7 +149,7 @@ class VirtualNumberController extends Controller {
                     $manageLists[$i]->subsource = $sub->enquiry_subsource;
                 }
                 if ($list->menu_status == 0) {
-                    if(!empty($list->employees)){
+                    if (!empty($list->employees)) {
                         $menuemployee = array();
                         $menuemployee = \App\Models\backend\Employee::select('first_name', 'last_name')->whereRaw("id IN($list->employees)")->get();
                         $getemployee = array();
@@ -67,34 +160,47 @@ class VirtualNumberController extends Controller {
                         $manageLists[$i]->employee_name = $implodeemployee;
                     }
                 } else {
-                    if(empty($list->employees)){
-                        $menusetting = \App\Models\CtMenuSetting::select('ext_number', 'ext_name','employees')->where('ct_settings_id', '=', $list->id)->get();
+                    if (empty($list->employees)) {
+                        $menusetting = \App\Models\CtMenuSetting::select('ext_number', 'ext_name', 'employees')->where('ct_settings_id', '=', $list->id)->get();
                         $menuemployee = array();
                         $getemployee = array();
                         $getExtensionName = array();
                         for ($k = 0; $k < count($menusetting); $k++) {
-                            $getExtensionName[] =  " <b>(".$menusetting[$k]->ext_number.")</b> ".$menusetting[$k]->ext_name;
-                            if(!empty($menusetting[$k]->employees)){
-                                $menuemployee = \App\Model\backend\Employee::select('first_name', 'last_name')->whereRaw("id IN(".$menusetting[$k]->employees.")")->get();
-                                $getemployee[] = "<b> (".$menusetting[$k]->ext_number.")</b>";
-                                for($j=0;$j<count($menuemployee);$j++){
-                                    $getemployee[] .= $menuemployee[$j]->first_name . " " . $menuemployee[$j]->last_name.",";
+                            $getExtensionName[] = " <b>(" . $menusetting[$k]->ext_number . ")</b> " . $menusetting[$k]->ext_name;
+                            if (!empty($menusetting[$k]->employees)) {
+                                $menuemployee = \App\Model\backend\Employee::select('first_name', 'last_name')->whereRaw("id IN(" . $menusetting[$k]->employees . ")")->get();
+                                $getemployee[] = "<b> (" . $menusetting[$k]->ext_number . ")</b>";
+                                for ($j = 0; $j < count($menuemployee); $j++) {
+                                    $getemployee[] .= $menuemployee[$j]->first_name . " " . $menuemployee[$j]->last_name . ",";
                                 }
                             }
                         }
                         $implodeemployee = implode(" ", $getemployee);
-                        $manageLists[$i]->employee_name = rtrim($implodeemployee,",");
+                        $manageLists[$i]->employee_name = rtrim($implodeemployee, ",");
 
                         $implodeext = implode(",", $getExtensionName);
                         $manageLists[$i]->ext_name = $implodeext;
-                        }
-                     }
+                    }
+                }
+                if ($list->forwarding_type_id == 1) {
+                    $manageLists[$i]->forwarding_type = 'Parallel Forwarding';
+                } else if ($list->forwarding_type_id == 2) {
+                    $manageLists[$i]->forwarding_type = 'Sequential Forwarding';
+                } else {
+                    $manageLists[$i]->forwarding_type = 'Round Robin Forwarding';
+                }
                 $i++;
             }
         }
-   
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
+
         if ($manageLists) {
-            $result = ['success' => true, 's3Path' => config('global.s3Path'), "records" => ["data" => $manageLists, "total" => count($manageLists), 'per_page' => count($manageLists), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageLists)]];
+            $result = ['success' => true, 's3Path' => config('global.s3Path'), "records" => ["data" => $manageLists, 'exportData' => $export, "total" => count($manageLists), 'per_page' => count($manageLists), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageLists)]];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
         }
@@ -137,7 +243,7 @@ class VirtualNumberController extends Controller {
             }
             $result = ['success' => true, "records" => ["data" => $manageLists, "total" => count($manageLists), 'per_page' => count($manageLists), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageLists)]];
         } else {
-            $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];  
+            $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
         }
         echo json_encode($result);
     }
@@ -185,7 +291,7 @@ class VirtualNumberController extends Controller {
             if ($input['vnumberData']['welcome_tune_type_id'] == 3) {
                 if (!empty($input['vnumberData']['welcome_tune_audio'])) {
                     $s3FolderName = 'caller_tunes';
-                    $imageName = time().'_'. rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['vnumberData']['welcome_tune_audio']->getClientOriginalExtension();
+                    $imageName = time() . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['vnumberData']['welcome_tune_audio']->getClientOriginalExtension();
                     $name = S3::s3FileUpload($input['vnumberData']['welcome_tune_audio']->getPathName(), $imageName, $s3FolderName);
                     $name = trim($name, ",");
                     $input['vnumberData']['welcome_tune'] = $name;
@@ -199,7 +305,7 @@ class VirtualNumberController extends Controller {
                 if ($input['vnumberData']['hold_tune_type_id'] == 3) {
                     if (!empty($input['vnumberData']['hold_tune_audio'])) {
                         $s3FolderName = 'caller_tunes';
-                        $imageName = time().'_'. rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['vnumberData']['hold_tune_audio']->getClientOriginalExtension();
+                        $imageName = time() . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['vnumberData']['hold_tune_audio']->getClientOriginalExtension();
                         $name = S3::s3FileUpload($input['vnumberData']['hold_tune_audio']->getPathName(), $imageName, $s3FolderName);
                         $name = trim($name, ",");
                         $input['vnumberData']['hold_tune'] = $name;
@@ -236,10 +342,8 @@ class VirtualNumberController extends Controller {
         }
         echo json_encode($result);
     }
-    
-    
-    public function updateNonworkinghours()
-    {    
+
+    public function updateNonworkinghours() {
         $validationMessages = CtSetting::validationMessages();
         $validationRules = CtSetting::validationRules();
 
@@ -261,21 +365,21 @@ class VirtualNumberController extends Controller {
         }
         if ($input['nonworkingData']['id'] > 0 || !empty($input['nonworkingData']['id'])) {
             if (!empty($input['nonworkingData']['nwh_welcome_tune_type_id'])) {
-                    if ($input['nonworkingData']['nwh_welcome_tune_type_id'] == 3) {
-                        if (!empty($input['nonworkingData']['nwh_welcome_tune_audio'])) {
-                            $s3FolderName = 'caller_tunes';
-                            $name = S3::s3FileUpload($input['nonworkingData']['nwh_welcome_tune_audio'], $s3FolderName, 1);
-                            $name = trim($name, ",");
-                            $input['nonworkingData']['nwh_welcome_tune'] = $name;
-                        }
-                    } elseif ($input['nonworkingData']['nwh_welcome_tune_type_id'] == 2) {
-                        $input['nonworkingData']['nwh_welcome_tune'] = $input['nonworkingData']['nwh_welcome_tune'];
-                    } elseif ($input['nonworkingData']['nwh_welcome_tune_type_id'] == 1) {
-                        $input['nonworkingData']['nwh_welcome_tune'] = '';
+                if ($input['nonworkingData']['nwh_welcome_tune_type_id'] == 3) {
+                    if (!empty($input['nonworkingData']['nwh_welcome_tune_audio'])) {
+                        $s3FolderName = 'caller_tunes';
+                        $name = S3::s3FileUpload($input['nonworkingData']['nwh_welcome_tune_audio'], $s3FolderName, 1);
+                        $name = trim($name, ",");
+                        $input['nonworkingData']['nwh_welcome_tune'] = $name;
                     }
+                } elseif ($input['nonworkingData']['nwh_welcome_tune_type_id'] == 2) {
+                    $input['nonworkingData']['nwh_welcome_tune'] = $input['nonworkingData']['nwh_welcome_tune'];
+                } elseif ($input['nonworkingData']['nwh_welcome_tune_type_id'] == 1) {
+                    $input['nonworkingData']['nwh_welcome_tune'] = '';
                 }
-                $status = CtSetting::updateStep4($input['nonworkingData']);
-                $message = "Record Updated Successfully";
+            }
+            $status = CtSetting::updateStep4($input['nonworkingData']);
+            $message = "Record Updated Successfully";
         }
     }
 
@@ -410,8 +514,8 @@ class VirtualNumberController extends Controller {
         return view("CloudTelephony::existingupdate")->with("id", $id);
     }
 
-    public function nonworkingUpdate($id){
-          return view("CloudTelephony::nonworkinghours")->with("id", $id);
+    public function nonworkingUpdate($id) {
+        return view("CloudTelephony::nonworkinghours")->with("id", $id);
     }
 
     /**
@@ -451,7 +555,7 @@ class VirtualNumberController extends Controller {
         $request = json_decode($postdata, true);
         $empid = explode(',', $request['ids']);
         //echo '<pre>';print_r($empid);exit;
-        $getemployeelist = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name','designation_id')->whereIn('id', $empid)->get();
+        $getemployeelist = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name', 'designation_id')->whereIn('id', $empid)->get();
         if (!empty($getemployeelist)) {
             $result = ['success' => true, 'records' => $getemployeelist];
             return json_encode($result);
@@ -469,8 +573,8 @@ class VirtualNumberController extends Controller {
         $explodeEmployees = explode(",", $getEmployee[0]->employees);
         $explodemissEmployees = explode(",", $getEmployee[0]->msc_default_employee_id);
         //print_r($getEmployee);exit;
-        $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name','designation_id')->whereNotIn('id', $explodeEmployees)->get();
-        $getmissEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name','designation_id')->whereNotIn('id', $explodemissEmployees)->get();
+        $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name', 'designation_id')->whereNotIn('id', $explodeEmployees)->get();
+        $getmissEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name', 'designation_id')->whereNotIn('id', $explodemissEmployees)->get();
 
 
         if (!empty($getEmployees)) {

@@ -8,6 +8,8 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     Route::get('/cloudtelephony/showoutboundFilter', function () {
         return View::make('CloudTelephony::showoutboundFilter');
     });
+    Route::get('/virtualnumber/virtualNumberExportToxls', 'VirtualNumberController@virtualNumberExportToxls');
+    Route::get('/employeeExtExportToxls', 'ExtensionEmployeeController@employeeExtExportToxls');
     Route::get('/cloudtelephony/showvirtualnumusers', 'CloudTelephonyController@showvirtualnumusers'); 
     Route::resource('/cloudtelephony', 'CloudTelephonyController');
     Route::post('/cloudtelephony/manageLists', 'CloudTelephonyController@manageLists');
@@ -46,6 +48,7 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     Route::get('/cloudcallinglogs/myOutboundExportToxls', 'CloudCallingLogsController@myOutboundExportToxls');
     Route::get('/cloudcallinglogs/teamInboundExportToxls', 'CloudCallingLogsController@teamInboundExportToxls');
     Route::get('/cloudcallinglogs/teamOutboundExportToxls', 'CloudCallingLogsController@teamOutboundExportToxls');
+    
 //    End Export
     Route::get('/cloudcallinglogs/myIncomingLogs', 'CloudCallingLogsController@myIncomingLogs');
     Route::post('/cloudcallinglogs/myInboundLogs', 'CloudCallingLogsController@myInboundLogs');

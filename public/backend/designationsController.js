@@ -27,9 +27,20 @@ app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scop
                 $scope.hideloader();
 
                 $scope.designationsRow = response.records;
+                $scope.exportData = response.exportData;
 
             });
         };
+        
+        $scope.designationExportToxls = function () {
+            $scope.getexcel = window.location = "/manage-designations/designationExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
         $scope.initialModal = function (id, designation, status, index, index1) {
             $scope.id = id;
             if ($scope.id === 0) //for create

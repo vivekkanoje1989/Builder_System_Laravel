@@ -24,8 +24,19 @@ app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
             Data.get('manage-city/manageCity').then(function (response) {
                  $scope.hideloader();
                 $scope.citiesRow = response.records;
+                $scope.exportData = response.exportData;
             });
         };
+        
+        $scope.cityExportToxls = function () {
+            $scope.getexcel = window.location = "manage-city/cityExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
         $scope.manageStates = function ($id, country_id) {
             if ($id == 1)
             {

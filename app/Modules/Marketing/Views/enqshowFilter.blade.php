@@ -228,7 +228,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6 col-xs-12">
-                                            <div class="form-group" ng-controller="vehiclemodelCtrl">
+                                            <div class="form-group" >
                                                 <label for="">Model Name</label>
                                                 <span class="input-icon icon-right">                                                   
                                                     <select ng-model="filterData.model_id" name="model_id" class="form-control">
@@ -239,7 +239,7 @@
                                                 </span>
                                             </div>                                        
                                         </div>
-                                        <div class="col-sm-6 col-xs-12" ng-controller="testdriveStatusCtrl">
+                                        <div class="col-sm-6 col-xs-12" >
                                             <label>Test Drive Status </label>
                                                 <span class="input-icon icon-right">
                                                 <select ng-model="filterData.test_drive_given" name="test_drive_given" class="form-control">

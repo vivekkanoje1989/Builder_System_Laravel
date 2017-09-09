@@ -8,8 +8,19 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
             Data.post('manage-department/manageDepartment').then(function (response) {
                 $scope.hideloader();
                 $scope.departmentRow = response.records;
+                $scope.exportData = response.exportData;
             });
         };
+        
+        $scope.departmentsExportToxls = function () {
+            $scope.getexcel = window.location = "manage-department/departmentsExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
         $scope.initialModal = function (id, list, index, index1) {
             if (id == 0)
             {
