@@ -113,13 +113,8 @@
                                 <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
                                 <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1 && enquiry.mobile !=''" ng-init="mobile_list=enquiry.mobile.split(',')">  
                                     <span ng-repeat="mobile_obj in mobile_list | limitTo:2">
-                                    <a style="cursor: pointer;" class="Linkhref"
-                                           ng-if="mobile_obj != null" 
-                                           ng-click="cloudCallingLog(1,[[Auth::guard('admin')->user()->id]],'<?php if (!empty(Auth::guard('admin')->user()->office_mobile_no)) {
-                                            echo Auth::guard('admin')->user()->office_mobile_no;
-                                        } else {
-                                            echo Auth::guard('admin')->user()->personal_mobile1;
-                                            } ?>','{{ mobile_obj}}','<?php echo 'http://'.$_SERVER['HTTP_HOST']; ?>',{{ enquiry.id}},[[Auth::guard('admin')->user()->client_id]])">
+                                        <a style="cursor: pointer;" class="Linkhref" 
+                                           ng-if="mobile_obj != null" ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
 
                                         <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                     </a>

@@ -31,7 +31,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.remarkData = {};
         $scope.remarkData.sms_privacy_status = 1;
         $scope.remarkData.email_privacy_status = 1;
-        
+
         $scope.changeSmsPrivacyStatus = function (val) {
             $scope.remarkData.sms_privacy_status = val;
         }
@@ -39,7 +39,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.changeEmailPrivacyStatus = function (val) {
             $scope.remarkData.email_privacy_status = val;
         }
-        
+
         $scope.items = function (num) {
             $scope.itemsPerPage = num;
         };
@@ -437,6 +437,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.sendDocuments = function (id)
         {
             $rootScope.enquiryId = id;
+            $timeout(function () {
+                $("li#historyTab").removeClass('active');
+                $("li#documentTab").addClass('active');
+                $("#documentTab a").trigger("click");
+            }, 200);
             Data.post('master-sales/sendDocuments', {enquiryId: id}).then(function (response) {
                 if (response.success)
                 {
@@ -477,20 +482,35 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 } else {
                 }
             });
-            $scope.SelectedDocs = flag;            
-            Data.post('master-sales/insertSendDocument',{documentData : documentdata,isUpdate:$scope.editableCustInfo,sendDocument:$scope.SelectedDocs,enquiry_id :$rootScope.enquiryId,}).then(function(response){
-                
+            $scope.SelectedDocs = flag;
+            Data.post('master-sales/insertSendDocument', {documentData: documentdata, isUpdate: $scope.editableCustInfo, sendDocument: $scope.SelectedDocs, enquiry_id: $rootScope.enquiryId, }).then(function (response) {
+
             });
         }
-        $scope.sendingList = function()
+        $scope.sendingList = function ()
         {
-            alert($rootScope.enquiryId);
-            Data.post('master-sales/sendDocList',{enquiry_id :$rootScope.enquiryId,}).then(function(response){
-                if(response.success)
+            Data.post('master-sales/sendDocList', {enquiry_id: $rootScope.enquiryId, }).then(function (response) {
+                if (response.success)
                 {
                     $scope.sendList = response.records;
+                    for(var i = 0 ;i < $scope.sendList.length ; i++)
+                    {
+                        $scope.sendList[i].send_documents = JSON.parse($scope.sendList[i].send_documents);
+//                        for(j=0 ; j< $scope.sendList[i].send_documents.length ; j++){
+//                            console.log($scope.sendList[i].send_documents[j]);
+//                        }                             
+                console.log($scope.sendList[i].send_documents);
+                    }
+                   
+                } else
+                {
+                    $scope.sendList = [];
                 }
             });
+        }
+        $scope.openImage = function(foldername,imagename)
+        {
+            window.open('https://storage.googleapis.com/bkt_bms_laravel/project/'+foldername+'/'+imagename+'');
         }
         /* ********************* uma End ******************************** */
         /*********************TODAY REMARK (GEETA)*********************/
@@ -1112,11 +1132,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
          }
          });
          };*/
-       
-        $scope.bookingId = '';        
+
+        $scope.bookingId = '';
         $scope.insertTodayRemark = function (modalData) {
             if ($scope.editableCustInfo == true) {
-                if(modalData.customer_fname == '' && modalData.customer_lname == ''){
+                if (modalData.customer_fname == '' && modalData.customer_lname == '') {
                     toaster.pop('error', 'Required', 'Please update customer name');
                     return false;
                 }
@@ -1152,8 +1172,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 editExistingFollowup: $scope.editExistingFollowup,
                 booking: {project_id: $("#project_id").val(),
                     block_id: $("#block_id").val(),
-                    sub_block_id: $("#sub_block_id").val(), 
-                    wing_id: $("#wing_id").val(), 
+                    sub_block_id: $("#sub_block_id").val(),
+                    wing_id: $("#wing_id").val(),
                     booking_date: modalData.booking_date,
                     booked_vehicle_id: modalData.booked_vehicle_id,
                     total_recievable_amount: modalData.total_recievable_amount,
