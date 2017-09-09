@@ -14,8 +14,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/MasterSales/enquiryHistory', function () {
         return View::make('MasterSales::enquiryHistory');
     });
-     Route::get('/MasterSales/blukreassign', function () {
-        return View::make('MasterSales::blukreassign');
+     Route::get('/MasterSales/bulkreassign', function () {
+        return View::make('MasterSales::bulkreassign');
     });
     Route::get('/MasterSales/enquiryListing', function () {
         return View::make('MasterSales::enquiryListing');
