@@ -31,10 +31,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     });
      Route::get('/MasterSales/sendDocument', function () {
         return View::make('MasterSales::sendDocument');
-    });
-     Route::get('/MasterSales/sendDocumentHistory', function () {
-        return View::make('MasterSales::sendDocumentHistory');
-    });
+    });     
     Route::get('/master-sales/createQuickEnquiry','MasterSalesController@createQuickEnquiry');
  
     

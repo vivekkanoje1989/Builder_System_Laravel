@@ -94,7 +94,7 @@
                                                         <input type="checkbox" name="chkLocation" value="location_map_images">
                                                         <span class="text">Select All</span>
                                                     </label>-->
-                                                <div class="form-group">                                                    
+                                                <div class="form-group"> {{documentListData}}                                                   
                                                     <div class="col-sm-3" ng-repeat="(key,value) in documentListData" ng-if="value !='' && value!= null && value!= 'null' ">
                                                         <label> 
                                                             <input type="checkbox" name="{{ key }}" value="{{ key }}@{{ value }}" id="{{ key }}" class="chkDocList">
@@ -112,8 +112,58 @@
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Documents History" id="historyTab" ng-click="sendingList()">
-                        <div data-ng-include="'/MasterSales/sendDocumentHistory'"></div>                        
+                    <tab heading="Documents History" id="historyTab" ng-click="sendingList()">                        
+                        <div class="table-responsive">
+                        <table class="table table-hover table-striped table-bordered" at-config="config">
+                                <thead class="bord-bot">
+                                    <tr>
+                                        <th class="enq-table-th" style="width:5%">SR</th>
+                                        <th class="enq-table-th" style="width: 10%;">
+                                           Project
+                                        </th>
+                                        <th class="enq-table-th" style="width: 50%">
+                                            Documents
+                                        </th>                                       
+                                        <th class="enq-table-th" style="width: 30%">
+                                            Send Date
+                                        </th>                
+                                    </tr>
+                                </thead>{{ sendList.send_documents}}
+                                <tbody ng-repeat="history in sendList track by $index| orderBy:orderByField:reverseSort">
+                                    <tr role="row" >
+                                        <td style="width:4%" rowspan="2">
+                                            {{ $index + 1}}
+                                        </td>
+                                        <td style="width: 30%;">
+                                            {{ history.project_name}}
+                                        </td>
+                                        <td style="width: 30%;">
+                                            <div ng-repeat="(key,value) in history.send_documents track by $index">
+                                                <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>{{key | split:"_images":0 | underscoreless:' ' | capitalize }} <span>-</span>
+                                                <div ng-if="key == 'layout_plan_images' ">
+                                                    <strong ng-repeat="layoutimg in value track by $index" >
+                                                    <a ng-click="openImage('{{ key }}','{{ layoutimg.layout_plan_images }}')" style='cursor: pointer;'>{{ layoutimg.layout_plan_images }}&nbsp;&nbsp;&nbsp;</a>
+                                                    </strong>
+                                                </div>
+                                                <div ng-if="key == 'floor_plan_images' ">
+                                                    <strong ng-repeat="layoutimg in value track by $index" >
+                                                    <a ng-click="openImage('{{ key }}','{{ layoutimg.floor_plan_images }}')" style='cursor: pointer;'>{{ layoutimg.floor_plan_images }}&nbsp;&nbsp;&nbsp;</a>
+                                                    </strong>
+                                                </div>
+                                                <div ng-if="key != 'layout_plan_images' && key != 'floor_plan_images' ">
+                                                    <p ng-repeat="layoutimg in value track by $index" ></p>
+                                                    <a ng-click="openImage('{{ key }}','{{ value }}')" style='cursor: pointer;'>{{ value }}</a>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                        </td>
+                                        <td style="width: 30%;">
+                                             {{ history.send_datetime}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                        </table>
+                        </div>
                     </tab>
                 </tabset>
             </div>
