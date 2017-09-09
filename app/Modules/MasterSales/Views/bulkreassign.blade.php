@@ -7,7 +7,7 @@
                     <span class="input-icon icon-right">
                         <select class="form-control"  ng-model="bulkData.employee_id" name="employee_id" id="employee_id" ng-controller="salesemployeesCtrl" required>
                             <option value="">Select Employee</option>
-                            <option ng-repeat="item in salesemployeeList" value="{{item.id}}" ng-if="item.id != [[Auth::guard('admin') - > user() - > id]]" >{{item.first_name}} {{item.last_name}} ({{item.designation_name.designation}})</option>
+                            <option ng-repeat="item in salesemployeeList" value="{{item.id}}" ng-if="item.id != [[Auth::guard('admin')->user()->id]]" >{{item.first_name}} {{item.last_name}} ({{item.designation_name.designation}})</option>
                         </select>
                         <i class="fa fa-sort-desc" ng-click="dropevent(this.event)"></i>
                         <div ng-show="sbtBtn" ng-messages="bulkForm.employee_id.$error" class="help-block errMsg">

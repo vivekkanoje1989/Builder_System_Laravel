@@ -117,7 +117,7 @@
                                 <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td> 
                                 <td>{{ list.blood_group}}</td>                          
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#bloodGroupModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.blood_group}}',{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <div class="" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#bloodGroupModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.blood_group}}',{{itemsPerPage}},{{$index}})" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
                                 </td>
                             </tr>
                         </tbody>

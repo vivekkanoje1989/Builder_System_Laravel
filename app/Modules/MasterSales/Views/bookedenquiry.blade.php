@@ -261,7 +261,7 @@
                     </div>
                 </div>
             </div>             
-            <!--<div data-ng-include="'/MasterSales/blukreassign'"></div>--> 
+            <!--<div data-ng-include="'/MasterSales/bulkreassign'"></div>--> 
             <!--<div data-ng-include="'/MasterSales/collectionDetails'"></div>--> 
         </div>
     </div>

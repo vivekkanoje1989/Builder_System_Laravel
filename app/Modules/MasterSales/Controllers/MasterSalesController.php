@@ -2966,7 +2966,9 @@ Regards,<br>
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             $list = ProjectWebPage::where('id',$request['projectId'])->select('location_map_images','floor_plan_images','layout_plan_images','floor_plan_images','project_brochure','specification_images','amenities_images','video_link')->get();
-            //echo"<pre>";print_r($list);exit;
+            //echo"<pre>";print_r($list[0]->floor_plan_images);exit;
+            $list[0]->floor_plan_images = json_decode($list[0]->floor_plan_images , true);
+            $list[0]->layout_plan_images = json_decode($list[0]->layout_plan_images , true);
             if(count($list) > 0)
             {
                 $result =  ["success" => true, "records" => $list];
@@ -2976,7 +2978,7 @@ Regards,<br>
             }            
         } catch (\Exception $ex) {
              $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-        }
+        }        
          return response()->json($result);
     }
     public function insertSendDocument()
@@ -3016,12 +3018,11 @@ Regards,<br>
                 $amenities,
                 $videoLink,
             );
-            //print_r($templatedata);exit;
-            $Templateresult = CommonFunctions::templateData($templatedata);
-            print_r($Templateresult);exit;
+            //print_r($request['sendDocument']);exit;
+            //$Templateresult = CommonFunctions::templateData($templatedata);
+            //print_r($Templateresult);exit;
             
             // insert into send document history
-            
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $insertDocument['enquiry_id'] =$request['enquiry_id'] ;
             $insertDocument['project_id'] = $request['documentData']['project_id'];
@@ -3031,11 +3032,16 @@ Regards,<br>
                 $arr = explode('@',$val);
                 $doc[$arr[0]] = $arr[1];                
             }
+            $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'],true);
+            $doc['layout_plan_images'] = json_decode($doc['layout_plan_images'],true);
+           // print_r(json_encode($doc));exit;
             $insertDocument['send_datetime'] = date('Y-m-d H:i:s');
-            $insertDocument['send_documents'] = json_encode($doc);
+            //$insertDocument['send_documents'] = str_replace('\\/', '/', json_encode($doc));
+            
+            $insertDocument['send_documents'] =json_encode($doc);
             $insertDocument['send_by'] =$loggedInUserId ;
             $insertDocument = array_merge($insertDocument,$create);
-            //print_r($insertDocument);exit;
+           // print_r($insertDocument);exit;
             $dataInsert = SendDocumentHistory::create($insertDocument);
             if($dataInsert){
                 $result = ["success" => true,"message"=>"Send Document Successfully."];
@@ -3051,7 +3057,10 @@ Regards,<br>
         try{
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata,true);
-            $allSend = SendDocumentHistory::select('id','enquiry_id','project_id','send_documents','send_datetime','send_by')->get();
+            $allSend = SendDocumentHistory::select('send_document_history.id','enquiry_id','project_id','send_documents','send_datetime','send_by','project_name')
+                    ->leftJoin('projects','send_document_history.project_id','=','projects.id')
+                    ->where('enquiry_id',$request['enquiry_id'])
+                    ->get();
             if(count($allSend) > 0)
             {
                 $result = ["success" => true, 'records'=>$allSend];

@@ -292,7 +292,7 @@
                 </div>
             </div>
             <div data-ng-include="'/MasterSales/showFilter'"></div>
-             <!--<div data-ng-include="'/MasterSales/blukreassign'"></div>--> 
+             <!--<div data-ng-include="'/MasterSales/bulkreassign'"></div>--> 
         </div>
     </div>
 </div>
