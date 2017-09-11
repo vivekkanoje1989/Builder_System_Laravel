@@ -311,7 +311,7 @@
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title" align="center">Reassign</h4>
                         </div>
-                        <div data-ng-include="'/MasterSales/blukreassign'"></div> 
+                        <div data-ng-include="'/MasterSales/bulkreassign'"></div> 
                         <div class="modal-footer" align="center">
                         </div>
                     </div>
