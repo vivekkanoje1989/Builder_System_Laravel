@@ -2045,7 +2045,6 @@ class CloudCallingLogsController extends Controller {
                 $sql->caller_id = $caller_id;
                 $sql->save();
                 //getting last inserted call log of logged in user to checking last call time interval
-                // print_r($prev_call_check);exit;
 
                 if (!empty($prev_call_check)) {
 

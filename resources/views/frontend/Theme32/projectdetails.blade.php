@@ -41,7 +41,7 @@
                                             <h3>More Links</h3>
                                             <div class="filter thumbs-filter" id="current">
                                                 <ul>
-                                                    <a href="[[config('global.s3Path')]]project_broacher/{{project_broacher}}" target="_blank"> 
+                                                    <a href="[[config('global.s3Path')]]project_brochure/{{project_brochure}}" target="_blank"> 
                                                         <li class="active" data-group="all"><span>Download Broucher</span></li>
                                                     </a>
                                                 </ul>

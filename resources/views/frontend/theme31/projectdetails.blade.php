@@ -178,7 +178,7 @@
                             <h5 class="widget-title-sub">+90 555 444 66 33</h5>
                             <p><a href="mailto:support@supportcenter.com">support@supportcenter.com</a></p>
                             <div class="button">
-                                <a href="[[config('global.s3Path')]]project_broacher/{{project_broacher}}" target="_blank" class="btn btn-block btn-theme btn-theme-dark">Download Brochure</a>
+                                <a href="[[config('global.s3Path')]]project_brochure/{{project_brochure}}" target="_blank" class="btn btn-block btn-theme btn-theme-dark">Download Brochure</a>
                             </div>
                         </div>
                     </div>

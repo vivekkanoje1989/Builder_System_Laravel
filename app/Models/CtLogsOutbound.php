@@ -73,7 +73,7 @@ class CtLogsOutbound extends Eloquent
 
 	protected $dates = [
 		'call_date',
-		'call_time',
+//		'call_time',
 		'employee_call_duration',
 		'customer_call_duration',
 		'total_call_duration',

@@ -75,7 +75,7 @@ app.controller('AppCtrl', ['$scope', 'Upload', '$timeout', '$http', '$location',
               
                 $scope.project_address = response.data.result.project_address;
                 $scope.email_sending_id = response.data.result.email_sending_id;
-                $scope.project_broacher = response.data.result.project_broacher;
+                $scope.project_brochure = response.data.result.project_brochure;
                 $scope.project_contact_numbers = response.data.result.project_contact_numbers;
                 if (response.data.result.amenities_images != null) {
                     $scope.gallery = response.data.result.project_gallery.split(',');

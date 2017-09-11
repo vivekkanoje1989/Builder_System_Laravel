@@ -36,7 +36,7 @@ class ReportsController extends Controller {
             //print_r($request);exit;
             $from_date = date('Y-m-d', strtotime($request['from_date']));
             $to_date = date('Y-m-d', strtotime($request['to_date']));
-            $condition .= "(e.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+            $condition .= "AND (e.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
         }
 
         if (!empty($request['flag'])) {
@@ -46,7 +46,7 @@ class ReportsController extends Controller {
         }
 
         //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM lmsauto_client_final.enquiries e INNER JOIN lmsauto_master_final.mlst_enquiry_sales_categories as eqty ON e.`sales_category_id` = eqty.id WHERE e.`sales_status_id`IN(1,2) AND e.`sales_employee_id` = $employee_id AND $condition GROUP BY e.`sales_category_id`";
-        $category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id AND $condition GROUP BY e.sales_category_id";
+        $category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id $condition GROUP BY e.sales_category_id";
         $category_wise_report = DB::select($category_wise_report);
         $category_wise_total = array();
         $cold_count = 0;
@@ -88,7 +88,7 @@ class ReportsController extends Controller {
         if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
             $from_date = date('Y-m-d', strtotime($request['from_date']));
             $to_date = date('Y-m-d', strtotime($request['to_date']));
-            $condition .= "(laravel_developement_builder_client.enquiries.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+            $condition .= "AND (laravel_developement_builder_client.enquiries.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
         }
 
         if (!empty($request['flag'])) {
@@ -97,7 +97,7 @@ class ReportsController extends Controller {
             $flag = 0;
         }
         //$status_wise_query = "SELECT count(*) as cnt,laravel_developement_master_edynamics.mlst_enquiry_sales_statuses.sales_status FROM laravel_developement_builder_client.enquiries INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses ON laravel_developement_master_edynamics.mlst_enquiry_sales_statuses.id = laravel_developement_builder_client.enquiries.`sales_status_id` where laravel_developement_builder_client.enquiries.`sales_employee_id` = '$employee_id' AND '$condition' GROUP BY laravel_developement_builder_client.enquiries.`sales_status_id`";
-        $status_wise_query = "SELECT count(*) as cnt,laravel_developement_master_edynamics.mlst_enquiry_sales_statuses.sales_status FROM laravel_developement_builder_client.enquiries INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses ON  laravel_developement_master_edynamics.mlst_enquiry_sales_statuses.id = laravel_developement_builder_client.enquiries.sales_status_id where laravel_developement_builder_client.enquiries.sales_employee_id = $employee_id AND $condition  GROUP BY laravel_developement_builder_client.enquiries.sales_status_id";
+        $status_wise_query = "SELECT count(*) as cnt,laravel_developement_master_edynamics.mlst_enquiry_sales_statuses.sales_status FROM laravel_developement_builder_client.enquiries INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_statuses ON  laravel_developement_master_edynamics.mlst_enquiry_sales_statuses.id = laravel_developement_builder_client.enquiries.sales_status_id where laravel_developement_builder_client.enquiries.sales_employee_id = $employee_id $condition GROUP BY laravel_developement_builder_client.enquiries.sales_status_id";
         $status_wise_query = DB::select($status_wise_query);
         $m_new_count = 0;
         $open_count = 0;

@@ -80,7 +80,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
                 if (!response.success) {
                     $scope.projectData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.inventoryData = $scope.amenityData = $scope.galleryData = $scope.specificationData = {};
                     $scope.statusRow = $scope.statusImages = $scope.specificationTitle = $scope.floorTitle = $scope.layoutTitle = [];
-                    $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_broacher = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
+                    $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
                     $scope.projectData.project_id = projectId;
                     $scope.wingList = $scope.floorList = [];
                     $scope.notFound = true;
@@ -120,14 +120,14 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
                         if (!responseAList.success) {
                             $scope.errorMsg = responseAList.message;
                         } else {
-                            $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_broacher = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
+                            $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
                             $scope.projectData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.amenityData = $scope.galleryData = $scope.specificationData = angular.copy(response.details);
                             $scope.project_logo = (response.details.project_logo !== null && response.details.project_logo !== "null") ? response.details.project_logo.split(',') : [];
                             $scope.project_thumbnail = (response.details.project_thumbnail !== null && response.details.project_thumbnail !== "null") ? response.details.project_thumbnail.split(',') : [];
                             $scope.project_favicon = (response.details.project_favicon !== null && response.details.project_favicon !== "null") ? response.details.project_favicon.split(',') : [];
                             $scope.project_banner_images = (response.details.project_banner_images !== null && response.details.project_banner_images !== "null") ? response.details.project_banner_images.split(',') : [];
                             $scope.project_background_images = (response.details.project_background_images !== null && response.details.project_background_images !== "null") ? response.details.project_background_images.split(',') : [];
-                            $scope.project_broacher = (response.details.project_broacher !== null && response.details.project_broacher !== "null") ? response.details.project_broacher.split(',') : [];
+                            $scope.project_brochure = (response.details.project_brochure !== null && response.details.project_brochure !== "null") ? response.details.project_brochure.split(',') : [];
                             $scope.location_map_images = (response.details.location_map_images !== null && response.details.location_map_images !== "null") ? response.details.location_map_images.split(',') : [];
                             $scope.amenities_images = (response.details.amenities_images !== null && response.details.amenities_images !== "null") ? response.details.amenities_images.split(',') : [];
                             $scope.project_gallery = (response.details.project_gallery !== null && response.details.project_gallery !== "null") ? response.details.project_gallery.split(',') : [];
@@ -373,7 +373,12 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
             }
         }
     }]);
-
+app.filter('split', function () {
+    return function (input, splitChar, splitIndex) {
+        // do some bounds checking here to ensure it has that index
+        return input.split(splitChar)[splitIndex];
+    }
+});
 
 app.controller('blockTypeCtrl', function ($scope, Data) {
     Data.get('projects/getBlocks').then(function (response) {
