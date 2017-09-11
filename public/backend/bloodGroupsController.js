@@ -29,6 +29,15 @@ app.controller('bloodsGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
+        
+        
+        $scope.deleteBloodgrp = function (id, index) {
+            Data.post('blood-groups/deleteBloodgrp', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Blood Group', 'Blood Group deleted successfully');
+                $scope.bloodGrpRow.splice(index, 1);
+            });
+        }
         $scope.getProcName = $scope.type = '';
         $scope.procName = function (procedureName, isTeam) {
             $scope.getProcName = angular.copy(procedureName);

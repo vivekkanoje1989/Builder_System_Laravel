@@ -21,6 +21,7 @@
 Route::group(array('module' => 'Alerts', 'middleware' => ['web'], 'namespace' => 'App\Modules\Alerts\Controllers'), function() {
     $getUrl = config('global.getUrl');
     Route::get('/defaultalerts/defaultTemplatesExportToxls', 'DefaultAlertsController@defaultTemplatesExportToxls');
+    Route::get('/alerts/templatesExportToxls', 'AlertsController@templatesExportToxls');
     Route::post('/defaultalerts/updateDefaultAlerts', 'DefaultAlertsController@updateDefaultAlerts');
     Route::post('/defaultalerts/manageDafaultAlerts', 'DefaultAlertsController@manageDafaultAlerts');
     Route::post('/alerts/manageAlerts', 'AlertsController@manageAlerts');

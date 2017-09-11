@@ -7,9 +7,9 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         $scope.exportData = '';
         $scope.createBlog = false;
         $scope.updateBlog = false;
-         $scope.searchDetails = {};
-         $scope.searchData = {};
-       
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
         $scope.filterDetails = function (search) {
 //             $scope.searchDetails = {};
             $scope.searchData = search;
@@ -22,26 +22,34 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
+
         $scope.blogData = {};
         $scope.manageBlogs = function () {
             $scope.showloader();
             Data.post('manage-blog/manageBlogs').then(function (response) {
-                 $scope.hideloader();
+                $scope.hideloader();
                 $scope.blogsRow = response.records;
                 $scope.exportData = response.exportData;
             });
         };
-        
-        $scope.blogManagementExportToxls = function(){
-             $scope.getexcel = window.location = "/manage-blog/blogManagementExportToxls";
+
+        $scope.deleteBlog = function (id, index) {
+            Data.post('manage-blog/deleteBlog', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Blog Management', 'Blog deleted successfully');
+                $scope.blogsRow.splice(index, 1);
+            });
+        }
+
+        $scope.blogManagementExportToxls = function () {
+            $scope.getexcel = window.location = "/manage-blog/blogManagementExportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
             } else {
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
+
         $scope.doblogscreateAction = function (bannerImage, galleryImage, blogData, blogimgs) {
 
             $scope.errorMsg = '';
@@ -133,12 +141,12 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         }
         $scope.editBlogData = function (list, index, pageId)
         {
-           
-            
+
+
             $scope.blogData = list;
             if (list.blog_images != '') {
                 var blog = list.blog_images.split(',');
-                
+
             }
             if (list.blog_banner_images != '') {
                 var blog_banner = list.blog_banner_images.split(',');
@@ -147,7 +155,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
 
             $scope.galleryImage_preview = (blog);
             $scope.index = index;
-            
+
         }
 
         $scope.checkImageExtension = function (galleryImage) {
@@ -167,16 +175,16 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-        
+
         $scope.removeGalleryImg = function (imgname, indeximg, pageId)
         {
-           
+
             if (window.confirm("Are you sure want to remove this image?"))
             {
                 if (indeximg > -1) {
                     $scope.galleryImage_preview.splice(indeximg, 1);
                     Data.post('manage-blog/removeImage', {
-                        pageId:$scope.blogId , imageName: imgname, galleryImage_preview: $scope.galleryImage_preview,
+                        pageId: $scope.blogId, imageName: imgname, galleryImage_preview: $scope.galleryImage_preview,
                     }).then(function (response) {
                         if (!response.success)
                         {

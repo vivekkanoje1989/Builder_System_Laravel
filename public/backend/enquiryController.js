@@ -4,7 +4,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.filterData = {};
         $scope.documentData = {};
         $scope.documentListData = {};
-        $scope.SelectedDoc = [];
+        $scope.SelectedDoc = {};
         $scope.tempFilterData = {};
         $scope.listsIndex = {};
         $scope.documentData.project_id = 0;
@@ -32,6 +32,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.remarkData.sms_privacy_status = 1;
         $scope.remarkData.email_privacy_status = 1;
         
+        
         $scope.cloudCallingLog = function (modules, employee_id, enquire_id, customer_id, sequence) {
             Data.post('cloudcallinglogs/outboundCalltrigger', {
                 modules: modules, employee_id: employee_id, enquire_id: enquire_id, customer_id: customer_id, sequence: sequence
@@ -40,7 +41,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 toaster.pop('success', 'Call Status', successMsg);
             });
         }       
-
+        
         $scope.changeSmsPrivacyStatus = function (val) {
             $scope.remarkData.sms_privacy_status = val;
         }
@@ -444,7 +445,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.sendDocuments = function (id)
-        {
+        {            
             $rootScope.enquiryId = id;
             $timeout(function () {
                 $("li#historyTab").removeClass('active');
@@ -508,7 +509,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 //                        for(j=0 ; j< $scope.sendList[i].send_documents.length ; j++){
 //                            console.log($scope.sendList[i].send_documents[j]);
 //                        }                             
-                console.log($scope.sendList[i].send_documents);
+                
                     }
                    
                 } else

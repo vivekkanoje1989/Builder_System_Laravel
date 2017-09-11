@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Excel;
 use App\Classes\CommonFunctions;
 use App\Models\TemplatesSetting;
 use App\Models\TemplatesSettingsLog;
@@ -39,25 +40,23 @@ class AlertsController extends Controller {
     public function updateAlerts() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        
-        $count=count($request['alertData']['custom_template_id']);
-        if($request['alertData']['template_type']==1)
-        {    
-            if($count ==1 )
+
+        $count = count($request['alertData']['custom_template_id']);
+        if ($request['alertData']['template_type'] == 1) {
+            if ($count == 1)
                 $custome_template_id = $request['alertData']['custom_template_id'];
-            else if($count == 3)
+            else if ($count == 3)
                 $custome_template_id = $request['alertData']['custom_template_id']['id'];
-            
-            
+
+
             unset($request['alertData']['custom_template_id']);
-            
+
             $request['alertData']['custom_template_id'] = $custome_template_id;
         }
-        else 
-        {
+        else {
             $request['alertData']['custom_template_id'] = 0;
         }
-        
+
         $request['alertData']['updated_date'] = date('Y-m-d');
         $request['alertData']['updated_by'] = Auth::guard('admin')->user()->id;
         $request['alertData']['updated_IP'] = $_SERVER['REMOTE_ADDR'];
@@ -66,8 +65,8 @@ class AlertsController extends Controller {
         unset($request['alertData']['event_name']);
         unset($request['alertData']['module_names']);
         unset($request['alertData']['id']);
-        unset($request['alertData']['sr_no']);      
-        unset($request['alertData']['friendly_name']);      
+        unset($request['alertData']['sr_no']);
+        unset($request['alertData']['friendly_name']);
         $request['alertData']['email_cc_employees'] = TemplatesSetting::getIds($request['alertData']['email_cc_employees']);
         $request['alertData']['sms_cc_employees'] = TemplatesSetting::getIds($request['alertData']['sms_cc_employees']);
         $request['alertData']['email_bcc_employees'] = TemplatesSetting::getIds($request['alertData']['email_bcc_employees']);
@@ -100,24 +99,76 @@ class AlertsController extends Controller {
             $manageAlerts = DB::table('templates_settings as ts')
                     ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'ts.templates_event_id', '=', 'te.id')
                     ->leftjoin('templates_customs as tc', 'ts.custom_template_id', '=', 'tc.id')
-                    ->select('ts.*', 'te.event_name', 'te.module_names','tc.friendly_name')
-                    ->where('ts.id', '=', $request['id'])                    
+                    ->select('ts.*', 'te.event_name', 'te.module_names', 'tc.friendly_name')
+                    ->where('ts.id', '=', $request['id'])
                     ->get();
-            $customTemplate = TemplatesCustom::select('id','friendly_name','sr_no')->get();
-            
+            $customTemplate = TemplatesCustom::select('id', 'friendly_name', 'sr_no')->get();
         } else if ($request['id'] === "") { // for index
             $manageAlerts = DB::table('templates_settings as ts')
                     ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'ts.templates_event_id', '=', 'te.id')
                     ->leftjoin('templates_customs as tc', 'ts.custom_template_id', '=', 'tc.id')
-                    ->select('ts.*', 'te.event_name', 'te.module_names','tc.friendly_name')
+                    ->select('ts.*', 'te.event_name', 'te.module_names', 'tc.friendly_name')
                     ->where('ts.client_id', '=', config('global.client_id'))
                     ->get();
-            
-            $customTemplate = TemplatesCustom::select('id','friendly_name','sr_no')->get();
+
+            $customTemplate = TemplatesCustom::select('id', 'friendly_name', 'sr_no')->get();
+        }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
         }
         if ($manageAlerts) {
-            $result = ['success' => true, "records" => ["data" => $manageAlerts, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts),'customTemplates'=>$customTemplate]];
+            $result = ['success' => true, "records" => ["data" => $manageAlerts, "total" => count($manageAlerts), 'ExportTemplateData' => $export, 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts), 'customTemplates' => $customTemplate]];
             echo json_encode($result);
+        }
+    }
+
+    public function templatesExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+            $getCount = DB::table('templates_settings as ts')
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'ts.templates_event_id', '=', 'te.id')
+                    ->leftjoin('templates_customs as tc', 'ts.custom_template_id', '=', 'tc.id')
+                    ->select('ts.*', 'te.event_name', 'te.module_names', 'tc.friendly_name')
+                    ->where('ts.client_id', '=', config('global.client_id'))
+                    ->get()
+                    ->count();
+            $manageAlerts = DB::table('templates_settings as ts')
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'ts.templates_event_id', '=', 'te.id')
+                    ->leftjoin('templates_customs as tc', 'ts.custom_template_id', '=', 'tc.id')
+                    ->select('ts.*', 'te.event_name', 'te.module_names', 'tc.friendly_name')
+                    ->where('ts.client_id', '=', config('global.client_id'))
+                    ->get();
+            $templateAlerts = array();
+            $j = 1;
+            $manageAlerts = json_decode(json_encode($manageAlerts), true);
+            for ($i = 0; $i < count($manageAlerts); $i++) {
+                $templateAlert['Sr No'] = $j++;
+                $templateAlert['Template For'] = $manageAlerts[$i]['event_name'];
+               
+                $status = $manageAlerts[$i]['template_for'];
+                if ($status == 1) {
+                    $templateAlert['Template To'] = 'Customer';
+                } else {
+                    $templateAlert['Template To'] = 'Employee';
+                }
+                 $templateAlert['Department'] = $manageAlerts[$i]['module_names'];
+
+                $templateAlerts[] = $templateAlert;
+            }
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Template Data', function($excel) use($templateAlerts) {
+                    $excel->sheet('sheet1', function($sheet) use($templateAlerts) {
+                        $sheet->fromArray($templateAlerts);
+                    });
+                })->download('xls');
+            }
         }
     }
 
@@ -177,11 +228,11 @@ class AlertsController extends Controller {
     }
 
     public function getEmployees() {
-        $employees = Employee::select('id', 'office_email_id','office_mobile_no','first_name','last_name')
-                     ->where('office_email_id', '<>','')
-                     ->where('office_mobile_no', '<>','')
-                     ->orderBy('first_name', 'ASC')
-                     ->get();
+        $employees = Employee::select('id', 'office_email_id', 'office_mobile_no', 'first_name', 'last_name')
+                ->where('office_email_id', '<>', '')
+                ->where('office_mobile_no', '<>', '')
+                ->orderBy('first_name', 'ASC')
+                ->get();
         if (!empty($employees)) {
             $result = ['success' => true, 'records' => $employees];
             return json_encode($result);
@@ -197,11 +248,11 @@ class AlertsController extends Controller {
         $empId = $request['data']['empId'];
         $arr = explode(",", $empId);
 
-        $getemps = Employee::whereIn('id', $arr)->select('id', 'office_email_id', 'office_mobile_no','first_name','last_name')
-                                                ->where('office_email_id', '<>','')
-                                                ->where('office_mobile_no', '<>','')
-                                                 ->orderBy('first_name', 'ASC')
-                                                ->get();
+        $getemps = Employee::whereIn('id', $arr)->select('id', 'office_email_id', 'office_mobile_no', 'first_name', 'last_name')
+                ->where('office_email_id', '<>', '')
+                ->where('office_mobile_no', '<>', '')
+                ->orderBy('first_name', 'ASC')
+                ->get();
         if (!empty($getemps)) {
             $result = ['success' => true, 'records' => $getemps];
             return json_encode($result);
@@ -226,13 +277,12 @@ class AlertsController extends Controller {
 //        }
 //        echo json_encode($result);
 //    }
-     public function changeTemplateStatus() {
+    public function changeTemplateStatus() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $val = $request['val'];
-        if(!empty($request['id']))
-        {       
-            $templateSettingData = TemplatesSetting::where('id', '=', $request['id'])->update(array('template_type' => $val,'custom_template_id'=>$request['custom_template_id']));
+        if (!empty($request['id'])) {
+            $templateSettingData = TemplatesSetting::where('id', '=', $request['id'])->update(array('template_type' => $val, 'custom_template_id' => $request['custom_template_id']));
             $result = ['success' => true, "successMsg" => "Alerts category has been changed."];
         } else {
             $result = ['success' => false, 'errorMsg' => 'Something went wrong please try again later'];

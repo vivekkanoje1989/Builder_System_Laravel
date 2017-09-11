@@ -13,6 +13,7 @@ Route::group(array('module' => 'BlogManagement', 'middleware' => ['auth:admin'],
     Route::post('/manage-blog/getBlogsDetail', 'BlogManagementController@getBlogsDetail');
     Route::post('/manage-blog/removeBlogImage', 'BlogManagementController@removeBlogImage');
     Route::post('/manage-blog/removeImage', 'BlogManagementController@removeImage');
+    Route::post('/manage-blog/deleteBlog', 'BlogManagementController@deleteBlog');
     Route::get('/BlogManagement/showFilter', function () {
         return View::make('BlogManagement::showFilter');
     });

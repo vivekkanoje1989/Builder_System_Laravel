@@ -49,9 +49,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             }
             $scope.searchData = search;
             $scope.searchLength = $scope.searchData.length;
-            
+
         }
-        
+
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];
             $scope.filterDetails($scope.searchData);
@@ -361,8 +361,8 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 }
             });
         };
-        
-         $scope.virtualNumberExportToxls = function () {
+
+        $scope.virtualNumberExportToxls = function () {
             $scope.getexcel = window.location = "virtualnumber/virtualNumberExportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
@@ -370,7 +370,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
+
 
         $scope.managevLists = function (id, action) { //edit/index page
             Data.post('virtualnumber/manageLists', {
@@ -713,7 +713,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 if (response.success) {
                     $scope.teaminboundList = response.records;
                     $scope.teaminboundLength = response.totalCount;
-                    $scope.teaminboundExport= response.teaminboundExport;
+                    $scope.teaminboundExport = response.teaminboundExport;
                     $timeout(function () {
                         for (i = 0; i < $scope.teaminboundList.length; i++) {
                             if ($scope.teaminboundList[i].customer_call_status == "Connected") {
@@ -1022,6 +1022,24 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             var keys = Object.keys(type);
             var len = keys.length;
             return len;
+        }
+
+//        $scope.employeeDetails = function () {
+//            Data.get('employeeDetails').then(function (response) {
+//                if (!response.success) {
+//                    $scope.errorMsg = response.message;
+//                } else {
+//                    $scope.ct_employee = response.records;
+//                }
+//            });
+//        }
+
+        $scope.getEmployeeData = function () {
+            $scope.extNumber = [];
+            Data.get('getEmployeeData').then(function (response) {
+                $scope.ct_employee = response.records;
+
+            });
         }
 
     }]);

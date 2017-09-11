@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                     <div class="DTTT btn-group">
+                    <div class="DTTT btn-group">
                         <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Execl" ng-click="blogManagementExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
@@ -88,33 +88,33 @@
                                     </a>
                                 </th>
                                 <th style="width:20%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'blog_seo_url'; reverseSort = !reverseSort">Seo Url
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'blog_seo_url'; reverseSort = !reverseSort">Seo Url
                                         <span ng-show="orderByField == 'blog_seo_url'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                         </span>
                                     </a></th>
                                 <th style="width:20%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'meta_description'; reverseSort = !reverseSort">Meta Description
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'meta_description'; reverseSort = !reverseSort">Meta Description
                                         <span ng-show="orderByField == 'meta_description'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                         </span>
                                     </a>
                                 </th>
                                 <th style="width:20%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'meta_keywords'; reverseSort = !reverseSort">Meta Keywords
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'meta_keywords'; reverseSort = !reverseSort">Meta Keywords
                                         <span ng-show="orderByField == 'meta_keywords'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                         </span>
                                     </a>
                                 </th>
-                                <th style="width:20%">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'blog_status'; reverseSort = !reverseSort">Blog Status
+                                <th style="width:10%">
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'blog_status'; reverseSort = !reverseSort">Blog Status
                                         <span ng-show="orderByField == 'blog_status'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                         </span>
                                     </a>
                                 </th>
-                                <th style="width: 5%">Actions</th>
+                                <th style="width: 15%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -127,7 +127,8 @@
                                 <td>{{item.meta_keywords}}</td>
                                 <td>{{item.blog_status}}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit blog" style="display: block;" data-toggle="modal" ng-click="editBlogData({{item}},{{$index}})"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <span class="" tooltip-html-unsafe="Edit blog"  data-toggle="modal" ng-click="editBlogData({{item}},{{$index}})"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                        <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBlog({{item.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                         </tbody>

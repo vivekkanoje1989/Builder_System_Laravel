@@ -35,6 +35,16 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
             $scope.applyClassDepartment = 'ng-inactive';
          }
     }; 
+    
+      $scope.templatesExportToxls = function () {
+                $scope.getexcel = window.location = "/alerts/templatesExportToxls";
+                if ($scope.getexcel) {
+                    toaster.pop('info', '', 'Exporting....');
+                } else {
+                    toaster.pop('error', '', 'Exporting fails....');
+                }
+        }
+        
     $scope.changeSmsStatus = function(val,index,id){
         Data.post('alerts/changeSmsStatus', {
             val: val,
@@ -208,6 +218,8 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
                     $scope.listAlerts = response.records.data;
                     $scope.listAlertsLength = response.records.total;
                     $scope.custom_template_list = response.records.customTemplates;
+                    $scope.ExportTemplateData = response.records.ExportTemplateData;
+                    
                     $scope.displayinit =true;
                       $scope.hideloader();
                 }

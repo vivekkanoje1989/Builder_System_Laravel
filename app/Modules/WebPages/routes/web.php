@@ -16,6 +16,7 @@ Route::group(array('module' => 'WebPages', 'middleware' => ['auth:admin'], 'name
     Route::post('/web-pages/removeWebPageImage', 'WebPagesController@removeWebPageImage');// remove image
     Route::post('/web-pages/removeSubWebPageImage', 'WebPagesController@removeSubWebPageImage');// remove image
     Route::post('/web-pages/getSubPages', 'WebPagesController@getSubPages');// remove image
+    Route::post('/web-pages/deletePage', 'WebPagesController@deletePage');// delete records
     
      Route::get('/WebPages/showFilter', function () {
         return View::make('WebPages::showFilter');

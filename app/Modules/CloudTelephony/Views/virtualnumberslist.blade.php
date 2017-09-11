@@ -248,21 +248,16 @@
                         </span>
                     </div>
                 </div>
-                <!--                <div class=" col-xs-12" ng-controller="getEmployeeCtrl">
-                                    <div class="form-group" >
-                                        <label for="">Select Employees</label>	
-                                        <span class="input-icon icon-right">
-                                            <ui-select multiple ng-model="searchDetails.employee_name" name="employee_name" theme="select2" ui-select-required ng-disabled="disabled" style="width: 100%;">
-                                                <ui-select-match placeholder="Select Employees">{{$item.first_name}} {{$item.last_name}}&nbsp;( {{$item.designation_name.designation}} )</ui-select-match>
-                                                <ui-select-choices repeat="list in employees1 | filter:$select.search">
-                                                    {{list.first_name}}  {{list.last_name}}&nbsp;( {{list.designation_name.designation}} )
-                                                </ui-select-choices>
-                                            </ui-select>
-                                            <i class="fa fa-sort-desc"></i>
-                
-                                        </span>
-                                    </div>
-                                </div> -->
+                <div class=" col-xs-12" >
+                    <div class="form-group"   ng-init="getEmployeeData()">
+                        <label for="">Employee<span class="sp-err">*</span></label>   
+                        <select class="form-control"  ng-model="searchDetails.employee_name" name="employee_name" id="employee_id" >
+                            <option value="">Select Employee</option>
+                            <option ng-repeat="item in ct_employee" value="{{item.employee}}" ng-selected="{{ item.employee == searchDetails.employee_name}}" >{{item.employee}}</option>
+                        </select>
+
+                    </div>
+                </div> 
             </div>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12" >
