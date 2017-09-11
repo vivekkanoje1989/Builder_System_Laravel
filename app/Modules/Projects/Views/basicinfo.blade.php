@@ -16,8 +16,9 @@
     </div>
     <div class="step-content" id="tabbedwizardsteps">
         <div class="step-pane active" id="tabbedwizardstep1">
-            <form role="form" name="basicInfoForm" ng-submit="saveBasicInfo(projectData, projectImages)">
-                <input type="hidden" ng-model="basicInfoForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="basicInfoForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+            <form role="form" name="basicInfoForm" ng-submit="webpageSettings(projectData.prid,projectData)">
+                <input type="hidden" ng-model="projectData.csrfToken" name="csrftoken" id="csrftoken" ng-init="projectData.csrfToken = '[[ csrf_token() ]]'"/>
+                <input type="hidden" ng-model="prid" name="prid" id="prid" />
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
@@ -79,7 +80,8 @@
             </form>
         </div>
         <div class="step-pane" id="tabbedwizardstep2">
-            <form role="form" name="contactInfoForm" ng-submit="saveBasicInfo(contactData)">
+            <form role="form" name="contactInfoForm" ng-submit="webpageSettings(projectData.prid,contactData)">
+                <input type="hidden" ng-model="prid" name="prid" id="prid" />
                 <div class="row" ng-controller="currentCountryListCtrl">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">
@@ -154,7 +156,8 @@
             </form>
         </div>
         <div class="step-pane" id="tabbedwizardstep3">
-            <form role="form" name="seoInfoForm" ng-submit="saveBasicInfo(seoData)">
+            <form role="form" name="seoInfoForm" ng-submit="webpageSettings(projectData.prid,seoData)">
+                <input type="hidden" ng-model="prid" name="prid" id="prid" />
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">

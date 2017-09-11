@@ -56,67 +56,34 @@ class ProjectsController extends Controller {
         }
         return json_encode($result);
     }
-    
-    public function webpageIndex() {
-        return view("Projects::webpage");
-    }
-    
-    public function webpageDetails($id) {
-        return view("Projects::webpagedetails")->with(["projectId" => $id]);
-    }
-    public function webpageSettings() {
-        $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $msg = "";
-        if(!empty($input["getDataByPrid"])){ //for list
-            $getProjectDetails = ProjectWebPage::select("project_id","alias_status","project_alias","short_description","brief_description",
-                    "project_country","project_state","project_city","project_location","project_address","project_contact_numbers",
-                    "project_website","page_title","seo_url","meta_description","meta_keywords","canonical_tag")
-                ->where("project_id", "=", $input["getDataByPrid"])
-                ->get();
-            
-            unset($input["settingData"]["prid"],$input["settingData"]["csrfToken"]);
-            if(!empty($input["settingData"]) && empty($getProjectDetails[0])){ //insert
-                $input['settingData']['client_id'] = config('global.client_id');
-                $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-                $input['settingData'] = array_merge($input['settingData'], $create);
-                $actionProject = ProjectWebPage::create($input['settingData']);
-                $msg = "Record added successfully";
-            }else if(!empty($input["settingData"]) && !empty($getProjectDetails[0])){ //update
-                $input['settingData']['client_id'] = config('global.client_id');
-                $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
-                $input['settingData'] = array_merge($input['settingData'], $update);
-                $actionProject = ProjectWebPage::where('project_id', $input["getDataByPrid"])->update($input['settingData']);
-                $msg = "Record updated successfully";
+
+    public function manageProjectsExportToExcel() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+
+        $getProjectData = array();
+        if (in_array('01401', $array)) {
+            $getProjects = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get();
+            $getCount = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get()->count();
+            $j = 1;
+            for ($i = 0; $i < count($getProjects); $i++) {
+                $getProject['Sr No.'] = $j++;
+                $getProject['Registration Date & Time'] = $getProjects[$i]['created_at'];
+                $getProject['Registered by'] = $getProjects[$i]['getEmployee']['first_name'] . ' ' . $getProjects[$i]['getEmployee']['last_name'];
+                $getProject['Project Name'] = $getProjects[$i]['project_name'];
+                $getProject['Project Type'] = $getProjects[$i]['projectTypes']['project_type'];
+                $getProject['Project Status'] = $getProjects[$i]['projectStatus']['project_status'];
+                $getProjectData[] = $getProject;
             }
-        }
-        if (!empty($getProjectDetails[0])) {
-            $result = ['success' => true, 'settingData' => $getProjectDetails[0], 'message' => $msg];
-        } else {
-            $result = ['success' => false, 'settingData' => [], 'message' => $msg];
-        }
-        return json_encode($result);
-    }
-    
-    public function uploads(){
-        $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
-        $loggedInUserId = Auth::guard('admin')->user()->id;
-        $msg = "";
-        if(!empty($input["getDataByPrid"])){ //for list
-            $getProjectDetails = ProjectWebPage::select("project_id","project_logo","project_thumbnail","project_favicon","project_banner_images","project_background_images","project_brochure",
-                    "project_amenities_list","amenities_images","amenities_description","specification_images","specification_description","layout_plan_images","location_map_images","floor_plan_images",
-                    "project_gallery","google_map_short_url","google_map_iframe","video_link","video_short_link")
-                ->where("project_id", "=", $input["getDataByPrid"])
-                ->get();
-            $getProjectStatusRecords = ProjectStatus::select('id', 'images', 'status', 'short_description')->where("project_id", "=", $id)->get();
-            if (!empty($getProjectDetails[0])) {
-                $result = ['success' => true, 'uploadData' => $getProjectDetails[0], "getProjectStatusRecords" => $getProjectStatusRecords, 'message' => $msg];
+
+            if ($getCount < 1) {
+                return false;
             } else {
-                $result = ['success' => false, 'settingData' => [], 'message' => $msg];
+                Excel::create('Export Project Details', function($excel) use($getProjectData) {
+                    $excel->sheet('sheet1', function($sheet) use($getProjectData) {
+                        $sheet->fromArray($getProjectData);
+                    });
+                })->download('xls');
             }
-            return json_encode($result);
         }
     }
 
@@ -153,12 +120,14 @@ class ProjectsController extends Controller {
 
     public function getprojects() {
         $getProjects = Project::with(['getEmployee', 'projectTypes', 'projectStatus'])->get();
+
         if (!empty($getProjects)) {
             $result = ['success' => true, 'records' => $getProjects];
+            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
         }
-        return json_encode($result);
     }
 
     public function getProjectWings() {
@@ -589,6 +558,10 @@ class ProjectsController extends Controller {
         //
     }
 
+    public function webPage() {
+        return view("Projects::webpage");
+    }
+
     public function projectType() {
         $typeList = MlstBmsbProjectType::all();
         if (!empty($typeList)) {
@@ -620,36 +593,6 @@ class ProjectsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
-    }
-    
-    public function manageProjectsExportToExcel() {
-        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
-
-        $getProjectData = array();
-        if (in_array('01401', $array)) {
-            $getProjects = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get();
-            $getCount = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get()->count();
-            $j = 1;
-            for ($i = 0; $i < count($getProjects); $i++) {
-                $getProject['Sr No.'] = $j++;
-                $getProject['Registration Date & Time'] = $getProjects[$i]['created_at'];
-                $getProject['Registered by'] = $getProjects[$i]['getEmployee']['first_name'] . ' ' . $getProjects[$i]['getEmployee']['last_name'];
-                $getProject['Project Name'] = $getProjects[$i]['project_name'];
-                $getProject['Project Type'] = $getProjects[$i]['projectTypes']['project_type'];
-                $getProject['Project Status'] = $getProjects[$i]['projectStatus']['project_status'];
-                $getProjectData[] = $getProject;
-            }
-
-            if ($getCount < 1) {
-                return false;
-            } else {
-                Excel::create('Export Project Details', function($excel) use($getProjectData) {
-                    $excel->sheet('sheet1', function($sheet) use($getProjectData) {
-                        $sheet->fromArray($getProjectData);
-                    });
-                })->download('xls');
-            }
-        }
     }
 
 }

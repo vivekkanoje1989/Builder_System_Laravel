@@ -27,10 +27,10 @@
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
                     <label></label>
-                    <div class="card card-4 img-div2" ng-if="specificationTitle" ng-repeat="t in specificationTitle" id="del_specification_images_{{$index}}">
-                        <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{specificationTitle}},'{{t}}', {{$index}}, {{projectData.project_id}}, 'project/specification_images/', 'specification_images')"></i>
-                        <img ng-src="[[ config('global.s3Path') ]]/project/specification_images/{{t.image}}" class="thumb photoPreview">
-                        <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
+                    <div class="card card-4 img-div2" ng-if="specificationTitle" ng-repeat="list in specificationTitle" id="del_specification_images_{{$index}}">
+                        <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{specificationTitle}},'{{list.image}}', {{$index}}, {{projectData.project_id}}, 'project/specification_images/', 'specification_images')"></i>
+                        <img ng-src="[[ config('global.s3Path') ]]/project/specification_images/{{list.image}}" class="thumb photoPreview">
+                        <div class="textStyle"><span class="ng-binding">{{list.title}}</span></div>
                     </div>
                     <span class="input-icon icon-right">
                         <a href data-toggle="modal" data-target="#specificationDataModal" ng-click="resetSpecificationDetails()">CLICK HERE TO UPLOAD SPECIFICATION</a> 

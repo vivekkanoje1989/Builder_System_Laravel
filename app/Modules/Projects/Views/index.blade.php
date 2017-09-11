@@ -12,7 +12,7 @@
         width: 110%;
     }
 </style>
-<div class="row" ng-controller="basicInfoController" ng-init="manageproject()">  
+<div class="row" ng-controller="projectController" ng-init="manageproject()">  
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -124,7 +124,8 @@
                                 <td>{{list.projectType}}</td>
                                 <td>{{list.projectStatus}}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit" style="display: block;"><a href="javascript:void(0);" ng-click="showWebPage({{list.id}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <!--<div class="" tooltip-html-unsafe="Edit" style="display: block;"><a href="javascript:void(0);" ng-click="showWebPage({{list.id}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>-->
+                                    <div class="" tooltip-html-unsafe="Edit" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/projects/webpageDetails/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
                                 </td>
                             </tr>
                         </tbody>
