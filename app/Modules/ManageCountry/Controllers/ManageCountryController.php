@@ -9,6 +9,7 @@ use App\Modules\ManageCountry\Models\MlstCountries;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 
 class ManageCountryController extends Controller {
 
@@ -29,12 +30,44 @@ class ManageCountryController extends Controller {
 
             $countryDetails[] = $countryData;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($countryDetails)) {
-            $result = ['success' => true, 'records' => $countryDetails, 'totalCount' => count($getCountry)];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $countryDetails,'exportData'=>$export, 'totalCount' => count($getCountry)];
         } else {
             $result = ['success' => false, 'records' => $countryDetails, 'totalCount' => count($getCountry), 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function countryExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getCountry = MlstCountries::select('name')->get();
+            $getCount = MlstCountries::select('name')->get()->count();
+            $getCountry = json_decode(json_encode($getCountry), true);
+
+            $manageCountry = array();
+            $j = 1;
+            for ($i = 0; $i < count($getCountry); $i++) {
+                $manageCountryData['Sr No.'] = $j++;
+                $manageCountryData['Country Name'] = $getCountry[$i]['name'];
+                $manageCountry[] = $manageCountryData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Country Details', function($excel) use($manageCountry) {
+                    $excel->sheet('sheet1', function($sheet) use($manageCountry) {
+                        $sheet->fromArray($manageCountry);
+                    });
+                })->download('xls');
+            }
         }
     }
 

@@ -28,9 +28,19 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', 'toaster', function ($s
                  $scope.hideloader();
                 $scope.enquiryLocationRow = response.records;
                 $scope.enquiryLocationRowLength = response.totalCount;
+                $scope.exportData = response.exportData;
                 $scope.flagFor = 0;
             });
         };
+        
+        $scope.enquiryLocationExportToxls = function () {
+            $scope.getexcel = window.location = "/enquiry-location/enquiryLocationExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};

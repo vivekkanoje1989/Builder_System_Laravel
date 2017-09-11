@@ -10,6 +10,7 @@ use App\Modules\ManageProjectTypes\Models\MlstBmsbProjectTypes;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 
 class ProjectPaymentStagesController extends Controller {
 
@@ -18,14 +19,45 @@ class ProjectPaymentStagesController extends Controller {
     }
 
     public function manageProjectPaymentStages() {
-        $getDiscountname = LstDlProjectStages::select('stage_name','project_type_id','fix_stage','id')->get();
-
-        if (!empty($getDiscountname)) {
-            $result = ['success' => true, 'records' => $getDiscountname];
-            return json_encode($result);
+        $getProjectPayment = LstDlProjectStages::select('stage_name', 'project_type_id', 'fix_stage', 'id')->get();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
+        if (!empty($getProjectPayment)) {
+            $result = ['success' => true, 'records' => $getProjectPayment, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function projectPaymentStagesExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+           $getProjectPayment = LstDlProjectStages::select('stage_name', 'project_type_id', 'fix_stage', 'id')->get();
+            $getCount = LstDlProjectStages::select('stage_name', 'project_type_id', 'fix_stage', 'id')->get()->count();
+            $getProjectPayment = json_decode(json_encode($getProjectPayment), true);
+
+            $manageProjectPayment = array();
+            $j = 1;
+            for ($i = 0; $i < count($getProjectPayment); $i++) {
+                $manageProjectPaymentData['Sr No.'] = $j++;
+                $manageProjectPaymentData['Project Stages'] = $getProjectPayment[$i]['stage_name'];
+                $manageProjectPayment[] = $manageProjectPaymentData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Project Stages Details', function($excel) use($manageProjectPayment) {
+                    $excel->sheet('sheet1', function($sheet) use($manageProjectPayment) {
+                        $sheet->fromArray($manageProjectPayment);
+                    });
+                })->download('xls');
+            }
         }
     }
 

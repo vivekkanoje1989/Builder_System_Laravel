@@ -8,8 +8,21 @@ app.controller('lostReasonsController', ['$scope', 'Data', 'toaster', function (
             Data.post('lost-reasons/manageLostReason').then(function (response) {
                  $scope.hideloader();
                 $scope.listLostReasons = response.records;
+                $scope.exportData = response.exportData;
             });
         };
+        
+        
+        $scope.lostReasonExportToxls = function () {
+            $scope.getexcel = window.location = "lost-reasons/lostReasonExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+
+
         $scope.searchDetails = {};
         $scope.searchData = {};
 

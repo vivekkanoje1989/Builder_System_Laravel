@@ -1,4 +1,4 @@
-app.controller('statesCtrl', ['$scope', 'Data', function ($scope, Data) {
+app.controller('statesCtrl', ['$scope', 'Data','toaster', function ($scope, Data,toaster) {
 
         $scope.itemsPerPage = 30;
         $scope.pageNumber = 1;
@@ -25,29 +25,25 @@ app.controller('statesCtrl', ['$scope', 'Data', function ($scope, Data) {
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-
-//        $scope.pageChanged = function (pageNo, functionName, id, newpage) {
-//            $scope.flagForChange++;
-//            if ($scope.flagForChange == 1)
-//            {
-//                if (($scope.filterData && Object.keys($scope.filterData).length > 0)) {
-//                    $scope.filteredData($scope.filterData, pageNo, $scope.itemsPerPage);
-//                } else {
-//                    $scope[functionName](id, pageNo, $scope.itemsPerPage);
-//                }
-//            }
-//            $scope.pageNumber = pageNo;
-//        }
-
         $scope.manageStates = function (empId, pageNumber, itemPerPage) {
             $scope.showloader();
             Data.post('manage-states/manageStates').then(function (response) {
                 $scope.hideloader();
                 $scope.statesRow = response.records;
                 $scope.statesRowLength = response.totalCount;
+                $scope.exportData = response.exportData;
                 $scope.flagForChange = 0;
             });
         };
+        
+        $scope.statesExportToxls = function () {
+            $scope.getexcel = window.location = "manage-states/statesExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
 
 //        $scope.getProcName = $scope.type = '';
 //        $scope.procName = function (procedureName, isTeam) {

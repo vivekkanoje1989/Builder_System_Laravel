@@ -4,6 +4,7 @@ Route::group(array('module' => 'PaymentHeadings', 'middleware' => ['auth:admin']
 
     $getUrl = config('global.getUrl');
 
+    Route::get('/payment-headings/paymentHeadingExportToxls', 'PaymentHeadingsController@paymentHeadingExportToxls');
     Route::post('/payment-headings/managePaymentHeading', 'PaymentHeadingsController@managePaymentHeading');
     Route::post('/payment-headings/manageProjectTypes ', 'PaymentHeadingsController@manageProjectTypes');
     Route::post('/payment-headings/filteredData', 'PaymentHeadingsController@filteredData');

@@ -48,10 +48,10 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 search.login_date_time = (loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
             }
             $scope.searchData = search;
-
-//                }
-//            });
+            $scope.searchLength = $scope.searchData.length;
+            
         }
+        
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];
             $scope.filterDetails($scope.searchData);
@@ -361,6 +361,16 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 }
             });
         };
+        
+         $scope.virtualNumberExportToxls = function () {
+            $scope.getexcel = window.location = "virtualnumber/virtualNumberExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
 
         $scope.managevLists = function (id, action) { //edit/index page
             Data.post('virtualnumber/manageLists', {
@@ -373,6 +383,8 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
 
                         $scope.listNumbers = response.records.data;
                         $scope.listNumbersLength = response.records.total;
+                        $scope.searchLength = response.records.total;
+                        $scope.exportVirtualData = response.records.exportData;
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 30;
                     } else if (action === 'edit') {
@@ -619,8 +631,33 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             });
         };
 
+        $scope.myOutboundExportToxls = function (empId) {
+            $scope.getexcel = window.location = "/cloudcallinglogs/myOutboundExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+
         $scope.myInboundExportToxls = function (empId) {
             $scope.getexcel = window.location = "/cloudcallinglogs/myInboundExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        $scope.teamInboundExportToxls = function (empId) {
+            $scope.getexcel = window.location = "/cloudcallinglogs/teamInboundExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        $scope.teamOutboundExportToxls = function (empId) {
+            $scope.getexcel = window.location = "/cloudcallinglogs/teamOutboundExportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
             } else {
@@ -654,7 +691,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-        
+
         $scope.setAudio = function () {
             $timeout(function () {
                 for (i = 0; i < $scope.inboundList.length; i++) {
@@ -676,6 +713,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 if (response.success) {
                     $scope.teaminboundList = response.records;
                     $scope.teaminboundLength = response.totalCount;
+                    $scope.teaminboundExport= response.teaminboundExport;
                     $timeout(function () {
                         for (i = 0; i < $scope.teaminboundList.length; i++) {
                             if ($scope.teaminboundList[i].customer_call_status == "Connected") {
@@ -732,6 +770,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 if (response.success) {
                     $scope.outboundList = response.records;
                     $scope.outboundLength = response.totalCount;
+                    $scope.myOutboundExport = response.myOutboundExport;
                     $timeout(function () {
                         for (i = 0; i < $scope.outboundList.length; i++) {
                             if ($scope.outboundList[i].customer_call_status == "Connected") {
@@ -753,6 +792,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 if (response.success) {
                     $scope.teamoutboundList = response.records;
                     $scope.teamoutboundLength = response.totalCount;
+                    $scope.teamOutboundExport = response.teamOutboundExport;
                     $timeout(function () {
                         for (i = 0; i < $scope.teamoutboundList.length; i++) {
                             if ($scope.teamoutboundList[i].customer_call_status == "Connected") {

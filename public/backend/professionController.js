@@ -4,13 +4,23 @@ app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($
         $scope.itemsPerPage = 30;
         $scope.profBtn = false;
         $scope.manageProfession = function () {
-             $scope.showloader();
+            $scope.showloader();
             Data.post('manage-profession/manageProfession').then(function (response) {
-                 $scope.hideloader();
+                $scope.hideloader();
                 $scope.professionRow = response.records;
+                $scope.exportData = response.exportData;
 
             });
         };
+
+        $scope.professionExportToxls = function () {
+            $scope.getexcel = window.location = "/manage-profession/professionExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};

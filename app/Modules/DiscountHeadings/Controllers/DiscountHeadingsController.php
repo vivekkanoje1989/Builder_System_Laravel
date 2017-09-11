@@ -9,6 +9,7 @@ use App\Modules\DiscountHeadings\Models\LstDlDiscounts;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 
 class DiscountHeadingsController extends Controller {
 
@@ -18,13 +19,50 @@ class DiscountHeadingsController extends Controller {
 
     public function manageDiscountHeadings() {
         $getDiscountname = LstDlDiscounts::select('discount_name', 'status', 'id')->get();
-     
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getDiscountname)) {
-            $result = ['success' => true, 'records' => $getDiscountname, 'totalCount' => count($getDiscountname)];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $getDiscountname, 'exportData' => $export, 'totalCount' => count($getDiscountname)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function discountHeadingExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getDiscountname = LstDlDiscounts::select('discount_name', 'status', 'id')->get();
+            $getCount = LstDlDiscounts::select('discount_name', 'status', 'id')->get()->count();
+            $getDiscountname = json_decode(json_encode($getDiscountname), true);
+
+            $manageDiscountname = array();
+            $j = 1;
+            for ($i = 0; $i < count($getDiscountname); $i++) {
+                $discountData['Sr No.'] = $j++;
+                $discountData['Discount Name'] = $getDiscountname[$i]['discount_name'];
+                if($getDiscountname[$i]['status'] == '1'){
+                     $discountData['Status'] = 'Active';
+                }else{
+                    $discountData['Status'] = 'In Active';
+                }
+               
+                $manageDiscountname[] = $discountData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Discount Heading Details', function($excel) use($manageDiscountname) {
+                    $excel->sheet('sheet1', function($sheet) use($manageDiscountname) {
+                        $sheet->fromArray($manageDiscountname);
+                    });
+                })->download('xls');
+            }
         }
     }
 

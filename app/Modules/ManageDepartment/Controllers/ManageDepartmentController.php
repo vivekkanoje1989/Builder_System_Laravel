@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Modules\ManageDepartment\Controllers;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -7,30 +9,68 @@ use App\Modules\ManageDepartment\Models\MlstBmsbDepartment;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 use Illuminate\Support\Facades\Input;
 use App\Modules\ManageDepartment\Models\MlstBmsbVerticals;
 
 class ManageDepartmentController extends Controller {
-  
+
     public function index() {
         return view("ManageDepartment::index");
     }
 
     public function manageDepartment() {
-        $getDepartments = MlstBmsbDepartment::with(['vertical'])->select('department_name','id','vertical_id')->get();
-       // $getDepartment = MlstBmsbDepartment::leftJoin('laravel_developement_master_edynamics.mlst_bmsb_verticals as mlst_bmsb_verticals', 'mlst_bmsb_departments.vertical_id', '=', 'mlst_bmsb_verticals.id')->select('mlst_bmsb_departments.id', 'name', 'department_name', 'vertical_id')->get();
-        $i=0;
-        foreach($getDepartments as $getDepartment){
+        $getDepartments = MlstBmsbDepartment::with(['vertical'])->select('department_name', 'id', 'vertical_id')->get();
+        $i = 0;
+        foreach ($getDepartments as $getDepartment) {
             $getDepartments[$i]['verticalData'] = $getDepartment['vertical']['name'];
             $i++;
         }
-        
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
+
         if (!empty($getDepartments)) {
-            $result = ['success' => true, 'records' => $getDepartments];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $getDepartments, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function departmentsExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getDepartments = MlstBmsbDepartment::with(['vertical'])->select('department_name', 'id', 'vertical_id')->get();
+            $k = 0;
+            foreach ($getDepartments as $getDepartment) {
+                $getDepartments[$k]['verticalData'] = $getDepartment['vertical']['name'];
+                $k++;
+            }
+            $getCount = MlstBmsbDepartment::with(['vertical'])->select('department_name', 'id', 'vertical_id')->get()->count();
+            $getDepartments = json_decode(json_encode($getDepartments), true);
+
+            $manageDepartments = array();
+            $j = 1;
+            for ($i = 0; $i < count($getDepartments); $i++) {
+                $getDepartmentsData['Sr No.'] = $j++;
+                $getDepartmentsData['Department'] = $getDepartments[$i]['department_name'];
+                $getDepartmentsData['Vertical Name'] = $getDepartments[$i]['verticalData'];
+                $manageDepartments[] = $getDepartmentsData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Department Details', function($excel) use($manageDepartments) {
+                    $excel->sheet('sheet1', function($sheet) use($manageDepartments) {
+                        $sheet->fromArray($manageDepartments);
+                    });
+                })->download('xls');
+            }
         }
     }
 
@@ -45,7 +85,6 @@ class ManageDepartmentController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
-        
     }
 
     /**
@@ -76,15 +115,15 @@ class ManageDepartmentController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-    
+
         $getCount = MlstBmsbDepartment::where(['department_name' => $request['department_name'], ['id', '!=', $id]])->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Department already exists'];
             return json_encode($result);
         } else {
             $result = MlstBmsbDepartment::where('id', $id)->update($request);
-            $vertical = MlstBmsbVerticals::where('id','=',$request['vertical_id'])->first();
-            $result = ['success' => true, 'result' => $result,'vertical'=>$vertical];
+            $vertical = MlstBmsbVerticals::where('id', '=', $request['vertical_id'])->first();
+            $result = ['success' => true, 'result' => $result, 'vertical' => $vertical];
             return json_encode($result);
         }
     }

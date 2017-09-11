@@ -9,6 +9,7 @@ use App\Modules\ManageLocation\Models\MlstLocationTypes;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 use App\Models\LstEnquiryLocation;
 
 class ManageLocationController extends Controller {
@@ -18,11 +19,6 @@ class ManageLocationController extends Controller {
     }
 
     public function manageLocation() {
-//        $getLocation = LstEnquiryLocation::join('laravel_developement_master_edynamics.mlst_states as states', 'states.id', '=', 'lst_enquiry_locations.state_id')
-//                ->join('laravel_developement_master_edynamics.mlst_countries as country', 'lst_enquiry_locations.country_id', '=', 'country.id')
-//                ->join('laravel_developement_master_edynamics.mlst_cities as city', 'lst_enquiry_locations.city_id', '=', 'city.id')
-//                ->select('lst_enquiry_locations.*', 'states.country_id', 'states.id as state_id', 'city.id as city_id', 'states.name as state_name', 'country.name as country_name','lst_enquiry_locations.location as location')
-//                ->get();
         $locationDetails = array();
         $getLocation = LstEnquiryLocation::all();
         for($i=0;$i<count($getLocation);$i++){
@@ -30,15 +26,47 @@ class ManageLocationController extends Controller {
              $locationData['location'] = $getLocation[$i]['location'];
              $locationDetails[] = $locationData;
         }
+          $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($locationDetails)) {
-            $result = ['success' => true, 'records' => $locationDetails, 'totalCount' => count($getLocation)];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $locationDetails,'exportData'=>$export, 'totalCount' => count($getLocation)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+            return json_encode($result);
     }
 
+    public function locationsExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+             $getLocation = LstEnquiryLocation::select('location')->get();
+            $getCount = LstEnquiryLocation::select('location')->get()->count();
+            $getLocation = json_decode(json_encode($getLocation), true);
+            
+            $manageLocation = array();
+            $j = 1;
+            for ($i = 0; $i < count($getLocation); $i++) {
+                 $manageLocationData['Sr No.'] = $j++;
+                $manageLocationData['Location'] = $getLocation[$i]['location'];
+                $manageLocation[] = $manageLocationData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Location Details', function($excel) use($manageLocation) {
+                    $excel->sheet('sheet1', function($sheet) use($manageLocation) {
+                        $sheet->fromArray($manageLocation);
+                    });
+                })->download('xls');
+            }
+        }
+    }
+    
     
 //     public function filteredData() {
 //        $postdata = file_get_contents("php://input");
