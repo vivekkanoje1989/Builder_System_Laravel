@@ -48,70 +48,69 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @package App\Models
  */
-class CtLogsOutbound extends Eloquent
-{
-	public $timestamps = false;
+class CtLogsOutbound extends Eloquent {
 
-	protected $casts = [
-		'client_id' => 'int',
-		'caller_id' => 'int',
-		'enquiry_id' => 'int',
-		'employee_id' => 'int',
-		'employee_number' => 'int',
-		'employee_hangup_cause' => 'int',
-		'employee_call_rate' => 'float',
-		'employee_call_bill' => 'float',
-		'call_requesting_media' => 'int',
-		'customer_id' => 'int',
-		'customer_number' => 'int',
-		'customer_hangup_cause' => 'int',
-		'customer_call_rate' => 'float',
-		'customer_call_bill' => 'float',
-		'total_call_bill' => 'float',
-		'sip_status' => 'int'
-	];
+    public $timestamps = false;
+    protected $casts = [
+        'client_id' => 'int',
+        'caller_id' => 'int',
+        'enquiry_id' => 'int',
+        'employee_id' => 'int',
+        'employee_number' => 'int',
+        'employee_hangup_cause' => 'int',
+        'employee_call_rate' => 'float',
+        'employee_call_bill' => 'float',
+        'call_requesting_media' => 'int',
+        'customer_id' => 'int',
+        'customer_number' => 'int',
+        'customer_hangup_cause' => 'int',
+        'customer_call_rate' => 'float',
+        'customer_call_bill' => 'float',
+        'total_call_bill' => 'float',
+        'sip_status' => 'int'
+    ];
+    protected $dates = [
+//        'call_date',
+//        'call_time',
+//        'employee_call_duration',
+//        'customer_call_duration',
+//        'total_call_duration',
+//        'call_push_url_date_time'
+    ];
+    protected $fillable = [
+        'client_id',
+        'caller_id',
+        'vertical_id',
+        'enquiry_id',
+        'employee_id',
+        'employee_number',
+        'employee_circule',
+        'employee_operator',
+//        'call_date',
+//        'call_time',
+        'employee_call_status',
+        'employee_hangup_cause',
+//        'employee_call_duration',
+        'employee_call_rate',
+        'employee_call_bill',
+        'call_requesting_media',
+        'customer_id',
+        'customer_number',
+        'customer_circule',
+        'customer_operator',
+        'customer_call_status',
+        'customer_hangup_cause',
+//        'customer_call_duration',
+        'customer_call_rate',
+        'customer_call_bill',
+//        'total_call_duration',
+        'total_call_bill',
+        'sip_status',
+        'call_uuid',
+        'call_request_url',
+        'call_log_push_url',
+//        'call_push_url_date_time',
+        'call_recording_url'
+    ];
 
-	protected $dates = [
-		'call_date',
-		'call_time',
-		'employee_call_duration',
-		'customer_call_duration',
-		'total_call_duration',
-		'call_push_url_date_time'
-	];
-
-	protected $fillable = [
-		'client_id',
-		'caller_id',
-		'enquiry_id',
-		'employee_id',
-		'employee_number',
-		'employee_circule',
-		'employee_operator',
-		'call_date',
-		'call_time',
-		'employee_call_status',
-		'employee_hangup_cause',
-		'employee_call_duration',
-		'employee_call_rate',
-		'employee_call_bill',
-		'call_requesting_media',
-		'customer_id',
-		'customer_number',
-		'customer_circule',
-		'customer_operator',
-		'customer_call_status',
-		'customer_hangup_cause',
-		'customer_call_duration',
-		'customer_call_rate',
-		'customer_call_bill',
-		'total_call_duration',
-		'total_call_bill',
-		'sip_status',
-		'call_uuid',
-		'call_request_url',
-		'call_log_push_url',
-		'call_push_url_date_time',
-		'call_recording_url'
-	];
 }

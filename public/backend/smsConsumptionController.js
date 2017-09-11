@@ -40,7 +40,7 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
                 if (response.success) {
                     $scope.smsLogsList = response.records;
                     $scope.smsLogLength = response.totalCount;
-//                    $scope.credits = response.credits;
+                    $scope.exportSmsLogsData = response.exportSmsLogsData;
                 } else {
                     $scope.errorMsg = response.message;
                 }
@@ -48,12 +48,35 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
             });
         };
 
+
+
+        $scope.smsLogsExportToxls = function () {
+             $scope.getexcel = window.location = "/bmsConsumption/smsLogsExportToxls";
+                if ($scope.getexcel) {
+                    toaster.pop('info', '', 'Exporting....');
+                } else {
+                    toaster.pop('error', '', 'Exporting fails....');
+                }
+        }
+        
+        $scope.smsLogDetailsExportToxls = function (transId) {
+             $scope.getexcel = window.location = "/bmsConsumption/smsLogDetailsExportToxls/"+ transId;
+                if ($scope.getexcel) {
+                    toaster.pop('info', '', 'Exporting....');
+                } else {
+                    toaster.pop('error', '', 'Exporting fails....');
+                }
+        }
+        
+        
         $scope.smsLogsDetails = function (transactionId, pageNumber) {
+            $scope.TransId = transactionId;
             Data.post('bmsConsumption/smsLogData', {
                 id: transactionId, pageNumber: pageNumber,
             }).then(function (response) {
                 if (response.success) {
                     $scope.smsLogsDetails = response.records;
+                    $scope.smsLogDetailsData = response.smsLogDetailsData;
                     $scope.employee_name = response.employee_name;
 
                 } else {

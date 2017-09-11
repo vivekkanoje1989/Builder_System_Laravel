@@ -2190,7 +2190,6 @@ class CloudCallingLogsController extends Controller {
 
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-
         if (!empty($request["employee_id"])) {
             $emp_id = $request["employee_id"];
             if ($request['filterFlag'] == 1) {
@@ -2219,6 +2218,7 @@ class CloudCallingLogsController extends Controller {
                 ->where('ct_logs_outbounds.employee_id', $emp_id)
                 ->take($request['itemPerPage'])->offset($startFrom)
                 ->get();
+//print_r($getOutboundLogs);exit;
         $i = 0;
         if (!empty($getOutboundLogs)) {
             foreach ($getOutboundLogs as $getOutboundLog) {
@@ -2264,7 +2264,9 @@ class CloudCallingLogsController extends Controller {
 
     public function myOutboundExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        
         if (in_array('01401', $array)) {
+            $emp_id = Auth::guard('admin')->user()->id;
             $getOutboundLoglist = array();
             $getCount = CtLogsOutbound::leftjoin('employees as emp', 'emp.id', '=', 'ct_logs_outbounds.employee_id')
                     ->leftjoin('customers_contacts as cc', 'cc.mobile_number', '=', 'ct_logs_outbounds.customer_number')

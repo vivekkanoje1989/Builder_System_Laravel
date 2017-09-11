@@ -18,7 +18,7 @@ class BloodGroupsController extends Controller {
     }
 
     public function manageBloodGroups() {
-        $getBloodGroups = MlstBloodGroups::all();
+        $getBloodGroups = MlstBloodGroups::where('deleted_status', '!=', 1)->get();
 
         $bloodGrps = array();
         for ($i = 0; $i < count($getBloodGroups); $i++) {
@@ -38,6 +38,19 @@ class BloodGroupsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
+    }
+    
+    
+     public function deleteBloodgrp() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['bloodGrpData'] = array_merge($request, $create);
+        $bloodGrps = MlstBloodGroups::where('id', $request['id'])->update($input['bloodGrpData']);
+        $result = ['success' => true, 'result' => $bloodGrps];
+        return json_encode($result);
+        
     }
 
     public function bloodGroupExportToxls() {

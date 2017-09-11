@@ -40,11 +40,10 @@ class ExtensionEmployeeController extends Controller {
                 ->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'emp.designation_id')
                 ->orderBy('ct_employees_extensions.id', 'ASC')
                 ->get();
-        $i=0;
-        foreach($ctEmployeesExtension as $ctEmployeesExt){
-            $ctEmployeesExtension[$i]['employee']=$ctEmployeesExt['first_name'].' '.$ctEmployeesExt['last_name'].'('.$ctEmployeesExt['designation'].')';
-        $i++;
-            
+        $i = 0;
+        foreach ($ctEmployeesExtension as $ctEmployeesExt) {
+            $ctEmployeesExtension[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
+            $i++;
         }
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
@@ -208,5 +207,21 @@ class ExtensionEmployeeController extends Controller {
         }
         return json_encode($result);
     }
+
+    public function getEmployeeExtData() {
+       $numbers = range(0, 99);
+        $arr = array(0);
+        $extenion = array_diff($numbers, $arr);
+      
+        if (!empty($extenion)) {
+            $result = ['success' => true, 'records' => $extenion];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    
+    
+     
 
 }

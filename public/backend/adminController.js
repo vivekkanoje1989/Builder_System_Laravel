@@ -1,11 +1,11 @@
 'use strict';
-app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams,$timeout) {
+app.controller('adminController', function ($rootScope, $scope, $state, Data, $stateParams, $timeout) {
     $scope.registration = {};
     $scope.errorMsg = '';
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
 //        window.history.back();
-       // window.location.reload();
+        // window.location.reload();
         return false;
     }
 
@@ -20,6 +20,15 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
             }
         });
     }
+    $scope.getEmployeeData = function () {
+        $scope.extNumber = [];
+        Data.get('getEmployeeData').then(function (response) {
+            $scope.ct_employee = response.records;
+
+        });
+    }
+
+
     $scope.resetErrorMsg = function () {
         $scope.errorMsg = '';
     }
@@ -28,13 +37,13 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         Data.post('authenticate', {
             username: loginData.mobile, password: loginData.password,
         }).then(function (response) {
-            if (response.success) {                
+            if (response.success) {
                 $scope.showloader();
                 $state.reload();
                 $rootScope.authenticated = true;
                 $rootScope.id = response.loggedInUserId;
-                $rootScope.loginFullName = response.fullname;                
-                $scope.errlMsg= false;
+                $rootScope.loginFullName = response.fullname;
+                $scope.errlMsg = false;
 //                $http.get('/getMenuItems').then(function (response) {
 //                    $rootScope.getMenu = response.data;
 //                }, function (error) {
@@ -42,13 +51,13 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
 //                });                
                 $state.go('dashboard');
                 window.location.reload(true);
-                $scope.hideloader();                
+                $scope.hideloader();
                 return false;
 
             } else {
                 //alert($scope.errorMsg);
-                
-                $scope.errlMsg= true;                
+
+                $scope.errlMsg = true;
                 $scope.errorMsg = response.message;
             }
         });
@@ -65,7 +74,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
                 $state.reload();
                 $state.go('login');
                 window.location.reload();
-                $scope.hideloader();      
+                $scope.hideloader();
                 return false;
             } else {
                 $scope.errorMsg = response.message;
@@ -115,9 +124,9 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
             messages: $rootScope.message
         }
     }
-    
-    
-$scope.getpassword = function (username) {
+
+
+    $scope.getpassword = function (username) {
         Data.post('getforgotpassword', {
             username: username
         }).then(function (response) {
@@ -127,10 +136,10 @@ $scope.getpassword = function (username) {
                 $scope.showmsg = true;
                 $scope.changedPassword = response.message;
                 $timeout(function () {
-                $scope.showmsg = false;
+                    $scope.showmsg = false;
                 }, 10000);
-                
-                
+
+
             } else {
                 $scope.changedPassword = response.message;
                 $scope.next1 = true;
@@ -140,7 +149,7 @@ $scope.getpassword = function (username) {
                 }, 3000);
                 $scope.next2 = false;
             }
-            
+
         });
     }
 }
@@ -227,11 +236,11 @@ app.controller('salesLostReasonCtrl', function ($scope, Data) {
             $scope.saleslostreasons = response.records;
         }
     });
-    
-    $scope.getlostsubreason = function(lostReasonId){
-         var data = lostReasonId.split("_");
+
+    $scope.getlostsubreason = function (lostReasonId) {
+        var data = lostReasonId.split("_");
         lostReasonId = data[0];
-       Data.post('getSalesLostSubReason',{
+        Data.post('getSalesLostSubReason', {
             data: {lostReasonId: lostReasonId},
         }).then(function (response) {
             if (!response.success) {
@@ -240,12 +249,12 @@ app.controller('salesLostReasonCtrl', function ($scope, Data) {
                 $scope.salessublostreasons = response.records;
                 console.log($scope.salessublostreasons);
             }
-        }); 
+        });
     }
 });
 
 
-app.controller('employeesWiseTeamCtrl', function ($scope, Data,$timeout) {
+app.controller('employeesWiseTeamCtrl', function ($scope, Data, $timeout) {
     $scope.employeesData = [];
     Data.post('getTeamEmployees', {
         data: {empId: ''},
@@ -254,11 +263,12 @@ app.controller('employeesWiseTeamCtrl', function ($scope, Data,$timeout) {
             $scope.errorMsg = response.message;
             $scope.employeesData = response.records;
         } else {
-            $timeout(function () {console.log($("input[name=customer_number]"));
-                
+            $timeout(function () {
+                console.log($("input[name=customer_number]"));
+
                 $scope.employeesData = response.records;
-            },1000);
-            
+            }, 1000);
+
         }
     });
 });
@@ -396,7 +406,7 @@ app.controller('blockTypeCtrl', function ($scope, Data) {
             $scope.emptyBlockId = false;
             $scope.applyClassBlock = 'ng-inactive';
             Data.post('getSubBlocks/', {
-                data: {myJsonString,projectId:projectId}
+                data: {myJsonString, projectId: projectId}
             }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
@@ -590,10 +600,10 @@ app.controller('projectBlocksCtrl', function ($scope, Data) {
             $scope.paymentModeList = response.records;
         }
     });
-    $scope.getWings = function(projectId){
-        Data.post('getProjectWings',{
-            projectId:projectId
-        }).then(function (response) {            
+    $scope.getWings = function (projectId) {
+        Data.post('getProjectWings', {
+            projectId: projectId
+        }).then(function (response) {
             if (!response.status) {
                 $scope.errorMsg = response.message;
             } else {
@@ -601,9 +611,9 @@ app.controller('projectBlocksCtrl', function ($scope, Data) {
             }
         });
     }
-    $scope.getBlocks = function(projectId){
-        Data.post('getBlocks',{
-            projectId:projectId
+    $scope.getBlocks = function (projectId) {
+        Data.post('getBlocks', {
+            projectId: projectId
         }).then(function (response) {
             $scope.blockList = [];
             if (!response.success) {
@@ -613,10 +623,10 @@ app.controller('projectBlocksCtrl', function ($scope, Data) {
             }
         });
     }
-    $scope.getSubBlocks = function(projectId,blockId){
-      
-        Data.post('getSubBlocksList',{
-            data:{projectId:projectId,blockId:blockId}
+    $scope.getSubBlocks = function (projectId, blockId) {
+
+        Data.post('getSubBlocksList', {
+            data: {projectId: projectId, blockId: blockId}
         }).then(function (response) {
             $scope.subBlockList = [];
             if (!response.success) {
@@ -654,7 +664,7 @@ app.controller('salesemployeesCtrl', function ($scope, Data) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {
-            
+
             $scope.salesemployeeList = response.records;
         }
     });
@@ -760,18 +770,19 @@ app.controller('getEmployeeCtrl', function ($scope, Data, $timeout) {
 /****************************MANDAR*********************************/
 
 app.filter('split', function () {
-    return function (input, splitChar, splitIndex) {console.log(input);
+    return function (input, splitChar, splitIndex) {
+        console.log(input);
         // do some bounds checking here to ensure it has that index
         return input.split(splitChar)[splitIndex];
     }
 });
 app.filter('underscoreless', function () {
- return function (input) {
-     return input.replace(/_/g, ' ');
- };
+    return function (input) {
+        return input.replace(/_/g, ' ');
+    };
 });
-app.filter('capitalize', function() {
-    return function(input) {
-      return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
+app.filter('capitalize', function () {
+    return function (input) {
+        return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     }
 }); 
