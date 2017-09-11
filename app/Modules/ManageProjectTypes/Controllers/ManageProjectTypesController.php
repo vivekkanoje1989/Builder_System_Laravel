@@ -9,6 +9,7 @@ use App\Modules\ManageProjectTypes\Models\MlstBmsbProjectTypes;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 
 class ManageProjectTypesController extends Controller {
 
@@ -17,14 +18,45 @@ class ManageProjectTypesController extends Controller {
     }
 
     public function manageProjectTypes() {
-        $getTypes = MlstBmsbProjectTypes::select('project_type','id')->get();
-
+        $getTypes = MlstBmsbProjectTypes::select('project_type', 'id')->get();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getTypes)) {
-            $result = ['success' => true, 'records' => $getTypes];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $getTypes, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function projectTypesExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getTypes = MlstBmsbProjectTypes::select('project_type', 'id')->get();
+            $getCount = MlstBmsbProjectTypes::select('project_type', 'id')->get()->count();
+            $getTypes = json_decode(json_encode($getTypes), true);
+
+            $manageTypes = array();
+            $j = 1;
+            for ($i = 0; $i < count($getTypes); $i++) {
+                $manageTypesData['Sr No.'] = $j++;
+                $manageTypesData['Project Type'] = $getTypes[$i]['project_type'];
+                $manageTypes[] = $manageTypesData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Project Type Details', function($excel) use($manageTypes) {
+                    $excel->sheet('sheet1', function($sheet) use($manageTypes) {
+                        $sheet->fromArray($manageTypes);
+                    });
+                })->download('xls');
+            }
         }
     }
 

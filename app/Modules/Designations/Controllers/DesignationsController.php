@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Modules\Designations\Models\MlstBmsbDesignations;
 use Illuminate\Http\Request;
 use Auth;
+use Excel;
 use App\Classes\CommonFunctions;
 
 class DesignationsController extends Controller {
@@ -16,15 +17,52 @@ class DesignationsController extends Controller {
     }
 
     public function manageDesignations() {
-        $getDesignations = MlstBmsbDesignations::select('designation','status','id')->get();
-      
+        $getDesignations = MlstBmsbDesignations::select('designation', 'status', 'id')->get();
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
 
         if (!empty($getDesignations)) {
-            $result = ['success' => true, 'records' => $getDesignations];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $getDesignations,'exportData'=>$export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function designationExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getDesignations = MlstBmsbDesignations::select('designation', 'status', 'id')->get();
+            $getCount = MlstBmsbDesignations::select('designation', 'status', 'id')->get()->count();
+            $getDesignations = json_decode(json_encode($getDesignations), true);
+
+            $manageDesignations = array();
+            $j = 1;
+            for ($i = 0; $i < count($getDesignations); $i++) {
+                $manageDesignationsData['Sr No.'] = $j++;
+                $manageDesignationsData['Designation'] = $getDesignations[$i]['designation'];
+                if($getDesignations[$i]['status'] == '1'){
+                     $manageDesignationsData['Status'] = 'Active';
+                }else{
+                    $manageDesignationsData['Status'] = 'In Active';
+                }
+               
+                $manageDesignations[] = $manageDesignationsData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Designation Details', function($excel) use($manageDesignations) {
+                    $excel->sheet('sheet1', function($sheet) use($manageDesignations) {
+                        $sheet->fromArray($manageDesignations);
+                    });
+                })->download('xls');
+            }
         }
     }
 
@@ -52,7 +90,7 @@ class DesignationsController extends Controller {
         $request = json_decode($postdata, true);
 
         $getCount = MlstBmsbDesignations::where(['designation' => $request['designation']])
-                                     ->where('id','!=',$id)->get()->count();
+                        ->where('id', '!=', $id)->get()->count();
         if ($getCount > 0) {
             $result = ['success' => false, 'errormsg' => 'Designation already exists'];
             return json_encode($result);
@@ -60,7 +98,7 @@ class DesignationsController extends Controller {
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
             $input['designationData'] = array_merge($request, $update);
-            $originalValues = MlstBmsbDesignations::where('id',$id)->get();
+            $originalValues = MlstBmsbDesignations::where('id', $id)->get();
             $result = MlstBmsbDesignations::where('id', $id)->update($input['designationData']);
             $result = ['success' => true, 'result' => $result];
             return json_encode($result);

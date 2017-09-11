@@ -16,8 +16,18 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                 $scope.hideloader();
                 $scope.BlockStageRow = response.records;
                 $scope.BlockStageLength = response.totalCount;
+                $scope.exportData = response.exportData;
             });
         };
+
+        $scope.blockStagesExportToxls = function () {
+            $scope.getexcel = window.location = "/block-stages/blockStagesExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
 
 //        $scope.getProcName = $scope.type = '';
 //        $scope.procName = function (procedureName, isTeam) {

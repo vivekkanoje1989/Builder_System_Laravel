@@ -3,6 +3,7 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
         $scope.pageHeading = 'Extension Employees';
         $scope.itemsPerPage = 30;
         $scope.btnSubmit = false;
+        $scope.noOfRows = 1;
 
         $scope.manageExtEmpLists = function () {
             Data.get('getCtEmployeeExtension').then(function (response) {
@@ -10,10 +11,39 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.ct_employee_extlist = response.records;
+                    $scope.exportEmpExtensionData = response.exportData;
                 }
             });
         }
+        $scope.employeeExtExportToxls = function () {
+            $scope.getexcel = window.location = "employeeExtExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        $scope.searchDetails = {};
+        $scope.searchData = {};
 
+        $scope.filterDetails = function (search) {
+            $scope.searchData = search;
+        }
+
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
+
+
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
         $scope.initExtensionModal = function (employeelist) {
             $scope.btnlable = "Create";
             Data.post('getExtensionEmployee', {

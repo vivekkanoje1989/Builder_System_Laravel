@@ -43,7 +43,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $project_contact_numbers
  * @property string $project_website
  * @property string $page_title
- * @property string $project_broacher
+ * @property string $project_brochure
  * @property string $seo_url
  * @property string $meta_description
  * @property string $meta_keywords

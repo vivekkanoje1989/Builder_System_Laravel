@@ -16,10 +16,19 @@ app.controller('bloodsGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                 $scope.hideloader();
                 $scope.bloodGrpRow = response.records;
                 $scope.bloodGrpLength = response.totalCount;
+                $scope.exportData = response.exportData;
             });
         };
 
 
+        $scope.bloodGroupExportToxls = function () {
+            $scope.getexcel = window.location = "blood-groups/bloodGroupExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
         $scope.getProcName = $scope.type = '';
         $scope.procName = function (procedureName, isTeam) {
             $scope.getProcName = angular.copy(procedureName);

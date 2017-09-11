@@ -9,6 +9,7 @@ use App\Modules\BloodGroups\Models\MlstBloodGroups;
 use App\Classes\CommonFunctions;
 use Auth;
 use DB;
+use Excel;
 
 class BloodGroupsController extends Controller {
 
@@ -25,12 +26,44 @@ class BloodGroupsController extends Controller {
             $bloodGrp['blood_group'] = $getBloodGroups[$i]['blood_group'];
             $bloodGrps[] = $bloodGrp;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($bloodGrps)) {
-            $result = ['success' => true, 'records' => $bloodGrps, 'totalCount' => count($getBloodGroups)];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $bloodGrps,'exportData'=>$export, 'totalCount' => count($getBloodGroups)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function bloodGroupExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getBloodGroups = MlstBloodGroups::select('blood_group')->get();
+            $getCount = MlstBloodGroups::select('blood_group')->get()->count();
+            $getBloodGroups = json_decode(json_encode($getBloodGroups), true);
+          
+            $manageBloodGroups = array();
+            $j = 1;
+            for ($i = 0; $i < count($getBloodGroups); $i++) {
+                 $blogData['Sr No.'] = $j++;
+                $blogData['Blood Group'] = $getBloodGroups[$i]['blood_group'];
+                $manageBloodGroups[] = $blogData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Blood Group Details', function($excel) use($manageBloodGroups) {
+                    $excel->sheet('sheet1', function($sheet) use($manageBloodGroups) {
+                        $sheet->fromArray($manageBloodGroups);
+                    });
+                })->download('xls');
+            }
         }
     }
 

@@ -8,8 +8,19 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
             Data.post('block-types/manageBlockTypes').then(function (response) {
                  $scope.hideloader();
                 $scope.BlockTypesRow = response.records;
+                $scope.exportData = response.exportData;
             });
         };
+        
+        $scope.blockTypesExportToxls = function () {
+            $scope.getexcel = window.location = "block-types/blockTypesExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
         $scope.getProjectNames = function () {
             Data.post('block-types/manageProjectTypes').then(function (response) {
                 $scope.getProjectNamesRow = response.records;

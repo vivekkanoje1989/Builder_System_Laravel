@@ -1,3 +1,8 @@
+<style>
+    .nav>li>a{
+        padding: 10px 10px;
+    }
+</style>
 <div class="row" ng-controller="basicInfoController">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Project Web Page</h5>

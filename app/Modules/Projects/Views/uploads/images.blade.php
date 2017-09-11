@@ -80,7 +80,7 @@
             <div class="col-sm-12 col-xs-12">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_banner_images" id="del_project_banner_images_{{$index}}">   
                     <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_banner_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_banner_images/', 'project_banner_images')"></i>
-                    <img src="[[ config('global.s3Path') ]]/project/project_banner_images/{{list}}" class="thumb photoPreview">
+                    <img ng-src="[[ config('global.s3Path') ]]/project/project_banner_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_banner_images_preview">    
                     <i class="fa fa-times rem-icon"  title=""></i>
@@ -116,16 +116,16 @@
                 <div class="form-group">
                     <label>Upload Brochure</label>
                     <span class="input-icon icon-right">
-                        <input type="file" multiple ngf-select ng-model="projectImages.project_broacher" name="project_broacher" id="project_broacher" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(projectImages.project_broacher)">
+                        <input type="file" multiple ngf-select ng-model="projectImages.project_brochure" name="project_brochure" id="project_brochure" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(projectImages.project_brochure)">
                     </span>                                                   
                 </div>
             </div>
             <div class="col-sm-12 col-xs-12">
-                <div class="img-div2" data-title="name" ng-repeat="list in project_broacher" id="del_project_broacher_{{$index}}">   
-                    <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_broacher}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_broacher/', 'project_broacher')"></i>
-                    <img ng-src="[[ config('global.s3Path') ]]/project/project_broacher/{{list}}" class="thumb photoPreview">
+                <div class="img-div2" data-title="name" ng-repeat="list in project_brochure" id="del_project_brochure_{{$index}}">   
+                    <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_brochure}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_brochure/', 'project_brochure')"></i>
+                    <img ng-src="[[ config('global.s3Path') ]]/project/project_brochure/{{list}}" class="thumb photoPreview">
                 </div>
-                <div class="img-div2" data-title="name" ng-repeat="list in project_broacher_preview">    
+                <div class="img-div2" data-title="name" ng-repeat="list in project_brochure_preview">    
                     <i class="fa fa-times rem-icon"  title=""></i>
                     <img ng-src="{{list}}" class="thumb photoPreview">
                 </div>

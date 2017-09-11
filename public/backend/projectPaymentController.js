@@ -17,8 +17,19 @@ app.controller('paymentHeadingController', ['$scope', 'Data', 'toaster', '$rootS
                 $scope.hideloader();
                 $scope.paymentDetails = response.records;
                 $scope.paymentDetailsLength = response.totalCount;
+                $scope.exportData = response.exportData;
             });
         };
+        
+        $scope.paymentHeadingExportToxls = function () {
+            $scope.getexcel = window.location = "payment-headings/paymentHeadingExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
         
          $scope.searchData = {};
         $scope.searchDetails = {};

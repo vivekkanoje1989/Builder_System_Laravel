@@ -9,6 +9,7 @@ use App\Modules\ManageStates\Models\MlstStates;
 use App\Classes\CommonFunctions;
 use App\Modules\ManageCountry\Models\MlstCountries;
 use DB;
+use Excel;
 use Auth;
 
 class ManageStatesController extends Controller {
@@ -27,13 +28,50 @@ class ManageStatesController extends Controller {
         $getState = MlstStates::join('mlst_countries', 'mlst_states.country_id', '=', 'mlst_countries.id')
                 ->select('mlst_states.id', 'mlst_states.name', 'mlst_states.country_id', 'mlst_countries.name as country_name')
                 ->get();
-
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getState)) {
-            $result = ['success' => true, 'records' => $getState, 'totalCount' => count($getState)];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $getState, 'exportData' => $export, 'totalCount' => count($getState)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function statesExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getState = MlstStates::join('mlst_countries', 'mlst_states.country_id', '=', 'mlst_countries.id')
+                    ->select('mlst_states.id', 'mlst_states.name', 'mlst_states.country_id', 'mlst_countries.name as country_name')
+                    ->get();
+            $getCount = MlstStates::join('mlst_countries', 'mlst_states.country_id', '=', 'mlst_countries.id')
+                    ->select('mlst_states.id', 'mlst_states.name', 'mlst_states.country_id', 'mlst_countries.name as country_name')
+                    ->get()
+                    ->count();
+            $getState = json_decode(json_encode($getState), true);
+
+            $manageState = array();
+            $j = 1;
+            for ($i = 0; $i < count($getState); $i++) {
+               $manageStateData['Sr No.'] = $j++;
+                $manageStateData['Country'] = $getState[$i]['country_name'];
+                $manageStateData['State'] = $getState[$i]['name'];
+                $manageState[] = $manageStateData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export States Details', function($excel) use($manageState) {
+                    $excel->sheet('sheet1', function($sheet) use($manageState) {
+                        $sheet->fromArray($manageState);
+                    });
+                })->download('xls');
+            }
         }
     }
 

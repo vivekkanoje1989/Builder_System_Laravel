@@ -21,30 +21,26 @@ app.controller('locationCtrl', ['$scope', 'Data', 'toaster', function ($scope, D
             $scope.searchData = {};
         }
 
-
-//        $scope.pageChanged = function (pageNo, functionName, id, newpage) {
-//            $scope.flagForPageChange++;
-//            if ($scope.flagForPageChange == 1)
-//            {
-//                if (($scope.filterData && Object.keys($scope.filterData).length > 0)) {
-//                    $scope.filteredData($scope.filterData, pageNo, $scope.itemsPerPage);
-//                } else {
-////                    $scope[functionName](id, pageNo, $scope.itemsPerPage);
-//                    $scope[functionName](id, pageNo, $scope.itemsPerPage);
-//                }
-//            }
-//            $scope.pageNumber = pageNo;
-//
-//        }
         $scope.manageLocation = function (empId, pageNumber, itemPerPage) {
              $scope.showloader();
             Data.post('manage-location/manageLocation').then(function (response) {
                  $scope.hideloader();
                 $scope.locationRow = response.records;
                 $scope.locationRowLength = response.totalCount;
+                $scope.exportData = response.exportData;
                 $scope.flagForPageChange = 0;
             });
         };
+        
+        $scope.locationsExportToxls = function () {
+            $scope.getexcel = window.location = "/manage-location/locationsExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
 
 //        $scope.getProcName = $scope.type = '';
 //        $scope.procName = function (procedureName, isTeam) {

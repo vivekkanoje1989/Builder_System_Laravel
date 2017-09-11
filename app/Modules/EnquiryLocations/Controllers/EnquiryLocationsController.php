@@ -11,6 +11,7 @@ use App\Modules\ManageStates\Models\MlstStates;
 use DB;
 use App\Classes\CommonFunctions;
 use Auth;
+use Excel;
 use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 
 class EnquiryLocationsController extends Controller {
@@ -23,15 +24,56 @@ class EnquiryLocationsController extends Controller {
         $getLocations = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
                 ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
                 ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
-                ->select('lst_enquiry_locations.location','lst_enquiry_locations.id', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                ->select('lst_enquiry_locations.location', 'lst_enquiry_locations.id', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
                 ->get();
-        
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($getLocations)) {
-            $result = ['success' => true, 'records' => $getLocations, 'totalCount' => count($getLocations)];
-            return json_encode($result);
+            $result = ['success' => true, 'records' => $getLocations, 'exportData' => $export, 'totalCount' => count($getLocations)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
+        }
+        return json_encode($result);
+    }
+
+    public function enquiryLocationExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $getLocations = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.location', 'lst_enquiry_locations.id', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->get();
+            $getCount = lstEnquiryLocations::join('laravel_developement_master_edynamics.mlst_cities as mlst_cities', 'mlst_cities.id', '=', 'lst_enquiry_locations.city_id')
+                    ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
+                    ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
+                    ->select('lst_enquiry_locations.location', 'lst_enquiry_locations.id', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                    ->get()
+                    ->count();
+            $getLocations = json_decode(json_encode($getLocations), true);
+
+            $manageLocations = array();
+            $j = 1;
+            for ($i = 0; $i < count($getLocations); $i++) {
+                $getLocationsData['Sr No.'] = $j++;
+                $getLocationsData['City'] = $getLocations[$i]['city_name'];
+                $getLocationsData['Location'] = $getLocations[$i]['location'];
+                $manageLocations[] = $getLocationsData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Enquiry Location Details', function($excel) use($manageLocations) {
+                    $excel->sheet('sheet1', function($sheet) use($manageLocations) {
+                        $sheet->fromArray($manageLocations);
+                    });
+                })->download('xls');
+            }
         }
     }
 

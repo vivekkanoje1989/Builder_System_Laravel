@@ -182,7 +182,7 @@ class ProjectsController extends Controller {
                                 'project_favicon' => 'mimes:jpeg,png,jpg,gif,svg',
                                 'project_banner_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
                                 'project_background_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
-                                'project_broacher.*' => 'mimes:jpeg,png,jpg,gif,svg',
+                                'project_brochure.*' => 'mimes:jpeg,png,jpg,gif,svg',
                                 'location_map_images.*' => 'mimes:jpeg,png,jpg,gif,svg',
                             );
                             $validator = Validator::make($input['projectImages'], $imgRules);

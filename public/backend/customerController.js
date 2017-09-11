@@ -1,6 +1,6 @@
 'use strict';
 app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$location','SweetAlert', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $location,SweetAlert) {
-        $scope.pageHeading = 'New Enquiry';
+        $scope.pageHeading = 'Detailed Enquiry';
         $scope.customerData = [];
         $scope.contactData = {};
         $scope.searchData = {};

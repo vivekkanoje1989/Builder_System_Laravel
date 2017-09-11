@@ -20,6 +20,7 @@ use App\Models\CtEmployeesExtension;
 use \App\Models\MlstLmsaDesignation;
 use App\Classes\S3;
 use Auth;
+use Excel;
 use App\Classes\CommonFunctions;
 use App\Models\CtEmployeesExtensionsLog;
 
@@ -39,23 +40,73 @@ class ExtensionEmployeeController extends Controller {
                 ->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'emp.designation_id')
                 ->orderBy('ct_employees_extensions.id', 'ASC')
                 ->get();
-
+        $i=0;
+        foreach($ctEmployeesExtension as $ctEmployeesExt){
+            $ctEmployeesExtension[$i]['employee']=$ctEmployeesExt['first_name'].' '.$ctEmployeesExt['last_name'].'('.$ctEmployeesExt['designation'].')';
+        $i++;
+            
+        }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
         if (!empty($ctEmployeesExtension)) {
-            $result = ['success' => true, 'records' => $ctEmployeesExtension];
+            $result = ['success' => true, 'records' => $ctEmployeesExtension, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
     }
 
+    public function employeeExtExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $ctEmployeesExtension = CtEmployeesExtension::select('ct_employees_extensions.extension_no', 'ct_employees_extensions.id', 'emp.id as employee_id', 'emp.first_name', 'emp.first_name', 'emp.last_name', 'mld.designation')
+                    ->leftjoin('employees as emp', 'emp.id', '=', 'ct_employees_extensions.employee_id')
+                    ->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'emp.designation_id')
+                    ->orderBy('ct_employees_extensions.id', 'ASC')
+                    ->get();
+            $getCount = CtEmployeesExtension::select('ct_employees_extensions.extension_no', 'ct_employees_extensions.id', 'emp.id as employee_id', 'emp.first_name', 'emp.first_name', 'emp.last_name', 'mld.designation')
+                    ->leftjoin('employees as emp', 'emp.id', '=', 'ct_employees_extensions.employee_id')
+                    ->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'emp.designation_id')
+                    ->orderBy('ct_employees_extensions.id', 'ASC')
+                    ->get()
+                    ->count();
+            $ctEmployeesExtension = json_decode(json_encode($ctEmployeesExtension), true);
+
+            $employeesExtension = array();
+            $j = 1;
+            for ($i = 0; $i < count($ctEmployeesExtension); $i++) {
+                $blogData['Sr No.'] = $j++;
+                $firstName = $ctEmployeesExtension[$i]['first_name'];
+                $lastName = $ctEmployeesExtension[$i]['last_name'];
+                $designation = $ctEmployeesExtension[$i]['designation'];
+                $blogData['Employee Name'] = $firstName . ' ' . $lastName . '(' . $designation . ')';
+                $blogData['Extension Number'] = 'Extension ' . $ctEmployeesExtension[$i]['extension_no'];
+                $employeesExtension[] = $blogData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Employee Extension Details', function($excel) use($employeesExtension) {
+                    $excel->sheet('sheet1', function($sheet) use($employeesExtension) {
+                        $sheet->fromArray($employeesExtension);
+                    });
+                })->download('xls');
+            }
+        }
+    }
+
     public function getExtensionEmployee() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         for ($i = 0; $i < count($input['employees']); $i++) {
-            if(!empty($input['employees'][$i]['employee_id']))
-            {
+            if (!empty($input['employees'][$i]['employee_id'])) {
                 $emp_ids[] = $input['employees'][$i]['employee_id'];
-            }            
+            }
         }
         if (!empty($emp_ids)) {
             $emp = @implode(',', $emp_ids);
@@ -137,11 +188,11 @@ class ExtensionEmployeeController extends Controller {
             } else {
                 $input['extData']['employee_id'] = $existEmployee->employee_id;
                 $input['extData']['extension_no'] = $extNo;
-                
+
                 $input['extData']['client_id'] = config('global.client_id');
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $input['extensionData'] = array_merge($input['extData'], $update);
-                
+
                 $updateExtension = CtEmployeesExtension::where('employee_id', $existEmployee->employee_id)->update($input['extensionData']);
                 $CtEmployeesExtensionsLog = CtEmployeesExtensionsLog::create($input['extensionData']);
                 $input['customerData']['main_record_id'] = $existEmployee->id;
@@ -157,4 +208,5 @@ class ExtensionEmployeeController extends Controller {
         }
         return json_encode($result);
     }
+
 }

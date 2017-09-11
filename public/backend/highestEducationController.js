@@ -1,4 +1,4 @@
-app.controller('highestEducationCtrl', ['$scope', 'Data', function ($scope, Data) {
+app.controller('highestEducationCtrl', ['$scope', 'Data','toaster', function ($scope, Data,toaster) {
 
         $scope.itemsPerPage = 30;
         $scope.eduBtn = false;
@@ -25,9 +25,21 @@ app.controller('highestEducationCtrl', ['$scope', 'Data', function ($scope, Data
             Data.post('highest-education/manageHighestEducation').then(function (response) {
                  $scope.hideloader();
                 $scope.educationRow = response.records;
+                $scope.exportData = response.exportData;
 
             });
         };
+        
+        $scope.highestEducationExportToxls = function () {
+            $scope.getexcel = window.location = "highest-education/highestEducationExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
+        
         $scope.initialModal = function (id, education, status, index, index1) {
 
             if (id == 0)

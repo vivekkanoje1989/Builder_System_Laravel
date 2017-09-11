@@ -5,12 +5,23 @@ app.controller('projectpaymentController', ['$scope', 'Data', 'toaster', functio
         $scope.proPayStage = false;
         $scope.fix_stage = 1;
         $scope.manageProjectPaymentStages = function () {
-             $scope.showloader();
+            $scope.showloader();
             Data.post('project-payment/manageProjectPaymentStages').then(function (response) {
-                 $scope.hideloader();
+                $scope.hideloader();
                 $scope.ProjectPaymentStagesRow = response.records;
+                $scope.exportData = response.exportData;
             });
         };
+        
+        $scope.projectPaymentStagesExportToxls = function () {
+            $scope.getexcel = window.location = "/project-payment/projectPaymentStagesExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
         $scope.searchDetails = {};
         $scope.searchData = {};
 
