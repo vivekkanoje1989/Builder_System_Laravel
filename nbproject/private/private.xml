@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Controllers/VirtualNumberController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Controllers/ExtensionEmployeeController.php</file>
@@ -18,6 +19,25 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/extensionemplist.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlockStages/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/extensionemployeeController.js</file>
+=======
+<<<<<<< HEAD
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysRemark.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bulkreassign.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/css/aa.less</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customerController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/sendDocument.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+>>>>>>> e3fabb3ea80da58fbfa803e458384d3ac9f08639
         </group>
+=======
+        <group/>
+>>>>>>> 3250397cd9ac88598e24db4611196e9786823461
     </open-files>
 </project-private>
