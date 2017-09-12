@@ -128,12 +128,4 @@ app.directive('ckEditor', function () {
         }
     };
 });
-app.filter('htmlToPlaintext', function ()
-{
-    return function (text)
-    {
-        var temp = text ? String(text).replace(/<[^>]+>/gm, '') : '';
-        temp = temp ? String(temp).replace(/  /g, '&nbsp; ') : '';
-        return  temp;
-    };
-});
+

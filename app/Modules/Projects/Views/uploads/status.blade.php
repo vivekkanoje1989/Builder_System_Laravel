@@ -1,5 +1,5 @@
 <div class="row">
-    <form role="form" name="statusForm" ng-submit="saveStatusInfo(statusData, stProjectImages)" enctype="multipart/form-data">
+    <form role="form" name="statusForm" id="statusForm" ng-submit="saveStatusInfo(projectData.prid, stProjectImages, statusData)" enctype="multipart/form-data">
         <input type="hidden" ng-model="statusForm.csrfToken" name="csrftoken" ng-init="statusForm.csrfToken = '[[csrf_token()]]'">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table table-bordered table-responsive">
@@ -18,7 +18,7 @@
                         <td><div ng-repeat="imgList in statusImages[(1 + $index) - 1]" style="float: left;"><img ng-src="[[ config('global.s3Path') ]]/project/images/{{ imgList }}" style="width: 50px;height: 50px;"></div>
                         <td ng-if="slist.status == 1">Yes</td>
                         <td ng-if="slist.status == 0">No</td>
-                        <td>{{slist.short_description}}</td>
+                        <td>{{slist.short_description | htmlToPlaintext}}</td>
                         <td><button class="btn btn-sm btn-danger" ng-confirm-click="Are you sure to delete this record ?" confirmed-click="delStatusRecord({{ slist.id }},{{statusImages[(1 + $index) - 1]}})">Delete</button></td>
                     </tr>
                     <tr ng-if="statusRow==''">
@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label>Images (Size: W 1000 X H 450)</label>
                     <span class="input-icon icon-right">
-                        <input type="file" multiple ngf-select ng-model="stProjectImages.images" name="images" id="images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(statusImages.images)">
+                        <input type="file" multiple ngf-select ng-model="stProjectImages.images" name="images" id="statusimages" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(statusImages.images)">
                     </span>                                                   
                 </div>
                  <div class="col-sm-12 col-xs-12">

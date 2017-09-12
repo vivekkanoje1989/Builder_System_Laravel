@@ -4,6 +4,9 @@ div.help-block{
 .fa-envelope{
     color:#797979;
 }
+.editor-text p {
+    height: 80px;
+}
 .modal-body {
     padding: 12px !important; 
 }

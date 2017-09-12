@@ -18,7 +18,7 @@
         <div class="step-pane active" id="tabbedwizardstep1">
             <form role="form" name="basicInfoForm" ng-submit="webpageSettings(projectData.prid,projectData)">
                 <input type="hidden" ng-model="projectData.csrfToken" name="csrftoken" id="csrftoken" ng-init="projectData.csrfToken = '[[ csrf_token() ]]'"/>
-                <input type="hidden" ng-model="prid" name="prid" id="prid" />
+<!--                <input type="hidden" ng-model="prid" name="prid" id="prid" />-->
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">  
                         <div class="form-group">

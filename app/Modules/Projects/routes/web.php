@@ -41,7 +41,7 @@ Route::group(array('module' => 'Projects', 'middleware' => ['auth:admin'], 'name
     Route::get( '/projects/webpageDetails/{id}', ['middleware'=>'check-permission:050103', 'uses' => 'ProjectsController@webpageDetails']); //show page
     Route::get( '/projects/getProjectDetails/{id}', 'ProjectsController@getProjectDetails'); //get project details
     Route::post( '/projects/webpageSettings', 'ProjectsController@webpageSettings'); //get project setting details
-    Route::post( '/projects/uploads', 'ProjectsController@uploads'); //get project upload details
+    Route::post( '/projects/uploadsData', 'ProjectsController@uploadsData'); //get project upload details
     
     
     

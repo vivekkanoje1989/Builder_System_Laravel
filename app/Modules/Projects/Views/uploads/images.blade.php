@@ -8,8 +8,8 @@
         color: #e46f61;
     }
 </style>
-<form role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)">
-    <input type="hidden" ng-model="imagesForm.csrfToken" name="csrftoken" ng-init="imagesForm.csrfToken = '[[ csrf_token() ]]'" class="form-control">
+<form role="form" name="imagesForm" ng-submit="uploadsData(projectData.prid, projectImages, '')" novalidate>
+    <input type="hidden" ng-model="projectImages.csrfToken" name="csrftoken" ng-init="projectImages.csrfToken = '[[ csrf_token() ]]'">
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="col-sm-6 col-xs-12">
@@ -38,6 +38,7 @@
                         <input type="file" ngf-select ng-model="projectImages.project_thumbnail" name="project_thumbnail" id="project_thumbnail" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(projectImages.project_thumbnail)">
                     </span>                                                   
                 </div>
+                <span class="help-block">{{project_thumbnail_err}}</span>
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div ng-if="!project_thumbnail_preview" class="img-div2" data-title="name" ng-repeat="list in project_thumbnail">    
@@ -58,6 +59,7 @@
                         <input type="file" ngf-select ng-model="projectImages.project_favicon" name="project_favicon" id="project_favicon" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(projectImages.project_favicon)">
                     </span>                                                   
                 </div>
+                <span class="help-block">{{project_favicon_err}}</span>
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div ng-if="!project_favicon_preview" class="img-div2" data-title="name" ng-repeat="list in project_favicon">   
@@ -76,6 +78,7 @@
                         <input type="file" multiple ngf-select ng-model="projectImages.project_banner_images" name="project_banner_images" id="project_banner_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(projectImages.project_banner_images)">
                     </span>                                                   
                 </div>
+                <span class="help-block">{{project_banner_images_err}}</span>
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_banner_images" id="del_project_banner_images_{{$index}}">   
@@ -99,6 +102,7 @@
                         <input type="file" multiple ngf-select ng-model="projectImages.project_background_images" name="project_background_images" id="project_background_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(projectImages.project_background_images)">
                     </span>                                                   
                 </div>
+                <span class="help-block">{{project_background_images_err}}</span>
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_background_images" id="del_project_background_images_{{$index}}">   
@@ -116,14 +120,15 @@
                 <div class="form-group">
                     <label>Upload Brochure</label>
                     <span class="input-icon icon-right">
-                        <input type="file" multiple ngf-select ng-model="projectImages.project_brochure" name="project_brochure" id="project_brochure" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(projectImages.project_brochure)">
+                        <input type="file" multiple ngf-select ng-model="projectImages.project_brochure" name="project_brochure" id="project_brochure" accept="file/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" ng-change="checkImageExtension(projectImages.project_brochure)">
                     </span>                                                   
                 </div>
+                <span class="help-block">{{project_brochure_err}}</span>
             </div>
             <div class="col-sm-12 col-xs-12">
                 <div class="img-div2" data-title="name" ng-repeat="list in project_brochure" id="del_project_brochure_{{$index}}">   
                     <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{project_brochure}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/project_brochure/', 'project_brochure')"></i>
-                    <img ng-src="[[ config('global.s3Path') ]]/project/project_brochure/{{list}}" class="thumb photoPreview">
+                    <img ng-src="images/pdf_icon.png" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_brochure_preview">    
                     <i class="fa fa-times rem-icon"  title=""></i>
@@ -135,7 +140,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
         <div class=""><hr></div>
         <div class="form-group" align="center">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary" ng-disabled="sbtbtnFiles">Save</button>
         </div> 
     </div>  
 </form>

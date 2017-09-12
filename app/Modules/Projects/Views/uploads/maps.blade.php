@@ -1,24 +1,24 @@
 <div class="row">
-    <form role="form" name="mapForm" ng-submit="saveBasicInfo(mapData, projectImages)">
-        <input type="hidden" ng-model="mapForm.csrfToken" name="csrftoken" ng-init="mapForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+    <form role="form" name="mapForm" ng-submit="uploadsData(projectData.prid, projectImages, mapData)" novalidate>
+        <input type="hidden" ng-model="mapData.csrfToken" name="csrftoken" ng-init="mapData.csrfToken = '[[csrf_token()]]'" class="form-control">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-sm-3 col-xs-12">
+            <div class="col-sm-4 col-xs-12">
                 <div class="form-group">
                     <label>Google Map Iframe</label>
                     <span class="input-icon icon-right">
-                        <textarea class="form-control" ng-model="mapData.google_map_iframe" name="google_map_iframe"></textarea>
+                        <textarea class="form-control" ng-model="mapData.google_map_iframe" name="google_map_iframe" rows="4"></textarea>
                     </span>                                                   
                 </div>
             </div>
-            <div class="col-sm-3 col-xs-12">
+            <div class="col-sm-4 col-xs-12">
                 <div class="form-group">
                     <label>Google Map URL</label>
                     <span class="input-icon icon-right">
-                        <textarea class="form-control" ng-model="mapData.google_map_short_url" name="google_map_short_url"></textarea>
+                        <textarea class="form-control" ng-model="mapData.google_map_short_url" name="google_map_short_url" rows="4"></textarea>
                     </span>                                                   
                 </div>
             </div>
-            <div class="col-sm-3 col-xs-6">
+            <div class="col-sm-4 col-xs-6">
                 <div class="form-group">
                     <label>Location Map</label>
                     <span class="input-icon icon-right">
@@ -26,7 +26,7 @@
                     </span>   
                 </div>
             </div>
-            <div class="col-sm-6 col-xs-12" ng-if="location_map_images">
+            <div class="col-sm-4 col-xs-12" ng-if="location_map_images">
                 <div class="img-div2" data-title="name" ng-repeat="list in location_map_images" id="del_location_map_images_{{$index}}}">    
                     <i class="fa fa-times rem-icon"  title="" ng-click="deleteImage({{location_map_images}},'{{list}}', {{$index}}, {{projectData.project_id}}, 'project/location_map_images/', 'location_map_images')"></i>
                     <img ng-src="[[ config('global.s3Path') ]]/project/location_map_images/{{list}}" class="thumb photoPreview">
@@ -43,6 +43,5 @@
                 <button type="submit" class="btn btn-primary">Save</button>
             </div> 
         </div>  
-        
     </form>
 </div>
