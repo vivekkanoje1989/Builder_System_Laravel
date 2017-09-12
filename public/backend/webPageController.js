@@ -53,6 +53,14 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
         }
 
+        $scope.deletePage = function (id, index) {
+            Data.post('web-pages/deletePage', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Content Management', 'Web Page deleted successfully');
+                $scope.listPages.splice(index, 1);
+            });
+        }
+        
         $scope.getSubPages = function (pageid)
         {
             Data.post('web-pages/getSubPages', {

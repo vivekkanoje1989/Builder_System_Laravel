@@ -25,7 +25,7 @@ class WebPagesController extends Controller {
     }
 
     public function getWebPages() {
-        $data = WebPage::all();
+        $data = WebPage::where('deleted_status', '!=', 1)->get();
         $webPages = array();
         for ($i = 0; $i < count($data); $i++) {
             $webData['id'] = $data[$i]['id'];
@@ -55,6 +55,19 @@ class WebPagesController extends Controller {
         return json_encode($result);
     }
 
+    public function deletePage() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+
+
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['pageData'] = array_merge($request, $create);
+        $pages = WebPage::where('id', $request['id'])->update($input['pageData']);
+        $result = ['success' => true, 'result' => $pages];
+        return json_encode($result);
+        
+    }
     public function contentManagementExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {

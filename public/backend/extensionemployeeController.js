@@ -27,6 +27,7 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
+            console.log(search);
             $scope.searchData = search;
         }
 
@@ -119,6 +120,13 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
                     }, 1000);
 
                 }
+            });
+        }
+        
+          $scope.getEmployeeExtData = function(){
+
+            Data.get('getEmployeeExtData').then(function (response) {
+                    $scope.extNumber = response.records;
             });
         }
     }]);

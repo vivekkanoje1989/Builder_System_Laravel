@@ -41,7 +41,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print"  ng-click="contentManagementExportToxls()" ng-show="exportData=='1'" >
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print"  ng-click="contentManagementExportToxls()" ng-show="exportData == '1'" >
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -120,7 +120,9 @@
                                 <td>{{ listpage.page_title}}</td>                            
                                 <td>{{ listpage.status}}</td>                            
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit Web Page Content" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/webpages/update/{{ listpage.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>                                
+                                    <span class="" tooltip-html-unsafe="Edit Web Page Content"><a href="[[ config('global.backendUrl') ]]#/webpages/update/{{ listpage.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>                                
+                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deletePage({{listpage.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+
                                 </td>
                             </tr>
                         </tbody>

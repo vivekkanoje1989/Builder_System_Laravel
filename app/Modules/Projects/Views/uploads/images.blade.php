@@ -9,7 +9,7 @@
     }
 </style>
 <form role="form" name="imagesForm" ng-submit="saveBasicInfo(data, projectImages)">
-    <input type="hidden" ng-model="imagesForm.csrfToken" name="csrftoken" ng-init="imagesForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+    <input type="hidden" ng-model="imagesForm.csrfToken" name="csrftoken" ng-init="imagesForm.csrfToken = '[[ csrf_token() ]]'" class="form-control">
     <div class="row">
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="col-sm-6 col-xs-12">

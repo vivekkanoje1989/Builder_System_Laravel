@@ -168,6 +168,7 @@ class VirtualNumberController extends Controller {
                         for ($k = 0; $k < count($menusetting); $k++) {
                             $getExtensionName[] = " <b>(" . $menusetting[$k]->ext_number . ")</b> " . $menusetting[$k]->ext_name;
                             if (!empty($menusetting[$k]->employees)) {
+                               
                                 $menuemployee = \App\Model\backend\Employee::select('first_name', 'last_name')->whereRaw("id IN(" . $menusetting[$k]->employees . ")")->get();
                                 $getemployee[] = "<b> (" . $menusetting[$k]->ext_number . ")</b>";
                                 for ($j = 0; $j < count($menuemployee); $j++) {
@@ -638,6 +639,34 @@ class VirtualNumberController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
+        
+        
     }
+    
+    public function getEmployeeData() {
+        $getEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
+                        ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
+                        ->where("employees.employee_status", 1)->get();
+
+        $i = 0;
+        foreach ($getEmployees as $ctEmployeesExt) {
+            $getEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] ;
+            $i++;
+        }
+        if (!empty($getEmployees)) {
+            $result = ['success' => true, 'records' => $getEmployees];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+    
+    public function employeeDetails(){
+            
+        $existeEmployee = CtSetting::join('employees as emp', 'emp.id', '=', 'ct_settings.employees')
+                ->select('emp.first_name', 'emp.last_name','ct_settings.virtual_display_number')
+                ->get();
+        print_r($existeEmployee);
+        }
 
 }

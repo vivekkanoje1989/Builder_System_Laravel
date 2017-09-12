@@ -508,7 +508,7 @@ angular.module('app')
                                     }
                                 })
                                 .state('projectCreate', {
-                                    url: '/project/create',
+                                    url: '/projects/create',
                                     templateUrl: '/projects/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -535,8 +535,8 @@ angular.module('app')
                                     }
                                 })
                                 .state('projectWebPage', {
-                                    url: '/project/webpage',
-                                    templateUrl: '/projects/webPage',
+                                    url: '/projects/webpageIndex',
+                                    templateUrl: '/projects/webpageIndex',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Project Configurations'
@@ -546,15 +546,12 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'textAngular', 'toaster']).then(
+                                                        return $ocLazyLoad.load().then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
-                                                                            '/backend/app/controllers/select.js',
                                                                             '/backend/projectController.js',
-                                                                            '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                                            '/backend/app/controllers/textangular.js',
                                                                         ]
                                                                     });
                                                                 }
@@ -563,30 +560,39 @@ angular.module('app')
                                                 ]
                                     }
                                 })
-                                /*.state('projectWebPageId', {
-                                 url: '/project/webpage/:projectId',
-                                 templateUrl: function (stateParams) {
-                                 return '/projects/getProjectDetails/' + stateParams.projectId;
-                                 },
-                                 requiredLogin: true,
-                                 ncyBreadcrumb: {
-                                 label: 'Project Configurations'
-                                 },
-                                 resolve: {
-                                 deps: [
-                                 '$ocLazyLoad',
-                                 function ($ocLazyLoad) {
-                                 return $ocLazyLoad.load({
-                                 serie: true,
-                                 files: [
-                                 ]
-                                 });
-                                 }
-                                 ]
-                                 }
-                                 })*/
+                                .state('projectWebPageDetails', {
+                                    url: '/projects/webpageDetails/:projectId',
+                                    templateUrl: function (stateParams) {
+                                        return '/projects/webpageDetails/' + stateParams.projectId;
+                                    },
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'Project Details'
+                                    },
+                                    resolve: {
+                                        deps:
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'textAngular', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/select.js',
+                                                                    '/backend/projectController.js',
+                                                                    '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                    '/backend/app/controllers/textangular.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
+                                    }
+                                })
                                 .state('manageProjectIndex', {
-                                    url: '/project/index',
+                                    url: '/projects/index',
                                     templateUrl: '/projects/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {

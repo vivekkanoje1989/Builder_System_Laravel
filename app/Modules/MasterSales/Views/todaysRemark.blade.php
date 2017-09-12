@@ -826,8 +826,8 @@
                                 </tabset>
 
                                 <div ng-if="remarkData.sales_status_id != 3"><br><br><br></div>
-                                <div class="content1" id="footerContent">
-                                    <div class="row" ng-show="remarkData.sales_status_id != 3">
+                                <div class="content1" id="footerContent" ng-show="remarkData.sales_status_id != 3">
+                                    <div class="row">
                                         <div class="col-sm-12 col-lg-12">
                                             <div class="row" ng-if="remarkData.sales_status_id != 3 && remarkData.sales_status_id != 4">
                                                 <div class="col-sm-12 col-lg-12">

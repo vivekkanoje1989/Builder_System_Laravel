@@ -16,9 +16,9 @@
 <div class="row" ng-controller="bloodsGroupCtrl" ng-init="manageBloodGroup()">  
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
-                        <div class="widget-header bordered-bottom bordered-themeprimary">
-                            <span class="widget-caption">Manage Blood Group</span>                
-                        </div>
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">Manage Blood Group</span>                
+            </div>
             <!--            <div class="widget-header ">
                             <span class="widget-caption">Manage Blood Group</span>
                             <div class="widget-buttons">
@@ -44,7 +44,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="bloodGroupExportToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="bloodGroupExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -107,7 +107,8 @@
                                 <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td> 
                                 <td>{{ list.blood_group}}</td>                          
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#bloodGroupModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.blood_group}}',{{itemsPerPage}},{{$index}})" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#bloodGroupModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.blood_group}}',{{itemsPerPage}},{{$index}})" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBloodgrp({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                         </tbody>

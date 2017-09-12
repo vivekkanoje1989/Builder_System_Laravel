@@ -481,7 +481,7 @@ class ComposerStaticInita4a83323fa74f9ee3390af915b46a8f0
         'App\\Models\\CtLogsOutbound' => __DIR__ . '/../..' . '/app/Models/CtLogsOutbound.php',
         'App\\Models\\CtMenuSetting' => __DIR__ . '/../..' . '/app/Models/CtMenuSetting.php',
         'App\\Models\\CtMenuSettingsLog' => __DIR__ . '/../..' . '/app/Models/CtMenuSettingsLog.php',
-        'App\\Models\\CtSetting' => __DIR__ . '/../..' . '/app/Models/CtSetting_bkp.php',
+        'App\\Models\\CtSetting' => __DIR__ . '/../..' . '/app/Models/CtSetting.php',
         'App\\Models\\CtSettingsLog' => __DIR__ . '/../..' . '/app/Models/CtSettingsLog.php',
         'App\\Models\\CtTuneType' => __DIR__ . '/../..' . '/app/Models/CtTuneType.php',
         'App\\Models\\CustomersContact' => __DIR__ . '/../..' . '/app/Models/CustomersContact.php',

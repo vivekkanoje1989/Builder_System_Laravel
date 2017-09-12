@@ -1,6 +1,6 @@
 <div class="row">
     <form role="form" name="statusForm" ng-submit="saveStatusInfo(statusData, stProjectImages)" enctype="multipart/form-data">
-        <input type="hidden" ng-model="statusForm.csrfToken" name="csrftoken" ng-init="statusForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+        <input type="hidden" ng-model="statusForm.csrfToken" name="csrftoken" ng-init="statusForm.csrfToken = '[[csrf_token()]]'">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table table-bordered table-responsive">
                 <thead>
@@ -20,6 +20,9 @@
                         <td ng-if="slist.status == 0">No</td>
                         <td>{{slist.short_description}}</td>
                         <td><button class="btn btn-sm btn-danger" ng-confirm-click="Are you sure to delete this record ?" confirmed-click="delStatusRecord({{ slist.id }},{{statusImages[(1 + $index) - 1]}})">Delete</button></td>
+                    </tr>
+                    <tr ng-if="statusRow==''">
+                        <td colspan="5" align="center">No Records Found</td>
                     </tr>
                 </tbody>
             </table>

@@ -54,7 +54,7 @@ return array(
     'App\\Models\\CtLogsOutbound' => $baseDir . '/app/Models/CtLogsOutbound.php',
     'App\\Models\\CtMenuSetting' => $baseDir . '/app/Models/CtMenuSetting.php',
     'App\\Models\\CtMenuSettingsLog' => $baseDir . '/app/Models/CtMenuSettingsLog.php',
-    'App\\Models\\CtSetting' => $baseDir . '/app/Models/CtSetting_bkp.php',
+    'App\\Models\\CtSetting' => $baseDir . '/app/Models/CtSetting.php',
     'App\\Models\\CtSettingsLog' => $baseDir . '/app/Models/CtSettingsLog.php',
     'App\\Models\\CtTuneType' => $baseDir . '/app/Models/CtTuneType.php',
     'App\\Models\\CustomersContact' => $baseDir . '/app/Models/CustomersContact.php',

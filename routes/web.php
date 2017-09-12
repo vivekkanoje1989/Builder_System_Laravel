@@ -163,7 +163,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getSalesEnqStatus', 'backend\AdminController@getSalesEnqStatus'); //geeta    
     Route::get('/getAmenitiesList', 'backend\AdminController@getAmenitiesList'); //geeta
     Route::get('/getChannelList', 'backend\AdminController@getChannelList'); //geeta
-
+    Route::get('/getEmployeeData', 'backend\AdminController@getEmployeeData'); //geeta
+    
     Route::post('/getBlockTypes', 'backend\AdminController@getBlockTypes'); //geeta
     Route::post('/getSubBlocks', 'backend\AdminController@getSubBlocks'); //geeta
     Route::get('/manageBlockStages', 'backend\AdminController@manageBlockStages'); //archana

@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                    <div class="DTTT btn-group">
+<!--                    <div class="DTTT btn-group">
                         <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view">
                             <span>Export</span>
                         </a>
@@ -52,7 +52,7 @@
                                 </li>
                             </ul>
                         </a>
-                    </div>
+                    </div>-->
                     <div  class="dataTables_filter">
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >

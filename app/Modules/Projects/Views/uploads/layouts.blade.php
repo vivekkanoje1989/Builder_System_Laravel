@@ -4,7 +4,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Layout Plan</h5>
                 <div class="col-lg-12 col-sm-12 col-xs-12">
-                    <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label></label>
                             <div class="card card-4 img-div2" ng-if="layoutTitle" ng-repeat="t in layoutTitle" style="height: 82px !important;" id="del_layout_plan_images_{{$index}}">
@@ -39,12 +39,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
-            <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
-            <div class="form-group" align="center">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div> 
-        </div>    
     </form>
 </div>
 
@@ -57,7 +51,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Layout Details</h4>
             </div>
-            <form novalidate name="lmodalForm" ng-submit="lmodalForm.$valid && layoutRow(lmodalData,lmodalImages)">
+            <form novalidate name="lmodalForm" ng-submit="lmodalForm.$valid && layoutRow(lmodalData,lmodalImages)" >
                 <input type="hidden" ng-model="lmodalForm.csrfToken" name="csrftoken" ng-init="lmodalForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">

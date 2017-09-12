@@ -16,6 +16,7 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     Route::resource('/virtualnumber', 'VirtualNumberController');
     Route::post('/virtualnumber/manageLists', 'VirtualNumberController@manageLists');
     Route::get('/getCttunetype', 'VirtualNumberController@getCttunetype');
+    Route::get('/employeeDetails', 'VirtualNumberController@employeeDetails');
     Route::get('/getCtforwardingtypes', 'VirtualNumberController@getCtforwardingtypes');
     Route::post('/virtualnumber/getEmployeelist', 'VirtualNumberController@getEmployeelist');
     Route::post('/virtualnumber/editEmp', 'VirtualNumberController@editEmp');
@@ -40,6 +41,7 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     
     Route::get('/extensionmenu/{id}/viewData', 'ExtensionMenuController@viewData');
     Route::get('/virtualnumber/{id}/existingUpdate', 'VirtualNumberController@existingUpdate');
+    Route::get('/getEmployeeData', 'VirtualNumberController@getEmployeeData');
     Route::get('/virtualnumber/{id}/nonworkinghoursUpdate', 'VirtualNumberController@nonworkingUpdate');
     Route::post('virtualnumber/updateNonworkinghours', 'VirtualNumberController@updateNonworkinghours');
     
@@ -64,6 +66,7 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     
      Route::get('/extensionemployee/viewextemployee', 'ExtensionEmployeeController@viewextemployee');
      Route::get('/getCtEmployeeExtension', 'ExtensionEmployeeController@getCtEmployeeExtension');
+     Route::get('/getEmployeeExtData', 'ExtensionEmployeeController@getEmployeeExtData');
      Route::post('/getExtensionEmployee', 'ExtensionEmployeeController@getExtensionEmployee');
      Route::post('/createExtEmployee', 'ExtensionEmployeeController@createExtEmployee');
     

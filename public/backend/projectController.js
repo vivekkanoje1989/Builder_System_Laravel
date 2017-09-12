@@ -1,6 +1,9 @@
-app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$timeout', function ($scope, $state, Data, toaster, $timeout) {
+app.controller('projectController', ['$rootScope','$scope', '$state', 'Data', 'toaster', '$timeout', '$stateParams', function ($rootScope, $scope, $state, Data, toaster, $timeout, $stateParams) {
         $scope.pageHeading = "Create Project";
+        $scope.showAllTabs = true;
         $scope.projectData = {};
+        $scope.contactData = {};
+        $scope.seoData = {};
         $scope.createProject = function (projectData) {
             Data.post('projects/', {
                 data: projectData,
@@ -16,8 +19,77 @@ app.controller('projectController', ['$scope', '$state', 'Data', 'toaster', '$ti
                 }
             });
         }
-    }]);
-app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$timeout', '$state', function ($scope, Data, toaster, Upload, $timeout, $state) {
+        
+        $scope.webpageSettings = function (prid, settingData) {
+            
+            if (settingData === '') { //for data
+                Data.post('projects/webpageSettings', {
+                    getDataByPrid: prid,
+                }).then(function (response) {
+                    if(response.success){
+                        $scope.projectData = angular.copy(response.settingData);
+                        $scope.projectData.project_id = response.settingData.project_id;
+                        $scope.projectData.prid = response.settingData.project_id;
+                        $scope.contactData = angular.copy(response.settingData);
+                        $scope.seoData = angular.copy(response.settingData);
+                        Data.post('getStates', {
+                             data: {countryId: response.settingData.project_country},
+                        }).then(function (responseState) {
+                             if (!responseState.success) {
+                                 $scope.errorMsg = responseState.message;
+                             } else {
+                                 $scope.stateList = responseState.records;
+                                 $scope.contactData.project_state = angular.copy(response.settingData.project_state);
+                                 Data.post('getCities', {
+                                     data: {stateId: response.settingData.project_state},
+                                 }).then(function (responseCity) {
+                                     if (!responseCity.success) {
+                                         $scope.errorMsg = responseCity.message;
+                                     } else {
+                                         $scope.cityList = responseCity.records;
+                                         Data.post('getLocations', {
+                                             data: {countryId: response.settingData.project_country, stateId: response.settingData.project_state, cityId: response.settingData.project_city},
+                                         }).then(function (responseLoc) {
+                                             if (!responseLoc.success) {
+                                                 $scope.errorMsg = responseLoc.message;
+                                             } else {
+                                                 $scope.locationList = responseLoc.records;
+                                             }
+                                         });
+                                     }
+                                 });
+                             }
+                         });
+                         $scope.showAllTabs = false;
+                    }else{
+                        $scope.projectData.project_id = prid;
+                        $scope.projectData.prid = prid;
+                        $scope.showAllTabs = true;
+                    }
+                });
+            }else{ //for create or update
+                Data.post('projects/webpageSettings', {
+                    getDataByPrid: prid,settingData:settingData
+                }).then(function (response) {
+                    $scope.projectData = $scope.contactData = $scope.seoData = settingData;
+                    $scope.projectData.project_id = prid;
+                    $scope.projectData.prid = prid;
+                });
+            }
+        }
+        
+        $scope.uploads = function (prid, uploadData){
+            if (uploadData === '') { //for data
+                Data.post('projects/uploads', {
+                    getDataByPrid: prid,
+                }).then(function (response) {
+                   $scope.projectImages = response.uploadData;
+                });
+            }
+        }
+
+//}]);
+//app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$timeout', '$state', '$stateParams', function ($scope, Data, toaster, Upload, $timeout, $state, $stateParams) {
         $scope.projectData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.inventoryData = $scope.amenityData = $scope.galleryData = $scope.specificationData = {};
         $scope.statusRow = [];
         $scope.statusImages = [];
@@ -26,6 +98,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
         $scope.layoutTitle = [];
         $scope.itemsPerPage = 30;
         $scope.noOfRows = 1;
+        $scope.lmodalForm = {};
 
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
@@ -50,7 +123,6 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
             }
         }
 
-
         $scope.searchDetails = {};
         $scope.searchData = {};
 
@@ -73,7 +145,9 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-
+        $scope.resetLayoutDetails = function () {
+            $scope.lmodalForm = {};
+        }
 
         $scope.getProjectDetails = function (projectId) { //get project details
             Data.get('projects/getProjectDetails/' + projectId).then(function (response) {
@@ -151,8 +225,8 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
                 $scope.projectDetails = true;
             });
         }
-        $scope.showWebPage = function (id)
-        {
+
+        $scope.showWebPage = function (id) {
             $scope.showloader();
             $state.go('projectWebPage');
             $scope.hideloader();
@@ -163,7 +237,9 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
                 $scope.getProjectDetails(id);
             }, 1000);
         }
+
         $scope.saveBasicInfo = function (projectData, projectImages) {
+            console.log(projectImages);
             if (angular.equals(projectData, {}) === false || angular.equals(projectImages, {}) === false)
             {
                 if (typeof projectImages === 'undefined') {
@@ -178,6 +254,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
                     if (!response.data.success) {
                         $scope.errorMsg = response.message;
                     } else {
+                        $state.reload();
                         toaster.pop('success', 'Project', response.data.message);
 //                    angular.element('.btn-next').trigger('click');
                     }
@@ -333,8 +410,18 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
                 } else {
                     $scope.layoutTitle.push(response.data.layoutTitle);
                     $scope.layout_plan_images = {};
-                    $('#layoutDataModal').modal('toggle');
-                    toaster.pop('success', 'Project', response.data.message);
+
+                    $timeout(function () {
+                        $('#layoutDataModal').modal('toggle');
+                        toaster.pop('success', 'Project', response.data.message);
+                        $(".modal-backdrop").hide();
+                        $("#project_id").val(1);
+                        $scope.projectData.project_id = angular.copy(1);
+                        $scope.getProjectDetails(1);
+                        $scope.projectDetails = true;
+
+                    }, 300);
+
                 }
             }, function (response) {
                 if (response.status !== 200) {
@@ -343,8 +430,7 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
             });
         }
 
-        $scope.getInventoryDetails = function (id)
-        {
+        $scope.getInventoryDetails = function (id) {
             Data.post('projects/getInventoryDetails', {data: {projectId: $scope.projectData.project_id, wingId: id}}).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
@@ -356,10 +442,13 @@ app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$
 
         $scope.deleteImage = function (selectedImg, delImgName, index, tblRowId, folderName, tblFieldName)
         {
+            console.log(selectedImg);
             if (window.confirm("Are you sure want to remove this image?"))
             {
                 if (index > -1) {
+                    console.log(selectedImg);
                     selectedImg.splice(index, 1);
+                    console.log(selectedImg);
                     Data.post('projects/deleteImage', {
                         selectedImg: selectedImg, tblRowId: tblRowId, delImgName: delImgName, folderName: folderName, tblFieldName: tblFieldName,
                     }).then(function (response) {

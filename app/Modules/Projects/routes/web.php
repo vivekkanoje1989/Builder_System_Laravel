@@ -37,8 +37,16 @@ Route::group(array('module' => 'Projects', 'middleware' => ['auth:admin'], 'name
     Route::get( '/projects/projectType', 'ProjectsController@projectType'); //for populate dropdown
     Route::get( '/projects/projectStatus', 'ProjectsController@projectStatus'); //for populate dropdown
     Route::get( '/projects/getProjects', 'ProjectsController@getProjects'); //for populate dropdown
-    Route::get( '/projects/webPage', ['middleware'=>'check-permission:050103', 'uses' => 'ProjectsController@webPage']); //show page
+    Route::get( '/projects/webpageIndex', ['middleware'=>'check-permission:050103', 'uses' => 'ProjectsController@webpageIndex']); //show page
+    Route::get( '/projects/webpageDetails/{id}', ['middleware'=>'check-permission:050103', 'uses' => 'ProjectsController@webpageDetails']); //show page
     Route::get( '/projects/getProjectDetails/{id}', 'ProjectsController@getProjectDetails'); //get project details
+    Route::post( '/projects/webpageSettings', 'ProjectsController@webpageSettings'); //get project setting details
+    Route::post( '/projects/uploads', 'ProjectsController@uploads'); //get project upload details
+    
+    
+    
+    
+    
     Route::get( '/projects/manageProjects', ['middleware'=>'check-permission:050101', 'uses' => 'ProjectsController@manageProjects']); //get project details  
     
 //    Route::resource( '/projects', 'ProjectsController');

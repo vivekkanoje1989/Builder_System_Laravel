@@ -21,7 +21,7 @@ class BlogManagementController extends Controller {
     }
 
     public function manageBlogs() {
-        $getBlogs = WebBlogs::all();
+        $getBlogs = WebBlogs::where('deleted_status', '!=', 1)->get();
         $blogDetails = array();
         for ($i = 0; $i < count($getBlogs); $i++) {
             $blogData['id'] = $getBlogs[$i]['id'];
@@ -41,14 +41,28 @@ class BlogManagementController extends Controller {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
-        }else{
-              $export = '';
+        } else {
+            $export = '';
         }
         if (!empty($blogDetails)) {
             $result = ['success' => true, 'records' => $blogDetails, 'exportData' => $export];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
+        return json_encode($result);
+    }
+
+    public function deleteBlog() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+
+
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['blogData'] = array_merge($request, $create);
+
+        $blogs = WebBlogs::where('id', $request['id'])->update($input['blogData']);
+        $result = ['success' => true, 'result' => $blogs];
         return json_encode($result);
     }
 

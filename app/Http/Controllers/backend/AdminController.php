@@ -100,15 +100,15 @@ class AdminController extends Controller {
     }
 
     public function getCompanyList() {
-       $getCompanyList = MlstBmsbCompany::select('id','company_name')->get();
-       if (!empty($getCompanyList)) {
-           $result = ['success' => true, 'records' => $getCompanyList];
-       } else {
-           $result = ['success' => false, 'message' => 'Something went wrong'];
-       }
-       return json_encode($result);
+        $getCompanyList = MlstBmsbCompany::select('id', 'company_name')->get();
+        if (!empty($getCompanyList)) {
+            $result = ['success' => true, 'records' => $getCompanyList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
     }
-   
+
     public function sessiontimeout() {
         return view('backend.sessiontimeout');
     }
@@ -261,6 +261,24 @@ class AdminController extends Controller {
         return json_encode($result);
     }
 
+    public function getEmployeeData() {
+        $getEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
+                        ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
+                        ->where("employees.employee_status", 1)->get();
+
+        $i = 0;
+        foreach ($getEmployees as $ctEmployeesExt) {
+            $getEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
+            $i++;
+        }
+        if (!empty($getEmployees)) {
+            $result = ['success' => true, 'records' => $getEmployees];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
     public function getEducationList() {
         $getEducationList = MlstEducation::where("status", 1)->get();
         if (!empty($getEducationList)) {
@@ -308,8 +326,8 @@ class AdminController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $subBlocksList = ProjectBlock::select("id", "block_sub_type")
-                ->where("project_id",$request['data']['projectId'])
-                ->whereIn("block_type_id", json_decode($request['data']['myJsonString']))->get();
+                        ->where("project_id", $request['data']['projectId'])
+                        ->whereIn("block_type_id", json_decode($request['data']['myJsonString']))->get();
         if (!empty($subBlocksList)) {
             $result = ['success' => true, 'records' => $subBlocksList];
         } else {
@@ -329,7 +347,7 @@ class AdminController extends Controller {
         $getMlstProfession = MlstProfession::where("status", 1)->get();
         $getMlstBmsbDesignation = MlstBmsbDesignation::where("status", 1)->get();
         $getStates = MlstState::where('country_id', 101)->get();
-        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id','employee_id')->where("employee_status", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id', 'employee_id')->where("employee_status", 1)->get();
         $blockTypeList = MlstBmsbBlockType::select("id", "project_type_id", "block_name")->get();
         $projectList = Project::select('id', 'project_name')->get();
         $subBlocksList = ProjectBlock::select("id", "project_id", "block_type_id", "block_sub_type")->get();
@@ -340,9 +358,9 @@ class AdminController extends Controller {
         $salesEnqSubStatusList = EnquirySalesSubstatus::select('id', 'enquiry_sales_substatus', 'enquiry_sales_status_id')->where("status", 1)->get();
         $getEnquiryLocation = MlstCities::rightJoin('laravel_developement_builder_client.lst_enquiry_locations', 'mlst_cities.id', '=', 'laravel_developement_builder_client.lst_enquiry_locations.city_id')->where('laravel_developement_builder_client.lst_enquiry_locations.country_id', '=', 101)->get();
         $channelList = MlstEnquirySalesChannel::select('id', 'channel_name')->get();
-        $getCompanyList = MlstBmsbCompany::select('id','company_name')->get();
-        $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id','reason')->where('lost_reason_status',1)->orderBy('id')->get();
-        $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id','enquiry_lost_reason_id','sub_reason')->where(['status'=>1])->get();
+        $getCompanyList = MlstBmsbCompany::select('id', 'company_name')->get();
+        $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id', 'reason')->where('lost_reason_status', 1)->orderBy('id')->get();
+        $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id', 'enquiry_lost_reason_id', 'sub_reason')->where(['status' => 1])->get();
         $projectWingList = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->get();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
@@ -350,8 +368,8 @@ class AdminController extends Controller {
                 'getMlstProfession' => $getMlstProfession, 'getMlstBmsbDesignation' => $getMlstBmsbDesignation, 'states' => $getStates,
                 "blocks" => $blockTypeList, "projects" => $projectList, 'subblocks' => $subBlocksList, 'agencyList' => $enquiryFinanceTieup,
                 'enquiryLocation' => $getEnquiryLocation, 'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
-                'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList,"getCompanyList"=>$getCompanyList,
-                "getLostReasons"=>$getSalesLostReason,"getLostSubReasons"=>$getSalesLostSubReason,"projectWingList" => $projectWingList];
+                'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList, "getCompanyList" => $getCompanyList,
+                "getLostReasons" => $getSalesLostReason, "getLostSubReasons" => $getSalesLostSubReason, "projectWingList" => $projectWingList];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -626,9 +644,9 @@ class AdminController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $salesEnqSubCategoryList = [];
-        if(!empty($request['categoryId'])){
+        if (!empty($request['categoryId'])) {
             $categoryId = $request['categoryId'];
-            $salesEnqSubCategoryList = EnquirySalesSubcategory::where(['enquiry_sales_category_id' => $categoryId, 'status' => 1])->select('id', 'enquiry_sales_subcategory','listing_position')->get();
+            $salesEnqSubCategoryList = EnquirySalesSubcategory::where(['enquiry_sales_category_id' => $categoryId, 'status' => 1])->select('id', 'enquiry_sales_subcategory', 'listing_position')->get();
         }
         $result = ['success' => true, 'records' => $salesEnqSubCategoryList];
         return json_encode($result);
@@ -648,16 +666,16 @@ class AdminController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $salesEnqSubStatusList = [];
-        if(!empty($request['statusId'])){
+        if (!empty($request['statusId'])) {
             $statusId = $request['statusId'];
-            $salesEnqSubStatusList = EnquirySalesSubstatus::where(['enquiry_sales_status_id' => $statusId, 'status' => 1])->select('id', 'enquiry_sales_substatus','listing_position')->get();
+            $salesEnqSubStatusList = EnquirySalesSubstatus::where(['enquiry_sales_status_id' => $statusId, 'status' => 1])->select('id', 'enquiry_sales_substatus', 'listing_position')->get();
         }
         $result = ['success' => true, 'records' => $salesEnqSubStatusList];
-        return json_encode($result);        
+        return json_encode($result);
     }
 
-     public function getSalesLostReason() {
-        $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id','reason')->where('lost_reason_status',1)->orderBy('id')->get();
+    public function getSalesLostReason() {
+        $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id', 'reason')->where('lost_reason_status', 1)->orderBy('id')->get();
         if (!empty($getSalesLostReason)) {
             $result = ['success' => true, 'records' => $getSalesLostReason];
         } else {
@@ -670,13 +688,14 @@ class AdminController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $getSalesLostSubReason = [];
-        if(!empty($request['data']['lostReasonId'])){
+        if (!empty($request['data']['lostReasonId'])) {
             $lostReasonId = $request['data']['lostReasonId'];
-            $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id','sub_reason','listing_position')->where(['enquiry_lost_reason_id'=>$lostReasonId,'status'=>1])->get();
+            $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id', 'sub_reason', 'listing_position')->where(['enquiry_lost_reason_id' => $lostReasonId, 'status' => 1])->get();
         }
         $result = ['success' => true, 'records' => $getSalesLostSubReason];
         return json_encode($result);
     }
+
     public function getAmenitiesList() {
         $amenitiesList = MlstBmsbAmenity::select('id', 'name_of_amenity')->where("amenity_status", 1)->get();
         if (!empty($amenitiesList)) {
@@ -696,21 +715,21 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+
     public function getpaymentModeList() {
         $getpaymentModeList = \App\Models\MlstPaymentModes::all();
         if (!empty($getpaymentModeList)) {
-            $result = ['success' => true, 'records' => $getpaymentModeList];            
+            $result = ['success' => true, 'records' => $getpaymentModeList];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
     }
 
-
     public function getProjectWings() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        
+
         $projectWingList = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $request['projectId'])->get();
         if (!empty($projectWingList)) {
             return json_encode(['result' => $projectWingList, 'status' => true]);
@@ -718,12 +737,13 @@ class AdminController extends Controller {
             return json_encode(['result' => "No wings found", 'status' => false]);
         }
     }
+
     public function getBlocks() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
 
         $blockList = ProjectBlock::select('id', 'block_type_id', 'block_sub_type')->where('project_id', $request['projectId'])->get();
-        
+
         $getBlockTypeId = array();
         if (!empty($blockList)) {
             foreach ($blockList as $key => $value) {
@@ -732,19 +752,19 @@ class AdminController extends Controller {
         }
         $blockTypeId = implode(",", $getBlockTypeId);
         $blockTypeList = MlstBmsbBlockType::select('id', 'block_name')->whereIn('id', $getBlockTypeId)->get();
-        
+
         if (!empty($blockList)) {
             return json_encode(['records' => $blockTypeList, 'success' => true]);
         } else {
             return json_encode(['records' => "No wings found", 'success' => false]);
         }
     }
-    
+
     public function getSubBlocksList() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $subBlocksList = ProjectBlock::select("id", "block_sub_type")
-                ->where(["project_id" => $request['data']['projectId'],"block_type_id" => $request['data']['blockId']])->get();
+                        ->where(["project_id" => $request['data']['projectId'], "block_type_id" => $request['data']['blockId']])->get();
         if (!empty($subBlocksList)) {
             $result = ['success' => true, 'records' => $subBlocksList];
         } else {
@@ -752,6 +772,7 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+
     /*     * **************************UMA*********************************** */
 
     public function getWebPageList() {
@@ -793,18 +814,17 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
-    
-    
+
     public function getnextfollowupTime() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
 
-        //echo "<pre>";print_r($input);exit;
+//echo "<pre>";print_r($input);exit;
         $start_time = "09:00:00";
-        //$start_time = date('H:i:s', strtotime($start_time));
+//$start_time = date('H:i:s', strtotime($start_time));
         $end_time = "19:00:00";
         $interval = "15";
-        //$end_time = date('H:i:s', strtotime($end_time));
+//$end_time = date('H:i:s', strtotime($end_time));
         if (!empty($input['data']['selectedDate'])) {
             $selectedDate = date('Y-m-d', strtotime($input['data']['selectedDate']));
             $time_slot = array();
@@ -849,14 +869,19 @@ class AdminController extends Controller {
             return json_encode($result);
         }
     }
-    
-    
 
     /*     * **************************UMA*********************************** */
     /*     * *************************MANDAR******************************** */
 
     public function getEmployees() {
         $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->where("employee_status", 1)->get();
+
+        $i = 0;
+        foreach ($getEmployees as $ctEmployeesExt) {
+            $getEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
+            $i++;
+        }
+        print_r($getEmployees);
         if (!empty($getEmployees)) {
             $result = ['success' => true, 'records' => $getEmployees];
         } else {
@@ -874,6 +899,7 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
+
     public function getSalesSource() {
         $getSalesSource = MlstBmsbEnquirySalesSource::all();
         if (!empty($getSalesSource)) {
@@ -883,19 +909,20 @@ class AdminController extends Controller {
         }
         return json_encode($result);
     }
-   /* public function getEnquirySubSource() {
-        $postdata = file_get_contents('php://input');
-        $request = json_decode($postdata, true);
-        $sourceId = $request['data']['sourceId'];
-        $getsubSource = EnquirySalesSubSource::where('enquiry_sales_source_id', $sourceId)->get();
-       
-        if (!empty($getsubSource) && count($getsubSource) > 0) {           
-            $result = ['success' => true, 'records' => $getsubSource];
-        } else {
-            $result = ['success' => false, 'message' => 'No records found'];
-        }
-        return json_encode($result);
-    }*/
+
+    /* public function getEnquirySubSource() {
+      $postdata = file_get_contents('php://input');
+      $request = json_decode($postdata, true);
+      $sourceId = $request['data']['sourceId'];
+      $getsubSource = EnquirySalesSubSource::where('enquiry_sales_source_id', $sourceId)->get();
+
+      if (!empty($getsubSource) && count($getsubSource) > 0) {
+      $result = ['success' => true, 'records' => $getsubSource];
+      } else {
+      $result = ['success' => false, 'message' => 'No records found'];
+      }
+      return json_encode($result);
+      } */
 
     /*     * *************************MANDAR******************************** */
     /*     * *************************Rohit******************************** */

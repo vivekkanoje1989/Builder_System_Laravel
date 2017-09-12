@@ -29,6 +29,14 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
             });
         };
+        
+        $scope.deleteTheme = function (id, index) {
+            Data.post('website/deleteTheme', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Themes', 'Theme deleted successfully');
+                $scope.themesRow.splice(index, 1);
+            });
+        }
         $scope.initialModal = function (id, theme_name, image, index, index1) {
 
             if (id == 0)
@@ -55,7 +63,6 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
 
         $scope.themeExportToxls = function () {
-            alert('fg0');
             $scope.getexcel = window.location = "/website-themes/themeExportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
@@ -65,7 +72,6 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         };
 
         $scope.doThemesAction = function (imageUrl, themeData) {
-            $scope.webTheme = true;
             $scope.errorMsg = '';
             if ($scope.id == '0')
             {
@@ -106,6 +112,8 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                     });
 
                 } else {
+                    alert('ghfgh')
+                     $scope.webTheme = false;
                     var obj = response.data.message;
                     var selector = [];
                     for (var key in obj) {

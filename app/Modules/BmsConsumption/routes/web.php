@@ -7,6 +7,8 @@ Route::group(array('module' => 'BmsConsumption', 'middleware' => ['web'], 'names
     
 //    Route::resource('bmsConsumption', 'BmsConsumptionController');
     Route::get('/bmsConsumption/smsConsumption', 'BmsConsumptionController@smsConsumption');
+    Route::get('/bmsConsumption/smsLogsExportToxls', 'BmsConsumptionController@smsLogsExportToxls');
+    Route::get('/bmsConsumption/smsLogDetailsExportToxls/{transId}', 'BmsConsumptionController@smsLogDetailsExportToxls');
     Route::get('/bmsConsumption/smsReport', 'BmsConsumptionController@smsReport');
     Route::get('/bmsConsumption/smsLogs', 'BmsConsumptionController@smsLogs');
     Route::post('/bmsConsumption/allSmsLogs', 'BmsConsumptionController@allSmsLogs');

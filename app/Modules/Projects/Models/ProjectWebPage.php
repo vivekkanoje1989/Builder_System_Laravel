@@ -77,6 +77,7 @@ class ProjectWebPage extends Eloquent
 {
         protected $table = 'project_web_pages';
 	protected $casts = [
+		'client_id' => 'int',
 		'project_id' => 'int',
 		'alias_status' => 'int',
 		'project_country' => 'int',
@@ -100,6 +101,7 @@ class ProjectWebPage extends Eloquent
 	];
 
 	protected $fillable = [
+		'client_id',
 		'project_id',
 		'alias_status',
 		'project_alias',

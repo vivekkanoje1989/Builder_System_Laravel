@@ -194,8 +194,8 @@
         </div>
     </div>
     <!-- Filter Form Start-->
-    <div class="wrap-filter-form show-widget" id="slideout">
-        <form name="blockStageFilter" role="form" ng-submit="filterDetails(searchDetails)">
+    <div class="wrap-filter-form show-widget" id="slideout" ng-controller="adminController" >
+        <form name="blockStageFilter" role="form" ng-submit="filterDetails(searchDetails)"  ng-init="getEmployeeData()">
             <strong>Filter</strong>   
             <button type="button" class="close toggleForm" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -206,18 +206,18 @@
                         <label for="">Employee<span class="sp-err">*</span></label>   
                         <select class="form-control"  ng-model="searchDetails.employee" name="employee" id="employee_id" >
                             <option value="">Select Employee</option>
-                            <option ng-repeat="item in ext_employee" value="{{item.first_name}}({{item.designation}})" ng-selected="{{ item.id == searchDetails.employee}}" >{{item.first_name}}&nbsp;({{item.designation}})</option>
+                            <option ng-repeat="item in ct_employee" value="{{item.employee}}" ng-selected="{{ item.employee == searchDetails.employee}}" >{{item.employee}}</option>
                         </select>
 
                     </div>
 
                 </div>
-                <div class="col-sm-12">
+                <div class="col-sm-12" ng-controller="extensionemployeeController" ng-init="getEmployeeExtData()">
                     <div class="form-group">
-                        <label for="">Extension Number<span class="sp-err">*</span></label>
-                        <select class="form-control"  ng-model="searchDetails.extension_no" name="extension_no" id="extension_no" >
+                        <label for="">Extension Number</label>
+                        <select class="form-control"  ng-model="searchDetails.extension_no" name="extension_no" id="extension_no">
                             <option value="">Select Extension</option>
-                            <option ng-repeat="item in ext_number" value="{{item}}" ng-selected="{{ item == searchDetails.extension_no}}">Extension&nbsp;{{item}}</option>
+                            <option ng-repeat="item in extNumber" value="{{item}}" ng-selected="{{ item == searchDetails.extension_no}}">Extension&nbsp;{{item}}</option>
                         </select>
 
                     </div>
