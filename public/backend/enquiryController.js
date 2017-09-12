@@ -515,6 +515,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 } else
                 {
                     $scope.sendList = [];
+                    $scope.sendList.len = 0;
                 }
             });
         }

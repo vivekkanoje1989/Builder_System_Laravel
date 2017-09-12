@@ -29,6 +29,8 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['api'], 'namespac
     Route::post('api/master-sales/getPendingFollowups', 'MasterSalesController@getPendingFollowups'); // get getPendingFollowups
     Route::post('api/master-sales/previousFollowups', 'MasterSalesController@previousFollowups'); // get getPreviousFollowups
     Route::post('api/master-sales/BulkReasignEmployee', 'MasterSalesController@BulkReasignEmployee');
+    Route::post('api/master-sales/getDocumentsList', 'MasterSalesController@getDocumentsList');// get documents  //uma 
+    Route::post('api/master-sales/insertSendDocument', 'MasterSalesController@insertSendDocument');// get documents  //uma 
     /****************************FOLLOWUPS****************************/
     
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
