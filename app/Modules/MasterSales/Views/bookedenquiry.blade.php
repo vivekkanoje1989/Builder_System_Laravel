@@ -34,7 +34,7 @@
                                 <div ng-if="enquiriesLength != 0">
                                     <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-right: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                                    <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-right: 5px;">
+                                    <a href id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-right: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                                     </a> 
                                 </div>
@@ -111,17 +111,17 @@
                     </td>
                     <td width="20%">
                         <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
-                        <div ng-if="[[Auth::guard('admin') - > user() - > customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
+                        <div ng-if="[[Auth::guard('admin')->user()-> customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
                             <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                 <a style="cursor: pointer;" class="Linkhref"
-                                   ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin') - > user() - > id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                   ng-if="mobile_obj != null" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin')->user()->id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                     <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
                                 </a>
                                 {{ mobile_obj}}
                             </span>
                         </div>
                         <div ng-init="mobile_list = enquiry.mobile.split(',')">
-                            <p ng-if="[[ Auth::guard('admin') - > user() - > customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
+                            <p ng-if="[[ Auth::guard('admin')->user()->customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
                                 <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
                                     +91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}
                                 </span>
@@ -224,14 +224,14 @@
                             </span></div>
                         <hr class="enq-hr-line">
                         <div>
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                         </div>
 
                     </td>
                     <td width="20%">
                         <div><b>Booked On : </b>{{ enquiry.last_followup_date}}</div><hr class="enq-hr-line">
                         <div><a href data-toggle="modal" data-target="#collectionModal" ng-click="getCollectionDetails({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Booking Details</a></div>
-                        <!--<div><a href="#/sales/collection/{{enquiry.id}}">Add Collection</a></div>-->
+                        <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
                     </td>
                     </tr>
                     </tbody>              
@@ -245,7 +245,21 @@
                 </div>
 
             </div>
-
+            <!-- send Document Data Modal ===================================================================================== -->
+            <div class="modal fade modal-primary" id="sendDocumentDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header navbar-inner">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" align="center">Send Documents</h4>
+                        </div>                        
+                        <div data-ng-include=" '/MasterSales/sendDocument'"></div>
+                        <div class="modal-footer" align="center">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Today history model =============================================================================-->
             <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">

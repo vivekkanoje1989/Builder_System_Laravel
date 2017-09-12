@@ -451,6 +451,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $("li#historyTab").removeClass('active');
                 $("li#documentTab").addClass('active');
                 $("#documentTab a").trigger("click");
+                $scope.documentList(0);
             }, 200);
             Data.post('master-sales/sendDocuments', {enquiryId: id}).then(function (response) {
                 if (response.success)
@@ -494,7 +495,16 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
             $scope.SelectedDocs = flag;
             Data.post('master-sales/insertSendDocument', {documentData: documentdata, isUpdate: $scope.editableCustInfo, sendDocument: $scope.SelectedDocs, enquiry_id: $rootScope.enquiryId, }).then(function (response) {
-
+                    if(response.success)
+                    {
+                        toaster.pop('success', 'Sent Documents', "Document Sent successfully");
+                        $(".sendDocumentDataModal").hide('fast');
+                        $state.reload();
+                    }
+                    else
+                    {
+                        toaster.pop('error', 'Sent Documents', "Error While Document Sent");
+                    }
             });
         }
         $scope.sendingList = function ()
@@ -515,6 +525,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 } else
                 {
                     $scope.sendList = [];
+                    $scope.sendList.len = 0;
                 }
             });
         }

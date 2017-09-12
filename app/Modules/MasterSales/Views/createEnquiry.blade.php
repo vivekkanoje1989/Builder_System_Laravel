@@ -15,7 +15,7 @@
                             <span class="input-icon icon-right">
                                 <select ng-model="enquiryData.title_id" ng-controller="titleCtrl" name="title_id" class="form-control" required="required">
                                     <option value="">Select Title</option>
-                                    <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == userData.title_id}}">{{t.title}}</option>
+                                    <option ng-repeat="t in titles track by $index" value="{{t.id}}" ng-selected="{{ t.id == enquiryData.title_id}}">{{t.title}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>                               
                             </span>
@@ -28,7 +28,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.first_name.$dirty && enquiryForm.first_name.$invalid)}">
                             <label for="">First Name <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input class="form-control" type="text" maxlength="7" ng-model="enquiryData.first_name" name="first_name" required>
+                                <input class="form-control" type="text" maxlength="15" ng-model="enquiryData.first_name" name="first_name" required>
                                 <i class="fa fa-money"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.first_name.$error" class="help-block enqFormBtn">
@@ -40,7 +40,7 @@
                         <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.last_name.$dirty && enquiryForm.last_name.$invalid)}">
                             <label for="">Last Name <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <input class="form-control" type="text" maxlength="7" ng-model="enquiryData.last_name" name="first_name" required>
+                                <input class="form-control" type="text" maxlength="15" ng-model="enquiryData.last_name" name="first_name" required>
                                 <i class="fa fa-money"></i>
                             </span>
                             <div ng-show="enqFormBtn" ng-messages="enquiryForm.last_name.$error" class="help-block enqFormBtn">
@@ -273,7 +273,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div>
                 <div class="col-lg-12 col-sm-12 col-xs-12"  ng-controller="enquiryCityCtrl">
                     <div class="form-title">Preferences</div>
                     <div class="row col-sm-3 col-md-3 col-xs-12">
@@ -336,8 +336,8 @@
                     </div>                        
                 </div>
             </div>
-            <div class="form-title">Interested Projects</div>
-            <div class="row" ng-controller="blockTypeCtrl">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="form-title">Interested Projects</div>
+            <div ng-controller="blockTypeCtrl">
                 <div class="col-sm-3 col-xs-6">
                     <div class="form-group" ng-class="{ 'has-error' : !enquiryData.project_id && emptyProjectId}">
                         <label for="">Project</label>
@@ -387,7 +387,7 @@
                     </div>
                 </div>                   
             </div>
-            <div class="row">
+            <div>
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <div class="widget">
                         <div class="widget-header">

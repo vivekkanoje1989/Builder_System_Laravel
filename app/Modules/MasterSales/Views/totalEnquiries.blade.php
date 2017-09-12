@@ -34,7 +34,7 @@
                                 <div ng-if="enquiriesLength != 0">
                                     <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                                    <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-left: 5px;">
+                                    <a href id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-left: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                                     </a> 
                                 </div>
@@ -232,7 +232,7 @@
                                 </div>                                
                                 <hr class="enq-hr-line">
                                 <div>
-                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                                    <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                                 </div>
 
                             </td>
@@ -241,7 +241,7 @@
                                 <hr class="enq-hr-line">
                                 <div>
                                     <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
-                                    <a href="javascript:void(0)" ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
+                                    <a href ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
                                     <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
                                 </div>
                             </td>
@@ -288,7 +288,6 @@
                 </div>
             </div>   
             <!-- send Document Data Modal ===================================================================================== -->
-
             <div class="modal fade modal-primary" id="sendDocumentDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog modal-lg">
                     <!-- Modal content-->
