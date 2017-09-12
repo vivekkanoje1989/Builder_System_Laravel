@@ -91,7 +91,7 @@
                                             </div>
                                         </div>  
                                     </div>
-                                    <div class="col-sm-12 col-xs-12 col-md-12">{{SelectedDocs}}{{SelectedDocs.length }}
+                                    <div class="col-sm-12 col-xs-12 col-md-12">
                                         <div class="col-sm-12 col-xs-12"  ng-show="(documentListData |    json) !=    '{}'">
                                             <label> Select Documents</label>
                                             <!--                                                    <label> 
@@ -127,14 +127,17 @@
                                     </th>
                                     <th style="width: 75px">
                                         Documents
-                                    </th>                                       
+                                    </th>  
+                                    <th style="width: 10px">
+                                        Send By
+                                    </th> 
                                     <th style="width: 10px">
                                         Send Date
                                     </th>                
                                 </tr>
                             </thead>
-                            <tbody ng-repeat="history in sendList track by $index | orderBy:orderByField:reverseSort">
-                                <tr role="row" >
+                            <tbody>                                
+                                <tr role="row"  ng-repeat="history in sendList track by $index | orderBy:orderByField:reverseSort">
                                     <td rowspan="2">
                                         {{ $index + 1}}
                                     </td>
@@ -147,7 +150,7 @@
                                                 <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
                                                 {{key| split:"_images":0 | underscoreless:' ' | capitalize }}                                                
                                             </span>
-                                           <div ng-if="key == 'layout_plan_images'">
+                                            <div ng-if="key == 'layout_plan_images'">
                                                 <strong ng-repeat="layoutimg in value track by $index" >
                                                     <b ng-if="(layoutimg.layout_plan_images  | split:'.':1) !== 'pdf' "><a  ng-click="openImage('{{ key}}','{{ layoutimg.layout_plan_images}}')" style='cursor: pointer;' tooltip-placement="top" tooltip-html-unsafe="<img src='https://storage.googleapis.com/bkt_bms_laravel/project/{{key}}/{{layoutimg.layout_plan_images}}' style='width:150px;height:150px;'>">
                                                         {{ layoutimg.layout_plan_images  | split:'.':0 }}&nbsp;&nbsp;&nbsp;</a>
@@ -167,7 +170,17 @@
                                                     </b>
                                                 </strong>
                                             </div>
-                                            <div ng-if="key != 'layout_plan_images' && key != 'floor_plan_images'" ng-init="list_data = value.split(',')">
+                                             <div ng-if="key == 'specification_images'">
+                                                <strong ng-repeat="layoutimg in value track by $index" >
+                                                    <b ng-if="(layoutimg.specification_images  | split:'.':1) !== 'pdf' "><a  ng-click="openImage('{{ key}}','{{ layoutimg.specification_images}}')" style='cursor: pointer;' tooltip-placement="top" tooltip-html-unsafe="<img src='https://storage.googleapis.com/bkt_bms_laravel/project/{{key}}/{{layoutimg.specification_images }}' style='width:150px;height:150px;'>">
+                                                        {{ layoutimg.specification_images  | split:'.':0 }}&nbsp;&nbsp;&nbsp;</a>
+                                                    </b>
+                                                    <b ng-if="(layoutimg.specification_images  | split:'.':1) == 'pdf' "><a  ng-click="openImage('{{ key}}','{{ layoutimg.specification_images }}')" style='cursor: pointer;' tooltip-placement="top" tooltip-html-unsafe="<img src='http://www.fewa.gov.ae/en/Careers/PublishingImages/Pages/careers/cv1.png' style='width:150px;height:150px;'>">
+                                                        {{ layoutimg.specification_images  | split:'.':0 }}&nbsp;&nbsp;&nbsp;</a>
+                                                    </b>
+                                                </strong>
+                                            </div>
+                                            <div ng-if="key != 'layout_plan_images' && key != 'floor_plan_images' && key != 'specification_images' " ng-init="list_data = value.split(',')">
                                                 <strong ng-repeat="list_obj in list_data track by $index" >
                                                     <b ng-if="(list_obj  | split:'.':1) !== 'pdf' "><a  ng-click="openImage('{{ key}}','{{ list_obj}}')" style='cursor: pointer;' tooltip-placement="top" tooltip-html-unsafe="<img src='https://storage.googleapis.com/bkt_bms_laravel/project/{{key}}/{{list_obj}}' style='width:150px;height:150px;'>">
                                                         {{ list_obj  | split:'.':0 }}&nbsp;&nbsp;&nbsp;</a>
@@ -181,11 +194,14 @@
                                         </div>
                                     </td>
                                     <td>
+                                        {{ history.first_name}}   {{ history.last_name}} 
+                                    </td>
+                                    <td>
                                         {{ history.send_datetime}}
                                     </td>
                                 </tr>
-                                <tr ng-if="sendList.length > 0">
-                                    
+                                <tr ng-if="!sendList.length">
+                                    <td colspan="5"><center>No Records Found</center></td>
                                 </tr>
                             </tbody>
                         </table>

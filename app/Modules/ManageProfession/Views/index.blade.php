@@ -19,7 +19,7 @@
                 <span class="widget-caption">Manage Profession</span>                
             </div>
             <div class="widget-body table-responsive">
-                
+
                 <div class="row table-toolbar">
                     <a href="" data-toggle="modal" data-target="#professionModal" ng-click="initialModal(0, '', '')" class="btn btn-default">Create Profession</a>
                     <div class="btn-group pull-right">
@@ -28,7 +28,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="professionExportToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="professionExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -106,7 +106,8 @@
                                 <td>{{ list.profession}}</td> 
                                 <td>{{ list.status == 1 ? "Active" : "Inactive" }}</td> 
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit profession" style="display: block;" data-toggle="modal" data-target="#professionModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.profession}}','{{list.status}}',{{ itemsPerPage}},{{$index}})"class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <span class="" tooltip-html-unsafe="Edit profession" data-toggle="modal" data-target="#professionModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.profession}}','{{list.status}}',{{ itemsPerPage}},{{$index}})"class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteProfession({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
                         </tbody>

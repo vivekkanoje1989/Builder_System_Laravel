@@ -69,7 +69,7 @@
                             <span class="input-icon icon-right">
                                 <select ng-model="customerData.gender_id" name="gender_id" id="gender_id" ng-controller="genderCtrl" class="form-control" required>
                                     <option value="">Select Gender</option>
-                                    <option ng-repeat="genderList in genders track by $index" value="{{genderList.id}}" ng-selected="{{ genderList.id == customerData.gender}}">{{genderList.gender}}</option>
+                                    <option ng-repeat="genderList in genders track by $index" value="{{genderList.id}}" ng-selected="{{ genderList.id == customerData.gender_id }}">{{genderList.gender}}</option>
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.gender_id.$error" class="help-block errMsg">
@@ -102,7 +102,7 @@
                             <span class="input-icon icon-right">
                                 <select class="form-control" ng-model="customerData.profession_id" name="profession_id" id="profession_id" ng-controller="professionCtrl">
                                     <option value="">Select Profession</option>
-                                    <option ng-repeat="t in professions track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.profession}}">{{t.profession}}</option>
+                                    <option ng-repeat="t in professions track by $index" value="{{t.id}}" ng-selected="{{ t.id == customerData.profession_id }}">{{t.profession}}</option>
                                 </select>                
                                 <i class="fa fa-sort-desc"></i>
                                 <div ng-show="formButton" ng-messages="customerForm.profession_id.$error" class="help-block errMsg">

@@ -30,6 +30,14 @@ app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Da
             }
         }
 
+        $scope.deleteCountry = function (id, index) {
+            Data.post('manage-country/deleteCountry', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage Country', 'Country deleted successfully');
+                $scope.countryRow.splice(index, 1);
+            });
+        }
+
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {

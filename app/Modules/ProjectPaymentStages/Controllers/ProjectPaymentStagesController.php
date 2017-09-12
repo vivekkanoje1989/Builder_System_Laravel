@@ -19,7 +19,7 @@ class ProjectPaymentStagesController extends Controller {
     }
 
     public function manageProjectPaymentStages() {
-        $getProjectPayment = LstDlProjectStages::select('stage_name', 'project_type_id', 'fix_stage', 'id')->get();
+        $getProjectPayment = LstDlProjectStages::select('stage_name', 'project_type_id', 'fix_stage', 'id')->where('deleted_status', '!=', 1)->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -33,6 +33,19 @@ class ProjectPaymentStagesController extends Controller {
         }
         return json_encode($result);
     }
+    
+     public function deleteProjectStages() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['projectstageData'] = array_merge($request, $create);
+        $projectstages = LstDlProjectStages::where('id', $request['id'])->update($input['projectstageData']);
+        $result = ['success' => true, 'result' => $projectstages];
+        return json_encode($result);
+    }
+
+    
 
     public function projectPaymentStagesExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);

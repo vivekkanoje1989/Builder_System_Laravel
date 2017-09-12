@@ -97,7 +97,8 @@
                                 <td>{{ listLostReason.reason}}</td>                           
                                 <td>{{ (listLostReason.lost_reason_status) == 1 ? 'Active' :'In Active'}}</td> 
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit Lost Reason" style="display: block;" data-toggle="modal" data-target="#lostReasonModal"><a href="javascript:void(0);" ng-click="initialModal({{ listLostReason.id}},'{{ listLostReason.reason}}',{{ listLostReason.lost_reason_status}},{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <span class="" tooltip-html-unsafe="Edit Lost Reason" data-toggle="modal" data-target="#lostReasonModal"><a href="javascript:void(0);" ng-click="initialModal({{ listLostReason.id}},'{{ listLostReason.reason}}',{{ listLostReason.lost_reason_status}},{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteLostReason({{listLostReason.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                         </tbody>

@@ -19,7 +19,7 @@
                 <span class="widget-caption">Manage Device Information</span>                
             </div>
             <div class="widget-body table-responsive">
-              
+
                 <div class="row table-toolbar">
                     <a  href="[[ config('global.backendUrl') ]]#/employeeDevice/create" class="btn btn-default">Add Device</a>
                     <div class="btn-group pull-right">
@@ -28,7 +28,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="employeeDeviceExportToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="employeeDeviceExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -113,7 +113,7 @@
                                         </span>
                                     </a>
                                 </th>                           
-                                <th style="width: 5%">Actions</th>
+                                <th style="width: 15%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -128,7 +128,8 @@
                                 <td ng-if="listDevice.device_status == 1">Active</td>
                                 <td ng-if="listDevice.device_status == 0">Inactive</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit Information" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/employeeDevice/update/{{ listDevice.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>                               
+                                    <span class="" tooltip-html-unsafe="Edit Information" ><a href="[[ config('global.backendUrl') ]]#/employeeDevice/update/{{ listDevice.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>                               
+                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmployeeDevice({{listDevice.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                         </tbody>

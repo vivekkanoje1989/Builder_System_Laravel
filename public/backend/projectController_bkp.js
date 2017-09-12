@@ -103,7 +103,117 @@ app.controller('projectController', ['$rootScope','$scope', '$state', 'Data', 't
                 Data.post('projects/uploadsData', {
                     getDataByPrid: prid,
                 }).then(function (response) {
+<<<<<<< HEAD
                     console.log(response);
+=======
+                   $scope.projectImages = response.uploadData;
+                });
+            }
+        }
+
+//}]);
+//app.controller('basicInfoController', ['$scope', 'Data', 'toaster', 'Upload', '$timeout', '$state', '$stateParams', function ($scope, Data, toaster, Upload, $timeout, $state, $stateParams) {
+        $scope.projectData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.inventoryData = $scope.amenityData = $scope.galleryData = $scope.specificationData = {};
+        $scope.statusRow = [];
+        $scope.statusImages = [];
+        $scope.specificationTitle = [];
+        $scope.floorTitle = [];
+        $scope.layoutTitle = [];
+        $scope.itemsPerPage = 30;
+        $scope.noOfRows = 1;
+        $scope.lmodalForm = {};
+
+        $scope.pageChangeHandler = function (num) {
+            $scope.noOfRows = num;
+            $scope.currentPage = num * $scope.itemsPerPage;
+        };
+
+        $scope.projectData.project_country = $scope.projectData.project_state = $scope.projectData.project_city = "";
+
+        $scope.manageproject = function ()
+        {
+            Data.get('projects/manageProjects').then(function (response) {
+                $scope.projectRow = response.records;
+                $scope.exportData = response.exportData;
+            });
+        }
+       
+        
+        
+        $scope.manageProjectsExportToExcel = function () {
+            $scope.getexcel = window.location = "/projects/manageProjectsExportToExcel";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+
+        $scope.filterDetails = function (search) {
+            if (search.joining_date != undefined) {
+                var today = new Date(search.joining_date);
+                search.joining_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
+            }
+            if (search.login_date_time != undefined) {
+                var loginDate = new Date(search.login_date_time);
+                search.login_date_time = (loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
+            }
+            $scope.searchData = search;
+
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        $scope.resetLayoutDetails = function () {
+            $scope.lmodalForm = {};
+        }
+
+        $scope.getProjectDetails = function (projectId) { //get project details
+            Data.get('projects/getProjectDetails/' + projectId).then(function (response) {
+                if (!response.success) {
+                    $scope.projectData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.inventoryData = $scope.amenityData = $scope.galleryData = $scope.specificationData = {};
+                    $scope.statusRow = $scope.statusImages = $scope.specificationTitle = $scope.floorTitle = $scope.layoutTitle = [];
+                    $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
+                    $scope.projectData.project_id = projectId;
+                    $scope.wingList = $scope.floorList = [];
+                    $scope.notFound = true;
+                } else {
+                    Data.post('getStates', {
+                        data: {countryId: response.details.project_country},
+                    }).then(function (responseState) {
+                        if (!responseState.success) {
+                            $scope.errorMsg = responseState.message;
+                        } else {
+                            $scope.stateList = responseState.records;
+                            $scope.contactData.project_state = angular.copy(response.details.project_state);
+                            Data.post('getCities', {
+                                data: {stateId: response.details.project_state},
+                            }).then(function (responseCity) {
+                                if (!responseCity.success) {
+                                    $scope.errorMsg = responseCity.message;
+                                } else {
+                                    $scope.cityList = responseCity.records;
+                                    Data.post('getLocations', {
+                                        data: {countryId: response.details.project_country, stateId: response.details.project_state, cityId: response.details.project_city},
+                                    }).then(function (responseLoc) {
+                                        if (!responseLoc.success) {
+                                            $scope.errorMsg = responseLoc.message;
+                                        } else {
+                                            $scope.locationList = responseLoc.records;
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
+>>>>>>> b0e951a59ff80c4b7d77329a62146306fb91bfa8
                     Data.post('projects/getAmenitiesListOnEdit', {
                         data: response.uploadData.project_amenities_list,
                         async: false,

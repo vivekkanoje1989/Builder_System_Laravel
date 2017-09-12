@@ -21,6 +21,14 @@ app.controller('paymentHeadingController', ['$scope', 'Data', 'toaster', '$rootS
             });
         };
         
+         $scope.deletePaymentHeading = function (id, index) {
+            Data.post('payment-headings/deletePaymentHeading', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Payment Headings', 'Payment Heading deleted successfully');
+                $scope.paymentDetails.splice(index, 1);
+            });
+        }
+        
         $scope.paymentHeadingExportToxls = function () {
             $scope.getexcel = window.location = "payment-headings/paymentHeadingExportToxls";
             if ($scope.getexcel) {

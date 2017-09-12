@@ -18,7 +18,9 @@ class DiscountHeadingsController extends Controller {
     }
 
     public function manageDiscountHeadings() {
-        $getDiscountname = LstDlDiscounts::select('discount_name', 'status', 'id')->get();
+        $getDiscountname = LstDlDiscounts::select('discount_name', 'status', 'id')
+                ->where('deleted_status', '!=', 1)
+                ->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -30,6 +32,17 @@ class DiscountHeadingsController extends Controller {
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
+        return json_encode($result);
+    }
+
+    public function deleteDiscountHeading() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['discountData'] = array_merge($request, $create);
+        $discount = LstDlDiscounts::where('id', $request['id'])->update($input['discountData']);
+        $result = ['success' => true, 'result' => $discount];
         return json_encode($result);
     }
 
@@ -45,12 +58,12 @@ class DiscountHeadingsController extends Controller {
             for ($i = 0; $i < count($getDiscountname); $i++) {
                 $discountData['Sr No.'] = $j++;
                 $discountData['Discount Name'] = $getDiscountname[$i]['discount_name'];
-                if($getDiscountname[$i]['status'] == '1'){
-                     $discountData['Status'] = 'Active';
-                }else{
+                if ($getDiscountname[$i]['status'] == '1') {
+                    $discountData['Status'] = 'Active';
+                } else {
                     $discountData['Status'] = 'In Active';
                 }
-               
+
                 $manageDiscountname[] = $discountData;
             }
 

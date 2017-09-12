@@ -154,7 +154,7 @@
                                                             {{mobile_obj}}
                                                         </span>
                                                     </div>
-                                                    <p>{{enquiry.email_id}}</p>
+                                                    <p ng-if="enquiry.email_id != '' && enquiry.email_id !='null' ">{{enquiry.email_id}}</p>
                                                     <hr class="enq-hr-line">
                                                     <div>
                                                         <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{ enquiry.customer_id}})</a>
@@ -168,8 +168,8 @@
                                                      <hr class="enq-hr-line">
                                                     Category :  {{enquiry.enquiry_category}}
                                                      <hr class="enq-hr-line">
-                                                    Model : {{enquiry.model_name}} 
-                                                     <hr class="enq-hr-line">
+<!--                                                    Project : {{enquiry.project_name}} 
+                                                     <hr class="enq-hr-line">-->
                                                     <div>
                                                         <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id }}/eid/{{ enquiry.id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
                                                     </div>

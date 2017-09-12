@@ -100,7 +100,7 @@
                                         </span>
                                     </a>
                                 </th> 
-                                <th style="width: 5%">Actions</th>
+                                <th style="width: 15%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -109,7 +109,8 @@
                                 <td>{{ list.department_name}}</td>                          
                                 <td>{{ list.verticalData}}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit department" style="display: block;" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},{{list}},{{ itemsPerPage}},{{$index}})"  class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <span class="" tooltip-html-unsafe="Edit department" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},{{list}},{{ itemsPerPage}},{{$index}})"  class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDepartment({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
                         </tbody>

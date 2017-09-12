@@ -20,7 +20,9 @@ class ManageDepartmentController extends Controller {
     }
 
     public function manageDepartment() {
-        $getDepartments = MlstBmsbDepartment::with(['vertical'])->select('department_name', 'id', 'vertical_id')->get();
+        $getDepartments = MlstBmsbDepartment::with(['vertical'])->select('department_name', 'id', 'vertical_id')
+                ->where('deleted_status', '!=', 1)
+                ->get();
         $i = 0;
         foreach ($getDepartments as $getDepartment) {
             $getDepartments[$i]['verticalData'] = $getDepartment['vertical']['name'];
@@ -38,6 +40,17 @@ class ManageDepartmentController extends Controller {
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
+        return json_encode($result);
+    }
+
+    public function deleteDepartment() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['departmentData'] = array_merge($request, $create);
+        $departmentData = MlstBmsbDepartment::where('id', $request['id'])->update($input['departmentData']);
+        $result = ['success' => true, 'result' => $departmentData];
         return json_encode($result);
     }
 

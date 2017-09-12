@@ -7,6 +7,7 @@ Route::group(array('module' => 'BlockStages', 'middleware' => ['auth:admin'], 'n
     Route::post('/block-stages/manageBlockStages', 'BlockStagesController@manageBlockStages');
     Route::post('/block-stages/manageProjectTypes', 'BlockStagesController@manageProjectTypes');
     Route::post('/block-stages/filteredData', 'BlockStagesController@filteredData');
+    Route::post('/block-stages/deleteBlockStage', 'BlockStagesController@deleteBlockStage');
     Route::put('/block-stages/{id}', 'BlockStagesController@update'); //update block data
     Route::resource('/block-stages', 'BlockStagesController');
     Route::get('/BlockStages/showFilter', function () {

@@ -20,6 +20,14 @@ app.controller('manageDepartmentCtrl', ['$scope', 'Data', '$rootScope', '$timeou
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
+        $scope.deleteDepartment = function (id, index) {
+            Data.post('manage-department/deleteDepartment', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage Department', 'Department deleted successfully');
+                $scope.departmentRow.splice(index, 1);
+            });
+        }
+        
         
         $scope.initialModal = function (id, list, index, index1) {
             if (id == 0)

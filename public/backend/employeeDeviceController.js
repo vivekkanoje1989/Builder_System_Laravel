@@ -34,6 +34,14 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
             }
         }
         
+         $scope.deleteEmployeeDevice = function (id, index) {
+            Data.post('employee-device/deleteEmployeeDevice', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Employee Device', 'Employee Device deleted successfully');
+                $scope.listDevices.splice(index, 1);
+            });
+        }
+        
         $scope.manageDevice = function (id, action)
         {
             Data.post('employee-device/manageDevice', {

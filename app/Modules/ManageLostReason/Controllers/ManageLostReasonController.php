@@ -18,7 +18,7 @@ class ManageLostReasonController extends Controller {
     }
 
     public function manageLostReason() {
-        $data = MlstBmsbEnquiryLostReasons::select('id', 'reason', 'lost_reason_status')->get();
+        $data = MlstBmsbEnquiryLostReasons::select('id', 'reason', 'lost_reason_status')->where('deleted_status', '!=', 1)->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -33,6 +33,18 @@ class ManageLostReasonController extends Controller {
         echo json_encode($result);
     }
 
+    public function deleteLostReason() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['lostReasonData'] = array_merge($request, $create);
+        $lostReasonData = MlstBmsbEnquiryLostReasons::where('id', $request['id'])->update($input['lostReasonData']);
+        $result = ['success' => true, 'result' => $lostReasonData];
+        return json_encode($result);
+        
+    }
+    
     public function lostReasonExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {

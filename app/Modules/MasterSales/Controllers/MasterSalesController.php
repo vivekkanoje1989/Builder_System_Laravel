@@ -2969,6 +2969,7 @@ Regards,<br>
             //echo"<pre>";print_r($list[0]->floor_plan_images);exit;
             $list[0]->floor_plan_images = json_decode($list[0]->floor_plan_images , true);
             $list[0]->layout_plan_images = json_decode($list[0]->layout_plan_images , true);
+            $list[0]->specification_images = json_decode($list[0]->specification_images , true);
             if(count($list) > 0)
             {
                 $result =  ["success" => true, "records" => $list];
@@ -2987,42 +2988,17 @@ Regards,<br>
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata,true);
             $doc = array();
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-            //print_r($request);exit;
+            if(!empty($request['loggedInUserId'])){
+                $loggedInUserId = $request['loggedInUserId'];
+            }
+            else
+            {
+                $loggedInUserId = Auth::guard('admin')->user()->id;
+            }
             if($request['isUpdate'])
             { // update customer
                 $update =Customer::where('id',$request['documentData']['customer_id'])->update(['first_name'=>$request['documentData']['customer_fname'],'last_name'=>$request['documentData']['customer_lname'],'title_id'=>$request['documentData']['title_id']]);               
-            }
-            // sms mail template             
-            $templatedata['employee_id'] = $loggedInUserId;
-            $templatedata['client_id'] = config('global.client_id');
-            $templatedata['template_setting_customer'] = 47;
-            $templatedata['template_setting_employee'] = 0;
-            $templatedata['customer_id'] = $request['documentData']['customer_id'];
-            $templatedata['project_id'] = $request['documentData']['project_id'];
-            
-            //$templatedata['cust_attached_file'] = 'http://www.pdf995.com/samples/pdf.pdf';
-            $templatedata['cust_attached_file'] = !empty($project_brochure) ? 'http://www.pdf995.com/samples/pdf.pdf' : '';
-            $layoutPlan = $locationMap = $floorPlan = $amenities = $videoLink = '';
-            $templatedata['arrExtra'][0] = array(
-                '[#layoutPlan#]',
-                '[#floorPlan#]',
-                '[#locationMap#]',                
-                '[#Amenities#]',
-                '[#videoLink#]',
-            );
-            $templatedata['arrExtra'][1] = array(
-                $layoutPlan,
-                $floorPlan,
-                $locationMap,
-                $amenities,
-                $videoLink,
-            );
-            //print_r($request['sendDocument']);exit;
-            //$Templateresult = CommonFunctions::templateData($templatedata);
-            //print_r($Templateresult);exit;
-            
-            // insert into send document history
+            }            
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $insertDocument['enquiry_id'] =$request['enquiry_id'] ;
             $insertDocument['project_id'] = $request['documentData']['project_id'];
@@ -3030,21 +3006,90 @@ Regards,<br>
             {
                 $arr = array();
                 $arr = explode('@',$val);
-                $doc[$arr[0]] = $arr[1];                
+                $doc[$arr[0]] = $arr[1];                  
             }
-            $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'],true);
-            $doc['layout_plan_images'] = json_decode($doc['layout_plan_images'],true);
-           // print_r(json_encode($doc));exit;
-            $insertDocument['send_datetime'] = date('Y-m-d H:i:s');
-            //$insertDocument['send_documents'] = str_replace('\\/', '/', json_encode($doc));
+            if(!empty($doc['floor_plan_images'])){
+                $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'],true);
+            }
+            if(!empty($doc['layout_plan_images'])){
+                 $doc['layout_plan_images'] = json_decode($doc['layout_plan_images'],true);
+            }
+            if(!empty($doc['specification_images'])){
+                $doc['specification_images'] = json_decode($doc['specification_images'],true);
+            }            
+            $insertDocument['send_datetime'] = date('Y-m-d H:i:s');            
+            // sms mail template
             
+            $templatedata['employee_id'] = $loggedInUserId;
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 47;
+            $templatedata['template_setting_employee'] = 0;
+            $templatedata['customer_id'] = $request['documentData']['customer_id'];
+            $templatedata['project_id'] = $request['documentData']['project_id'];            
+            //$templatedata['cust_attached_file'] = 'http://www.pdf995.com/samples/pdf.pdf';
+            $templatedata['cust_attached_file'] = !empty($doc['project_brochure']) ? 'https://storage.googleapis.com/bkt_bms_laravel/project/project_brochure/'.$doc['project_brochure'] : '';
+            $layoutPlan = $locationMap = $floorPlan = $amenities = $videoLink = $specific = '';            
+            if(!empty($doc['layout_plan_images']) && count($doc['layout_plan_images']) > 0){
+                $layoutPlan = "<b>Layout Images</b><br>";
+                foreach ($doc['layout_plan_images'] as $layout){
+                    $layoutPlan = $layoutPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/".$layout['layout_plan_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/".$layout['layout_plan_images']."' height='80px' width='80px'></a>";
+                }
+            }
+            if(!empty($doc['floor_plan_images']) && count($doc['floor_plan_images']) > 0){
+                $floorPlan = "<b>Floor Images</b><br>";
+                foreach ($doc['floor_plan_images'] as $floor){
+                    $floorPlan = $floorPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/".$floor['floor_plan_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/".$floor['floor_plan_images']."' height='80px' width='80px'></a>";
+                }
+            }
+            if(!empty($doc['specification_images']) && count($doc['specification_images']) > 0){
+                $specific = "<b>Specification Images</b><br>";
+                foreach ($doc['specification_images'] as $spec){
+                    $specific = $specific . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/".$spec['specification_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/".$spec['specification_images']."' height='80px' width='80px'></a>";
+                }
+            }
+            if(!empty($doc['location_map_images']) && count($doc['location_map_images']) > 0){
+                $locationMap = '<b>Location Map</b><br>';
+                 foreach ($doc['location_map_images'] as $loc){
+                    $locationMap = $locationMap . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$loc['location_map_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$loc['location_map_images']."' height='80px' width='80px'></a>";
+                }
+            }
+            if(!empty($doc['amenities_images'])){
+                $amenity = explode(',', $doc['amenities_images']);
+                $amenities = '<b>Amenities:</b><br>';
+                foreach ($amenity as $a){
+                    $amenities = $amenities . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$a."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$a."' height='80px' width='80px'></a>";
+                }
+            }
+            if(!empty($doc['video_link'])){
+                $videoLink = '<b>Video Link :</b> <a href="'.$doc['video_link'].'"><u>'.$doc['video_link'].'</u></a>';
+            }
+           // echo $layoutPlan;exit;
+            $templatedata['arrExtra'][0] = array(
+                '[#layoutPlan#]',
+                '[#floorPlan#]',
+                '[#specification#]',
+                '[#locationMap#]',                
+                '[#Amenities#]',
+                '[#videoLink#]',
+            );
+            $templatedata['arrExtra'][1] = array(
+                $layoutPlan,
+                $floorPlan,
+                $specific,
+                $locationMap,
+                $amenities,
+                $videoLink,
+            );
+             $Templateresult = CommonFunctions::templateData($templatedata);
+            //print_r($Templateresult);exit;
+            
+            // insert into send document history
             $insertDocument['send_documents'] =json_encode($doc);
             $insertDocument['send_by'] =$loggedInUserId ;
             $insertDocument = array_merge($insertDocument,$create);
-           // print_r($insertDocument);exit;
             $dataInsert = SendDocumentHistory::create($insertDocument);
             if($dataInsert){
-                $result = ["success" => true,"message"=>"Send Document Successfully."];
+                $result = ["success" => true,"message"=>"Document Sent Successfully."];
             }
         } catch (Exception $ex) {
                 $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
@@ -3054,13 +3099,18 @@ Regards,<br>
     
     public function sendDocList()
     {
-        try{
+        try{            
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata,true);
-            $allSend = SendDocumentHistory::select('send_document_history.id','enquiry_id','project_id','send_documents','send_datetime','send_by','project_name')
+            $allSend = SendDocumentHistory::select('send_document_history.id','enquiry_id','project_id','send_documents','send_datetime','send_by','project_name','employees.first_name','employees.last_name')
                     ->leftJoin('projects','send_document_history.project_id','=','projects.id')
+                    ->leftJoin('employees','send_document_history.send_by','=','employees.id')
                     ->where('enquiry_id',$request['enquiry_id'])
                     ->get();
+            foreach($allSend as $sent)
+            {
+                $sent['send_documents'] = json_decode($sent['send_documents'],true);
+            }
             if(count($allSend) > 0)
             {
                 $result = ["success" => true, 'records'=>$allSend];
@@ -3072,7 +3122,7 @@ Regards,<br>
         } catch (Exception $ex) {
              $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return response()->json($result);
+       return response()->json($result);
     }
     
 }

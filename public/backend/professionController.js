@@ -22,6 +22,14 @@ app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($
             }
         }
 
+        $scope.deleteProfession = function (id, index) {
+            Data.post('manage-profession/deleteProfession', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage Profession', 'Profession deleted successfully');
+                $scope.professionRow.splice(index, 1);
+            });
+        }
+
         $scope.searchDetails = {};
         $scope.searchData = {};
 

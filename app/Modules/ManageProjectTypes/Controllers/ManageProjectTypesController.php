@@ -18,7 +18,7 @@ class ManageProjectTypesController extends Controller {
     }
 
     public function manageProjectTypes() {
-        $getTypes = MlstBmsbProjectTypes::select('project_type', 'id')->get();
+        $getTypes = MlstBmsbProjectTypes::select('project_type', 'id')->where('deleted_status', '!=', 1)->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -33,6 +33,17 @@ class ManageProjectTypesController extends Controller {
         return json_encode($result);
     }
 
+     public function deleteProjectTypes() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['projectTypeData'] = array_merge($request, $create);
+        $projectTypes = MlstBmsbProjectTypes::where('id', $request['id'])->update($input['projectTypeData']);
+        $result = ['success' => true, 'result' => $projectTypes];
+        return json_encode($result);
+        
+    }
     public function projectTypesExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {

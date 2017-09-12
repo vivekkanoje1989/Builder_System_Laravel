@@ -17,7 +17,7 @@ class DesignationsController extends Controller {
     }
 
     public function manageDesignations() {
-        $getDesignations = MlstBmsbDesignations::select('designation', 'status', 'id')->get();
+        $getDesignations = MlstBmsbDesignations::select('designation', 'status', 'id')->where('deleted_status', '!=', 1)->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -31,6 +31,19 @@ class DesignationsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
+    }
+    
+    
+     public function deleteDesignation() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['designationData'] = array_merge($request, $create);
+        $designationData = MlstBmsbDesignations::where('id', $request['id'])->update($input['designationData']);
+        $result = ['success' => true, 'result' => $designationData];
+        return json_encode($result);
+        
     }
 
     public function designationExportToxls() {

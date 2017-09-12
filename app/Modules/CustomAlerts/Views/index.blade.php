@@ -24,24 +24,24 @@
                                 </div><br>-->
                 <div class="row table-toolbar">
                     <a href="[[ config('global.backendUrl') ]]#/customalerts/create " class="btn btn-default">Create New Template</a>&nbsp;&nbsp;&nbsp;
-                   
+
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                        <div class="DTTT btn-group">
-                            <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="customTemplatesExportToxls()" ng-show="exportData == '1'" >
-                                <span>Export</span>
-                            </a>
-                            <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                                <span>Options</span>
-                                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                                <ul class="dropdown-menu dropdown-default">
-                                    <li>
-                                        <a href="javascript:void(0);">Action</a>
-                                    </li>
-                                </ul>
-                            </a>
-                        </div>
-                   
+                    <div class="DTTT btn-group">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="customTemplatesExportToxls()" ng-show="exportData == '1'" >
+                            <span>Export</span>
+                        </a>
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                            <span>Options</span>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu dropdown-default">
+                                <li>
+                                    <a href="javascript:void(0);">Action</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </div>
+
                     <div  class="dataTables_filter">
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
@@ -116,7 +116,8 @@
                         <td>{{ listAlert.sms_body | htmlToPlaintext }}</td>
                         <td>{{ listAlert.email_subject | htmlToPlaintext }}</td>
                         <td class="">
-                            <div class="" tooltip-html-unsafe="Edit User" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/customalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
+                            <span class="" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/customalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
+                            <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteCustomTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                         </td>
                         </tr>
                         <tr><td colspan="4"  ng-show="(listcustomAlerts|filter:search).length == 0" align="center">Record Not Found</td></tr>

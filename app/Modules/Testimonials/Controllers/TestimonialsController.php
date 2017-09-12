@@ -34,7 +34,10 @@ class TestimonialsController extends Controller {
 
     public function getDisapproveList() {
 
-        $getApprovedTestimonials = WebTestimonials::select('approve_status', 'company_name', 'customer_name', 'mobile_number', 'testimonial_id')->where('approve_status', '0')->get();
+        $getApprovedTestimonials = WebTestimonials::select('approve_status', 'company_name', 'customer_name', 'mobile_number', 'testimonial_id')
+                ->where('approve_status', '0')
+                ->where('deleted_status', '!=', 1)
+                ->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -46,6 +49,28 @@ class TestimonialsController extends Controller {
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
+        return json_encode($result);
+    }
+
+    public function deleteDisApprovedList() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['testimonialData'] = array_merge($request, $create);
+        $testimonials = WebTestimonials::where('testimonial_id', $request['testimonial_id'])->update($input['testimonialData']);
+        $result = ['success' => true, 'result' => $testimonials];
+        return json_encode($result);
+    }
+    
+    public function deleteApprovedList() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['testimonialData'] = array_merge($request, $create);
+        $testimonials = WebTestimonials::where('testimonial_id', $request['testimonial_id'])->update($input['testimonialData']);
+        $result = ['success' => true, 'result' => $testimonials];
         return json_encode($result);
     }
 
@@ -92,6 +117,7 @@ class TestimonialsController extends Controller {
     public function getApprovedList() {
         $getApprovedTestimonials = WebTestimonials::select('approve_status', 'company_name', 'customer_name', 'mobile_number', 'testimonial_id')
                 ->where('approve_status', '1')
+                ->where('deleted_status', '!=', 1)
                 ->get();
 
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);

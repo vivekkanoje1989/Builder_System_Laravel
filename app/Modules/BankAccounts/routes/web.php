@@ -8,6 +8,7 @@ Route::group(array('module' => 'BankAccounts', 'middleware' => ['auth:admin'],'n
     Route::get('/bank-account/managePaymentHeading', 'BankAccountsController@managePaymentHeading');
     Route::get('/bank-accounts/getCompany', 'BankAccountsController@getCompany');
     Route::post('/bank-accounts/paymentHeadingEdit', 'BankAccountsController@paymentHeadingEdit');
+    Route::post('/bank-accounts/deleteBankAccount', 'BankAccountsController@deleteBankAccount');
     Route::post('/bank-accounts/paymentHeadingFiltered', 'BankAccountsController@paymentHeadingFiltered');
     Route::resource('/bank-accounts', 'BankAccountsController');
 });

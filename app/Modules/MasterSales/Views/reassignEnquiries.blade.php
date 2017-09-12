@@ -37,9 +37,9 @@
                         </div>
                         <?php if (in_array('01603', $array)) { ?>
                         <div ng-if="enquiriesLength != 0 " class="col-sm-3 center">
-                            <a href="" class="btn btn-primary" id="downloadExcel" download="{{fileUrl}}"  ng-show="dnExcelSheet">
+                            <a href class="btn btn-primary" id="downloadExcel" download="{{fileUrl}}"  ng-show="dnExcelSheet">
                                 <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                            <a href="javascript:void(0);" id="exportExcel" uploadfile class="btn btn-primary" ng-click="exportReport(enquiries)" ng-show="btnExport">
+                            <a href id="exportExcel" uploadfile class="btn btn-primary" ng-click="exportReport(enquiries)" ng-show="btnExport">
                                 <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                             </a> 
                         </div>  
@@ -243,7 +243,8 @@
                                 <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
                                 <hr class="enq-hr-line">
                                 <div>
-                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                                    <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                                    <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
                                 </div>
                             </td>
                         </tr>
@@ -291,6 +292,22 @@
                     </div>
                 </div>
             </div>
+            <!-- send Document Data Modal ===================================================================================== -->
+            <div class="modal fade modal-primary" id="sendDocumentDataModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header navbar-inner">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title" align="center">Send Documents</h4>
+                        </div>                        
+                        <div data-ng-include=" '/MasterSales/sendDocument'"></div>
+                        <div class="modal-footer" align="center">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div data-ng-include="'/MasterSales/showFilter'"></div>
              <!--<div data-ng-include="'/MasterSales/bulkreassign'"></div>--> 
         </div>

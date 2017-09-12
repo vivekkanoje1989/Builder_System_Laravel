@@ -35,7 +35,7 @@ class DefaultAlertsController extends Controller {
                     ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'td.templates_event_id', '=', 'te.id')
                     ->select('td.*', 'te.event_name', 'te.module_names')
                     ->where('td.id', '=', $request['id'])
-                    ->get();
+                    ->where('td.deleted_status', '!=', 1)->get();
 
             $client_id = config('global.client_id');
             $client = \App\Models\ClientInfo::where('id', $client_id)->first();
@@ -81,6 +81,21 @@ class DefaultAlertsController extends Controller {
         }
     }
 
+    
+    
+    
+     public function deleteDefaultTemplate() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['bloodGrpData'] = array_merge($request, $create);
+        $bloodGrps = MlstBloodGroups::where('id', $request['id'])->update($input['bloodGrpData']);
+        $result = ['success' => true, 'result' => $bloodGrps];
+        return json_encode($result);
+        
+    }
+    
     public function defaultTemplatesExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {

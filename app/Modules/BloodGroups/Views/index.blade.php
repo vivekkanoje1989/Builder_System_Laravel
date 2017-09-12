@@ -104,7 +104,7 @@
                         </thead>
                         <tbody ng-controller="adminController">
                             <tr role="row" dir-paginate="list in bloodGrpRow | filter:search | filter:searchData | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" >
-                                <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td> 
+                                <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td> 
                                 <td>{{ list.blood_group}}</td>                          
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#bloodGroupModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.blood_group}}',{{itemsPerPage}},{{$index}})" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>

@@ -23,6 +23,7 @@ class ManageCityController extends Controller {
         $getCities = MlstCities::join('mlst_states', 'mlst_states.id', '=', 'mlst_cities.state_id')
                 ->join('mlst_countries', 'mlst_states.country_id', '=', 'mlst_countries.id')
                 ->select('mlst_cities.*', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                ->where('mlst_cities.deleted_status', '!=', 1)
                 ->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
@@ -38,6 +39,17 @@ class ManageCityController extends Controller {
         return json_encode($result);
     }
 
+    public function deleteCity() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['city'] = array_merge($request, $create);
+        $cities = MlstCities::where('id', $request['id'])->update($input['city']);
+        $result = ['success' => true, 'result' => $cities];
+        return json_encode($result);
+    }
+    
     public function cityExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {

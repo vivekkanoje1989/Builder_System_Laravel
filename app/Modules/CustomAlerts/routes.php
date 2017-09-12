@@ -6,5 +6,6 @@ Route::group(array('module' => 'CustomAlerts', 'middleware' => ['auth:admin'], '
     
     Route::post('/customalerts/manageCustomAlerts', 'CustomAlertsController@manageCustomAlerts');    
     Route::post('/customalerts/updateCustomAlerts','CustomAlertsController@updateCustomAlerts');
+    Route::post('/customalerts/deleteCustomTemplate','CustomAlertsController@deleteCustomTemplate');
     Route::resource('/customalerts', 'CustomAlertsController');
 });	

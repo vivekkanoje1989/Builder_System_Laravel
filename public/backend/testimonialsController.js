@@ -39,6 +39,21 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
             });
         }
 
+        $scope.deleteDisApprovedList = function (id, index) {
+            Data.post('testimonials/deleteDisApprovedList', {
+                'testimonial_id': id}).then(function (response) {
+                toaster.pop('success', 'Testimonials', 'Testimonial deleted successfully');
+                $scope.ApprovedTestimonialsRow.splice(index, 1);
+            });
+        }
+        
+        $scope.deleteApprovedList = function (id, index) {
+            Data.post('testimonials/deleteApprovedList', {
+                'testimonial_id': id}).then(function (response) {
+                toaster.pop('success', 'Testimonials', 'Testimonial deleted successfully');
+                $scope.ApprovedTestimonialsRow.splice(index, 1);
+            });
+        }
 
         $scope.manageTestimonialDisapproveExportToExcel = function () {
             $scope.getexcel = window.location = "/testimonials/manageTestimonialDisapproveExportToExcel";

@@ -20,6 +20,14 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
+        
+        $scope.deleteProjectTypes = function (id, index) {
+            Data.post('project-types/deleteProjectTypes', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Project Types', 'Project Type deleted successfully');
+                $scope.ProjectTypesRow.splice(index, 1);
+            });
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};
