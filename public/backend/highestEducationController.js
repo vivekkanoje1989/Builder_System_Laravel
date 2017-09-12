@@ -30,6 +30,14 @@ app.controller('highestEducationCtrl', ['$scope', 'Data','toaster', function ($s
             });
         };
         
+        $scope.deleteHighestEdu = function (id, index) {
+            Data.post('highest-education/deleteHighestEdu', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Highest Education', 'Highest Education deleted successfully');
+                $scope.educationRow.splice(index, 1);
+            });
+        }
+        
         $scope.highestEducationExportToxls = function () {
             $scope.getexcel = window.location = "highest-education/highestEducationExportToxls";
             if ($scope.getexcel) {

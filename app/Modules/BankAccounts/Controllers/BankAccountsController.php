@@ -30,6 +30,17 @@ class BankAccountsController extends Controller {
         }
     }
 
+    public function deleteBankAccount() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['paymentHeading'] = array_merge($request, $create);
+        $bankAccount = CompaniesBankaccounts::where('id', $request['id'])->update($input['paymentHeading']);
+        $result = ['success' => true, 'result' => $bankAccount];
+        return json_encode($result);
+    }
+
     public function getCompany() {
         $getCompanies = Companies::select('id', 'legal_name')->get();
 
@@ -78,9 +89,12 @@ class BankAccountsController extends Controller {
     }
 
     public function manageBankAccount() {
-        $result = CompaniesBankaccounts::join('companies', 'companies.id', '=', 'companies_bankaccounts.company_id')->select(['companies_bankaccounts.id', 'companies_bankaccounts.company_id', 'companies_bankaccounts.name', 'companies_bankaccounts.branch',
+        $result = CompaniesBankaccounts::join('companies', 'companies.id', '=', 'companies_bankaccounts.company_id')
+                ->select(['companies_bankaccounts.id', 'companies_bankaccounts.company_id', 'companies_bankaccounts.name', 'companies_bankaccounts.branch',
                     'companies_bankaccounts.ifsc', 'companies_bankaccounts.micr', 'companies_bankaccounts.account_number', 'companies_bankaccounts.account_type', 'companies_bankaccounts.address'
-                    , 'companies_bankaccounts.phone', 'companies_bankaccounts.email', 'companies_bankaccounts.preffered_payment_headings_ids', 'companies.legal_name'])->get();
+                    , 'companies_bankaccounts.phone', 'companies_bankaccounts.email', 'companies_bankaccounts.preffered_payment_headings_ids', 'companies.legal_name'])
+                ->where('companies_bankaccounts.deleted_status', '!=', 1)
+                ->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;

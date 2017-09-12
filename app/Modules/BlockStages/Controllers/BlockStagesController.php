@@ -20,8 +20,8 @@ class BlockStagesController extends Controller {
     }
 
     public function manageBlockStages() {
-        $getBlockstage = LstDlBlockStages::all();
-          $blockStages = array();
+        $getBlockstage = LstDlBlockStages::where('deleted_status', '!=', 1)->get();
+        $blockStages = array();
         for ($i = 0; $i < count($getBlockstage); $i++) {
             $blockData['id'] = $getBlockstage[$i]['id'];
             $blockData['block_stage_name'] = $getBlockstage[$i]['block_stage_name'];
@@ -29,31 +29,31 @@ class BlockStagesController extends Controller {
 
             $blockStages[] = $blockData;
         }
-         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
         } else {
             $export = '';
         }
         if (!empty($blockStages)) {
-            $result = ['success' => true, 'records' => $blockStages,'exportData'=>$export, 'totalCount' =>count($getBlockstage)];
+            $result = ['success' => true, 'records' => $blockStages, 'exportData' => $export, 'totalCount' => count($getBlockstage)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
-            return json_encode($result);
+        return json_encode($result);
     }
-    
+
     public function blockStagesExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
-             $getBlockstage = LstDlBlockStages::select('block_stage_name')->get();
+            $getBlockstage = LstDlBlockStages::select('block_stage_name')->get();
             $getCount = LstDlBlockStages::select('block_stage_name')->get()->count();
             $getBlockstage = json_decode(json_encode($getBlockstage), true);
-            
+
             $manageBlockstage = array();
             $j = 1;
             for ($i = 0; $i < count($getBlockstage); $i++) {
-                 $blogData['Sr No.'] = $j++;
+                $blogData['Sr No.'] = $j++;
                 $blogData['Block Stage Name'] = $getBlockstage[$i]['block_stage_name'];
                 $manageBlockstage[] = $blogData;
             }
@@ -70,6 +70,17 @@ class BlockStagesController extends Controller {
         }
     }
 
+    public function deleteBlockStage() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['blockStageData'] = array_merge($request, $create);
+        $blockStages = LstDlBlockStages::where('id', $request['id'])->update($input['blockStageData']);
+        $result = ['success' => true, 'result' => $blockStages];
+        return json_encode($result);
+    }
+
     public function filteredData() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -78,12 +89,12 @@ class BlockStagesController extends Controller {
 
         if (empty($request['employee_id'])) { // For Web
             $loggedInUserId = Auth::guard('admin')->user()->id;
-         
+
             $filterData["block_stage_name"] = !empty($filterData["block_stage_name"]) ? $filterData["block_stage_name"] : " ";
         } else { // For App
             $request["getProcName"] = BlockStagesController::$procname;
             $loggedInUserId = $request['employee_id'];
-           
+
             if (isset($filterData['empId']) && !empty($filterData['empId'])) {
                 $loggedInUserId = implode(',', array_map(function($el) {
                             return $el['id'];
@@ -98,13 +109,13 @@ class BlockStagesController extends Controller {
                     }, $filterData['empId']));
         }
         $getBlockStages = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["block_stage_name"] . '","' . $request['pageNumber'] . '","' . $request['itemPerPage'] . '")');
-       
+
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = $enqCnt[0]->totalCount;
         $i = 0;
         if (!empty($getBlockStages)) {
             foreach ($getBlockStages as $getInboundLog) {
-               $getBlockStages[$i]->block_stage_name = $getInboundLog->block_stage_name;
+                $getBlockStages[$i]->block_stage_name = $getInboundLog->block_stage_name;
                 $i++;
             }
         }
@@ -117,7 +128,7 @@ class BlockStagesController extends Controller {
         }
         return json_encode($result);
     }
-    
+
     public function manageProjectTypes() {
 
         $getTypes = MlstBmsbProjectTypes::all();
@@ -163,7 +174,7 @@ class BlockStagesController extends Controller {
     public function update($id) {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        
+
         $validationRules = LstDlBlockStages::validationRules();
         $validationMessages = LstDlBlockStages::validationMessages();
 

@@ -20,7 +20,8 @@ class PaymentHeadingsController extends Controller {
     }
 
     public function managePaymentHeading() {
-        $getPayment = LstDlPaymentHeadings::all();
+        $getPayment = LstDlPaymentHeadings::where('deleted_status', '!=', 1)->get();
+
         $paymentHeadings = array();
         for ($i = 0; $i < count($getPayment); $i++) {
             $headingData['id'] = $getPayment[$i]['id'];
@@ -43,6 +44,18 @@ class PaymentHeadingsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
+    }
+    
+     public function deletePaymentHeading() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['paymentHeadingData'] = array_merge($request, $create);
+        $paymentHeadings = LstDlPaymentHeadings::where('id', $request['id'])->update($input['paymentHeadingData']);
+        $result = ['success' => true, 'result' => $paymentHeadings];
+        return json_encode($result);
+        
     }
     
     public function paymentHeadingExportToxls() {

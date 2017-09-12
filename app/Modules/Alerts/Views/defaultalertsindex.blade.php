@@ -99,8 +99,9 @@
                                 <td ng-if="listAlert.template_for == 0">Employee</td>
                                 <td>{{ listAlert.email_subject | htmlToPlaintext }}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit User" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/defaultalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
-                                </td>
+                                    <span class="" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/defaultalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
+                               <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDefaultTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="6"  ng-show="(listdefaultAlerts|filter:search).length == 0" align="center">Record Not Found</td>   

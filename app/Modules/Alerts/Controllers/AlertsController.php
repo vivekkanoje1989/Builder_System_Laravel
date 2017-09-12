@@ -109,7 +109,7 @@ class AlertsController extends Controller {
                     ->leftjoin('templates_customs as tc', 'ts.custom_template_id', '=', 'tc.id')
                     ->select('ts.*', 'te.event_name', 'te.module_names', 'tc.friendly_name')
                     ->where('ts.client_id', '=', config('global.client_id'))
-                    ->get();
+                    ->where('ts.deleted_status', '!=', 1)->get();
 
             $customTemplate = TemplatesCustom::select('id', 'friendly_name', 'sr_no')->get();
         }
@@ -125,6 +125,19 @@ class AlertsController extends Controller {
         }
     }
 
+    
+     public function deleteTemplate() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['templateData'] = array_merge($request, $create);
+        $templateData = TemplatesSetting::where('id', $request['id'])->update($input['templateData']);
+        $result = ['success' => true, 'result' => $templateData];
+        return json_encode($result);
+        
+    }
+    
     public function templatesExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {

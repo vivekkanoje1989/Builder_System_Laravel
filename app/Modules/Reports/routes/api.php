@@ -37,6 +37,9 @@ Route::group(array('module' => 'Reports', 'middleware' => ['api'], 'namespace' =
      
     
     
+    
+    Route::post('api/reports/getEmpcategoryreports', 'ReportsController@getEmpcategoryreports');
+    Route::post('api/reports/getsourcereports', 'ReportsController@getsourcereports');
      
      
      

@@ -27,7 +27,6 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            console.log(search);
             $scope.searchData = search;
         }
 
@@ -39,7 +38,13 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
             $scope.searchData = {};
         }
 
-
+        $scope.deleteEmpExt = function (id, index) {
+            Data.post('deleteEmpExt', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage Templates', 'Employee Extension deleted successfully');
+                $scope.ct_employee_extlist.splice(index, 1);
+            });
+        }
 
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
@@ -122,11 +127,11 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
                 }
             });
         }
-        
-          $scope.getEmployeeExtData = function(){
+
+        $scope.getEmployeeExtData = function () {
 
             Data.get('getEmployeeExtData').then(function (response) {
-                    $scope.extNumber = response.records;
+                $scope.extNumber = response.records;
             });
         }
     }]);

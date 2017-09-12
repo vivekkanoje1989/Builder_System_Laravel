@@ -87,7 +87,7 @@
                                         </span>
                                     </a>
                                 </th> 
-                                <th style="width: 20%">
+                                <th style="width: 15%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'mobile_number'; reverseSort = !reverseSort">Mobile No
                                         <span ng-show="orderByField == 'mobile_number'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
@@ -102,7 +102,7 @@
                                     </a>
                                 </th> 
                                 <th style="width: 20%">Approve Status</th> 
-                                <th style="width: 5%">Actions</th>
+                                <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -113,7 +113,8 @@
                                 <td>{{ list.company_name}}</td>
                                 <td>{{(list.approve_status == 1) ? "Approved" : "Not Approve"}}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit Information" style="display: block;" ><a href="[[ config('global.backendUrl') ]]#/testimonials/update/{{ list.testimonial_id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <span class="" tooltip-html-unsafe="Edit Information" ><a href="[[ config('global.backendUrl') ]]#/testimonials/update/{{ list.testimonial_id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDisApprovedList({{list.testimonial_id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
                         </tbody>

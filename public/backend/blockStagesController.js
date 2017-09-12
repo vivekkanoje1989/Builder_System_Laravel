@@ -29,11 +29,13 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
             }
         }
 
-//        $scope.getProcName = $scope.type = '';
-//        $scope.procName = function (procedureName, isTeam) {
-//            $scope.getProcName = angular.copy(procedureName);
-//            $scope.type = angular.copy(isTeam);
-//        }
+        $scope.deleteBlockStage = function (id, index) {
+            Data.post('block-stages/deleteBlockStage', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Block Stages', 'Block Stage deleted successfully');
+                $scope.BlockStageRow.splice(index, 1);
+            });
+        }
 
         $scope.searchData = {};
         $scope.searchDetails = {};

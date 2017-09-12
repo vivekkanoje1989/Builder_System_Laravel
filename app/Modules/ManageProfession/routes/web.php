@@ -4,6 +4,7 @@ Route::group(array('module' => 'ManageProfession', 'middleware' => ['auth:admin'
 
     $getUrl = config('global.getUrl');
      Route::post('/manage-profession/manageProfession','ManageProfessionController@manageProfession');
+     Route::post('/manage-profession/deleteProfession','ManageProfessionController@deleteProfession');
      Route::get('/manage-profession/professionExportToxls','ManageProfessionController@professionExportToxls');
     Route::resource('/manage-profession', 'ManageProfessionController');
     

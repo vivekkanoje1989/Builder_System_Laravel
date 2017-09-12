@@ -6,6 +6,7 @@ Route::group(array('module' => 'DiscountHeadings', 'middleware' => ['auth:admin'
     Route::get('/discount-headings/discountHeadingExportToxls','DiscountHeadingsController@discountHeadingExportToxls');
     Route::post('/discount-headings/manageDiscountHeading','DiscountHeadingsController@manageDiscountHeadings');
     Route::post('/discount-headings/filteredData', 'DiscountHeadingsController@filteredData');
+    Route::post('/discount-headings/deleteDiscountHeading', 'DiscountHeadingsController@deleteDiscountHeading');
      Route::get('/DiscountHeadings/showFilter', function () {
         return View::make('DiscountHeadings::showFilter');
     });

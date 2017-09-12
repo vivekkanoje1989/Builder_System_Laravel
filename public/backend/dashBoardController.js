@@ -8,7 +8,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         $scope.exportData = '';
         $scope.request = {};
         $scope.getEmployees = function () {
-            Data.get('getEmployees').then(function (response) {
+            
+            Data.get('request-leave/getEmployees').then(function (response) {
                 $scope.employeeRow = response.records;
             });
         };
@@ -150,6 +151,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 $scope.myRequest = response.records;
                 $scope.exportData = response.exportData;
                 $scope.totalCount = $scope.myRequest.length;
+                $scope.searchLength = $scope.myRequest.length;
             });
         }
         $scope.changeStatus = function ()

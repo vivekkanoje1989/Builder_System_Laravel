@@ -6,7 +6,7 @@
             </div>
             <div class="widget-body table-responsive"><br/>  
                 <div class="row table-toolbar">
-<!--                    <a href="[[ config('global.backendUrl') ]]#/customalerts/create " class="btn btn-default">Create New Template</a>&nbsp;&nbsp;&nbsp;-->
+                    <!--                    <a href="[[ config('global.backendUrl') ]]#/customalerts/create " class="btn btn-default">Create New Template</a>&nbsp;&nbsp;&nbsp;-->
 
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -30,11 +30,11 @@
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                     </div>
-            
+
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value))
-                                                        this.value = this.value.replace(/\D/g, '')">
+                                        this.value = this.value.replace(/\D/g, '')">
                                 <option value="1">1</option>
                                 <option value="5">5</option>
                                 <option value="15">15</option>
@@ -49,7 +49,7 @@
                             <tr>
                                 <th style="width: 5%;">Sr. No.</th>
                                 <th style="width: 10%;">
-                                 <a href="javascript:void(0);" ng-click="orderByField = 'email'; reverseSort = !reverseSort">Email Id
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'email'; reverseSort = !reverseSort">Email Id
                                         <span ng-show="orderByField == 'email'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                         </span>
@@ -60,7 +60,7 @@
                                 <th style="width: 10%;">Service Provider
                                 </th>                            
                                 <th style="width: 10%;">
-                                <a href="javascript:void(0);" ng-click="orderByField = 'deptName'; reverseSort = !reverseSort">Departments
+                                    <a href="javascript:void(0);" ng-click="orderByField = 'deptName'; reverseSort = !reverseSort">Departments
                                         <span ng-show="orderByField == 'deptName'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
                                         </span>
@@ -77,7 +77,8 @@
                                 <td>Gmail</td>          
                                 <td>{{ listmail.deptName}}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit Account"><a href="[[ config('global.backendUrl') ]]#/emailConfig/update/{{ listmail.id}}" class="btn btn-info btn-sm"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
+                                    <span class="" tooltip-html-unsafe="Edit Account"><a href="[[ config('global.backendUrl') ]]#/emailConfig/update/{{ listmail.id}}" class=" btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmailConfig({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                         </tbody>

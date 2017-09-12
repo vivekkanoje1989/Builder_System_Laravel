@@ -27,6 +27,13 @@ app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
                 $scope.exportData = response.exportData;
             });
         };
+         $scope.deleteCity= function (id, index) {
+            Data.post('manage-city/deleteCity', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage City', 'City deleted successfully');
+                $scope.citiesRow.splice(index, 1);
+            });
+        }
         
         $scope.cityExportToxls = function () {
             $scope.getexcel = window.location = "manage-city/cityExportToxls";

@@ -28,7 +28,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="ExportToxls()" ng-show="exportMyRequest=='1'" >
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="ExportToxls()" ng-show="exportMyRequest == '1'" >
                             <span>Export</span> <!--href="/manageVerticals/exportToxls"  ng-click="ExportToxls()"-->
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -126,7 +126,6 @@
                             </tr>
                         </thead>
                         <tbody>
-
                             <tr role="row" dir-paginate="list in myRequest| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{list.in_date}}</td> 
@@ -137,6 +136,9 @@
                                 <td>{{list.status == 1 ? "Leave" : "Approved" }}</td>
                                 <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
 
+                            </tr>
+                            <tr>
+                                <td colspan="8"  ng-show="(myRequest|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
@@ -183,11 +185,13 @@
             </button><hr>
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
-                    <div class="form-group">
+                    <div class="form-group" >
                         <label for="">Application To</label>
-                        <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.application_to"  name="application_to" class="form-control"  oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
-
+                        <span class="input-icon icon-right" ng-init="getEmployees()"> 
+                            <select class="form-control"  ng-model="searchDetails.application_to" name="application_to" id="application_to" >
+                                <option value="">Select Employee</option>
+                                <option ng-repeat="item in employeeRow" value="{{item.employeeName}}" ng-selected="{{ item.employeeName == searchDetails.application_to}}" >{{item.employeeName}}</option>
+                            </select>
                         </span>
                     </div>
                 </div>

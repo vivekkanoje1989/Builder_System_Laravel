@@ -18,7 +18,7 @@ class HighestEducationController extends Controller {
     }
 
     public function manageHighestEducation() {
-        $getHighestEducations = MlstEducations::select('education', 'status', 'id')->get();
+        $getHighestEducations = MlstEducations::select('education', 'status', 'id')->where('deleted_status', '!=', 1)->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -31,6 +31,19 @@ class HighestEducationController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
+    }
+    
+    
+    public function deleteHighestEdu() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['educationData'] = array_merge($request, $create);
+        $educationData = MlstEducations::where('id', $request['id'])->update($input['educationData']);
+        $result = ['success' => true, 'result' => $educationData];
+        return json_encode($result);
+        
     }
     
     public function highestEducationExportToxls() {

@@ -40,20 +40,20 @@
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                        <div class="DTTT btn-group">
-                            <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="requestForMeExportToxls()" ng-show="exportData=='1'">
-                                <span>Export</span> <!--href="/manageVerticals/exportToxls"  ng-click="ExportToxls()"-->
-                            </a>
-                            <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                                <span>Options</span>
-                                <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                                <ul class="dropdown-menu dropdown-default">
-                                    <li>
-                                        <a href="javascript:void(0);">Action</a>
-                                    </li>
-                                </ul>
-                            </a>
-                        </div>
+                    <div class="DTTT btn-group">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="requestForMeExportToxls()" ng-show="exportData == '1'">
+                            <span>Export</span> <!--href="/manageVerticals/exportToxls"  ng-click="ExportToxls()"-->
+                        </a>
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                            <span>Options</span>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu dropdown-default">
+                                <li>
+                                    <a href="javascript:void(0);">Action</a>
+                                </li>
+                            </ul>
+                        </a>
+                    </div>
                     <div  class="dataTables_filter">
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
@@ -147,6 +147,9 @@
                                 <td>{{list.to_date}}</td>
                                 <td><a href="" data-toggle="modal" data-target="#myModal" class="btn-info btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
                                 <td><a href="" data-toggle="modal" data-target="#newModal" class="btn-info btn-xs" ng-click="statusChange({{list}},$index); view_description({{list}})" ><i class="fa fa-info-circle" aria-hidden="true"></i>Action</a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="8"  ng-show="(myRequest|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
@@ -259,10 +262,12 @@
                 </div>
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="">Application To</label>
-                        <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.application_from"  name="application_from" class="form-control"  oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
-
+                        <label for="">Application From</label>
+                         <span class="input-icon icon-right" ng-init="getEmployees()"> 
+                            <select class="form-control"  ng-model="searchDetails.application_from" name="application_from" id="application_from" >
+                                <option value="">Select Employee</option>
+                                <option ng-repeat="item in employeeRow" value="{{item.employeeName}}" ng-selected="{{ item.employeeName == searchDetails.application_from}}" >{{item.employeeName}}</option>
+                            </select>
                         </span>
                     </div>
                 </div>

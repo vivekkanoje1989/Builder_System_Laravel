@@ -6,6 +6,8 @@ Route::group(array('module' => 'Testimonials', 'middleware' => ['auth:admin'],'n
     Route::post('/testimonials/getDisapproveList','TestimonialsController@getDisapproveList'); //get disapprove list
     Route::post('/testimonials/getApprovedList','TestimonialsController@getApprovedList'); //get approved list
     Route::post('/testimonials/getTestimonialData','TestimonialsController@getTestimonialData'); //on edit page, get data
+    Route::post('/testimonials/deleteDisApprovedList','TestimonialsController@deleteDisApprovedList'); 
+    Route::post('/testimonials/deleteApprovedList','TestimonialsController@deleteApprovedList'); 
     Route::get('/testimonials/create', 'TestimonialsController@create'); //view create page
     Route::get('/testimonials/manageTestimonialDisapproveExportToExcel', 'TestimonialsController@manageTestimonialDisapproveExportToExcel');
     Route::get('/testimonials/manageTestimonialApproveExportToExcel', 'TestimonialsController@manageTestimonialApproveExportToExcel');

@@ -21,6 +21,14 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
             }
         }
         
+         $scope.deleteBlockTypes = function (id, index) {
+            Data.post('block-types/deleteBlockTypes', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Block Types', 'Block Type deleted successfully');
+                $scope.BlockTypesRow.splice(index, 1);
+            });
+        }
+        
         $scope.getProjectNames = function () {
             Data.post('block-types/manageProjectTypes').then(function (response) {
                 $scope.getProjectNamesRow = response.records;

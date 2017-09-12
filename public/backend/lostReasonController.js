@@ -3,16 +3,16 @@ app.controller('lostReasonsController', ['$scope', 'Data', 'toaster', function (
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
         $scope.manageLostReasons = function () {
-             $scope.showloader();
+            $scope.showloader();
             $scope.modal = {};
             Data.post('lost-reasons/manageLostReason').then(function (response) {
-                 $scope.hideloader();
+                $scope.hideloader();
                 $scope.listLostReasons = response.records;
                 $scope.exportData = response.exportData;
             });
         };
-        
-        
+
+
         $scope.lostReasonExportToxls = function () {
             $scope.getexcel = window.location = "lost-reasons/lostReasonExportToxls";
             if ($scope.getexcel) {
@@ -22,6 +22,13 @@ app.controller('lostReasonsController', ['$scope', 'Data', 'toaster', function (
             }
         }
 
+        $scope.deleteLostReason = function (id, index) {
+            Data.post('lost-reasons/deleteLostReason', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Lost Reasons', 'Lost Reason deleted successfully');
+                $scope.listLostReasons.splice(index, 1);
+            });
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};

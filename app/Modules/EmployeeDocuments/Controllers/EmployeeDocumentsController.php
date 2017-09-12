@@ -17,7 +17,7 @@ class EmployeeDocumentsController extends Controller {
     }
 
     public function employeeDocuments() {
-        $result = MlstEmployeeDocuments::select('document_name', 'id')->get();
+        $result = MlstEmployeeDocuments::select('document_name', 'id')->where('deleted_status', '!=', 1)->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -31,6 +31,18 @@ class EmployeeDocumentsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
+    }
+    
+     public function deleteEmployeeDocuments() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['empDocuments'] = array_merge($request, $create);
+        $empDocuments = MlstEmployeeDocuments::where('id', $request['id'])->update($input['empDocuments']);
+        $result = ['success' => true, 'result' => $empDocuments];
+        return json_encode($result);
+        
     }
 
     public function manageDocumentExportToExcel() {

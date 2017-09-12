@@ -15,25 +15,25 @@
 <div class="row" ng-controller="countryCtrl" ng-init="manageCountry()">  
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget ">
-                        <div class="widget-header bordered-bottom bordered-themeprimary">
-                            <span class="widget-caption">Manage Country</span>                
-                        </div>
-<!--            <div class="widget-header ">
-                <span class="widget-caption">Manage Country</span>
-                <div class="widget-buttons">
-                    <a href="" data-toggle="maximize">
-                        <i class="fa fa-expand"></i>
-                    </a>
-                    <a href="#" data-toggle="collapse" class="collapsed">
-                        <i class="fa fa-minus"></i>
-                    </a>
-                    <a href="" data-toggle="dispose">
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
-            </div>-->
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">Manage Country</span>                
+            </div>
+            <!--            <div class="widget-header ">
+                            <span class="widget-caption">Manage Country</span>
+                            <div class="widget-buttons">
+                                <a href="" data-toggle="maximize">
+                                    <i class="fa fa-expand"></i>
+                                </a>
+                                <a href="#" data-toggle="collapse" class="collapsed">
+                                    <i class="fa fa-minus"></i>
+                                </a>
+                                <a href="" data-toggle="dispose">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>-->
             <div class="widget-body table-responsive">
-                
+
                 <div class="row table-toolbar">
                     <a href="" data-toggle="modal" data-target="#countryModal" ng-click="initialModal(0, '', '', '', '', '')" class="btn btn-default">Add Country</a>
                     <div class="btn-group pull-right">
@@ -42,7 +42,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="countryExportToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="countryExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -52,7 +52,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                
+
                             </ul>
                         </a>
                     </div>
@@ -106,7 +106,8 @@
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>      
                                 <td>{{list.name}}</td>     
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#countryModal"><a href="javascript:void(0);" ng-click="initialModal({{list}},{{ itemsPerPage}},{{$index}},'{{list.sortname}}',{{list.phonecode}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <span class="" tooltip-html-unsafe="Edit"  data-toggle="modal" data-target="#countryModal"><a href="javascript:void(0);" ng-click="initialModal({{list}},{{ itemsPerPage}},{{$index}},'{{list.sortname}}',{{list.phonecode}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteCountry({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                         </tbody>

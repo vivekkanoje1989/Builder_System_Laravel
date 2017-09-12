@@ -114,6 +114,9 @@ app.controller('projectController', ['$rootScope','$scope', '$state', 'Data', 't
                 $scope.exportData = response.exportData;
             });
         }
+       
+        
+        
         $scope.manageProjectsExportToExcel = function () {
             $scope.getexcel = window.location = "/projects/manageProjectsExportToExcel";
             if ($scope.getexcel) {

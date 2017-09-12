@@ -34,7 +34,14 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-
+        
+        $scope.deleteBankAccount = function (id, index) {
+            Data.post('bank-accounts/deleteBankAccount', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Bank Accounts', 'Bank Account deleted successfully');
+                $scope.bankAccountRow.splice(index, 1);
+            });
+        }
 
         $scope.doBankAccountAction = function (bankAccount)
         {

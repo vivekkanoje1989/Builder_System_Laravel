@@ -19,7 +19,7 @@ class ManageCountryController extends Controller {
     }
 
     public function manageCountry() {
-        $getCountry = MlstCountries::all();
+        $getCountry = MlstCountries::where('deleted_status', '!=', 1)->get();
 
         $countryDetails = array();
         for ($i = 0; $i < count($getCountry); $i++) {
@@ -43,6 +43,19 @@ class ManageCountryController extends Controller {
         }
         return json_encode($result);
     }
+    
+     public function deleteCountry() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['countries'] = array_merge($request, $create);
+        $countries = MlstCountries::where('id', $request['id'])->update($input['countries']);
+        $result = ['success' => true, 'result' => $countries];
+        return json_encode($result);
+        
+    }
+
 
     public function countryExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);

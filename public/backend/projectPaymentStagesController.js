@@ -22,6 +22,14 @@ app.controller('projectpaymentController', ['$scope', 'Data', 'toaster', functio
             }
         }
         
+        $scope.deleteProjectStages = function (id, index) {
+            Data.post('project-payment/deleteProjectStages', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Project Types', 'Project Type deleted successfully');
+                $scope.ProjectPaymentStagesRow.splice(index, 1);
+            });
+        }
+        
         $scope.searchDetails = {};
         $scope.searchData = {};
 

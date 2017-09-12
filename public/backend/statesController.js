@@ -36,6 +36,14 @@ app.controller('statesCtrl', ['$scope', 'Data','toaster', function ($scope, Data
             });
         };
         
+         $scope.deleteStates = function (id, index) {
+            Data.post('manage-states/deleteStates', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage States', 'State deleted successfully');
+                $scope.statesRow.splice(index, 1);
+            });
+        }
+        
         $scope.statesExportToxls = function () {
             $scope.getexcel = window.location = "manage-states/statesExportToxls";
             if ($scope.getexcel) {

@@ -20,7 +20,7 @@ class ManageLocationController extends Controller {
 
     public function manageLocation() {
         $locationDetails = array();
-        $getLocation = LstEnquiryLocation::all();
+        $getLocation = LstEnquiryLocation::where('deleted_status', '!=', 1)->get();
         for($i=0;$i<count($getLocation);$i++){
              $locationData['id'] = $getLocation[$i]['id'];
              $locationData['location'] = $getLocation[$i]['location'];
@@ -40,6 +40,20 @@ class ManageLocationController extends Controller {
             return json_encode($result);
     }
 
+    public function deleteLocation() {
+        print_r('fh');
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['locations'] = array_merge($request, $create);
+        $locations = LstEnquiryLocation::where('id', $request['id'])->update($input['locations']);
+        $result = ['success' => true, 'result' => $locations];
+        return json_encode($result);
+        
+    }
+    
+    
     public function locationsExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {

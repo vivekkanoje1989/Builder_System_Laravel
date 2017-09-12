@@ -32,6 +32,8 @@ Route::group(array('module' => 'Alerts', 'middleware' => ['web'], 'namespace' =>
     Route::post('/alerts/getEmailConfig', 'AlertsController@getEmailConfig');
     Route::post('/alerts/getEmployees', 'AlertsController@getEmployees');
     Route::post('/alerts/updateAlerts', 'AlertsController@updateAlerts');
+    Route::post('/alerts/deleteTemplate', 'AlertsController@deleteTemplate');
+    Route::post('/defaultalerts/deleteDefaultTemplate', 'DefaultAlertsController@deleteDefaultTemplate');
     Route::post('/alerts/getEmployeesToEdit', 'AlertsController@getEmployeesToEdit');
     //Route::post('/master-hr/getDepartmentsToEdit', 'AlertsController@getDepartmentsToEdit'); 
     Route::resource('/alerts', 'AlertsController');

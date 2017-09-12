@@ -56,34 +56,33 @@ class ProjectsController extends Controller {
         }
         return json_encode($result);
     }
-    
+
     public function webpageIndex() {
         return view("Projects::webpage");
     }
-    
+
     public function webpageDetails($id) {
         return view("Projects::webpagedetails")->with(["projectId" => $id]);
     }
+
     public function webpageSettings() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $msg = "";
-        if(!empty($input["getDataByPrid"])){ //for list
-            $getProjectDetails = ProjectWebPage::select("project_id","alias_status","project_alias","short_description","brief_description",
-                    "project_country","project_state","project_city","project_location","project_address","project_contact_numbers",
-                    "project_website","page_title","seo_url","meta_description","meta_keywords","canonical_tag")
-                ->where("project_id", "=", $input["getDataByPrid"])
-                ->get();
-            
-            unset($input["settingData"]["prid"],$input["settingData"]["csrfToken"]);
-            if(!empty($input["settingData"]) && empty($getProjectDetails[0])){ //insert
+        if (!empty($input["getDataByPrid"])) { //for list
+            $getProjectDetails = ProjectWebPage::select("project_id", "alias_status", "project_alias", "short_description", "brief_description", "project_country", "project_state", "project_city", "project_location", "project_address", "project_contact_numbers", "project_website", "page_title", "seo_url", "meta_description", "meta_keywords", "canonical_tag")
+                    ->where("project_id", "=", $input["getDataByPrid"])
+                    ->get();
+
+            unset($input["settingData"]["prid"], $input["settingData"]["csrfToken"]);
+            if (!empty($input["settingData"]) && empty($getProjectDetails[0])) { //insert
                 $input['settingData']['client_id'] = config('global.client_id');
                 $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
                 $input['settingData'] = array_merge($input['settingData'], $create);
                 $actionProject = ProjectWebPage::create($input['settingData']);
                 $msg = "Record added successfully";
-            }else if(!empty($input["settingData"]) && !empty($getProjectDetails[0])){ //update
+            } else if (!empty($input["settingData"]) && !empty($getProjectDetails[0])) { //update
                 $input['settingData']['client_id'] = config('global.client_id');
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $input['settingData'] = array_merge($input['settingData'], $update);
@@ -98,18 +97,16 @@ class ProjectsController extends Controller {
         }
         return json_encode($result);
     }
-    
-    public function uploads(){
+
+    public function uploads() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $msg = "";
-        if(!empty($input["getDataByPrid"])){ //for list
-            $getProjectDetails = ProjectWebPage::select("project_id","project_logo","project_thumbnail","project_favicon","project_banner_images","project_background_images","project_brochure",
-                    "project_amenities_list","amenities_images","amenities_description","specification_images","specification_description","layout_plan_images","location_map_images","floor_plan_images",
-                    "project_gallery","google_map_short_url","google_map_iframe","video_link","video_short_link")
-                ->where("project_id", "=", $input["getDataByPrid"])
-                ->get();
+        if (!empty($input["getDataByPrid"])) { //for list
+            $getProjectDetails = ProjectWebPage::select("project_id", "project_logo", "project_thumbnail", "project_favicon", "project_banner_images", "project_background_images", "project_brochure", "project_amenities_list", "amenities_images", "amenities_description", "specification_images", "specification_description", "layout_plan_images", "location_map_images", "floor_plan_images", "project_gallery", "google_map_short_url", "google_map_iframe", "video_link", "video_short_link")
+                    ->where("project_id", "=", $input["getDataByPrid"])
+                    ->get();
             $getProjectStatusRecords = ProjectStatus::select('id', 'images', 'status', 'short_description')->where("project_id", "=", $id)->get();
             if (!empty($getProjectDetails[0])) {
                 $result = ['success' => true, 'uploadData' => $getProjectDetails[0], "getProjectStatusRecords" => $getProjectStatusRecords, 'message' => $msg];
@@ -198,14 +195,14 @@ class ProjectsController extends Controller {
 
             if (!empty($input['projectImages'])) {
                 if (count($input['projectImages']) > 1) {
-                    unset($input['projectImages']['upload']); 
+                    unset($input['projectImages']['upload']);
                     foreach ($input['projectImages'] as $key => $value) {
                         $isMultipleArr = is_array($input['projectImages'][$key]);
                         if ($isMultipleArr) {
                             $originalName = $input['projectImages'][$key][0]->getClientOriginalName();
                         } else {
                             $originalName = $input['projectImages'][$key]->getClientOriginalName();
-                        }                       
+                        }
                         if ($originalName !== 'fileNotSelected') {
                             $imgRules = array(
                                 'project_logo' => 'mimes:jpeg,png,jpg,gif,svg',
@@ -233,14 +230,14 @@ class ProjectsController extends Controller {
                                         $prImageName[] = $imageName;
                                     }
                                 } else {
-                                    /***************delete single image from s3 bucket start**************** */
+                                    /*                                     * *************delete single image from s3 bucket start**************** */
                                     if (!empty($input['projectImages'][$key])) {
                                         if ($isProjectExist[$key] !== $input['projectImages'][$key]) {
                                             $path = $s3FolderName . $isProjectExist[$key];
                                             S3::s3FileDelete($path);
                                         }
                                     }
-                                    /****************delete single image from s3 bucket end**************** */
+                                    /*                                     * **************delete single image from s3 bucket end**************** */
 
                                     $imageName = 'project_' . $projectId . '_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['projectImages'][$key]->getClientOriginalExtension();
                                     S3::s3FileUpload($input['projectImages'][$key]->getPathName(), $imageName, $s3FolderName);
@@ -259,16 +256,15 @@ class ProjectsController extends Controller {
                                     $input['projectData'][$key] = $implodeImgName;
                                 }
                             }
-                        }                       
+                        }
                     }
-                }
-                else{
+                } else {
                     $actionProject = 1;
                     $msg = "Record updated successfully";
                 }
             }
             //echo "<pre>";print_r($input);exit;
-           
+
             if (isset($input['projectData'])) {
                 if (!empty($input['projectData']['project_amenities_list'])) {
 //                    $input['projectData']['project_amenities_list'] = $input['projectData']['project_amenities_list'];
@@ -528,7 +524,9 @@ class ProjectsController extends Controller {
     public function deleteImage() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        echo "<pre>";print_r($request);exit;
+        echo "<pre>";
+        print_r($request);
+        exit;
         if ($request['tblFieldName'] == "specification_images") {
             $selectedImgs = json_encode($request['selectedImg']);
             $decodeValue = json_decode($request['delImgName']);
@@ -621,7 +619,7 @@ class ProjectsController extends Controller {
         }
         return json_encode($result);
     }
-    
+
     public function manageProjectsExportToExcel() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
 

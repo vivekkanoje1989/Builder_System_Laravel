@@ -93,19 +93,19 @@
                             <tr>
                             <tr>
                                 <th style="width:5%">Sr. No.</th>                  
-                                <th style="width:35%">
+                                <th style="width:30%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'country_name'; reverseSort = !reverseSort">Country
                                         <span ng-show="orderByField == 'country_name'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a>
                                 </th>
-                                <th style="width:35%">
+                                <th style="width:30%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'name'; reverseSort = !reverseSort">State
                                         <span ng-show="orderByField == 'name'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a>
                                 </th>                          
-                                <th style="width: 5%">Actions</th>
+                                <th style="width: 15%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,7 +114,8 @@
                                 <td>{{list.country_name}}</td>
                                 <td>{{list.name}}</td>                          
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit State" style="display: block;" data-toggle="modal" data-target="#statesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}','{{list.country_name}}','{{list.country_id}}',{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
+                                    <span class="" tooltip-html-unsafe="Edit State" data-toggle="modal" data-target="#statesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.name}}','{{list.country_name}}','{{list.country_id}}',{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteStates({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                         </tbody>
