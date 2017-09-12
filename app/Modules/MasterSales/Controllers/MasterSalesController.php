@@ -2994,13 +2994,11 @@ Regards,<br>
             else
             {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
-            }            
-            //print_r($request);exit;
+            }
             if($request['isUpdate'])
             { // update customer
                 $update =Customer::where('id',$request['documentData']['customer_id'])->update(['first_name'=>$request['documentData']['customer_fname'],'last_name'=>$request['documentData']['customer_lname'],'title_id'=>$request['documentData']['title_id']]);               
-            }
-            
+            }            
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $insertDocument['enquiry_id'] =$request['enquiry_id'] ;
             $insertDocument['project_id'] = $request['documentData']['project_id'];
@@ -3018,11 +3016,8 @@ Regards,<br>
             }
             if(!empty($doc['specification_images'])){
                 $doc['specification_images'] = json_decode($doc['specification_images'],true);
-            }
-            
+            }            
             $insertDocument['send_datetime'] = date('Y-m-d H:i:s');            
-            
-            
             // sms mail template
             
             $templatedata['employee_id'] = $loggedInUserId;
@@ -3041,33 +3036,33 @@ Regards,<br>
                 }
             }
             if(!empty($doc['floor_plan_images']) && count($doc['floor_plan_images']) > 0){
-                $floorPlan = "Floor Images<br>";
+                $floorPlan = "<b>Floor Images</b><br>";
                 foreach ($doc['floor_plan_images'] as $floor){
                     $floorPlan = $floorPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/".$floor['floor_plan_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/".$floor['floor_plan_images']."' height='80px' width='80px'></a>";
                 }
             }
             if(!empty($doc['specification_images']) && count($doc['specification_images']) > 0){
-                $specific = "Specification Images<br>";
+                $specific = "<b>Specification Images</b><br>";
                 foreach ($doc['specification_images'] as $spec){
                     $specific = $specific . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/".$spec['specification_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/".$spec['specification_images']."' height='80px' width='80px'></a>";
                 }
             }
             if(!empty($doc['location_map_images']) && count($doc['location_map_images']) > 0){
-                $locationMap = 'Location Map';
+                $locationMap = '<b>Location Map</b><br>';
                  foreach ($doc['location_map_images'] as $loc){
                     $locationMap = $locationMap . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$loc['location_map_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$loc['location_map_images']."' height='80px' width='80px'></a>";
                 }
-            }            
+            }
             if(!empty($doc['amenities_images'])){
                 $amenity = explode(',', $doc['amenities_images']);
-                $amenities = 'Amenities:';
+                $amenities = '<b>Amenities:</b><br>';
                 foreach ($amenity as $a){
                     $amenities = $amenities . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$a."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$a."' height='80px' width='80px'></a>";
                 }
-            } 
+            }
             if(!empty($doc['video_link'])){
-                $videoLink = '<b>Video Link : <a href="'.$doc['video_link'].'">'.$doc['video_link'].'</a>';
-            }            
+                $videoLink = '<b>Video Link :</b> <a href="'.$doc['video_link'].'"><u>'.$doc['video_link'].'</u></a>';
+            }
            // echo $layoutPlan;exit;
             $templatedata['arrExtra'][0] = array(
                 '[#layoutPlan#]',
@@ -3085,9 +3080,8 @@ Regards,<br>
                 $amenities,
                 $videoLink,
             );
-            //print_r($request['sendDocument']);exit;
-            //$Templateresult = CommonFunctions::templateData($templatedata);
-            print_r($Templateresult);exit;
+             $Templateresult = CommonFunctions::templateData($templatedata);
+            //print_r($Templateresult);exit;
             
             // insert into send document history
             $insertDocument['send_documents'] =json_encode($doc);
@@ -3105,13 +3099,18 @@ Regards,<br>
     
     public function sendDocList()
     {
-        try{
+        try{            
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata,true);
-            $allSend = SendDocumentHistory::select('send_document_history.id','enquiry_id','project_id','send_documents','send_datetime','send_by','project_name')
+            $allSend = SendDocumentHistory::select('send_document_history.id','enquiry_id','project_id','send_documents','send_datetime','send_by','project_name','employees.first_name','employees.last_name')
                     ->leftJoin('projects','send_document_history.project_id','=','projects.id')
+                    ->leftJoin('employees','send_document_history.send_by','=','employees.id')
                     ->where('enquiry_id',$request['enquiry_id'])
                     ->get();
+            foreach($allSend as $sent)
+            {
+                $sent['send_documents'] = json_decode($sent['send_documents'],true);
+            }
             if(count($allSend) > 0)
             {
                 $result = ["success" => true, 'records'=>$allSend];
@@ -3123,7 +3122,7 @@ Regards,<br>
         } catch (Exception $ex) {
              $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-        return response()->json($result);
+       return response()->json($result);
     }
     
 }

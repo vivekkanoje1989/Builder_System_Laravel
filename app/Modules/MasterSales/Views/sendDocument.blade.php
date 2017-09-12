@@ -127,17 +127,17 @@
                                     </th>
                                     <th style="width: 75px">
                                         Documents
-                                    </th>                                       
+                                    </th>  
+                                    <th style="width: 10px">
+                                        Send By
+                                    </th> 
                                     <th style="width: 10px">
                                         Send Date
                                     </th>                
                                 </tr>
                             </thead>
-                            <tbody ng-repeat="history in sendList track by $index | orderBy:orderByField:reverseSort">
-                                <tr ng-if="sendList.len  == 0">
-                                    <td colspan="4">No Records Found</td>
-                                </tr>
-                                <tr role="row">
+                            <tbody>                                
+                                <tr role="row"  ng-repeat="history in sendList track by $index | orderBy:orderByField:reverseSort">
                                     <td rowspan="2">
                                         {{ $index + 1}}
                                     </td>
@@ -194,8 +194,14 @@
                                         </div>
                                     </td>
                                     <td>
+                                        {{ history.first_name}}   {{ history.last_name}} 
+                                    </td>
+                                    <td>
                                         {{ history.send_datetime}}
                                     </td>
+                                </tr>
+                                <tr ng-if="!sendList.length">
+                                    <td colspan="5"><center>No Records Found</center></td>
                                 </tr>
                             </tbody>
                         </table>

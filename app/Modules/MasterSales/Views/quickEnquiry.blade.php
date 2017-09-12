@@ -26,6 +26,7 @@
         display: inline-flex;
         margin: 0 30px;
     }
+    
 </style>
 <div class="row"> 
     <div class="widget flat radius-bordered ">
@@ -50,7 +51,9 @@
                                             <div ng-show="sbtBtn" ng-messages="customerData.searchWithMobile.$error" class="help-block">
                                                 <div ng-message="minlength">Invalid mobile no.</div>
                                                 <div ng-message="customerInputs">Mobile number does not exist!</div>
-                                            </div> 
+                                                <div ng-message="customerPattern">Mobile number wrong!</div>
+                                            </div>
+                                            <div ng-show="errMobile" class="sp-err">Invalid Mobile number!</div>
                                         </span>
                                     </div>
                                 </div>
@@ -119,13 +122,13 @@
                                                     {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}
                                                     <div ng-if="enquiry.mobile_number != ''" ng-init="mobile_number = enquiry.mobile_number.split(',')" class="ng-scope">
                                                         <span ng-repeat="mobile_obj in mobile_number| limitTo:2" class="ng-binding ng-scope">
-                                                            <a style="cursor: pointer;" class="Linkhref ng-scope" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1,<?php echo Auth::guard('admin')->user()->id; ?>,{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                                            <a style="cursor: pointer;" class="Linkhref ng-scope" ng-if="mobile_obj != null" ng-click="cloudCallingLog(1,[[Auth::guard('admin')->user()->id]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
                                                                 <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;">
                                                             </a>
                                                             {{mobile_obj}}
                                                         </span>
                                                     </div>
-                                                    <p>{{enquiry.email_id}}</p>
+                                                    <p ng-if="enquiry.email_id != '' && enquiry.email_id !='null' ">{{enquiry.email_id}}</p>
                                                     <hr class="enq-hr-line">
                                                     <div>
                                                         <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{ enquiry.customer_id}})</a>
@@ -139,8 +142,8 @@
                                                      <hr class="enq-hr-line">
                                                     Category :  {{enquiry.enquiry_category}}
                                                      <hr class="enq-hr-line">
-                                                    Model : {{enquiry.model_name}} 
-                                                     <hr class="enq-hr-line">
+<!--                                                    Model : {{enquiry.model_name}} 
+                                                     <hr class="enq-hr-line">-->
                                                     <div>
                                                         <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id }}/eid/{{ enquiry.id}}" class="ng-binding"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
                                                     </div>
@@ -246,21 +249,6 @@
                             </div>
                         </div>
                     </div>
-<!--                        <div class="DTTTFooter">
-                            <div class="col-sm-6">
-                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
-                                    <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
-                                </div>
-                            </div>
-                        </div>-->
-<!--                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br>
-                            <div class="form-group" align="center">
-                                <button type="submit" class="btn btn-primary" ng-click="createEnquiry()">Insert New Enquiry</button>
-                            </div> 
-                        </div> -->
                     </div>
                 </div>            
             </div>
