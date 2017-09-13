@@ -55,6 +55,7 @@ Route::group(array('module' => 'Projects', 'middleware' => ['auth:admin'], 'name
     Route::get( '/projects/create', ['middleware'=>'check-permission:050102', 'uses' => 'ProjectsController@create']);
     Route::post( '/projects/', ['middleware'=>'check-permission:050102', 'uses' => 'ProjectsController@store']);
     
+    Route::post( '/projects/inventoryDetails', ['middleware'=>'check-permission:050103', 'uses' => 'ProjectsController@inventoryDetails']); // get Inventory Details
     Route::post( '/projects/getInventoryDetails', ['middleware'=>'check-permission:050103', 'uses' => 'ProjectsController@getInventoryDetails']); // get Inventory Details
     Route::post( '/projects/basicInfo', ['middleware'=>'check-permission:050103', 'uses' => 'ProjectsController@basicInfo']); //save basic info
     Route::post( '/projects/getAmenitiesListOnEdit', ['middleware'=>'check-permission:050103', 'uses' => 'ProjectsController@getAmenitiesListOnEdit']); //get ameniti list on edit

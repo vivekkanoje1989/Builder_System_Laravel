@@ -33,7 +33,7 @@
                         <div class="textStyle"><span class="ng-binding">{{list.title}}</span></div>
                     </div>
                     <span class="input-icon icon-right">
-                        <a href data-toggle="modal" data-target="#specificationDataModal" ng-click="resetSpecificationDetails()">CLICK HERE TO UPLOAD SPECIFICATION</a> 
+                        <a href data-toggle="modal" data-target="#specificationDataModal" ng-click="resetDetails()">CLICK HERE TO UPLOAD SPECIFICATION</a> 
                     </span>                                                   
                 </div>
             </div> 
@@ -69,7 +69,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Specification Details</h4>
             </div>
-            <form novalidate name="modalForm" ng-submit="specicationRow(projectData.prid,modalData,modalImages,'specificationData')">
+            <form novalidate name="modalForm" id="modalForm" ng-submit="specicationRow(projectData.prid,modalData,modalImages,'specificationData')">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="row" ng-init="wings()">
@@ -103,20 +103,20 @@
                                 <div class="form-group" ng-class="{ 'has-error' : modalSbtBtn && (!modalForm.specification_images.$dirty && modalForm.specification_images.$invalid)}">
                                     <label>Specification Images (Size: W 250 X H 250)<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="file" ngf-select ng-model="modalImages.specification_images" name="specification_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" required>
+                                        <input type="file" ngf-select ng-model="modalImages.specification_images" name="specification_images" id="specification_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" required>
                                     </span>    
                                     <span class="help-block">{{specification_images_err}}</span>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-xs-12">
-                                <div class="img-div2" data-title="name" ng-repeat="list in specification_images_preview">    
+                                <div class="block-img-div2" data-title="name" ng-repeat="list in specification_images_preview">    
                                     <img ng-src="{{list}}" class="thumb photoPreview">
                                 </div>
                             </div> 
                         </div>  
                     </div>
                 <div class="modal-footer" align="left">
-                    <button type="submit" class="btn btn-primary" ng-click="modalSbtBtn=true">Add</button>
+                    <button type="submit" class="btn btn-primary" ng-click="modalSbtBtn=true" ng-disabled="sbtbtnmodal">Add</button>
                 </div>
             </div>
         </form>

@@ -86,7 +86,7 @@
                     <img ng-src="[[ config('global.s3Path') ]]/project/project_banner_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_banner_images_preview">    
-                    <i class="fa fa-times rem-icon"  title=""></i>
+                    <!--<i class="fa fa-times rem-icon" title=""></i>-->
                     <img ng-src="{{list}}" class="thumb photoPreview">
                 </div>
             </div>
@@ -110,7 +110,7 @@
                     <img ng-src="[[ config('global.s3Path') ]]/project/project_background_images/{{list}}" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_background_images_preview">    
-                    <i class="fa fa-times rem-icon"  title=""></i>
+                    <!--<i class="fa fa-times rem-icon"  title=""></i>-->
                     <img ng-src="{{list}}" class="thumb photoPreview">
                 </div>
             </div>
@@ -131,7 +131,7 @@
                     <img ng-src="images/pdf_icon.png" class="thumb photoPreview">
                 </div>
                 <div class="img-div2" data-title="name" ng-repeat="list in project_brochure_preview">    
-                    <i class="fa fa-times rem-icon"  title=""></i>
+                    <!--<i class="fa fa-times rem-icon"  title=""></i>-->
                     <img ng-src="{{list}}" class="thumb photoPreview">
                 </div>
             </div>
