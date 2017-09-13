@@ -19,7 +19,7 @@
                 <span class="widget-caption">{{pagetitle}}</span>                
             </div>
             <div class="widget-body table-responsive">               
-                <div class="row" ng-if="enquiriesLength != 0 "> 
+                <div class="row"> 
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label for="search">Records per page:</label>
