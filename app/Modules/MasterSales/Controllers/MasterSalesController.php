@@ -3002,12 +3002,14 @@ Regards,<br>
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
             $insertDocument['enquiry_id'] =$request['enquiry_id'] ;
             $insertDocument['project_id'] = $request['documentData']['project_id'];
+           
             foreach($request['sendDocument'] as $val)
             {
                 $arr = array();
                 $arr = explode('@',$val);
                 $doc[$arr[0]] = $arr[1];                  
             }
+            //
             if(!empty($doc['floor_plan_images'])){
                 $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'],true);
             }
@@ -3036,34 +3038,35 @@ Regards,<br>
                 }
             }
             if(!empty($doc['floor_plan_images']) && count($doc['floor_plan_images']) > 0){
-                $floorPlan = "<b>Floor Images</b><br>";
+                $floorPlan = "<br><b>Floor Images</b><br>";
                 foreach ($doc['floor_plan_images'] as $floor){
                     $floorPlan = $floorPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/".$floor['floor_plan_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/".$floor['floor_plan_images']."' height='80px' width='80px'></a>";
                 }
             }
             if(!empty($doc['specification_images']) && count($doc['specification_images']) > 0){
-                $specific = "<b>Specification Images</b><br>";
+                $specific = "<br><b>Specification Images</b><br>";
                 foreach ($doc['specification_images'] as $spec){
                     $specific = $specific . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/".$spec['specification_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/".$spec['specification_images']."' height='80px' width='80px'></a>";
                 }
             }
-            if(!empty($doc['location_map_images']) && count($doc['location_map_images']) > 0){
-                $locationMap = '<b>Location Map</b><br>';
-                 foreach ($doc['location_map_images'] as $loc){
-                    $locationMap = $locationMap . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$loc['location_map_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$loc['location_map_images']."' height='80px' width='80px'></a>";
+            if(!empty($doc['location_map_images'])){
+                $locarr = explode(',',$doc['location_map_images']);
+                $locationMap = '<br><b>Location Map</b><br>';
+                 foreach ($locarr as $loc=>$val){
+                    $locationMap = $locationMap . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$val."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$val."' height='80px' width='80px'></a>";
                 }
             }
             if(!empty($doc['amenities_images'])){
                 $amenity = explode(',', $doc['amenities_images']);
-                $amenities = '<b>Amenities:</b><br>';
-                foreach ($amenity as $a){
-                    $amenities = $amenities . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$a."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$a."' height='80px' width='80px'></a>";
+                $amenities = '<br><b>Amenities:</b><br>';
+                foreach ($amenity as $k=>$v){
+                    $amenities = $amenities . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$v."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$v."' height='80px' width='80px'></a>";
                 }
             }
             if(!empty($doc['video_link'])){
-                $videoLink = '<b>Video Link :</b> <a href="'.$doc['video_link'].'"><u>'.$doc['video_link'].'</u></a>';
+                $videoLink = '<br><b>Video Link :</b> <a href="'.$doc['video_link'].'"><u>'.$doc['video_link'].'</u></a>';
             }
-           // echo $layoutPlan;exit;
+            
             $templatedata['arrExtra'][0] = array(
                 '[#layoutPlan#]',
                 '[#floorPlan#]',
@@ -3080,7 +3083,7 @@ Regards,<br>
                 $amenities,
                 $videoLink,
             );
-             $Templateresult = CommonFunctions::templateData($templatedata);
+            // $Templateresult = CommonFunctions::templateData($templatedata);
             //print_r($Templateresult);exit;
             
             // insert into send document history

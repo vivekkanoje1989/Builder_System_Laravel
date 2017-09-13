@@ -18,7 +18,7 @@
                 <span class="widget-caption">{{pagetitle}}</span>                
             </div>
             <div class="widget-body table-responsive"> 
-                <div class="row" ng-if="enquiriesLength != 0 "> 
+                <div class="row"> 
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
                             <label for="search">Records per page:</label>
@@ -32,9 +32,9 @@
                                 <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_lost_enquiries')"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                                 <!--<button type="button"  class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Bulk Reassign</button>-->
                                 <div ng-if="enquiriesLength != 0">
-                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-right: 5px;">
+                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                                    <a href id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-right: 5px;">
+                                    <a href id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-left: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                                     </a> 
                                 </div>
@@ -195,7 +195,7 @@
                                    
                                 
                                 </div>
-                                <div>                                   
+                                <div>                            
                                     <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != '' " data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
                                         <b>Project :</b>
                                          {{enquiry.project_block_name | limitTo : 45 }}
