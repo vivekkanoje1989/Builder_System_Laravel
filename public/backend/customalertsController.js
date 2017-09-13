@@ -27,6 +27,14 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
             });
         };
 
+        $scope.deleteCustomTemplate = function (id, index) {
+            Data.post('customalerts/deleteCustomTemplate', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Custom template', 'Custom Template deleted successfully');
+                $scope.listcustomAlerts.splice(index, 1);
+            });
+        }
+
         $scope.createAlert = function (enteredData, alterId) {
             var customAlertData = {};
             $scope.isDisabled = true;
@@ -128,12 +136,4 @@ app.directive('ckEditor', function () {
         }
     };
 });
-app.filter('htmlToPlaintext', function ()
-{
-    return function (text)
-    {
-        var temp = text ? String(text).replace(/<[^>]+>/gm, '') : '';
-        temp = temp ? String(temp).replace(/  /g, '&nbsp; ') : '';
-        return  temp;
-    };
-});
+

@@ -44,6 +44,7 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     Route::get('/getEmployeeData', 'VirtualNumberController@getEmployeeData');
     Route::get('/virtualnumber/{id}/nonworkinghoursUpdate', 'VirtualNumberController@nonworkingUpdate');
     Route::post('virtualnumber/updateNonworkinghours', 'VirtualNumberController@updateNonworkinghours');
+    Route::post('virtualnumber/deleteVirtualNumber', 'VirtualNumberController@deleteVirtualNumber');
     
 //    export
     Route::get('/cloudcallinglogs/myInboundExportToxls', 'CloudCallingLogsController@myInboundExportToxls'); 
@@ -68,6 +69,7 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
      Route::get('/getCtEmployeeExtension', 'ExtensionEmployeeController@getCtEmployeeExtension');
      Route::get('/getEmployeeExtData', 'ExtensionEmployeeController@getEmployeeExtData');
      Route::post('/getExtensionEmployee', 'ExtensionEmployeeController@getExtensionEmployee');
+     Route::post('/deleteEmpExt', 'ExtensionEmployeeController@deleteEmpExt');
      Route::post('/createExtEmployee', 'ExtensionEmployeeController@createExtEmployee');
     
      Route::get('/getVirtualnumbers', 'CloudCallingLogsController@getVirtualnumbers');

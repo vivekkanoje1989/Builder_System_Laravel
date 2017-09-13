@@ -33,6 +33,15 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', 'toaster', function ($s
             });
         };
         
+        
+        $scope.deleteEnquiryLocation = function (id, index) {
+            Data.post('enquiry-location/deleteEnquiryLocation', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Enquiry Location', 'Enquiry Location deleted successfully');
+                $scope.enquiryLocationRow.splice(index, 1);
+            });
+        }
+        
         $scope.enquiryLocationExportToxls = function () {
             $scope.getexcel = window.location = "/enquiry-location/enquiryLocationExportToxls";
             if ($scope.getexcel) {

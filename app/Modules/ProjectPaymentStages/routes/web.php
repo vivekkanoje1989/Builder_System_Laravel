@@ -5,5 +5,6 @@ Route::group(array('module' => 'ProjectPaymentStages', 'middleware' => ['auth:ad
     Route::get('/project-payment/projectPaymentStagesExportToxls','ProjectPaymentStagesController@projectPaymentStagesExportToxls');
     Route::post('/project-payment/manageProjectPaymentStages','ProjectPaymentStagesController@manageProjectPaymentStages');
     Route::post('/project-payment/manageProjectTypes','ProjectPaymentStagesController@manageProjectTypes'); 
+    Route::post('/project-payment/deleteProjectStages','ProjectPaymentStagesController@deleteProjectStages'); 
     Route::resource('/project-payment', 'ProjectPaymentStagesController');
 });	

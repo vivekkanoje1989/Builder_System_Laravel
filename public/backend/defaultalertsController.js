@@ -19,13 +19,21 @@ app.controller('defaultalertsController', ['$rootScope', '$scope', '$state', 'Da
             });
         };
 
+
+        $scope.deleteDefaultTemplate = function (id, index) {
+            Data.post('defaultalerts/deleteDefaultTemplate', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage Default Template', 'Default Template deleted successfully');
+                $scope.listdefaultAlerts.splice(index, 1);
+            });
+        }
         $scope.defaultTemplatesExportToxls = function () {
-                $scope.getexcel = window.location = "/defaultalerts/defaultTemplatesExportToxls";
-                if ($scope.getexcel) {
-                    toaster.pop('info', '', 'Exporting....');
-                } else {
-                    toaster.pop('error', '', 'Exporting fails....');
-                }
+            $scope.getexcel = window.location = "/defaultalerts/defaultTemplatesExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
         }
         $scope.createAlert = function (enteredData, alterId) {
             var defaultAlertData = {};
@@ -114,14 +122,5 @@ app.directive('ckEditor', function () {
                 ck.setData(ngModel.$modelValue);
             };
         }
-    };
-});
-app.filter('htmlToPlaintext', function ()
-{
-    return function (text)
-    {
-        var temp = text ? String(text).replace(/<[^>]+>/gm, '') : '';
-        temp = temp ? String(temp).replace(/  /g, '&nbsp; ') : '';
-        return  temp;
     };
 });

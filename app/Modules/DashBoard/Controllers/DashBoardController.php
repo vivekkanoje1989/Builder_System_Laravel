@@ -65,6 +65,11 @@ class DashBoardController extends Controller {
                 ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
                 ->where('db2.id', '!=', $loggedInUserId)
                 ->get();
+        $i=0;
+        foreach($employees as $employee){
+            $employees[$i]->employeeName = $employee->first_name.' '.$employee->last_name;
+            $i++;
+        }
 
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];

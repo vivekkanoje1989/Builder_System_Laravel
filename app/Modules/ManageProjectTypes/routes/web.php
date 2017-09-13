@@ -4,6 +4,7 @@ Route::group(array('module' => 'ManageProjectTypes','middleware' => ['auth:admin
 
     $getUrl = config('global.getUrl');
     Route::post('/project-types/manageProjectTypes','ManageProjectTypesController@manageProjectTypes');
+    Route::post('/project-types/deleteProjectTypes','ManageProjectTypesController@deleteProjectTypes');
     Route::get('/project-types/projectTypesExportToxls','ManageProjectTypesController@projectTypesExportToxls');
     Route::resource('/project-types', 'ManageProjectTypesController');
 });	

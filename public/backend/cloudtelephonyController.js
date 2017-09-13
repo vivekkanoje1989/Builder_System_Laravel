@@ -372,6 +372,13 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
         }
 
 
+        $scope.deleteVirtualNumber = function (id, index) {
+            Data.post('virtualnumber/deleteVirtualNumber', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Cloud Telephony', 'Virtual Number deleted successfully');
+                $scope.listNumbers.splice(index, 1);
+            });
+        }
         $scope.managevLists = function (id, action) { //edit/index page
             Data.post('virtualnumber/manageLists', {
                 id: id,

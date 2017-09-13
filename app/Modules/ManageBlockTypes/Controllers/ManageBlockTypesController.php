@@ -21,8 +21,8 @@ class ManageBlockTypesController extends Controller {
     public function manageBlockTypes() {
 
         $getBlockname = MlstBmsbBlockTypes::join('laravel_developement_master_edynamics.mlst_bmsb_project_types', 'mlst_bmsb_project_types.id', '=', 'mlst_bmsb_block_types.project_type_id')
-                ->select('mlst_bmsb_block_types.id', 'mlst_bmsb_block_types.block_name', 'mlst_bmsb_project_types.id as project_id', 'mlst_bmsb_project_types.project_type as project_name')
-                ->get();
+                        ->select('mlst_bmsb_block_types.id', 'mlst_bmsb_block_types.block_name', 'mlst_bmsb_project_types.id as project_id', 'mlst_bmsb_project_types.project_type as project_name')
+                        ->where('mlst_bmsb_block_types.deleted_status', '!=', 1)->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -34,6 +34,17 @@ class ManageBlockTypesController extends Controller {
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
+        return json_encode($result);
+    }
+
+    public function deleteBlockTypes() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['blockTypesData'] = array_merge($request, $create);
+        $blockTypesData = MlstBmsbBlockTypes::where('id', $request['id'])->update($input['blockTypesData']);
+        $result = ['success' => true, 'result' => $blockTypesData];
         return json_encode($result);
     }
 

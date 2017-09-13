@@ -35,6 +35,13 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             $scope.searchData = {};
         }
 
+        $scope.deleteCompany = function (id, index) {
+            Data.post('manage-companies/deleteCompany', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Firms and partners', 'Company deleted successfully');
+                $scope.CompanyRow.splice(index, 1);
+            });
+        }
 
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;

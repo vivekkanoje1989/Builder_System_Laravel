@@ -21,8 +21,8 @@
 }
 </style>
 <div class="row">
-    <form role="form" name="galleryForm" ng-submit="saveBasicInfo(specificationData)">
-        <input type="hidden" ng-model="galleryForm.csrfToken" name="csrftoken" ng-init="galleryForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+    <form role="form" name="specificationForm" ng-submit="uploadsData(projectData.prid,'',specificationData)">
+        <input type="hidden" ng-model="specificationData.csrfToken" name="csrftoken" ng-init="specificationData.csrfToken = '[[csrf_token()]]'" class="form-control">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
                 <div class="form-group">
@@ -69,7 +69,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Specification Details</h4>
             </div>
-            <form novalidate name="modalForm" ng-submit="specicationRow(modalData,modalImages,'specificationData')">
+            <form novalidate name="modalForm" ng-submit="specicationRow(projectData.prid,modalData,modalImages,'specificationData')">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div class="row" ng-init="wings()">

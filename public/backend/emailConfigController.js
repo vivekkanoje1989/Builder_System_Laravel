@@ -16,6 +16,15 @@ app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
         }
     }; 
     
+     $scope.deleteEmailConfig = function (id, index) {
+            Data.post('email-config/deleteEmailConfig', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Email Configure', 'Email Account deleted successfully');
+                $scope.listmails.splice(index, 1);
+            });
+        }
+        
+    
     $scope.configEmailExportToxls = function (){
           $scope.getexcel = window.location = "email-config/configEmailExportToxls";
             if ($scope.getexcel) {

@@ -25,6 +25,7 @@ class EnquiryLocationsController extends Controller {
                 ->join('laravel_developement_master_edynamics.mlst_states as mlst_states', 'mlst_states.id', '=', 'lst_enquiry_locations.state_id')
                 ->join('laravel_developement_master_edynamics.mlst_countries as mlst_countries', 'mlst_countries.id', '=', 'lst_enquiry_locations.country_id')
                 ->select('lst_enquiry_locations.location', 'lst_enquiry_locations.id', 'mlst_states.country_id', 'mlst_states.id as state_id', 'mlst_cities.name as city_name', 'mlst_states.name as state_name', 'mlst_countries.name as country_name')
+                ->where('lst_enquiry_locations.deleted_status', '!=', 1)
                 ->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
@@ -38,6 +39,20 @@ class EnquiryLocationsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
+    }
+    
+    
+    
+     public function deleteEnquiryLocation() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['enquiryLocationData'] = array_merge($request, $create);
+        $enqLocation= lstEnquiryLocations::where('id', $request['id'])->update($input['enquiryLocationData']);
+        $result = ['success' => true, 'result' => $enqLocation];
+        return json_encode($result);
+        
     }
 
     public function enquiryLocationExportToxls() {

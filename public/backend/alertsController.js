@@ -36,6 +36,14 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
          }
     }; 
     
+    $scope.deleteTemplate = function (id, index) {
+            Data.post('alerts/deleteTemplate', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage Template', 'Template deleted successfully');
+                $scope.listAlerts.splice(index, 1);
+            });
+        }
+    
       $scope.templatesExportToxls = function () {
                 $scope.getexcel = window.location = "/alerts/templatesExportToxls";
                 if ($scope.getexcel) {

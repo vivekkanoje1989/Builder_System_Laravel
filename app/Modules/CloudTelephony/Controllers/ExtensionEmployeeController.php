@@ -39,7 +39,7 @@ class ExtensionEmployeeController extends Controller {
                 ->leftjoin('employees as emp', 'emp.id', '=', 'ct_employees_extensions.employee_id')
                 ->leftjoin('lmsauto_master_final.mlst_lmsa_designations as mld', 'mld.id', '=', 'emp.designation_id')
                 ->orderBy('ct_employees_extensions.id', 'ASC')
-                ->get();
+                ->where('ct_employees_extensions.deleted_status', '!=', 1)->get();
         $i = 0;
         foreach ($ctEmployeesExtension as $ctEmployeesExt) {
             $ctEmployeesExtension[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
@@ -57,6 +57,20 @@ class ExtensionEmployeeController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
+    }
+
+    
+    
+     public function deleteEmpExt() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['empExtension'] = array_merge($request, $create);
+        $employeeExt = CtEmployeesExtension::where('id', $request['id'])->update($input['empExtension']);
+        $result = ['success' => true, 'result' => $employeeExt];
+        return json_encode($result);
+        
     }
 
     public function employeeExtExportToxls() {

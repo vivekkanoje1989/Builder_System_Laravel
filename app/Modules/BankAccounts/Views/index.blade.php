@@ -127,20 +127,21 @@
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a>
                                 </th>                               
-                                <th style="width: 5%">Actions</th>
+                                <th style="width: 15%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr role="row" dir-paginate="item in bankAccountRow| filter:search |filter:searchData | orderBy:orderByField:reverseSort |itemsPerPage:itemsPerPage">
-                                <td>{{$index + 1}}</td>
+                               <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td> 
                                 <td>{{item.legal_name}}</td>  
                                 <td>{{item.name}}</td>     
                                 <td>{{item.branch}}</td> 
                                 <td>{{item.account_type == '1' ? "Saving":"Current"}}</td>
                                 <td>{{item.account_number}}</td>  
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#bankAccountModal"><a href="javascript:void(0);" ng-click="initialModel({{ item.id}},{{item}},{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
-                                </td>
+                                    <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#bankAccountModal"><a href="javascript:void(0);" ng-click="initialModel({{ item.id}},{{item}},{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBankAccount({{item.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                 </td>
                             </tr>
                         </tbody>
                     </table>

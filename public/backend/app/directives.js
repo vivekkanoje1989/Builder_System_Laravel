@@ -309,6 +309,9 @@ app.directive("ngfSelect", [function () {
                 }else if(ngModel.name === "welcome_tune_audio" || ngModel.name === "hold_tune_audio"){
                     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.mp3)$/;
                     var errmsg =  " is invalid file."
+                }else if(ngModel.name === "project_brochure" ){
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.pdf)$/;
+                    var errmsg =  " is invalid file. Please upload pdf file only."
                 }
                 else{
                     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp|.svg|.xls)$/;
@@ -327,7 +330,7 @@ app.directive("ngfSelect", [function () {
                             $scope[ngModel.name + "_preview"].push(e.target.result);
                         }
                         reader.readAsDataURL(file[0]);
-                    } else {
+                    } else {console.log(imgName + errmsg);
                         $scope[ngModel.name + "_err"] = imgName + errmsg;
                         $scope[ngModel.name + "_preview"] = "";
                         $("#"+ngModel.name).val("");

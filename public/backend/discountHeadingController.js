@@ -32,6 +32,14 @@ app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'to
             });
         };
         
+        $scope.deleteDiscountHeading = function (id, index) {
+            Data.post('discount-headings/deleteDiscountHeading', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Dic=scount Heading', 'Discount Heading deleted successfully');
+                $scope.DiscountHeadingRow.splice(index, 1);
+            });
+        }
+        
         $scope.discountHeadingExportToxls = function () {
             $scope.getexcel = window.location = "/discount-headings/discountHeadingExportToxls";
             if ($scope.getexcel) {

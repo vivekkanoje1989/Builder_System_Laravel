@@ -43,6 +43,7 @@ class ProjectStatus extends Eloquent
 	protected $table = 'project_status';
 
 	protected $casts = [
+		'client_id' => 'int',
 		'project_id' => 'int',
 		'status' => 'int',
 		'created_by' => 'int',
@@ -61,6 +62,7 @@ class ProjectStatus extends Eloquent
 	];
 
 	protected $fillable = [
+		'client_id',
 		'project_id',
 		'images',
 		'status',

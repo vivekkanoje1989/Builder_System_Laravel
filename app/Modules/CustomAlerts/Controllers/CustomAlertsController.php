@@ -113,7 +113,7 @@ class CustomAlertsController extends Controller {
                     ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'tc.template_event_id', '=', 'te.id')
                     ->select('tc.*', 'te.event_name')
                     ->where('tc.client_id', '=', 1)
-                    ->get();
+                    ->where('tc.deleted_status', '!=', 1)->get();
         }
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
@@ -127,6 +127,18 @@ class CustomAlertsController extends Controller {
         return json_encode($result);
     }
 
+    
+     public function deleteCustomTemplate() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['customData'] = array_merge($request, $create);
+        $customTemplates = TemplatesCustom::where('id', $request['id'])->update($input['customData']);
+        $result = ['success' => true, 'result' => $customTemplates];
+        return json_encode($result);
+        
+    }
     public function updateCustomAlerts() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);

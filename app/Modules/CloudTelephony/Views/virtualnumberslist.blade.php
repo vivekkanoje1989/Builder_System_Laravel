@@ -137,13 +137,13 @@
                                                 <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                         </a>
                                     </th>
-                                    <th style="width:20%">
+                                    <th style="width:15%">
                                         <a href="javascript:void(0);" ng-click="orderByField = 'employee_name'; reverseSort = !reverseSort">Employee
                                             <span ng-show="orderByField == 'employee_name'">
                                                 <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                         </a>
                                     </th>
-                                    <th style="width: 5%">Actions</th>
+                                    <th style="width: 10%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -168,8 +168,9 @@
 
 
                                     <td class="">
-                                        <div class="" tooltip-html-unsafe="Edit" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/virtualnumber/update/{{ listNumber.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
-                                    </td>
+                                        <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/virtualnumber/update/{{ listNumber.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                     <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteVirtualNumber({{listNumber.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                </td>
                                 </tr>
                                 <tr>
                                     <!--<td colspan="8"  ng-show="searchLength == undefined || searchLength== 0" align="center">Record Not Found</td>-->   
@@ -250,7 +251,7 @@
                 </div>
                 <div class=" col-xs-12" >
                     <div class="form-group"   ng-init="getEmployeeData()">
-                        <label for="">Employee<span class="sp-err">*</span></label>   
+                        <label for="">Employee</label>   
                         <select class="form-control"  ng-model="searchDetails.employee_name" name="employee_name" id="employee_id" >
                             <option value="">Select Employee</option>
                             <option ng-repeat="item in ct_employee" value="{{item.employee}}" ng-selected="{{ item.employee == searchDetails.employee_name}}" >{{item.employee}}</option>

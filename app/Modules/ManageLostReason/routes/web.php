@@ -5,5 +5,6 @@ Route::group(array('module' => 'ManageLostReason','middleware' => ['auth:admin']
     $getUrl = config('global.getUrl');
     Route::get('/lost-reasons/lostReasonExportToxls', 'ManageLostReasonController@lostReasonExportToxls');
     Route::post('/lost-reasons/manageLostReason', 'ManageLostReasonController@manageLostReason');
+    Route::post('/lost-reasons/deleteLostReason', 'ManageLostReasonController@deleteLostReason');
     Route::resource('/lost-reasons','ManageLostReasonController');
 });	

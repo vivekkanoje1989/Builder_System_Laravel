@@ -18,7 +18,7 @@ class ManageProfessionController extends Controller {
     }
 
     public function manageProfession() {
-        $getProfession = MlstProfessions::select('profession', 'status', 'id')->get();
+        $getProfession = MlstProfessions::select('profession', 'status', 'id')->where('deleted_status', '!=', 1)->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -32,6 +32,19 @@ class ManageProfessionController extends Controller {
         }
         return json_encode($result);
     }
+    
+    public function deleteProfession() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['professionData'] = array_merge($request, $create);
+        $professions = MlstProfessions::where('id', $request['id'])->update($input['professionData']);
+        $result = ['success' => true, 'result' => $professions];
+        return json_encode($result);
+        
+    }
+    
     
     public function professionExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);

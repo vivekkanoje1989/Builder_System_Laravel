@@ -8,7 +8,7 @@ Route::group(array('module' => 'DashBoard', 'middleware' => ['auth:admin'], 'nam
     Route::get('/request-for-me/requestForMeExportToxls', 'DashBoardController@requestForMeExportToxls');
     Route::get('/request-for-me/index', 'DashBoardController@requestsForMe');
     Route::get('/my-request/index', 'DashBoardController@myRequest');
-    Route::get('/getEmployees', 'DashBoardController@getEmployees');
+    Route::get('request-leave/getEmployees', 'DashBoardController@getEmployees');
     Route::post('/getEmployeesCC', 'DashBoardController@getEmployeesCC');
     Route::post('/request-approval/other', 'DashBoardController@otherApproval');
     Route::post('/my-request/getMyRequest', 'DashBoardController@getMyRequest');

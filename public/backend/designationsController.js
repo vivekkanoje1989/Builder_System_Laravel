@@ -32,6 +32,13 @@ app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scop
             });
         };
         
+        $scope.deleteDesignation = function (id, index) {
+            Data.post('manage-designations/deleteDesignation', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage Designation', 'Designation deleted successfully');
+                $scope.designationsRow.splice(index, 1);
+            });
+        }
         $scope.designationExportToxls = function () {
             $scope.getexcel = window.location = "/manage-designations/designationExportToxls";
             if ($scope.getexcel) {

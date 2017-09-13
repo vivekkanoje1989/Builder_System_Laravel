@@ -112,7 +112,7 @@
                                         <span ng-show="orderByField == 'projectStatus'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a></th>  
-                                <th style="width: 5%">Actions</th>
+                                <th style="width: 15%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,8 +125,8 @@
                                 <td>{{list.projectStatus}}</td>
                                 <td class="">
                                     <!--<div class="" tooltip-html-unsafe="Edit" style="display: block;"><a href="javascript:void(0);" ng-click="showWebPage({{list.id}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>-->
-                                    <div class="" tooltip-html-unsafe="Edit" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/projects/webpageDetails/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
-                                </td>
+                                    <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/projects/webpageDetails/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                  </td>
                             </tr>
                         </tbody>
                     </table>

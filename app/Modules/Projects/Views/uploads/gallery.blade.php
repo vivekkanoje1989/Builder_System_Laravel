@@ -1,5 +1,5 @@
 <div class="row">
-    <form role="form" name="galleryForm" ng-submit="saveBasicInfo(galleryData, projectImages)">
+    <form role="form" name="galleryForm" ng-submit="uploadsData(projectData.prid, galleryImages, galleryData)">
         <input type="hidden" ng-model="galleryForm.csrfToken" name="csrftoken" ng-init="galleryForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="col-sm-6 col-xs-12">
@@ -7,7 +7,6 @@
                     <label>Video Link</label>
                     <span class="input-icon icon-right">
                         <input type="text" class="form-control" ng-model="galleryData.video_link" name="video_link" />
-
                     </span>                                                   
                 </div>
             </div>  
@@ -26,7 +25,7 @@
                 <div class="form-group">
                     <label>Project Gallery (Size: W 250 X H 250)</label>
                     <span class="input-icon icon-right">
-                        <input type="file" ngf-select multiple ng-model="projectImages.project_gallery" name="project_gallery" id="project_gallery" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile">
+                        <input type="file" ngf-select multiple ng-model="galleryImages.project_gallery" name="project_gallery" id="project_gallery" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile">
                     </span>                                                   
                 </div>
             </div>

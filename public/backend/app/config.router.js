@@ -3542,13 +3542,14 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
+                                                        return $ocLazyLoad.load(['ui.select' ,'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
                                                                             '/backend/dashBoardController.js',
-                                                                            '/backend/app/controllers/datepicker.js'
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                             '/backend/app/controllers/select.js',
                                                                         ]
                                                                     }
                                                                     );

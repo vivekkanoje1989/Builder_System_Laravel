@@ -10,6 +10,7 @@ Route::group(array('module' => 'EnquiryLocations','middleware' => ['auth:admin']
     Route::post('/enquiry-location/manageStates', 'EnquiryLocationsController@manageStates');
     Route::post('/enquiry-location/manageCity', 'EnquiryLocationsController@manageCity');
     Route::post('/enquiry-location/filteredData', 'EnquiryLocationsController@filteredData');
+    Route::post('/enquiry-location/deleteEnquiryLocation', 'EnquiryLocationsController@deleteEnquiryLocation');
         
     Route::resource('/enquiry-location', 'EnquiryLocationsController');
      Route::get('/EnquiryLocations/showFilter', function () {

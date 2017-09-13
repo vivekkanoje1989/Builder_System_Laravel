@@ -23,7 +23,9 @@ class EmployeeDeviceController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         if ($input['id'] === 'index') { // index
-            $data = EmployeesDevice::select('employee_id', 'device_mac', 'device_name', 'device_status', 'device_type', 'id')->get();
+            $data = EmployeesDevice::select('employee_id', 'device_mac', 'device_name', 'device_status', 'device_type', 'id')
+                    ->where('deleted_status', '!=', 1)
+                    ->get();
             foreach ($data as $deviceData) {
                 $name = '';
                 $arr = explode(',', $deviceData['employee_id']);
@@ -59,6 +61,17 @@ class EmployeeDeviceController extends Controller {
         }
     }
 
+    public function deleteEmployeeDevice() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['empDevice'] = array_merge($request, $create);
+        $empDevice = EmployeesDevice::where('id', $request['id'])->update($input['empDevice']);
+        $result = ['success' => true, 'result' => $empDevice];
+        return json_encode($result);
+    }
+
     public function employeeDeviceExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
@@ -89,13 +102,13 @@ class EmployeeDeviceController extends Controller {
                 } else {
                     $employeeDevice['Device Type'] = 'mobile/tablet';
                 }
-                
-                if($data[$i]['device_status'] == '1'){
-                      $employeeDevice['Status'] = 'Active';
-                }else{
-                     $employeeDevice['Status'] = 'Inactive';
+
+                if ($data[$i]['device_status'] == '1') {
+                    $employeeDevice['Status'] = 'Active';
+                } else {
+                    $employeeDevice['Status'] = 'Inactive';
                 }
-              
+
                 $employeeData[] = $employeeDevice;
             }
 

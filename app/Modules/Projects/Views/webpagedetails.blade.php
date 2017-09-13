@@ -13,10 +13,10 @@
                     <tab heading="Website Settings">
                         <div data-ng-include="'/projects/basicinfo'" ng-init="webpageSettings([[ $projectId ]],'')"></div>
                     </tab>
-                    <tab heading="Uploads" class="uploadsTab" disabled="showAllTabs" ng-click="uploads([[ $projectId ]],'')">
+                    <tab heading="Uploads" class="uploadsTab" disabled="showAllTabs" ng-click="uploadsData([[ $projectId ]],'', '')">
                         <div data-ng-include=" '/projects/uploads' "></div>
                     </tab>
-                    <tab heading="Project Inventory" ng-click="getProjectInventory(0)" disabled="showAllTabs">
+                    <tab heading="Project Inventory" ng-click="getProjectInventory([[ $projectId ]])" disabled="showAllTabs">
                         <div data-ng-include=" '/projects/inventory' "></div>
                     </tab>
                     <tab heading="Floor Inventory" disabled="showAllTabs">

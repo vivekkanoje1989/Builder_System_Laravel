@@ -26,6 +26,7 @@ class ManageStatesController extends Controller {
     public function manageStates() {
 
         $getState = MlstStates::join('mlst_countries', 'mlst_states.country_id', '=', 'mlst_countries.id')
+                ->where('mlst_states.deleted_status', '!=', 1)
                 ->select('mlst_states.id', 'mlst_states.name', 'mlst_states.country_id', 'mlst_countries.name as country_name')
                 ->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
@@ -39,6 +40,17 @@ class ManageStatesController extends Controller {
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
+        return json_encode($result);
+    }
+
+    public function deleteStates() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['manageState'] = array_merge($request, $create);
+        $states = MlstStates::where('id', $request['id'])->update($input['manageState']);
+        $result = ['success' => true, 'result' => $states];
         return json_encode($result);
     }
 
@@ -57,7 +69,7 @@ class ManageStatesController extends Controller {
             $manageState = array();
             $j = 1;
             for ($i = 0; $i < count($getState); $i++) {
-               $manageStateData['Sr No.'] = $j++;
+                $manageStateData['Sr No.'] = $j++;
                 $manageStateData['Country'] = $getState[$i]['country_name'];
                 $manageStateData['State'] = $getState[$i]['name'];
                 $manageState[] = $manageStateData;

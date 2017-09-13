@@ -51,7 +51,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Layout Details</h4>
             </div>
-            <form novalidate name="lmodalForm" ng-submit="lmodalForm.$valid && layoutRow(lmodalData,lmodalImages)" >
+            <form novalidate name="lmodalForm" ng-submit="lmodalForm.$valid && layoutRow(projectData.prid, lmodalImages, lmodalData)" >
                 <input type="hidden" ng-model="lmodalForm.csrfToken" name="csrftoken" ng-init="lmodalForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -108,8 +108,8 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Floor Details</h4>
             </div>
-            <form novalidate name="fmodalForm" ng-submit="fmodalForm.$valid && specicationRow(fmodalData,fmodalImages,'floorData')">
-                <input type="hidden" ng-model="fmodalForm.csrfToken" name="csrftoken" ng-init="fmodalForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
+            <form novalidate name="fmodalForm" ng-submit="fmodalForm.$valid && specicationRow(projectData.prid,fmodalData,fmodalImages,'floorData')">
+                <input type="hidden" ng-model="fmodalForm.csrfToken" name="csrftoken" ng-init="fmodalForm.csrfToken = '[[csrf_token()]]'" class="form-control">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
                         <div id="horizontal-form" class="row" ng-init="wings()">

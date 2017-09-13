@@ -786,3 +786,12 @@ app.filter('capitalize', function () {
         return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     }
 }); 
+app.filter('htmlToPlaintext', function ()
+{
+    return function (text)
+    {
+        var temp = text ? String(text).replace(/<[^>]+>/gm, '') : '';
+        temp = temp ? String(temp).replace(/  /g, '&nbsp; ') : '';
+        return  temp;
+    };
+});

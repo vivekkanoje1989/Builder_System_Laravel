@@ -32,7 +32,7 @@ class CompaniesController extends Controller {
     }
 
     public function manageCompany() {
-        $result = companies::select('punch_line', 'legal_name', 'id')->get();
+        $result = companies::select('punch_line', 'legal_name', 'id')->where('deleted_status', '!=', 1)->get();
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
@@ -45,7 +45,18 @@ class CompaniesController extends Controller {
             return json_encode(['errorMsg' => "No record found", 'status' => true]);
         }
     }
-
+    
+    public function deleteCompany() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['companiesData'] = array_merge($request, $create);
+        $companyData = companies::where('id', $request['id'])->update($input['companiesData']);
+        $result = ['success' => true, 'result' => $companyData];
+        return json_encode($result);
+        
+    }
     public function companiesExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {

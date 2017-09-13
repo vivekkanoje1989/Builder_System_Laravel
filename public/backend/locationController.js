@@ -32,6 +32,15 @@ app.controller('locationCtrl', ['$scope', 'Data', 'toaster', function ($scope, D
             });
         };
         
+        $scope.deleteLocation = function (id, index) {
+             Data.post('manage-location/deleteLocation', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage Location', 'Location deleted successfully');
+                $scope.locationRow.splice(index, 1);
+            });
+        }
+        
+        
         $scope.locationsExportToxls = function () {
             $scope.getexcel = window.location = "/manage-location/locationsExportToxls";
             if ($scope.getexcel) {
