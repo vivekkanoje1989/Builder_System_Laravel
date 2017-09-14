@@ -25,16 +25,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
+                               
                             </ul>
                         </a>
                     </div>
@@ -47,7 +38,7 @@
                     <div class="row" style="border:2px;" id="filter-show">
                         <div class="col-sm-12 col-xs-12">
                             <b ng-repeat="(key, value) in searchData" ng-if="value != 0 && key != 'toDate'">
-                                <div class="col-sm-3" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
                                         <strong ng-if="key === 'externalId1'" data-toggle="tooltip" title="Transaction Id"><strong>Transaction Id : </strong> {{ value}}</strong>
@@ -135,8 +126,8 @@
                                 <td>{{listSms.status}}</td>
                                 <td>{{listSms.efname}}&nbsp;{{listSms.elname}}</td>
                             </tr>
-                            <tr>
-                                <td colspan="8"  ng-show="(listNumbers | filter:search).length == 0" align="center">Record Not Found</td>   
+                             <tr>
+                                <td colspan="8"  ng-show="(teamsmslogslist|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table><br>
@@ -167,7 +158,7 @@
                     <div class="form-group">
                         <label for="">Transaction Id</label>
                         <span class="input-icon icon-right">
-                            <input type="text" name="externalId1" ng-model="searchDetails.externalId1" class="form-control">
+                            <input type="text" name="externalId1" ng-model="searchDetails.externalId1" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
                         </span>
                     </div>
                 </div>

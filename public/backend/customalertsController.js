@@ -27,6 +27,21 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
             });
         };
 
+        $scope.searchDetails = {};
+        $scope.searchData = {};
+        $scope.filterDetails = function (search) {
+//             $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+
         $scope.deleteCustomTemplate = function (id, index) {
             Data.post('customalerts/deleteCustomTemplate', {
                 'id': id}).then(function (response) {

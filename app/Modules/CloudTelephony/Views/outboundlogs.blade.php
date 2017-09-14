@@ -188,8 +188,8 @@
                                 <td ng-show="{{outbound.customer_call_status == 'Connected'}}"><audio id="objectout_{{ outbound.id}}" controls></audio></td>
                                 <td ng-show="{{outbound.customer_call_status != 'Connected'}}">- NA -</td>
                             </tr>
-                            <tr>
-                                <td colspan="8" ng-if="!outboundLength" align="center">Record Not Found</td>   
+                             <tr>
+                                <td colspan="8"  ng-show="(outboundList|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table><br>

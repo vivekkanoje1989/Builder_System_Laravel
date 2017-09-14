@@ -1865,10 +1865,10 @@ class ReportsController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $emp_id = $request["employee_id"];
-        if (empty($request['login_id'])) {
+        if (empty($request['employee_id'])) {
             $login_id = Auth::guard('admin')->user()->id;
         } else {
-            $login_id = $request['login_id'];
+            $login_id = $request['employee_id'];
         }
         $condition = '';
 
