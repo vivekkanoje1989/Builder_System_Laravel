@@ -44,6 +44,8 @@ use App\Modules\WebPages\Models\WebPage;
 use App\Modules\MasterSales\Models\EnquiryFinanceTieup;
 use App\Modules\EnquiryLocations\Models\lstEnquiryLocations;
 use App\Models\SystemConfig;
+use App\Models\CtTuneType;
+use App\Models\CtForwardingType;
 use App\Classes\S3;
 use App\Classes\CommonFunctions;
 use App\Modules\BlockStages\Models\LstDlBlockStages;
@@ -362,6 +364,9 @@ class AdminController extends Controller {
         $getSalesLostReason = \App\Models\MlstBmsbEnquiryLostReason::select('id', 'reason')->where('lost_reason_status', 1)->orderBy('id')->get();
         $getSalesLostSubReason = \App\Models\EnquiryLostSubReason::select('id', 'enquiry_lost_reason_id', 'sub_reason')->where(['status' => 1])->get();
         $projectWingList = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->get();
+        
+        $getcttunetype = CtTuneType::all();
+        $getctforwardingtype = CtForwardingType::all();
         if (!empty($getTitle)) {
             $result = ['success' => true, 'title' => $getTitle, 'gender' => $getGender, 'bloodGroup' => $getBloodGroup, 'departments' => $getDepartments,
                 'educationList' => $getEducationList, 'employees' => $getEmployees, 'getEnquirySource' => $getEnquirySource, 'getEnquirySubSource' => $getEnquirySubSource,
@@ -369,7 +374,8 @@ class AdminController extends Controller {
                 "blocks" => $blockTypeList, "projects" => $projectList, 'subblocks' => $subBlocksList, 'agencyList' => $enquiryFinanceTieup,
                 'enquiryLocation' => $getEnquiryLocation, 'salesEnqCategoryList' => $salesEnqCategoryList, 'salesEnqSubCategoryList' => $salesEnqSubCategoryList,
                 'salesEnqStatusList' => $salesEnqStatusList, 'salesEnqSubStatusList' => $salesEnqSubStatusList, 'channelList' => $channelList, "getCompanyList" => $getCompanyList,
-                "getLostReasons" => $getSalesLostReason, "getLostSubReasons" => $getSalesLostSubReason, "projectWingList" => $projectWingList];
+                "getLostReasons" => $getSalesLostReason, "getLostSubReasons" => $getSalesLostSubReason, "projectWingList" => $projectWingList, 'getcttunetype' => $getcttunetype,
+                "getctforwardingtype"=> $getctforwardingtype];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

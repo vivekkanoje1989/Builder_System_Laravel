@@ -19,6 +19,9 @@ Route::get('/', function () {
 Route::get('/error500', function () {
     return view('layouts.backend.error500');
 });
+Route::get('/error401', function () {
+    return view('layouts.backend.error401');
+});
 Route::get('/undercConstruction', function () {
     return view('layouts.backend.pageUnderConstruction');
 });
