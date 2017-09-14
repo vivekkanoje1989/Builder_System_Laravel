@@ -126,6 +126,9 @@
                                     <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteApprovedList({{list.testimonial_id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
+                             <tr>
+                                <td colspan="6"  ng-show="(ApprovedTestimonialsRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">

@@ -29,7 +29,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="hrDetailsExporToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="hrDetailsExporToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -166,7 +166,7 @@
 
                             </tr>
                             <tr>
-                                <td colspan="10"  ng-show="(listUsers|filter:search).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="10"  ng-show="(listUsers|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
 
                         </tbody>
@@ -237,11 +237,20 @@
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Employee Name</label>
-                        <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.firstName" name="firstName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+<!--                        <span class="input-icon icon-right" ng-controller="employeesCtrl">
+                            <input type="text" ng-model="searchDetails.employeeName" name="firstName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                        </span>-->
+                        <span class="input-icon icon-right" ng-controller="employeesCtrl"> 
+                            <select class="form-control"  ng-model="searchDetails.firstName" name="firstName" id="application_to" >
+                                <option value="">Select Employee</option>
+                                <option ng-repeat="item in employeeList" value="{{item.employeeName}}" ng-selected="{{ item.employeeName == searchDetails.firstName}}" >{{item.employeeName}}</option>
+                            </select>
                         </span>
                     </div>
                 </div>
+
+
+
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Designation</label>
@@ -257,24 +266,33 @@
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Department</label>
-                        <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.departmentName" name="departmentName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                         <span class="input-icon icon-right" ng-controller="departmentCtrl"> 
+                            <select class="form-control"  ng-model="searchDetails.departmentName" name="departmentName" id="reporting_to_name" >
+                                <option value="">Select Department</option>
+                                <option ng-repeat="item in departments" value="{{item.department_name}}" ng-selected="{{ item.department_name == searchDetails.departmentName}}" >{{item.department_name}}</option>
+                            </select>
                         </span>
                     </div>
                 </div>
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Team Lead</label>
-                        <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.team_lead_name" name="team_lead_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                        <span class="input-icon icon-right" ng-controller="employeesCtrl"> 
+                            <select class="form-control"  ng-model="searchDetails.team_lead_name" name="team_lead_name" id="team_lead_name" >
+                                <option value="">Select Team Lead</option>
+                                <option ng-repeat="item in employeeList" value="{{item.employeeName}}" ng-selected="{{ item.employeeName == searchDetails.team_lead_name}}" >{{item.employeeName}}</option>
+                            </select>
                         </span>
                     </div>
                 </div>
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Reporting To</label>
-                        <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.reporting_to_name" name="reporting_to_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                        <span class="input-icon icon-right" ng-controller="employeesCtrl"> 
+                            <select class="form-control"  ng-model="searchDetails.reporting_to_name" name="reporting_to_name" id="reporting_to_name" >
+                                <option value="">Select Reporting To</option>
+                                <option ng-repeat="item in employeeList" value="{{item.employeeName}}" ng-selected="{{ item.employeeName == searchDetails.reporting_to_name}}" >{{item.employeeName}}</option>
+                            </select>
                         </span>
                     </div>
                 </div>

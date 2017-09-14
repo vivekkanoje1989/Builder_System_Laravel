@@ -113,6 +113,9 @@
                                  <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDepartment({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
+                            <tr>
+                                <td colspan="4"  ng-show="(departmentRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">

@@ -102,6 +102,9 @@
                                  <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBlockTypes({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="4"  ng-show="(BlockTypesRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">
@@ -176,7 +179,7 @@
         <div class="row">
             <div class="col-sm-12 col-xs-12">
                 <div class="form-group">
-                    <label for="">Status</label>
+                    <label for="">Project Type</label>
                     <span class="input-icon icon-right">
                         <select class="form-control" ng-model="searchDetails.project_name" name="project_name" >
                             <option value="">Select project type</option>

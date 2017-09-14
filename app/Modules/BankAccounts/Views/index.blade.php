@@ -30,7 +30,7 @@
                 <span class="widget-caption">Manage Bank Accounts</span>                
             </div>
             <div class="widget-body table-responsive">
-                
+
                 <div class="row table-toolbar">
                     <a title="Create bank account" class="btn btn-default" data-toggle="modal" ng-click="initialModel('0', '', '', '')" data-target="#bankAccountModal" >Create Bank Account</a>
                     <div class="btn-group pull-right">
@@ -39,7 +39,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="bankAccountExportToxls()" ng-show="exportData=='1'">   
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="bankAccountExportToxls()" ng-show="exportData == '1'">   
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -49,7 +49,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                
+
                             </ul>
                         </a>
                     </div>
@@ -92,39 +92,40 @@
                         <thead class="bord-bot">
                             <tr>
                             <tr>
-                                <th style="width:5%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">Sr. No.
-                                        <span ng-show="orderByField == 'id'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th>                       
+                                <th style="width:5%">Sr. No.</th>                       
                                 <th style="width:20%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'legal_name'; reverseSort = !reverseSort">Company
                                         <span ng-show="orderByField == 'legal_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                            <span ng-show="!reverseSort" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="reverseSort"><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:15%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'name'; reverseSort = !reverseSort">Name
                                         <span ng-show="orderByField == 'name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                            <span ng-show="!reverseSort" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="reverseSort"><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:15%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'branch'; reverseSort = !reverseSort">Branch
                                         <span ng-show="orderByField == 'branch'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                            <span ng-show="!reverseSort" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="reverseSort"><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:20%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'account_type'; reverseSort = !reverseSort">Account Type
                                         <span ng-show="orderByField == 'account_type'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                            <span ng-show="!reverseSort" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="reverseSort"><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:15%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'account_number'; reverseSort = !reverseSort">Account Number
                                         <span ng-show="orderByField == 'account_number'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                            <span ng-show="!reverseSort" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="reverseSort"><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>                               
                                 <th style="width: 15%">Actions</th>
@@ -132,7 +133,7 @@
                         </thead>
                         <tbody>
                             <tr role="row" dir-paginate="item in bankAccountRow| filter:search |filter:searchData | orderBy:orderByField:reverseSort |itemsPerPage:itemsPerPage">
-                               <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td> 
+                                <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td> 
                                 <td>{{item.legal_name}}</td>  
                                 <td>{{item.name}}</td>     
                                 <td>{{item.branch}}</td> 
@@ -140,8 +141,11 @@
                                 <td>{{item.account_number}}</td>  
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#bankAccountModal"><a href="javascript:void(0);" ng-click="initialModel({{ item.id}},{{item}},{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBankAccount({{item.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
-                                 </td>
+                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBankAccount({{item.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7"  ng-show="(bankAccountRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

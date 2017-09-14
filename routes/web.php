@@ -201,7 +201,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getClient', 'backend\AdminController@getClient');
     Route::get('/getVehiclebrands', 'backend\AdminController@getVehiclebrands');
     Route::get('/getVehiclemodels', 'backend\AdminController@getVehiclemodels');
-    Route::get('/getEmployees', 'backend\AdminController@getEmployees');
+    Route::get('/getEmployeesDetails', 'backend\AdminController@getEmployeesDetails');
 
     /*     * *********************************MANDAR****************************** */
 

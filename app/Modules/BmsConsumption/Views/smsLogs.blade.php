@@ -79,14 +79,34 @@
                             </select>
                         </label>
                     </div>
-                    <table class="table table-hover table-striped table-bordered" at-config="config">
+                    <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                         <thead class="bord-bot smslog">
                             <tr>
                                 <th style="width:5%">Sr. No.</th>
-                                <th style="width: 15%">Sent Date & Time</th>
-                                <th style="width: 10%">Transaction Id</th>
-                                <th style="width: 35%">SMS Body</th>
-                                <th style="width: 5%">SMS Type</th>
+                                <th style="width: 15%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'dateTime'; reverseSort = !reverseSort">Sent Date & Time
+                                        <span ng-show="orderByField == 'dateTime'">
+                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    </a>
+                                </th>
+                                <th style="width: 10%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'externalId1'; reverseSort = !reverseSort">Transaction Id
+                                        <span ng-show="orderByField == 'externalId1'">
+                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    </a>
+                                </th>
+                                <th style="width: 35%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'sms_body'; reverseSort = !reverseSort">SMS Body
+                                        <span ng-show="orderByField == 'sms_body'">
+                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    </a>
+                                </th>
+                                <th style="width: 5%">
+                                <a href="javascript:void(0);" ng-click="orderByField = 'sms_type'; reverseSort = !reverseSort">SMS Type
+                                        <span ng-show="orderByField == 'sms_type'">
+                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    </a>
+                                </th>
                                 <th style="width: 5%">Success</th>
                                 <th style="width: 5%">Fail</th>
                                 <th style="width: 5%">Total</th>
@@ -94,7 +114,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="smslog" dir-paginate="smsLog in smsLogsList | filter:search |filter:searchData| itemsPerPage: itemsPerPage" >
+                            <tr class="smslog" dir-paginate="smsLog in smsLogsList | filter:search |filter:searchData| itemsPerPage: itemsPerPage| orderBy:orderByField:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ smsLog.dateTime}}</td>
                                 <td><a target="_blank" href="[[ config('global.backendUrl') ]]#/bmsConsumption/smsLogDetails/{{smsLog.externalId1}}">{{ smsLog.externalId1}}</a></td>
@@ -106,7 +126,7 @@
                                 <td>{{ smsLog.smsDetails.credits}}</td>
                             </tr>
                             <tr>
-                                <td colspan="8"  ng-show="(smsLogsList|filter:search).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="9"  ng-show="(smsLogsList|filter:search|filter:searchData ).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table><br>

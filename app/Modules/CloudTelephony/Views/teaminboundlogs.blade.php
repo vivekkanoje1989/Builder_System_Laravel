@@ -195,8 +195,8 @@
                                 <td>{{ inbound.customer_call_duration}}</td>
                                 <td><audio id="teamobject_{{ inbound.id}}" controls></audio></td>
                             </tr>
-                            <tr>   
-                                <td colspan="9" ng-if="!teaminboundLength" align="center">Record Not Found</td>   
+                           <tr>
+                                <td colspan="9"  ng-show="(teaminboundList|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table><br>

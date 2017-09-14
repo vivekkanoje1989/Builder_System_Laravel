@@ -193,7 +193,7 @@
 
                             </tr>
                             <tr>
-                                <td colspan="8" ng-if="!teamoutboundLength" align="center">Record Not Found</td>
+                                <td colspan="8"  ng-show="(teamoutboundList|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table><br>

@@ -879,12 +879,13 @@ class AdminController extends Controller {
     /*     * **************************UMA*********************************** */
     /*     * *************************MANDAR******************************** */
 
-    public function getEmployees() {
+    public function getEmployeesDetails() {
         $getEmployees = Employee::select('id', 'first_name', 'last_name', 'designation_id')->where("employee_status", 1)->get();
 
         $i = 0;
         foreach ($getEmployees as $ctEmployeesExt) {
             $getEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
+            $getEmployees[$i]['employeeName'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'];
             $i++;
         }
         if (!empty($getEmployees)) {

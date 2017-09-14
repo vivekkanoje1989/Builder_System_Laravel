@@ -93,23 +93,27 @@
                             <tr>
                             <tr>
                                 <th style="width:5%">Sr. No.</th>
-                                <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'blood_group'; reverseSort = !reverseSort">Blood Group
-                                        <span ng-show="orderByField == 'blood_group'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                <th style="width: 30%" >
+                                    <a href="javascript:void(0);" ng-click="orderByField('blood_group')">Blood Group
+                                        <span ><img ng-hide="(reverseSort == true || reverseSort == false)" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'blood_group' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'blood_group' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 5%">Actions</th>
                             </tr>
                         </thead>
                         <tbody ng-controller="adminController">
-                            <tr role="row" dir-paginate="list in bloodGrpRow | filter:search | filter:searchData | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" >
+                            <tr role="row" dir-paginate="list in bloodGrpRow | filter:search | filter:searchData | itemsPerPage: itemsPerPage | orderBy:sortKey:reverseSort" >
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td> 
                                 <td>{{ list.blood_group}}</td>                          
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#bloodGroupModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.blood_group}}',{{itemsPerPage}},{{$index}})" class="btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBloodgrp({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"  ng-show="(bloodGrpRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

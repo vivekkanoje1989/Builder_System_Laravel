@@ -57,7 +57,7 @@
                     <div class="row" style="border:2px;" id="filter-show">
                         <div class="col-sm-12 col-xs-12">
                             <b ng-repeat="(key, value) in searchData" ng-if="value != 0 && key != 'toDate'">
-                                <div class="col-sm-3" data-toggle="tooltip"> 
+                                <div class="col-sm-2" data-toggle="tooltip"> 
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
                                         <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="From Date"><strong>From Date : </strong>  {{ showFilterData.fromDate | date : 'dd-MM-yyyy' }} <span ng-if="showFilterData.toDate">To  {{ showFilterData.toDate | date : 'dd-MM-yyyy' }}</span></strong>
@@ -167,7 +167,7 @@
 
                             </tr>
                             <tr>
-                                <td colspan="8"  ng-show="(smsLogsDetails | filter:search).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="11"  ng-show="(smsLogsDetails | filter:search  |filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table><br>

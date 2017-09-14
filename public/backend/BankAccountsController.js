@@ -10,6 +10,11 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
             });
         };
 
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
         $scope.bankAccountExportToxls = function () {
             $scope.getexcel = window.location = "/bank-account/bankAccountExportToxls";
             if ($scope.getexcel) {
@@ -34,7 +39,7 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-        
+
         $scope.deleteBankAccount = function (id, index) {
             Data.post('bank-accounts/deleteBankAccount', {
                 'id': id}).then(function (response) {

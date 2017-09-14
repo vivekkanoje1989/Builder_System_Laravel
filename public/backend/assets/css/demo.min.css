@@ -56,6 +56,9 @@
 .modal-footer{
 	text-align:center !important;
 }
+.tableHeader th a span{
+    float:right;
+}
 .tableHeader th a{
     color:#444 !important;
     display: block;
