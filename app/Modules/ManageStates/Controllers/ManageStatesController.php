@@ -35,8 +35,13 @@ class ManageStatesController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($getState)) {
-            $result = ['success' => true, 'records' => $getState, 'exportData' => $export, 'totalCount' => count($getState)];
+            $result = ['success' => true, 'records' => $getState, 'exportData' => $export,'delete'=>$deleteBtn, 'totalCount' => count($getState)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

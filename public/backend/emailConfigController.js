@@ -24,6 +24,11 @@ app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
             });
         }
         
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
     
     $scope.configEmailExportToxls = function (){
           $scope.getexcel = window.location = "email-config/configEmailExportToxls";
@@ -41,6 +46,7 @@ app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
             if (id === 'index'){ // index
                 $scope.listmails = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             }
             if (id > 0){ // Edit
                 $scope.emailData = angular.copy(response.records[0]);

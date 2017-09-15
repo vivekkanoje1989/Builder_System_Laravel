@@ -77,28 +77,30 @@
                             <tr>
                                 <th style="width:5%">Sr No.</th>
                                 <th style="width:25%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'city_name'; reverseSort = !reverseSort">City
-                                        <span ng-show="orderByField == 'city_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('city_name')">City
+                                        <span ><img ng-hide="(sortKey == 'city_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'city_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'city_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
                                 <th style="width:20%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'location'; reverseSort = !reverseSort">Location
-                                        <span ng-show="orderByField == 'location'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('location')">Location
+                                        <span ><img ng-hide="(sortKey == 'location' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'location' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'location' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>                           
-                                <th style="width: 10%">Actions</th>
+                                <th style="width: 8%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in enquiryLocationRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="list in enquiryLocationRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>   
                                 <td>{{ list.city_name}}</td> 
                                 <td>{{ list.location}}</td>                          
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#locationModal"><a href="javascript:void(0);" ng-click="initialModal({{list.id}},{{list}},{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEnquiryLocation({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                 <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEnquiryLocation({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>

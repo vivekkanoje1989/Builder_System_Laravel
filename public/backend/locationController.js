@@ -20,6 +20,12 @@ app.controller('locationCtrl', ['$scope', 'Data', 'toaster', function ($scope, D
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
 
         $scope.manageLocation = function (empId, pageNumber, itemPerPage) {
              $scope.showloader();
@@ -28,6 +34,7 @@ app.controller('locationCtrl', ['$scope', 'Data', 'toaster', function ($scope, D
                 $scope.locationRow = response.records;
                 $scope.locationRowLength = response.totalCount;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
                 $scope.flagForPageChange = 0;
             });
         };

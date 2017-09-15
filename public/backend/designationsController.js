@@ -20,6 +20,10 @@ app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scop
             $scope.searchData = {};
         }
 
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.manageDesignations = function () {
             $scope.showloader();
@@ -28,10 +32,11 @@ app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scop
 
                 $scope.designationsRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
 
             });
         };
-        
+
         $scope.deleteDesignation = function (id, index) {
             Data.post('manage-designations/deleteDesignation', {
                 'id': id}).then(function (response) {
@@ -47,7 +52,7 @@ app.controller('designationsCtrl', ['$scope', 'Data', 'toaster', function ($scop
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
+
         $scope.initialModal = function (id, designation, status, index, index1) {
             $scope.id = id;
             if ($scope.id === 0) //for create

@@ -77,22 +77,22 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th> 
                                 <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'stage_name'; reverseSort = !reverseSort">Project Stages
-                                        <span ng-show="orderByField == 'stage_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('stage_name')">Project Stages
+                                        <span ><img ng-hide="(sortKey == 'stage_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'stage_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'stage_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>  
                                 <th style="width: 5%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in ProjectPaymentStagesRow | filter:search |filter:searchData| orderBy:orderByField:reverseSort| itemsPerPage:itemsPerPage" >
+                            <tr role="row" dir-paginate="list in ProjectPaymentStagesRow | filter:search |filter:searchData| orderBy:sortKey:reverseSort| itemsPerPage:itemsPerPage" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{ list.stage_name}}</td>   
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit Information" data-toggle="modal" data-target="#projectpaymentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.stage_name}}',{{list.project_type_id}},{{list.fix_stage}},{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteProjectStages({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteProjectStages({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>

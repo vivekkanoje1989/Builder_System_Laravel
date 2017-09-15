@@ -27,7 +27,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="discountHeadingExportToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="discountHeadingExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -79,36 +79,38 @@
                             <tr>
                                 <th style="width:5%">Sr No.</th> 
                                 <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'discount_name'; reverseSort = !reverseSort">Discount name
-                                        <span ng-show="orderByField == 'discount_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('discount_name')">Discount name
+                                        <span ><img ng-hide="(sortKey == 'discount_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'discount_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'discount_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
-                                <th style="width:5%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Status
-                                        <span ng-show="orderByField == 'status'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                <th style="width:10%">
+                                    <a href="javascript:void(0);" ng-click="orderByField('status')">Status
+                                        <span ><img ng-hide="(sortKey == 'status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
                                 <th style="width: 5%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in DiscountHeadingRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage| orderBy:orderByField:reverseSort" >
+                            <tr role="row" dir-paginate="list in DiscountHeadingRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage| orderBy:sortKey:reverseSort" >
                                 <td>{{ itemsPerPage * (pageNumber - 1) + $index + 1}}</td>      
                                 <td>{{ list.discount_name}}</td>                           
                                 <td>{{list.status == 1? "Active" : "In active"}}</td> 
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit discount heading"  data-toggle="modal" data-target="#discountheadingModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.discount_name}}',{{ list.status}},{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDiscountHeading({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDiscountHeading({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="4"  ng-show="(DiscountHeadingRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="4"  ng-show="(DiscountHeadingRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
-                   <div class="DTTTFooter">
+                    <div class="DTTTFooter">
                         <div class="col-sm-6">
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                         </div>

@@ -22,6 +22,7 @@ app.controller('bloodsGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                 $scope.bloodGrpRow = response.records;
                 $scope.bloodGrpLength = response.totalCount;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.Delete;
             });
         };
 

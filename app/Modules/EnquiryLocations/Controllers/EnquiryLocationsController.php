@@ -33,8 +33,13 @@ class EnquiryLocationsController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($getLocations)) {
-            $result = ['success' => true, 'records' => $getLocations, 'exportData' => $export, 'totalCount' => count($getLocations)];
+            $result = ['success' => true, 'records' => $getLocations, 'exportData' => $export,'delete'=>$deleteBtn, 'totalCount' => count($getLocations)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

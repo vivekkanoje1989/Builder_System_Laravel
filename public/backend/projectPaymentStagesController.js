@@ -10,8 +10,14 @@ app.controller('projectpaymentController', ['$scope', 'Data', 'toaster', functio
                 $scope.hideloader();
                 $scope.ProjectPaymentStagesRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
         
         $scope.projectPaymentStagesExportToxls = function () {
             $scope.getexcel = window.location = "/project-payment/projectPaymentStagesExportToxls";

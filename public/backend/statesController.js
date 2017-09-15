@@ -1,4 +1,4 @@
-app.controller('statesCtrl', ['$scope', 'Data','toaster', function ($scope, Data,toaster) {
+app.controller('statesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Data, toaster) {
 
         $scope.itemsPerPage = 30;
         $scope.pageNumber = 1;
@@ -8,7 +8,10 @@ app.controller('statesCtrl', ['$scope', 'Data','toaster', function ($scope, Data
 //            $scope[functionName](id, pageNo, $scope.itemsPerPage);
 //            $scope.pageNumber = pageNo;
 //        };
-
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};
@@ -32,18 +35,19 @@ app.controller('statesCtrl', ['$scope', 'Data','toaster', function ($scope, Data
                 $scope.statesRow = response.records;
                 $scope.statesRowLength = response.totalCount;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
                 $scope.flagForChange = 0;
             });
         };
-        
-         $scope.deleteStates = function (id, index) {
+
+        $scope.deleteStates = function (id, index) {
             Data.post('manage-states/deleteStates', {
                 'id': id}).then(function (response) {
                 toaster.pop('success', 'Manage States', 'State deleted successfully');
                 $scope.statesRow.splice(index, 1);
             });
         }
-        
+
         $scope.statesExportToxls = function () {
             $scope.getexcel = window.location = "manage-states/statesExportToxls";
             if ($scope.getexcel) {

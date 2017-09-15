@@ -95,31 +95,31 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'friendly_name'; reverseSort = !reverseSort">Friendly Name
-                                        <span ng-show="orderByField == 'friendly_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('friendly_name')">Friendly Name
+                                        <span ><img ng-hide="(sortKey == 'friendly_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'friendly_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'friendly_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'sms_body'; reverseSort = !reverseSort">SMS Body
-                                        <span ng-show="orderByField == 'sms_body'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('sms_body')">SMS Body
+                                        <span ><img ng-hide="(sortKey == 'sms_body' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'sms_body' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'sms_body' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'email_subject'; reverseSort = !reverseSort">Email Subject
-                                        <span ng-show="orderByField == 'email_subject'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('email_subject')">Email Subject
+                                        <span ><img ng-hide="(sortKey == 'email_subject' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'email_subject' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'email_subject' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr dir-paginate="listAlert in listcustomAlerts | filter:search  | filter:searchData | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" >
+                            <tr dir-paginate="listAlert in listcustomAlerts | filter:search  | filter:searchData | itemsPerPage: itemsPerPage | orderBy:sortKey:reverseSort" >
                                 <td>
                         <center>
                             {{itemsPerPage * (noOfRows - 1) + $index + 1}}<br>                              
@@ -130,7 +130,7 @@
                         <td>{{ listAlert.email_subject | htmlToPlaintext }}</td>
                         <td class="">
                             <span class="" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/customalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
-                            <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteCustomTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                            <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteCustomTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                         </td>
                         </tr>
                         <tr><td colspan="5"  ng-show="(listcustomAlerts|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>

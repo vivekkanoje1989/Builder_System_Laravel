@@ -18,20 +18,20 @@
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Contact Us</span>                
             </div>
-<!--            <div class="widget-header ">
-                <span class="widget-caption">Contact Us</span>
-                <div class="widget-buttons">
-                    <a href="" data-toggle="maximize">
-                        <i class="fa fa-expand"></i>
-                    </a>
-                    <a href="#" data-toggle="collapse" class="collapsed">
-                        <i class="fa fa-minus"></i>
-                    </a>
-                    <a href="" data-toggle="dispose">
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
-            </div>-->
+            <!--            <div class="widget-header ">
+                            <span class="widget-caption">Contact Us</span>
+                            <div class="widget-buttons">
+                                <a href="" data-toggle="maximize">
+                                    <i class="fa fa-expand"></i>
+                                </a>
+                                <a href="#" data-toggle="collapse" class="collapsed">
+                                    <i class="fa fa-minus"></i>
+                                </a>
+                                <a href="" data-toggle="dispose">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>-->
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
                     <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
@@ -51,7 +51,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                
+
                             </ul>
                         </a>
                     </div>
@@ -95,34 +95,38 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th>                       
                                 <th style="width:25%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'address'; reverseSort = !reverseSort">Address
-                                        <span ng-show="orderByField == 'address'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('address')">Address
+                                        <span ><img ng-hide="(sortKey == 'address' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'address' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'address' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:8%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'pin_code'; reverseSort = !reverseSort">Pin code
-                                        <span ng-show="orderByField == 'pin_code'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('pin_code')">Pin code
+                                        <span ><img ng-hide="(sortKey == 'pin_code' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'pin_code' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'pin_code' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:25%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'contact_person_name'; reverseSort = !reverseSort">Contact person
-                                        <span ng-show="orderByField == 'contact_person_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('contact_person_name')">Contact person
+                                        <span ><img ng-hide="(sortKey == 'contact_person_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'contact_person_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'contact_person_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'email'; reverseSort = !reverseSort">Email
-                                        <span ng-show="orderByField == 'email'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('email')">Email
+                                        <span ><img ng-hide="(sortKey == 'email' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'email' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'email' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>                                                       
                                 <th style="width: 7%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="item in contactUsRow| filter:search | itemsPerPage:itemsPerPage | filter:searchData | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="item in contactUsRow| filter:search | itemsPerPage:itemsPerPage | filter:searchData | orderBy:sortKey:reverseSort">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{item.address}}</td>     
                                 <td>{{item.pin_code}}</td> 
@@ -133,7 +137,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="6"  ng-show="(contactUsRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="6"  ng-show="(contactUsRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

@@ -16,8 +16,14 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             Data.get('manage-companies/manageCompany').then(function (response) {
                 $scope.CompanyRow = response.result;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
+
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};

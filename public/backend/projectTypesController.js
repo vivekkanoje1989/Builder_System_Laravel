@@ -9,8 +9,14 @@ app.controller('projecttypesController', ['$scope', 'Data', 'toaster', function 
                 $scope.hideloader();
                 $scope.ProjectTypesRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.projectTypesExportToxls = function () {
             $scope.getexcel = window.location = "project-types/projectTypesExportToxls";

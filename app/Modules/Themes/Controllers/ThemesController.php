@@ -36,8 +36,13 @@ class ThemesController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($themePages)) {
-            return json_encode(['records' => $themePages, 'exportData' => $export, 'status' => true]);
+            return json_encode(['records' => $themePages, 'exportData' => $export,'delete'=>$deleteBtn, 'status' => true]);
         } else {
             return json_encode(['errorMsg' => 'No record', 'status' => false]);
         }

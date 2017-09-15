@@ -29,8 +29,14 @@ app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'to
                 $scope.DiscountHeadingRow = response.records;
                 $scope.DiscountHeadingRowLength = response.totalCount;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
         
         $scope.deleteDiscountHeading = function (id, index) {
             Data.post('discount-headings/deleteDiscountHeading', {

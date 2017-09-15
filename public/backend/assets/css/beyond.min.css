@@ -33,6 +33,10 @@ div.help-block{
     margin-bottom: 20px;
     width: 175px;*/
 }
+
+#ToolTables_editabledatatable_2{
+    border-left: 1px solid #ccc !important;
+}
 .foldr-icon-div{
     position: absolute !important;
     top: 0;

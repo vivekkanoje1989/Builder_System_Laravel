@@ -20,16 +20,22 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             $scope.searchData = {};
         }
 
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
         $scope.manageThemes = function () {
             $scope.showloader();
             Data.post('website/getThemes').then(function (response) {
                 $scope.hideloader();
                 $scope.themesRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
 
             });
         };
-        
+
         $scope.deleteTheme = function (id, index) {
             Data.post('website/deleteTheme', {
                 'id': id}).then(function (response) {
@@ -113,7 +119,7 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
                 } else {
                     alert('ghfgh')
-                     $scope.webTheme = false;
+                    $scope.webTheme = false;
                     var obj = response.data.message;
                     var selector = [];
                     for (var key in obj) {

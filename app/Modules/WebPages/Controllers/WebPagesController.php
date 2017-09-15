@@ -46,8 +46,13 @@ class WebPagesController extends Controller {
         }else{
               $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if ($webPages) {
-            $result = ['success' => true, 'records' => ["data" => $webPages, 'exportData' => $export, "total" => count($webPages), 'per_page' => count($webPages),
+            $result = ['success' => true, 'records' => ["data" => $webPages, 'exportData' => $export, 'delete'=>$deleteBtn, "total" => count($webPages), 'per_page' => count($webPages),
                     "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($webPages)]];
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];

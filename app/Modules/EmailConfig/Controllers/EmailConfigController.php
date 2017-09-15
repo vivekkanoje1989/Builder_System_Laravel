@@ -40,24 +40,27 @@ class EmailConfigController extends Controller {
                 $getEmailConfig['deptName'] = $getDepartment;
             }
         }
-          $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
         } else {
             $export = '';
         }
-
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if ($getEmailConfigs) {
-            $result = ['success' => true, 'records' => $getEmailConfigs, 'exportData'=>$export,'departments' => $getDepartment];
+            $result = ['success' => true, 'records' => $getEmailConfigs, 'exportData' => $export,'delete'=>$deleteBtn,'departments' => $getDepartment];
         } else {
             $result = ['success' => false, 'message' => 'Something Went Wrong'];
         }
         return json_encode($result);
     }
 
-    
     public function deleteEmailConfig() {
-         $postdata = file_get_contents('php://input');
+        $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
@@ -65,8 +68,8 @@ class EmailConfigController extends Controller {
         $emailConfigData = EmailConfiguration::where('id', $request['id'])->update($input['emailConfigData']);
         $result = ['success' => true, 'result' => $emailConfigData];
         return json_encode($result);
-        
     }
+
     public function configEmailExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
@@ -82,7 +85,7 @@ class EmailConfigController extends Controller {
                 $getDepartment = trim($getDepartment, ',');
                 $getEmailConfig['deptName'] = $getDepartment;
             }
-            
+
             $emailConfigaration = array();
             $j = 1;
             $emailConfigData = json_decode(json_encode($getEmailConfigs), true);

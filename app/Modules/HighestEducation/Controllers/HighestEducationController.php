@@ -25,8 +25,13 @@ class HighestEducationController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($getHighestEducations)) {
-            $result = ['success' => true, 'records' => $getHighestEducations, 'exportData' => $export];
+            $result = ['success' => true, 'records' => $getHighestEducations, 'exportData' => $export,'delete'=>$deleteBtn];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
