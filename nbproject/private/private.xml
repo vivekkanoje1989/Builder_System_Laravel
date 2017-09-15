@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
@@ -30,6 +31,13 @@
             <file>file:/var/www/html/Builder_System_Laravel/public/css/filterSlider.css</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/bloodGroupsController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BankAccounts/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BloodGroups/Controllers/BloodGroupsController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BloodGroups/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/BankAccountsController.js</file>
+>>>>>>> 6da3ae962b753899fd51176997ea15c20ed3293a
         </group>
     </open-files>
 </project-private>

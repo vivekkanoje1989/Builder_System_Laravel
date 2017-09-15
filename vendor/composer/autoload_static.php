@@ -452,7 +452,7 @@ class ComposerStaticInita4a83323fa74f9ee3390af915b46a8f0
         'App\\Http\\Controllers\\frontend\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/frontend/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\CheckAdmin' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckAdmin.php',
-        'App\\Http\\Middleware\\CheckPermission' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckPermission.php',
+        'App\\Http\\Middleware\\CheckPermissionModule' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckPermissionModule.php',
         'App\\Http\\Middleware\\CheckUser' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckUser.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',

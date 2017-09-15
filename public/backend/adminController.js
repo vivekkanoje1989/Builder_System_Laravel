@@ -673,7 +673,7 @@ app.controller('salesemployeesCtrl', function ($scope, Data) {
 /****************************MANDAR*********************************/
 app.controller('employeesCtrl', function ($scope, Data) {
     $scope.employeeList = [];
-    Data.get('getEmployees').then(function (response) {
+    Data.get('getEmployeesDetails').then(function (response) {
         if (!response.success) {
             $scope.errorMsg = response.message;
         } else {
@@ -722,7 +722,6 @@ app.controller('teamLeadCtrl', function ($scope, Data) {
             $scope.errorMsg = response.message;
         } else {
             $scope.teamLeads = response.records;
-            console.log($scope.teamLeads);
         }
     });
 });

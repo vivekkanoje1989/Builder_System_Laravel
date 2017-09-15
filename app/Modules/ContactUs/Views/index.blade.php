@@ -132,6 +132,9 @@
                                     <div class="" tooltip-html-unsafe="Edit" style="display: block;" data-toggle="modal" data-target="#contactUsModal"><a href="javascript:void(0);" ng-click="initialModal({{ item.id}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="6"  ng-show="(contactUsRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">

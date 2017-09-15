@@ -52,7 +52,7 @@
                     <div class="row" style="border:2px;" id="filter-show">
                         <div class="col-sm-12 col-xs-12">
                             <b ng-repeat="(key, value) in searchData" >
-                                <div class="col-sm-3" data-toggle="tooltip"> 
+                                <div class="col-sm-2" data-toggle="tooltip"> 
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
                                         <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="From Date"><strong>From Date : </strong>  {{ showFilterData.fromDate | date : 'dd-MM-yyyy' }} <span ng-if="showFilterData.toDate">To  {{ showFilterData.toDate | date : 'dd-MM-yyyy' }}</span></strong>
@@ -143,8 +143,8 @@
                                 <td>{{listSms.efname}}&nbsp;{{listSms.elname}}</td>
 
                             </tr>
-                            <tr>
-                                <td colspan="7"  ng-show="(smslogslist|filter:search).length == 0" align="center">Record Not Found</td>   
+                             <tr>
+                                <td colspan="7"  ng-show="(smslogslist|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table><br>
@@ -177,7 +177,7 @@
                     <div class="form-group">
                         <label for="">Transaction Id</label>
                         <span class="input-icon icon-right">
-                            <input type="text" name="externalId1" ng-model="searchDetails.externalId1" class="form-control">
+                            <input type="text" name="externalId1" ng-model="searchDetails.externalId1" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
                         </span>
                     </div>
                 </div>

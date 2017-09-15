@@ -92,6 +92,7 @@
                                 </th>  
                                 <th style="width: 15%">Actions</th>
                             </tr>
+                            
                         </thead>
                         <tbody>
                             <tr role="row" dir-paginate="list in designationsRow  | filter:search |filter:searchData |orderBy:orderByField:reverseSort|itemsPerPage:itemsPerPage" >
@@ -102,6 +103,9 @@
                                     <span class="" tooltip-html-unsafe="Edit designation" data-toggle="modal" data-target="#designations"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.designation}}','{{list.status}}',{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDesignation({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
+                            </tr>
+                            <tr>
+                                <td colspan="4"  ng-show="(designationsRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

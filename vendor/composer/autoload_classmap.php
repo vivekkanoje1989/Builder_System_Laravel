@@ -25,7 +25,7 @@ return array(
     'App\\Http\\Controllers\\frontend\\UserController' => $baseDir . '/app/Http/Controllers/frontend/UserController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\CheckAdmin' => $baseDir . '/app/Http/Middleware/CheckAdmin.php',
-    'App\\Http\\Middleware\\CheckPermission' => $baseDir . '/app/Http/Middleware/CheckPermission.php',
+    'App\\Http\\Middleware\\CheckPermissionModule' => $baseDir . '/app/Http/Middleware/CheckPermissionModule.php',
     'App\\Http\\Middleware\\CheckUser' => $baseDir . '/app/Http/Middleware/CheckUser.php',
     'App\\Http\\Middleware\\EncryptCookies' => $baseDir . '/app/Http/Middleware/EncryptCookies.php',
     'App\\Http\\Middleware\\RedirectIfAuthenticated' => $baseDir . '/app/Http/Middleware/RedirectIfAuthenticated.php',

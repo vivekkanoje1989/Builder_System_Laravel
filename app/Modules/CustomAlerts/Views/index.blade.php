@@ -2,9 +2,22 @@
     .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;margin-left: 15px;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;margin-left: 15px;}
 </style>
-
+<style>
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
+</style>
 <div class="row" ng-controller="customalertsController" ng-init="manageAlerts('', 'index', 1, [[config('global.recordsPerPage')]])">
-    <div class="col-xs-12 col-md-12">
+    <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Custom Templates</span>
@@ -24,7 +37,9 @@
                                 </div><br>-->
                 <div class="row table-toolbar">
                     <a href="[[ config('global.backendUrl') ]]#/customalerts/create " class="btn btn-default">Create New Template</a>&nbsp;&nbsp;&nbsp;
-
+                    <div class="btn-group pull-right">
+                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                    </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
@@ -48,22 +63,20 @@
                         </label>
                     </div>
                     <!-- filter data--> 
-                    <!--                    <div class="row" style="border:2px;" id="filter-show">
-                                            <div class="col-sm-12 col-xs-12">
-                                                <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
-                                                    <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
-                                                        <div class="alert alert-info fade in">
-                                                            <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
-                                                            <strong ng-if="key === 'legal_name'" data-toggle="tooltip" title=""><strong> Project Name : </strong> {{ value}}</strong>
-                                                            <strong ng-if="key === 'name'" data-toggle="tooltip" title="Name"><strong> Name : </strong> {{ value}}</strong>
-                                                            <strong ng-if="key === 'account_type'" data-toggle="tooltip" title="Account Type"><strong> Account Type : </strong> {{ value == '1' ? "Saving":"Current"}}</strong>
-                                                            <strong ng-if="key === 'account_number'" data-toggle="tooltip" title="Account Number"><strong> Account Number : </strong> {{ value}}</strong>
-                                                            <strong ng-if="key === 'branch'" data-toggle="tooltip" title="Branch"><strong> Branch  : </strong> {{ value}}</strong>
-                                                        </div>
-                                                    </div>
-                                                </b>                        
-                                            </div>
-                                        </div>-->
+                    <div class="row" style="border:2px;" id="filter-show">
+                        <div class="col-sm-12 col-xs-12">
+                            <b ng-repeat="(key, value) in searchData" >
+                                <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
+                                    <div class="alert alert-info fade in">
+                                        <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
+                                        <strong ng-if="key === 'friendly_name'" data-toggle="tooltip" title="Friendly Name"><strong> Friendly Name : </strong> {{ value}}</strong>
+                                        <strong ng-if="key === 'sms_body'" data-toggle="tooltip" title="Sms Body"><strong> Sms Body : </strong> {{ value}}</strong>
+                                        <strong ng-if="key === 'email_subject'" data-toggle="tooltip" title="Email Subject"><strong> Email Subject : </strong> {{ value}}</strong>
+                                    </div>
+                                </div>
+                            </b>                     
+                        </div>
+                    </div>
                     <!-- filter data-->
                     <div class="dataTables_length" >
                         <label>
@@ -106,7 +119,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr dir-paginate="listAlert in listcustomAlerts | filter:search | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" >
+                            <tr dir-paginate="listAlert in listcustomAlerts | filter:search  | filter:searchData | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" >
                                 <td>
                         <center>
                             {{itemsPerPage * (noOfRows - 1) + $index + 1}}<br>                              
@@ -120,7 +133,8 @@
                             <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteCustomTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                         </td>
                         </tr>
-                        <tr><td colspan="4"  ng-show="(listcustomAlerts|filter:search).length == 0" align="center">Record Not Found</td></tr>
+                        <tr><td colspan="5"  ng-show="(listcustomAlerts|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>
+                        </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">
@@ -138,5 +152,57 @@
             </div>
         </div>
     </div>
+    <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="bloodGroupFilter" role="form" ng-submit="filterDetails(searchDetails)">
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Template For</label>
+                        <span class="input-icon icon-right" ng-init="manageAlerts('', 'index')"> 
+                            <select class="form-control"  ng-model="searchDetails.friendly_name" name="friendly_name" id="event_name" >
+                                <option value="">Select Friendly Name</option>
+                                <option ng-repeat="item in listcustomAlerts" value="{{item.friendly_name}}" ng-selected="{{ item.friendly_name == searchDetails.friendly_name}}" >{{item.friendly_name}}</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Sms Body</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.sms_body" name="sms_body" class="form-control">
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Email Subject</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.email_subject" name="email_subject" class="form-control">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" >
+                            <button type="submit"  style="margin-left: 46%;" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/js/filterSlider.js"></script>
+    <!-- Filter Form End-->
+</div>
 
 

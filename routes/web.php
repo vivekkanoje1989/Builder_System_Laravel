@@ -19,6 +19,9 @@ Route::get('/', function () {
 Route::get('/error500', function () {
     return view('layouts.backend.error500');
 });
+Route::get('/error401', function () {
+    return view('layouts.backend.error401');
+});
 Route::get('/undercConstruction', function () {
     return view('layouts.backend.pageUnderConstruction');
 });
@@ -198,7 +201,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::get('/getClient', 'backend\AdminController@getClient');
     Route::get('/getVehiclebrands', 'backend\AdminController@getVehiclebrands');
     Route::get('/getVehiclemodels', 'backend\AdminController@getVehiclemodels');
-    Route::get('/getEmployees', 'backend\AdminController@getEmployees');
+    Route::get('/getEmployeesDetails', 'backend\AdminController@getEmployeesDetails');
 
     /*     * *********************************MANDAR****************************** */
 

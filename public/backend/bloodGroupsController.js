@@ -9,6 +9,11 @@ app.controller('bloodsGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
             $scope.pageNumber = pageNo;
         };
 
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
         $scope.noOfRows = 1;
         $scope.manageBloodGroup = function (empId, pageNumber, itemPerPage) {
             $scope.showloader();
@@ -29,8 +34,8 @@ app.controller('bloodsGroupCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
-        
+
+
         $scope.deleteBloodgrp = function (id, index) {
             Data.post('blood-groups/deleteBloodgrp', {
                 'id': id}).then(function (response) {

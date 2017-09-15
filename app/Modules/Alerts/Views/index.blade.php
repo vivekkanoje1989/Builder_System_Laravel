@@ -2,8 +2,22 @@
     .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;margin-left: 15px;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;margin-left: 15px;}
 </style>
+<style>
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
+</style>
 <div class="row" ng-controller="alertsController" ng-init="manageAlerts('', 'index')">
-    <div class="col-xs-12 col-md-12">
+    <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Templates Settings</span>
@@ -24,13 +38,13 @@
 
                 <div class="row table-toolbar">
                     <!--                    <a title="Create bank account" class="btn btn-default" data-toggle="modal" ng-click="initialModel('0', '', '', '')" data-target="#bankAccountModal" >Create Bank Account</a>
-                                        <div class="btn-group pull-right">
-                                            <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
-                                        </div>-->
+                    -->                                        <div class="btn-group pull-right">
+                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                    </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="templatesExportToxls()" ng-show="ExportTemplateData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="templatesExportToxls()" ng-show="ExportTemplateData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -40,7 +54,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                
+
                             </ul>
                         </a>
                     </div>
@@ -52,16 +66,14 @@
                     <!-- filter data--> 
                     <div class="row" style="border:2px;" id="filter-show">
                         <div class="col-sm-12 col-xs-12">
-                            <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
+                            <b ng-repeat="(key, value) in searchData">
                                 <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
-                                        <strong ng-if="key === 'legal_name'" data-toggle="tooltip" title=""><strong> Project Name : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'name'" data-toggle="tooltip" title="Name"><strong> Name : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'account_type'" data-toggle="tooltip" title="Account Type"><strong> Account Type : </strong> {{ value == '1' ? "Saving":"Current"}}</strong>
+                                        <strong ng-if="key === 'event_name'" data-toggle="tooltip" title="Template For"><strong> Template For : </strong> {{ value}}</strong>
+                                        <strong ng-if="key === 'template_for'" data-toggle="tooltip" title="Template To"><strong> Template To : </strong> {{ value == '1' ? "Customer":"Employee"}}</strong>
                                         <strong ng-if="key === 'account_number'" data-toggle="tooltip" title="Account Number"><strong> Account Number : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'branch'" data-toggle="tooltip" title="Branch"><strong> Branch  : </strong> {{ value}}</strong>
-                                    </div>
+                                          </div>
                                 </div>
                             </b>                        
                         </div>
@@ -111,7 +123,7 @@
                         </thead>
 
                         <tbody>
-                            <tr role="row" dir-paginate="listAlert in listAlerts | filter:search | itemsPerPage:itemsPerPage  | orderBy:orderByField:reverseSort"">
+                            <tr role="row" dir-paginate="listAlert in listAlerts | filter:search | filter:searchData | itemsPerPage:itemsPerPage  | orderBy:orderByField:reverseSort"">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td ng-init='(listAlert.template_type == 1)? template_type_list[listAlert.id] = 1 : template_type_list[listAlert.id] = 0'>{{ listAlert.event_name}}
                                     <span ng-init='(listAlert.email_status == 1)? template_email_status_list[listAlert.id] = 1 : template_email_status_list[listAlert.id] = 0'></span>
@@ -179,11 +191,11 @@
                                 <td class="">
                                     <!--div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div-->
                                     <span class="" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/alerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
-                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="15"  ng-show="(listAlerts|filter:search).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="15"  ng-show="(listAlerts|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
@@ -202,5 +214,53 @@
                 </div>
             </div>
         </div>
-    </div></div>
+    </div>
+
+ <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="bloodGroupFilter" role="form" ng-submit="filterDetails(searchDetails)">
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Template For</label>
+                       <span class="input-icon icon-right" ng-init="getTemplatesEvents()"> 
+                            <select class="form-control"  ng-model="searchDetails.event_name" name="event_name" id="event_name" >
+                                <option value="">Select Template</option>
+                                <option ng-repeat="item in templateEvents" value="{{item.event_name}}" ng-selected="{{ item.event_name == searchDetails.event_name}}" >{{item.event_name}}</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Template To</label>
+                       <span class="input-icon icon-right"> 
+                            <select class="form-control"  ng-model="searchDetails.template_for" name="template_for" id="template_for" >
+                                <option value="">Select</option>
+                                <option value="1">Customer</option>
+                                <option value="0">Employee</option>
+                            </select>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" >
+                            <button type="submit"  style="margin-left: 46%;" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/js/filterSlider.js"></script>
+    <!-- Filter Form End-->
+</div>
 

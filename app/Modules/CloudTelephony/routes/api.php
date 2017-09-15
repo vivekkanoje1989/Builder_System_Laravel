@@ -2,6 +2,8 @@
 
 Route::group(array('module' => 'CloudTelephony', 'middleware' => ['api'], 'namespace' => 'App\Modules\CloudTelephony\Controllers'), function() {
     
+    Route::get('api/getCtEmployeeExtension', 'ExtensionEmployeeController@getCtEmployeeExtension');
+    
     Route::resource('api/virtualnumber', 'VirtualNumberController');
     Route::post('api/virtualnumber/fileUpload', 'VirtualNumberController@fileUpload');
     
@@ -14,4 +16,5 @@ Route::group(array('module' => 'CloudTelephony', 'middleware' => ['api'], 'names
     
     Route::resource('api/extensionmenu', 'ExtensionMenuController');
     Route::post('api/extensionmenu/menufileUpload', 'ExtensionMenuController@menufileUpload');
+    
 });	

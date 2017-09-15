@@ -203,12 +203,11 @@ class MenuItems {
                 )),
             5 => array('name' => 'Projects', 'icon' => 'proj-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'projects', 'has_submenu' => true, 'total_submenu' => 4,
                 'submenu_ids' => '0501,0502,0503,0504', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '0501', 'name' => 'Projects Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
-                        'submenu_ids' => '050101,050102,050103,050104', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                    1 => array('id' => '0501', 'name' => 'Projects Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
+                        'submenu_ids' => '050101,050102,050103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '050101', 'name' => 'Manage Projects', 'icon' => '', 'url' => '/project/manage', 'slug' => 'manageProjectIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             2 => array('id' => '050102', 'name' => 'New Project', 'icon' => '', 'url' => '/project/create', 'slug' => 'projectCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '050103', 'name' => 'Project Webpage', 'icon' => '', 'url' => '/project/webpage', 'slug' => 'projectWebPage', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            4 => array('id' => '050104', 'name' => 'Project Availability', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '050103', 'name' => 'Project Availability', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '0502', 'name' => 'Manage Project Stages', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'has_submenu' => true, 'uiSrefActive' => 'active', 'total_submenu' => 1,
                         'submenu_ids' => '050201', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(

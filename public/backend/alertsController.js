@@ -26,6 +26,21 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
         $scope.pageNumber = pageNo;
     };
     
+     $scope.searchDetails = {};
+        $scope.searchData = {};
+        $scope.filterDetails = function (search) {
+//             $scope.searchDetails = {};
+            $scope.searchData = search;
+            $('#showFilterModal').modal('hide');
+        }
+        $scope.removeFilterData = function (keyvalue) {
+            delete $scope.searchData[keyvalue];
+            $scope.filterDetails($scope.searchData);
+        }
+        $scope.closeModal = function () {
+            $scope.searchData = {};
+        }
+        
     $scope.checkDepartment = function () {
        if ($scope.alertData.department_id.length === 0) {
             $scope.emptyDepartmentId = true;

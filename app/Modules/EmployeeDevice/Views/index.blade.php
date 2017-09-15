@@ -132,6 +132,9 @@
                                     <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmployeeDevice({{listDevice.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
+                             <tr>
+                                <td colspan="7"  ng-show="(listDevices|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
+                            </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">

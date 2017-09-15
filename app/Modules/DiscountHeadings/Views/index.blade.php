@@ -103,6 +103,9 @@
                                  <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDiscountHeading({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="4"  ng-show="(DiscountHeadingRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            </tr>
                         </tbody>
                     </table>
                    <div class="DTTTFooter">
@@ -176,7 +179,7 @@
             <div class="row">
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
-                        <label for="">Country Name</label>
+                        <label for="">Discount Name</label>
                         <span class="input-icon icon-right">
                             <input type="text" ng-model="searchDetails.discount_name" name="discount_name" class="form-control" >
                         </span>

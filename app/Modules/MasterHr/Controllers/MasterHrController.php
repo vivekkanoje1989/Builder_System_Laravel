@@ -1682,7 +1682,7 @@ class MasterHrController extends Controller {
                 $folderName = 'employee-photos';
                 $name = S3::s3FileUpload($tempPath, $imageName, $folderName);
                 $employee->employee_photo_file_name = $name;
-                $photo = config('global.s3Path') . 'employee-photos/' . $name;
+                $photo = config('global.s3Path') . '/employee-photos/' . $name;
             } else {
                 unset($request['data']['employee_photo_file_name']);
             }

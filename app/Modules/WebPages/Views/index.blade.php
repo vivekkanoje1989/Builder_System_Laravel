@@ -125,6 +125,9 @@
 
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="5"  ng-show="(listPages|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">

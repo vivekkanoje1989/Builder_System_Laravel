@@ -70,7 +70,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listmail in listmails | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="listmail in listmails | filter:search | filter:searchData| itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{listmail.email}}</td>
                                 <td><input type="password" value="{{listmail.password}}" style="border:none;background: transparent;" disabled></td>
@@ -80,6 +80,9 @@
                                     <span class="" tooltip-html-unsafe="Edit Account"><a href="[[ config('global.backendUrl') ]]#/emailConfig/update/{{ listmail.id}}" class=" btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmailConfig({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
+                            </tr>
+                             <tr>
+                                <td colspan="6"  ng-show="(listmails|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

@@ -1996,6 +1996,7 @@ class CloudCallingLogsController extends Controller {
     public function teamInboundExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
+             $emp_id = Auth::guard('admin')->user()->id;
             $this->tuserid($emp_id);
             $alluser = $this->allusers;
             $getInboundLoglist = array();
@@ -2394,6 +2395,7 @@ class CloudCallingLogsController extends Controller {
     public function teamOutboundExportToxls() {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
+             $emp_id = Auth::guard('admin')->user()->id;
             $this->tuserid($emp_id);
             $alluser = $this->allusers;
             $getOutboundLoglist = array();

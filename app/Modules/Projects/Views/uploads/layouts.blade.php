@@ -8,12 +8,12 @@
                         <div class="form-group">
                             <label></label>
                             <div class="card card-4 img-div2" ng-if="layoutTitle" ng-repeat="t in layoutTitle" style="height: 82px !important;" id="del_layout_plan_images_{{$index}}">
-                                <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{layoutTitle}},'{{t}}', {{$index}}, {{projectData.project_id}}, 'project/layout_plan_images/', 'layout_plan_images')"></i>
+                                <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{layoutTitle}},'{{t.image}}', {{$index}}, {{projectData.project_id}}, 'project/layout_plan_images/', 'layout_plan_images')"></i>
                                 <img ng-src="[[ config('global.s3Path') ]]/project/layout_plan_images/{{t.image}}" class="thumb photoPreview">
                                 <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
                             </div>
                             <span class="input-icon icon-right">
-                                <a href data-toggle="modal" data-target="#layoutDataModal" ng-click="resetLayoutDetails()">CLICK HERE TO UPLOAD LAYOUT DETAILS</a> 
+                                <a href data-toggle="modal" data-target="#layoutDataModal" ng-click="resetDetails()">CLICK HERE TO UPLOAD LAYOUT DETAILS</a> 
                             </span>                                                  
                         </div>
                     </div> 
@@ -27,12 +27,12 @@
                         <div class="form-group">
                             <label></label>
                             <div class="card card-4 img-div2" ng-if="floorTitle" ng-repeat="t in floorTitle" id="del_floor_plan_images_{{$index}}">
-                                <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{floorTitle}},'{{t}}', {{$index}}, {{projectData.project_id}}, 'project/floor_plan_images/', 'floor_plan_images')"></i>
+                                <i class="fa fa-times rem-icon" title="" ng-click="deleteImage({{floorTitle}},'{{t.image}}', {{$index}}, {{projectData.project_id}}, 'project/floor_plan_images/', 'floor_plan_images')"></i>
                                 <img ng-src="[[ config('global.s3Path') ]]/project/floor_plan_images/{{t.image}}" class="thumb photoPreview">
                                 <div class="textStyle"><span class="ng-binding">{{t.title}}</span></div>
                             </div>
                             <span class="input-icon icon-right">
-                                <a href data-toggle="modal" data-target="#floorDataModal" ng-click="resetFloorDetails()">CLICK HERE TO UPLOAD FLOOR DETAILS</a> 
+                                <a href data-toggle="modal" data-target="#floorDataModal" ng-click="resetDetails()">CLICK HERE TO UPLOAD FLOOR DETAILS</a> 
                             </span>                                                   
                         </div>
                     </div> 
@@ -51,7 +51,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Layout Details</h4>
             </div>
-            <form novalidate name="lmodalForm" ng-submit="lmodalForm.$valid && layoutRow(projectData.prid, lmodalImages, lmodalData)" >
+            <form novalidate name="lmodalForm" id="lmodalForm" ng-submit="lmodalForm.$valid && layoutRow(projectData.prid, lmodalImages, lmodalData)" >
                 <input type="hidden" ng-model="lmodalForm.csrfToken" name="csrftoken" ng-init="lmodalForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -75,7 +75,7 @@
                                 <div class="form-group" ng-class="{ 'has-error' : lmodalSbtBtn && (!lmodalForm.layout_plan_images.$dirty && lmodalForm.layout_plan_images.$invalid)}">
                                     <label>Upload Layout Plan<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="file" ngf-select ng-model="lmodalImages.layout_plan_images" name="layout_plan_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile">
+                                        <input type="file" ngf-select ng-model="lmodalImages.layout_plan_images" name="layout_plan_images" id="layout_plan_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile">
                                     </span>  
                                     <div ng-show="lmodalSbtBtn" ng-messages="lmodalForm.layout_plan_images.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
@@ -83,14 +83,14 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-xs-12">
-                                <div class="img-div2" data-title="name" ng-repeat="list in layout_plan_images_preview">    
+                                <div class="block-img-div2" data-title="name" ng-repeat="list in layout_plan_images_preview">    
                                     <img ng-src="{{list}}" class="thumb photoPreview">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer" align="left">
-                        <button type="submit" class="btn btn-primary" ng-click="lmodalSbtBtn=true">Add</button>
+                        <button type="submit" class="btn btn-primary" ng-click="lmodalSbtBtn=true" ng-disabled="sbtbtnlmodal">Add</button>
                     </div>
                 </div>                    
             </form>
@@ -108,7 +108,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" align="center">Floor Details</h4>
             </div>
-            <form novalidate name="fmodalForm" ng-submit="fmodalForm.$valid && specicationRow(projectData.prid,fmodalData,fmodalImages,'floorData')">
+            <form novalidate name="fmodalForm" id="fmodalForm" ng-submit="fmodalForm.$valid && specicationRow(projectData.prid,fmodalData,fmodalImages,'floorData')">
                 <input type="hidden" ng-model="fmodalForm.csrfToken" name="csrftoken" ng-init="fmodalForm.csrfToken = '[[csrf_token()]]'" class="form-control">
                 <div class="modal-body">
                     <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -148,7 +148,7 @@
                                 <div class="form-group" ng-class="{ 'has-error' : fmodalSbtBtn && (!fmodalForm.floor_plan_images.$dirty && fmodalForm.floor_plan_images.$invalid)}">
                                     <label>Upload Floor Plan<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="file" ngf-select ng-model="fmodalImages.floor_plan_images" name="floor_plan_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile">
+                                        <input type="file" ngf-select ng-model="fmodalImages.floor_plan_images" name="floor_plan_images" id="floor_plan_images" accept="image/*" ngf-max-size="2MB" class="form-control imageFile" required ngf-model-invalid="errorFile">
                                     </span>  
                                     <div ng-show="fmodalSbtBtn" ng-messages="fmodalForm.floor_plan_images.$error" class="help-block">
                                         <div ng-message="required">This field is required.</div>
@@ -156,14 +156,14 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-xs-12">
-                                <div class="img-div2" data-title="name" ng-repeat="list in floor_plan_images_preview">    
+                                <div class="block-img-div2" data-title="name" ng-repeat="list in floor_plan_images_preview">    
                                     <img ng-src="{{list}}" class="thumb photoPreview">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer" align="left">
-                        <button type="submit" class="btn btn-primary" ng-click="fmodalSbtBtn=true">Add</button>
+                        <button type="submit" class="btn btn-primary" ng-click="fmodalSbtBtn=true" ng-disabled="sbtbtnfmodal">Add</button>
                     </div>
                 </div>                    
             </form>

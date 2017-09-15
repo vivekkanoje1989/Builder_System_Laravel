@@ -69,4 +69,3 @@ class EnquiryDetail extends Eloquent
 		'updated_mac_id'
 	];
 }
-
