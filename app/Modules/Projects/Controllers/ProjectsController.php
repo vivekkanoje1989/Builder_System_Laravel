@@ -24,11 +24,6 @@ use App\Classes\S3;
 
 class ProjectsController extends Controller {
 
-    public function __construct() {
-        //$this->middleware('auth', ['only' => 'update']);
-        //$this->middleware('permission:050102', ['only' => ['create']]);
-    }
-
     /**
      * Display a listing of the resource.
      *

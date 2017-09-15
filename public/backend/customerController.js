@@ -340,7 +340,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                             $scope.subSourceList = response.records;
                         }
                     });
-                    $timeout(function () {
+                    $timeout(function () {console.log(response);
                         $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
                         var bdate = new Date($scope.customerData.birth_date);
                         $scope.enquiryData.birth_date = (bdate.getFullYear() + '-' + ("0" + (bdate.getMonth() + 1)).slice(-2) + '-' + bdate.getDate());
@@ -398,6 +398,16 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         }
                         $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerPersonalDetails.get_customer_contacts)));
                         $scope.searchData.customerId = response.customerPersonalDetails[0].id;
+                        
+                        if (response.customerPersonalDetails[0].corporate_customer === 1) {
+                            $scope.customerData.corporate_customer = true;
+                            $scope.isChecked(true);
+                        } else {
+                            $scope.customerData.corporate_customer = false;
+                            $scope.companyInput = false;
+                            $scope.customerData.company_id = 0;
+                            $scope.customerData.company_name = "";
+                        }
                     }, 500);
                     $scope.hideloader();
                 });
@@ -492,7 +502,15 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
                         $scope.searchData.customerId = response.customerPersonalDetails[0].id;
 //                        $scope.disableText = true; //disable mobile and email text box 
-
+                        if (response.customerPersonalDetails[0].corporate_customer === 1) {
+                            $scope.customerData.corporate_customer = true;
+                            $scope.isChecked(true);
+                        } else {
+                            $scope.customerData.corporate_customer = false;
+                            $scope.companyInput = false;
+                            $scope.customerData.company_id = 0;
+                            $scope.customerData.company_name = "";
+                        }
                         $timeout(function () {
                             $scope.hstep = $scope.mstep = 0;
                             $scope.projectsDetails = response.projectDetails;
