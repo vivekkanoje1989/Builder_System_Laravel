@@ -8,9 +8,7 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::get('/master-hr/getChartData', ['middleware' => 'permission:030105', 'uses' => 'MasterHrController@getChartData']); //show chart
     Route::get('/master-hr/manageRolesPermission', ['middleware' => 'permission:030103', 'uses' => 'MasterHrController@manageRolesPermission']); //show manage role page
     Route::get('/master-hr/getRoles', ['middleware' => 'permission:030103', 'uses' => 'MasterHrController@getRoles']); //get role data from table
-//    Route::resource('/master-hr', 'MasterHrController');
 
-//    Route::get('/master-hr', ['middleware' => 'permission:030101', 'uses' => 'MasterHrController@index']);
     Route::get('/master-hr',  'MasterHrController@index');
     Route::get('/master-hr/create', ['middleware' => 'permission:030102', 'uses' => 'MasterHrController@create']);
     Route::post('/master-hr/', ['middleware' => 'permission:030102', 'uses' => 'MasterHrController@store']);
@@ -36,12 +34,16 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::get('/master-hr/createrole', 'MasterHrController@createRole');
     Route::post('/master-hr/createUserRole', 'MasterHrController@createUserRole'); //create user role
     Route::post('/master-hr/updateUserRole', 'MasterHrController@updateUserRole'); //update user role
-    
-    Route::get('/master-hr/showpermissions', 'MasterHrController@showpermissions'); 
-    Route::get('/master-hr/getMenuListsForEmployee', 'MasterHrController@getMenuListsForEmployee'); 
-    Route::post('/master-hr/removeEmpID', 'MasterHrController@removeEmpID'); 
-    
-    Route::post('/master-hr/getProfileInfo', 'MasterHrController@getProfileInfo'); 
+    Route::post('/master-hr/bulkreasignemployee', 'MasterHrController@bulkreasignemployee');
+    Route::post('/master-hr/getsalesEmployees', 'MasterHrController@getsalesEmployees');
+    Route::post('/master-hr/getEnquiriesCnt', 'MasterHrController@getEnquiriesCnt');
+    Route::post('/master-hr/getpresalesEmployees', 'MasterHrController@getpresalesEmployees');
+
+    Route::get('/master-hr/showpermissions', 'MasterHrController@showpermissions');
+    Route::get('/master-hr/getMenuListsForEmployee', 'MasterHrController@getMenuListsForEmployee');
+    Route::post('/master-hr/removeEmpID', 'MasterHrController@removeEmpID');
+
+    Route::post('/master-hr/getProfileInfo', 'MasterHrController@getProfileInfo');
     Route::post('/master-hr/updateProfileInfo', 'MasterHrController@updateProfileInfo');
     Route::get('/master-hr/profile', 'MasterHrController@profile');
     Route::get('/master-hr/quickuser', 'MasterHrController@getquickuser');

@@ -18,23 +18,28 @@ app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
             $scope.searchData = {};
         }
 
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.manageCities = function () {
             $scope.showloader();
             Data.get('manage-city/manageCity').then(function (response) {
-                 $scope.hideloader();
+                $scope.hideloader();
                 $scope.citiesRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
-         $scope.deleteCity= function (id, index) {
+        $scope.deleteCity = function (id, index) {
             Data.post('manage-city/deleteCity', {
                 'id': id}).then(function (response) {
                 toaster.pop('success', 'Manage City', 'City deleted successfully');
                 $scope.citiesRow.splice(index, 1);
             });
         }
-        
+
         $scope.cityExportToxls = function () {
             $scope.getexcel = window.location = "manage-city/cityExportToxls";
             if ($scope.getexcel) {
@@ -43,7 +48,7 @@ app.controller('citiesCtrl', ['$scope', 'Data', 'toaster', function ($scope, Dat
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
+
         $scope.manageStates = function ($id, country_id) {
             if ($id == 1)
             {

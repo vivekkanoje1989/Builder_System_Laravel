@@ -21,6 +21,11 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
+        
+         $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];

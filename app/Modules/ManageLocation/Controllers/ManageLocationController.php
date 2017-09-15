@@ -32,8 +32,13 @@ class ManageLocationController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($locationDetails)) {
-            $result = ['success' => true, 'records' => $locationDetails,'exportData'=>$export, 'totalCount' => count($getLocation)];
+            $result = ['success' => true, 'records' => $locationDetails,'exportData'=>$export,'delete'=>$deleteBtn, 'totalCount' => count($getLocation)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

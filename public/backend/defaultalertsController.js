@@ -18,6 +18,10 @@ app.controller('defaultalertsController', ['$rootScope', '$scope', '$state', 'Da
                 }
             });
         };
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};
@@ -94,6 +98,7 @@ app.controller('defaultalertsController', ['$rootScope', '$scope', '$state', 'Da
                     if (action === 'index') {
                         $scope.listdefaultAlerts = response.records.data;
                         $scope.exportData = response.records.exportData;
+                        $scope.deleteBtn = response.records.delete;
                         $scope.listdefaultAlertsLength = response.records.total;
                     } else if (action === 'edit') {
                         if (id !== '0') {

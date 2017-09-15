@@ -997,6 +997,62 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             }
         }
         
+         $scope.getEnqCount = function (emp_id) {
+            Data.post('/master-hr/getEnquiriesCnt', {
+                    empId: emp_id,
+                }).then(function (response) {
+                    $scope.totsalesEnquiries = response.salesEnqcount;
+                    $scope.totpresalesEnquiries = response.presalesEnqcount;
+                    if($scope.totsalesEnquiries > 0 || $scope.totpresalesEnquiries > 0){
+                        $('#BulkModal').modal('show');
+                    }
+                });
+        }
+           $scope.getsalesEmployees = function (emp_id) {
+            $scope.salesemployeeList = [];
+            Data.post('/master-hr/getsalesEmployees', {
+                    empId: emp_id,
+                }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.salesemployeeList = response.records;
+                }
+            });
+        }
+        
+         $scope.getpresalesEmployees = function (emp_id) {
+            $scope.presalesemployeeList = [];
+                Data.post('/master-hr/getpresalesEmployees', {
+                    empId: emp_id,
+                }).then(function (response) {
+                    if (!response.success) {
+                        $scope.errorMsg = response.message;
+                    } else {
+
+                        $scope.presalesemployeeList = response.records;
+                    }
+                });
+        }
+        
+        $scope.bulkreasignemployee = function (bulkData,employee_id) {
+            
+            Data.post('/master-hr/bulkreasignemployee', {
+                    bulkData: bulkData, employee_id: employee_id
+                }).then(function (response) {
+                    if (!response.success) {
+                        $scope.errorMsg = response.message;
+                        toaster.pop('error', 'Bulk Reassign', "Something went wrong...");
+                    } else {
+                        $scope.reassigned = true;
+                        toaster.pop('success', 'Bulk Reassign', response.message);
+                        $('#BulkModal').modal('toggle');
+
+                        $(".modal-backdrop").hide();
+                    }
+                });
+            
+        }
         
         $scope.createRole = function (RoleData) {
             Data.post('master-hr/createUserRole', {

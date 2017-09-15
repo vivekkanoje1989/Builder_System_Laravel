@@ -82,36 +82,38 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th>                       
                                 <th style="width:10%" >
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'blog_title'; reverseSort = !reverseSort">Title
-                                        <span ng-show="orderByField == 'blog_title'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('blog_title')">Title
+                                        <span ><img ng-hide="(sortKey == 'blog_title' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'blog_title' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'blog_title' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:20%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'blog_seo_url'; reverseSort = !reverseSort">Seo Url
-                                        <span ng-show="orderByField == 'blog_seo_url'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
-                                    </a></th>
-                                <th style="width:20%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'meta_description'; reverseSort = !reverseSort">Meta Description
-                                        <span ng-show="orderByField == 'meta_description'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('blog_seo_url')">Seo Url
+                                        <span ><img ng-hide="(sortKey == 'blog_seo_url' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'blog_seo_url' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'blog_seo_url' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:20%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'meta_keywords'; reverseSort = !reverseSort">Meta Keywords
-                                        <span ng-show="orderByField == 'meta_keywords'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('meta_description')">Meta Description
+                                        <span ><img ng-hide="(sortKey == 'meta_description' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'meta_description' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'meta_description' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
+                                </th>
+                                <th style="width:20%">
+                                    <a href="javascript:void(0);" ng-click="orderByField('meta_keywords')">Meta Keywords
+                                        <span ><img ng-hide="(sortKey == 'meta_keywords' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'meta_keywords' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'meta_keywords' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'blog_status'; reverseSort = !reverseSort">Blog Status
-                                        <span ng-show="orderByField == 'blog_status'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('blog_status')">Blog Status
+                                        <span ><img ng-hide="(sortKey == 'blog_status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'blog_status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'blog_status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 15%">Actions</th>
@@ -119,7 +121,7 @@
                         </thead>
                         <tbody>
 
-                            <tr role="row" dir-paginate="item in blogsRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="item in blogsRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{item.blog_title}}</td>
                                 <td>{{item.blog_seo_url}}</td>
@@ -128,11 +130,11 @@
                                 <td>{{item.blog_status}}</td>
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit blog"  data-toggle="modal" ng-click="editBlogData({{item}},{{$index}})"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                        <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBlog({{item.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBlog({{item.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="7"  ng-show="(blogsRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="7"  ng-show="(blogsRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

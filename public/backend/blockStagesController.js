@@ -9,7 +9,10 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
             $scope[functionName](id, pageNo, $scope.itemsPerPage);
             $scope.pageNumber = pageNo;
         };
-
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
         $scope.blockStages = function (empId, pageNumber, itemPerPage) {
             $scope.showloader();
             Data.post('block-stages/manageBlockStages').then(function (response) {
@@ -17,6 +20,7 @@ app.controller('blockstagesCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
                 $scope.BlockStageRow = response.records;
                 $scope.BlockStageLength = response.totalCount;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
 

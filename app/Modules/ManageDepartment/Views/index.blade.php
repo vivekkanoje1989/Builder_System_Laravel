@@ -22,7 +22,7 @@
                 <span class="widget-caption">Manage Department</span>                
             </div>
             <div class="widget-body table-responsive">
-                
+
                 <div class="row table-toolbar">
                     <a href="" data-toggle="modal" data-target="#departmentModal" ng-click="initialModal(0)" class="btn btn-default">Add Department</a>
                     <div class="btn-group pull-right">
@@ -31,7 +31,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="departmentsExportToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="departmentsExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -81,40 +81,36 @@
                         <thead class="bord-bot">
                             <tr>
                             <tr>
-                                <th style="width:5%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">Sr. No.
-                                        <span ng-show="orderByField == 'id'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th>                 
+                                <th style="width:5%">Sr. No.</th>                 
                                 <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'department_name'; reverseSort = !reverseSort">Department
-                                        <span ng-show="orderByField == 'department_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('department_name')">Department
+                                        <span ><img ng-hide="(sortKey == 'department_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'department_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'department_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'verticalData'; reverseSort = !reverseSort">Vertical Name
-                                        <span ng-show="orderByField == 'verticalData'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('verticalData')">Vertical Name
+                                        <span ><img ng-hide="(sortKey == 'verticalData' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'verticalData' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'verticalData' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
-                                <th style="width: 15%">Actions</th>
+                                <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in departmentRow| filter:search |filter:searchData | itemsPerPage:itemsPerPage |orderBy:orderByField:reverseSort" >
+                            <tr role="row" dir-paginate="list in departmentRow| filter:search |filter:searchData | itemsPerPage:itemsPerPage |orderBy:sortKey:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{ list.department_name}}</td>                          
                                 <td>{{ list.verticalData}}</td>
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit department" data-toggle="modal" data-target="#departmentModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},{{list}},{{ itemsPerPage}},{{$index}})"  class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDepartment({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDepartment({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
                             <tr>
-                                <td colspan="4"  ng-show="(departmentRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="4"  ng-show="(departmentRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

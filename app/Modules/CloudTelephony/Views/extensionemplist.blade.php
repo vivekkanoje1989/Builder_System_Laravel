@@ -83,7 +83,7 @@
                                             <strong ng-if="key === 'virtual_display_number'" data-toggle="tooltip" title="Virtual Number"><strong> Virtual Number : </strong> {{ value}}</strong>
                                             <strong ng-if="key === 'source_name'" data-toggle="tooltip" title="Source"><strong> Source: </strong> {{ value}}</strong>
                                             <strong ng-if="key === 'sub_source_id'" data-toggle="tooltip" title="Sub Source"><strong> Sub Source: </strong> {{ value}}</strong>
-                                            <strong ng-if="key === 'extension_no'" data-toggle="tooltip" title="Extension No"><strong> Extension No: </strong>{{value}}</strong>
+                                            <strong ng-if="key === 'extension_no'" data-toggle="tooltip" title="Extension No"><strong> Extension No: </strong>Extension {{value}}</strong>
                                             <strong ng-if="key === 'employee'" data-toggle="tooltip" title="Employee Name"><strong> Employee Name: </strong>{{value}}</strong>
                                         </div>
                                     </div>
@@ -123,7 +123,7 @@
                                 </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="5"  ng-show="(listNumbers | filter:search).length == 0" align="center">Record Not Found</td>   
+                                    <td colspan="5"  ng-show="(ct_employee_extlist | filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                                 </tr>
                             </tbody>
                         </table>
@@ -195,32 +195,29 @@
         </div>
     </div>
     <!-- Filter Form Start-->
-    <div class="wrap-filter-form show-widget" id="slideout" ng-controller="adminController" >
-        <form name="blockStageFilter" role="form" ng-submit="filterDetails(searchDetails)"  ng-init="getEmployeeData()">
+    <div class="wrap-filter-form show-widget" id="slideout"  >
+        <form name="blockStageFilter" role="form" ng-submit="filterDetails(searchDetails)" >
             <strong>Filter</strong>   
             <button type="button" class="close toggleForm" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button><hr>
             <div class="row">
-                <div class="col-sm-12 col-xs-12">
+                <div class="col-sm-12 col-xs-12" ng-controller="adminController" ng-init="getEmployeeData()">
                     <div class="form-group" >
-                        <label for="">Employee<span class="sp-err">*</span></label>   
+                        <label for="">Employee</label>   
                         <select class="form-control"  ng-model="searchDetails.employee" name="employee" id="employee_id" >
                             <option value="">Select Employee</option>
-                            <option ng-repeat="item in ct_employee" value="{{item.employee}}" ng-selected="{{ item.employee == searchDetails.employee}}" >{{item.employee}}</option>
+                            <option ng-repeat="item in ct_employee" value="{{item.employee}}">{{item.employee}}</option>
                         </select>
-
                     </div>
-
                 </div>
-                <div class="col-sm-12" ng-controller="extensionemployeeController" ng-init="getEmployeeExtData()">
+                <div class="col-sm-12" ng-init="getEmployeeExtData()">
                     <div class="form-group">
                         <label for="">Extension Number</label>
-                        <select class="form-control"  ng-model="searchDetails.extension_no" name="extension_no" id="extension_no">
+                        <select class="form-control" ng-model="searchDetails.extension_no" name="extension_no" id="extension_no">
                             <option value="">Select Extension</option>
-                            <option ng-repeat="item in extNumber" value="{{item}}" ng-selected="{{ item == searchDetails.extension_no}}">Extension&nbsp;{{item}}</option>
+                            <option ng-repeat="(key, value) in extNumber" value="{{value}}">Extension&nbsp;{{value}}</option>
                         </select>
-
                     </div>
                 </div>
             </div>

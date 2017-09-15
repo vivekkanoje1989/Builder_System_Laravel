@@ -20,6 +20,10 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.searchData = {};
         $scope.searchDetails = {};
@@ -41,6 +45,8 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 $scope.hideloader();
                 $scope.listPages = response.records.data;
                 $scope.exportData = response.records.exportData;
+                $scope.deleteBtn = response.records.delete;
+                
             });
         }
 
@@ -60,7 +66,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 $scope.listPages.splice(index, 1);
             });
         }
-        
+
         $scope.getSubPages = function (pageid)
         {
             Data.post('web-pages/getSubPages', {

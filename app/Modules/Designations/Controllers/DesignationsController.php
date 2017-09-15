@@ -24,18 +24,21 @@ class DesignationsController extends Controller {
         } else {
             $export = '';
         }
-
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($getDesignations)) {
-            $result = ['success' => true, 'records' => $getDesignations,'exportData'=>$export];
+            $result = ['success' => true, 'records' => $getDesignations, 'exportData' => $export, 'delete' => $deleteBtn];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
     }
-    
-    
-     public function deleteDesignation() {
-         $postdata = file_get_contents('php://input');
+
+    public function deleteDesignation() {
+        $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
@@ -43,7 +46,6 @@ class DesignationsController extends Controller {
         $designationData = MlstBmsbDesignations::where('id', $request['id'])->update($input['designationData']);
         $result = ['success' => true, 'result' => $designationData];
         return json_encode($result);
-        
     }
 
     public function designationExportToxls() {
@@ -58,12 +60,12 @@ class DesignationsController extends Controller {
             for ($i = 0; $i < count($getDesignations); $i++) {
                 $manageDesignationsData['Sr No.'] = $j++;
                 $manageDesignationsData['Designation'] = $getDesignations[$i]['designation'];
-                if($getDesignations[$i]['status'] == '1'){
-                     $manageDesignationsData['Status'] = 'Active';
-                }else{
+                if ($getDesignations[$i]['status'] == '1') {
+                    $manageDesignationsData['Status'] = 'Active';
+                } else {
                     $manageDesignationsData['Status'] = 'In Active';
                 }
-               
+
                 $manageDesignations[] = $manageDesignationsData;
             }
 

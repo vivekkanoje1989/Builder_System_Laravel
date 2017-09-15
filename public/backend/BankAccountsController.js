@@ -7,9 +7,9 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
             Data.get('bank-account/manageBankAccount').then(function (response) {
                 $scope.bankAccountRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
-
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;

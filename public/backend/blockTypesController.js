@@ -9,6 +9,7 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
                  $scope.hideloader();
                 $scope.BlockTypesRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
         
@@ -19,6 +20,11 @@ app.controller('blocktypesController', ['$scope', 'Data', '$rootScope', '$timeou
             } else {
                 toaster.pop('error', '', 'Exporting fails....');
             }
+        }
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
         }
         
          $scope.deleteBlockTypes = function (id, index) {

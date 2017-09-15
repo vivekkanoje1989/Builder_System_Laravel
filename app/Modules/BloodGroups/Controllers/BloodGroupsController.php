@@ -32,8 +32,13 @@ class BloodGroupsController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($bloodGrps)) {
-            $result = ['success' => true, 'records' => $bloodGrps,'exportData'=>$export, 'totalCount' => count($getBloodGroups)];
+            $result = ['success' => true, 'records' => $bloodGrps,'exportData'=>$export, 'Delete'=>$deleteBtn,'totalCount' => count($getBloodGroups)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

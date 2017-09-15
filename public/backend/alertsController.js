@@ -26,6 +26,11 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
         $scope.pageNumber = pageNo;
     };
     
+    $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
      $scope.searchDetails = {};
         $scope.searchData = {};
         $scope.filterDetails = function (search) {
@@ -242,6 +247,7 @@ app.controller('alertsController', ['$rootScope', '$scope', '$state', 'Data', '$
                     $scope.listAlertsLength = response.records.total;
                     $scope.custom_template_list = response.records.customTemplates;
                     $scope.ExportTemplateData = response.records.ExportTemplateData;
+                    $scope.deleteBtn = response.records.delete;
                     
                     $scope.displayinit =true;
                       $scope.hideloader();

@@ -101,8 +101,13 @@ class BankAccountsController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($result)) {
-            return json_encode(['records' => $result, 'exportData' => $export, 'status' => true]);
+            return json_encode(['records' => $result, 'exportData' => $export,'delete'=>$deleteBtn, 'status' => true]);
         } else {
             return json_encode(['errorMSg' => 'No record found', 'status' => false]);
         }

@@ -122,7 +122,7 @@ class MasterHrController extends Controller {
             $export = '';
         }
         if ($manageUsers) {
-            $result = ['success' => true, "records" => ["data" => $manageUsers, 'exportData'=>$export,"total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
+            $result = ['success' => true, "records" => ["data" => $manageUsers, 'exportData' => $export, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
             return json_encode($result);
         }
     }
@@ -142,7 +142,7 @@ class MasterHrController extends Controller {
             $manageUsers = array();
             $j = 1;
             for ($i = 0; $i < count($manageUser); $i++) {
-                 $blogData['Sr No.'] = $j++;
+                $blogData['Sr No.'] = $j++;
                 $first_name = $manageUser[$i]['first_name'];
                 $team_lead_fname = $manageUser[$i]['team_lead_fname'];
                 $team_lead_lname = $manageUser[$i]['team_lead_lname'];
@@ -156,9 +156,9 @@ class MasterHrController extends Controller {
                 $blogData['Departments'] = $manageUser[$i]['departmentName'];
                 $blogData['Joining Date'] = $manageUser[$i]['joining_date'];
                 $blogData['Login Date Time'] = $manageUser[$i]['login_date_time'];
-                if($manageUser[$i]['employee_status'] == '1'){
-                    
-                $blogData['Employee Status'] ='Active' ;
+                if ($manageUser[$i]['employee_status'] == '1') {
+
+                    $blogData['Employee Status'] = 'Active';
                 }
                 $manageUsers[] = $blogData;
             }
@@ -244,6 +244,95 @@ class MasterHrController extends Controller {
         return \Response()->json($result);
     }
 
+    public function BulkReasignEmployee() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        // print_r($request);exit;
+        $employee_id = $request['employee_id'];
+
+        if (!empty($request)) {
+            if (!empty($request['bulkData']['sales_employee_id'])) {
+                $sales_employee_id = $request['bulkData']['sales_employee_id'];
+                $enquiryUpdate = DB::table('enquiries')->where('sales_employee_id', $employee_id)->update(array('sales_employee_id' => $sales_employee_id));
+            }
+            if (!empty($request['bulkData']['cc_presales_employee_id'])) {
+                $cc_presales_employee_id = $request['bulkData']['cc_presales_employee_id'];
+                $enquiryUpdate = DB::table('enquiries')->where('cc_presales_employee_id', $employee_id)->update(array('cc_presales_employee_id' => $cc_presales_employee_id));
+            }
+            $result = ['success' => true, "message" => "Enquiries reassigned successfully.."];
+            echo json_encode($result);
+        }
+    }
+
+    public function getEnquiriesCnt() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $salesEnqcount = $presalesEnqcount = 0;
+        //echo $request['empId'];exit;
+        if (!empty($request['empId']) && $request['empId'] !== "0") {
+            $salesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('sales_employee_id', $request['empId'])->count();
+            $presalesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('cc_presales_employee_id', $request['empId'])->count();
+            $result = ['success' => true, "salesEnqcount" => $salesEnqcount, 'presalesEnqcount' => $presalesEnqcount];
+            echo json_encode($result);
+        }
+    }
+
+    public function getsalesEmployees() {
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        $empId = $input['empId'];
+        $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name', 'designation_id', 'employee_submenus')
+                        ->where(["employee_status" => 1])->whereNotIn('id', [$empId])->get();
+        $i = 0;
+        if (!empty($getEmployees)) {
+            foreach ($getEmployees as $emp) {
+                if (!empty($emp->employee_submenus)) {
+                    $a = json_decode($emp->employee_submenus, true);
+                    if (in_array("0401", $a) == 1) {
+                        $emp->first_name = $emp->first_name . " " . $emp->last_name;
+                        unset($emp->employee_submenus, $emp->last_name);
+                        $getEmployees1[] = $emp;
+                    }
+                }$i++;
+            }
+        }
+
+        if (!empty($getEmployees1)) {
+            $result = ['success' => true, 'records' => $getEmployees1];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function getpresalesEmployees() {
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        $empId = $input['empId'];
+        $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name', 'designation_id', 'employee_submenus')
+                        ->where(["employee_status" => 1])->whereNotIn('id', [$empId])->get();
+        $i = 0;
+        if (!empty($getEmployees)) {
+            foreach ($getEmployees as $emp) {
+                if (!empty($emp->employee_submenus)) {
+                    $a = json_decode($emp->employee_submenus, true);
+                    if (in_array("01301", $a) == 1) {
+                        $emp->first_name = $emp->first_name . " " . $emp->last_name;
+                        unset($emp->employee_submenus, $emp->last_name);
+                        $getEmployees2[] = $emp;
+                    }
+                }$i++;
+            }
+        }
+
+        if (!empty($getEmployees2)) {
+            $result = ['success' => true, 'records' => $getEmployees2];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
     public function manageRolesPermission() {
 //        if (Auth::guard('admin')->user()->id == 1) {
         $roles = EmployeeRole::all();
@@ -253,15 +342,15 @@ class MasterHrController extends Controller {
 
     public function getRoles() {
         $roles = EmployeeRole::orderBy('role_name', 'ASC')->get();
-        
+
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
-        }else{
-              $export = '';
+        } else {
+            $export = '';
         }
         if (!empty($roles)) {
-            $result = ['success' => true, 'exportDetails'=>$export,"list" => $roles];
+            $result = ['success' => true, 'exportDetails' => $export, "list" => $roles];
             echo json_encode($result);
         } else {
             $result = ['success' => false, "message" => "No records found"];
@@ -270,16 +359,16 @@ class MasterHrController extends Controller {
     }
 
     public function manageRoleExportToExcel() {
-         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
-           $roles = EmployeeRole::orderBy('role_name', 'ASC')->get();
-            $getCount =EmployeeRole::orderBy('role_name', 'ASC')->get()->count();
+            $roles = EmployeeRole::orderBy('role_name', 'ASC')->get();
+            $getCount = EmployeeRole::orderBy('role_name', 'ASC')->get()->count();
             $roles = json_decode(json_encode($roles), true);
-            
+
             $manageRoles = array();
             $j = 1;
             for ($i = 0; $i < count($roles); $i++) {
-                 
+
                 $roleData['Sr No.'] = $j++;
                 $roleData['Role Name'] = $roles[$i]['role_name'];
                 $manageRoles[] = $roleData;
@@ -296,8 +385,7 @@ class MasterHrController extends Controller {
             }
         }
     }
-    
-    
+
     public function changePassword() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);

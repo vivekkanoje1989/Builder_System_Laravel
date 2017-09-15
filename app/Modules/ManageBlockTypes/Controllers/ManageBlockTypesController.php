@@ -29,8 +29,13 @@ class ManageBlockTypesController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($getBlockname)) {
-            $result = ['success' => true, 'records' => $getBlockname, 'exportData' => $export];
+            $result = ['success' => true, 'records' => $getBlockname, 'exportData' => $export,'delete'=>$deleteBtn];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

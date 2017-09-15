@@ -27,8 +27,13 @@ class DiscountHeadingsController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($getDiscountname)) {
-            $result = ['success' => true, 'records' => $getDiscountname, 'exportData' => $export, 'totalCount' => count($getDiscountname)];
+            $result = ['success' => true, 'records' => $getDiscountname, 'exportData' => $export,'delete'=>$deleteBtn, 'totalCount' => count($getDiscountname)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
