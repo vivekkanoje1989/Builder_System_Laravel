@@ -29,7 +29,7 @@
                             <label for=""></label>
                             <span class="input-icon icon-right">                                
                                 <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_previous_followups')"><i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                <button type="button"  class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Bulk Reassign</button>
+                                <!--<button type="button"  class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Bulk Reassign</button>-->
                                 <div ng-if="enquiriesLength != 0">
                                     <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-right: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
@@ -107,7 +107,7 @@
                                 </div>
                                 <div>
                                     <p ng-if="[[ Auth::guard('admin')->user()->customer_contact_numbers]] == 0 && enquiry.mobile_number !='' "> +91-xxxxxx{{  enquiry.mobile_number.substring(enquiry.mobile_number.length - 4, enquiry.mobile_number.length)}}</p>
-                                    <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' " ng-init="all_email_list=enquiry.email.split(',');" >
+                                    <p ng-if="<?php echo Auth::guard('admin')->user()->customer_email; ?> == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list=enquiry.email.split(',');" >
                                         <i class="fa fa-envelope" aria-hidden="true"></i>
                                         <span ng-repeat="emailobj in all_email_list | limitTo:2">
                                                 {{emailobj}}
