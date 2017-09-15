@@ -259,8 +259,9 @@
                             </div> 
                         </div>
                         <div class="row">
-                            <div class="col-sm-3 col-xs-6">
-                                <div class="form-group">
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
+                                <div class="form-group" align="center">
                                     <button type="submit" class="btn btn-primary" ng-click="sbtBtn=true">Save</button>
                                 </div>
                             </div>

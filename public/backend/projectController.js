@@ -103,6 +103,10 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.uploadsData = function (prid, uploadData, otherData) {
             if (uploadData === "" && otherData === "") { //for display data
+                
+                $scope.getWings();
+                $scope.getBlocks();
+                $scope.amenityData.project_amenities_list = {};
                 Data.post('projects/uploadsData', {
                     getDataByPrid: prid,
                 }).then(function (response) {
@@ -112,11 +116,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     }).then(function (responseAList) {
                         if (!responseAList.success) {
                             $scope.errorMsg = responseAList.message;
-                        } else {
-                            $timeout(function () {
-                                $scope.amenityData.project_amenities_list = angular.copy(responseAList.records);
-                            }, 200);
-
+                        } else {                            
                             $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
                             //$scope.projectImages = response.uploadData;
                             $scope.mapData.google_map_iframe = (response.uploadData.google_map_iframe !== null && response.uploadData.google_map_iframe !== "null") ? response.uploadData.google_map_iframe : "";
@@ -136,6 +136,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                             $scope.location_map_images = (response.uploadData.location_map_images !== null && response.uploadData.location_map_images !== "null") ? response.uploadData.location_map_images.split(',') : [];
                             $scope.amenities_images = (response.uploadData.amenities_images !== null && response.uploadData.amenities_images !== "null") ? response.uploadData.amenities_images.split(',') : [];
                             $scope.project_gallery = (response.uploadData.project_gallery !== null && response.uploadData.project_gallery !== "null") ? response.uploadData.project_gallery.split(',') : [];
+                            $scope.amenityData.project_amenities_list = angular.copy(responseAList.records);
 
                             $scope.specificationTitle = response.specificationTitle;
                             $scope.floorTitle = response.floorTitle;
@@ -147,8 +148,8 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                             }
                         }
                     });
-                    $scope.getWings();
-                    $scope.getBlocks();
+                   
+                    
                 });
             } else { //for insert or update
                 $scope.sbtbtnFiles = true;

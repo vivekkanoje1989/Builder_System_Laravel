@@ -24,6 +24,11 @@ use App\Classes\S3;
 
 class ProjectsController extends Controller {
 
+    public function __construct() {
+        //$this->middleware('auth', ['only' => 'update']);
+        //$this->middleware('permission:050102', ['only' => ['create']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -55,10 +60,6 @@ class ProjectsController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
-    }
-
-    public function webpageIndex() {
-        return view("Projects::webpage");
     }
 
     public function webpageDetails($id) {
@@ -391,7 +392,12 @@ class ProjectsController extends Controller {
      * @return Response
      */
     public function create() {
-        return view("Projects::create");
+//        $userPermission = json_decode(Auth()->guard('admin')->user()->employee_submenus, true);
+//        if (in_array('050102', $userPermission)) {
+            return view("Projects::create");
+//        }else{
+//            return view("layouts.backend.error401");
+//        }        
     }
 
     /**
@@ -409,10 +415,10 @@ class ProjectsController extends Controller {
         $createProject = Project::create($input);
         if (!empty($createProject)) {
             $result = ['success' => true, 'message' => 'Employee registeration successfully'];
-            echo json_encode($result);
+            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong. Record not created.'];
-            echo json_encode($result);
+            return json_encode($result);
         }
     }
 
@@ -450,7 +456,182 @@ class ProjectsController extends Controller {
         }
     }
 
-    /*public function basicInfo() {
+    public function getAmenitiesListOnEdit() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $amenityId = $request['data'];
+        $arr = explode(",", $amenityId);
+        $getAmenityList = MlstBmsbAmenity::select('id', 'name_of_amenity')->whereIn('id', $arr)->get();
+        if (!empty($getAmenityList)) {
+            $result = ['success' => true, 'records' => $getAmenityList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+        }
+        return json_encode($result);
+    }
+
+
+
+    public function getBlocks() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $projectId = $request['data']['projectId'];
+        $getBlockList = ProjectBlock::with('getBlockType')->where("project_id", $projectId)->get();
+        if (!empty($getBlockList)) {
+            $result = ['success' => true, 'records' => $getBlockList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something Went Wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function deleteStatus() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $statusId = $request['data']['statusId'];
+        if (!empty($request['data']['selectedImages'])) {
+            foreach ($request['data']['selectedImages'] as $key => $value) {
+                $path = "/project/images/" . $value;
+                S3::s3FileDelete($path);
+            }
+        }
+        ProjectStatus::where('id', $statusId)->delete();
+        $msg = "Record has been deleted successfully";
+        $getProjectStatusRecords = ProjectStatus::select('id', 'images', 'status', 'short_description')->get();
+        $result = ['success' => true, 'message' => $msg, 'records' => $getProjectStatusRecords];
+        return json_encode($result);
+    }
+
+    public function deleteImage() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        if ($request['tblFieldName'] == "specification_images" || $request['tblFieldName'] == "layout_plan_images" || $request['tblFieldName'] == "floor_plan_images") {
+          
+            $selectedImgs = json_encode($request['selectedImg']);
+            $path = $request['folderName'] . $request['delImgName'];
+            $deleteImg = S3::s3FileDelete($path);
+        } else {
+            $selectedImgs = implode(',', $request['selectedImg']);
+            $path = $request['folderName'] . $request['delImgName'];
+            $deleteImg = S3::s3FileDelete($path);
+        }
+        if ($deleteImg) {
+            ProjectWebPage::where('id', $request['tblRowId'])->update([$request['tblFieldName'] => $selectedImgs]);
+            $result = ['success' => true, 'message' => "Image deleted successfully"];
+        } else {
+            $result = ['success' => false, 'message' => "Something went wrong. Please check internet connection"];
+        }
+        return json_encode($result);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show($id) {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id) {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id) {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id) {
+        //
+    }
+
+    public function projectType() {
+        $typeList = MlstBmsbProjectType::all();
+        if (!empty($typeList)) {
+            $result = ['success' => true, 'records' => $typeList];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function projectStatus() {
+        $typeStatus = MlstBmsbProjectStatus::all();
+        if (!empty($typeStatus)) {
+            $result = ['success' => true, 'records' => $typeStatus];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function getWings() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $projectId = $request['data']['projectId'];
+        $projectWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $projectId)->get();
+        if (!empty($projectWing)) {
+            $result = ['success' => true, 'records' => $projectWing];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
+    public function manageProjectsExportToExcel() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+
+        $getProjectData = array();
+        if (in_array('01401', $array)) {
+            $getProjects = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get();
+            $getCount = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get()->count();
+            $j = 1;
+            for ($i = 0; $i < count($getProjects); $i++) {
+                $getProject['Sr No.'] = $j++;
+                $getProject['Registration Date & Time'] = $getProjects[$i]['created_at'];
+                $getProject['Registered by'] = $getProjects[$i]['getEmployee']['first_name'] . ' ' . $getProjects[$i]['getEmployee']['last_name'];
+                $getProject['Project Name'] = $getProjects[$i]['project_name'];
+                $getProject['Project Type'] = $getProjects[$i]['projectTypes']['project_type'];
+                $getProject['Project Status'] = $getProjects[$i]['projectStatus']['project_status'];
+                $getProjectData[] = $getProject;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Project Details', function($excel) use($getProjectData) {
+                    $excel->sheet('sheet1', function($sheet) use($getProjectData) {
+                        $sheet->fromArray($getProjectData);
+                    });
+                })->download('xls');
+            }
+        }
+    }
+
+}
+
+
+
+ /*public function basicInfo() {
         try {
             $postdata = file_get_contents("php://input");
             $input = json_decode($postdata, true);
@@ -723,176 +904,3 @@ class ProjectsController extends Controller {
         }
         return json_encode($result);
     }*/
-
-    public function getAmenitiesListOnEdit() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $amenityId = $request['data'];
-        $arr = explode(",", $amenityId);
-        $getAmenityList = MlstBmsbAmenity::select('id', 'name_of_amenity')->whereIn('id', $arr)->get();
-        if (!empty($getAmenityList)) {
-            $result = ['success' => true, 'records' => $getAmenityList];
-        } else {
-            $result = ['success' => false, 'message' => 'Something Went Wrong'];
-        }
-        return json_encode($result);
-    }
-
-
-
-    public function getBlocks() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $projectId = $request['data']['projectId'];
-        $getBlockList = ProjectBlock::with('getBlockType')->where("project_id", $projectId)->get();
-        if (!empty($getBlockList)) {
-            $result = ['success' => true, 'records' => $getBlockList];
-        } else {
-            $result = ['success' => false, 'message' => 'Something Went Wrong'];
-        }
-        return json_encode($result);
-    }
-
-    public function deleteStatus() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $statusId = $request['data']['statusId'];
-        if (!empty($request['data']['selectedImages'])) {
-            foreach ($request['data']['selectedImages'] as $key => $value) {
-                $path = "/project/images/" . $value;
-                S3::s3FileDelete($path);
-            }
-        }
-        ProjectStatus::where('id', $statusId)->delete();
-        $msg = "Record has been deleted successfully";
-        $getProjectStatusRecords = ProjectStatus::select('id', 'images', 'status', 'short_description')->get();
-        $result = ['success' => true, 'message' => $msg, 'records' => $getProjectStatusRecords];
-        return json_encode($result);
-    }
-
-    public function deleteImage() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        if ($request['tblFieldName'] == "specification_images" || $request['tblFieldName'] == "layout_plan_images" || $request['tblFieldName'] == "floor_plan_images") {
-          
-            $selectedImgs = json_encode($request['selectedImg']);
-            $path = $request['folderName'] . $request['delImgName'];
-            $deleteImg = S3::s3FileDelete($path);
-        } else {
-            $selectedImgs = implode(',', $request['selectedImg']);
-            $path = $request['folderName'] . $request['delImgName'];
-            $deleteImg = S3::s3FileDelete($path);
-        }
-        if ($deleteImg) {
-            ProjectWebPage::where('id', $request['tblRowId'])->update([$request['tblFieldName'] => $selectedImgs]);
-            $result = ['success' => true, 'message' => "Image deleted successfully"];
-        } else {
-            $result = ['success' => false, 'message' => "Something went wrong. Please check internet connection"];
-        }
-        return json_encode($result);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id) {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function update($id) {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id) {
-        //
-    }
-
-    public function projectType() {
-        $typeList = MlstBmsbProjectType::all();
-        if (!empty($typeList)) {
-            $result = ['success' => true, 'records' => $typeList];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-        }
-        return json_encode($result);
-    }
-
-    public function projectStatus() {
-        $typeStatus = MlstBmsbProjectStatus::all();
-        if (!empty($typeStatus)) {
-            $result = ['success' => true, 'records' => $typeStatus];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-        }
-        return json_encode($result);
-    }
-
-    public function getWings() {
-        $postdata = file_get_contents("php://input");
-        $request = json_decode($postdata, true);
-        $projectId = $request['data']['projectId'];
-        $projectWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $projectId)->get();
-        if (!empty($projectWing)) {
-            $result = ['success' => true, 'records' => $projectWing];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-        }
-        return json_encode($result);
-    }
-
-    public function manageProjectsExportToExcel() {
-        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
-
-        $getProjectData = array();
-        if (in_array('01401', $array)) {
-            $getProjects = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get();
-            $getCount = Project::select('id', 'created_by', 'project_status', 'project_type_id', 'project_name', 'created_at')->with(['getEmployee', 'projectTypes', 'projectStatus'])->get()->count();
-            $j = 1;
-            for ($i = 0; $i < count($getProjects); $i++) {
-                $getProject['Sr No.'] = $j++;
-                $getProject['Registration Date & Time'] = $getProjects[$i]['created_at'];
-                $getProject['Registered by'] = $getProjects[$i]['getEmployee']['first_name'] . ' ' . $getProjects[$i]['getEmployee']['last_name'];
-                $getProject['Project Name'] = $getProjects[$i]['project_name'];
-                $getProject['Project Type'] = $getProjects[$i]['projectTypes']['project_type'];
-                $getProject['Project Status'] = $getProjects[$i]['projectStatus']['project_status'];
-                $getProjectData[] = $getProject;
-            }
-
-            if ($getCount < 1) {
-                return false;
-            } else {
-                Excel::create('Export Project Details', function($excel) use($getProjectData) {
-                    $excel->sheet('sheet1', function($sheet) use($getProjectData) {
-                        $sheet->fromArray($getProjectData);
-                    });
-                })->download('xls');
-            }
-        }
-    }
-
-}

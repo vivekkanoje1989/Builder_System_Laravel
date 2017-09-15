@@ -277,27 +277,31 @@
                 <div class="col-lg-12 col-sm-12 col-xs-12"  ng-controller="enquiryCityCtrl">
                     <div class="form-title">Preferences</div>
                     <div class="row col-sm-3 col-md-3 col-xs-12">
-                        <div class="form-group" ng-class="{ 'has-error' : step && (!enquiryForm.city_id.$dirty && enquiryForm.city_id.$invalid)}">
+                        <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.city_id.$dirty && enquiryForm.city_id.$invalid)}">
                             <label for="">Preferred City <span class="sp-err">*</span></label>
                             <span class="input-icon icon-right">
-                                <select class="form-control" ng-model="enquiryData.city_id" name="city_id" ng-change="changeLocations(enquiryData.city_id)">
-                                    <option value="">Select Preferred city</option>     
+                                <select class="form-control" ng-model="enquiryData.city_id" name="city_id" ng-change="changeLocations(enquiryData.city_id)" required>
+                                    <option value=''>Select Preferred city</option>     
                                     <option ng-repeat="list in cityList" value="{{list.city_id}}" ng-selected="{{ list.city_id == enquiryData.city_id}}">{{ list.get_city_name.name}}</option>                                                                                                                
                                 </select>
                                 <i class="fa fa-sort-desc"></i>
+                                <div ng-show="enqFormBtn" ng-messages="enquiryForm.city_id.$error" class="help-block enqFormBtn">
+                                <div ng-message="required">Please select City</div>
+                            </div>
+                            <div ng-if="city_id" class="sp-err blog_title">{{city_id}}</div>
                             </span>
                         </div>
                     </div>
                     <div class="col-sm-3 col-md-3 col-xs-12">
-                        <div class="form-group multi-sel-div" ng-class="{ 'has-error' : step && (!enquiryForm.enquiry_locations.$dirty && enquiryForm.enquiry_locations.$invalid)}">
+                        <div class="form-group multi-sel-div" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.enquiry_locations.$dirty && enquiryForm.enquiry_locations.$invalid)}">
                             <label for="">Preferred Area's<span class="sp-err">*</span></label>
-                            <ui-select multiple ng-model="enquiryData.enquiry_locations" name="enquiry_locations" theme="select2" ng-disabled="disabled">
+                            <ui-select multiple ng-model="enquiryData.enquiry_locations" name="enquiry_locations" theme="select2" ng-disabled="disabled" required>
                                 <ui-select-match placeholder='Select Locations'>{{$item.location}}</ui-select-match>
                                 <ui-select-choices repeat="list in locations | filter:$select.search">
                                     {{list.location}} 
                                 </ui-select-choices>
                             </ui-select>         
-                            <div ng-show="step" ng-messages="enquiryForm.enquiry_locations.$error" class="help-block step">
+                            <div ng-show="enqFormBtn" ng-messages="enquiryForm.enquiry_locations.$valid" class="help-block enqFormBtn">
                                 <div ng-message="required">Please select location</div>
                             </div>
                              <div ng-if="enquiry_locations" class="sp-err blog_title">{{enquiry_locations}}</div>
@@ -339,7 +343,7 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div class="form-title">Interested Projects</div>
             <div ng-controller="blockTypeCtrl">
                 <div class="col-sm-3 col-xs-6">
-                    <div class="form-group" ng-class="{ 'has-error' : !enquiryData.project_id && emptyProjectId}">
+                    <div class="form-group" ng-class="{ 'has-error' : enqFormBtn && (!enquiryForm.project_id.$dirty && enquiryForm.project_id.$invalid)}">
                         <label for="">Project</label>
                         <span class="input-icon icon-right">
                             <select ng-controller="projectCtrl" ng-model="enquiryData.project_id" name="project_id"  id ="project_id" class="form-control" ng-change="getBlockTypes(enquiryData.project_id)">
@@ -347,7 +351,10 @@
                                 <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}">{{plist.project_name}}</option>
                             </select>
                             <i class="fa fa-sort-desc"></i>
-                            <div ng-if="(!enquiryData.project_id) || (projectsDetails.length == 0)" ng-show="emptyProjectId" class="help-block">Please select Project </div>
+                            <div ng-if=" projectsDetails.length == 0" class="help-block enqFormBtn">
+                                <div>Please select Project</div>
+                            </div>
+                            <div ng-if="project_id" class="sp-err blog_title">{{project_id}}</div>
                         </span>
                     </div>
                 </div>
@@ -404,7 +411,7 @@
                                         <th style="width: 10%;">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>                                   
+                                <tbody>
                                 <tr ng-repeat="list in projectsDetails | unique:'id'">
                                     <td>{{ $index + 1}}</td>                                    
                                     <td>{{ list.project_name}}</td>
@@ -426,7 +433,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12 col-xs-12" align="center">
-                    <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true" ng-disabled="disableFinishButton">{{btnLabelE}}</button>
+                    <button type="submit" class="btn btn-primary btn-nxt3" ng-click="enqFormBtn = true && !(projectsDetails.length)" ng-disabled="disableFinishButton">{{btnLabelE}}</button>
                     <button type="submit" class="btn btn-primary" ng-show="backBtn" ng-click="backToListing('{{searchData.searchWithMobile}}','{{searchData.searchWithEmail}}')"><< Back To List</button>
                 </div>
             </div>
