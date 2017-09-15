@@ -180,7 +180,10 @@
                                                     </b>
                                                 </strong>
                                             </div>
-                                            <div ng-if="key != 'layout_plan_images' && key != 'floor_plan_images' && key != 'specification_images' " ng-init="list_data = value.split(',')">
+                                            <div ng-if="key == 'video_link'">
+                                               <i class="fa fa-youtube-square" aria-hidden="true"></i> <a href="{{value}}" target="_blank">View</a>
+                                            </div>
+                                            <div ng-if="key != 'video_link' && key != 'layout_plan_images' && key != 'floor_plan_images' && key != 'specification_images' " ng-init="list_data = value.split(',')">
                                                 <strong ng-repeat="list_obj in list_data track by $index" >
                                                     <b ng-if="(list_obj  | split:'.':1) !== 'pdf' "><a  ng-click="openImage('{{ key}}','{{ list_obj}}')" style='cursor: pointer;' tooltip-placement="top" tooltip-html-unsafe="<img src='https://storage.googleapis.com/bkt_bms_laravel/project/{{key}}/{{list_obj}}' style='width:150px;height:150px;'>">
                                                         {{ list_obj  | split:'.':0 }}&nbsp;&nbsp;&nbsp;</a>

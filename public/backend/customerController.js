@@ -1,5 +1,5 @@
 'use strict';
-app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$location','SweetAlert', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $location,SweetAlert) {
+app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$window', 'toaster', '$location', 'SweetAlert', function ($scope, $state, Data, Upload, $timeout, $parse, $window, toaster, $location, SweetAlert) {
         $scope.pageHeading = 'Detailed Enquiry';
         $scope.customerData = [];
         $scope.contactData = {};
@@ -111,7 +111,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.errMobile = "";
                 $scope.applyClassMobile = 'ng-inactive';
             }
-        };      
+        };
         $scope.editContactDetails = function (index) {
             $scope.contactData.index = index;
             $scope.contactData = $scope.contacts[index];
@@ -143,8 +143,8 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                     'city_id': $scope.contactData.city_id,
                     'google_map_link': $scope.contactData.google_map_link,
                     'other_remarks': $scope.contactData.other_remarks,
-                });                
-               
+                });
+
             } else {
                 var i = $scope.contactData.index;
                 if (i < $scope.contacts.length) {
@@ -181,8 +181,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         'other_remarks': $scope.contactData.other_remarks,
                     })
                 }
-                console.log("3="+$scope.contacts[i].mobile_number);
-                console.log("3="+$scope.contactData.mobile_calling_code+"-"+$("#mobile_calling_code").val() );
+
             }
             sessionContactData = $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
             $scope.contactData = {};
@@ -191,10 +190,10 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             $('#contactDataModal').modal('toggle');
         };
         function resetContactDetails() {
-            $timeout(function(){
-                $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable = 
-                $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
-            
+            $timeout(function () {
+                $scope.contactData.mobile_number_lable = $scope.contactData.landline_lable =
+                        $scope.contactData.email_id_lable = $scope.contactData.address_type = 1;
+
                 $scope.contactData.email_id = $scope.contactData.house_number =
                         $scope.contactData.building_house_name = $scope.contactData.wing_name =
                         $scope.contactData.area_name = $scope.contactData.lane_name =
@@ -202,7 +201,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         $scope.contactData.state_id = $scope.contactData.city_id = $scope.contactData.pin =
                         $scope.contactData.google_map_link = $scope.contactData.other_remarks = '';
                 $scope.contactData.index = $scope.contacts.length;
-            },200);
+            }, 200);
         }
         $scope.initContactModal = function () {
             $window.sessionStorage.setItem("sessionContactData", JSON.stringify($scope.contacts));
@@ -505,7 +504,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                                 city_id: response.city_id,
                             }).then(function (response) {
                                 $scope.locations = response.records;
-                                console.log($scope.locations);
+                                //console.log($scope.locations);
                                 for (var i = 0; i < $scope.locations.length; i++) {
                                     if ($scope.locations[i]['id'] == location) {
                                         selectedLocations.push($scope.locations[i]);
@@ -519,7 +518,7 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             }
         }
         $scope.createEnquiry = function () {
-            
+
             SweetAlert.swal({
                 title: "Enquiry Already Exists!", //Bold text
                 text: "Do you really want to create new enquiry?", //light text
@@ -532,89 +531,89 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
             },
                     function (isConfirm) { //Function that triggers on user action.
                         if (isConfirm) {
-                            
-                        
-            Data.post('master-sales/getCustomerDetails', {
-                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
-            }).then(function (response) {
-                $scope.showDiv = false;
-                $scope.showDivCustomer = true;
-                $scope.disableSource = true;
-                $scope.btnLabelC = "Update & Insert enquiry";
-                $scope.btnLabelE = "Save";
-                $scope.pageHeading = 'Update Customer';
-                $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
-                $scope.contacts = angular.copy(response.customerContactDetails);
-                $scope.contactData = angular.copy(response.customerContactDetails);
 
-                if (response.customerPersonalDetails[0].monthly_income == "0")
-                    $scope.customerData.monthly_income = "";
-                else
-                    $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
 
-                if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00") {
-                    $scope.customerData.birth_date = "";
-                } else {
-                    var bdt = new Date(response.customerPersonalDetails[0].birth_date);
-                    if (bdt.getDate() < 10) {
-                        $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
-                    } else {
-                        $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
-                    }
-                    $scope.maxDates = response.customerPersonalDetails[0].birth_date;
-                }
+                            Data.post('master-sales/getCustomerDetails', {
+                                data: {customerMobileNo: $scope.searchData.searchWithMobile, customerEmailId: $scope.searchData.searchWithEmail, showCustomer: 1},
+                            }).then(function (response) {
+                                $scope.showDiv = false;
+                                $scope.showDivCustomer = true;
+                                $scope.disableSource = true;
+                                $scope.btnLabelC = "Update & Insert enquiry";
+                                $scope.btnLabelE = "Save";
+                                $scope.pageHeading = 'Update Customer';
+                                $scope.customerData = angular.copy(response.customerPersonalDetails[0]);
+                                $scope.contacts = angular.copy(response.customerContactDetails);
+                                $scope.contactData = angular.copy(response.customerContactDetails);
 
-                if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
-                    $scope.customerData.marriage_date = "";
-                } else {
-                    var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
-                    if (marriage_date.getDate() < 10) {
-                        $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
-                    } else {
-                        $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
-                    }
-                }
-                for (var i = 0; i < response.customerContactDetails.length; i++) {
-                    if (response.customerContactDetails[i].mobile_number === '0' || response.customerContactDetails[i].mobile_number === '' || response.customerContactDetails[i].mobile_number === null || response.customerContactDetails[i].mobile_number === "null") {
-                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
-                        $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '';
-                    } else {
-                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = parseInt(response.customerContactDetails[i].mobile_number);
-                        $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code);
-                    }
-                    if (response.customerContactDetails[i].landline_number === '0' || response.customerContactDetails[i].landline_number === '' || response.customerContactDetails[i].landline_number === null || response.customerContactDetails[i].landline_number === "null") {
-                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
-                        $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = "";
-                    } else {
-                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerContactDetails[i].landline_number);
-                        $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerContactDetails[i].landline_calling_code);
-                    }
-                    if (response.customerContactDetails[i].pin === 0)
-                        $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
-                    if (response.customerContactDetails[i].email_id === '' || response.customerContactDetails[i].email_id === 'null')
-                        $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
-                }
-                Data.post('getEnquirySubSource', {
-                    data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {
-                    $scope.subSourceList = '';
-                    if (!response.success) {
-                        $scope.errorMsg = response.message;
-                    } else {
-                        $scope.subSourceList = response.records;
-                    }
-                });
-                $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
-                $scope.searchData.customerId = response.customerPersonalDetails[0].id;
+                                if (response.customerPersonalDetails[0].monthly_income == "0")
+                                    $scope.customerData.monthly_income = "";
+                                else
+                                    $scope.customerData.monthly_income = angular.copy(response.customerPersonalDetails[0].monthly_income);
+
+                                if (response.customerPersonalDetails[0].birth_date === null || response.customerPersonalDetails[0].birth_date === "-0001-11-30 00:00:00") {
+                                    $scope.customerData.birth_date = "";
+                                } else {
+                                    var bdt = new Date(response.customerPersonalDetails[0].birth_date);
+                                    if (bdt.getDate() < 10) {
+                                        $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + ("0" + bdt.getDate()));
+                                    } else {
+                                        $scope.customerData.birth_date = (bdt.getFullYear() + '-' + ("0" + (bdt.getMonth() + 1)).slice(-2) + '-' + bdt.getDate());
+                                    }
+                                    $scope.maxDates = response.customerPersonalDetails[0].birth_date;
+                                }
+
+                                if (response.customerPersonalDetails[0].marriage_date === null || response.customerPersonalDetails[0].marriage_date === "-0001-11-30 00:00:00") {
+                                    $scope.customerData.marriage_date = "";
+                                } else {
+                                    var marriage_date = new Date(response.customerPersonalDetails[0].marriage_date);
+                                    if (marriage_date.getDate() < 10) {
+                                        $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + ("0" + marriage_date.getDate()));
+                                    } else {
+                                        $scope.customerData.marriage_date = (marriage_date.getFullYear() + '-' + ("0" + (marriage_date.getMonth() + 1)).slice(-2) + '-' + marriage_date.getDate());
+                                    }
+                                }
+                                for (var i = 0; i < response.customerContactDetails.length; i++) {
+                                    if (response.customerContactDetails[i].mobile_number === '0' || response.customerContactDetails[i].mobile_number === '' || response.customerContactDetails[i].mobile_number === null || response.customerContactDetails[i].mobile_number === "null") {
+                                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = "";
+                                        $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '';
+                                    } else {
+                                        $scope.contacts[i].mobile_number = $scope.contactData[i].mobile_number = parseInt(response.customerContactDetails[i].mobile_number);
+                                        $scope.contacts[i].mobile_calling_code = $scope.contactData[i].mobile_calling_code = '+' + parseInt(response.customerContactDetails[i].mobile_calling_code);
+                                    }
+                                    if (response.customerContactDetails[i].landline_number === '0' || response.customerContactDetails[i].landline_number === '' || response.customerContactDetails[i].landline_number === null || response.customerContactDetails[i].landline_number === "null") {
+                                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = "";
+                                        $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = "";
+                                    } else {
+                                        $scope.contacts[i].landline_number = $scope.contactData[i].landline_number = parseInt(response.customerContactDetails[i].landline_number);
+                                        $scope.contacts[i].landline_calling_code = $scope.contactData[i].landline_calling_code = '+' + parseInt(response.customerContactDetails[i].landline_calling_code);
+                                    }
+                                    if (response.customerContactDetails[i].pin === 0)
+                                        $scope.contacts[i].pin = $scope.contactData[i].landline_number = '';
+                                    if (response.customerContactDetails[i].email_id === '' || response.customerContactDetails[i].email_id === 'null')
+                                        $scope.contacts[i].email_id = $scope.contactData[i].email_id = '';
+                                }
+                                Data.post('getEnquirySubSource', {
+                                    data: {sourceId: response.customerPersonalDetails[0].source_id}}).then(function (response) {
+                                    $scope.subSourceList = '';
+                                    if (!response.success) {
+                                        $scope.errorMsg = response.message;
+                                    } else {
+                                        $scope.subSourceList = response.records;
+                                    }
+                                });
+                                $window.sessionStorage.setItem("sessionContactData", JSON.stringify(angular.copy(response.customerContactDetails)));
+                                $scope.searchData.customerId = response.customerPersonalDetails[0].id;
 //                $scope.disableText = true; //disable mobile and email text box 
-            });
-            }
-            else {}
-                });            
+                            });
+                        } else {
+                        }
+                    });
         }
-        
-         $scope.newEnquiryCreate = function () {
-             $state.reload();
-         }
+
+        $scope.newEnquiryCreate = function () {
+            $state.reload();
+        }
 
         /****************************************Enquiry Controller*********************************************/
 
@@ -636,20 +635,35 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                         toaster.pop('success', 'Enquiry', response.message);
                         $scope.disableFinishButton = true;
                         $state.reload();
+                    } else
+                    {
+                        var obj = response.message;
+                        var selector = [];
+                        for (var key in obj) {
+                            var model = $parse(key);// Get the model
+                            model.assign($scope, obj[key][0]);// Assigns a value to it
+                            selector.push(key);
+                        }
                     }
-//                    var obj = response.data.message;
-//                    var selector = [];
-//                    for (var key in obj) {
-//                        var model = $parse(key);// Get the model
-//                        model.assign($scope, obj[key][0]);// Assigns a value to it
-//                        selector.push(key);
-//                    }
                 });
             } else {
+                console.log($scope.projectsDetails);
                 Data.put('master-sales/updateEnquiry/' + $scope.enquiryData.id, {
                     enquiryData: enquiryData, customer_id: $scope.customer_id, projectEnquiryDetails: $scope.projectsDetails,
                 }).then(function (response) {
-                    toaster.pop('success', 'Enquiry', response.message);
+                    if (response.success)
+                    {
+                        toaster.pop('success', 'Enquiry', response.message);
+                    } else
+                    {
+                        var obj = response.message;
+                        var selector = [];
+                        for (var key in obj) {
+                            var model = $parse(key);// Get the model
+                            model.assign($scope, obj[key][0]);// Assigns a value to it
+                            selector.push(key);
+                        }
+                    }
                 });
             }
         }
@@ -771,20 +785,20 @@ app.directive('checkEmailExist', function ($timeout, $q, Data) {
         require: 'ngModel',
         link: function ($scope, element, attributes, model) {
             model.$asyncValidators.uniqueEmail = function (modelValue) {
-            if (model.$isEmpty(modelValue))
-                return $q.when();
-            else{
-                //if(typeof modelValue !== 'undefined' || modelValue !== ''){
-                var emailid = modelValue;console.log(emailid);
-                var customerId = $scope.searchData.customerId;
-                return Data.post('master-sales/checkEmailExist', {
-                    data: {emailid: emailid, customerId: customerId},
-                }).then(function (response) {
-                    $timeout(function () {
-                        model.$setValidity('uniqueEmail', !!response.success);
-                    }, 1000);
-                });
-                
+                if (model.$isEmpty(modelValue))
+                    return $q.when();
+                else {
+                    //if(typeof modelValue !== 'undefined' || modelValue !== ''){
+                    var emailid = modelValue;
+                    var customerId = $scope.searchData.customerId;
+                    return Data.post('master-sales/checkEmailExist', {
+                        data: {emailid: emailid, customerId: customerId},
+                    }).then(function (response) {
+                        $timeout(function () {
+                            model.$setValidity('uniqueEmail', !!response.success);
+                        }, 1000);
+                    });
+
                 }
             };
         }
