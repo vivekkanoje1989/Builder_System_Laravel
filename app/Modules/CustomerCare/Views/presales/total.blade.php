@@ -193,39 +193,21 @@
                                     <span ng-if="enquiry.cc_presales_category == null && enquiry.cc_presales_subcategory == null" >
                                         <b>Category : </b>  N/A
                                          <hr class="enq-hr-line">
-                                    </span>
-                                
+                                    </span>                                
                                 </div>
-                                <div ng-if="enquiry.model_name != null">
-                                    
-                                    <b>Model :</b>    
-                                    
-                                    <span ng-if="enquiry.sub_model_name != null" data-toggle="tooltip" title="{{enquiry_sub_model_name}}"   ng-init="enquiry_sub_model_length = enquiry.model_name.length + enquiry.sub_model_name.length; enquiry_sub_model_name = enquiry.model_name +' / '+ enquiry.sub_model_name ">  
-                                        {{ enquiry_sub_model_name  | limitTo : 45 }}
-                                        <span ng-if="enquiry_sub_model_length > 45" data-toggle="tooltip" title="{{enquiry_sub_model_name}}">...</span>                                    
-                                    </span>
-                                    <span ng-if="enquiry.sub_model_name == null && enquiry.varient_name != null" data-toggle="tooltip" title="{{enquiry_varient_name}}"   ng-init="enquiry_varient_name_length = enquiry.model_name.length + enquiry.varient_name.length; enquiry_varient_name = enquiry.model_name +' / '+ enquiry.varient_name ">  
-                                        {{ enquiry_varient_name  | limitTo : 45 }}
-                                        <span ng-if="enquiry_varient_name_length > 45" data-toggle="tooltip" title="{{enquiry_varient_name}}">...</span>                                    
-                                    </span>
-                                    <span data-toggle="tooltip" title="{{enquiry.model_name}}" ng-if="enquiry.sub_model_name == null && enquiry.varient_name == null" >
-                                        {{ enquiry.model_name  | limitTo : 45 }}
-                                        <span ng-if="enquiry.model_name > 45" data-toggle="tooltip" title="{{enquiry.model_name}}">...</span>
-                                    </span>
-                                </div>
+                                <div>                                   
+                                    <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != ''" data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
+                                        <b>Project :</b>
+                                        {{enquiry.project_block_name| limitTo : 45 }}
+                                        <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                                                                 
+                                    </span>                                   
+                                </div>  
                                 
                             </td>
                             <td width="30%">
                                 <div ng-if="enquiry.owner_fname != null"><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
                                 <div ng-if="enquiry.owner_fname == null"><b>Enquiry Owner :</b> N/A</div>
-                                <hr class="enq-hr-line">
-                                <div>
-                                    <b>Test Drive :</b> 
-                                    <span ng-if="enquiry.testdrive_status_id == 1 || enquiry.testdrive_status_id == null">Not given</span>
-                                    <span ng-if="enquiry.testdrive_status_id == 2">Scheduled </span>
-                                    <span ng-if="enquiry.testdrive_status_id == 3">Completed</span>
-                                    <span ng-if="enquiry.testdrive_status_id == 4">Cancelled </span>
-                                </div>
+                                
                                 <hr class="enq-hr-line">
                                 <div ng-if="enquiry.last_followup_date !=null">
                                     <b>Last followup : </b>{{ enquiry.last_followup_date}}

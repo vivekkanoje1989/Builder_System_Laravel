@@ -96,6 +96,7 @@ class CustomerCareController extends Controller {
             
             
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            //echo 'CALL proc_cc_presales_total("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","")';exit;
             $enquiries = DB::select('CALL proc_cc_presales_total("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","","")');
             $enqCnt = DB::select("select FOUND_ROWS() totalCount");
             $enqCnt = json_decode(json_encode($enqCnt), true);

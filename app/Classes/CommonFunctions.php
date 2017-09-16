@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Classes;
-
 use DB;
 use Auth;
 use Mail;
