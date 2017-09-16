@@ -753,7 +753,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userStatusForm.employee_id.$dirty && userStatusForm.employee_id.$invalid)}">
@@ -791,6 +790,7 @@
             </div>
         </div>
     </div>
+</form>
     <div class="modal fade" id="BulkModal" role="dialog" tabindex='-1'>
         <div class="modal-dialog modal-md" >
             <!-- Modal content-->
@@ -799,9 +799,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center"> Reassign Enquiries</h4>
                 </div>
-                <br>
-
-                <form name="bulkForm" role="form"  ng-submit="bulkForm.$valid && bulkreasignemployee(bulkData, [[ $empId ]])" novalidate>
+                <form name="bulkForm"   ng-submit="bulkForm.$valid && bulkreasignemployee(bulkData, [[ $empId ]])" novalidate >
                     <div class="modal-body">
                         <div  ng-if="totsalesEnquiries > '0'">
                             <div class="row">

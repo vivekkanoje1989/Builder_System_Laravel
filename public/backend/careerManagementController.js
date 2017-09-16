@@ -11,8 +11,16 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
             Data.get('manage-job/manageCareers').then(function (response) {
                 $scope.careerRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
+        
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
         $scope.clearToDate = function ()
         {
             $scope.career.application_close_date = '';
