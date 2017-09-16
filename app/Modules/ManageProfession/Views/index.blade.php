@@ -78,36 +78,32 @@
                         <thead class="bord-bot">
                             <tr>
                             <tr>
-                                <th style="width:15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">Sr. No.
-                                        <span ng-show="orderByField == 'id'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th>                       
+                                <th style="width:5%">Sr. No.</th>                       
                                 <th style="width:35%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'profession'; reverseSort = !reverseSort">Profession Name
-                                        <span ng-show="orderByField == 'profession'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('profession')">Profession Name
+                                        <span ><img ng-hide="(sortKey == 'profession' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'profession' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'profession' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
                                 <th style="width: 35%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Status
-                                        <span ng-show="orderByField == 'status'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('status')">Status
+                                        <span ><img ng-hide="(sortKey == 'status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
-                                <th style="width: 15%">Actions</th>
+                                <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in professionRow| filter:search  |filter:searchData |orderBy:orderByField:reverseSort | itemsPerPage:itemsPerPage" >
+                            <tr role="row" dir-paginate="list in professionRow| filter:search  |filter:searchData |orderBy:sortKey:reverseSort | itemsPerPage:itemsPerPage" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{ list.profession}}</td> 
                                 <td>{{ list.status == 1 ? "Active" : "Inactive" }}</td> 
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit profession" data-toggle="modal" data-target="#professionModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.profession}}','{{list.status}}',{{ itemsPerPage}},{{$index}})"class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteProfession({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteProfession({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
                             <tr>

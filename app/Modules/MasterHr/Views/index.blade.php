@@ -93,7 +93,7 @@
                     <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                         <thead class="bord-bot">
                             <tr>
-                                <th style="width:3%">SR No.</th>
+                                <th style="width:5%">SR No.</th>
                                 <th style="width: 10%"> 
                                     <a href="javascript:void(0);" ng-click="orderByField = 'firstName'; reverseSort = !reverseSort">Employee Name
                                         <span ng-show="orderByField == 'firstName'">
@@ -118,13 +118,13 @@
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a>
                                 </th>
-                                <th style="width: 10%">
+                                <th style="width: 15%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'departmentName'; reverseSort = !reverseSort">Departments
                                         <span ng-show="orderByField == 'departmentName'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a>
                                 </th>
-                                <th style="width: 7%">
+                                <th style="width: 10%">
                                     <a href="javascript:void(0);" ng-click="orderByField = 'joining_date'; reverseSort = !reverseSort">Joining Date
                                         <span ng-show="orderByField == 'joining_date'">
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
@@ -142,7 +142,7 @@
                                             <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
                                     </a>
                                 </th>
-                                <th style="width: 20%">Actions</th>
+                                <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -159,9 +159,9 @@
                                 <td ng-if="listUser.employee_status == 3">Permanent Suspended</td>
                                 <td>{{ listUser.login_date_time == null ? '-' : listUser.login_date_time | date : "dd-MM-yyyy"  }}</td>
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="User Permissions" tooltip-placement="top"><a href="[[ config('global.backendUrl') ]]#/user/permissions/{{ listUser.id}}"  class="btn-info btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</span>
-                                    <span class="" tooltip-html-unsafe="Edit User"><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
-                                    <span class="" tooltip-html-unsafe="Change Password" data-toggle="modal" data-target="#myModal"><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id}},'changePassword')"  class="btn-info btn-xs"><i class="fa fa-lock"></i>Change Password</a></span>
+                                    <div class="" tooltip-html-unsafe="Edit User" style="margin-bottom:8px;"><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
+                                    <div class="" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="margin-bottom:8px;"><a href="[[ config('global.backendUrl') ]]#/user/permissions/{{ listUser.id}}"  class="btn-info btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</div>
+                                    <div class="" tooltip-html-unsafe="Change Password" data-toggle="modal" data-target="#myModal" style="margin-bottom:8px;"><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id}},'changePassword')"  class="btn-info btn-xs"><i class="fa fa-lock"></i>Change Password</a></div>
                                 </td>
 
                             </tr>
@@ -220,7 +220,7 @@
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-sub" ng-click="step1 = true">Submit</button>
+                        <button type="submit" class="btn btn-sub  btn-primary" ng-click="step1 = true">Submit</button>
                     </div>
                 </form>
             </div>

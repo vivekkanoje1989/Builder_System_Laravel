@@ -18,9 +18,15 @@ app.controller('countryCtrl', ['$scope', 'Data', 'toaster', function ($scope, Da
                 $scope.countryRow = response.records;
                 $scope.countryRowLength = response.totalCount;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
 
             });
         };
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
         $scope.countryExportToxls = function () {
             $scope.getexcel = window.location = "manage-country/countryExportToxls";
             if ($scope.getexcel) {

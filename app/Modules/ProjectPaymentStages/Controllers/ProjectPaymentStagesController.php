@@ -26,8 +26,13 @@ class ProjectPaymentStagesController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($getProjectPayment)) {
-            $result = ['success' => true, 'records' => $getProjectPayment, 'exportData' => $export];
+            $result = ['success' => true, 'records' => $getProjectPayment, 'exportData' => $export,'delete'=>$deleteBtn];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

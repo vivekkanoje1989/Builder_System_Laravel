@@ -38,16 +38,6 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
                             </ul>
                         </a>
                     </div>
@@ -91,33 +81,45 @@
                             <tr>
                                 <th style="width: 5%">Sr. No.</th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'device_name'; reverseSort = !reverseSort">Device Name 
-                                        <span ng-show="orderByField == 'device_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
-                                    </a>
-                                </th>
-                                <th style="width: 10%">MAC Address </th>
-                                <th style="width: 10%">Employee Name</th>
-                                <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'device_type'; reverseSort = !reverseSort">Device Type
-                                        <span ng-show="orderByField == 'device_type'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('device_name')">Device Name 
+                                        <span ><img ng-hide="(sortKey == 'device_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'device_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'device_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'device_status'; reverseSort = !reverseSort">Status
-                                        <span ng-show="orderByField == 'device_status'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                <a href="javascript:void(0);" ng-click="orderByField('device_mac')">MAC Address
+                                        <span ><img ng-hide="(sortKey == 'device_mac' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'device_mac' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'device_mac' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
+                                </th>
+                                <th style="width: 15%">
+                                <a href="javascript:void(0);" ng-click="orderByField('employee_id')">Employee Name
+                                        <span ><img ng-hide="(sortKey == 'employee_id' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'employee_id' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'employee_id' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
+                                </th>
+                                <th style="width: 10%">
+                                     <a href="javascript:void(0);" ng-click="orderByField('device_type')">Device Type
+                                        <span ><img ng-hide="(sortKey == 'device_type' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'device_type' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'device_type' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
+                                </th>
+                                <th style="width: 10%">
+                                     <a href="javascript:void(0);" ng-click="orderByField('device_status')">Status
+                                        <span ><img ng-hide="(sortKey == 'device_status' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'device_status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'device_status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>                           
-                                <th style="width: 15%">Actions</th>
+                                <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listDevice in listDevices | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="listDevice in listDevices | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listDevice.device_name}}</td>
                                 <td>{{ listDevice.device_mac}}</td>
@@ -129,7 +131,7 @@
                                 <td ng-if="listDevice.device_status == 0">Inactive</td>
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit Information" ><a href="[[ config('global.backendUrl') ]]#/employeeDevice/update/{{ listDevice.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>                               
-                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmployeeDevice({{listDevice.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmployeeDevice({{listDevice.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                              <tr>

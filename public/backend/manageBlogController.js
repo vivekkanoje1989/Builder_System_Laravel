@@ -23,6 +23,11 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
             $scope.searchData = {};
         }
 
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
         $scope.blogData = {};
         $scope.manageBlogs = function () {
             $scope.showloader();
@@ -30,6 +35,7 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
                 $scope.hideloader();
                 $scope.blogsRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
 

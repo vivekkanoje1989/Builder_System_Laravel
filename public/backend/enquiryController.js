@@ -699,7 +699,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                     }
                 });
             } else {
-                console.log($scope.remarkData.company_id);
                 $scope.companyInput = false;
                 $scope.remarkData.company_id = 0;
                 $scope.remarkData.company_name = "";

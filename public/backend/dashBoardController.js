@@ -8,11 +8,15 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         $scope.exportData = '';
         $scope.request = {};
         $scope.getEmployees = function () {
-            
+
             Data.get('request-leave/getEmployees').then(function (response) {
                 $scope.employeeRow = response.records;
             });
         };
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.ExportToxls = function () {
             $scope.getexcel = window.location = "/my-request/exportToxls";

@@ -5,7 +5,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
     $scope.sessiontimeout = function () {
         $scope.logout("logout");
 //        window.history.back();
-        // window.location.reload();
+        window.location.reload();
         return false;
     }
 
@@ -28,7 +28,10 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         });
     }
 
-
+    $scope.orderByField = function (keyname) {
+        $scope.sortKey = keyname;
+        $scope.reverseSort = !$scope.reverseSort;
+    }
     $scope.resetErrorMsg = function () {
         $scope.errorMsg = '';
     }
@@ -840,7 +843,7 @@ app.filter('capitalize', function () {
     return function (input) {
         return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     }
-}); 
+});
 app.filter('htmlToPlaintext', function ()
 {
     return function (text)

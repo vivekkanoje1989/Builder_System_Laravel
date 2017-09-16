@@ -93,35 +93,38 @@
                             <tr>
                                 <th style="width:10%">Sr. No.</th>
                                 <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'page_name'; reverseSort = !reverseSort">Page Name
-                                        <span ng-show="orderByField == 'page_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('page_name')">Page Name
+                                        <span ><img ng-hide="(sortKey == 'page_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'page_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'page_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'page_title'; reverseSort = !reverseSort">Page Title
-                                        <span ng-show="orderByField == 'page_title'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('page_title')">Page Title
+                                        <span ><img ng-hide="(sortKey == 'page_title' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'page_title' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'page_title' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>                            
                                 <th style="width: 20%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Status
-                                        <span ng-show="orderByField == 'status'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('status')">Status
+                                        <span ><img ng-hide="(sortKey == 'status' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>                            
                                 <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listpage in listPages | filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="listpage in listPages | filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listpage.page_name}}</td>
                                 <td>{{ listpage.page_title}}</td>                            
                                 <td>{{ listpage.status}}</td>                            
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit Web Page Content"><a href="[[ config('global.backendUrl') ]]#/webpages/update/{{ listpage.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>                                
-                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deletePage({{listpage.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deletePage({{listpage.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
 
                                 </td>
                             </tr>

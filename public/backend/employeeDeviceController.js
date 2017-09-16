@@ -23,25 +23,28 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
-
-        $scope.employeeDeviceExportToxls = function (){
-              $scope.getexcel = window.location = "/employee-device/employeeDeviceExportToxls";
+        $scope.employeeDeviceExportToxls = function () {
+            $scope.getexcel = window.location = "/employee-device/employeeDeviceExportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
             } else {
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
-         $scope.deleteEmployeeDevice = function (id, index) {
+
+        $scope.deleteEmployeeDevice = function (id, index) {
             Data.post('employee-device/deleteEmployeeDevice', {
                 'id': id}).then(function (response) {
                 toaster.pop('success', 'Employee Device', 'Employee Device deleted successfully');
                 $scope.listDevices.splice(index, 1);
             });
         }
-        
+
         $scope.manageDevice = function (id, action)
         {
             Data.post('employee-device/manageDevice', {
@@ -51,6 +54,7 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
                 {
                     $scope.listDevices = response.records;
                     $scope.exportData = response.exportData;
+                    $scope.deleteBtn = response.delete;
                 }
                 if (id > 0)
                 {

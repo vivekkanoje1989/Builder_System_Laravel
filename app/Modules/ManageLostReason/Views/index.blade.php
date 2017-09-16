@@ -27,7 +27,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="lostReasonExportToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="lostReasonExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -77,32 +77,34 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th> 
                                 <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'reason'; reverseSort = !reverseSort">Reason
-                                        <span ng-show="orderByField == 'reason'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('reason')">Reason
+                                        <span ><img ng-hide="(sortKey == 'reason' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'reason' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'reason' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:5%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'lost_reason_status'; reverseSort = !reverseSort">Status
-                                        <span ng-show="orderByField == 'lost_reason_status'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th> 
+                                    <a href="javascript:void(0);" ng-click="orderByField('lost_reason_status')">Status
+                                        <span ><img ng-hide="(sortKey == 'lost_reason_status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'lost_reason_status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'lost_reason_status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
+                                </th> 
                                 <th style="width: 5%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listLostReason in listLostReasons| filter:search |filter:searchData | orderBy:orderByField:reverseSort | itemsPerPage:itemsPerPage" >
+                            <tr role="row" dir-paginate="listLostReason in listLostReasons| filter:search |filter:searchData | orderBy:sortKey:reverseSort | itemsPerPage:itemsPerPage" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{ listLostReason.reason}}</td>                           
                                 <td>{{ (listLostReason.lost_reason_status) == 1 ? 'Active' :'In Active'}}</td> 
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit Lost Reason" data-toggle="modal" data-target="#lostReasonModal"><a href="javascript:void(0);" ng-click="initialModal({{ listLostReason.id}},'{{ listLostReason.reason}}',{{ listLostReason.lost_reason_status}},{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteLostReason({{listLostReason.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteLostReason({{listLostReason.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="4"  ng-show="(listLostReasons|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="4"  ng-show="(listLostReasons|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

@@ -20,12 +20,18 @@ app.controller('highestEducationCtrl', ['$scope', 'Data','toaster', function ($s
             $scope.searchData = {};
         }
         
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
         $scope.manageHighestEducation = function () {
              $scope.showloader();
             Data.post('highest-education/manageHighestEducation').then(function (response) {
                  $scope.hideloader();
                 $scope.educationRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
 
             });
         };

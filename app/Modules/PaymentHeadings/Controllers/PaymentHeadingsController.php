@@ -38,8 +38,13 @@ class PaymentHeadingsController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($paymentHeadings)) {
-            $result = ['success' => true, 'records' => $paymentHeadings,'exportData'=>$export, 'totalCount' => count($getPayment)];
+            $result = ['success' => true, 'records' => $paymentHeadings,'exportData'=>$export,'delete'=>$deleteBtn, 'totalCount' => count($getPayment)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

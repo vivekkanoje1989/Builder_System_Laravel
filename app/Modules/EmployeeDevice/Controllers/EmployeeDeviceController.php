@@ -52,8 +52,13 @@ class EmployeeDeviceController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($data)) {
-            $result = ['success' => true, 'records' => $data, 'exportData' => $export];
+            $result = ['success' => true, 'records' => $data, 'exportData' => $export,'delete'=>$deleteBtn];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

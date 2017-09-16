@@ -27,7 +27,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="projectTypesExportToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="projectTypesExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -75,28 +75,28 @@
                         <thead class="bord-bot">
                             <tr>
                             <tr>
-                                <th style="width:5%">Sr No.</th> 
-                                <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'project_type'; reverseSort = !reverseSort">Project Types
-                                        <span ng-show="orderByField == 'project_type'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                <th style="width:10%">Sr No.</th> 
+                                <th style="width: 75%">
+                                    <a href="javascript:void(0);" ng-click="orderByField('project_type')">Project Types
+                                        <span ><img ng-hide="(sortKey == 'project_type' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'project_type' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'project_type' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>  
-                                <th style="width: 5%">Actions</th>
+                                <th style="width: 15%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in ProjectTypesRow| filter:search |filter:searchData  | orderBy:orderByField:reverseSort | itemsPerPage:itemsPerPage">
+                            <tr role="row" dir-paginate="list in ProjectTypesRow| filter:search |filter:searchData  | orderBy:sortKey:reverseSort | itemsPerPage:itemsPerPage">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{ list.project_type}}</td>   
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit project types" data-toggle="modal" data-target="#projecttypesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.project_type}}',{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteProjectTypes({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteProjectTypes({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="3"  ng-show="(ProjectTypesRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="3"  ng-show="(ProjectTypesRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

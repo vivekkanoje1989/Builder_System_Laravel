@@ -18,8 +18,14 @@ app.controller('paymentHeadingController', ['$scope', 'Data', 'toaster', '$rootS
                 $scope.paymentDetails = response.records;
                 $scope.paymentDetailsLength = response.totalCount;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
         
          $scope.deletePaymentHeading = function (id, index) {
             Data.post('payment-headings/deletePaymentHeading', {

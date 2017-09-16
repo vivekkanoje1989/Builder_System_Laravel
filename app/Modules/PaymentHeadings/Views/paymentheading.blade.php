@@ -93,21 +93,22 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th> 
                                 <th style="width:35%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'payment_heading'; reverseSort = !reverseSort">Payment Heading
-                                        <span ng-show="orderByField == 'payment_heading'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('payment_heading')">Payment Heading
+                                        <span ><img ng-hide="(sortKey == 'payment_heading' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'payment_heading' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'payment_heading' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
                                 <th style="width: 5%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in paymentDetails| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="list in paymentDetails| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>            
                                 <td>{{ list.payment_heading}}</td> 
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit payment heading"  data-toggle="modal" data-target="#paymentheadingModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.payment_heading}}',{{list.tax_heading}},{{list.date_dependent_tax}},{{list.tax_applicable}},{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deletePaymentHeading({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                 <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deletePaymentHeading({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>

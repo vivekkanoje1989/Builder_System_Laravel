@@ -33,27 +33,26 @@ Route::group(array('module' => 'Projects', 'middleware' => ['auth:admin'], 'name
         return View::make('Projects::uploads.specification');
     }]);
 
-    Route::get( '/projects/manageProjectsExportToExcel', 'ProjectsController@manageProjectsExportToExcel'); //for populate dropdown
-    Route::get( '/projects/projectType', ['middleware'=>'permission:050102', 'uses' =>'ProjectsController@projectType']); //for populate dropdown
-    Route::get( '/projects/projectStatus', ['middleware'=>'permission:050102', 'uses' =>'ProjectsController@projectStatus']); //for populate dropdown
+    Route::get( '/projects/manageProjectsExportToExcel', 'ProjectsController@manageProjectsExportToExcel')->middleware('permission:050101'); //for populate dropdown
+    Route::get( '/projects/projectType', 'ProjectsController@projectType')->middleware('permission:050102'); //for populate dropdown
+    Route::get( '/projects/projectStatus', 'ProjectsController@projectStatus')->middleware('permission:05012'); //for populate dropdown
     Route::get( '/projects/getProjects', 'ProjectsController@getProjects'); //for populate dropdown
     Route::get( '/projects/webpageDetails/{id}', 'ProjectsController@webpageDetails')->middleware('permission:050101'); //show page   
-    Route::post( '/projects/webpageSettings', 'ProjectsController@webpageSettings'); //get project setting details
-    Route::post( '/projects/uploadsData', 'ProjectsController@uploadsData'); //get project upload details
+    Route::post( '/projects/webpageSettings', 'ProjectsController@webpageSettings')->middleware('permission:050101'); //get project setting details
+    Route::post( '/projects/uploadsData', 'ProjectsController@uploadsData')->middleware('permission:050101'); //get project upload details
     
-    Route::get( '/projects/manageProjects', ['middleware'=>'permission:050101', 'uses' => 'ProjectsController@manageProjects']); //get project details      
-    Route::get( '/projects', ['middleware'=>'permission:050101', 'uses' => 'ProjectsController@index']);
-//    Route::get( '/projects/create', ['middleware'=>'permission:050102','uses' => 'ProjectsController@create']);
+    Route::get( '/projects/manageProjects', 'ProjectsController@manageProjects')->middleware('permission:050101'); //get project details      
+    Route::get( '/projects', 'ProjectsController@index')->middleware('permission:050101');
     Route::get( '/projects/create', 'ProjectsController@create')->middleware('permission:050102');
-    Route::post( '/projects/', ['middleware'=>'permission:050102', 'uses' => 'ProjectsController@store']);
+    Route::post( '/projects/', 'ProjectsController@store')->middleware('permission:050102');
     
-    Route::post( '/projects/inventoryDetails', ['middleware'=>'permission:050103', 'uses' => 'ProjectsController@inventoryDetails']); // get Inventory Details
-    Route::post( '/projects/getInventoryDetails', ['middleware'=>'permission:050103', 'uses' => 'ProjectsController@getInventoryDetails']); // get Inventory Details
-    Route::post( '/projects/getAmenitiesListOnEdit', ['middleware'=>'permission:050103', 'uses' => 'ProjectsController@getAmenitiesListOnEdit']); //get ameniti list on edit
-    Route::post( '/projects/getProjectInventory',['middleware'=>'permission:050103', 'uses' => 'ProjectsController@getProjectInventory']); // getProjectInventory    
-    Route::post( '/projects/getWings', 'ProjectsController@getWings'); //get wing name
-    Route::post( '/projects/deleteStatus',['middleware'=>'permission:050103', 'uses' => 'ProjectsController@deleteStatus']); //delete status
-    Route::post( '/projects/getBlocks', 'ProjectsController@getBlocks'); //get block name
-    Route::post( '/projects/deleteImage', ['middleware'=>'permission:050103', 'uses' => 'ProjectsController@deleteImage']); //delete image
+    Route::post( '/projects/inventoryDetails', 'ProjectsController@inventoryDetails')->middleware('permission:050101'); // get Inventory Details
+    Route::post( '/projects/getInventoryDetails', 'ProjectsController@getInventoryDetails')->middleware('permission:050101'); // get Inventory Details
+    Route::post( '/projects/getAmenitiesListOnEdit','ProjectsController@getAmenitiesListOnEdit')->middleware('permission:050101'); //get ameniti list on edit
+    Route::post( '/projects/getProjectInventory', 'ProjectsController@getProjectInventory')->middleware('permission:050101'); // getProjectInventory    
+    Route::post( '/projects/getWings', 'ProjectsController@getWings')->middleware('permission:050101'); //get wing name
+    Route::post( '/projects/deleteStatus', 'ProjectsController@deleteStatus')->middleware('permission:050101'); //delete status
+    Route::post( '/projects/getBlocks', 'ProjectsController@getBlocks')->middleware('permission:050101'); //get block name
+    Route::post( '/projects/deleteImage',  'ProjectsController@deleteImage')->middleware('permission:050101'); //delete image
 
 });	

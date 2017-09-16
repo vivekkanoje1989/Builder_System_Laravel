@@ -19,7 +19,7 @@
                 <span class="widget-caption">Manage Block Types</span>                
             </div>
             <div class="widget-body table-responsive">
-                
+
                 <div class="row table-toolbar">
                     <a data-toggle="modal" data-target="#blocktypesModal" ng-click="initialModal(0, '', '', '', '')" class="btn btn-default">Add Block Types</a>
                     <div class="btn-group pull-right">
@@ -28,7 +28,7 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="blockTypesExportToxls()" ng-show="exportData=='1'">
+                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="blockTypesExportToxls()" ng-show="exportData == '1'">
                             <span>Export</span>
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
@@ -54,7 +54,7 @@
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
                                         <strong ng-if="key === 'project_name'" data-toggle="tooltip" title="Project Name"><strong> Project Name : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'block_name'" data-toggle="tooltip" title="Block Name"><strong> Block Name : </strong> {{ value }}</strong>
+                                        <strong ng-if="key === 'block_name'" data-toggle="tooltip" title="Block Name"><strong> Block Name : </strong> {{ value}}</strong>
                                     </div>
                                 </div>
                             </b>                        
@@ -78,32 +78,34 @@
                             <tr>
                                 <th style="width:5%">Sr.No.</th>
                                 <th style="width:35%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'project_name'; reverseSort = !reverseSort">Project type
-                                        <span ng-show="orderByField == 'project_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('project_name')">Project type
+                                        <span ><img ng-hide="(sortKey == 'project_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'project_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'project_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
                                 <th style="width:35%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'block_name'; reverseSort = !reverseSort">Block type
-                                        <span ng-show="orderByField == 'block_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('block_name')">Block type
+                                        <span ><img ng-hide="(sortKey == 'block_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'block_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'block_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
-                                <th style="width: 15%">Actions</th>
+                                <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in BlockTypesRow| filter:search |filter:searchData| itemsPerPage:itemsPerPage| orderBy:orderByField:reverseSort" >
+                            <tr role="row" dir-paginate="list in BlockTypesRow| filter:search |filter:searchData| itemsPerPage:itemsPerPage| orderBy:sortKey:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>                        
                                 <td>{{ list.project_name}}</td> 
                                 <td>{{ list.block_name}}</td> 
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit block type" data-toggle="modal" data-target="#blocktypesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.block_name}}',{{ list.project_id}},{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBlockTypes({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteBlockTypes({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="4"  ng-show="(BlockTypesRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="4"  ng-show="(BlockTypesRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

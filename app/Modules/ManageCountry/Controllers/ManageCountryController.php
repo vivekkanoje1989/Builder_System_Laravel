@@ -36,8 +36,13 @@ class ManageCountryController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($countryDetails)) {
-            $result = ['success' => true, 'records' => $countryDetails,'exportData'=>$export, 'totalCount' => count($getCountry)];
+            $result = ['success' => true, 'records' => $countryDetails,'exportData'=>$export,'delete'=>$deleteBtn, 'totalCount' => count($getCountry)];
         } else {
             $result = ['success' => false, 'records' => $countryDetails, 'totalCount' => count($getCountry), 'message' => 'Something went wrong'];
         }

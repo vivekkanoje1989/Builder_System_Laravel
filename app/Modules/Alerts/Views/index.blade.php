@@ -73,7 +73,7 @@
                                         <strong ng-if="key === 'event_name'" data-toggle="tooltip" title="Template For"><strong> Template For : </strong> {{ value}}</strong>
                                         <strong ng-if="key === 'template_for'" data-toggle="tooltip" title="Template To"><strong> Template To : </strong> {{ value == '1' ? "Customer":"Employee"}}</strong>
                                         <strong ng-if="key === 'account_number'" data-toggle="tooltip" title="Account Number"><strong> Account Number : </strong> {{ value}}</strong>
-                                          </div>
+                                    </div>
                                 </div>
                             </b>                        
                         </div>
@@ -96,26 +96,38 @@
                             <tr>
                                 <th style="width:3%">Sr. No.</th>
                                 <th style="width: 15%">
-                                    Template For
+                                    <a href="javascript:void(0);" ng-click="orderByField('event_name')">  Template For
+                                        <span ><img ng-hide="(sortKey == 'event_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'event_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'event_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
                                 </th>
                                 <th style="width: 7%">
-                                    Template To     
+                                    <a href="javascript:void(0);" ng-click="orderByField('template_for')"> Template To  
+                                        <span ><img ng-hide="(sortKey == 'template_for' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'template_for' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'template_for' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>    
                                 </th>
-                                <th style="width: 7%">
+                                <th style="width: 10%">
                                     Template Category Default/Custom
                                 </th>
                                 <th style="width: 15%">
                                     Custom Template Name
                                 </th>
 
-                                <th style="width: 10%">
+                                <th style="width: 7%">
                                     SMS Off/On
                                 </th>
                                 <th style="width: 10%">
                                     Email Off/On                                
                                 </th>
                                 <th style="width: 10%">
-                                    Department                                
+                                    <a href="javascript:void(0);" ng-click="orderByField('module_names')">Department
+                                        <span ><img ng-hide="(sortKey == 'module_names' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'module_names' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'module_names' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>                                 
                                 </th>
                                 <th style="width: 10%">Action</th>
 
@@ -123,7 +135,7 @@
                         </thead>
 
                         <tbody>
-                            <tr role="row" dir-paginate="listAlert in listAlerts | filter:search | filter:searchData | itemsPerPage:itemsPerPage  | orderBy:orderByField:reverseSort"">
+                            <tr role="row" dir-paginate="listAlert in listAlerts | filter:search | filter:searchData | itemsPerPage:itemsPerPage  | orderBy:sortKey:reverseSort"">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td ng-init='(listAlert.template_type == 1)? template_type_list[listAlert.id] = 1 : template_type_list[listAlert.id] = 0'>{{ listAlert.event_name}}
                                     <span ng-init='(listAlert.email_status == 1)? template_email_status_list[listAlert.id] = 1 : template_email_status_list[listAlert.id] = 0'></span>
@@ -191,7 +203,7 @@
                                 <td class="">
                                     <!--div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div-->
                                     <span class="" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/alerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
-                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>
@@ -216,7 +228,7 @@
         </div>
     </div>
 
- <!-- Filter Form Start-->
+    <!-- Filter Form Start-->
     <div class="wrap-filter-form show-widget" id="slideout">
         <form name="bloodGroupFilter" role="form" ng-submit="filterDetails(searchDetails)">
             <strong>Filter</strong>   
@@ -228,7 +240,7 @@
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Template For</label>
-                       <span class="input-icon icon-right" ng-init="getTemplatesEvents()"> 
+                        <span class="input-icon icon-right" ng-init="getTemplatesEvents()"> 
                             <select class="form-control"  ng-model="searchDetails.event_name" name="event_name" id="event_name" >
                                 <option value="">Select Template</option>
                                 <option ng-repeat="item in templateEvents" value="{{item.event_name}}" ng-selected="{{ item.event_name == searchDetails.event_name}}" >{{item.event_name}}</option>
@@ -239,7 +251,7 @@
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Template To</label>
-                       <span class="input-icon icon-right"> 
+                        <span class="input-icon icon-right"> 
                             <select class="form-control"  ng-model="searchDetails.template_for" name="template_for" id="template_for" >
                                 <option value="">Select</option>
                                 <option value="1">Customer</option>

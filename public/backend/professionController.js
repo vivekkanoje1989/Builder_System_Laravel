@@ -9,6 +9,7 @@ app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($
                 $scope.hideloader();
                 $scope.professionRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
 
             });
         };
@@ -20,6 +21,11 @@ app.controller('manageProfessionCtrl', ['$scope', 'Data', 'toaster', function ($
             } else {
                 toaster.pop('error', '', 'Exporting fails....');
             }
+        }
+
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
         }
 
         $scope.deleteProfession = function (id, index) {

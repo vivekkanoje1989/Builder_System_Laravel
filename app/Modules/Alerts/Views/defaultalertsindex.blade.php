@@ -83,32 +83,32 @@
                         <thead class="bord-bot">
                             <tr>
                                 <th style="width:5%">Sr. No.</th>
-                                <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'event_name'; reverseSort = !reverseSort">Template For
-                                        <span ng-show="orderByField == 'event_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                <th style="width: 20%">
+                                     <a href="javascript:void(0);" ng-click="orderByField('event_name')">Template For
+                                        <span ><img ng-hide="(sortKey == 'event_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'event_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'event_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
-                                <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'template_for'; reverseSort = !reverseSort">Template To
-                                        <span ng-show="orderByField == 'template_for'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                <th style="width: 20%">
+                                    <a href="javascript:void(0);" ng-click="orderByField('template_for')">Template To
+                                        <span ><img ng-hide="(sortKey == 'template_for' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'template_for' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'template_for' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
-                                <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'email_subject'; reverseSort = !reverseSort">Email Subject
-                                        <span ng-show="orderByField == 'email_subject'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                <th style="width: 30%">
+                                     <a href="javascript:void(0);" ng-click="orderByField('email_subject')">Email Subject
+                                        <span ><img ng-hide="(sortKey == 'email_subject' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'email_subject' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'email_subject' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listAlert in listdefaultAlerts | filter:search  | filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="listAlert in listdefaultAlerts | filter:search  | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listAlert.event_name}}</td>
                                 <td ng-if="listAlert.template_for == 1">Customer</td>
@@ -116,7 +116,7 @@
                                 <td>{{ listAlert.email_subject | htmlToPlaintext }}</td>
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/defaultalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
-                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDefaultTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDefaultTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                             <tr>

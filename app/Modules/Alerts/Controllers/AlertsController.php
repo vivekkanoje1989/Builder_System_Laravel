@@ -119,8 +119,13 @@ class AlertsController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if ($manageAlerts) {
-            $result = ['success' => true, "records" => ["data" => $manageAlerts, "total" => count($manageAlerts), 'ExportTemplateData' => $export, 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts), 'customTemplates' => $customTemplate]];
+            $result = ['success' => true, "records" => ["data" => $manageAlerts, "total" => count($manageAlerts), 'ExportTemplateData' => $export,'delete'=>$deleteBtn, 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts), 'customTemplates' => $customTemplate]];
             echo json_encode($result);
         }
     }

@@ -35,8 +35,13 @@ class BlockStagesController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($blockStages)) {
-            $result = ['success' => true, 'records' => $blockStages, 'exportData' => $export, 'totalCount' => count($getBlockstage)];
+            $result = ['success' => true, 'records' => $blockStages, 'exportData' => $export,'delete'=>$deleteBtn, 'totalCount' => count($getBlockstage)];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

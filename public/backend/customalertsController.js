@@ -27,6 +27,11 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
             });
         };
 
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
         $scope.searchDetails = {};
         $scope.searchData = {};
         $scope.filterDetails = function (search) {
@@ -96,6 +101,7 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
                     if (action === 'index') {
                         $scope.listcustomAlerts = response.records.data;
                         $scope.exportData = response.records.exportData;
+                        $scope.deleteBtn = response.records.delete;
                         $scope.listcustomAlertsLength = response.records.total;
                     } else if (action === 'edit') {
                         if (id !== '0') {

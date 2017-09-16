@@ -49,10 +49,10 @@
                             <tr>
                                 <th style="width: 5%;">Sr. No.</th>
                                 <th style="width: 10%;">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'email'; reverseSort = !reverseSort">Email Id
-                                        <span ng-show="orderByField == 'email'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('email')">Email Id
+                                        <span ><img ng-hide="(sortKey == 'email' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'email' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'email' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%;">Password
@@ -60,17 +60,17 @@
                                 <th style="width: 10%;">Service Provider
                                 </th>                            
                                 <th style="width: 10%;">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'deptName'; reverseSort = !reverseSort">Departments
-                                        <span ng-show="orderByField == 'deptName'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('deptName')">Departments
+                                        <span ><img ng-hide="(sortKey == 'deptName' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'deptName' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'deptName' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 5%;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listmail in listmails | filter:search | filter:searchData| itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="listmail in listmails | filter:search | filter:searchData| itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{listmail.email}}</td>
                                 <td><input type="password" value="{{listmail.password}}" style="border:none;background: transparent;" disabled></td>
@@ -78,7 +78,7 @@
                                 <td>{{ listmail.deptName}}</td>
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit Account"><a href="[[ config('global.backendUrl') ]]#/emailConfig/update/{{ listmail.id}}" class=" btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmailConfig({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmailConfig({{listmail.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
                              <tr>

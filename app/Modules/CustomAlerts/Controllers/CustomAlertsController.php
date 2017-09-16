@@ -121,8 +121,13 @@ class CustomAlertsController extends Controller {
         }else{
               $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if ($manageAlerts) {
-            $result = ['success' => true, "records" => ["data" => $manageAlerts, 'exportData' => $export, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
+            $result = ['success' => true, "records" => ["data" => $manageAlerts, 'exportData' => $export,'delete'=>$deleteBtn, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
         }
         return json_encode($result);
     }

@@ -21,19 +21,24 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', 'toaster', function ($s
 //             
 //        }
 //
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.enquiryLocation = function (empId, pageNumber, itemPerPage) {
-             $scope.showloader();
+            $scope.showloader();
             Data.post('enquiry-location/enquiryLocation').then(function (response) {
-                 $scope.hideloader();
+                $scope.hideloader();
                 $scope.enquiryLocationRow = response.records;
                 $scope.enquiryLocationRowLength = response.totalCount;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.delete;
                 $scope.flagFor = 0;
             });
         };
-        
-        
+
+
         $scope.deleteEnquiryLocation = function (id, index) {
             Data.post('enquiry-location/deleteEnquiryLocation', {
                 'id': id}).then(function (response) {
@@ -41,7 +46,7 @@ app.controller('enquiryLocationCtrl', ['$scope', 'Data', 'toaster', function ($s
                 $scope.enquiryLocationRow.splice(index, 1);
             });
         }
-        
+
         $scope.enquiryLocationExportToxls = function () {
             $scope.getexcel = window.location = "/enquiry-location/enquiryLocationExportToxls";
             if ($scope.getexcel) {
