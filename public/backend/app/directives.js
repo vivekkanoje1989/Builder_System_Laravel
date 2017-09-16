@@ -223,7 +223,8 @@ app.directive('getCustomerDetailsDirective', function ($filter, $q, Data, $windo
                                 $scope.disableText = true;
                                 $scope.resetBtn = true;
                                 $scope.backBtn = true;
-                                $scope.disableSource = true;  
+                                $scope.disableSource = true; 
+                                return false;
                             }
                             $scope.hideloader();
                         }

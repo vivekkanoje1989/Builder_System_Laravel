@@ -8,6 +8,7 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::get('/master-hr/getChartData', ['middleware' => 'permission:030105', 'uses' => 'MasterHrController@getChartData']); //show chart
     Route::get('/master-hr/manageRolesPermission', ['middleware' => 'permission:030103', 'uses' => 'MasterHrController@manageRolesPermission']); //show manage role page
     Route::get('/master-hr/getRoles', ['middleware' => 'permission:030103', 'uses' => 'MasterHrController@getRoles']); //get role data from table
+
 //    Route::resource('/master-hr', 'MasterHrController');
 
 

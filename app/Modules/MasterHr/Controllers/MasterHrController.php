@@ -26,7 +26,7 @@ class MasterHrController extends Controller {
     public static $empArr;
 
     public function __construct() {
-        $this->middleware('web');
+        //$this->middleware('web');
     }
 
     public function index() {
