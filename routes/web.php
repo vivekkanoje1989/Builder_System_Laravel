@@ -194,6 +194,10 @@ Route::group(['middleware' => ['auth:admin']], function () {
     Route::post('/getProjectWings', 'backend\AdminController@getProjectWings'); // by geeta
     Route::post('/getBlocks', 'backend\AdminController@getBlocks'); // by geeta
     Route::post('/getSubBlocksList', 'backend\AdminController@getSubBlocksList'); // by geeta
+    Route::get('/getccPreSalesStates', 'backend\AdminController@getccPreSalesStates');
+    Route::get('/getccPreSalesCategory', 'backend\AdminController@getccPreSalesCategory');
+    Route::post('/getccpresalesSubtatus', 'backend\AdminController@getccpresalesSubtatus');
+    Route::post('/getccPreSalesSubCategory', 'backend\AdminController@getccPreSalesSubCategory');
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });

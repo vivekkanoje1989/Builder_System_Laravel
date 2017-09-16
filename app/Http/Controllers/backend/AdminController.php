@@ -49,7 +49,10 @@ use App\Models\CtForwardingType;
 use App\Classes\S3;
 use App\Classes\CommonFunctions;
 use App\Modules\BlockStages\Models\LstDlBlockStages;
-
+use App\Models\CcPresalesSubstatus;
+use App\Models\CcPresalesSubcategory;
+use App\Models\MlstBmsbCcPresalesCategory;
+use App\Models\MlstBmsbCcPresalesStatus;
 class AdminController extends Controller {
 
     /**
@@ -876,6 +879,59 @@ class AdminController extends Controller {
         }
     }
 
+    public function getccPreSalesStates()
+    {
+        $getccPreSalesStatus = \App\Models\MlstBmsbCcPresalesStatus::all();
+        if (!empty($getccPreSalesStatus)) {
+            $result = ['success' => true, 'records' => $getccPreSalesStatus];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }
+        
+    }     
+     public function getccPreSalesCategory()
+    {
+        $getccPreSalesCategory = \App\Models\MlstBmsbCcPresalesCategory::all();
+        if (!empty($getccPreSalesCategory)) {
+            $result = ['success' => true, 'records' => $getccPreSalesCategory];
+            return json_encode($result);
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+            return json_encode($result);
+        }        
+    }
+    
+    public function getccpresalesSubtatus() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $statusId = $request['data']['statusId'];
+        $getsubStatus = \App\Models\CcPresalesSubstatus::select('id','listing_position','cc_presales_substatus')
+                                                                ->where('cc_presales_status_id', $statusId)
+                                                                ->where('status', 1)    
+                                                                ->orderBy('listing_position')->get();
+        if (!empty($getsubStatus)) {
+            $result = ['success' => true, 'records' => $getsubStatus];
+            return json_encode($result);
+        }
+    }
+    
+    public function getccPreSalesSubCategory() {
+        $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $statusId = $request['data']['statusId'];
+        $getsubCategory = \App\Models\CcPresalesSubcategory::select('id','listing_position','cc_presales_subcategory')
+                                                            ->where('cc_presales_category_id', $statusId)
+                                                            ->where('status', 1)  
+                                                            ->orderBy('listing_position')->get();
+        if (!empty($getsubCategory)) {
+            $result = ['success' => true, 'records' => $getsubCategory];
+            return json_encode($result);
+        }
+    }
+    
+    
     /*     * **************************UMA*********************************** */
     /*     * *************************MANDAR******************************** */
 
