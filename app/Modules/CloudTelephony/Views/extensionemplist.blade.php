@@ -47,7 +47,7 @@
                 <div class="widget-body table-responsive">
 
                     <div class="row table-toolbar">
-                         <a href data-toggle="modal" data-target="#addExtensionModal" ng-click="initExtensionModal(ct_employee_extlist)" class="btn btn-default">Add New Extension</a>
+                        <a href data-toggle="modal" data-target="#addExtensionModal" ng-click="initExtensionModal(ct_employee_extlist)" class="btn btn-default">Add New Extension</a>
                         <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
                         <div class="btn-group pull-right" ng-click="initExtensionModal(ct_employee_extlist)" >
                             <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
@@ -107,20 +107,32 @@
                             <thead class="bord-bot">
                                 <tr>
                                     <th style="width:5%">Sr. No.</th>
-                                    <th style="width:7%">Employee Name</th>
-                                    <th style="width:7%">Extension Number</th>
+                                    <th style="width:7%">
+                                        <a href="javascript:void(0);" ng-click="orderByField('employee')">Employee Name
+                                            <span ><img ng-hide="(sortKey == 'employee' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                            <span ng-show="(sortKey == 'employee' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="(sortKey == 'employee' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                        </a>
+                                    </th>
+                                    <th style="width:7%">
+                                        <a href="javascript:void(0);" ng-click="orderByField('extension_no')">Extension Number
+                                            <span ><img ng-hide="(sortKey == 'extension_no' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                            <span ng-show="(sortKey == 'extension_no' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="(sortKey == 'extension_no' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                        </a>
+                                    </th>
                                     <th style="width: 5%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr role="row" dir-paginate="listNumber in ct_employee_extlist | filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
+                                <tr role="row" dir-paginate="listNumber in ct_employee_extlist | filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
                                     <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td> 
                                     <td>{{ listNumber.employee}}</td>
                                     <td>Extension &nbsp;{{listNumber.extension_no}}</td>
                                     <td class="">
                                         <span class="" tooltip-html-unsafe="Edit" ><a href="javascript:void(0)" data-toggle="modal"  data-target="#addExtensionModal" ng-click="editExtensionModal(ct_employee_extlist, listNumber)" class='btn-info btn-xs'><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
-                                     <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmpExt({{listNumber.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
-                                </td>
+                                        <span ng-show="deleteData == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmpExt({{listNumber.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td colspan="5"  ng-show="(ct_employee_extlist | filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   

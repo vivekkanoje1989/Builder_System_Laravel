@@ -41,8 +41,12 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
 
-        $scope.webpageSettings = function (prid, settingData) {
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
+        $scope.webpageSettings = function (prid, settingData) {
             if (settingData === '') { //for data
                 Data.post('projects/webpageSettings', {
                     getDataByPrid: prid,
@@ -103,7 +107,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.uploadsData = function (prid, uploadData, otherData) {
             if (uploadData === "" && otherData === "") { //for display data
-                
+
                 $scope.getWings();
                 $scope.getBlocks();
                 $scope.amenityData.project_amenities_list = {};
@@ -116,7 +120,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     }).then(function (responseAList) {
                         if (!responseAList.success) {
                             $scope.errorMsg = responseAList.message;
-                        } else {                            
+                        } else {
                             $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
                             //$scope.projectImages = response.uploadData;
                             $scope.mapData.google_map_iframe = (response.uploadData.google_map_iframe !== null && response.uploadData.google_map_iframe !== "null") ? response.uploadData.google_map_iframe : "";
@@ -148,8 +152,6 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                             }
                         }
                     });
-                   
-                    
                 });
             } else { //for insert or update
                 $scope.sbtbtnFiles = true;
@@ -162,7 +164,6 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                     data: {getDataByPrid: prid, projectImages: uploadData, projectData: otherData},
                 });
                 uploadData.upload.then(function (response) {
-                    console.log(response);
                     if (!response.data.success) {
                         $scope.errorMsg = response.data.message;
                     } else {
@@ -180,18 +181,18 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
 
         $scope.getInventoryDetails = function (prid, wingId, inventoryData) {
             Data.post('projects/getInventoryDetails', {
-                data: {getDataByPrid: prid, wingId: wingId, inventoryData:inventoryData}
-                }).then(function (response) {
+                data: {getDataByPrid: prid, wingId: wingId, inventoryData: inventoryData}
+            }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
-                    if(inventoryData === ''){
+                    if (inventoryData === '') {
                         $scope.inventoryData = angular.copy(response.records[0]);
-                    }else{
+                    } else {
                         toaster.pop('success', 'Project', response.message);
                     }
                 }
-            });            
+            });
         }
         $scope.saveInventoryInfo = function (wingId, inventoryData) {
             inventoryData.wing_id = wingId;

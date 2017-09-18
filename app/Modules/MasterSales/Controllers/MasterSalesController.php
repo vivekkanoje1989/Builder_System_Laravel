@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Modules\MasterSales\Controllers;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -240,7 +241,7 @@ class MasterSalesController extends Controller {
             }
             if (!empty($input['customerContacts'])) {
                 $i = 0;
-                
+
                 foreach ($input['customerContacts'] as $contacts) {
 
                     if (!empty($contacts['$hashKey']))
@@ -365,7 +366,9 @@ class MasterSalesController extends Controller {
                         $projectDetails[$i]['project_name'] = $getEnquiryDetails[$i]['project_name'];
                         $projectDetails[$i]['blocks'] = $getEnquiryDetails[$i]['block_name'];
                         $projectDetails[$i]['subblocks'] = $getEnquiryDetails[$i]['block_sub_type'];
-                        if(empty($getEnquiryDetails[$i]['enqdetails_id'])){ unset($projectDetails[$i]);}
+                        if (empty($getEnquiryDetails[$i]['enqdetails_id'])) {
+                            unset($projectDetails[$i]);
+                        }
                     }
                     $cityId = !empty(json_decode(json_encode($getCityID), true)) ? $getCityID[0]["city_id"] : '';
 
@@ -471,7 +474,8 @@ class MasterSalesController extends Controller {
             $validationMessages = Enquiry::validationMessages();
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            print_r($request);exit;
+            print_r($request);
+            exit;
             $userAgent = $_SERVER['HTTP_USER_AGENT'];
             if (!preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i', $userAgent) || preg_match('/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i', substr($userAgent, 0, 4))) {
                 $validator = Validator::make($request['enquiryData'], $validationRules, $validationMessages);
@@ -658,7 +662,7 @@ class MasterSalesController extends Controller {
                         $projectDetail['client_id'] = config('global.client_id');
                         $insert = CommonFunctions::insertMainTableRecords($loggedInUserId);
                         $projectDetail = array_merge($projectDetail, $insert);
-                        unset($projectDetail['blocks'],$projectDetail['subblocks'],$projectDetail['project_name']);
+                        unset($projectDetail['blocks'], $projectDetail['subblocks'], $projectDetail['project_name']);
                         EnquiryDetail::create($projectDetail);
                     }
                 }
@@ -880,6 +884,7 @@ class MasterSalesController extends Controller {
 
             $getBookingId = Booking::select("id")->where("enquiry_id", $enquiryId)->get();
             $bookingId = empty($getBookingId[0]) ? "0" : $getBookingId;
+
             $result = ['success' => true, 'enquiryDetails' => $decodeRemarkDetails, 'useremail' => $useremail, "reassignData" => $reassignData, 'bookingId' => $bookingId, 'userpermissions' => $userpermissions];
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
@@ -947,14 +952,14 @@ class MasterSalesController extends Controller {
                 $recUpdate['company_location_id'] = 1;
                 $recUpdate = Customer::where('id', $customerId)->update($recUpdate);
             }
-            /*****************EDIT CUSTOMER INFO********************/
+            /*             * ***************EDIT CUSTOMER INFO******************* */
             if (!empty($request['custInfo'])) {
                 $custInfo = $request['custInfo'];
                 if (!empty($custInfo['title_id']) && (!empty($custInfo['customer_fname']) || !empty($custInfo['customer_lname']))) {
                     $custUpdate = Customer::where('id', $customerId)->update(["title_id" => $custInfo['title_id'], "first_name" => $custInfo['customer_fname'], "last_name" => $custInfo['customer_lname']]);
                 }
 
-                /*****************************Mobile / Email Update [For Mobile App Only]*****************************/
+                /*                 * ***************************Mobile / Email Update [For Mobile App Only]**************************** */
                 if (!empty($request['custInfo']['mobile_number']) || !empty($request['custInfo']['email_id'])) {
                     $checkCustomerExist = CustomersContact::select('id', 'customer_id', 'mobile_number', 'email_id')->where('customer_id', $customerId)->get();
 
@@ -1021,7 +1026,7 @@ class MasterSalesController extends Controller {
                 $reassignEnq = "(Enquiry reassigned by " . $oldSalesEmployee[0]["first_name"] . " " . $oldSalesEmployee[0]["last_name"] . " to " . $newSalesEmployee[0]["first_name"] . " " . $newSalesEmployee[0]["last_name"] . ")";
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by']['id']]);
             }
-            
+
             $input['followup_by'] = $loggedInUserId;
             if (!empty($input)) {
                 $lostReason = $lostSubReason = 0;
@@ -1043,7 +1048,7 @@ class MasterSalesController extends Controller {
                         unset($input['booking']['brand_id']);
                         Booking::where('enquiry_id', $enquiryId)->update($input['booking']);
                         unset($input['booking']['booking_date'], $input['booking']['sales_person_id']);
-                        EnquiryDetail::where('enquiry_id', $enquiryId)->orderBy('id','desc')->update($input['booking']);                        
+                        EnquiryDetail::where('enquiry_id', $enquiryId)->orderBy('id', 'desc')->update($input['booking']);
                         $msgs = 'Remark updated successfully';
                     }
                     $input['next_followup_date'] = date('Y-m-d', strtotime($input['next_followup_date']));
@@ -1096,12 +1101,11 @@ Regards,
                         $input['msgRemark'],
                         ""
                     );
-                    
+
                     $result = CommonFunctions::templateData($templatedata);
                     $msg = 'Remark inserted successfully';
                     $input['remarks'] = $input['msgRemark'] . " " . $reassignEnq;
                 } else { //for email
-                    
                     $getCallBackNo = CtSetting::select('virtual_display_number')->where("default_number", 1)->get();
                     $contactText = "
 Regards,<br>
@@ -1131,7 +1135,7 @@ Regards,<br>
                         $input['subject'],
                         ""
                     );
-                   
+
                     $result = CommonFunctions::templateData($templatedata);
                     $msg = 'Remark inserted successfully';
                     $input['remarks'] = strip_tags($input['email_content']) . " " . $reassignEnq;
@@ -1450,7 +1454,6 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            //print_r($request);exit;
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId']))
                     $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -1485,8 +1488,21 @@ Regards,<br>
             $getTotalEnquiryDetails = DB::select('CALL proc_get_total_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
+
+            $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            if (in_array('01403', $array)) {
+                $outBoundCall = 1;
+            } else {
+                $outBoundCall = '';
+            }
+            if (in_array('01406', $array)) {
+                $displayMobile = 1;
+            } else {
+                $displayMobile = '';
+            }
+
             if (count($getTotalEnquiryDetails) != 0) {
-                $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'callBtnPermission' => $outBoundCall, 'displayMobilePermission' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No Records Found'];
             }
@@ -1540,8 +1556,21 @@ Regards,<br>
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTodaysFollowups = json_decode(json_encode($getTodaysFollowups), true);
 
+            
+             $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            if (in_array('01403', $array)) {
+                $outBoundCall = 1;
+            } else {
+                $outBoundCall = '';
+            }
+            if (in_array('01406', $array)) {
+                $displayMobile = 1;
+            } else {
+                $displayMobile = '';
+            }
+            
             if (count($getTodaysFollowups) != 0) {
-                $result = ['success' => true, 'records' => $getTodaysFollowups, 'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getTodaysFollowups,'displayCallBtn'=>$outBoundCall,'MobileNopermissions'=>$displayMobile, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No record Found'];
             }
@@ -1595,8 +1624,19 @@ Regards,<br>
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getlostEnquiryDetails = json_decode(json_encode($getlostEnquiryDetails), true);
 
+            $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            if (in_array('01403', $array)) {
+                $outBoundCall = 1;
+            } else {
+                $outBoundCall = '';
+            }
+            if (in_array('01406', $array)) {
+                $displayMobile = 1;
+            } else {
+                $displayMobile = '';
+            }
             if (count($getlostEnquiryDetails) != 0) {
-                $result = ['success' => true, 'records' => $getlostEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getlostEnquiryDetails,'callBtnPermissions'=>$outBoundCall,'displayMobile'=>$displayMobile , 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No Records Found'];
             }
@@ -1648,8 +1688,19 @@ Regards,<br>
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getbookedEnquiryDetails = json_decode(json_encode($getbookedEnquiryDetails), true);
 
+             $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            if (in_array('01403', $array)) {
+                $outBoundCall = 1;
+            } else {
+                $outBoundCall = '';
+            }
+            if (in_array('01406', $array)) {
+                $displayMobile = 1;
+            } else {
+                $displayMobile = '';
+            }
             if (count($getbookedEnquiryDetails) != 0) {
-                $result = ['success' => true, 'records' => $getbookedEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getbookedEnquiryDetails,'callBtnPermission'=>$outBoundCall,'displayMobileN'=>$displayMobile, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No Records Found'];
             }
@@ -1703,8 +1754,19 @@ Regards,<br>
             $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
+             $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            if (in_array('01403', $array)) {
+                $outBoundCall = 1;
+            } else {
+                $outBoundCall = '';
+            }
+            if (in_array('01406', $array)) {
+                $displayMobile = 1;
+            } else {
+                $displayMobile = '';
+            }
             if (count($getCustomerEnquiryDetails) != 0 && !empty($getCustomerEnquiryDetails[0]['id'])) {
-                $result = ['success' => true, 'records' => $getCustomerEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getCustomerEnquiryDetails, 'callBtnPermission'=>$outBoundCall,'displayMobileN'=>$displayMobile,  'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No record Found'];
             }
@@ -1757,8 +1819,19 @@ Regards,<br>
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getpendingfollowups = json_decode(json_encode($getpendingfollowups), true);
 
+            $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            if (in_array('01403', $array)) {
+                $outBoundCall = 1;
+            } else {
+                $outBoundCall = '';
+            }
+            if (in_array('01406', $array)) {
+                $displayMobile = 1;
+            } else {
+                $displayMobile = '';
+            }
             if (count($getpendingfollowups) != 0) {
-                $result = ['success' => true, 'records' => $getpendingfollowups, 'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getpendingfollowups, 'displayMobile' => $displayMobile, 'outBoundCall' => $outBoundCall, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No record Found'];
             }
@@ -2956,126 +3029,119 @@ Regards,<br>
                     `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_email_id,(SELECT GROUP_CONCAT(cc.area_name) FROM  `customers_contacts`as cc WHERE c.`id` = cc.customer_id) AS customer_area_name, 
                     (SELECT GROUP_CONCAT(cc.house_number," ",cc.building_house_name," ",cc.wing_name," ",cc.area_name," ",cc.lane_name," ",cc.landmark,cc.pin) FROM `customers_contacts`as cc WHERE c.`id` = cc.customer_id limit 1) AS customer_address
                     from `enquiries` as `enq` LEFT JOIN `enquiry_details` as `ed` on `ed`.`enquiry_id` = `enq`.`id` LEFT JOIN `customers` as c ON c.id = enq.customer_id  LEFT JOIN laravel_developement_master_edynamics.`mlst_titles` as mt ON mt.id = c.title_id
-                    WHERE `enq`.`id` ="'.$request['enquiryId'].'" ');
-            $result =  ["success" => true, "records" => $query[0]];
+                    WHERE `enq`.`id` ="' . $request['enquiryId'] . '" ');
+            $result = ["success" => true, "records" => $query[0]];
         } catch (\Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
         return response()->json($result);
     }
 
-    public function getDocumentsList()
-    {
-        try{
+    public function getDocumentsList() {
+        try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            $list = ProjectWebPage::where('id',$request['projectId'])->select('location_map_images','floor_plan_images','layout_plan_images','floor_plan_images','project_brochure','specification_images','amenities_images','video_link')->get();
+            $list = ProjectWebPage::where('id', $request['projectId'])->select('location_map_images', 'floor_plan_images', 'layout_plan_images', 'floor_plan_images', 'project_brochure', 'specification_images', 'amenities_images', 'video_link')->get();
             //echo"<pre>";print_r($list[0]->floor_plan_images);exit;
-            $list[0]->floor_plan_images = json_decode($list[0]->floor_plan_images , true);
-            $list[0]->layout_plan_images = json_decode($list[0]->layout_plan_images , true);
-            $list[0]->specification_images = json_decode($list[0]->specification_images , true);
-            if(count($list) > 0)
-            {
-                $result =  ["success" => true, "records" => $list];
+            $list[0]->floor_plan_images = json_decode($list[0]->floor_plan_images, true);
+            $list[0]->layout_plan_images = json_decode($list[0]->layout_plan_images, true);
+            $list[0]->specification_images = json_decode($list[0]->specification_images, true);
+            if (count($list) > 0) {
+                $result = ["success" => true, "records" => $list];
+            } else {
+                $result = ["success" => false, "message" => "No records in project web page"];
             }
-            else{
-                $result =  ["success" => false, "message" => "No records in project web page"];
-            }            
         } catch (\Exception $ex) {
-             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
-        }        
-         return response()->json($result);
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+        }
+        return response()->json($result);
     }
-    public function insertSendDocument()
-    {
-        try{
+
+    public function insertSendDocument() {
+        try {
             $postdata = file_get_contents("php://input");
-            $request = json_decode($postdata,true);
+            $request = json_decode($postdata, true);
             $doc = array();
-            if(!empty($request['loggedInUserId'])){
+            if (!empty($request['loggedInUserId'])) {
                 $loggedInUserId = $request['loggedInUserId'];
-            }
-            else
-            {
+            } else {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
             }
-            if($request['isUpdate'])
-            { // update customer
-                $update =Customer::where('id',$request['documentData']['customer_id'])->update(['first_name'=>$request['documentData']['customer_fname'],'last_name'=>$request['documentData']['customer_lname'],'title_id'=>$request['documentData']['title_id']]);               
-            }            
+            if ($request['isUpdate']) { // update customer
+                $update = Customer::where('id', $request['documentData']['customer_id'])->update(['first_name' => $request['documentData']['customer_fname'], 'last_name' => $request['documentData']['customer_lname'], 'title_id' => $request['documentData']['title_id']]);
+            }
             $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
-            $insertDocument['enquiry_id'] =$request['enquiry_id'] ;
+            $insertDocument['enquiry_id'] = $request['enquiry_id'];
             $insertDocument['project_id'] = $request['documentData']['project_id'];
-           
-            foreach($request['sendDocument'] as $val)
-            {
+
+            foreach ($request['sendDocument'] as $val) {
                 $arr = array();
-                $arr = explode('@',$val);
-                $doc[$arr[0]] = $arr[1];                  
+                $arr = explode('@', $val);
+                $doc[$arr[0]] = $arr[1];
             }
             //
-            if(!empty($doc['floor_plan_images'])){
-                $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'],true);
+            if (!empty($doc['floor_plan_images'])) {
+                $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'], true);
             }
-            if(!empty($doc['layout_plan_images'])){
-                 $doc['layout_plan_images'] = json_decode($doc['layout_plan_images'],true);
+            if (!empty($doc['layout_plan_images'])) {
+                $doc['layout_plan_images'] = json_decode($doc['layout_plan_images'], true);
             }
-            if(!empty($doc['specification_images'])){
-                $doc['specification_images'] = json_decode($doc['specification_images'],true);
-            }            
-            $insertDocument['send_datetime'] = date('Y-m-d H:i:s');            
+            if (!empty($doc['specification_images'])) {
+                $doc['specification_images'] = json_decode($doc['specification_images'], true);
+            }
+            $insertDocument['send_datetime'] = date('Y-m-d H:i:s');
             // sms mail template
-            
+
             $templatedata['employee_id'] = $loggedInUserId;
             $templatedata['client_id'] = config('global.client_id');
             $templatedata['template_setting_customer'] = 47;
             $templatedata['template_setting_employee'] = 0;
             $templatedata['customer_id'] = $request['documentData']['customer_id'];
-            $templatedata['project_id'] = $request['documentData']['project_id'];            
+            $templatedata['project_id'] = $request['documentData']['project_id'];
             //$templatedata['cust_attached_file'] = 'http://www.pdf995.com/samples/pdf.pdf';
-            $templatedata['cust_attached_file'] = !empty($doc['project_brochure']) ? 'https://storage.googleapis.com/bkt_bms_laravel/project/project_brochure/'.$doc['project_brochure'] : '';
-            $layoutPlan = $locationMap = $floorPlan = $amenities = $videoLink = $specific = '';            
-            if(!empty($doc['layout_plan_images']) && count($doc['layout_plan_images']) > 0){
+            $templatedata['cust_attached_file'] = !empty($doc['project_brochure']) ? 'https://storage.googleapis.com/bkt_bms_laravel/project/project_brochure/' . $doc['project_brochure'] : '';
+            $layoutPlan = $locationMap = $floorPlan = $amenities = $videoLink = $specific = '';
+            if (!empty($doc['layout_plan_images']) && count($doc['layout_plan_images']) > 0) {
                 $layoutPlan = "<b>Layout Images</b><br>";
-                foreach ($doc['layout_plan_images'] as $layout){
-                    $layoutPlan = $layoutPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/".$layout['layout_plan_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/".$layout['layout_plan_images']."' height='80px' width='80px'></a>";
+                foreach ($doc['layout_plan_images'] as $layout) {
+                    $layoutPlan = $layoutPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/" . $layout['layout_plan_images'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/layout_plan_images/" . $layout['layout_plan_images'] . "' height='80px' width='80px'></a>";
                 }
             }
-            if(!empty($doc['floor_plan_images']) && count($doc['floor_plan_images']) > 0){
+            if (!empty($doc['floor_plan_images']) && count($doc['floor_plan_images']) > 0) {
                 $floorPlan = "<br><b>Floor Images</b><br>";
-                foreach ($doc['floor_plan_images'] as $floor){
-                    $floorPlan = $floorPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/".$floor['floor_plan_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/".$floor['floor_plan_images']."' height='80px' width='80px'></a>";
+                foreach ($doc['floor_plan_images'] as $floor) {
+                    $floorPlan = $floorPlan . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/" . $floor['floor_plan_images'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/floor_plan_images/" . $floor['floor_plan_images'] . "' height='80px' width='80px'></a>";
                 }
             }
-            if(!empty($doc['specification_images']) && count($doc['specification_images']) > 0){
+            if (!empty($doc['specification_images']) && count($doc['specification_images']) > 0) {
                 $specific = "<br><b>Specification Images</b><br>";
-                foreach ($doc['specification_images'] as $spec){
-                    $specific = $specific . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/".$spec['specification_images']."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/".$spec['specification_images']."' height='80px' width='80px'></a>";
+                foreach ($doc['specification_images'] as $spec) {
+                    $specific = $specific . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['specification_images'] . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/specification_images/" . $spec['specification_images'] . "' height='80px' width='80px'></a>";
                 }
             }
-            if(!empty($doc['location_map_images'])){
-                $locarr = explode(',',$doc['location_map_images']);
+            if (!empty($doc['location_map_images'])) {
+                $locarr = explode(',', $doc['location_map_images']);
                 $locationMap = '<br><b>Location Map</b><br>';
-                 foreach ($locarr as $loc=>$val){
-                    $locationMap = $locationMap . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$val."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/".$val."' height='80px' width='80px'></a>";
+                foreach ($locarr as $loc => $val) {
+                    $locationMap = $locationMap . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/" . $val . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/location_map_images/" . $val . "' height='80px' width='80px'></a>";
                 }
             }
-            if(!empty($doc['amenities_images'])){
+            if (!empty($doc['amenities_images'])) {
                 $amenity = explode(',', $doc['amenities_images']);
                 $amenities = '<br><b>Amenities:</b><br>';
-                foreach ($amenity as $k=>$v){
-                    $amenities = $amenities . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$v."' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/".$v."' height='80px' width='80px'></a>";
+                foreach ($amenity as $k => $v) {
+                    $amenities = $amenities . "<a href='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/" . $v . "' ><img src='https://storage.googleapis.com/bkt_bms_laravel/project/amenities_images/" . $v . "' height='80px' width='80px'></a>";
                 }
             }
-            if(!empty($doc['video_link'])){
-                $videoLink = '<br><b>Video Link :</b> <a href="'.$doc['video_link'].'"><u>'.$doc['video_link'].'</u></a>';
+            if (!empty($doc['video_link'])) {
+                $videoLink = '<br><b>Video Link :</b> <a href="' . $doc['video_link'] . '"><u>' . $doc['video_link'] . '</u></a>';
             }
-            
+
             $templatedata['arrExtra'][0] = array(
                 '[#layoutPlan#]',
                 '[#floorPlan#]',
                 '[#specification#]',
-                '[#locationMap#]',                
+                '[#locationMap#]',
                 '[#Amenities#]',
                 '[#videoLink#]',
             );
@@ -3089,47 +3155,41 @@ Regards,<br>
             );
             // $Templateresult = CommonFunctions::templateData($templatedata);
             //print_r($Templateresult);exit;
-            
             // insert into send document history
-            $insertDocument['send_documents'] =json_encode($doc);
-            $insertDocument['send_by'] =$loggedInUserId ;
-            $insertDocument = array_merge($insertDocument,$create);
+            $insertDocument['send_documents'] = json_encode($doc);
+            $insertDocument['send_by'] = $loggedInUserId;
+            $insertDocument = array_merge($insertDocument, $create);
             $dataInsert = SendDocumentHistory::create($insertDocument);
-            if($dataInsert){
-                $result = ["success" => true,"message"=>"Document Sent Successfully."];
+            if ($dataInsert) {
+                $result = ["success" => true, "message" => "Document Sent Successfully."];
             }
         } catch (Exception $ex) {
-                $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
         return response()->json($result);
     }
-    
-    public function sendDocList()
-    {
-        try{            
+
+    public function sendDocList() {
+        try {
             $postdata = file_get_contents("php://input");
-            $request = json_decode($postdata,true);
-            $allSend = SendDocumentHistory::select('send_document_history.id','enquiry_id','project_id','send_documents','send_datetime','send_by','project_name','employees.first_name','employees.last_name')
-                    ->leftJoin('projects','send_document_history.project_id','=','projects.id')
-                    ->leftJoin('employees','send_document_history.send_by','=','employees.id')
-                    ->where('enquiry_id',$request['enquiry_id'])
+            $request = json_decode($postdata, true);
+            $allSend = SendDocumentHistory::select('send_document_history.id', 'enquiry_id', 'project_id', 'send_documents', 'send_datetime', 'send_by', 'project_name', 'employees.first_name', 'employees.last_name')
+                    ->leftJoin('projects', 'send_document_history.project_id', '=', 'projects.id')
+                    ->leftJoin('employees', 'send_document_history.send_by', '=', 'employees.id')
+                    ->where('enquiry_id', $request['enquiry_id'])
                     ->get();
-            foreach($allSend as $sent)
-            {
-                $sent['send_documents'] = json_decode($sent['send_documents'],true);
+            foreach ($allSend as $sent) {
+                $sent['send_documents'] = json_decode($sent['send_documents'], true);
             }
-            if(count($allSend) > 0)
-            {
-                $result = ["success" => true, 'records'=>$allSend];
-            }
-            else
-            {
-                $result = ["success" => false, "message" => 'No records Found','records'=>0];
+            if (count($allSend) > 0) {
+                $result = ["success" => true, 'records' => $allSend];
+            } else {
+                $result = ["success" => false, "message" => 'No records Found', 'records' => 0];
             }
         } catch (Exception $ex) {
-             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
+            $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];
         }
-       return response()->json($result);
+        return response()->json($result);
     }
-    
+
 }

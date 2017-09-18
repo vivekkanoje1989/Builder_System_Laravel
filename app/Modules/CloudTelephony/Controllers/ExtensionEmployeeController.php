@@ -51,8 +51,13 @@ class ExtensionEmployeeController extends Controller {
         } else {
             $export = '';
         }
+         if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($ctEmployeesExtension)) {
-            $result = ['success' => true, 'records' => $ctEmployeesExtension, 'exportData' => $export];
+            $result = ['success' => true, 'records' => $ctEmployeesExtension, 'exportData' => $export,'delete'=>$deleteBtn];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }

@@ -33,6 +33,11 @@ app.controller('promotionalsmsController', ['$scope', 'Data', '$filter', 'Upload
             }
             $scope.pageNumber = pageNo;
         };
+        
+         $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
 
         $scope.searchDetails = {};
         $scope.searchData = {};

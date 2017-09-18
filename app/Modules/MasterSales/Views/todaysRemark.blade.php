@@ -209,7 +209,7 @@
                                             <div class="col-sm-12">
                                                 <div ng-if ="displaymobile != '-1'">
                                                     <span ng-if="mobileList" ng-repeat="(key,value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
-                                                        <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
+                                                        <img ng-if="displayCallBtn !='-1'"  src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                         <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">{{value}}</span>
                                                     </span> 
                                                     <div class="col-sm-12"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
@@ -231,7 +231,7 @@
                                                     <input type="hidden" ng-mode="prevMob" name="prevMob" id="prevMob"><br>
                                                 </div>
                                                 <span ng-if="displaymobile == '-1' && mobileList" ng-repeat="(key,value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
-                                                    <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
+                                                    <img ng-if="displayCallBtn !='-1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                     <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
                                                 </span> 
                                                 <div class="col-sm-12" ng-if ="displayemail != '-1'">
