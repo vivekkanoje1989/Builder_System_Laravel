@@ -752,6 +752,7 @@ app.controller('salesSourceCtrl', function ($scope, Data) {
     };
 
 });
+
 app.controller('getEmployeeCtrl', function ($scope, Data, $timeout) {
     $scope.employees1 = [];
     $scope.memployees = [];
@@ -770,6 +771,61 @@ app.controller('getEmployeeCtrl', function ($scope, Data, $timeout) {
 
 });
 /****************************MANDAR*********************************/
+app.controller('ccpresalesStatusCtrl', function ($scope, Data) {
+    Data.get('getccPreSalesStates').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.ccpresalesstatus = response.records;
+        }
+    });
+    
+    $scope.onccpreSalesStatusChange = function (id) {
+        
+        
+        $scope.ccpresalessubStatusList = [];
+        if(id == undefined)
+        {    
+            id=0;
+        }
+        Data.post('getccpresalesSubtatus', {
+            data: {statusId: id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.ccpresalessubStatusList = response.records;
+            }
+        });
+    };
+}); 
+
+app.controller('ccpresalesCategoryCtrl', function ($scope, Data) {
+    Data.get('getccPreSalesCategory').then(function (response) {
+        if (!response.success) {
+            $scope.errorMsg = response.message;
+        } else {
+            $scope.ccpresalescategory = response.records;
+        }
+    });
+    
+    $scope.onccpresalesCategoryChange = function (id) {
+        $scope.ccpresalesSubCategoriesList = [];
+        if(id == undefined)
+        {    
+            id=0;
+        }
+        Data.post('getccPreSalesSubCategory', {
+            data: {statusId: id},
+        }).then(function (response) {
+            if (!response.success) {
+                $scope.errorMsg = response.message;
+            } else {
+                $scope.ccpresalesSubCategoriesList = response.records;
+            }
+        });
+    };
+});
 
 app.filter('split', function () {
     return function (input, splitChar, splitIndex) {

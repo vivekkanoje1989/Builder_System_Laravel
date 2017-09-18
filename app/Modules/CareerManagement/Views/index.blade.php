@@ -79,41 +79,43 @@
                         <thead class="bord-bot">
                             <tr>
                             <tr>
-                                <th style="width:5%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'id'; reverseSort = !reverseSort">Sr. No.
-                                        <span ng-show="orderByField == 'id'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th>                          
+                                <th style="width:5%">Sr. No.</th>                          
                                 <th style="width:15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'job_title'; reverseSort = !reverseSort">Job title
-                                        <span ng-show="orderByField == 'job_title'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th>
+                                <a href="javascript:void(0);" ng-click="orderByField('job_title')">Job title
+                                        <span ><img ng-hide="(sortKey == 'job_title' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'job_title' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'job_title' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
+                                </th>
                                 <th style="width:30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'job_eligibility'; reverseSort = !reverseSort">Eligibility
-                                        <span ng-show="orderByField == 'job_eligibility'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th>
-                                <th style="width:10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'application_start_date'; reverseSort = !reverseSort">Application start date
-                                        <span ng-show="orderByField == 'application_start_date'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th>
-                                <th style="width:10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'application_close_date'; reverseSort = !reverseSort">Application close date
-                                        <span ng-show="orderByField == 'application_close_date'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a></th> 
+                                <a href="javascript:void(0);" ng-click="orderByField('job_eligibility')">Eligibility
+                                        <span ><img ng-hide="(sortKey == 'job_eligibility' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'job_eligibility' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'job_eligibility' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
+                                </th>
                                 <th style="width:15%">
-                                    <a href="javascript:void(0);"reverseSort = !reverseSort">Go to
-                                    </a></th>                            
-                                <th style="width: 15%">Actions</th>
+                                <a href="javascript:void(0);" ng-click="orderByField('application_start_date')">Application start date
+                                        <span ><img ng-hide="(sortKey == 'application_start_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'application_start_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'application_start_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
+                                </th>
+                                <th style="width:15%">
+                                    <a href="javascript:void(0);" ng-click="orderByField('application_close_date')">Application close date
+                                        <span ><img ng-hide="(sortKey == 'application_close_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'application_close_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'application_close_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
+                                </th> 
+                                <th style="width:10%">Go to</th>                            
+                                <th style="width: 10%">Actions</th>
 
                             </tr>
                         </thead>
                         <tbody>
 
-                            <tr role="row" dir-paginate="list in careerRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
+                            <tr role="row" dir-paginate="list in careerRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{list.job_title}}</td> 
                                 <td>{{list.job_eligibility}}</td> 
@@ -122,7 +124,7 @@
                                 <td><a href="[[ config('global.backendUrl') ]]#/job-posting/show/{{ list.id}}" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>View Application</a></td>
                                 <td class="">	
                                     <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/job-posting/update/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                    <span class="" tooltip-html-unsafe="Delete"><a ng-click="deleteJob({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a ng-click="deleteJob({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
 
                             </tr>

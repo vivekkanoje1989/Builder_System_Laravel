@@ -2,6 +2,33 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Models/MlstBmsbCcPresalesStatus.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Models/MlstBmsbCcPresalesCategory.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/total.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Controllers/CustomerCareController.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/bloodGroupsController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/blockTypesController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageBlockTypes/Controllers/ManageBlockTypesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BloodGroups/Controllers/BloodGroupsController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BlockStages/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BloodGroups/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ManageBlockTypes/Views/index.blade.php</file>
+>>>>>>> 69eb21aed604ce8761995ebcafb5c072319143ba
+        </group>
+>>>>>>> b1b0ce0ca999311dcd30710edf903bc50278f155
     </open-files>
 </project-private>

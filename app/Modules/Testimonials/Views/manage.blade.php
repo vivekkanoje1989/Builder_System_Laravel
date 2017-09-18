@@ -38,16 +38,6 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
                             </ul>
                         </a>
                     </div>
@@ -90,24 +80,24 @@
                             <tr>
                                 <th style="width:5%">Sr.No.</th>
                                 <th style="width:10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Customer name
-                                        <span ng-show="orderByField == 'customer_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('customer_name')">Customer name
+                                        <span ><img ng-hide="(sortKey == 'customer_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
                                 <th style="width: 20%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'block_stages'; reverseSort = !reverseSort">Mobile No
-                                        <span ng-show="orderByField == 'mobile_number'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('mobile_number')">Mobile No
+                                        <span ><img ng-hide="(sortKey == 'mobile_number' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'mobile_number' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'mobile_number' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
                                 <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'company_name'; reverseSort = !reverseSort">Company Name
-                                        <span ng-show="orderByField == 'company_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span>
-                                        </span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('company_name')">Company Name
+                                        <span ><img ng-hide="(sortKey == 'company_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'company_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'company_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
                                 <th style="width: 15%">Approve Status</th>  
@@ -115,7 +105,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in ApprovedTestimonialsRow|  filter:search |filter:searchData | itemsPerPage:itemsPerPage |orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="list in ApprovedTestimonialsRow|  filter:search |filter:searchData | itemsPerPage:itemsPerPage |orderBy:sortKey:reverseSort">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ list.customer_name}}</td>  
                                 <td>{{ list.mobile_number}}</td>  
@@ -123,7 +113,7 @@
                                 <td>{{ (list.approve_status == 1) ? "Approved" : "Not Approve"}}</td>
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/testimonials-manage/update/{{ list.testimonial_id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                    <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteApprovedList({{list.testimonial_id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span ng-show="deleteApprove == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteApprovedList({{list.testimonial_id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
                              <tr>

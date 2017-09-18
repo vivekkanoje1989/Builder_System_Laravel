@@ -39,16 +39,7 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);">Another action</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">Something else here</a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="javascript:void(0);">Separated link</a>
-                                </li>
+                               
                             </ul>
                         </a>
                     </div>
@@ -95,58 +86,66 @@
                             <tr>
                                 <th style="width:5%">SR No.</th>
                                 <th style="width: 10%"> 
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'firstName'; reverseSort = !reverseSort">Employee Name
-                                        <span ng-show="orderByField == 'firstName'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('firstName')">Employee Name
+                                        <span ><img ng-hide="(sortKey == 'firstName' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'firstName' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'firstName' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'designation'; reverseSort = !reverseSort">Designation
-                                        <span ng-show="orderByField == 'designation'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('designation')">Designation 
+                                        <span ><img ng-hide="(sortKey == 'designation' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'designation' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'designation' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'reporting_to_name'; reverseSort = !reverseSort">Reporting To
-                                        <span ng-show="orderByField == 'reporting_to_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('reporting_to_name')">Reporting To 
+                                        <span ><img ng-hide="(sortKey == 'reporting_to_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'reporting_to_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'reporting_to_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'team_lead_name'; reverseSort = !reverseSort">Team Lead 
-                                        <span ng-show="orderByField == 'team_lead_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('team_lead_name')">Team Lead 
+                                        <span ><img ng-hide="(sortKey == 'team_lead_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'team_lead_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'team_lead_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'departmentName'; reverseSort = !reverseSort">Departments
-                                        <span ng-show="orderByField == 'departmentName'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('departmentName')">Departments
+                                        <span ><img ng-hide="(sortKey == 'departmentName' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'departmentName' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'departmentName' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'joining_date'; reverseSort = !reverseSort">Joining Date
-                                        <span ng-show="orderByField == 'joining_date'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('joining_date')">Joining Date
+                                        <span ><img ng-hide="(sortKey == 'joining_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'joining_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'joining_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 5%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'employee_status'; reverseSort = !reverseSort">Status of User
-                                        <span ng-show="orderByField == 'employee_status'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('employee_status')">Status
+                                        <span ><img ng-hide="(sortKey == 'employee_status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'employee_status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'employee_status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'login_date_time'; reverseSort = !reverseSort">Last Login
-                                        <span ng-show="orderByField == 'login_date_time'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('login_date_time')">Last Login
+                                        <span ><img ng-hide="(sortKey == 'login_date_time' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'login_date_time' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'login_date_time' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort " >
+                            <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort " >
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listUser.firstName}}</td>
                                 <td>{{ listUser.designation == null? '-' : listUser.designation}}</td>
