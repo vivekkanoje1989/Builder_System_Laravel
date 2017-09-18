@@ -54,6 +54,12 @@ app.controller('customerController', ['$scope', '$state', 'Data', 'Upload', '$ti
                 $scope.showComapnyList = false;
             }
         }
+        
+         $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
         $scope.isChecked = function (corporateCust) {
             if (corporateCust == true) {
                 $scope.companyInput = true;

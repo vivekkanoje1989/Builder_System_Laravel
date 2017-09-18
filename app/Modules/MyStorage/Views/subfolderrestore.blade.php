@@ -76,11 +76,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" ng-if="noResult">
-                    <div class="col-md-12">
-                        <h3>{{noResult}}</h3>
-                    </div>
-                </div>
+                <center ng-if="folderImages.length == 0"><h1>No Record Found</h1></center>
             </div>
             
         </div>

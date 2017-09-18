@@ -5,8 +5,33 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
         $scope.manageCustomer = function () {
             Data.get('customers/manageCustomer').then(function (response) {
                 $scope.customerDataRow = response.result;
+                $scope.exportBtn = response.exportData;
+                $scope.deleteBtn = response.delete;
             });
         };
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
+        
+         $scope.customerDetailsExportToxls = function () {
+            $scope.getexcel = window.location = "customers/customerDetailsExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        
+        $scope.deleteCustomer = function (id, index) {
+            Data.post('customers/deleteCustomer', {
+                'id': id}).then(function (response) {
+                toaster.pop('success', 'Manage Customer', 'Customer deleted successfully');
+                $scope.bloodGrpRow.splice(index, 1);
+            });
+        }
         
         $scope.searchDetails = {};
         $scope.searchData = {};

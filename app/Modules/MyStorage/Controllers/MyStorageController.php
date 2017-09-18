@@ -193,9 +193,7 @@ class MyStorageController extends Controller {
             $post = ['sub_folder' => $sub_folder];
             $result = MyStorage::where('id', $request['folderId'])->update($post);
         }
-        unset($request['type'],$request['folderId']);
-        
-        
+        unset($request['type'],$request['folderId']);                
         $resultDeleted = S3::s3FolderDelete($folder);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $delete = CommonFunctions::deleteMainTableRecords($loggedInUserId);

@@ -39,6 +39,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
         {
             Data.post('storage-list/getSubDirectory', {
                 id: id}).then(function (response) {
+                console.log(response.result);
                 if (response.status)
                 {
                     $scope.subDirectories = response.result;
@@ -152,7 +153,11 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
                 if (response.result)
                 {
                     toaster.pop('success', 'My storage', 'Record successfully restored');
+<<<<<<< HEAD
                     $state.transitionTo('storageListIndex');
+=======
+                    $state.go('recycleBin');
+>>>>>>> 390d844db1de9079979c28215c8e5050a390d20e
                 }
             });
         };
