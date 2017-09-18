@@ -157,9 +157,8 @@ class ReportsController extends Controller {
             $temp_array = array_merge($post, $temp_array);
             $Total = $Total + $category['0']->cnt;
         }
-        $response['0'] = $temp_array;
-        if (!empty($response)) {
-            $result = ['success' => true, 'records' => $response, 'Total' => $Total];
+        if (!empty($temp_array)) {
+            $result = ['success' => true, 'records' => $temp_array, 'Total' => $Total];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];

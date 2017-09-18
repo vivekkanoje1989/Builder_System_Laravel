@@ -99,15 +99,16 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             Data.post('reports/getProjectWiseCategoryReport', {
                 project_id: project_id, employee_id: employee_id
             }).then(function (response) {
+                
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.Total = response.Total;
                     $scope.category_report = angular.copy(response.records);
+                    console.log($scope.category_report);
                     $scope.categorylabels = [];
                     $scope.categorydata = [];
-                    angular.forEach(response.records['0'], function (value, key) {
-
+                    angular.forEach(response.records, function (value, key) {
                         $scope.categorylabels.push(key);
                         $scope.categorydata.push(value);
                     });

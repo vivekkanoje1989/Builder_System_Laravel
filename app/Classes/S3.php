@@ -89,7 +89,7 @@ class S3 {
     public static function s3FolderDelete($s3FolderName) {
         
         S3::s3Configuration();
-        $files = \Storage::disk('gcs')->deleteDirectory($s3FolderName);
+        $files = \Storage::disk('gcs')->delete($s3FolderName);
         if ($files) {
             $result = ['success' => true, 'files' => $files];
             json_encode($result);

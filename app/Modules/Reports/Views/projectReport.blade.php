@@ -21,7 +21,6 @@
                                     <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Enquiry Category-Wise Report</span>
                                 </div>
                                 <div class="widget-body table-responsive">
-
                                     <table class="table table-hover table-striped table-bordered" at-config="config">
                                         <thead class="bord-bot">
                                             <tr>
@@ -31,9 +30,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr  ng-repeat="(key,value) in category_report['0']">
-                                                <td><b>{{ key.split("_").join(" ")}}</b></td>
-                                                <td>{{value}}</td>
+                                            <tr  ng-repeat="category in category_report">
+                                                <td>{{category}}</td>
+                                                <td><div style="width:60px; float:left;"  ng-if="value > 0">{{value}}</div><div style="float:left;" ng-if="value > 0"> <a href="" style="padding-left:30px;" ng-click="teamcategoryEnquiryReport(category); teamEmployees(category); subProjectCategoryReport(category, 1, 1)">Show sub-category wise report</a></div><span ng-if="value == 0">{{value}}</span></td>
                                                 <td>{{((value / Total) * 100).toFixed(2) == 'NaN' ? '0':((value / Total) * 100).toFixed(2)}}</td>
                                             </tr> 
                                             <tr>

@@ -198,7 +198,8 @@ class MyStorageController extends Controller {
         }
         unset($request['type']);
         unset($request['folderId']);
-        
+        print_r($folder);
+        exit;
         $resultDeleted = S3::s3FolderDelete($folder);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $delete = CommonFunctions::deleteMainTableRecords($loggedInUserId);
@@ -350,8 +351,7 @@ class MyStorageController extends Controller {
             for ($i = 0; $i < count($sub_bucket); $i++) {
 
                 $result = MyStorage::where(['id' => $sub_bucket[$i]])->first();
-                print_r($sub_bucket[$i]);
-                exit;
+                
                 if ($result->deleted_status == '0') {
                     array_push($subBuckets, ['id' => $result->id, 'folder' => $result->folder]);
                 }
