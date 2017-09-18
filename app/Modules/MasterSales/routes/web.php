@@ -1,7 +1,7 @@
 <?php
 
 Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'namespace' => 'App\Modules\MasterSales\Controllers'), function() {
-    $getUrl = config('global.getUrl');
+
     Route::get('/dirPagination', function () {
         return View::make('backend.dirPagination');
     });
@@ -32,7 +32,7 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
      Route::get('/MasterSales/sendDocument', function () {
         return View::make('MasterSales::sendDocument');
     });     
-    Route::get('/master-sales/createQuickEnquiry','MasterSalesController@createQuickEnquiry');
+    Route::get('/master-sales/createQuickEnquiry','MasterSalesController@createQuickEnquiry')->middleware("permission:040101");
  
     
     /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/

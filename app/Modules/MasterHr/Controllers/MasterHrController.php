@@ -247,13 +247,13 @@ class MasterHrController extends Controller {
     public function BulkReasignEmployee() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        // print_r($request);exit;
         $employee_id = $request['employee_id'];
 
         if (!empty($request)) {
             if (!empty($request['bulkData']['sales_employee_id'])) {
                 $sales_employee_id = $request['bulkData']['sales_employee_id'];
                 $enquiryUpdate = DB::table('enquiries')->where('sales_employee_id', $employee_id)->update(array('sales_employee_id' => $sales_employee_id));
+            
             }
             if (!empty($request['bulkData']['cc_presales_employee_id'])) {
                 $cc_presales_employee_id = $request['bulkData']['cc_presales_employee_id'];
@@ -733,6 +733,15 @@ class MasterHrController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
+           if($input['userStatus']['employee_status'] == 3){
+            $salesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('sales_employee_id',$input['employeeId'])->count();
+            $presalesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('cc_presales_employee_id',$input['employeeId'])->count();
+            if($salesEnqcount > 0 || $presalesEnqcount > 0){
+                $result = ['error' => false, 'message' => 'Please reassign enquiries of employee before making permanently suspended'];
+                return json_encode($result);
+                exit;
+            }
+        }
         if ($input['createStatus'] == 0) {
             $password = substr(rand(10000000, 99999999), 0, 8);
             $username = $input['userStatus']['username'];

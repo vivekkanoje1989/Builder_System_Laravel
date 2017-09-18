@@ -7,6 +7,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.userJobData = {};
         $scope.userStatus = {};
         $scope.userPersonalData = {};
+        $scope.bulkData = {};
         $scope.designationList = [];
         $scope.invalidImage = '';
         $scope.contact = true;
@@ -63,6 +64,13 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //                }
 //            });
         }
+        
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];
             $scope.filterDetails($scope.searchData);
@@ -308,15 +316,15 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         };
 
         $scope.hrDetailsExporToxls = function () {
-              $scope.getexcel = window.location = "/master-hr/hrDetailsExporToxls";
+            $scope.getexcel = window.location = "/master-hr/hrDetailsExporToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
             } else {
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
-        
+
+
         $scope.manageUsers = function (id, action) {
             $scope.modal = {};
             $scope.showloader();
@@ -989,30 +997,30 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.manageRoleExportToExcel = function () {
-              $scope.getexcel = window.location = "/master-hr/manageRoleExportToExcel";
+            $scope.getexcel = window.location = "/master-hr/manageRoleExportToExcel";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
             } else {
                 toaster.pop('error', '', 'Exporting fails....');
             }
         }
-        
-         $scope.getEnqCount = function (emp_id) {
+
+        $scope.getEnqCount = function (emp_id) {
             Data.post('/master-hr/getEnquiriesCnt', {
-                    empId: emp_id,
-                }).then(function (response) {
-                    $scope.totsalesEnquiries = response.salesEnqcount;
-                    $scope.totpresalesEnquiries = response.presalesEnqcount;
-                    if($scope.totsalesEnquiries > 0 || $scope.totpresalesEnquiries > 0){
-                        $('#BulkModal').modal('show');
-                    }
-                });
+                empId: emp_id,
+            }).then(function (response) {
+                $scope.totsalesEnquiries = response.salesEnqcount;
+                $scope.totpresalesEnquiries = response.presalesEnqcount;
+                if ($scope.totsalesEnquiries > 0 || $scope.totpresalesEnquiries > 0) {
+                    $('#BulkModal').modal('show');
+                }
+            });
         }
-           $scope.getsalesEmployees = function (emp_id) {
+        $scope.getsalesEmployees = function (emp_id) {
             $scope.salesemployeeList = [];
             Data.post('/master-hr/getsalesEmployees', {
-                    empId: emp_id,
-                }).then(function (response) {
+                empId: emp_id,
+            }).then(function (response) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
@@ -1020,40 +1028,39 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }
-        
-         $scope.getpresalesEmployees = function (emp_id) {
+
+        $scope.getpresalesEmployees = function (emp_id) {
             $scope.presalesemployeeList = [];
-                Data.post('/master-hr/getpresalesEmployees', {
-                    empId: emp_id,
-                }).then(function (response) {
-                    if (!response.success) {
-                        $scope.errorMsg = response.message;
-                    } else {
+            Data.post('/master-hr/getpresalesEmployees', {
+                empId: emp_id,
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
 
-                        $scope.presalesemployeeList = response.records;
-                    }
-                });
+                    $scope.presalesemployeeList = response.records;
+                }
+            });
         }
-        
-        $scope.bulkreasignemployee = function (bulkData,employee_id) {
-            
+
+        $scope.bulkreasignemployee = function (bulkData, employee_id) {
             Data.post('/master-hr/bulkreasignemployee', {
-                    bulkData: bulkData, employee_id: employee_id
-                }).then(function (response) {
-                    if (!response.success) {
-                        $scope.errorMsg = response.message;
-                        toaster.pop('error', 'Bulk Reassign', "Something went wrong...");
-                    } else {
-                        $scope.reassigned = true;
-                        toaster.pop('success', 'Bulk Reassign', response.message);
-                        $('#BulkModal').modal('toggle');
+                bulkData: bulkData, employee_id: employee_id
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                    toaster.pop('error', 'Bulk Reassign', "Something went wrong...");
+                } else {
+                    $scope.reassigned = true;
+                    toaster.pop('success', 'Bulk Reassign', response.message);
+                    $('#BulkModal').modal('toggle');
 
-                        $(".modal-backdrop").hide();
-                    }
-                });
-            
+                    $(".modal-backdrop").hide();
+                }
+            });
+
         }
-        
+
         $scope.createRole = function (RoleData) {
             Data.post('master-hr/createUserRole', {
                 data: {role_name: RoleData.role_name, masterRole: $rootScope.roleMenuList.menuId}
@@ -1616,13 +1623,22 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             Data.post('master-hr/manageStatusForm', {
                 userStatus: userStatus, employeeId: empId, createStatus: createStatus
             }).then(function (response) {
-                if (empId > 0) {
-                    toaster.pop('success', 'Employee Details', "Employee Status Details Updated Successfully");
+                if (response.success) {
+                    if (empId > 0) {
+                        toaster.pop('success', 'Employee Details', "Employee Status Details Updated Successfully");
+                    } else {
+                        toaster.pop('success', 'Employee Details', "Employee Status Details Saved Successfully");
+                    }
+                    $(".btn-submit-last").attr('disabled', true);
+                    $state.go('userIndex');
                 } else {
-                    toaster.pop('success', 'Employee Details', "Employee Status Details Saved Successfully");
+                    toaster.pop({
+                        type: 'error',
+                        title: 'Employee Details',
+                        body: response.message,
+                        timeout: 3500
+                    });
                 }
-                $(".btn-submit-last").attr('disabled', true);
-                $state.go('userIndex');
             });
         }
 

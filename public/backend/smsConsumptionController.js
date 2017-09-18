@@ -7,6 +7,11 @@ app.controller('smsController', ['$rootScope', '$scope', '$state', 'Data', 'Uplo
         $scope.filterData = {};
 
 
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
         $scope.pageChanged = function (pageNo, functionName, id) {
             $scope[functionName](id, pageNo, $scope.itemsPerPage);
             $scope.pageNumber = pageNo;
