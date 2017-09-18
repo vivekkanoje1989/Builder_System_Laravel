@@ -93,7 +93,7 @@
                 </div> 
                 <div class="row" ng-if="subDirectories.length >= 0">
                     <div class="col-md-12">
-                        <h3 >Sub folders not availble</h3>
+                        <h3>Sub folder is empty</h3>
                     </div>
                 </div>
                 <br/><br/>
@@ -112,7 +112,7 @@
                 </div>
                 <div class="row" ng-if="folderImages.length == 0">
                     <div class="col-md-12">
-                        <h3 >Images not availble</h3>
+                        <h3 >Images not found</h3>
                     </div>
                 </div>
             </div>

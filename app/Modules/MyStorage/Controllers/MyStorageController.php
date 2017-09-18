@@ -20,9 +20,7 @@ class MyStorageController extends Controller {
     }
 
     public function getStorage() {
-        // $result = S3::s3AllDirectories();
         $result = MyStorage::where(['deleted_status' => '0', 'sub_folder_status' => '0'])->get();
-
         return json_encode(['result' => $result, 'status' => true]);
     }
 
@@ -185,7 +183,6 @@ class MyStorageController extends Controller {
             $res = MyStorage::where('id', $request['id'])->select('folder')->first();
             $folder = $res->folder;
         }
-
         if ($request['type'] == 2) {
             $delete = MyStorage::where('id', $request['folderId'])->select('sub_folder')->first();
             $sub_folder = explode(',', $delete->sub_folder);
@@ -196,8 +193,9 @@ class MyStorageController extends Controller {
             $post = ['sub_folder' => $sub_folder];
             $result = MyStorage::where('id', $request['folderId'])->update($post);
         }
-        unset($request['type']);
-        unset($request['folderId']);
+        unset($request['type'],$request['folderId']);
+        
+        
         $resultDeleted = S3::s3FolderDelete($folder);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $delete = CommonFunctions::deleteMainTableRecords($loggedInUserId);

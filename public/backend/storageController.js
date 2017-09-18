@@ -19,13 +19,12 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
         {
             $scope.id = shareId;
             $scope.subDirectories;
-            $scope.getSharedEmployees(shareId)
+            $scope.getSharedEmployees(shareId);
         }
         $scope.dofolderstorageAction = function (folder)
         {
             Data.post('storage-list/folderStorage', {
                 folder: folder, folderName: $scope.folderName}).then(function (response) {
-                console.log(response)
                 if (response.status)
                 {
                     toaster.pop('success', 'My storage', 'Record successfully created');
@@ -71,7 +70,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
         {
             Data.post('storage-list/removeEmployees', {
                 employee_id: employee_id, id: id}).then(function (response) {
-                //console.log(response);
                 toaster.pop('success', 'My storage', 'Employee removed successfully');
                 $scope.folderSharedEmployees.splice(index, 1);
             });
@@ -134,7 +132,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
         {
             Data.post('storage-list/deleteFolder', {
                 id: id,type:type,folderId:folderId}).then(function (response) {
-                console.log(response);
                 if (response.result)
                 {
                     if (type == 1)
@@ -155,7 +152,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
                 if (response.result)
                 {
                     toaster.pop('success', 'My storage', 'Record successfully restored');
-                    $state.go('.recycleBin');
+                    $state.transitionTo('storageListIndex');
                 }
             });
         };
@@ -220,7 +217,6 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
                 data: data
             });
             fileName.upload.then(function (response) {
-                // console.log(response);
                 toaster.pop('success', 'My storage', 'Record successfully created');
                 var post = response.data.result;
                 if ($scope.folderImages !== undefined)
@@ -238,7 +234,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
         }
         $scope.getMySharedImages = function () {
             Data.get('storage-list/getMySharedImages').then(function (response) {
-                $scope.myImageStore = response.records
+                $scope.myImageStore = response.records;
             });
         }
         $scope.sharedImageWith = function (id)
@@ -279,7 +275,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
                 $scope.tableData = [];
                 for (i = 0; i < response.result2.length; i++)
                 {
-                    $scope.tableData.push(response.result2[i].folder)
+                    $scope.tableData.push(response.result2[i].folder);
                 }
                 var counter = JSON.parse(response.result);
                 $scope.s3Data = counter.directories;
@@ -305,7 +301,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
                 var count = JSON.parse(response.result2);
                 $scope.s3allData = count.directories;
                 difference = $scope.s3allData.filter(function (x) {
-                    return $scope.s3Data.indexOf(x) < 0
+                    return $scope.s3Data.indexOf(x) < 0;
                 });
                 for (i = 0; i < difference.length; i++)
                 {
