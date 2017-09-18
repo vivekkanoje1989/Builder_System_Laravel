@@ -198,6 +198,7 @@ class MyStorageController extends Controller {
         }
         unset($request['type']);
         unset($request['folderId']);
+        
         $resultDeleted = S3::s3FolderDelete($folder);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $delete = CommonFunctions::deleteMainTableRecords($loggedInUserId);
