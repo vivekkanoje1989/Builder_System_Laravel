@@ -91,11 +91,7 @@
                         </div>
                     </div>
                 </div> 
-                <div class="row" ng-if="subDirectories.length >= 0">
-                    <div class="col-md-12">
-                        <h3 >Sub folders not availble</h3>
-                    </div>
-                </div>
+                <center ng-if="subDirectories.length == 0"><h1>No Record Found</h1></center>
                 <br/><br/>
                 <hr>
                 <h5 class="row-title ng-scope" ng-if="folderImages.length >= 0"><i class="fa fa-picture-o"></i>Images</h5>
@@ -110,11 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" ng-if="folderImages.length == 0">
-                    <div class="col-md-12">
-                        <h3 >Images not availble</h3>
-                    </div>
-                </div>
+                <center ng-if="folderImages.length == 0"><h1>No Record Found</h1></center>
             </div>
         </div>
     </div>
@@ -157,7 +149,7 @@
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <input type="hidden" ng-model="id" name="id">
                     <div class="modal-body">
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered" ng-if="imageSharedEmployees.length > 0">
                             <thead>
                                 <tr>
                                     <th>id</th>
@@ -171,8 +163,10 @@
                                     <td>{{Shared.first_name + ' ' + Shared.last_name}}</td>
                                     <td><a href="javascript:void(0)" ng-click="removeImageSharedEmp($index, Shared.employee_id);" class="btn btn-primary">Remove</a></td>
                                 </tr>
+                            <tbody>
+                            <br/><br/>
                         </table>
-                        <br/><br/>
+
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!sharedForm.share_with.$dirty && sharedForm.share_with.$invalid) }">
                             <label>Employee</label>
                             <span class="input-icon icon-right">
@@ -235,7 +229,7 @@
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <input type="hidden" ng-model="id" name="id"> 
                     <div class="modal-body">
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered" ng-if="folderSharedEmployees.length > 0">
                             <thead>
                                 <tr>
                                     <th>id</th>
@@ -249,8 +243,9 @@
                                     <td>{{Shared.first_name + ' ' + Shared.last_name}}</td>
                                     <td><a href="javascript:void(0)" ng-click="removeEmployees($index, Shared.employee_id, id);" class="btn btn-primary">Remove</a></td>
                                 </tr>
+                            </tbody>  
                         </table>
-                        <br/><br/>
+                        <br/>
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!sharedForm.share_with.$dirty && sharedForm.share_with.$invalid) }">
                             <label>Employee</label>
                             <span class="input-icon icon-right">

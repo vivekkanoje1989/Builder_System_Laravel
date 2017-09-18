@@ -103,6 +103,7 @@ class ReportsController extends Controller {
         $open_count = 0;
         $booked_count = 0;
         $lost_count = 0;
+        $m_hold_count = 0;
         $total = 0;
         if (!empty($status_wise_query)) {
             foreach ($status_wise_query as $row) {
@@ -115,11 +116,13 @@ class ReportsController extends Controller {
                     $lost_count = $row->cnt;
                 } else if ($status == "New Enquiry") {
                     $m_new_count = $row->cnt;
+                } else if ($status == "Hold") {
+                    $m_hold_count = $row->cnt;
                 }
-                $total = $open_count + $booked_count + $lost_count + $m_new_count;
+                $total = $open_count + $booked_count + $lost_count + $m_new_count + $m_hold_count;
             }
         }
-        $status_wise_total[] = array('New' => $m_new_count, 'Open' => $open_count, 'Booked' => $booked_count, 'Lost' => $lost_count, 'Total' => $total);
+        $status_wise_total[] = array('new' => $m_new_count, 'open' => $open_count, 'booked' => $booked_count, 'lost' => $lost_count, 'hold' => $m_hold_count, 'Total' => $total);
 
         if (!empty($status_wise_total)) {
             $result = ['success' => true, 'records' => $status_wise_total];
@@ -135,18 +138,7 @@ class ReportsController extends Controller {
         $response = array();
         $condition = '';
         $employee_id = $request["employee_id"];
-        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
-            //print_r($request);exit;
-            $from_date = date('Y-m-d', strtotime($request['from_date']));
-            $to_date = date('Y-m-d', strtotime($request['to_date']));
-            $condition .= "(enquiries.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
-        }
 
-        if (!empty($request['flag'])) {
-            $flag = $request['flag'];
-        } else {
-            $flag = 0;
-        }
         //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id AND $condition GROUP BY e.sales_category_id";
         $category_wise_report = "SELECT enquiry.enquiry_category,enquiry.id FROM laravel_developement_master_edynamics.mlst_enquiry_sales_categories as enquiry";
         $category_wise_report = DB::select($category_wise_report);
@@ -154,7 +146,7 @@ class ReportsController extends Controller {
         $temp_array = array();
         $Total = 0;
         foreach ($category_wise_report as $sources) {
-            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_category_id = $sources->id AND enquiry_details.project_id =" . $request['project_id'] . " AND $condition";
+            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_category_id = $sources->id AND enquiry_details.project_id =" . $request['project_id'] . "";
             $category = DB::select($report);
 
 
@@ -181,18 +173,7 @@ class ReportsController extends Controller {
         $response = array();
         $condition = '';
         $employee_id = $request["employee_id"];
-        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
-            //print_r($request);exit;
-            $from_date = date('Y-m-d', strtotime($request['from_date']));
-            $to_date = date('Y-m-d', strtotime($request['to_date']));
-            $condition .= "(enquiries.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
-        }
 
-        if (!empty($request['flag'])) {
-            $flag = $request['flag'];
-        } else {
-            $flag = 0;
-        }
         //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id AND $condition GROUP BY e.sales_category_id";
         $status_wise_report = "SELECT enquiry.sales_status,enquiry.id FROM laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as enquiry";
         $status_wise_report = DB::select($status_wise_report);
@@ -201,7 +182,7 @@ class ReportsController extends Controller {
         $Total = 0;
         foreach ($status_wise_report as $status) {
             $salesStatus = $status->sales_status;
-            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_status_id = $status->id AND enquiry_details.project_id = $request[project_id] AND $condition";
+            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_status_id = $status->id AND enquiry_details.project_id = $request[project_id]";
             $status = DB::select($report);
             $enquiry_status = str_replace(' ', '_', $salesStatus);
             //$sales_source_name = $sources->sales_source_name;
@@ -226,18 +207,6 @@ class ReportsController extends Controller {
         $response = array();
         $condition = '';
         $employee_id = $request["employee_id"];
-        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
-            //print_r($request);exit;
-            $from_date = date('Y-m-d', strtotime($request['from_date']));
-            $to_date = date('Y-m-d', strtotime($request['to_date']));
-            $condition .= "(enquiries.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
-        }
-
-        if (!empty($request['flag'])) {
-            $flag = $request['flag'];
-        } else {
-            $flag = 0;
-        }
         //$category_wise_report = "SELECT count(*) as cnt, eqty.enquiry_category FROM laravel_developement_builder_client.enquiries e INNER JOIN laravel_developement_master_edynamics.mlst_enquiry_sales_categories as eqty ON e.sales_category_id = eqty.id WHERE e.sales_status_id IN(1,2) AND e.sales_employee_id = $employee_id AND $condition GROUP BY e.sales_category_id";
         $source_wise_report = "SELECT enquiry.sales_source_name,enquiry.id FROM laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as enquiry";
         $source_wise_report = DB::select($source_wise_report);
@@ -246,17 +215,17 @@ class ReportsController extends Controller {
         $Total = 0;
         foreach ($source_wise_report as $source) {
             $salesSource = $source->sales_source_name;
-            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_source_id = $source->id AND enquiry_details.project_id = $request[project_id] AND $condition";
+            $report = "SELECT  count(*) as cnt from enquiries INNER JOIN enquiry_details ON enquiry_details.enquiry_id = enquiries.id  where sales_source_id = $source->id AND enquiry_details.project_id = $request[project_id]";
             $status = DB::select($report);
             $enquiry_source = str_replace(' ', '_', $salesSource);
             //$sales_source_name = $sources->sales_source_name;
-
-            $post = array($enquiry_source => $status['0']->cnt);
-            $temp_array = array_merge($post, $temp_array);
-            $Total = $Total + $status['0']->cnt;
+            if ($status['0']->cnt > 0) {
+                $post = array($enquiry_source => $status['0']->cnt);
+                $temp_array = array_merge($post, $temp_array);
+                $Total = $Total + $status['0']->cnt;
+            }
         }
         $response['0'] = $temp_array;
-
         if (!empty($response)) {
             $result = ['success' => true, 'records' => $response, 'Total' => $Total];
             return json_encode($result);
@@ -267,6 +236,7 @@ class ReportsController extends Controller {
     }
 
     public function getSourceReport() {
+
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $response = array();
@@ -275,7 +245,7 @@ class ReportsController extends Controller {
         if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
             $from_date = date('Y-m-d', strtotime($request['from_date']));
             $to_date = date('Y-m-d', strtotime($request['to_date']));
-            $condition .= "(laravel_developement_builder_client.enquiries.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+            $condition .= "(enquiries.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
         }
 
         if (!empty($request['flag'])) {
@@ -283,36 +253,102 @@ class ReportsController extends Controller {
         } else {
             $flag = 0;
         }
-        //$source_wise_report = "SELECT  count(*) as cnt,laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources.sales_source_name 
-        //FROM laravel_developement_builder_client.enquiries RIGHT OUTER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources
-        // ON laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources.id = laravel_developement_builder_client.enquiries.sales_source_id 
-        // where laravel_developement_builder_client.enquiries.sales_employee_id = $employee_id AND $condition  
-        // GROUP BY laravel_developement_builder_client.enquiries.sales_source_id";
-        $source_wise_report = "SELECT enquiry.sales_source_name,enquiry.id FROM laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as enquiry";
+        $source_wise_report = "SELECT count(*) as cnt,laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources.sales_source_name,"
+                . "laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources.id FROM enquiries"
+                . " INNER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources "
+                . "WHERE enquiries.sales_source_id = laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources.id "
+                . "AND enquiries.sales_employee_id = '" . $employee_id . "' AND enquiries.sales_status_id IN (1,2,5)"
+                . "GROUP BY enquiries.sales_source_id ";
         $source_wise_report = DB::select($source_wise_report);
 
-        $temp_array = array();
-        $Total = 0;
-        foreach ($source_wise_report as $sources) {
-            $report = "SELECT  count(*) as cnt from enquiries where sales_source_id = $sources->id";
-            $source = DB::select($report);
+//        $temp_array = array();
+//        if (!empty($source_wise_report)) {
+//            foreach ($source_wise_report as $row) {
+//                $temp_array[] = $row;
+//            }
+//        }
+//        $response["source_wise_report"] = $temp_array;
 
+        $sourceReport = array();
+        foreach ($source_wise_report as $source) {
 
-            $sales_source_name = str_replace(' ', '_', $sources->sales_source_name);
-            //$sales_source_name = $sources->sales_source_name;
+            $sales_subsources = DB::table('enquiry_sales_sub_sources')->where('enquiry_sales_source_id', '=', $source->id)->get();
 
-            $post = array($sales_source_name => $source['0']->cnt);
-            $temp_array = array_merge($post, $temp_array);
-            $Total = $Total + $source['0']->cnt;
+            if (count($sales_subsources) > 0) {
+                $sReport = ['id' => $source->id, 'sales_source_name' => $source->sales_source_name, 'cnt' => $source->cnt, 'substatus' => '1'];
+                array_push($sourceReport, $sReport);
+            } else {
+                $sReport = ['id' => $source->id, 'sales_source_name' => $source->sales_source_name, 'cnt' => $source->cnt, 'substatus' => '0'];
+                array_push($sourceReport, $sReport);
+            }
         }
-        $response['0'] = $temp_array;
-        if (!empty($response)) {
-            $result = ['success' => true, 'records' => $response, 'Total' => $Total];
+
+
+        if (!empty($sourceReport)) {
+            $result = ['success' => true, 'records' => $sourceReport];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
             return json_encode($result);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+//        $postdata = file_get_contents("php://input");
+//        $request = json_decode($postdata, true);
+//        $response = array();
+//        $condition = '';
+//        $employee_id = $request["employee_id"];
+//        if (!empty($request['from_date']) && !empty($request['to_date']) && $request['to_date'] != "0000-00-00") {
+//            $from_date = date('Y-m-d', strtotime($request['from_date']));
+//            $to_date = date('Y-m-d', strtotime($request['to_date']));
+//            $condition .= "(laravel_developement_builder_client.enquiries.sales_enquiry_date BETWEEN '$from_date' AND '$to_date')";
+//        }
+//
+//        if (!empty($request['flag'])) {
+//            $flag = $request['flag'];
+//        } else {
+//            $flag = 0;
+//        }
+//        //$source_wise_report = "SELECT  count(*) as cnt,laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources.sales_source_name 
+//        //FROM laravel_developement_builder_client.enquiries RIGHT OUTER JOIN laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources
+//        // ON laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources.id = laravel_developement_builder_client.enquiries.sales_source_id 
+//        // where laravel_developement_builder_client.enquiries.sales_employee_id = $employee_id AND $condition  
+//        // GROUP BY laravel_developement_builder_client.enquiries.sales_source_id";
+//        $source_wise_report = "SELECT enquiry.sales_source_name,enquiry.id FROM laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as enquiry";
+//        $source_wise_report = DB::select($source_wise_report);
+//
+//        $temp_array = array();
+//        $Total = 0;
+//        foreach ($source_wise_report as $sources) {
+//            $report = "SELECT  count(*) as cnt from enquiries where sales_source_id = $sources->id";
+//            $source = DB::select($report);
+//
+//
+//            $sales_source_name = str_replace(' ', '_', $sources->sales_source_name);
+//            //$sales_source_name = $sources->sales_source_name;
+//
+//            $post = array($sales_source_name => $source['0']->cnt);
+//            $temp_array = array_merge($post, $temp_array);
+//            $Total = $Total + $source['0']->cnt;
+//        }
+//        $response['0'] = $temp_array;
+//        if (!empty($response)) {
+//            $result = ['success' => true, 'records' => $response, 'Total' => $Total];
+//            return json_encode($result);
+//        } else {
+//            $result = ['success' => false, 'message' => 'Something went wrong'];
+//            return json_encode($result);
+//        }
     }
 
     public function getMysalesreport() {

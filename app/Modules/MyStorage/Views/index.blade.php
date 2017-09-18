@@ -38,6 +38,7 @@
                         </div>
                     </div>
                 </div>
+                <center ng-if="directories.length == 0"><h1>No Record Found</h1></center>
             </div>
         </div>
     </div>
@@ -82,7 +83,7 @@
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <input type="hidden" ng-model="id" name="id"> 
                     <div class="modal-body">
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered" ng-if="folderSharedEmployees.length > 0">
                             <thead>
                                 <tr>
                                     <th>id</th>
@@ -96,8 +97,9 @@
                                     <td>{{Shared.first_name + ' ' + Shared.last_name}}</td>
                                     <td><a href="javascript:void(0)" ng-click="removeEmployees($index, Shared.employee_id, id);" class="btn btn-primary">Remove</a></td>
                                 </tr>
+                            </tbody>   
+                            <br/>
                         </table>
-                        <br/><br/>
                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!sharedForm.share_with.$dirty && sharedForm.share_with.$invalid) }">
                             <label>Employee</label>
                             <span class="input-icon icon-right">
