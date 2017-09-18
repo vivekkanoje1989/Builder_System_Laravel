@@ -752,11 +752,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.hideIcon = function (id) {
             if (id == 3 || id == 4) {
                 $(".checkLost").hide();
+                $("#footerContent").hide();
                 $scope.divEmail = false;
                 $scope.divSms = false;
                 $scope.divText = true;
             } else {
                 $(".checkLost").show();
+                $("#footerContent").show();
                 $scope.divText = true;
             }
         }

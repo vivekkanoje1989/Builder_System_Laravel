@@ -302,7 +302,7 @@
                                         <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!remarkForm.sales_status_id.$dirty && remarkForm.sales_status_id.$invalid)}">
                                             <label for="">Enquiry Status<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
-                                                <select class="form-control" ng-model="remarkData.sales_status_id" name="sales_status_id" ng-change="getSubStatus(remarkData.sales_status_id)" ng-click="hideIcon(remarkData.sales_status_id)" required ng-disabled="!booked">
+                                                <select class="form-control" ng-model="remarkData.sales_status_id" name="sales_status_id" id="sales_status_id" ng-change="getSubStatus(remarkData.sales_status_id)" ng-click="hideIcon(remarkData.sales_status_id)" required ng-disabled="!booked">
                                                     <option value="">Select Status</option>
                                                     <option ng-repeat="list in salesEnqStatusList" ng-if="list.id != 1" value="{{list.id}}" ng-selected="{{ list.id == remarkData.sales_status_id}}">{{list.sales_status}}</option>          
                                                 </select>
@@ -424,9 +424,9 @@
                                                     <span class="input-group-btn" >
                                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
-                                                    <div ng-message="required">Please select followup date</div>
-                                                </div>
+                                                    <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
+                                                        <div ng-message="required">Please select followup date</div>
+                                                    </div>
                                                 </p>
                                             </div>
                                         </div>
@@ -835,6 +835,7 @@
                                                     <a href ng-click="text()" class="atext"><img src="/images/text_blue.png" tooltip-placement="bottom" tooltip="Enter Remark" class="imgcls"/></a><span class="checkLost" ng-show="mobileList.length > 0 || mobileIcon">&nbsp; OR &nbsp;</span>
                                                     <a href ng-click="sms()" class="checkLost asms" ng-show="mobileList.length > 0 || mobileIcon"><img src="/images/sms_blue.png" tooltip-placement="bottom" tooltip="Send SMS" class="imgcls"/></a><span ng-show="emailList.length > 0 || emailIcon" class="checkLost">&nbsp; OR &nbsp;</span>
                                                     <a href ng-click="email()" class="checkLost aemail" ng-show="emailList.length > 0"><img src="/images/mail_blue.png" tooltip-placement="bottom" tooltip="Send Email" class="imgcls"/></a>
+                                                    <!--<a href style="float: right;"><i class="fa fa-plus"></i></a>-->
                                                 </div>
                                             </div>
                                             <div class="row" class="overlay">
