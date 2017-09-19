@@ -1,9 +1,9 @@
 <?php
 
 Route::group(array('module' => 'Reports', 'middleware' => ['auth:admin'], 'namespace' => 'App\Modules\Reports\Controllers'), function() {
-    $getUrl = config('global.getUrl');
+    
     //Pre sales my report
-    Route::get('/reports/getEnquiryReport', 'ReportsController@getEnquiryReport');
+    Route::get('/reports/getEnquiryReport', 'ReportsController@getEnquiryReport')->middleware("permission:09010101");
     Route::post('/reports/getCategoryReport', 'ReportsController@getCategoryReport');
     Route::post('/reports/getStatusReport', 'ReportsController@getStatusReport');
     Route::post('/reports/getSourceReport', 'ReportsController@getSourceReport');

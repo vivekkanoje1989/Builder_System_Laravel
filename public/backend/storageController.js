@@ -104,8 +104,9 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
                         $scope.folderSharedEmployees = [];
                         $scope.folderSharedEmployees.push({'first_name': response.empl.first_name, 'last_name': response.empl.last_name, 'id': id, 'employee_id': $scope.share_with});
                     }
+                    toaster.pop('success', 'My storage', 'Folder shared with '+response.empl.first_name+' '+response.empl.last_name);
                 } else {
-                    $scope.errorMsg = response.errorMsg;
+                    $scope.errorMsg = response.errorMsg;                    
                 }
             });
         };
@@ -153,11 +154,7 @@ app.controller('storageCtrl', ['$scope', 'Data', '$state', 'Upload', 'toaster', 
                 if (response.result)
                 {
                     toaster.pop('success', 'My storage', 'Record successfully restored');
-<<<<<<< HEAD
                     $state.transitionTo('storageListIndex');
-=======
-                    $state.go('recycleBin');
->>>>>>> 390d844db1de9079979c28215c8e5050a390d20e
                 }
             });
         };

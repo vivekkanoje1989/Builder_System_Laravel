@@ -5,27 +5,17 @@ namespace App\Modules\Marketing\Controllers;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Classes\CommonFunctions;
 use App\Classes\Gupshup;
-use Validator;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Http\UploadedFile;
-use File;
 use DB;
 use Auth;
 use App\Classes\S3;
-use App\Models\SmsLog;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PromotionalSMSController extends Controller {
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
     public static $procname;
 
     public function __construct() {
@@ -34,15 +24,6 @@ class PromotionalSMSController extends Controller {
 
     public function index() {
         return view("Marketing::index");
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create() {
-        //
     }
 
     /**
@@ -89,8 +70,8 @@ class PromotionalSMSController extends Controller {
 
             if (!empty($input['promotionalsmsData']['mobilenumbers'])) {
                 $wfileName = 'bulk_sms_file' . time() . '.' . $input['promotionalsmsData']['mobilenumbers']->getClientOriginalExtension();
-                $input['promotionalsmsData']['mobilenumbers']->move(base_path() . "/common/tunes/", $wfileName);
-                $file = base_path() . "/common/tunes/" . $wfileName;
+                $input['promotionalsmsData']['mobilenumbers']->move(base_path() . "/public/downloads/bulkSms/", $wfileName);
+                $file = base_path() . "/public/downloads/bulkSms/" . $wfileName;
             }
 
             $mobile = '';
@@ -98,7 +79,7 @@ class PromotionalSMSController extends Controller {
             if (!empty($input['loggedInUserId'])) {
 
                 $loggedInUserId = $input['loggedInUserId'];
-                $file = base_path() . "/common/tunes/" . $input['fileName'];
+                $file = base_path() . "/public/downloads/bulkSms/" . $input['fileName'];
                 $wfileName = $input['fileName'];
             } else {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -122,13 +103,13 @@ class PromotionalSMSController extends Controller {
 
             if (!empty($input['promotionalsmsData']['mobilenumbers'])) {
                 $wfileName = $input['promotionalsmsData']['mobilenumbers'];
-                $file = base_path() . "/public/downloads/" . $wfileName;
+                $file = base_path() . "/public/downloads/bulkSms/" . $wfileName;
             }
 
             if (!empty($input['loggedInUserId'])) {
 
                 $loggedInUserId = $input['loggedInUserId'];
-                $file = base_path() . "/public/downloads/" . $input['fileName'];
+                $file = base_path() . "/public/downloads/bulkSms/" . $input['fileName'];
                 $wfileName = $input['fileName'];
             } else {
                 $loggedInUserId = Auth::guard('admin')->user()->id;
@@ -152,40 +133,6 @@ class PromotionalSMSController extends Controller {
         }
     }
 
-    public function fileUpload() {
-
-        $folderName = '/bulk_sms_file';
-        $bulkfileName = S3::s3FileUploadForApp($_FILES['file'], $folderName, 1);
-        $target_file = base_path() . "/common/tunes/" . $bulkfileName;
-        move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
-        if (!empty($bulkfileName)) {
-            if ($bulkfileName) {
-                $awsurl = config('global.s3Path') . $folderName . $bulkfileName;
-                $result = ['success' => true, 'message' => 'Image uploaded', 'awsfileUrl' => $awsurl, 'fileName' => $bulkfileName];
-                return json_encode($result);
-            }
-        } else {
-            $result = ['success' => false, 'message' => 'Image not uploaded'];
-            return json_encode($result);
-        }
-    }
-
-    public function show($id) {
-        //
-    }
-
-    public function edit($id) {
-        //
-    }
-
-    public function update($id) {
-        //
-    }
-
-    public function destroy($id) {
-        //
-    }
-
     protected function guard() {
         return Auth::guard('admin');
     }
@@ -193,7 +140,6 @@ class PromotionalSMSController extends Controller {
     public function tuserid($id) {
         $admin = \App\Models\backend\Employee::where(['team_lead_id' => $id])->get();
         if (!empty($admin)) {
-
             foreach ($admin as $item) {
                 $this->allusers[$item->id] = $item->id;
                 $this->tuserid($item->id);
@@ -381,37 +327,6 @@ class PromotionalSMSController extends Controller {
         return json_encode($result);
     }
 
-    public function getSmslogsconsumption() {
-        $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
-
-        if (!empty($input['loggedInUserId']))
-            $loggedInUserId = $input['loggedInUserId'];
-        else
-            $loggedInUserId = Auth::guard('admin')->user()->id;
-
-        $startFrom = ($input['pageNumber'] - 1) * $input['itemPerPage'];
-
-        if ($input['isTeam'] == 1) {
-            $this->tuserid($loggedInUserId);
-            $alluser = $this->allusers;
-            $loggedInUserId = !empty($alluser) ? implode(',', $alluser) : $loggedInUserId;
-            $getsmsLogs = DB::select('CALL proc_smslogconsumption("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
-            $getCount = DB::select("select FOUND_ROWS() totalCount");
-            $getsmsCount = $getCount[0]->totalCount;
-        } else if ($input['isTeam'] == 0) {
-            $getsmsLogs = DB::select('CALL proc_smslogconsumption("' . $loggedInUserId . '",' . $startFrom . ',' . $input['itemPerPage'] . ',"","","")');
-            $getCount = DB::select("select FOUND_ROWS() totalCount");
-            $getsmsCount = $getCount[0]->totalCount;
-        }
-        if (!empty($getsmsLogs[0])) {
-            $result = ['success' => true, 'records' => $getsmsLogs, 'totalCount' => $getsmsCount];
-        } else {
-            $result = ['success' => false, 'records' => $getsmsLogs, 'totalCount' => $getsmsCount];
-        }
-        return json_encode($result);
-    }
-
     public function getFilterdataconsumption() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -459,7 +374,6 @@ class PromotionalSMSController extends Controller {
     }
 
     public function detaillog($id, $empid) {
-
         return view("Marketing::detaillog")->with(array('tranid' => $id, 'empid' => $empid));
     }
 
@@ -540,12 +454,9 @@ class PromotionalSMSController extends Controller {
 
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
-        // echo '<pre>';print_r($request); exit;
         $filterData = $request['filterData'];
 
-
         /* filter data from filter record */
-
         $request['pageNumber'] = ($request['pageNumber'] - 1) * $request['itemPerPage'];
 
         $externalId1 = !empty($request['externalId1']) ? $request['externalId1'] : "";
@@ -578,20 +489,11 @@ class PromotionalSMSController extends Controller {
         return view("Marketing::teamsmslogs");
     }
 
-    public function smslogconsumption() {
-        return view("Marketing::smslogconsumption");
-    }
-
-    public function teamsmslogconsumption() {
-        return view("Marketing::teamsmslogconsumption");
-    }
-
     public function getcustomerFilterdata() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
 
         $filterData = $request['filterData'];
-
 
         if (!empty($request['loggedInUserId']))
             $loggedInUserId = $request['loggedInUserId'];
@@ -624,8 +526,7 @@ class PromotionalSMSController extends Controller {
             $filterData["verifiedEmailId"] = !empty($filterData['verifiedEmailId']) ? $filterData['verifiedEmailId'] : "0";
             $filterData["lfromDate"] = !empty($filterData['lfromDate']) ? date('Y-m-d', strtotime($filterData['lfromDate'])) : "";
             $filterData["ltoDate"] = !empty($filterData['ltoDate']) ? date('Y-m-d', strtotime($filterData['ltoDate'])) : "";
-            //echo '<pre>';print_r($filterData);
-
+            
             $customercontactDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["customerFirstName"] . '","' . $filterData['customerLastName'] . '","' . $filterData["mobileNumber"] . '","' . $filterData["emailId"] . '","' . $filterData["verifiedMobNo"] . '","' .
                             $filterData["verifiedEmailId"] . '","' . $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' . $filterData["model_id"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' . $filterData["test_drive_given"] . '","' . $filterData['status_id'] . '","' . $filterData["substatus_id"] . '","' . $filterData['company_name'] . '")');
 
@@ -662,22 +563,16 @@ class PromotionalSMSController extends Controller {
                 });
             })->save('XLS', "downloads/");
 
-
             $customerphonefile = $filename . ".xls";
-
-
             if (!empty($customercontactDetails)) {
                 $result = ['success' => true, 'totalCount' => $getsmsCount, 'url' => $customerphonefile];
             } else {
                 $result = ['success' => false, 'totalCount' => $getsmsCount];
             }
-
-            return json_encode($result);
         } else {
-
             $result = ['success' => false, 'message' => 'something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
 }
