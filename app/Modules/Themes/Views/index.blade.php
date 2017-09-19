@@ -30,7 +30,7 @@
                 <div class="row table-toolbar">
                     <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
                     <a data-toggle="modal" id="editabledatatable_new" data-target="#themesModal" ng-click="initialModal(0, '', '')" class="btn btn-default">Create Themes</a>
-                    <div class="btn-group pull-right">
+                    <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href="" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>

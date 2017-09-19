@@ -22,7 +22,7 @@
                 
                 <div class="row table-toolbar">
                     <!--<a  href="[[ config('global.backendUrl') ]]#/employeeDevice/create" class="btn btn-default">Add Device</a>-->
-                    <div class="btn-group pull-right">
+                    <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>

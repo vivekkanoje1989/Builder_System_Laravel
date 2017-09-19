@@ -1991,8 +1991,15 @@ angular.module('app')
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(['toaster']).then(
-
-                                                        );
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
                                             }
                                         ]
                                     }

@@ -7,6 +7,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         $scope.exportMyRequest = '';
         $scope.exportData = '';
         $scope.request = {};
+        $scope.employeeRow = [];
+        $scope.employeeRow = [];
         $scope.getEmployees = function () {
 
             Data.get('request-leave/getEmployees').then(function (response) {

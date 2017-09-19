@@ -33,7 +33,7 @@
 
                 <div class="row table-toolbar">
                     <a title="Create bank account" class="btn btn-default" data-toggle="modal" ng-click="initialModel('0', '', '', '')" data-target="#bankAccountModal" >Create Bank Account</a>
-                    <div class="btn-group pull-right">
+                    <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>

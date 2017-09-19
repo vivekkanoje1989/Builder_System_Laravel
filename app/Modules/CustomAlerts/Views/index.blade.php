@@ -37,7 +37,7 @@
                                 </div><br>-->
                 <div class="row table-toolbar">
                     <a href="[[ config('global.backendUrl') ]]#/customalerts/create " class="btn btn-default">Create New Template</a>&nbsp;&nbsp;&nbsp;
-                    <div class="btn-group pull-right">
+                    <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
