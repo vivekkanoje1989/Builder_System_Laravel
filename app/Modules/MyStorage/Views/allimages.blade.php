@@ -91,7 +91,11 @@
                         </div>
                     </div>
                 </div> 
-                <center ng-if="subDirectories.length == 0"><h1>No Record Found</h1></center>
+                <div class="row" ng-if="subDirectories.length >= 0">
+                    <div class="col-md-12">
+                        <h3>Sub folder is empty</h3>
+                    </div>
+                </div>
                 <br/><br/>
                 <hr>
                 <h5 class="row-title ng-scope" ng-if="folderImages.length >= 0"><i class="fa fa-picture-o"></i>Images</h5>
@@ -106,7 +110,11 @@
                         </div>
                     </div>
                 </div>
-                <center ng-if="folderImages.length == 0"><h1>No Record Found</h1></center>
+                <div class="row" ng-if="folderImages.length == 0">
+                    <div class="col-md-12">
+                        <h3 >Images not found</h3>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

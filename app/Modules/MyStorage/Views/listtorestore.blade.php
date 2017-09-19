@@ -81,7 +81,9 @@
                                 <img title="Share " ng-src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
                             </a>
                             <span class="close" ng-click="deleteImages($index, imgs.id)">&times;</span>
-                            <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" target="_blank"> <img ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" height="100px;" width="100px;"></a>
+                            <a href="[[ config('global.s3Path') ]]/{{imgs.file_url}}" target="_blank"> 
+                                <img ng-src="[[ config('global.s3Path') ]]/{{imgs.file_url}}" height="100px;" width="100px;">
+                            </a>
                         </div>
                     </div>
                 </div>
