@@ -21,8 +21,8 @@
             <div class="widget-body table-responsive">
 
                 <div class="row table-toolbar">
-                    <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
-                    <div class="btn-group pull-right">
+                    <a  href="[[ config('global.backendUrl') ]]#/request-leave/index"  id="editabledatatable_new" class="btn btn-default">Request Leave</a>
+                    <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>

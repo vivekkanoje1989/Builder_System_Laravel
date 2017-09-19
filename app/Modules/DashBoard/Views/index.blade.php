@@ -15,14 +15,20 @@
                                     <div class="col-xs-12 ">
                                         <div class="form-group">
                                             <label>Application To <span class="sp-err">*</span></label>
-                                            <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.application_to.$dirty && requestLeave.application_to.$invalid) }">
+                                            <div class="form-group multi-sel-div" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.application_to.$dirty && requestLeave.application_to.$invalid) }">
                                                 <span class="input-icon icon-right">
-                                                    <ui-select ng-model="request.application_to" name="application_to" id="roleId"  theme="select2" ng-init="getEmployees()" style='width: 100%;' ng-change="getEmployeesCC()" required>                                        
-                                                        <ui-select-match placeholder="Select or Search Application to">{{$select.selected.first_name + " " + $select.selected.last_name + " " + "(" + $select.selected.designation + ")"}}</ui-select-match>
-                                                        <ui-select-choices repeat="itemone in employeeRow | filter: $select.search">
-                                                            <div ng-bind-html="itemone.first_name+' '+ itemone.last_name + '('+ itemone.designation+')' | highlight: $select.search" ></div>
+                                                    <!--                                                    <ui-select  ng-model="request.application_to" name="application_to" id="roleId"  theme="select2" ng-init="getEmployees()" style='width: 100%;' ng-change="getEmployeesCC()" required>                                        
+                                                                                                            <ui-select-match placeholder="Select or Search Application to">{{$select.selected.first_name + " " + $select.selected.last_name + " " + "(" + $select.selected.designation + ")"}}</ui-select-match>
+                                                                                                            <ui-select-choices repeat="itemone in employeeRow | filter: $select.search">
+                                                                                                                <div ng-bind-html="itemone.first_name+' '+ itemone.last_name + '('+ itemone.designation+')' | highlight: $select.search" ></div>
+                                                                                                            </ui-select-choices>
+                                                                                                        </ui-select> -->
+                                                    <ui-select multiple ng-model="request.application_to" name="application_to" theme="select2" ng-disabled="disabled" style="width: 100%;" ng-required="true"  ng-init="getEmployees()" ng-change="getEmployeesCC()">
+                                                        <ui-select-match placeholder="Select or Search Application to">{{$item.first_name + " " + $item.last_name + " " + "(" + $item.designation + ")"}}</ui-select-match>
+                                                        <ui-select-choices repeat="itemone in employeeRow | filter:$select.search" >
+                                                            {{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}} 
                                                         </ui-select-choices>
-                                                    </ui-select> 
+                                                    </ui-select>
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.application_to.$error">
                                                         <div ng-message="required">Application To is required</div>
                                                     </div>
@@ -36,19 +42,18 @@
                                         <div class="form-group">
                                             <label>Application CC </label>
                                             <span class="input-icon icon-right">
-                                                 <ui-select ng-model="request.application_cc" name="application_cc" id="roleId"  theme="select2"  style='width: 100%;' ng-change="getEmployeesCC()" required>                                        
-                                                        <ui-select-match placeholder="Select or Search Application cc">{{$select.selected.first_name + " " + $select.selected.last_name + " " + "(" + $select.selected.designation + ")"}}</ui-select-match>
-                                                        <ui-select-choices repeat="itemone in employeeRowCC | filter: $select.search">
-                                                            <div ng-bind-html="itemone.first_name+' '+ itemone.last_name + '('+ itemone.designation+')' | highlight: $select.search" ></div>
-                                                        </ui-select-choices>
-                                                    </ui-select> 
-                                                
-                                                
-<!--                                                <select class="form-control" ng-model="request.application_cc" name="application_cc" >
-                                                    <option value="">Select User</option>
-                                                    <option  ng-repeat="itemone in employeeRowCC" ng-selected="{{ application_cc == itemone.id}}" value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}}</option>
-                                                </select>
-                                                <i class="fa fa-sort-desc"></i>-->
+<!--                                                <ui-select ng-model="request.application_cc" name="application_cc" id="roleId"  theme="select2"  style='width: 100%;' ng-change="getEmployeesCC()" required>                                        
+                                                    <ui-select-match placeholder="Select or Search Application cc">{{$select.selected.first_name + " " + $select.selected.last_name + " " + "(" + $select.selected.designation + ")"}}</ui-select-match>
+                                                    <ui-select-choices repeat="itemone in employeeRowCC | filter: $select.search">
+                                                        <div ng-bind-html="itemone.first_name+' '+ itemone.last_name + '('+ itemone.designation+')' | highlight: $select.search" ></div>
+                                                    </ui-select-choices>
+                                                </ui-select> -->
+                                                <ui-select multiple ng-model="request.application_cc" name="application_cc" theme="select2" ng-disabled="disabled" style="width: 100%;" ng-required="true" required>
+                                                    <ui-select-match placeholder="Select or Search Application CC">{{$item.first_name + " " + $item.last_name + " " + "(" + $item.designation + ")"}}</ui-select-match>
+                                                    <ui-select-choices repeat="itemone in employeeRow | filter:$select.search" >
+                                                        {{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}} 
+                                                    </ui-select-choices>
+                                                </ui-select>
                                                 <br/>
                                             </span>
                                         </div>
@@ -59,7 +64,7 @@
                                             <label>Application Start Date<span class="sp-err">*</span></label>
                                             <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.from_date.$dirty || requestLeave.from_date.$invalid)}">
                                                 <p class="input-group">
-                                                    <input type="text" ng-model="request.from_date" name="from_date" min-date=minDate id="from_date" class="form-control" datepicker-popup="{{format}}" ui-date="dateOptions" is-open="opened"  close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly required/>
+                                                    <input type="text" ng-model="request.from_date" name="from_date" min-date=minDate id="from_date" class="form-control" datepicker-popup="dd-MM-yyyy" ui-date="dateOptions" is-open="opened"  close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly required/>
                                                     <span class="input-group-btn" >
                                                         <button type="button" class="btn btn-default" ng-click="open($event);"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
@@ -76,7 +81,7 @@
                                             <label>Application End Date<span class="sp-err">*</span></label>
                                             <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.to.$dirty || requestLeave.to.$invalid)}">
                                                 <p class="input-group">
-                                                    <input type="text" ng-model="request.to_date"  min-date="request.from_date" name="to" id="to_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                                    <input type="text" ng-model="request.to_date"  min-date="request.from_date" name="to" id="to_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened"  datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
                                                     <span class="input-group-btn">
                                                         <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>

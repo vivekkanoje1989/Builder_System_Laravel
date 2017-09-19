@@ -7,6 +7,9 @@
         width: 100% !important;
         position: absolute;
     }
+    #slideout {
+        height : 100% !important
+    }
 </style>
   <!-- listType
     1   --- todays folloups
