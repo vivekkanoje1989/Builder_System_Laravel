@@ -10,6 +10,7 @@ use DB;
 use Auth;
 use App\Classes\CommonFunctions;
 use Excel;
+use App\Models\backend\Employee;
 
 class DashBoardController extends Controller {
 
@@ -32,13 +33,27 @@ class DashBoardController extends Controller {
     public function store() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-        $uid = $request['uid']['id'];
-        $cc = $request['cc']['id'];
+
+        $userId = array();
+        $userCCId = array();
+        foreach ($request['uid'] as $uid) {
+            $userid = $uid['id'];
+            array_push($userId, $userid);
+        }
+        $uid = implode(',', $userId);
+        $request['uid']['id'] = $uid;
+        foreach ($request['cc'] as $cc) {
+            $userCCid = $cc['id'];
+            array_push($userCCId, $userCCid);
+        }
+        $cc = implode(',', $userCCId);
+        $request['uid']['id'] = $cc;
         if (!empty($request["loggedInUserId"])) {
             $loggedInUserId = $request["loggedInUserId"];
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
         }
+
         unset($request['uid']);
         unset($request['cc']);
         $request['uid'] = $uid;
@@ -49,6 +64,23 @@ class DashBoardController extends Controller {
         $input['employeeData']['in_date'] = date("Y-m-d") . " " . date("h-i-s");
 
         $employee_request = EmployeeRequest::create($input['employeeData']);
+
+        $templatedata['employee_id'] = $request['uid'];
+        $templatedata['client_id'] = config('global.client_id');
+        $templatedata['template_setting_customer'] = 0;
+        $templatedata['template_setting_employee'] = 25;
+        $templatedata['event_id_customer'] = 0;
+        $templatedata['event_id_employee'] = 7;
+        $templatedata['customer_id'] = 0;
+        $templatedata['model_id'] = 0;
+        $templatedata['arrExtra'][0] = array(
+            '[#employeeRegistrationLink#]'
+        );
+        $templatedata['arrExtra'][1] = array(
+            //$return_val['id'],
+            $return_val
+        );
+        $result = CommonFunctions::templateData($templatedata);
         if (!empty($employee_request)) {
             $result = ['status' => true, 'records' => $employee_request];
         } else {
@@ -65,9 +97,9 @@ class DashBoardController extends Controller {
                 ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
                 ->where('db2.id', '!=', $loggedInUserId)
                 ->get();
-        $i=0;
-        foreach($employees as $employee){
-            $employees[$i]->employeeName = $employee->first_name.' '.$employee->last_name;
+        $i = 0;
+        foreach ($employees as $employee) {
+            $employees[$i]->employeeName = $employee->first_name . ' ' . $employee->last_name;
             $i++;
         }
 
@@ -101,11 +133,30 @@ class DashBoardController extends Controller {
     public function otherApproval() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
+        $userId = array();
+        $userCCId = array();
+        foreach ($request['uid'] as $uid) {
+            $userid = $uid['id'];
+            array_push($userId, $userid);
+        }
+        $uid = implode(',', $userId);
+        $request['uid']['id'] = $uid;
+        foreach ($request['cc'] as $cc) {
+            $userCCid = $cc['id'];
+            array_push($userCCId, $userCCid);
+        }
+        $cc = implode(',', $userCCId);
+        $request['uid']['id'] = $cc;
         if (!empty($request["loggedInUserId"])) {
             $loggedInUserId = $request["loggedInUserId"];
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
         }
+        unset($request['uid']);
+        unset($request['cc']);
+        $request['uid'] = $uid;
+        $request['cc'] = $cc;
+
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['employeeData'] = array_merge($request, $create);
         $input['employeeData']['in_date'] = date("Y-m-d") . " " . date("h-i-s");
@@ -126,20 +177,35 @@ class DashBoardController extends Controller {
             $loggedInUserId = $request['loggedInUserID'];
         else
             $loggedInUserId = Auth::guard('admin')->user()->id;
-        $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
-                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
-                ->where('request.created_by', '=', $loggedInUserId)
-                ->get();
+//        $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+//                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
+//                ->where('request.created_by', '=', $loggedInUserId)
+//                ->get();
+//        $employees = EmployeeRequest::select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status',
+//                'select GROUP_CONCAT(id) from employee where id IN (request.uid)')
+//                ->where('request.created_by', '=', $loggedInUserId)                
+//                ->get();
+//       $employees = EmployeeRequest::leftJoin('employees', function($join){$join->on(DB::raw("find_in_set(employees.id, request.uid)"));})
+//                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
+//                ->where('request.created_by', '=', $loggedInUserId)
+//                ->get();
+        
+        $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = 1";
+           $employees = DB::select($report);
+//           print_r($employees);
+        
+//       $employees= "select  request.id, GROUP_CONCAT(employee.name ORDER BY employee.id) DepartmentName from request left join employees GROUP BY request.id";
+                
         $i = 0;
         foreach ($employees as $employee) {
-            $employees[$i]['application_to'] = $employee['first_name'] . ' ' . $employee['last_name'];
+            $employees[$i]->application_to = $employee->first_name . ' ' . $employee->last_name;
             $i++;
         }
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
-        }else{
-              $export = '';
+        } else {
+            $export = '';
         }
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees, 'exportData' => $export];
@@ -183,8 +249,8 @@ class DashBoardController extends Controller {
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
-        }else{
-              $export = '';
+        } else {
+            $export = '';
         }
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees, 'exportData' => $export];

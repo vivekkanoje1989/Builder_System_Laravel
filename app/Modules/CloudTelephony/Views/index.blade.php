@@ -1,16 +1,29 @@
-
+<style>
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
+</style>
 <div class="row" ng-controller="cloudtelephonyController" ng-init="manageLists('', 'index')">
 
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
 
-            <div class="widget-header ">
+            <div class="widget-header bordered-themeprimary bordered-bottom ">
                 <span class="widget-caption">Manage Virtual Numbers</span>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
                     <!--<a href="" data-toggle="modal" data-target="#bloodGroupModal" ng-click="initialModal(0, '', '')" class="btn btn-default">Add Blood Group</a>-->
-                    <a href="[[ config('global.backendUrl') ]]#/cloudtelephony/create" class="btn btn-default">Create New</a><br><br>
+                    <a href="[[ config('global.backendUrl') ]]#/cloudtelephony/create" class="btn btn-default">Create New</a>
                     <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
                     <div class="btn-group pull-right">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
@@ -37,14 +50,19 @@
                         </label>
                     </div>
                     <!-- filter data--> 
-                    <div class="row" style="border:2px;" id="filter-show" ng-controller="adminController">
+                    <div class="row" style="border:2px;" id="filter-show" >
                         <div class="col-sm-12 col-xs-12">
-                            <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
+                            <b ng-repeat="(key, value) in searchData">
                                 <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
-                                        <strong ng-if="key === 'blood_group'" data-toggle="tooltip" title="Blood Group"><strong> Blood Group : </strong> {{ value}}</strong>
-                                    </div>
+                                        <strong ng-if="key === 'marketing_name'" data-toggle="tooltip" title="Client Name"><strong> Client Name : </strong> {{ value}}</strong>
+                                        <strong ng-if="key === 'virtual_number'" data-toggle="tooltip" title="Virtual Number"><strong> Virtual Number : </strong> {{ value}}</strong>
+                                        <strong ng-if="key === 'default_number'" data-toggle="tooltip" title="Default Number"><strong> Default Number : </strong> {{ searchData.default_number == 1? 'Yes':'No'}} </strong>
+                                        <strong ng-if="key === 'activation_date'" data-toggle="tooltip" title="Activation Date"><strong> Activation Date : </strong> {{ value}}</strong>
+                                     <strong ng-if="key === 'incoming_call_status'" data-toggle="tooltip" title="Incoming Call Status"><strong> Incoming Call Status : </strong> {{ searchData.incoming_call_status == 1? 'Yes':'No'}} </strong>
+                                     <strong ng-if="key === 'outbound_call_status'" data-toggle="tooltip" title="Outbound Call Status"><strong> Outbound Call Status : </strong> {{ searchData.outbound_call_status == 1? 'Yes':'No'}} </strong>
+                                       </div>
                                 </div>
                             </b>                        
                         </div>
@@ -82,7 +100,7 @@
                                     </a>
                                 </th>
                                 <th style="width: 10%"> 
-                                    <a href="javascript:void(0);" ng-click="orderByField('virtual_number')">Default Number
+                                    <a href="javascript:void(0);" ng-click="orderByField('default_number')">Default Number
                                         <span ><img ng-hide="(sortKey == 'default_number' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'default_number' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'default_number' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
@@ -112,13 +130,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listNumber in listNumbers | filter:search | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
+                            <tr role="row" dir-paginate="listNumber in listNumbers | filter:search |filter:searchData| itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td> 
                                 <td>{{ listNumber.marketing_name}}</td>
                                 <td>{{ listNumber.virtual_number}}</td>
                                 <td ng-if="listNumber.default_number == 1">Yes</td>
                                 <td ng-if="listNumber.default_number == 0">No</td>
-                                <td>{{ listNumber.activation_date | date:'dd-MM-yyyy' }}</td>
+                                <td>{{ listNumber.activation_date }}</td>
                                 <td ng-if="listNumber.incoming_call_status == 1">Yes</td>
                                 <td ng-if="listNumber.incoming_call_status == 0">No</td>
                                 <td ng-if="listNumber.outbound_call_status == 1">Yes</td>
@@ -145,6 +163,100 @@
             </div>
         </div>
     </div>
+    <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="calllogsFilterform" role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
+            <strong>Filter</strong>
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+            <div class="row">
+                <div class="col-sm-12 col-sx-12">
+                    <div class="form-group">
+                        <label for="">Select Client</label>
+                        <span class="input-icon icon-right">
+                            <select ng-controller="clientCtrl" ng-model="searchDetails.marketing_name" name="marketing_name" class="form-control">
+                                <option value="">Select Client</option>
+                                <option ng-repeat="client in clients" value="{{client.marketing_name}}">{{client.marketing_name}}</option>
+                            </select>
+                            <i class="fa fa-sort-desc"></i>
+                        </span> 
+                    </div>
+                </div>
+                <div class="col-sm-12 col-sx-12" >
+                    <div class="form-group">
+                        <label for="">Virtual Number</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.virtual_number" name="virtual_number" class="form-control"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')">
+                        </span>
+                    </div>
+                </div>    
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Default Number</label>
+                        <span class="input-icon icon-right">
+                            <select ng-model="searchDetails.default_number" name="default_number" class="form-control">
+                                <option value="">Select </option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <i class="fa fa-sort-desc"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12" ng-controller="DatepickerDemoCtrl">
+                    <div class="form-group">
+                        <label for="">Activation Date</label>
+                        <span class="input-icon icon-right">
+                            <p class="input-group">
+                                <input type="text" ng-model="searchDetails.activation_date" placeholder="Activation Date" name="activation_date" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-change="clearToDate()" ng-click="toggleMin()" readonly/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Incoming Call Status</label>
+                        <span class="input-icon icon-right">
+                            <select ng-model="searchDetails.incoming_call_status" name="incoming_call_status" class="form-control">
+                                <option value="">Select </option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <i class="fa fa-sort-desc"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Outbound Call Status</label>
+                        <span class="input-icon icon-right">
+                            <select ng-model="searchDetails.outbound_call_status" name="outbound_call_status" class="form-control">
+                                <option value="">Select </option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                            <i class="fa fa-sort-desc"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" align="center">
+                            <button type="submit" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/js/filterSlider.js"></script>
+    <!-- Filter Form End-->
 </div>
 
 

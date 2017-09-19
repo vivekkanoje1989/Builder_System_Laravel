@@ -26,7 +26,7 @@
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
-                    <div class="btn-group pull-right">
+                    <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
 

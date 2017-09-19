@@ -13,39 +13,45 @@
                             <div class="col-xs-12 ">
                                 <div class="form-group">
                                     <label>Application To <span class="sp-err">*</span></label>
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.application_to.$dirty && requestLeave.application_to.$invalid) }">
+                                    <div class="form-group multi-sel-div" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.application_to.$dirty && requestLeave.application_to.$invalid) }">
                                         <span class="input-icon icon-right">
-                                            <ui-select ng-model="request.application_to" name="application_to" id="roleId"  theme="select2" ng-init="getEmployees()" style='width: 100%;' ng-change="getEmployeesCC()" required>                                        
-                                                <ui-select-match placeholder="Select or Search applicatio to">{{$select.selected.first_name + " " + $select.selected.last_name + " " + "(" + $select.selected.designation + ")"}}</ui-select-match>
-                                                <ui-select-choices repeat="itemone in employeeRow | filter: $select.search">
-                                                    <div ng-bind-html="itemone.first_name+' '+ itemone.last_name + '('+ itemone.designation+')' | highlight: $select.search" ></div>
+                                            <!--                                                    <ui-select  ng-model="request.application_to" name="application_to" id="roleId"  theme="select2" ng-init="getEmployees()" style='width: 100%;' ng-change="getEmployeesCC()" required>                                        
+                                                                                                    <ui-select-match placeholder="Select or Search Application to">{{$select.selected.first_name + " " + $select.selected.last_name + " " + "(" + $select.selected.designation + ")"}}</ui-select-match>
+                                                                                                    <ui-select-choices repeat="itemone in employeeRow | filter: $select.search">
+                                                                                                        <div ng-bind-html="itemone.first_name+' '+ itemone.last_name + '('+ itemone.designation+')' | highlight: $select.search" ></div>
+                                                                                                    </ui-select-choices>
+                                                                                                </ui-select> -->
+                                            <ui-select multiple ng-model="request.application_to" name="application_to" theme="select2" ng-disabled="disabled" style="width: 100%;" ng-required="true"  ng-init="getEmployees()" ng-change="getEmployeesCC()">
+                                                <ui-select-match placeholder="Select or Search Application to">{{$item.first_name + " " + $item.last_name + " " + "(" + $item.designation + ")"}}</ui-select-match>
+                                                <ui-select-choices repeat="itemone in employeeRow | filter:$select.search" >
+                                                    {{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}} 
                                                 </ui-select-choices>
-                                            </ui-select> 
+                                            </ui-select>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.application_to.$error">
                                                 <div ng-message="required">Application To is required</div>
                                             </div>
                                             <br/>
                                         </span>
                                     </div>
+
                                 </div>
                             </div>
-                            <div class="col-xs-12">
+                            <div class=" col-xs-12">
                                 <div class="form-group">
-                                    <label>Application CC</label>
+                                    <label>Application CC </label>
                                     <span class="input-icon icon-right">
-                                        <ui-select ng-model="request.application_cc" name="application_cc" id="roleId"  theme="select2"  style='width: 100%;' ng-change="getEmployeesCC()" required>                                        
-                                            <ui-select-match placeholder="Select or Search Application cc">{{$select.selected.first_name + " " + $select.selected.last_name + " " + "(" + $select.selected.designation + ")"}}</ui-select-match>
-                                            <ui-select-choices repeat="itemone in employeeRowCC | filter: $select.search">
-                                                <div ng-bind-html="itemone.first_name+' '+ itemone.last_name + '('+ itemone.designation+')' | highlight: $select.search" ></div>
+                                        <!--                                                <ui-select ng-model="request.application_cc" name="application_cc" id="roleId"  theme="select2"  style='width: 100%;' ng-change="getEmployeesCC()" required>                                        
+                                                                                            <ui-select-match placeholder="Select or Search Application cc">{{$select.selected.first_name + " " + $select.selected.last_name + " " + "(" + $select.selected.designation + ")"}}</ui-select-match>
+                                                                                            <ui-select-choices repeat="itemone in employeeRowCC | filter: $select.search">
+                                                                                                <div ng-bind-html="itemone.first_name+' '+ itemone.last_name + '('+ itemone.designation+')' | highlight: $select.search" ></div>
+                                                                                            </ui-select-choices>
+                                                                                        </ui-select> -->
+                                        <ui-select multiple ng-model="request.application_cc" name="application_cc" theme="select2" ng-disabled="disabled" style="width: 100%;" ng-required="true" required>
+                                            <ui-select-match placeholder="Select or Search Application CC">{{$item.first_name + " " + $item.last_name + " " + "(" + $item.designation + ")"}}</ui-select-match>
+                                            <ui-select-choices repeat="itemone in employeeRow | filter:$select.search" >
+                                                {{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}} 
                                             </ui-select-choices>
-                                        </ui-select> 
-
-
-<!--                                                <select class="form-control" ng-model="request.application_cc" name="application_cc" >
-    <option value="">Select User</option>
-    <option  ng-repeat="itemone in employeeRowCC" ng-selected="{{ application_cc == itemone.id}}" value="{{itemone.id}}">{{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}}</option>
-</select>
-<i class="fa fa-sort-desc"></i>-->
+                                        </ui-select>
                                         <br/>
                                     </span>
                                 </div>

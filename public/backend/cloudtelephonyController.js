@@ -44,13 +44,9 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-            if (search.joining_date != undefined) {
-                var today = new Date(search.joining_date);
-                search.joining_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + today.getDate());
-            }
-            if (search.login_date_time != undefined) {
-                var loginDate = new Date(search.login_date_time);
-                search.login_date_time = (loginDate.getDate() + '-' + ("0" + (loginDate.getMonth() + 1)).slice(-2) + '-' + loginDate.getFullYear());
+            if (search.activation_date != undefined) {
+                var today = new Date(search.activation_date);
+                search.activation_date = (today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + (today.getDate())).slice(-2));
             }
             $scope.searchData = search;
             $scope.searchLength = $scope.searchData.length;
@@ -289,7 +285,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 var vnumberId = id;
                 $state.go('nonworkingUpdate', {'id': vnumberId});
             } else {
-               
+
             }
         }
 
