@@ -12,6 +12,12 @@ app.controller('propertyPortalsController', ['$scope', '$state', 'Data', '$timeo
                 $scope.listPortals = response.records;
             });
         }
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
         $scope.changestatus = function (status, id)
         {
             var ischk = document.getElementById('statuschk' + id).checked;

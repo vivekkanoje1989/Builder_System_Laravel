@@ -12,9 +12,16 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
                 } else {
                     $scope.ct_employee_extlist = response.records;
                     $scope.exportEmpExtensionData = response.exportData;
+                    $scope.deleteData = response.delete;
                 }
             });
         }
+        
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
         $scope.employeeExtExportToxls = function () {
             $scope.getexcel = window.location = "employeeExtExportToxls";
             if ($scope.getexcel) {

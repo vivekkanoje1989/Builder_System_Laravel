@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Auth;
 use Validator;
+use Excel;
 use App\Classes\CommonFunctions;
 use App\Classes\S3;
 
@@ -25,12 +26,14 @@ class CustomersController extends Controller {
 
     public function manageCustomer() {
 //        $result = Customers::select('*')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')->get();
-      
-        $result = Customers::select('id','first_name', 'last_name', 'sms_privacy_status', 'email_privacy_status', 'title_id', 'source_id', 'profession_id')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')->get();
-       $customerDetails = array();
+
+        $result = Customers::select('id', 'first_name', 'last_name', 'sms_privacy_status', 'email_privacy_status', 'title_id', 'source_id', 'profession_id')->with('getTitle', 'getProfession', 'getSource')
+                ->where('deleted_status', '!=', 1)
+                ->orderBy('id', 'ASC')->get();
+        $customerDetails = array();
         for ($i = 0; $i < count($result); $i++) {
             $customerData['id'] = $result[$i]['id'];
-            $customerData['firstName'] = $result[$i]['first_name'].' '.$result[$i]['last_name'];
+            $customerData['firstName'] = $result[$i]['first_name'] . ' ' . $result[$i]['last_name'];
             $customerData['profession'] = $result[$i]['getProfession']['profession'];
             $customerData['title'] = $result[$i]['getTitle']['title'];
             $customerData['sales_source_name'] = $result[$i]['getSource']['sales_source_name'];
@@ -38,10 +41,76 @@ class CustomersController extends Controller {
             $customerData['email_privacy_status'] = $result[$i]['email_privacy_status'];
             $customerDetails[] = $customerData;
         }
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $export = 1;
+        } else {
+            $export = '';
+        }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($customerDetails)) {
-            return json_encode(['result' => $customerDetails, 'status' => true]);
+            return json_encode(['result' => $customerDetails, 'status' => true,'exportData'=>$export,'delete'=>$deleteBtn]);
         } else {
             return json_encode(['mssg' => 'No records found', 'status' => false]);
+        }
+    }
+
+    public function deleteCustomer() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['bloodGrpData'] = array_merge($request, $create);
+        $bloodGrps = Customers::where('id', $request['id'])->update($input['bloodGrpData']);
+        $result = ['success' => true, 'result' => $bloodGrps];
+        return json_encode($result);
+    }
+    
+    
+    public function customerDetailsExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $result = Customers::select('id', 'first_name', 'last_name', 'sms_privacy_status', 'email_privacy_status', 'title_id', 'source_id', 'profession_id')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')->get();
+            $customerDetails = array();
+            $result = json_decode(json_encode($result), true);
+//            print_r($result);die();
+            $j=1;
+            for ($i = 0; $i < count($result); $i++) {
+                $customerData['id'] = $j++;
+                $customerData['Title'] = $result[$i]['get_title']['title'];
+                $customerData['Customer Name'] = $result[$i]['first_name'] . ' ' . $result[$i]['last_name'];
+                $customerData['Profession'] = $result[$i]['get_profession']['profession'];
+                $customerData['Source'] = $result[$i]['get_source']['sales_source_name'];
+                if ($result[$i]['sms_privacy_status'] == '1') {
+                    $customerData['Sms Status'] = 'Yes';
+                } else {
+                    $customerData['Sms Status'] = 'No';
+                }
+                if ($result[$i]['email_privacy_status'] == '1') {
+                    $customerData['Email Status'] = 'Yes';
+                } else {
+                    $customerData['Email Status'] = 'No';
+                }
+                $customerDetails[] = $customerData;
+            }
+            $getCount = Customers::select('id', 'first_name', 'last_name', 'sms_privacy_status', 'email_privacy_status', 'title_id', 'source_id', 'profession_id')->with('getTitle', 'getProfession', 'getSource')->orderBy('id', 'ASC')
+                    ->get()
+                    ->count();
+
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Customer Details', function($excel) use($customerDetails) {
+                    $excel->sheet('sheet1', function($sheet) use($customerDetails) {
+                        $sheet->fromArray($customerDetails);
+                    });
+                })->download('xls');
+            }
         }
     }
 

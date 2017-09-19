@@ -137,52 +137,59 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th>
                                 <th style="width: 15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'call_date'; reverseSort = !reverseSort">Call Date & Time
-                                        <span ng-show="orderByField == 'call_date'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('call_date')">Call Date & Time
+                                        <span ><img ng-hide="(sortKey == 'call_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'call_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'call_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'virtual_number'; reverseSort = !reverseSort">Virtual Number
-                                        <span ng-show="orderByField == 'virtual_number'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('virtual_number')">Virtual Number
+                                        <span ><img ng-hide="(sortKey == 'virtual_number' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'virtual_number' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'virtual_number' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'customer_number'; reverseSort = !reverseSort">Customer Number
-                                        <span ng-show="orderByField == 'customer_number'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('customer_number')">Customer Number
+                                        <span ><img ng-hide="(sortKey == 'customer_number' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_number' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_number' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'customer_name'; reverseSort = !reverseSort">Customer Name
-                                        <span ng-show="orderByField == 'customer_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('customer_name')">Customer Name
+                                        <span ><img ng-hide="(sortKey == 'customer_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'customer_call_status'; reverseSort = !reverseSort">Call Status
-                                        <span ng-show="orderByField == 'customer_call_status'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('customer_call_status')">Call Status
+                                        <span ><img ng-hide="(sortKey == 'customer_call_status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_call_status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_call_status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'employee_name'; reverseSort = !reverseSort">Call Answered By
-                                        <span ng-show="orderByField == 'employee_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('employee_name')">Call Answered By
+                                        <span ><img ng-hide="(sortKey == 'employee_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'employee_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'employee_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'customer_call_duration'; reverseSort = !reverseSort">Call Duration
-                                        <span ng-show="orderByField == 'customer_call_duration'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('customer_call_duration')">Call Duration
+                                        <span ><img ng-hide="(sortKey == 'customer_call_duration' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_call_duration' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'customer_call_duration' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">Recording</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr dir-paginate="inbound in teaminboundList | filter:search | filter:searchData | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort"  >
+                            <tr dir-paginate="inbound in teaminboundList | filter:search | filter:searchData | itemsPerPage: itemsPerPage | orderBy:sortKey:reverseSort"  >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{ inbound.call_date + ' @ ' + inbound.call_time}}<br>
                                     <span ng-if="inbound.customer_call_status == 'Non Working Hours Call'">( Non Working Hours Call )</span></td>
@@ -195,8 +202,8 @@
                                 <td>{{ inbound.customer_call_duration}}</td>
                                 <td><audio id="teamobject_{{ inbound.id}}" controls></audio></td>
                             </tr>
-                           <tr>
-                                <td colspan="9"  ng-show="(teaminboundList|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            <tr>
+                                <td colspan="9"  ng-show="(teaminboundList|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table><br>

@@ -31,8 +31,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.remarkData = {};
         $scope.remarkData.sms_privacy_status = 1;
         $scope.remarkData.email_privacy_status = 1;
-        
-        
+
+
         $scope.cloudCallingLog = function (modules, employee_id, enquire_id, customer_id, sequence) {
             Data.post('cloudcallinglogs/outboundCalltrigger', {
                 modules: modules, employee_id: employee_id, enquire_id: enquire_id, customer_id: customer_id, sequence: sequence
@@ -40,8 +40,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 var successMsg = response.message;
                 toaster.pop('success', 'Call Status', successMsg);
             });
-        }       
-        
+        }
+
         $scope.changeSmsPrivacyStatus = function (val) {
             $scope.remarkData.sms_privacy_status = val;
         }
@@ -158,6 +158,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
+                    $scope.callBtnPermission = response.callBtnPermission;
+                    $scope.displayMobilePermission = response.displayMobilePermission;
+                    $scope.displayEmailPermission = response.displayMobilePermission;
                 } else
                 {
                     $scope.enquiries = '';
@@ -189,6 +192,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
+                    $scope.displayCallBtn = response.displayCallBtn;
+                    $scope.MobileNopermissions = response.MobileNopermissions;
+                    $scope.Emailpermissions = response.MobileNopermissions;
                 } else
                 {
                     $scope.enquiries = '';
@@ -215,6 +221,12 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
+                    $scope.outBoundCallBtn = response.outBoundCall;
+                    $scope.displayMobileNo = response.displayMobile;
+                    $scope.displayEmailId = response.displayMobile;
+//                    console.log($scope.displayMobileNo);
+//                    $scope.displaymobileNo = $scope.userpermissions.indexOf("01406");
+//                    $scope.displayemail = $scope.userpermissions.indexOf("01406");
                 } else
                 {
                     $scope.enquiries = '';
@@ -241,6 +253,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
+                    $scope.displayMobileN = response.displayMobileN;
+                    $scope.callBtnPermission = response.callBtnPermission;
+                    $scope.emailPermission = response.emailPermission;
                 } else
                 {
                     $scope.enquiries = '';
@@ -267,6 +282,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
+                    $scope.callBtnPermissions = response.callBtnPermissions;
+                    $scope.displayMobile = response.displayMobile;
+                    $scope.displayEmail = response.displayMobile;
                 } else
                 {
                     $scope.enquiries = '';
@@ -293,6 +311,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
+                    $scope.callBtnPermission = response.callBtnPermission;
+                    $scope.displayMobileN = response.displayMobileN;
+                    $scope.displayEmailID = response.displayMobileN;
                 } else
                 {
                     $scope.enquiries = '';
@@ -445,7 +466,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.sendDocuments = function (id)
-        {            
+        {
             $rootScope.enquiryId = id;
             $timeout(function () {
                 $("li#historyTab").removeClass('active');
@@ -495,16 +516,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
             $scope.SelectedDocs = flag;
             Data.post('master-sales/insertSendDocument', {documentData: documentdata, isUpdate: $scope.editableCustInfo, sendDocument: $scope.SelectedDocs, enquiry_id: $rootScope.enquiryId, }).then(function (response) {
-                    if(response.success)
-                    {
-                        toaster.pop('success', 'Sent Documents', "Document Sent successfully");
-                        $(".sendDocumentDataModal").hide('fast');
-                        $state.reload();
-                    }
-                    else
-                    {
-                        toaster.pop('error', 'Sent Documents', "Error While Document Sent");
-                    }
+                if (response.success)
+                {
+                    toaster.pop('success', 'Sent Documents', "Document Sent successfully");
+                    $(".sendDocumentDataModal").hide('fast');
+                    $state.reload();
+                } else
+                {
+                    toaster.pop('error', 'Sent Documents', "Error While Document Sent");
+                }
             });
         }
         $scope.sendingList = function ()
@@ -513,15 +533,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 if (response.success)
                 {
                     $scope.sendList = response.records;
-                    for(var i = 0 ;i < $scope.sendList.length ; i++)
+                    for (var i = 0; i < $scope.sendList.length; i++)
                     {
                         $scope.sendList[i].send_documents = JSON.parse($scope.sendList[i].send_documents);
 //                        for(j=0 ; j< $scope.sendList[i].send_documents.length ; j++){
 //                            console.log($scope.sendList[i].send_documents[j]);
 //                        }                             
-                
+
                     }
-                   
+
                 } else
                 {
                     $scope.sendList = [];
@@ -529,9 +549,9 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
             });
         }
-        $scope.openImage = function(foldername,imagename)
+        $scope.openImage = function (foldername, imagename)
         {
-            window.open('https://storage.googleapis.com/bkt_bms_laravel/project/'+foldername+'/'+imagename+'');
+            window.open('https://storage.googleapis.com/bkt_bms_laravel/project/' + foldername + '/' + imagename + '');
         }
         /* ********************* uma End ******************************** */
         /*********************TODAY REMARK (GEETA)*********************/
@@ -923,6 +943,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.addMob = false;
                         $scope.remarkData = angular.copy(response.enquiryDetails[0]);
                         $scope.remarkData.customerId = angular.copy(response.enquiryDetails[0].customerId);
+                        $scope.userpermissions = angular.copy(response.userpermissions);
+                        $scope.displayCallBtn = $scope.userpermissions.indexOf("01403");
                         $("#custId").val(response.enquiryDetails[0].customerId);
                         if (response.enquiryDetails[0].title_id == 0 || response.enquiryDetails[0].title_id == null) {
                             $scope.remarkData.title_id = '';
@@ -952,8 +974,8 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                         $scope.remarkData.next_followup_time = time;
                         $scope.useremail = angular.copy(response.useremail);
                         $scope.userpermissions = angular.copy(response.userpermissions);
-//                        $scope.displaymobile = $scope.userpermissions.indexOf("1602");
-//                        $scope.displayemail = $scope.userpermissions.indexOf("1601");
+                        $scope.displaymobile = $scope.userpermissions.indexOf("01406");
+                        $scope.displayemail = $scope.userpermissions.indexOf("01406");
                         $scope.mobileList = response.enquiryDetails.mobileNumber;
                         $scope.emailList = response.enquiryDetails.emailId;
                         var source = (response.enquiryDetails[0].sales_source_name == null) ? ' ' : response.enquiryDetails[0].sales_source_name;
