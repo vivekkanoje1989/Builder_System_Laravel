@@ -53,7 +53,7 @@
                 <span class="widget-caption">Shared with Me</span>                
             </div>
             <div class="widget-body table-responsive" >     
-                <h5 class="row-title ng-scope" ng-if="directories != ''"><i class="fa fa-folder-open-o"></i>Folders</h5>
+                <h5 class="row-title ng-scope"><i class="fa fa-folder-open-o"></i>Folders</h5>
                 <div class="row" ng-if="directories != ''">
                     <div class="foldr-main" ng-repeat="imgs in directories track by $index | unique:'imgs' ">
                         <div class="databox databoxone databox-halved radius-bordered databox-shadowed databox-vertical">
@@ -75,9 +75,11 @@
                             </div>
                         </div>
                     </div>
-                </div>     
+                </div>    
+                
+                 <center ng-if="directories.length == 0"><h1>No Record Found</h1></center>
                 <hr>
-                <h5 class="row-title ng-scope" ng-if="myImageStore != ''"><i class="fa fa-picture-o"></i>Images</h5>
+                <h5 class="row-title ng-scope" ><i class="fa fa-picture-o"></i>Images</h5>
                     <div class="row" ng-if="myImageStore != ''">
                         <div class="col-md-2" ng-repeat="imgs in myImageStore track by $index | unique:'imgs' " style="margin:0 0 25px 0;">
                             <div class="img-wrap"> 
@@ -85,10 +87,11 @@
                                     <img title="Share " ng-src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
                                 </a>
                                 <span class="close" ng-click="deleteImages($index, imgs.id)">&times;</span>
-                                <a href="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" target="_blank"> <img ng-src="https://s3.ap-south-1.amazonaws.com/bmsbuilderv2/{{imgs.file_url}}" height="100px;" width="100px;"></a>
+                                <a href="[[ config('global.s3Path') ]]/{{imgs.file_url}}" target="_blank"> <img ng-src="[[ config('global.s3Path') ]]/{{imgs.file_url}}" height="100px;" width="100px;"></a>
                             </div>
                         </div>
                     </div>
+                 <center ng-if="myImageStore.length == 0"><h1>No Record Found</h1></center>
                 </div>
             </div>
         </div>

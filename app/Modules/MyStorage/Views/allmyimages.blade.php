@@ -65,7 +65,7 @@
                     </div>
                 </div>
         
-                <h5 class="row-title ng-scope" ng-if="subDirectories != ''"><i class="fa fa-folder-open-o"></i>Folders</h5>
+                <h5 class="row-title ng-scope"><i class="fa fa-folder-open-o"></i>Folders</h5>
                 <div class="row" ng-if="subDirectories != ''">
                     <div class="foldr-main" ng-repeat="imgs in subDirectories track by $index | unique:'imgs' ">
                         <div class="databox databoxone databox-halved radius-bordered databox-shadowed databox-vertical">
@@ -88,8 +88,9 @@
                         </div>
                     </div>
                 </div>
+                <center ng-if="subDirectories.length == 0"><h1>No Record Found</h1></center>
                 <hr>
-                <h5 class="row-title ng-scope" ng-if="folderImages != ''"><i class="fa fa-picture-o"></i>Images</h5>
+                <h5 class="row-title ng-scope"><i class="fa fa-picture-o"></i>Images</h5>
                 <div class="row" ng-if="folderImages != ''">
                     <div class="col-md-2" ng-repeat="imgs in folderImages track by $index | unique:'imgs' " style="margin:15px 0 25px 0;">
                         <div class="img-wrap"> 
@@ -101,11 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" ng-if="noResult">
-                    <div class="col-md-12">
-                        <h3>{{noResult}}</h3>
-                    </div>
-                </div>
+                 <center ng-if="folderImages.length == 0"><h1>No Record Found</h1></center>
             </div>
         </div>
     </div>

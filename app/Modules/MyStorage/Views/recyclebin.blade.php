@@ -25,11 +25,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div ng-if="recycleDirectories.length < 1" style="margin-left:30px;">
-                        <h3>Recycle bin is empty</h3>
-                    </div>
-                </div>
+                <center ng-if="recycleDirectories.length < 1" style="margin-left:30px;">
+                        <h1>No Record Found</h1>
+                </center>
             </div>
         </div>
     </div>

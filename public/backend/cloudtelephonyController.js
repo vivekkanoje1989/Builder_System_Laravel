@@ -35,6 +35,11 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             $scope.pageNumber = pageNo;
         }
 
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
         $scope.searchDetails = {};
         $scope.searchData = {};
 
@@ -284,7 +289,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                 var vnumberId = id;
                 $state.go('nonworkingUpdate', {'id': vnumberId});
             } else {
-                console.log('Id blank');
+               
             }
         }
 
@@ -392,6 +397,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                         $scope.listNumbersLength = response.records.total;
                         $scope.searchLength = response.records.total;
                         $scope.exportVirtualData = response.records.exportData;
+                        $scope.deleteData = response.records.delete;
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 30;
                     } else if (action === 'edit') {
@@ -549,7 +555,6 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     if (action === 'view') {
                         $scope.pageHeading = 'Update Extension Setting For Virtual Number';
                         $scope.listNumbers = response.records.data;
-                        console.log($scope.listNumbers);
                         $scope.listNumbersLength = response.records.total;
 
                         for (i = 0; i < $scope.listNumbersLength; i++) {
@@ -583,7 +588,6 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     $scope.ext_number = [];
                     if (action === 'edit') {
                         $scope.extData1 = angular.copy(response.records.data[0]);
-                        console.log($scope.extData1);
                         for (i = 0; i < $scope.listNumbersLength; i++) {
                             $scope.ext = $scope.listNumbers[i].ext_number;
                             $scope.extnumber1.push($scope.ext);
@@ -981,7 +985,6 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             Data.post('cloudcallinglogs/filteredoutboundData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords, isTeamType: $scope.type}).then(function (response) {
                 if (response.success)
                 {
-                    console.log($scope.type);
                     if ($scope.type == 1) {
                         $scope.teamoutboundList = response.records;
                         $scope.teamoutboundLength = response.totalCount;
@@ -1071,7 +1074,6 @@ app.controller('employeesWiseTeamCtrl', function ($scope, Data, $timeout) {
             $scope.employeesData = response.records;
         } else {
             $timeout(function () {
-                console.log($("input[name=customer_number]"));
 
                 $scope.employeesData = response.records;
             }, 1000);

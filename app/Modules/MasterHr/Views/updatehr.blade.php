@@ -132,7 +132,6 @@
                                 <label for="">physic  Description</label>
                                 <span class="input-icon icon-right">
                                     <textarea ng-model="userPersonalData.physic_desc" name="physic_desc"  class="form-control" maxlength="50" ></textarea>
-
                                 </span>
                             </div>
                         </div>                        
@@ -147,7 +146,6 @@
                                         <option ng-repeat="bloodGroup in bloodGroups track by $index" value="{{bloodGroup.id}}" ng-selected="{{ bloodGroup.id == userPersonalData.blood_group_id}}">{{bloodGroup.blood_group}}</option>
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
-
                                 </span>
                             </div>
                         </div>
@@ -753,7 +751,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-sm-3 col-xs-6">
                             <div class="form-group" ng-class="{ 'has-error' : step5 && (!userStatusForm.employee_id.$dirty && userStatusForm.employee_id.$invalid)}">
@@ -791,67 +788,69 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="BulkModal" role="dialog" tabindex='-1'>
-        <div class="modal-dialog modal-md" >
-            <!-- Modal content-->
-            <div class="modal-content" >
-                <div class="modal-header navbar-inner">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center"> Reassign Enquiries</h4>
-                </div>
-                <br>
-
-                <form name="bulkForm" role="form"  ng-submit="bulkForm.$valid && bulkreasignemployee(bulkData, [[ $empId ]])" novalidate>
-                    <div class="modal-body">
-                        <div  ng-if="totsalesEnquiries > '0'">
-                            <div class="row">
-                                <div class="col-sm-4 col-sx-12">
-                                    <label for="">Sales Enquiries Reassign To</label>
-                                </div>
-                                <div class="col-sm-5 col-sx-12">
-                                    <div class="form-group" >
-                                        <select class="form-control"  ng-model="bulkData.sales_employee_id" name="sales_employee_id" id="sales_employee_id" ng-init="getsalesEmployees([[ $empId ]])" required>
-                                            <option value="">Select Employee</option>
-                                            <option ng-repeat="item in salesemployeeList" value="{{item.id}}"  >{{item.first_name}} {{item.last_name}} ({{item.designation_name.designation}})</option>
-                                        </select>
-                                        <div ng-show="sbtBtn" ng-messages="bulkForm.sales_employee_id.$error" class="help-block errMsg">
-                                            <div style="sp-err" ng-message="required">Please Select Employee</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3"></div>
+</form>
+<div class="modal fade" id="BulkModal" role="dialog" tabindex='-1'>
+    <div class="modal-dialog modal-md" >
+        <!-- Modal content-->
+        <div class="modal-content" >
+            <div class="modal-header navbar-inner">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" align="center"> Reassign Enquiries</h4>
+            </div>
+            <form name="bulkForm"   ng-submit="bulkForm.$valid && bulkreasignemployee(bulkData, [[ $empId ]])" novalidate >
+                <div class="modal-body">
+                    <div  ng-if="totsalesEnquiries > '0'">
+                        <div class="row">
+                            <div class="col-sm-4 col-sx-12">
+                                <label for="">Sales Enquiries Reassign To</label>
                             </div>
-                            <div class="">
-                                <span><strong>Total Enquires found : {{totsalesEnquiries}}</strong></span>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row" ng-if="totpresalesEnquiries > 0">
                             <div class="col-sm-5 col-sx-12">
-                                <label for="">Customer Care Enquiries Reassign To</label>  <br> 
-                                <span>(<strong>Total Enquires found : {{totpresalesEnquiries}}</strong>)</span>
-                            </div>
-                            <div class="col-sm-6 col-sx-12">
                                 <div class="form-group" >
-                                    <label for="">Select Employee <span class="sp-err">*</span></label>   
-                                    <select class="form-control"  ng-model="bulkData.cc_presales_employee_id" name="cc_presales_employee_id" id="cc_presales_employee_id" ng-init="getpresalesEmployees([[ $empId ]])" required>
+                                    <select class="form-control"  ng-model="bulkData.sales_employee_id" name="sales_employee_id" id="sales_employee_id" ng-init="getsalesEmployees([[ $empId ]])" required>
                                         <option value="">Select Employee</option>
-                                        <option ng-repeat="item in presalesemployeeList" value="{{item.id}}"  >{{item.first_name}} {{item.last_name}} ({{item.designation_name.designation}})</option>
+                                        <option ng-repeat="item in salesemployeeList" value="{{item.id}}"  >{{item.first_name}} {{item.last_name}} ({{item.designation_name.designation}})</option>
                                     </select>
-                                    <div ng-show="sbtBtn" ng-messages="bulkForm.cc_presales_employee_id.$error" class="help-block errMsg">
+                                    <div ng-show="sbtBtn" ng-messages="bulkForm.sales_employee_id.$error" class="help-block errMsg">
                                         <div style="sp-err" ng-message="required">Please Select Employee</div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-sm-3"></div>
+                        </div>
+                        <div class="">
+                            <span><strong>Total Enquires found : {{totsalesEnquiries}}</strong></span>
+                        </div>
+                        <div class="">
+                            <span><strong>Total Deals : </strong></span>
                         </div>
                     </div>
-                    <div class="modal-footer" align="center">
-                        <button  type="submit" ng-click="sbtBtn = true" class="btn btn-primary pull-right">Reassign To</button></center>
+                    <br>
+                    <div class="row" ng-if="totpresalesEnquiries > 0">
+                        <div class="col-sm-5 col-sx-12">
+                            <label for="">Customer Care Enquiries Reassign To</label>  <br> 
+                            <span>(<strong>Total Enquires found : {{totpresalesEnquiries}}</strong>)</span>
+                        </div>
+                        <div class="col-sm-6 col-sx-12">
+                            <div class="form-group" >
+                                <label for="">Select Employee <span class="sp-err">*</span></label>   
+                                <select class="form-control"  ng-model="bulkData.cc_presales_employee_id" name="cc_presales_employee_id" id="cc_presales_employee_id" ng-init="getpresalesEmployees([[ $empId ]])" required>
+                                    <option value="">Select Employee</option>
+                                    <option ng-repeat="item in presalesemployeeList" value="{{item.id}}"  >{{item.first_name}} {{item.last_name}} ({{item.designation_name.designation}})</option>
+                                </select>
+                                <div ng-show="sbtBtn" ng-messages="bulkForm.cc_presales_employee_id.$error" class="help-block errMsg">
+                                    <div style="sp-err" ng-message="required">Please Select Employee</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer" align="center">
+                    <button  type="submit" ng-click="sbtBtn = true" class="btn btn-primary pull-right">Reassign To</button></center>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 <script>
     /* $(document).ready(function(){

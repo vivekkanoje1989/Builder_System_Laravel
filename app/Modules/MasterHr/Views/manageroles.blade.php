@@ -19,7 +19,6 @@
                                 <li>
                                     <a href="javascript:void(0);">Action</a>
                                 </li>
-                               
                             </ul>
                         </a>
                     </div>
@@ -62,16 +61,17 @@
                             <tr>
                                 <th style="width:5%">Sr No.</th>
                                 <th style="width: 10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'role_name'; reverseSort = !reverseSort">Role
-                                        <span ng-show="orderByField == 'role_name'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
-                                    </a> 
+                                    <a href="javascript:void(0);" ng-click="orderByField('role_name')">Role
+                                        <span ><img ng-hide="(sortKey == 'role_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'role_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'role_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
+                                    </a>
                                 </th>
                                 <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in roleList | filter:search | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort">
+                            <tr role="row" dir-paginate="list in roleList | filter:search | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{list.role_name}}</td>
                                 <td class="">

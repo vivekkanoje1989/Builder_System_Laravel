@@ -60,7 +60,7 @@
                                     <label for="">To Date</label>
                                     <span class="input-icon icon-right">
                                         <p class="input-group">
-                                            <input type="text" ng-model="filter.toDate" min-date="filterData.fromDate" name="toDate" id="toDate" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
+                                            <input type="text" ng-model="filter.toDate" min-date="filter.fromDate" name="toDate" id="toDate" class="form-control" datepicker-popup="d-MM-yyyy" is-open="opened" max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly/>
                                             <span class="input-group-btn">
                                                 <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
@@ -102,10 +102,6 @@
                                 </div>
                             </div>
 
-
-
-
-
                             <div class="col-sm-6 col-xs-12" >
                                 <div class="form-group">
                                     <div ng-if="listType == 5">
@@ -124,7 +120,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row" ng-controller="ccpresalesCategoryCtrl" ng-if="listType != 5">
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group">
@@ -153,8 +148,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="row" ng-controller="enquirySourceCtrl">
                             <div class="col-sm-6 col-xs-12">
                                 <div class="form-group">
@@ -183,32 +176,33 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
-                            <div class="col-sm-6 col-xs-12">
-                                <div class="form-group" ng-controller="vehiclemodelCtrl">
-                                    <label for="">Model Name</label>
-                                    <span class="input-icon icon-right">                                                   
-                                        <select ng-model="filter.model_id" name="model_id" class="form-control">
-                                            <option value="">Select Model</option>
-                                            <option ng-repeat="model in vehiclemodels track by $index" value="{{model.id}}_{{model.model_name}}">{{model.model_name}}</option>
-                                        </select>
+                            <div class="col-sm-6 col-sx-12">
+                                <div class="form-group" ng-controller="projectCtrl">
+                                    <label for="">Project Name</label>
+                                    <span class="input-icon icon-right">
+                                        <ui-select multiple ng-model="filter.project_id" name="project_id" theme="select2" ng-disabled="disabled" style="width:100%;">
+                                            <ui-select-match placeholder='Select Project'>{{$item.project_name}}</ui-select-match>
+                                            <ui-select-choices repeat="plist in projectList | filter:$select.search">
+                                                {{plist.project_name}} 
+                                            </ui-select-choices>
+                                        </ui-select>
                                         <i class="fa fa-sort-desc"></i>
                                     </span>
-                                </div>                                        
-                            </div>                                        
-                            <div class="col-sm-6 col-xs-12" ng-controller="testdriveStatusCtrl">
-                                <label>Test Drive Status </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <label>Site Visit</label>
                                 <span class="input-icon icon-right">
-                                    <select ng-model="filter.test_drive_given" name="test_drive_given" class="form-control">
-                                        <option value="">Select Test Drive Status</option>
-                                        <option ng-repeat="tdstatus in testdrivestatus track by $index" value="{{tdstatus.id}}_{{tdstatus.status}}">{{tdstatus.status}}</option>
+                                    <select ng-model="filter.site_visit" name="site_visit" class="form-control">
+                                        <option value="">Site Visit Status</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>                                        
                                     </select>
                                     <i class="fa fa-sort-desc"></i>
                                 </span>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12" align="right">
                                 <div class="form-group">
@@ -220,11 +214,11 @@
                         </div>
                     </form>
                 </accordion-group>
-                <accordion-group is-open="status.open" >
+                <accordion-group is-open="status.close" >
                     <accordion-heading>
                         <span>Customer</span>
                     </accordion-heading>
-                    <form name="enquiryFilter" role="form" ng-submit="ccfilter(filter, 1, [[ config('global.recordsPerPage')]])">
+                    <form name="frmccFilter" role="form" ng-submit="ccfilter(filter, 1, [[ config('global.recordsPerPage')]])">
                         <div class="row">
                             <div class="col-sm-6 col-xs-6">
                                 <div class="form-group">

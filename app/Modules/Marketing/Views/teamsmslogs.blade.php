@@ -67,47 +67,53 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th>
                                 <th style="width:15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'call_date'; reverseSort = !reverseSort">Sent Date & Time
-                                        <span ng-show="orderByField == 'call_date'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('call_date')">Sent Date & Time
+                                        <span ><img ng-hide="(sortKey == 'call_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'call_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'call_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'externalId1'; reverseSort = !reverseSort">Transaction Id
-                                        <span ng-show="orderByField == 'externalId1'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('externalId1')">Transaction Id
+                                        <span ><img ng-hide="(sortKey == 'externalId1' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'externalId1' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'externalId1' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'mobile_number'; reverseSort = !reverseSort">Mobile Number
-                                        <span ng-show="orderByField == 'mobile_number'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('mobile_number')">Mobile Number
+                                        <span ><img ng-hide="(sortKey == 'mobile_number' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'mobile_number' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'mobile_number' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:20%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'sms_body'; reverseSort = !reverseSort">SMS Body
-                                        <span ng-show="orderByField == 'sms_body'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                     <a href="javascript:void(0);" ng-click="orderByField('sms_body')">SMS Body
+                                        <span ><img ng-hide="(sortKey == 'sms_body' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'sms_body' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'sms_body' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
     <!--                            <th style="width:10%">SMS Type</th>-->
                                 <th style="width:10%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'status'; reverseSort = !reverseSort">Delivered Status
-                                        <span ng-show="orderByField == 'status'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('status')">Delivered Status
+                                        <span ><img ng-hide="(sortKey == 'status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width:15%">
-                                    <a href="javascript:void(0);" ng-click="orderByField = 'efname'; reverseSort = !reverseSort">SMS Send By
-                                        <span ng-show="orderByField == 'efname'">
-                                            <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('efname')">SMS Send By
+                                        <span ><img ng-hide="(sortKey == 'efname' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ng-show="(sortKey == 'efname' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                        <span ng-show="(sortKey == 'efname' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listSms in teamsmslogslist | filter:search |filter:searchData| itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort " >
+                            <tr role="row" dir-paginate="listSms in teamsmslogslist | filter:search |filter:searchData| itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort " >
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listSms.call_date}} @ {{listSms.call_time}}</td>
                                 <td>{{ listSms.externalId1}}

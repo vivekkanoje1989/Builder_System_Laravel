@@ -199,9 +199,14 @@ class VirtualNumberController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
 
         if ($manageLists) {
-            $result = ['success' => true, 's3Path' => config('global.s3Path'), "records" => ["data" => $manageLists, 'exportData' => $export, "total" => count($manageLists), 'per_page' => count($manageLists), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageLists)]];
+            $result = ['success' => true, 's3Path' => config('global.s3Path'), "records" => ["data" => $manageLists, 'exportData' => $export,'delete'=>$deleteBtn, "total" => count($manageLists), 'per_page' => count($manageLists), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageLists)]];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
         }

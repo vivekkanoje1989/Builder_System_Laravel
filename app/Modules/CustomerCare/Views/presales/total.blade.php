@@ -21,8 +21,9 @@
                             <input type="text" minlength="1" maxlength="3" placeholder="Records per page" ng-model="itemsPerPage" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control">
                         </div>  
                         <div class="col-sm-4 center">
-                            <button type="button" class="btn-primary toggleForm" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_cc_presales_total', 4)">
-                                <i class="btn-label fa fa-filter"></i>Show Filter</button>
+                            <button type="button" class="btn btn-primary toggleForm" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_cc_presales_total', 4)">
+                                <i class="btn-label fa fa-filter"></i>Show Filter
+                            </button>
                         </div>
 
                     </div>
@@ -246,13 +247,7 @@
                         <center><b>Followups Not Found</b></center>
                     </div>
                 </div>
-
-                <hr>
                 <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'total','', [[$type]], newPageNumber, itemsPerPage)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
-
-
-
-
             </div>     
 
             <!-- Today history model =============================================================================-->

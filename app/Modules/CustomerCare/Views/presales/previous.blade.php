@@ -9,7 +9,7 @@
 </style>
 <?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true); ?>
 <div class="row" ng-controller="customercarepresalesController" ng-init="previous('', [[$type]], 1, [[config('global.recordsPerPage')]],3)" >
-    <div class="col-xs-12 col-md-12">
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">{{pagetitle}}</span>
@@ -22,12 +22,10 @@
                             <input type="text" minlength="1" maxlength="3" placeholder="Records per page" ng-model="itemsPerPage"  ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control">
                         </div>  
                         <div class="col-sm-4 center">
-                            <button type="button" class="btn btn-primary ng-click-active" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_cc_presales_previous',3)">
+                            <button type="button" class="btn btn-primary toggleForm" style="float: right;margin-left: 10px;" data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_cc_presales_previous',3)">
                                 <i class="btn-label fa fa-filter"></i>Show Filter</button>
-                        </div>
-                        
-                    </div>
-                   
+                        </div>                        
+                    </div>                   
                     <div class="col-sm-7 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
                         <span ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
                         <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'previous','', [[$type]], newPageNumber, itemsPerPage)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
@@ -35,13 +33,11 @@
                 </div>
                 <br>
                 <div class="row" style="border:2px;" id="filter-show">
-                   <div class="col-sm-12 col-xs-12">
-                                             
-                       
+                   <div class="col-sm-12 col-xs-12">                       
                        <b ng-repeat="(key, value) in showfilterData" ng-if="value != 0 && key != 'toDate' ">
                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}"> 
                                 <div class="alert alert-info fade in" style="padding: 6px;">
-                                   <button class="close" ng-click=" removefilter('{{ key }}');" data-dismiss="alert"> ×</button>
+                                   <button class="toggleForm close" ng-click=" removefilter('{{ key }}');" data-dismiss="alert"> ×</button>
                                    <strong ng-if="key === 'employee_id'"> Owners Name :- <span ng-repeat='emp in value track by $index'>{{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}}&nbsp;</span> </strong>
                                    <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showfilterData.fromDate | date:'dd-MMM-yyyy' }} <span ng-if="showfilterData.toDate!='' && showfilterData.toDate!= null ">To {{ showfilterData.toDate |date:'dd-MMM-yyyy' }}</span></strong>
                                    <strong ng-if="key == 'cc_presales_status_id'">Followup Status :- {{  value.substring(value.indexOf("_")+1) }}</strong>
@@ -50,8 +46,8 @@
                                    <strong ng-if="key === 'cc_presales_subcategory_id'"> Followup Sub Category :- <span ng-repeat='subcat in value track by $index'> {{ $index + 1}}){{   subcat.cc_presales_subcategory}}</span></strong>
                                    <strong ng-if="key == 'source_id'">Source :- {{  value.substring(value.indexOf("_")+1) }}</strong>
                                    <strong ng-if="key === 'subsource_id'"> Sub Source :- <span ng-repeat='subsouc in value track by $index'> {{ $index + 1}}){{   subsouc.enquiry_subsource}}</span></strong>
-                                   <strong ng-if="key == 'model_id'">Model :- {{  value.substring(value.indexOf("_")+1) }}</strong>
-                                   <strong ng-if="key == 'test_drive_given'">Test Drive Given :- {{  value.substring(value.indexOf("_")+1) }}</strong>
+                                  
+                                  
                                    <strong ng-if="key == 'fname'">First Name :- {{  value }}</strong>
                                    <strong ng-if="key == 'lname'">Last Name :- {{  value }}</strong>
                                    <strong ng-if="key == 'mobileNumber'">Mobile Number :- {{  value }}</strong>
@@ -195,22 +191,12 @@
                                     </span>
                                 
                                 </div>
-                                <div ng-if="enquiry.model_name != null">
-                                    
-                                    <b>Model :</b>    
-                                    
-                                    <span ng-if="enquiry.sub_model_name != null" data-toggle="tooltip" title="{{enquiry_sub_model_name}}"   ng-init="enquiry_sub_model_length = enquiry.model_name.length + enquiry.sub_model_name.length; enquiry_sub_model_name = enquiry.model_name +' / '+ enquiry.sub_model_name ">  
-                                        {{ enquiry_sub_model_name  | limitTo : 45 }}
-                                        <span ng-if="enquiry_sub_model_length > 45" data-toggle="tooltip" title="{{enquiry_sub_model_name}}">...</span>                                    
-                                    </span>
-                                    <span ng-if="enquiry.sub_model_name == null && enquiry.varient_name != null" data-toggle="tooltip" title="{{enquiry_varient_name}}"   ng-init="enquiry_varient_name_length = enquiry.model_name.length + enquiry.varient_name.length; enquiry_varient_name = enquiry.model_name +' / '+ enquiry.varient_name ">  
-                                        {{ enquiry_varient_name  | limitTo : 45 }}
-                                        <span ng-if="enquiry_varient_name_length > 45" data-toggle="tooltip" title="{{enquiry_varient_name}}">...</span>                                    
-                                    </span>
-                                    <span data-toggle="tooltip" title="{{enquiry.model_name}}" ng-if="enquiry.sub_model_name == null && enquiry.varient_name == null" >
-                                        {{ enquiry.model_name  | limitTo : 45 }}
-                                        <span ng-if="enquiry.model_name > 45" data-toggle="tooltip" title="{{enquiry.model_name}}">...</span>
-                                    </span>
+                                 <div>                                   
+                                    <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != ''" data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
+                                        <b>Project :</b>
+                                        {{enquiry.project_block_name| limitTo : 45 }}
+                                        <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                                                                 
+                                    </span>                                   
                                 </div>
                                 
                             </td>
@@ -219,11 +205,9 @@
                                 <div ng-if="enquiry.owner_fname == null"><b>Enquiry Owner :</b> N/A</div>
                                 <hr class="enq-hr-line">                
                                 <div>
-                                    <b>Test Drive :</b> 
-                                    <span ng-if="enquiry.testdrive_status_id == 1 || enquiry.testdrive_status_id == null">Not given</span>
-                                    <span ng-if="enquiry.testdrive_status_id == 2">Scheduled </span>
-                                    <span ng-if="enquiry.testdrive_status_id == 3">Completed</span>
-                                    <span ng-if="enquiry.testdrive_status_id == 4">Cancelled </span>
+                                    <b>Site Visit :</b> 
+                                    <span ng-if="enquiry.site_visit == '0' ">No</span>
+                                    <span ng-if="enquiry.site_visit == '1' ">Yes</span>                                    
                                 </div>  
                                 <hr class="enq-hr-line">
                                 <div ng-if="enquiry.last_followup_date !=null">
@@ -277,11 +261,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            
-            
-               
+            </div>            
             </div>
         </div>
         <div data-ng-include="'/customer-care/presales/filter'"></div>

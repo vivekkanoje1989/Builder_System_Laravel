@@ -108,46 +108,52 @@
                                 <tr>
                                     <th style="width:5%">Sr. No.</th>
                                     <th style="width:7%">
-                                        <a href="javascript:void(0);" ng-click="orderByField = 'virtual_display_number'; reverseSort = !reverseSort">Virtual Number
-                                            <span ng-show="orderByField == 'virtual_display_number'">
-                                                <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <a href="javascript:void(0);" ng-click="orderByField('virtual_display_number')">Virtual Number
+                                            <span ><img ng-hide="(sortKey == 'virtual_display_number' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                            <span ng-show="(sortKey == 'virtual_display_number' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="(sortKey == 'virtual_display_number' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                         </a>
                                     </th>
                                     <th style="width:7%">
-                                        <a href="javascript:void(0);" ng-click="orderByField = 'source_name'; reverseSort = !reverseSort">Source
-                                            <span ng-show="orderByField == 'source_name'">
-                                                <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <a href="javascript:void(0);" ng-click="orderByField('source_name')">Source
+                                            <span ><img ng-hide="(sortKey == 'source_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                            <span ng-show="(sortKey == 'source_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="(sortKey == 'source_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                         </a>
                                     </th>
                                     <th style="width:7%">
-                                        <a href="javascript:void(0);" ng-click="orderByField = 'sub_source_id'; reverseSort = !reverseSort">Sub Source
-                                            <span ng-show="orderByField == 'sub_source_id'">
-                                                <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <a href="javascript:void(0);" ng-click="orderByField('sub_source_id')">Sub Source
+                                            <span ><img ng-hide="(sortKey == 'sub_source_id' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                            <span ng-show="(sortKey == 'sub_source_id' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="(sortKey == 'sub_source_id' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                         </a>
                                     </th>
                                     <th style="width:10%">
-                                        <a href="javascript:void(0);" ng-click="orderByField = 'forwarding_type_id'; reverseSort = !reverseSort">Forwarding Type
-                                            <span ng-show="orderByField == 'forwarding_type_id'">
-                                                <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                        <a href="javascript:void(0);" ng-click="orderByField('forwarding_type_id')">Forwarding Type
+                                            <span ><img ng-hide="(sortKey == 'forwarding_type_id' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                            <span ng-show="(sortKey == 'forwarding_type_id' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="(sortKey == 'forwarding_type_id' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                         </a>
                                     </th>
                                     <th style="width:10%">
-                                        <a href="javascript:void(0);" ng-click="orderByField = 'menu_status'; reverseSort = !reverseSort">Menu
-                                            <span ng-show="orderByField == 'menu_status'">
-                                                <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                         <a href="javascript:void(0);" ng-click="orderByField('menu_status')">Menu
+                                            <span ><img ng-hide="(sortKey == 'menu_status' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                            <span ng-show="(sortKey == 'menu_status' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="(sortKey == 'menu_status' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                         </a>
                                     </th>
                                     <th style="width:15%">
-                                        <a href="javascript:void(0);" ng-click="orderByField = 'employee_name'; reverseSort = !reverseSort">Employee
-                                            <span ng-show="orderByField == 'employee_name'">
-                                                <span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+                                         <a href="javascript:void(0);" ng-click="orderByField('employee_name')">Employee
+                                            <span ><img ng-hide="(sortKey == 'employee_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                            <span ng-show="(sortKey == 'employee_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
+                                            <span ng-show="(sortKey == 'employee_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                         </a>
                                     </th>
                                     <th style="width: 10%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr role="row" dir-paginate="listNumber in listNumbers | filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:orderByField:reverseSort" >
+                                <tr role="row" dir-paginate="listNumber in listNumbers | filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
                                     <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td> 
                                     <td>{{ listNumber.virtual_display_number}}</td>
                                     <td>{{listNumber.source_name}}</td>
@@ -169,8 +175,8 @@
 
                                     <td class="">
                                         <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/virtualnumber/update/{{ listNumber.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                     <span class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteVirtualNumber({{listNumber.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
-                                </td>
+                                        <span ng-show="deleteData == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteVirtualNumber({{listNumber.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <!--<td colspan="8"  ng-show="searchLength == undefined || searchLength== 0" align="center">Record Not Found</td>-->   

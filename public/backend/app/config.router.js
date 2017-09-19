@@ -4733,6 +4733,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4766,6 +4767,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4798,6 +4800,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4832,6 +4835,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4865,6 +4869,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4897,6 +4902,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4930,6 +4936,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4963,6 +4970,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });

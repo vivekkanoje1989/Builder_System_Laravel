@@ -11,10 +11,17 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
             Data.post('testimonials/getDisapproveList').then(function (response) {
                 $scope.ApprovedTestimonialsRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteDisApprove = response.deleteDisApprove;
                 $scope.hideloader();
             });
         };
 
+
+        $scope.orderByField = function (keyname) {
+            $scope.sortKey = keyname;
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+        
         $scope.searchDetails = {};
         $scope.searchData = {};
         $scope.filterDetails = function (search) {
@@ -35,6 +42,7 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
             Data.post('testimonials/getApprovedList').then(function (response) {
                 $scope.ApprovedTestimonialsRow = response.records;
                 $scope.exportDetails = response.exportData;
+                $scope.deleteApprove = response.deleteApprove;
                 $scope.hideloader();
             });
         }

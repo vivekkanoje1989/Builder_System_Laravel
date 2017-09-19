@@ -44,8 +44,13 @@ class TestimonialsController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($getApprovedTestimonials)) {
-            $result = ['success' => true, 'records' => $getApprovedTestimonials, 'exportData' => $export];
+            $result = ['success' => true, 'records' => $getApprovedTestimonials, 'exportData' => $export,'deleteDisApprove'=>$deleteBtn];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
@@ -126,8 +131,13 @@ class TestimonialsController extends Controller {
         } else {
             $export = '';
         }
+        if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($getApprovedTestimonials)) {
-            $result = ['success' => true, 'records' => $getApprovedTestimonials, 'exportData' => $export];
+            $result = ['success' => true, 'records' => $getApprovedTestimonials, 'exportData' => $export,'deleteApprove'=>$deleteBtn];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
