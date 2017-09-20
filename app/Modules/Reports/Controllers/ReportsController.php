@@ -678,17 +678,15 @@ class ReportsController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $emp_id = $request["employee_id"];
-        if (empty($request['login_id'])) {
+        if (empty($request['employee_id'])) {
             $login_id = Auth::guard('admin')->user()->id;
         } else {
-            $login_id = $request['login_id'];
+            $login_id = $request['employee_id'];
         }
 
         $first_admin_model = \App\Models\backend\Employee::where('id', $emp_id)->first();
 
-        $condition = '';
-
-        $parant_id = '';
+        $condition = $parant_id = '';
         $parant_id = $this->isParant($first_admin_model->id);
         if ($emp_id == $login_id) {
 
@@ -824,7 +822,7 @@ class ReportsController extends Controller {
 
 
         $response = array("Teams_followups" => $team_follwup);
-        echo Json_encode($response);
+        return Json_encode($response);
     }
 
     public function isParant($admin) {
@@ -858,16 +856,9 @@ class ReportsController extends Controller {
         $employee_id = $request["employee_id"];
 
         $condition = '';
-
-
         if (!empty($employee_id)) {
-
             $folowup_report = "SELECT DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`) as followupdate_diff_in_days, count(DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`)) as followupdate_diff_in_days_cnt FROM `enquiry_followups` ef, enquiries e WHERE ef.`enquiry_id`=e.id AND e.sales_employee_id = $employee_id GROUP BY DATEDIFF(ef.`next_followup_date`,ef.`followup_date_time`)";
-
-
-
             $folowup_report = DB::select($folowup_report);
-
             $same_day = 0;
             $second_day = 0;
             $third_day = 0;

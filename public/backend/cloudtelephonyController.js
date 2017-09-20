@@ -335,6 +335,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
 
                         $scope.listNumbers = response.records.data;
                         $scope.listNumbersLength = response.records.total;
+                        $scope.exportData = response.records.exportData;
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 30;
                     } else if (action === 'edit') {
@@ -365,6 +366,14 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
 
         $scope.virtualNumberExportToxls = function () {
             $scope.getexcel = window.location = "virtualnumber/virtualNumberExportToxls";
+            if ($scope.getexcel) {
+                toaster.pop('info', '', 'Exporting....');
+            } else {
+                toaster.pop('error', '', 'Exporting fails....');
+            }
+        }
+        $scope.telephonyRegExportToxls = function () {
+            $scope.getexcel = window.location = "cloudtelephony/telephonyRegExportToxls";
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
             } else {

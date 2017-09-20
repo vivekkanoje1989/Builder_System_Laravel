@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class CheckPermissionModule
 {        
@@ -16,7 +15,10 @@ class CheckPermissionModule
      * @return mixed
      */
     public function handle($request, Closure $next, $permission)
-    {       
+    {   
+        if (!Auth::guard('admin')->check()) {
+            return view('backend.sessiontimeout');
+        }
         $userPermission = json_decode(Auth()->guard('admin')->user()->employee_submenus, true);
         $explodeId = explode("|", $permission);
         

@@ -1,5 +1,5 @@
 <div class="row" ng-controller="dashboardCtrl" ng-init="getEmployees()">
-    <div class="col-lg-12 col-md-12 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-xs-6">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Request leave</span>
@@ -9,8 +9,8 @@
                     <form  ng-submit="requestLeave.$valid && dorequestLeaveAction(request, '1')" name="requestLeave"  novalidate>
                         <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                         <div class="row">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6">
+                            <!--<div class="col-md-3"></div>-->
+                            <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-xs-12 ">
                                         <div class="form-group">
@@ -32,7 +32,7 @@
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.application_to.$error">
                                                         <div ng-message="required">Application To is required</div>
                                                     </div>
-                                                    <br/>
+                                                     <i class="glyphicon glyphicon-user palegreen"></i>
                                                 </span>
                                             </div>
 
@@ -54,7 +54,7 @@
                                                         {{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}} 
                                                     </ui-select-choices>
                                                 </ui-select>
-                                                <br/>
+                                                <i class="glyphicon glyphicon-user palegreen"></i>
                                             </span>
                                         </div>
                                     </div>
@@ -97,6 +97,7 @@
                                             <label>Application Description<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
                                                 <textarea ng-model="request.req_desc" name="req_desc" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" style="height: 238px;" maxlength="100" required></textarea>
+                                             <i class="glyphicon glyphicon-briefcase darkorange"></i>
                                             </span>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.req_desc.$error">
                                                 <div ng-message="required">Application Description is required.</div>
@@ -114,7 +115,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3"></div>
+                            <!--<div class="col-md-3"></div>-->
                         </div>
 
                     </form>
