@@ -168,7 +168,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">Request Description</h4>
                 </div>
-                <table class="table table-stripped table-bordered" style="margin:20px 20px 20px 20px; width:90%;">
+                <table class="table table-striped table-bordered" style="margin:20px 20px 20px 20px; width:90%;">
                     <tr><td>Date</td><td>{{in_date}}</td></tr>
                     <tr><td>Request Type</td><td>{{request_type}}</td></tr>
                     <tr><td>To</td><td>{{to_name}}</td></tr>

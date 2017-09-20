@@ -3,13 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/bloodGroupsController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CloudTelephony/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Controllers/ProjectsController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Views/detaillog.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/other.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Themes/Views/index.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/frontend/UserController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BloodGroups/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/controllers/datepicker.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ProjectPaymentStages/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Controllers/DashBoardController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/manage.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/myrequest.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/dashBoardController.js</file>
         </group>
     </open-files>
 </project-private>
