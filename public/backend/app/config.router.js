@@ -3336,28 +3336,27 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/careerManagementController.js',
-                                                                            '/backend/app/controllers/datepicker.js'
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/careerManagementController.js',
+                                                                '/backend/app/controllers/datepicker.js'
+                                                            ]
+                                                        });
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('createJobIndex', {
                                     url: '/job-posting/create',
-                                    templateUrl: '/create-Job/',
+                                    templateUrl: '/manage-job/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Create job posting',
@@ -3365,23 +3364,22 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/careerManagementController.js',
-                                                                            '/backend/app/controllers/datepicker.js'
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/careerManagementController.js',
+                                                                '/backend/app/controllers/datepicker.js'
+                                                            ]
+                                                        });
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('careerUpdate', {
@@ -4672,6 +4670,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4706,6 +4705,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4738,6 +4738,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4771,6 +4772,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4803,6 +4805,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4837,6 +4840,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4870,6 +4874,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4902,6 +4907,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4935,6 +4941,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });
@@ -4968,6 +4975,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/textangular.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select2.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     });
                                                                 });

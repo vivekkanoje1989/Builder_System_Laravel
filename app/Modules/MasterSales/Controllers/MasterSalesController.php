@@ -134,26 +134,6 @@ class MasterSalesController extends Controller {
         return response()->json($result);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id) {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id) {
-        
-    }
-
     public function addEnquiryDetailRow() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -296,16 +276,6 @@ class MasterSalesController extends Controller {
         }
         $result = ["success" => true, "customerId" => $id];
         return response()->json($result);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id) {
-        //
     }
 
     public function getCustomerDetails() {

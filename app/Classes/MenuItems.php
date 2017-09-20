@@ -15,7 +15,7 @@ class MenuItems {
                     4 => array('id' => '0104', 'name' => 'Requests for Me', 'micon' => 'img/reqForMe.png', 'icon' => '', 'url' => '/requestForMe/index', 'slug' => 'requestForMeIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     5 => array('id' => '0105', 'name' => 'My Requests', 'micon' => 'img/myRequest.png', 'icon' => '', 'url' => '/myRequest/index', 'slug' => 'myRequestIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     6 => array('id' => '0106', 'name' => 'Configure Dashboard', 'micon' => 'img/configDashboard.png', 'icon' => '#', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    7 => array('id' => '0107', 'name' => 'My Settings', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    7 => array('id' => '0107', 'name' => 'My Settings', 'icon' => '', 'micon' => 'img/mySettings.png', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
             2 => array('name' => 'BMS', 'icon' => 'bms-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'bms', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '0201,0202,0203', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -330,9 +330,9 @@ class MenuItems {
                 'submenu_ids' => '01101,01102,01103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '01101', 'name' => 'Manage Virtual Numbers', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                         'submenu_ids' => '0110101,0110102,0110103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '0110101', 'name' => 'Virtual Numbers', 'icon' => '', 'url' => '/virtualnumber/index', 'slug' => 'virtualnumberslist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '0110102', 'name' => 'Manage Templates', 'icon' => '', 'url' => '/extensionemployee/index', 'slug' => 'extensionemplist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '0110103', 'name' => 'Out-bound Call Log', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '0110101', 'name' => 'Virtual Numbers', 'icon' => '', 'micon' => 'img/virtualNumber.png', 'url' => '/virtualnumber/index', 'slug' => 'virtualnumberslist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '0110102', 'name' => 'Manage Templates', 'icon' => '', 'micon' => 'img/manageTemplates.png', 'url' => '/extensionemployee/index', 'slug' => 'extensionemplist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '0110103', 'name' => 'Out-bound Call Log', 'icon' => '', 'micon' => 'img/outBoundCall.png', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '01102', 'name' => 'Call Logs', 'icon' => '', 'micon' => 'img/callLog.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
                         'submenu_ids' => '0110201,0110202,0110203,0110204', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -396,7 +396,7 @@ class MenuItems {
                     3 => array('id' => '01303', 'name' => 'Pre-Services', 'icon' => '', 'micon' => 'img/ccPreServices.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     4 => array('id' => '01304', 'name' => 'Post-Services', 'icon' => '', 'micon' => 'img/ccPostServies.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1)
                 )),
-            14 => array('name' => 'BMS', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'other', 'has_submenu' => true, 'total_submenu' => 6,
+            14 => array('name' => 'BMS Other Permission', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'other', 'has_submenu' => true, 'total_submenu' => 6,
                 'submenu_ids' => '01401,01402,01403,01404,01405,01406', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '01401', 'name' => 'Allow To Export', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     2 => array('id' => '01402', 'name' => 'Allow To Delete', 'icon' => '', 'micon' => 'img/Todaysappointment.png', 'url' => '#', 'slug' => '#', 'uiSrefActive' => 'active', 'total_submenu' => 1),

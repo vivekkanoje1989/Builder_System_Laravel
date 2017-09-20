@@ -70,19 +70,18 @@
             </div>
         </div>
     </div>
-
-
     <div class="modal fade modal-primary" id="sharedModel" role="dialog" tabindex="-1" ng-init="getEmployees()">    
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center">Sharing History</h4>
+                    <h4 class="modal-title" align="center">History</h4>
                 </div>
-                <form  ng-submit="sharedForm.$valid && sharedFormWith(id)" name="sharedForm"  novalidate enctype="multipart/form-data">
+                <form ng-submit="sharedForm.$valid && sharedFormWith(id)" name="sharedForm" novalidate enctype="multipart/form-data">
                     <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                     <input type="hidden" ng-model="id" name="id"> 
                     <div class="modal-body">
+                        <label ng-if="folderSharedEmployees.length > 0">Folder Shared with:</label>
                         <table class="table table-striped table-bordered" ng-if="folderSharedEmployees.length > 0">
                             <thead>
                                 <tr>
