@@ -33,6 +33,24 @@ class MasterHrController extends Controller {
         return view("MasterHr::index")->with("loggedInUserId", Auth::guard('admin')->user()->id);
     }
 
+    public function getEmployeeData() {
+        $getEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
+                        ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
+                        ->where("employees.employee_status", 1)->get();
+
+        $i = 0;
+        foreach ($getEmployees as $ctEmployeesExt) {
+            $getEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
+            $i++;
+        }
+        if (!empty($getEmployees)) {
+            $result = ['success' => true, 'records' => $getEmployees];
+        } else {
+            $result = ['success' => false, 'message' => 'Something went wrong'];
+        }
+        return json_encode($result);
+    }
+
     public function manageUsers() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -125,6 +143,72 @@ class MasterHrController extends Controller {
             $result = ['success' => true, "records" => ["data" => $manageUsers, 'exportData' => $export, "total" => count($manageUsers), 'per_page' => count($manageUsers), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageUsers)]];
             return json_encode($result);
         }
+    }
+
+    public function preSalesEnquiry() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $empl_id = Auth::guard('admin')->user()->id;
+
+        $empId = [];
+        foreach ($request['employee_id'] as $employee) {
+            array_push($empId, $employee['id']);
+        }
+        $employee_id = implode(',', $empId);
+        $post = array('presale_shared_employee' => $employee_id);
+
+        $result = Employee::where('id', '=', $request['empId'])->update($post);
+        $result = ['success' => true, 'records' => $result];
+        return json_encode($result);
+    }
+
+    public function postSalesEnquiry() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        $empId = [];
+        foreach ($request['employee_id'] as $employee) {
+            array_push($empId, $employee['id']);
+        }
+        $employee_id = implode(',', $empId);
+        $post = array('postsale_shared_employee' => $employee_id);
+
+        $result = Employee::where('id', '=', $request['empId'])->update($post);
+        $result = ['success' => true, 'records' => $result];
+        return json_encode($result);
+    }
+
+    public function getSharedEmployees() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        $result = Employee::where('id', '=', $request['data']['employee_id'])->select('presale_shared_employee', 'postsale_shared_employee')->first();
+        $arr = explode(",",$result->presale_shared_employee);
+        if (!empty($result->presale_shared_employee)) {
+            $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
+                            ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
+                            ->whereIn('employees.id',$arr)
+                            ->where("employees.employee_status", 1)->get();
+            if (!empty($getEmp)) {
+                $preSalesResult = ['success' => true, 'records' => $getEmp];
+            }
+        } else {
+            $preSalesResult = [];
+        }
+
+        if (!empty($result->postsale_shared_employee)) {
+            $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
+                            ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
+                            ->whereIn('employees.id', array($result->postsale_shared_employee))
+                            ->where("employees.employee_status", 1)->get();
+            if (!empty($getEmp)) {
+                $postSalesResult = ['success' => true, 'records' => $getEmp];
+            }
+        } else {
+            $postSalesResult = [];
+        }
+        $result1 = ['success' => true, 'presales' => $preSalesResult, 'postsales' => $postSalesResult];
+        return json_encode($result1);
     }
 
     public function hrDetailsExporToxls() {
@@ -253,7 +337,6 @@ class MasterHrController extends Controller {
             if (!empty($request['bulkData']['sales_employee_id'])) {
                 $sales_employee_id = $request['bulkData']['sales_employee_id'];
                 $enquiryUpdate = DB::table('enquiries')->where('sales_employee_id', $employee_id)->update(array('sales_employee_id' => $sales_employee_id));
-            
             }
             if (!empty($request['bulkData']['cc_presales_employee_id'])) {
                 $cc_presales_employee_id = $request['bulkData']['cc_presales_employee_id'];
@@ -733,10 +816,10 @@ class MasterHrController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
-           if($input['userStatus']['employee_status'] == 3){
-            $salesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('sales_employee_id',$input['employeeId'])->count();
-            $presalesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('cc_presales_employee_id',$input['employeeId'])->count();
-            if($salesEnqcount > 0 || $presalesEnqcount > 0){
+        if ($input['userStatus']['employee_status'] == 3) {
+            $salesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('sales_employee_id', $input['employeeId'])->count();
+            $presalesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('cc_presales_employee_id', $input['employeeId'])->count();
+            if ($salesEnqcount > 0 || $presalesEnqcount > 0) {
                 $result = ['error' => false, 'message' => 'Please reassign enquiries of employee before making permanently suspended'];
                 return json_encode($result);
                 exit;

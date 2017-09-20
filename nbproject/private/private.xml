@@ -3,6 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
         <group/>
 =======
 <<<<<<< HEAD
@@ -22,10 +24,14 @@
 <<<<<<< HEAD
         <group/>
 =======
+>>>>>>> 2d5cc67275baf2147d049d09c3913cf46b6a3965
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Views/enquiryReport.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/reportsController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Controllers/ReportsController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/routes/api.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/userpermissions.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/routes/web.php</file>
 >>>>>>> 225b722b63458051952bcd81067e110f8f2e7abc
 =======
@@ -56,6 +62,9 @@
 >>>>>>> 71c5f65bb9aad4f53f9717b640f6016867c5a5ee
 >>>>>>> 22a3267edd2f718d2635a2794c27726f7da9aa17
         </group>
+<<<<<<< HEAD
+=======
 >>>>>>> 6029ce79b755d90971e03d34bf1b9ee62e0a04c6
+>>>>>>> 2d5cc67275baf2147d049d09c3913cf46b6a3965
     </open-files>
 </project-private>
