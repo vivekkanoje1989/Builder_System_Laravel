@@ -10,6 +10,7 @@ Route::group(array('module' => 'CloudTelephony', 'namespace' => 'App\Modules\Clo
     });
     Route::get('/virtualnumber/virtualNumberExportToxls', 'VirtualNumberController@virtualNumberExportToxls');
     Route::get('/employeeExtExportToxls', 'ExtensionEmployeeController@employeeExtExportToxls');
+    Route::get('cloudtelephony/telephonyRegExportToxls', 'CloudTelephonyController@telephonyRegExportToxls');
     Route::get('/cloudtelephony/showvirtualnumusers', 'CloudTelephonyController@showvirtualnumusers'); 
     Route::resource('/cloudtelephony', 'CloudTelephonyController');
     Route::post('/cloudtelephony/manageLists', 'CloudTelephonyController@manageLists');

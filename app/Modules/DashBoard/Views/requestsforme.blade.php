@@ -17,20 +17,6 @@
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Request For Me</span>                
             </div>
-            <!--            <div class="widget-header ">
-                            <span class="widget-caption">Request For Me</span>
-                            <div class="widget-buttons">
-                                <a href="" data-toggle="maximize">
-                                    <i class="fa fa-expand"></i>
-                                </a>
-                                <a href="#" data-toggle="collapse">
-                                    <i class="fa fa-minus"></i>
-                                </a>
-                                <a href="" data-toggle="dispose">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>-->
             <div class="widget-body table-responsive">
 
                 <div class="row table-toolbar">
@@ -42,7 +28,7 @@
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
                         <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="requestForMeExportToxls()" ng-show="exportData == '1'">
-                            <span>Export</span> <!--href="/manageVerticals/exportToxls"  ng-click="ExportToxls()"-->
+                            <span>Export</span> 
                         </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Options</span>
@@ -81,12 +67,12 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
+                                <option value="50">50</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>

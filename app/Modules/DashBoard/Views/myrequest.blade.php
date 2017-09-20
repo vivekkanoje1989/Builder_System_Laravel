@@ -21,7 +21,20 @@
             <div class="widget-body table-responsive">
 
                 <div class="row table-toolbar">
-                    <a  href="[[ config('global.backendUrl') ]]#/request-leave/index"  id="editabledatatable_new" class="btn btn-default">Request Leave</a>
+                    <div class="btn-group">
+                                        <a class="btn btn-default shiny " href="javascript:void(0);">Actions</a>
+                                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="[[ config('global.backendUrl') ]]#/request-leave/index">Request Leave</a>
+                                            </li>
+                                            <li>
+                                                <a href="[[ config('global.backendUrl') ]]#/request-approval/index">Request Other Approval</a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                    <!--<a  href="[[ config('global.backendUrl') ]]#/request-leave/index"  id="editabledatatable_new" class="btn btn-default">Request Leave</a>-->
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
@@ -68,12 +81,12 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
+                                <option value="50">50</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
@@ -160,11 +173,11 @@
             </div>
         </div>
     </div>
-    <div class="modal fade modal-primary" id="myModal" role="dialog" tabindex="-1">    
+    <div class="modal fade " id="myModal" role="dialog" tabindex="-1">    
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bordered-bottom bordered-themeprimary" style=" border-bottom: 2px solid #e5e5e5;">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">Request Description</h4>
                 </div>

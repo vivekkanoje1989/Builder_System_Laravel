@@ -7,15 +7,15 @@ class MenuItems {
     public static function getMenuItems() {
         $getUrl = config('global.getUrl');
         $menulist = array(
-            1 => array('name' => 'Dashborad', 'icon' => 'dash-img menu-icon-sz', 'micon' => 'img/dashboard.png', 'uiSrefActive' => '', 'url' => '', 'slug' => 'dashboard', 'has_submenu' => true, 'total_submenu' => 7,
-                'submenu_ids' => '0101,0102,0103,0104,0105,0106,0107', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+            1 => array('name' => 'Dashborad', 'icon' => 'dash-img menu-icon-sz', 'micon' => 'img/dashboard.png', 'uiSrefActive' => '', 'url' => '', 'slug' => 'dashboard', 'has_submenu' => true, 'total_submenu' => 5,
+                'submenu_ids' => '0101,0102,0103,0104,0105', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                     1 => array('id' => '0101', 'name' => 'My Salary Slips', 'micon' => 'img/salorySlip.png', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    2 => array('id' => '0102', 'name' => 'Request Leave', 'micon' => 'img/requestLeave.png', 'icon' => '', 'url' => '/requestLeave/index', 'slug' => 'requestLeaveIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    3 => array('id' => '0103', 'name' => 'Request Other Approval', 'micon' => 'img/otherApproval.png', 'icon' => '', 'url' => '/requestOtherApproval/index', 'slug' => 'requestOtherApprovalIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    4 => array('id' => '0104', 'name' => 'Requests for Me', 'micon' => 'img/reqForMe.png', 'icon' => '', 'url' => '/requestForMe/index', 'slug' => 'requestForMeIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    5 => array('id' => '0105', 'name' => 'My Requests', 'micon' => 'img/myRequest.png', 'icon' => '', 'url' => '/myRequest/index', 'slug' => 'myRequestIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    6 => array('id' => '0106', 'name' => 'Configure Dashboard', 'micon' => 'img/configDashboard.png', 'icon' => '#', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    7 => array('id' => '0107', 'name' => 'My Settings', 'icon' => '', 'micon' => 'img/mySettings.png', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+//                    2 => array('id' => '0102', 'name' => 'Request Leave', 'micon' => 'img/requestLeave.png', 'icon' => '', 'url' => '/requestLeave/index', 'slug' => 'requestLeaveIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+//                    2 => array('id' => '0102', 'name' => 'Request Other Approval', 'micon' => 'img/otherApproval.png', 'icon' => '', 'url' => '/requestOtherApproval/index', 'slug' => 'requestOtherApprovalIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    2 => array('id' => '0102', 'name' => 'Requests for Me', 'micon' => 'img/reqForMe.png', 'icon' => '', 'url' => '/requestForMe/index', 'slug' => 'requestForMeIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    3 => array('id' => '0103', 'name' => 'My Requests', 'micon' => 'img/myRequest.png', 'icon' => '', 'url' => '/myRequest/index', 'slug' => 'myRequestIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    4 => array('id' => '0104', 'name' => 'Configure Dashboard', 'micon' => 'img/configDashboard.png', 'icon' => '#', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    5 => array('id' => '0105', 'name' => 'My Settings', 'icon' => '', 'micon' => 'img/mySettings.png', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
             2 => array('name' => 'BMS', 'icon' => 'bms-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'bms', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '0201,0202,0203', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
