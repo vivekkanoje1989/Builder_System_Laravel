@@ -106,22 +106,19 @@ class CareerManagementController extends Controller {
         $careers = WebCareers::where('id', $request['id'])->first();
         if (!empty($careers)) {
             $result = ['success' => true, 'records' => $careers];
-            return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
-            return json_encode($result);
         }
+        return json_encode($result);
     }
 
     public function edit($id) {
-
         return view("CareerManagement::update")->with("id", $id);
     }
 
     public function deleteJob() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
 
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
@@ -216,5 +213,4 @@ class CareerManagementController extends Controller {
         $file_path = public_path('resumes/' . $file_name);
         return response()->download($file_path);
     }
-
 }

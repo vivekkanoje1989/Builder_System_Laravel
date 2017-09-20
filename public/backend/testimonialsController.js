@@ -25,7 +25,6 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
         $scope.searchDetails = {};
         $scope.searchData = {};
         $scope.filterDetails = function (search) {
-//            $scope.searchDetails = {};
             $scope.searchData = search;
         }
         $scope.removeFilterData = function (keyvalue) {
@@ -66,9 +65,9 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
         $scope.manageTestimonialDisapproveExportToExcel = function () {
             $scope.getexcel = window.location = "/testimonials/manageTestimonialDisapproveExportToExcel";
             if ($scope.getexcel) {
-                toaster.pop('info', '', 'Exporting....');
+                toaster.pop('info', '', 'Exporting');
             } else {
-                toaster.pop('error', '', 'Exporting fails....');
+                toaster.pop('error', '', 'Exporting fails');
             }
         }
 
@@ -76,9 +75,9 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
         $scope.manageTestimonialApproveExportToExcel = function () {
             $scope.getexcel = window.location = "/testimonials/manageTestimonialApproveExportToExcel";
             if ($scope.getexcel) {
-                toaster.pop('info', '', 'Exporting....');
+                toaster.pop('info', '', 'Exporting');
             } else {
-                toaster.pop('error', '', 'Exporting fails....');
+                toaster.pop('error', '', 'Exporting fails');
             }
         }
 
@@ -136,7 +135,6 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
                     model.assign($scope, obj[key][0]);// Assigns a value to it
                     selector.push(key);
                 }
-//                window.history.back();
             }, function (response) {
                 $scope.testimonialsBtn = false;
                 if (response.status !== 200) {
@@ -149,14 +147,6 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
             Data.post('testimonials/getTestimonialData', {'testimonial_id': testimonial_id}).then(function (response) {
                 $scope.testimonial = response.records;
                 $scope.testimonial_id = testimonial_id;
-//                $scope.company_name = $scope.testimonialsData.company_name;
-//                $scope.customer_name = $scope.testimonialsData.customer_name;
-//                $scope.video_url = $scope.testimonialsData.video_url;
-//                $scope.mobile_number = $scope.testimonialsData.mobile_number;
-//                $scope.description = $scope.testimonialsData.description;
-//                $scope.web_status = $scope.testimonialsData.web_status;
-//                $scope.approve_status = $scope.testimonialsData.approve_status;
-//                $scope.photo_url = $scope.testimonialsData.photo_url;
                 $scope.hideloader();
             });
         };

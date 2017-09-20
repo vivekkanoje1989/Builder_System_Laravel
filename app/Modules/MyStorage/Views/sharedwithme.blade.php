@@ -76,23 +76,22 @@
                         </div>
                     </div>
                 </div>    
-                
-                 <center ng-if="directories.length == 0"><h1>No Record Found</h1></center>
+
+                <center ng-if="directories.length == 0"><h1>Folder Not Found</h1></center>
                 <hr>
                 <h5 class="row-title ng-scope" ><i class="fa fa-picture-o"></i>Images</h5>
-                    <div class="row" ng-if="myImageStore != ''">
-                        <div class="col-md-2" ng-repeat="imgs in myImageStore track by $index | unique:'imgs' " style="margin:0 0 25px 0;">
-                            <div class="img-wrap"> 
-                                <a  data-reveal-id="sharing_files" ng-click="imageShared(imgs.id); getSharedImagesEmployees(imgs.id)"  data-toggle="modal" data-target="#imageModel" >
-                                    <img title="Share " ng-src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
-                                </a>
-                                <span class="close" ng-click="deleteImages($index, imgs.id)">&times;</span>
-                                <a href="[[ config('global.s3Path') ]]/{{imgs.file_url}}" target="_blank"> <img ng-src="[[ config('global.s3Path') ]]/{{imgs.file_url}}" height="100px;" width="100px;"></a>
-                            </div>
+                <div class="row" ng-if="myImageStore != ''">
+                    <div class="col-md-2" ng-repeat="imgs in myImageStore track by $index | unique:'imgs' " style="margin:0 0 25px 0;">
+                        <div class="img-wrap"> 
+                            <a  data-reveal-id="sharing_files" ng-click="imageShared(imgs.id); getSharedImagesEmployees(imgs.id)"  data-toggle="modal" data-target="#imageModel" >
+                                <img title="Share " ng-src="/backend/assets/img/share-img.png" class="share" style="display: block;"> 
+                            </a>
+                            <span class="close" ng-click="deleteImages($index, imgs.id)">&times;</span>
+                            <a href="[[ config('global.s3Path') ]]/{{imgs.file_url}}" target="_blank"> <img ng-src="[[ config('global.s3Path') ]]/{{imgs.file_url}}" height="100px;" width="100px;"></a>
                         </div>
                     </div>
-                 <center ng-if="myImageStore.length == 0"><h1>No Record Found</h1></center>
                 </div>
+                <center ng-if="myImageStore.length == 0"><h1>Images Not Found</h1></center>
             </div>
         </div>
     </div>

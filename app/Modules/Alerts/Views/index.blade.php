@@ -37,8 +37,7 @@
                                 </div><br>-->
 
                 <div class="row table-toolbar">
-                    <!--                    <a title="Create bank account" class="btn btn-default" data-toggle="modal" ng-click="initialModel('0', '', '', '')" data-target="#bankAccountModal" >Create Bank Account</a>
-                    -->                                        <div class="btn-group pull-right">
+                    <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
@@ -81,7 +80,8 @@
                     <!-- filter data-->
                     <div class="dataTables_length" >
                         <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value))
+                                        this.value = this.value.replace(/\D/g, '')">
                                 <option value="1">1</option>
                                 <option value="5">5</option>
                                 <option value="15">15</option>
@@ -137,9 +137,9 @@
                         <tbody>
                             <tr role="row" dir-paginate="listAlert in listAlerts | filter:search | filter:searchData | itemsPerPage:itemsPerPage  | orderBy:sortKey:reverseSort"">
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
-                                <td ng-init='(listAlert.template_type == 1)? template_type_list[listAlert.id] = 1 : template_type_list[listAlert.id] = 0'>{{ listAlert.event_name}}
-                                    <span ng-init='(listAlert.email_status == 1)? template_email_status_list[listAlert.id] = 1 : template_email_status_list[listAlert.id] = 0'></span>
-                                    <span ng-init='(listAlert.sms_status == 1)? template_sms_status_list[listAlert.id] = 1 : template_sms_status_list[listAlert.id] = 0'></span>
+                                <td ng-init='(listAlert.template_type == 1) ? template_type_list[listAlert.id] = 1 : template_type_list[listAlert.id] = 0'>{{ listAlert.event_name}}
+                                    <span ng-init='(listAlert.email_status == 1) ? template_email_status_list[listAlert.id] = 1 : template_email_status_list[listAlert.id] = 0'></span>
+                                    <span ng-init='(listAlert.sms_status == 1) ? template_sms_status_list[listAlert.id] = 1 : template_sms_status_list[listAlert.id] = 0'></span>
                                 </td>
                                 <td ng-if="listAlert.template_for == 1">Customer</td>
                                 <td ng-if="listAlert.template_for == 0">Employee</td>
@@ -207,7 +207,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="15"  ng-show="(listAlerts|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="15"  ng-show="(listAlerts | filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

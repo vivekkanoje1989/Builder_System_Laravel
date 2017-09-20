@@ -19,6 +19,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
     $scope.ccpresalessubStatusList = [];
     $scope.ccpresalesSubCategoriesList = [];
     $scope.subSourceList = [];
+    $scope.projectList = [];
     $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init) 
     {
         if(init == 1 )

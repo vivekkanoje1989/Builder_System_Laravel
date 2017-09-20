@@ -49,12 +49,12 @@
                     <div class="row table-toolbar">
                         <a href data-toggle="modal" data-target="#addExtensionModal" ng-click="initExtensionModal(ct_employee_extlist)" class="btn btn-default">Add New Extension</a>
                         <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
-                        <div class="btn-group pull-right" ng-click="initExtensionModal(ct_employee_extlist)" >
+                        <div class="btn-group pull-right filterBtn" ng-click="initExtensionModal(ct_employee_extlist)" >
                             <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                         </div>
                     </div>
                     <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                        <div class="DTTT btn-group">
+                        <div class="DTTT btn-group ">
                             <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="employeeExtExportToxls()" ng-show="exportEmpExtensionData == '1'">
                                 <span>Export</span>
                             </a>

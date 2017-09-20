@@ -66,7 +66,11 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/editCustomer/cid/{cid}', 'MasterSalesController@editCustomer'); //updateCustomer
     Route::get('/master-sales/editEnquiry/cid/{cid}/eid/{eid}', 'MasterSalesController@editEnquiry'); //update enquiry data
     Route::put('/master-sales/updateEnquiry/{id}', 'MasterSalesController@updateEnquiry'); //update enquiry data
-    Route::resource('/master-sales', 'MasterSalesController');
+    
+    Route::get('/master-sales/create', 'MasterSalesController@create');
+    Route::get('/master-sales/', 'MasterSalesController@index');
+    Route::put('/master-sales/update/{id}', 'MasterSalesController@update');
+    
     Route::post('/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails'); //get customer details
     Route::post('/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details
     Route::post('/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // get Customer Data With Id

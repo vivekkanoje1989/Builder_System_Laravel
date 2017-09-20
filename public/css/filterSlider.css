@@ -20,8 +20,8 @@
     margin-top: -86px;
 }
 #slideout {
-    /*height: auto;*/
-    height: 100%;
+    height: auto;
+    /*height: 100%;*/
     overflow-y: scroll;
     box-shadow: 0 0 5px rgba(0,0,0,.3);
     position: fixed;
@@ -31,6 +31,16 @@
     transition: all 1.0s ease;
 }
 
+#filter-show .alert.alert-info{
+    margin-left: -15px !important;
+}
+.filterBtn{
+    margin-right: 4px;
+}
+
+.widget-body .table-toolbar{
+    margin-left: -10px;
+}
 #slideout.on {
     right: 0;
 }
@@ -42,5 +52,6 @@
     .abc{
         overflow-y: scroll;
         height: 650px;
+
     }
 }

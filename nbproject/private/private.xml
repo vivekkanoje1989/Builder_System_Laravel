@@ -2,6 +2,29 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+        <group/>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/filter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/total.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Controllers/CustomerCareController.php</file>
+=======
+<<<<<<< HEAD
+        <group/>
+=======
+>>>>>>> 2d5cc67275baf2147d049d09c3913cf46b6a3965
         <group>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/routes/web.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/Controllers/ReportsController.php</file>
@@ -10,6 +33,38 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/userpermissions.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/routes/web.php</file>
+>>>>>>> 225b722b63458051952bcd81067e110f8f2e7abc
+=======
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Controllers/ProjectsController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/routes/web.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Marketing/Views/detaillog.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/other.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Themes/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/index.blade.php</file>
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/controllers/datepicker.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/ProjectPaymentStages/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Controllers/DashBoardController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Testimonials/Views/manage.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/myrequest.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/dashBoardController.js</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/projectController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/frontend/UserController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BloodGroups/Views/index.blade.php</file>
+>>>>>>> 71c5f65bb9aad4f53f9717b640f6016867c5a5ee
+>>>>>>> 22a3267edd2f718d2635a2794c27726f7da9aa17
         </group>
+<<<<<<< HEAD
+=======
+>>>>>>> 6029ce79b755d90971e03d34bf1b9ee62e0a04c6
+>>>>>>> 2d5cc67275baf2147d049d09c3913cf46b6a3965
     </open-files>
 </project-private>
