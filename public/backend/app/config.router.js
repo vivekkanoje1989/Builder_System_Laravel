@@ -243,13 +243,15 @@ angular.module('app')
                                                 [
                                                     '$ocLazyLoad',
                                                     function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
+                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
                                                                 function () {
                                                                     return $ocLazyLoad.load({
                                                                         serie: true,
                                                                         files: [
+                                                                            '/js/intlTelInput.js',
                                                                             '/backend/app/controllers/accordion.js',
                                                                             '/backend/hrController.js',
+                                                                            '/backend/app/controllers/select2.js',
                                                                         ]
                                                                     });
                                                                 }

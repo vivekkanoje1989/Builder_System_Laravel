@@ -9,6 +9,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.userPersonalData = {};
         $scope.bulkData = {};
         $scope.designationList = [];
+         $scope.presalesemployee_id = [];
+       // $scope.presales =[];
         $scope.invalidImage = '';
         $scope.contact = true;
         $scope.listUsers = [];
@@ -64,13 +66,53 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //                }
 //            });
         }
-        
-        
+
+       //$scope.ct_employee = [];
+        $scope.getEmployeeData = function (employee_id) {
+            Data.post('master-hr/getEmployeeData', {employee_id: employee_id}).then(function (response) {
+                $scope.ct_employee = response.records;
+                console.log(response);
+            });
+        }
+
+        $scope.preSalesEnquiry = function (presales, employee_id) {
+  
+            Data.post('master-hr/preSalesEnquiry', {employee_id: presales, empId: employee_id}).then(function (response) {
+                if (response.success) {
+                    toaster.pop('success', 'Pre Sales Enquiry', 'Enquiries shared successfully');
+                }
+            });
+        }
+
+        $scope.postSalesEnquiry = function (postsales, employee_id) {
+
+            Data.post('master-hr/postSalesEnquiry', {employee_id: postsales, empId: employee_id}).then(function (response) {
+                if (response.success) {
+                    toaster.pop('success', 'Post Sales Enquiry', 'Enquiries shared successfully');
+                }
+            });
+        }
+
+        $scope.getSharedEmployees = function (employee_id) {
+            $scope.predata = [];
+            $scope.postsales = [];
+            Data.post('master-hr/getSharedEmployees', {
+                data: {employee_id: employee_id},
+                async: false,
+            }).then(function (response) {
+               $scope.predata.presalesemployee_id = angular.copy(response.presales.records);
+                //console.log($scope.presales.presalesemployee_id);
+//              $scope.postsales.postsalesemployee_id = response.postsales;
+
+            });
+        }
+
+
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
         }
-        
+
         $scope.removeFilterData = function (keyvalue) {
             delete $scope.searchData[keyvalue];
             $scope.filterDetails($scope.searchData);
@@ -335,6 +377,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             Data.post('master-hr/manageUsers', {
                 empId: id
             }).then(function (response) {
+
                 if (response.success) {
                     $scope.flagForChange = 0;
                     if (action == "index") {
@@ -436,9 +479,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                             {
                                 $scope.userContact.personal_email2 = response.records.data[0].personal_email2;
                             }
-
-
-
                             if (response.records.data[0].personal_landline_calling_code == null || response.records.data[0].personal_landline_calling_code == 0) {
                                 $scope.userContact.personal_landline_calling_code = '+91-';
                             } else {
@@ -593,6 +633,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                 data: {deptId: deptId},
                                 async: false,
                             }).then(function (response) {
+                              
                                 if (!response.success) {
                                     $scope.errorMsg = response.message;
                                 } else {

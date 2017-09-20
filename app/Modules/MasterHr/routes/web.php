@@ -64,6 +64,12 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::post('/master-hr/storeEmployeeData', 'MasterHrController@storeEmployeeData');
     Route::get('/master-hr/getTeamLeadForQuick', 'MasterHrController@getTeamLeadForQuick');
     Route::get('/master-hr/getTeamLead/{id}', 'MasterHrController@getTeamLead');
+    
+    
+    Route::post('/master-hr/getEmployeeData', 'MasterHrController@getEmployeeData');
+    Route::post('/master-hr/preSalesEnquiry', 'MasterHrController@preSalesEnquiry');
+    Route::post('/master-hr/postSalesEnquiry', 'MasterHrController@postSalesEnquiry');
+    Route::post('/master-hr/getSharedEmployees', 'MasterHrController@getSharedEmployees');
 
     Route::get('/MasterHr/showFilter', function () {
         return View::make('MasterHr::showFilter');
