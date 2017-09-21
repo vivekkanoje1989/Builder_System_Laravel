@@ -134,6 +134,9 @@
                                     <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/projects/webpageDetails/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="7"  ng-show="(projectRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">

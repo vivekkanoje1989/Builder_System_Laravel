@@ -195,6 +195,8 @@ class Employee extends Authenticatable {
         'employee_sms_subscrption',
         'employee_info_form_url',
         'employee_info_form_url_status',
+        'presale_shared_employee',
+        'postsale_shared_employee',
         'created_date',
         'created_by',
         'created_IP',
