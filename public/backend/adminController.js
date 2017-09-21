@@ -9,10 +9,6 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
         return false;
     }
 
- $scope.records = [
-    "30",'50','100','200','300','400','500','600','700','800','900','999',
-  ]
-  
     $scope.checkUsername = function (usernameData) {
         Data.post('checkUsername', {
             username: usernameData.mobile,
