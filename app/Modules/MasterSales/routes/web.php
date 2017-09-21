@@ -7,10 +7,12 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     });
     Route::get('/MasterSales/createEnquiry', function () {
         return View::make('MasterSales::createEnquiry');
-    });
+    })->middleware("permission:040102|040103|040104|040105|040106|040107|040108|040109|040101004|040101005|040101006|040101001|040101002|040101003");
+    
     Route::get('/MasterSales/createCustomer', function () {
         return View::make('MasterSales::createCustomer');
-    });
+    })->middleware("permission:040102|040103|040104|040105|040106|040107|040108|040109|040101004|040101005|040101006|040101001|040101002|040101003");
+    
     Route::get('/MasterSales/enquiryHistory', function () {
         return View::make('MasterSales::enquiryHistory');
     });
@@ -26,35 +28,16 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/MasterSales/showFilter', function () {
         return View::make('MasterSales::showFilter');
     });    
-    Route::get('/MasterSales/scheduletestdrive', function () {
-        return View::make('MasterSales::scheduletestdrive');
-    });
-     Route::get('/MasterSales/sendDocument', function () {
+    Route::get('/MasterSales/sendDocument', function () {
         return View::make('MasterSales::sendDocument');
     });     
     Route::get('/master-sales/createQuickEnquiry','MasterSalesController@createQuickEnquiry')->middleware("permission:040101");
- 
     
-    /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
-    Route::get('/master-sales/teamLostEnquiries', function () {
-        return view('MasterSales::teamLostEnquiries');
-    });
-    Route::get('/master-sales/teamClosedEnquiries', function () {
-        return view('MasterSales::teamClosedEnquiries');
-    });
-    Route::get('/master-sales/teamTodayFollowups', function () {
-        return view('MasterSales::teamTodayFollowups');
-    });
-    Route::get('/master-sales/teamPendingFollowups', function () {
-        return view('MasterSales::teamPendingFollowups');
-    });
-    Route::get('/master-sales/teamPreviousFollowups', function () {
-        return view('MasterSales::teamPreviousFollowups');
-    });    
-    Route::get('/master-sales/import', function () {
+    Route::get('/master-sales/import',['middleware' => 'permission:040502', function () {
         return View::make('MasterSales::import');
-    });
-    /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/    
+    }]);
+    
+    /************************************************************/    
     Route::get('/master-sales/updateCustomer/{id}', 'MasterSalesController@updateCustomer'); //update customer data
     Route::get('/master-sales/getEmployees', 'MasterSalesController@getEmployees');  // get all employees    
     Route::get('/master-sales/getEnquiryCity', 'MasterSalesController@getEnquiryCity'); // get enquiry city from table 
@@ -63,14 +46,14 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     Route::get('/master-sales/showEnquiry/{id}', 'MasterSalesController@showEnquiry'); //show enquiry page
     Route::post('/master-sales/saveEnquiry', 'MasterSalesController@saveEnquiry'); //save enquiry data
     
-    Route::get('/master-sales/editCustomer/cid/{cid}', 'MasterSalesController@editCustomer'); //updateCustomer
+    Route::get('/master-sales/editCustomer/cid/{cid}', 'MasterSalesController@editCustomer')->middleware("permission:040102|040103|040104|040105|040106|040107|040108|040109|040101004|040101005|040101006|040101001|040101002|040101003"); //updateCustomer
     Route::get('/master-sales/editEnquiry/cid/{cid}/eid/{eid}', 'MasterSalesController@editEnquiry'); //update enquiry data
     Route::put('/master-sales/updateEnquiry/{id}', 'MasterSalesController@updateEnquiry'); //update enquiry data
     
-    Route::get('/master-sales/create', 'MasterSalesController@create');
-    Route::get('/master-sales/', 'MasterSalesController@index');
+    Route::get('/master-sales/create', 'MasterSalesController@create')->middleware("permission:040102");
+    Route::get('/master-sales/', 'MasterSalesController@index')->middleware("permission:040102");
     Route::put('/master-sales/update/{id}', 'MasterSalesController@update');
-    
+
     Route::post('/master-sales/getCustomerDetails', 'MasterSalesController@getCustomerDetails'); //get customer details
     Route::post('/master-sales/getEnquiryDetails', 'MasterSalesController@getEnquiryDetails'); //get enquiry details
     Route::post('/master-sales/getCustomerDataWithId', 'MasterSalesController@getCustomerDataWithId'); // get Customer Data With Id
@@ -91,39 +74,35 @@ Route::group(array('module' => 'MasterSales', 'middleware' => ['auth:admin'], 'n
     
     
     /****************************ENQUIRIES****************************/
-    Route::get('/master-sales/totalEnquiry/{type}', 'MasterSalesController@totalEnquiry'); // get total enq with type
-    Route::post('/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries'); // total enquiries listing
-    Route::get('/master-sales/reassignEnquiry/{type}', 'MasterSalesController@reassignEnquiry'); //  reassign enquiries
-    Route::post('/master-sales/getReassignEnquiry', 'MasterSalesController@getReassignEnquiry'); // listing for reassign enquiries
-    Route::get('/master-sales/lostEnquiries/{type}', 'MasterSalesController@lostEnquiries'); // get all lost enquiries
-    Route::post('/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries'); // get lost enquiries listing
-    Route::get('/master-sales/bookedEnquiries/{type}', 'MasterSalesController@bookedEnquiries'); // get all booked enquiries 
-    Route::post('/master-sales/getBookedEnquiries', 'MasterSalesController@getBookedEnquiries'); // get Booked  Enquiries
+    
+    Route::get('/master-sales/totalEnquiry/{type}', 'MasterSalesController@totalEnquiry')->middleware("permission:040106"); // get total enq with type
+    Route::get('/master-sales/teamTotalEnquiry/{type}', 'MasterSalesController@teamTotalEnquiry')->middleware("permission:040101004"); // get total enq with type
+    Route::post('/master-sales/getTotalEnquiries', 'MasterSalesController@getTotalEnquiries')->middleware("permission:040106|040101004"); // total enquiries listing
+    Route::get('/master-sales/reassignEnquiry/{type}', 'MasterSalesController@reassignEnquiry')->middleware("permission:040109"); //  reassign enquiries
+    Route::post('/master-sales/getReassignEnquiry', 'MasterSalesController@getReassignEnquiry')->middleware("permission:040109"); // listing for reassign enquiries
+    Route::get('/master-sales/lostEnquiries/{type}', 'MasterSalesController@lostEnquiries')->middleware("permission:040107"); // get all lost enquiries
+    Route::get('/master-sales/teamLostEnquiries/{type}', 'MasterSalesController@lostEnquiries')->middleware("permission:040101005"); // get all lost enquiries
+    Route::post('/master-sales/getLostEnquiries', 'MasterSalesController@getLostEnquiries')->middleware("permission:040107|040101005"); // get lost enquiries listing
+    Route::get('/master-sales/bookedEnquiries/{type}', 'MasterSalesController@bookedEnquiries')->middleware("permission:040108|040101006"); // get all booked enquiries 
+    Route::get('/master-sales/teamBookedEnquiries/{type}', 'MasterSalesController@bookedEnquiries')->middleware("permission:040108|040101006"); // get all booked enquiries 
+    Route::post('/master-sales/getBookedEnquiries', 'MasterSalesController@getBookedEnquiries')->middleware("permission:040108|040101006"); // get Booked  Enquiries
     /****************************ENQUIRIES****************************/
     
     /****************************FOLLOWUPS****************************/
-    Route::get('/master-sales/showTodaysFollowups/{type}', 'MasterSalesController@showTodaysFollowups');// today followups with type
-    Route::get('/master-sales/showPendingFollowups/{type}', 'MasterSalesController@showPendingFollowups');// pending followups with type
-    Route::get('/master-sales/showPreviousFollowups/{type}', 'MasterSalesController@showPreviousFollowups');// pending followups with type
-    Route::post('/master-sales/getTodaysFollowups', 'MasterSalesController@getTodaysFollowups'); // get TodaysFollowups    
-    Route::post('/master-sales/getPendingFollowups', 'MasterSalesController@getPendingFollowups'); // get getPendingFollowups
-    Route::post('/master-sales/previousFollowups', 'MasterSalesController@previousFollowups'); // get getPreviousFollowups
+    Route::get('/master-sales/showTodaysFollowups/{type}', 'MasterSalesController@showTodaysFollowups')->middleware("permission:040103");// today followups with type
+    Route::get('/master-sales/showTeamTodaysFollowups/{type}', 'MasterSalesController@showTodaysFollowups')->middleware("permission:040101001");// team today followups with type
+    Route::get('/master-sales/showPendingFollowups/{type}', 'MasterSalesController@showPendingFollowups')->middleware("permission:040104");// pending followups with type
+    Route::get('/master-sales/showTeamPendingFollowups/{type}', 'MasterSalesController@showPendingFollowups')->middleware("permission:040101002");// team pending followups with type
+    Route::get('/master-sales/showPreviousFollowups/{type}', 'MasterSalesController@showPreviousFollowups')->middleware("permission:040105");// previous followups with type
+    Route::get('/master-sales/showTeamPreviousFollowups/{type}', 'MasterSalesController@showPreviousFollowups')->middleware("permission:040101003");// team previous followups with type
+    Route::post('/master-sales/getTodaysFollowups', 'MasterSalesController@getTodaysFollowups')->middleware("permission:040103|040101001"); // get TodaysFollowups    
+    Route::post('/master-sales/getPendingFollowups', 'MasterSalesController@getPendingFollowups')->middleware("permission:040104|040101002"); // get getPendingFollowups
+    Route::post('/master-sales/previousFollowups', 'MasterSalesController@previousFollowups')->middleware("permission:040105|040101003"); // get getPreviousFollowups
     /****************************FOLLOWUPS****************************/
-    
-    /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
-    Route::post('/master-sales/getTeamTotalEnquiries', 'MasterSalesController@getTeamTotalEnquiries'); // get team total enquiries 
-    Route::post('/master-sales/getTeamLostEnquiries', 'MasterSalesController@getTeamLostEnquiries'); // get team lost enquiries
-    Route::post('/master-sales/getTeamClosedEnquiries', 'MasterSalesController@getTeamClosedEnquiries'); // get team closed enquiries
-    
-    Route::post('/master-sales/getTeamTodayFollowups', 'MasterSalesController@getTeamTodayFollowups'); // get team todays followups
-    Route::post('/master-sales/getTeamPendingFollowups', 'MasterSalesController@getTeamPendingFollowups'); // get team pending followups
-    Route::post('/master-sales/getTeamPreviousFollowups', 'MasterSalesController@getTeamPreviousFollowups'); // get team previous followups
-    /*********************TEAM ENQUIRIES & FOLLOWUPS*********************/
-    
-    /*********************IMPORT ENQUIRIES*********************/
 
-    Route::post('/master-sales/importEnquiry', 'MasterSalesController@importEnquiry');
-    Route::post('/master-sales/getImportHistory', 'MasterSalesController@getImportHistory');
+    /*********************IMPORT ENQUIRIES*********************/
+    Route::post('/master-sales/importEnquiry', 'MasterSalesController@importEnquiry')->middleware("permission:040502");
+    Route::post('/master-sales/getImportHistory', 'MasterSalesController@getImportHistory')->middleware("permission:040502");
     /*********************IMPORT ENQUIRIES*********************/
     
     /*********************TODAY REMARK*********************/

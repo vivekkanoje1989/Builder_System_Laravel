@@ -2,7 +2,6 @@
 
 Route::group(array('module' => 'DashBoard', 'middleware' => ['auth:admin'], 'namespace' => 'App\Modules\DashBoard\Controllers'), function() {
 
-    $getUrl = config('global.getUrl');
     Route::get('/my-request/exportToxls', 'DashBoardController@exportToxls');
     Route::get('/request-approval/index', 'DashBoardController@other');
     Route::get('/request-for-me/requestForMeExportToxls', 'DashBoardController@requestForMeExportToxls');

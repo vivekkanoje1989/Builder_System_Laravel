@@ -88,7 +88,8 @@ angular.module('app')
 
                     var listener = function(event, toState) {
                         var title = 'Default Title';
-                        if (toState.ncyBreadcrumb && toState.ncyBreadcrumb.label) title = toState.ncyBreadcrumb.label;
+//                        if (toState.ncyBreadcrumb && toState.ncyBreadcrumb.label) title = toState.ncyBreadcrumb.label;
+                        if (toState.ncyBreadcrumb && toState.ncyBreadcrumb.title) title = toState.ncyBreadcrumb.title;
                         $timeout(function() {
                             element.text(title);
                         }, 0, false);
