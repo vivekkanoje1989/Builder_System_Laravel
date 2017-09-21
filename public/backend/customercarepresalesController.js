@@ -10,7 +10,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
     $scope.getProcName;
     $scope.btn_todayremark_disable =  false;
     $scope.history_enquiryId;
-    $scope.initmoduelswisehisory = [1, 2];
+    $scope.initmoduelswisehisory = [2];
     $scope.contact_permission;
     $scope.email_permission;
     $scope.client_id;
@@ -55,21 +55,20 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
     
     $scope.getModulesWiseHistory = function(enquiry_id,opt)
     {
-        var moduelswisehisory = new Array();        
+        var moduelswisehisory = new Array();
         if(opt == 1)
         {
             if($('#chk_enquiry_history').is(":checked"))
             {
                 $(':checkbox.chk_followup_history_all').prop('checked', true);
-            }   
+            }
             else
             {
                 $(':checkbox.chk_followup_history_all').prop('checked', false);
             } 
-        }   
+        }
         
-        $(".chk_followup_history_all").each(function(){
-            
+        $(".chk_followup_history_all").each(function(){            
             if($(this).is(":checked"))
             {
                 moduelswisehisory.push($(this).data("id"))    
@@ -87,8 +86,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                 
         $scope.initHistoryDataModal(enquiry_id,moduelswisehisory,0)            
     }
-    
-    
+        
     $scope.initTodayHistoryDataModal = function (enquiry_id,moduelswisehisory,init) 
     {
         

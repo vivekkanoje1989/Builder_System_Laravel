@@ -5,21 +5,28 @@
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
         <group/>
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
+>>>>>>> d3658ffe26eda090d17e5f1f1efd2bc734b57da0
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/js/accordian.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/css/filterSlider.css</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Http/Controllers/backend/AdminController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customercarepresalesController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/previous.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/pending.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/filter.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/config/database.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/total.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/today.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Controllers/CustomerCareController.php</file>
+<<<<<<< HEAD
+=======
 =======
 <<<<<<< HEAD
         <group/>
@@ -61,6 +68,7 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/BloodGroups/Views/index.blade.php</file>
 >>>>>>> 71c5f65bb9aad4f53f9717b640f6016867c5a5ee
 >>>>>>> 22a3267edd2f718d2635a2794c27726f7da9aa17
+>>>>>>> d3658ffe26eda090d17e5f1f1efd2bc734b57da0
         </group>
 <<<<<<< HEAD
 =======
