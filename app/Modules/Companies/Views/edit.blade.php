@@ -139,8 +139,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12" align="right">
-                                    <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="firmBtn">Submit</button>
-                                    <a href="[[ config('global.backendUrl') ]]#/companies/index" class="btn btn-primary"><< Back to list</a>
+                                    <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="firmBtn">Update</button>
+                                    <a href="[[ config('global.backendUrl') ]]#/companies/index" class="btn btn-primary">Cancel</a>
                                 </div>
                             </div>                    
                         </form>
@@ -152,27 +152,31 @@
                                     <div class="header ">
                                         <!--Manage Documents-->
                                         <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  data-toggle="modal" data-target="#documentModal" >
+                                    </div> 
+                                    <div class="widget-body table-responsive" >
+
+                                        <table class="table table-hover table-responsive table-striped table-bordered">
+                                            <thead class="">
+                                                <tr>
+                                                    <th>Sr. No.</th>
+                                                    <th>Documents Name</th>
+                                                    <th>Documents File</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="list in documents">
+                                                    <td>{{$index + 1}}</td>
+                                                    <td>{{list.document_name}}</td>
+                                                    <td><img ng-src="[[ Config('global.s3Path') ]]/Company/documents/{{list.documentFile}}" width="80px" height="80px"></td>
+                                                    <td class="fa-div">
+                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="editdocument({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
+                                                    </td>
+                                                </tr>  
+                                            </tbody>
+                                        </table>
+                                        <a href="[[ config('global.backendUrl') ]]#/companies/index" class="btn btn-primary pull-right" style="margin-top: 25px;">Cancel</a>
                                     </div>
-                                    <table class="table table-hover table-responsive table-striped table-bordered">
-                                        <thead class="">
-                                            <tr>
-                                                <th>Sr. No.</th>
-                                                <th>Documents Name</th>
-                                                <th>Documents File</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="list in documents">
-                                                <td>{{$index + 1}}</td>
-                                                <td>{{list.document_name}}</td>
-                                                <td><img ng-src="[[ Config('global.s3Path') ]]/Company/documents/{{list.documentFile}}" width="80px" height="80px"></td>
-                                                <td class="fa-div">
-                                                    <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="editdocument({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
-                                                </td>
-                                            </tr>  
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -213,6 +217,7 @@
                                                 </tr>                                            
                                             </tbody>
                                         </table>
+                                         <a href="[[ config('global.backendUrl') ]]#/companies/index" class="btn btn-primary pull-right" style="margin-top: 25px;">Cancel</a>
                                     </div>
 
                                 </div>
@@ -228,7 +233,7 @@
             <div class="modal-content">
                 <div class="modal-header navbar-inner">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center">Filters</h4>
+                    <h4 class="modal-title" align="center">Stationary</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -346,12 +351,12 @@
             </div>
         </div>
     </div>
-<div class="modal fade modal-primary" id="documentModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
+    <div class="modal fade modal-primary" id="documentModal" role="dialog" tabindex='-1' data-backdrop="static" data-keyboard="false" >
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header navbar-inner">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center">Add Document</h4>
+                    <h4 class="modal-title" align="center">Document</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">

@@ -19,7 +19,7 @@
                 <span class="widget-caption">Manage Companies</span>                
             </div>
             <div class="widget-body table-responsive">
-               
+
                 <div class="row table-toolbar">
                     <a href="[[ config('global.backendUrl') ]]#/companies/create" class="btn btn-default">Add New Company</a>
                     <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
@@ -29,17 +29,17 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="companiesExportToxls()" ng-show="exportData == '1'"> 
-                            <span>Export</span>
-                        </a>
+                        <!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="companiesExportToxls()" ng-show="exportData == '1'"> 
+                                                    <span>Export</span>
+                                                </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
+                            <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href="" ng-click="companiesExportToxls()" ng-show="exportData == '1'">Export</a>
                                 </li>
-                                
+
                             </ul>
                         </a>
                     </div>
@@ -66,12 +66,17 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
@@ -81,14 +86,14 @@
                                 <th style="width:5%">Sr. No.</th>
                                 <th style="width:20%">
                                     <a href="javascript:void(0);" ng-click="orderByField('punch_line')">Punch Line
-                                        <span ><img ng-hide="(sortKey == 'punch_line' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'punch_line' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'punch_line' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'punch_line' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>                           
                                 <th style="width:20%">
                                     <a href="javascript:void(0);" ng-click="orderByField('legal_name')">Legal Name
-                                        <span ><img ng-hide="(sortKey == 'legal_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'legal_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'legal_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'legal_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
@@ -103,10 +108,14 @@
                                 <td>{{list.legal_name}}</td> 
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit Information" data-toggle="modal" data-target="#companyModal"><a href="[[ config('global.backendUrl') ]]#/companies/edit/{{list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteCompany({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+<!--                                    <span  ng-show="deleteBtn == '1'" id="dialog" class="" tooltip-html-unsafe="Delete"  confirmed-click="deleteCompany({{list.id}},{{$index}})" 
+    ng-confirm-click="Sure you want to delete {{list.legal_name}} company "><a href="" class="btn-danger btn-xs "><i class="fa fa-trash-o"></i>Delete</a></span>
+                                </td>-->
+                                    <span  ng-show="deleteBtn == '1'" id="dialog" class="" tooltip-html-unsafe="Delete"  ng-click="confirm({{list.id}},{{$index}})" ><a href="" class="btn-danger btn-xs "><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
+
                             </tr>
-                             <tr>
+                            <tr>
                                 <td colspan="4"  ng-show="(CompanyRow|filter:search | filter:searchData ).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
@@ -165,3 +174,39 @@
     <!-- Filter Form End-->
 </div>
 
+<!--<script>
+   $( document ).ready(function() {
+       $('.abcd').click(function(){
+    alert('fh')
+})
+
+function fnOpenNormalDialog() {
+    $("#dialog-confirm").html("Confirm Dialog Box");
+alert($(this).attr("data-deletedid"));
+    // Define the Dialog and its properties.
+    $("#dialog-confirm").dialog({
+        resizable: false,
+        modal: true,
+        title: "Modal",
+        height: 250,
+        width: 400,
+        buttons: {
+            "Yes": function () {
+                $(this).dialog('close');
+                callback(true);
+            },
+                "No": function () {
+                $(this).dialog('close');
+                callback(false);
+            }
+        }
+    });
+}
+
+$('.abcd').click(function(){
+    alert('fh')
+})
+
+//$('.btn-danger').click(fnOpenNormalDialog);
+   });
+</script>-->

@@ -46,7 +46,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 $scope.listPages = response.records.data;
                 $scope.exportData = response.records.exportData;
                 $scope.deleteBtn = response.records.delete;
-                
+
             });
         }
 
@@ -62,10 +62,14 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.deletePage = function (id, index) {
             Data.post('web-pages/deletePage', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Content Management', 'Web Page deleted successfully');
+//                toaster.pop('success', 'Content Management', 'Web Page deleted successfully');
                 $scope.listPages.splice(index, 1);
             });
         }
+
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deletePage(args['id'], args['index']);
+        });
 
         $scope.getSubPages = function (pageid)
         {

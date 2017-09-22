@@ -42,10 +42,14 @@ app.controller('blogsCtrl', ['$scope', 'Data', '$timeout', 'Upload', '$state', '
         $scope.deleteBlog = function (id, index) {
             Data.post('manage-blog/deleteBlog', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Blog Management', 'Blog deleted successfully');
+//                toaster.pop('success', 'Blog Management', 'Blog deleted successfully');
                 $scope.blogsRow.splice(index, 1);
             });
         }
+        
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteBlog(args['id'], args['index']);
+        });
 
         $scope.blogManagementExportToxls = function () {
             $scope.getexcel = window.location = "/manage-blog/blogManagementExportToxls";

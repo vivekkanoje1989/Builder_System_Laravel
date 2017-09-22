@@ -48,7 +48,7 @@
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!requestLeave.req_desc.$dirty && requestLeave.req_desc.$invalid) }">
                                     <label>Application Description<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <textarea ng-model="request.req_desc" name="req_desc" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" style="height: 238px;" maxlength="100" required></textarea>
+                                        <textarea ng-model="request.req_desc" name="req_desc" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched capitalize"   maxlength="300" required></textarea>
                                         <i class="glyphicon glyphicon-briefcase "></i>
                                     </span>
                                     <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.req_desc.$error">

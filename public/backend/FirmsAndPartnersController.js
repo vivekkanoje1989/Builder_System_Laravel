@@ -1,4 +1,4 @@
-app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', '$parse', '$timeout', '$window', function ($scope, Data, Upload, toaster, $state, $parse, $timeout, $window) {
+app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', '$parse', '$timeout', '$window', 'SweetAlert', function ($scope, Data, Upload, toaster, $state, $parse, $timeout, $window, SweetAlert) {
 
         $scope.noOfRows = 1;
         $scope.itemsPerPage = 30;
@@ -44,10 +44,35 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.deleteCompany = function (id, index) {
             Data.post('manage-companies/deleteCompany', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Firms and partners', 'Company deleted successfully');
+//                toaster.pop('success', 'Firms and partners', 'Company deleted successfully');
                 $scope.CompanyRow.splice(index, 1);
             });
         }
+        
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteCompany(args['id'], args['index']);
+        });
+//        $scope.confirm = function(id,index){
+//        SweetAlert.swal({
+//            title: "Are you sure?", //Bold text
+//            text: "Your will not be able to recover this record!", //light text
+//            type: "warning", //type -- adds appropiriate icon
+//            showCancelButton: true, // displays cancel btton
+//            confirmButtonColor: "#DD6B55",
+//            confirmButtonText: "Yes, delete it!",
+//            closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
+//            closeOnCancel: false
+//        }, 
+//        function(isConfirm){ //Function that triggers on user action.
+//            if(isConfirm){
+//               $scope.deleteCompany(id,index);
+//                SweetAlert.swal("Deleted!");
+//            } else {
+//                SweetAlert.swal("Your file is safe!");
+//            }
+//        });
+//    }
+
 
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;

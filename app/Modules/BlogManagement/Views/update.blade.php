@@ -170,7 +170,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-xs-12" align="right">
                             <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="updateBlog">Update</button>
-                            <a href="[[ config('global.backendUrl') ]]#/blog/index" class="btn btn-primary"><< Back to list</a>
+                            <a href="[[ config('global.backendUrl') ]]#/blog/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>

@@ -15,7 +15,10 @@
 <div class="row">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="alertsController">
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
+            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>-->
+           <div class="widget-header">
+                <span class="widget-caption">Edit Template Setting</span>
+            </div>
             <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
                     <form novalidate role="form" ng-submit="alertFrom.$valid &&  createAlert(alertData, alertData.image_file,[[ !empty($alertId) ?  $alertId : '0' ]])" name="alertFrom" ng-init="manageAlerts([[ !empty($alertId) ?  $alertId : '0' ]],'edit',[[$customerType]])">
@@ -210,8 +213,10 @@
                         </div>
                     </div>    
                     <div class="row">
-                        <div class="col-lg-12 col-xs-12 col-md-12">
-                            <button type="submit" class="btn btn-primary" ng-click="sbtBtn=true">{{buttonLabel}}</button>
+                        <div class="col-lg-12 col-xs-12 col-md-12 " align="right">
+                            <button type="submit" class="btn btn-primary " ng-click="sbtBtn=true">{{buttonLabel}}</button>
+                             <a href="[[ config('global.backendUrl') ]]#/alerts/index" class="btn btn-primary">Cancel</a>
+                                        
                         </div>
                     </div>
                 </form>

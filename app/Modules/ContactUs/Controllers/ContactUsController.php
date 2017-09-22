@@ -22,7 +22,7 @@ class ContactUsController extends Controller {
     }
 
     public function manageContactUs() {
-        $getContactus = WebContactus::all();
+        $getContactus = WebContactus::select('id','address','pin_code','email','contact_person_name')->where('deleted_status', '!=', 1)->get();
         $contactUs = array();
         for ($i = 0; $i < count($getContactus); $i++) {
             $contactData['id'] = $getContactus[$i]['id'];
@@ -38,8 +38,13 @@ class ContactUsController extends Controller {
         }else{
               $export = '';
         }
+         if (in_array('01402', $array)) {
+            $deleteBtn = 1;
+        } else {
+            $deleteBtn = '';
+        }
         if (!empty($contactUs)) {
-            $result = ['success' => true, 'records' => $contactUs, 'exportData' => $export];
+            $result = ['success' => true, 'records' => $contactUs, 'exportData' => $export,'deleteBtn'=>$deleteBtn];
             return json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
@@ -47,6 +52,18 @@ class ContactUsController extends Controller {
         }
     }
 
+    
+      public function deleteContact() {
+         $postdata = file_get_contents('php://input');
+        $request = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+        $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
+        $input['companiesData'] = array_merge($request, $create);
+        $companyData = WebContactus::where('id', $request['id'])->update($input['companiesData']);
+        $result = ['success' => true, 'result' => $companyData];
+        return json_encode($result);
+        
+    }
     public function manageStates() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);

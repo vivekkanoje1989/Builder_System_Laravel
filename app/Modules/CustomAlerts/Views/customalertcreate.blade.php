@@ -7,7 +7,10 @@
 <div class="row">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="customalertsController">
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
+            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>-->
+             <div class="widget-header ">
+                <span class="widget-caption">Add Custom Template</span>
+            </div>
             <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
                     <form novalidate role="form" ng-submit="customAlertForm.$valid && createAlert(customAlertData, [[ !empty($alertId) ?  $alertId : '0' ]])" name="customAlertForm" ng-init="manageAlerts([[ !empty($alertId) ?  $alertId : '0' ]], 'edit')">

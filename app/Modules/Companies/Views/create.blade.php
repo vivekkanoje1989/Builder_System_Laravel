@@ -121,7 +121,7 @@
                                         <label>Firm Logo<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <input type="file" ngf-select   ng-model="CompanyData.firm_logo" name="firm_logo" id="firm_logo"  accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" >
-                                            <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.firm_logo.$error">
+                                            <div class="help-block" ng-if="sbtBtn" ng-messages="companysForm.firm_logo.$error">
                                                 <div ng-message="required">Logo is required</div>
                                             </div>
                                             <div ng-if="firm_logo" class="sp-err firm_logo">{{firm_logo}}</div>
@@ -147,7 +147,7 @@
                             <div class="row">
                                 <div class="col-sm-12 col-xs-12" align="right">
                                     <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="firmBtn">Submit</button>
-                                    <a href="[[ config('global.backendUrl') ]]#/companies/index" class="btn btn-primary"><< Back to list</a>
+                                    <a href="[[ config('global.backendUrl') ]]#/companies/index" class="btn btn-primary">Cancel</a>
                                 </div>
                             </div>                    
                         </form>
@@ -160,6 +160,8 @@
                                         <!--Manage Documents-->
                                         <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  data-toggle="modal" data-target="#documentModal" >
                                     </div>
+                                    <div class="widget-body table-responsive" >
+
                                     <table class="table table-hover table-responsive table-striped table-bordered">
                                         <thead class="">
                                             <tr>
@@ -180,6 +182,7 @@
                                             </tr>  
                                         </tbody>
                                     </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
