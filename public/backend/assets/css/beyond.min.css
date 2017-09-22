@@ -3832,7 +3832,8 @@ a:active {
 
 .breadcrumb>li>a {
     display: inline-block;
-    color: #2dc3e8
+    color: #2dc3e8;
+    text-decoration: none;
 }
 
 .breadcrumb>li:first-child>a {

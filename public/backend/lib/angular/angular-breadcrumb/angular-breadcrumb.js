@@ -70,7 +70,7 @@ function $Breadcrumb() {
                     parentParams = $lastViewScope.$eval(ref.paramExpr);
                 }
 
-                conf.ncyBreadcrumbLink = $state.href(ref.state, parentParams || $stateParams || {});
+                conf.ncyBreadcrumbLink = "office.php"+$state.href(ref.state, parentParams || $stateParams || {});
                 chain.unshift(conf);
             }
         };

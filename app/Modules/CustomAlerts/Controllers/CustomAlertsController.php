@@ -110,16 +110,16 @@ class CustomAlertsController extends Controller {
             $manageAlerts = TemplatesCustom::select('*')->where('id', '=', $request['id'])->get();
         } else if ($request['id'] === "") { // for index
             $manageAlerts = DB::table('templates_customs as tc')
-                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'tc.template_event_id', '=', 'te.id')
-                    ->select('tc.*', 'te.event_name')
-                    ->where('tc.client_id', '=', 1)
-                    ->where('tc.deleted_status', '!=', 1)->get();
+                            ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_templates_events as te', 'tc.template_event_id', '=', 'te.id')
+                            ->select('tc.*', 'te.event_name')
+                            ->where('tc.client_id', '=', 1)
+                            ->where('tc.deleted_status', '!=', 1)->get();
         }
         $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
         if (in_array('01401', $array)) {
             $export = 1;
-        }else{
-              $export = '';
+        } else {
+            $export = '';
         }
         if (in_array('01402', $array)) {
             $deleteBtn = 1;
@@ -127,16 +127,15 @@ class CustomAlertsController extends Controller {
             $deleteBtn = '';
         }
         if ($manageAlerts) {
-            $result = ['success' => true, "records" => ["data" => $manageAlerts, 'exportData' => $export,'delete'=>$deleteBtn, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
-         return json_encode($result);
-            
+            $result = ['success' => true, "records" => ["data" => $manageAlerts, 'exportData' => $export, 'delete' => $deleteBtn, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
+        } else {
+            $result = ['success' => false, "records" => ["data" => $manageAlerts, 'exportData' => $export, 'delete' => $deleteBtn, "total" => count($manageAlerts), 'per_page' => count($manageAlerts), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageAlerts)]];
         }
-       
+        return json_encode($result);
     }
 
-    
-     public function deleteCustomTemplate() {
-         $postdata = file_get_contents('php://input');
+    public function deleteCustomTemplate() {
+        $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $create = CommonFunctions::deleteMainTableRecords($loggedInUserId);
@@ -144,8 +143,8 @@ class CustomAlertsController extends Controller {
         $customTemplates = TemplatesCustom::where('id', $request['id'])->update($input['customData']);
         $result = ['success' => true, 'result' => $customTemplates];
         return json_encode($result);
-        
     }
+
     public function updateCustomAlerts() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
@@ -185,7 +184,7 @@ class CustomAlertsController extends Controller {
                 $customAlert['Sr No'] = $j++;
                 $customAlert['Template For'] = $manageAlerts[$i]['friendly_name'];
                 $customAlert['Email Subject'] = $manageAlerts[$i]['email_subject'];
-                $customAlert['Sms Body'] =   str_replace('&nbsp;','',strip_tags(preg_replace( "/\r|\n/", "",$manageAlerts[$i]['sms_body'])));
+                $customAlert['Sms Body'] = str_replace('&nbsp;', '', strip_tags(preg_replace("/\r|\n/", "", $manageAlerts[$i]['sms_body'])));
                 $customAlerts[] = $customAlert;
             }
 
