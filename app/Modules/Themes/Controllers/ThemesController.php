@@ -184,7 +184,7 @@ class ThemesController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($themePages) {
                         $sheet->fromArray($themePages);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

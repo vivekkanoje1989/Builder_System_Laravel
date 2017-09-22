@@ -73,7 +73,7 @@ class EmployeeDocumentsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageDocuments) {
                         $sheet->fromArray($manageDocuments);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

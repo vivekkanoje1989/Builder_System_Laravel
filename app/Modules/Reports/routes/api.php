@@ -15,6 +15,7 @@ Route::group(array('module' => 'Reports', 'middleware' => ['api'], 'namespace' =
 
     Route::post('api/reports/getTeamfollowupreports', 'ReportsController@getTeamfollowupreports');
     Route::post('api/reports/getEmpFollowUpReports', 'ReportsController@getEmpFollowUpReports');
+
     Route::post('api/reports/getProjectWiseCategoryReport', 'ReportsController@getProjectWiseCategoryReport');
     Route::post('api/reports/getProjectWiseSourceReport', 'ReportsController@getProjectWiseSourceReport');
     Route::post('api/reports/getProjectWiseStatusReport', 'ReportsController@getProjectWiseStatusReport');

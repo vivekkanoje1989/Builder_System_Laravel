@@ -77,7 +77,7 @@ class ManageLostReasonController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageData) {
                         $sheet->fromArray($manageData);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

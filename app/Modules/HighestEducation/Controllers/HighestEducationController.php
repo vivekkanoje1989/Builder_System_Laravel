@@ -79,7 +79,7 @@ class HighestEducationController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageHighestEducations) {
                         $sheet->fromArray($manageHighestEducations);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

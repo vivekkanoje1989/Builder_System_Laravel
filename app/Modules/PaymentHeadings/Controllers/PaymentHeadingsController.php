@@ -85,7 +85,7 @@ class PaymentHeadingsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($managePayment) {
                         $sheet->fromArray($managePayment);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

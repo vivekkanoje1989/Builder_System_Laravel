@@ -94,7 +94,7 @@ class CareerManagementController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageCareers) {
                         $sheet->fromArray($manageCareers);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -204,7 +204,7 @@ class CareerManagementController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageCareers) {
                         $sheet->fromArray($manageCareers);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

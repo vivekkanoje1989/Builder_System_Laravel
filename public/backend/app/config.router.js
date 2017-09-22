@@ -296,30 +296,31 @@ angular.module('app')
                                     controller: 'customerController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'New Enquiry'
+                                        label: 'Sales / Detailed Enquiry',
+                                        title: 'Detailed Enquiry',
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/customerController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                            //'/backend/enquiryController.js',
-                                                                            '/backend/app/controllers/timepicker.js',
-                                                                            '/backend/app/controllers/select.js',
-                                                                        ]
-                                                                    });
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/js/intlTelInput.js',
+                                                                    '/backend/customerController.js',
+                                                                    '/backend/app/controllers/datepicker.js',
+                                                                    //'/backend/enquiryController.js',
+                                                                    '/backend/app/controllers/timepicker.js',
+                                                                    '/backend/app/controllers/select.js',
+                                                                ]
+                                                            });
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
 
@@ -1655,7 +1656,7 @@ angular.module('app')
                                 })
                                 .state('teamtotalenquiries', {
                                     url: '/sales/teamtotalEnquiries',
-                                    templateUrl: '/master-sales/totalEnquiry/1',
+                                    templateUrl: '/master-sales/teamTotalEnquiry/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Team Total Enquiries'
@@ -1689,7 +1690,7 @@ angular.module('app')
                                 .state('teamlostenquiries', {
                                     url: '/sales/teamlostenquiries',
                                     templateUrl: function () {
-                                        return '/master-sales/lostEnquiries/1';
+                                        return '/master-sales/teamLostEnquiries/1';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -1722,7 +1723,7 @@ angular.module('app')
                                 .state('teambookedenquiries', {
                                     url: '/sales/teambookedenquiries',
                                     templateUrl: function () {
-                                        return '/master-sales/bookedEnquiries/1';
+                                        return '/master-sales/teamBookedEnquiries/1';
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
@@ -3511,7 +3512,7 @@ angular.module('app')
                                     templateUrl: '/request-for-me/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Request for me',
+                                        label: 'Request For Me',
                                         description: ''
                                     },
                                     resolve: {
@@ -3541,7 +3542,7 @@ angular.module('app')
                                     templateUrl: '/my-request/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My request',
+                                        label: 'My Requests',
                                         description: ''
                                     },
                                     resolve: {

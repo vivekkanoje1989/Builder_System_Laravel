@@ -16,6 +16,9 @@ class CheckPermissionModule
      */
     public function handle($request, Closure $next, $permission)
     {   
+        
+        
+        //echo $request->route('type');exit;
         if (!Auth::guard('admin')->check()) {
             return view('backend.sessiontimeout');
         }

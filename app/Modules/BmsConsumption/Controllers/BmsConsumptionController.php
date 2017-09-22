@@ -241,7 +241,7 @@ class BmsConsumptionController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($smsLogsdata) {
                         $sheet->fromArray($smsLogsdata);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -295,7 +295,7 @@ class BmsConsumptionController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($smsLogsdata) {
                         $sheet->fromArray($smsLogsdata);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

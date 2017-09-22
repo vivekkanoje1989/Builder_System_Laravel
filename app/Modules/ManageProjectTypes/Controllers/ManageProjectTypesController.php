@@ -71,7 +71,7 @@ class ManageProjectTypesController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageTypes) {
                         $sheet->fromArray($manageTypes);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

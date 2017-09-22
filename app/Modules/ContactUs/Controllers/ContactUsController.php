@@ -153,7 +153,7 @@ class ContactUsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($contactUs) {
                         $sheet->fromArray($contactUs);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

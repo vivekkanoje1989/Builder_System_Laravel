@@ -79,7 +79,7 @@ class ManageProfessionController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageProfession) {
                         $sheet->fromArray($manageProfession);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

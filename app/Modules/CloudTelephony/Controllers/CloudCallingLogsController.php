@@ -1919,7 +1919,7 @@ class CloudCallingLogsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageUsers) {
                         $sheet->fromArray($manageUsers);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -2049,7 +2049,7 @@ class CloudCallingLogsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageUsers) {
                         $sheet->fromArray($manageUsers);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -2309,7 +2309,7 @@ class CloudCallingLogsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($managelogs) {
                         $sheet->fromArray($managelogs);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -2442,7 +2442,7 @@ class CloudCallingLogsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($managelogs) {
                         $sheet->fromArray($managelogs);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
