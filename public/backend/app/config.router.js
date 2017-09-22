@@ -25,6 +25,7 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Dashboard',
+                                        title: 'Dashboard',
                                         description: ''
                                     },
                                     resolve: {
@@ -60,8 +61,8 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create User',
-                                        description: ''
+                                        label: 'HR / User Management / Create User',
+                                        title: 'Create User',
                                     },
                                     resolve: {
                                         deps:
@@ -89,8 +90,8 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Users',
-                                        description: ''
+                                        label: 'HR / User Management / Manage Users',
+                                        title: 'Manage Users',
                                     },
                                     resolve: {
                                         deps:
@@ -120,8 +121,9 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: 'userIndex',
                                         label: 'Edit User',
-                                        description: ''
+                                        title: 'Edit User',
                                     },
                                     resolve: {
                                         deps:
@@ -150,7 +152,9 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Permissions',
+                                        parent: 'userIndex',
+                                        label: 'Permission Wise Users',
+                                        title: 'Permission Wise Users',
                                         description: ''
                                     },
                                     resolve: {
@@ -235,8 +239,9 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: 'userIndex',
                                         label: 'User Permissions',
-                                        description: ''
+                                        title: 'User Permissions',
                                     },
                                     resolve: {
                                         deps:
@@ -486,8 +491,8 @@ angular.module('app')
                                     templateUrl: '/master-hr/orgchart',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Organization Chart',
-                                        description: ''
+                                        label: 'HR / User Management / Organization Chart',
+                                        title: 'Organization Chart',
                                     },
                                     resolve: {
                                         deps:
@@ -836,7 +841,7 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Sms consumption',
-                                        description: ''
+                                        title: 'Sms consumption',
                                     },
                                     resolve: {
                                         deps: [
@@ -868,7 +873,7 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Sms consumption',
-                                        description: ''
+                                        title: 'Sms consumption',
                                     },
                                     resolve: {
                                         deps: [
@@ -896,7 +901,8 @@ angular.module('app')
                                     templateUrl: '/bmsConsumption/smsConsumption',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sms Consumption'
+                                        label: 'BMS / BMS Consumption / Sms Consumption',
+                                        title: 'Sms Consumption',
                                     },
                                     resolve: {
                                         deps:
@@ -929,8 +935,8 @@ angular.module('app')
                                     controller: 'smsController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sms Details',
-                                        description: ''
+                                        label: 'BMS / BMS Consumption / Sms Details',
+                                        title: 'Sms Details',
                                     },
                                     resolve: {
                                         deps:
@@ -957,7 +963,8 @@ angular.module('app')
                                     templateUrl: '/bmsConsumption/smsReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sms Consumption'
+                                        label: 'Sms Consumption',
+                                        title: 'Sms consumption',
                                     },
                                     resolve: {
                                         deps:
@@ -1012,29 +1019,29 @@ angular.module('app')
                                     templateUrl: '/propertyportals/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Project'
+                                        label: 'BMS / BMS Settings / Property Portals / Create Project',
+                                        title: 'Create Project',
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster', 'ui.select']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/js/intlTelInput.js',
-                                                                            '/backend/propertyPortalsController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                            '/backend/app/controllers/select.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster', 'ui.select']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/js/intlTelInput.js',
+                                                                '/backend/propertyPortalsController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                                '/backend/app/controllers/select.js',
+                                                            ]
+                                                        });
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('propertyPortalAccounts', {
@@ -1045,7 +1052,8 @@ angular.module('app')
                                     controller: 'propertyPortalsController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Portal Accounts',
+                                        label: 'Accounts Details',
+                                        title: 'Accounts Details',
                                         description: ''
                                     },
                                     resolve: {
@@ -1079,6 +1087,7 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Add Portal Accounts',
+                                        title: 'Add Portal Accounts',
                                         description: ''
                                     },
                                     resolve: {
@@ -1112,6 +1121,7 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Edit Portal Account',
+                                        title: 'Edit Portal Account',
                                         description: ''
                                     },
                                     resolve: {
@@ -1141,8 +1151,8 @@ angular.module('app')
                                     templateUrl: '/web-pages/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Web Page Management',
-                                        description: ''
+                                        label: 'BMS / Website Settings / Content Management',
+                                        title: 'Content Management',
                                     },
                                     resolve: {
                                         deps:
@@ -1171,8 +1181,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Web Page Management',
-                                        description: ''
+                                        parent: 'webPagesIndex',
+                                        label: 'Edit Content',
+                                        title: 'Edit Content',
                                     },
                                     resolve: {
                                         deps:
@@ -1201,7 +1212,7 @@ angular.module('app')
                                     templateUrl: '/email-config/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Email Account Configuration'
+                                        label: 'BMS / BMS Settings / Configure Email Accounts / Email Account Configuration'
                                     },
                                     resolve: {
                                         deps:
@@ -1259,22 +1270,22 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load(['ui.select', {
-                                                                            serie: true,
-                                                                            files: [
-                                                                                '/backend/emailConfigController.js',
-                                                                            ]
-                                                                        }]
-                                                                            );
-                                                                }
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load(['ui.select', {
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/emailConfigController.js',
+                                                                ]
+                                                            }]
                                                         );
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('employeeDeviceIndex', {
@@ -1309,7 +1320,9 @@ angular.module('app')
                                     templateUrl: '/employee-device/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Add Device'
+                                        parent: 'employeeDeviceIndex',
+                                        label: 'Add Device',
+                                        title: 'Add Device',
                                     },
                                     resolve: {
                                         deps:
@@ -1340,7 +1353,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Employee Device Management'
+                                        parent: 'employeeDeviceIndex',
+                                        label: 'Edit Employee Device Information',
+                                        title: 'Edit Employee Device Information'
                                     },
                                     resolve: {
                                         deps:
@@ -2175,199 +2190,14 @@ angular.module('app')
                                     }
                                 })
 
-//                                /**************************** Alerts Routing *****************************/
-//                                .state('alertsIndex', {
-//                                    url: '/alerts/index',
-//                                    templateUrl: '/alerts/',
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Alerts'
-//                                    },
-//                                    resolve: {
-//                                        deps: [
-//                                            '$ocLazyLoad',
-//                                            function ($ocLazyLoad) {
-//                                                return $ocLazyLoad.load({
-//                                                    serie: true,
-//                                                    files: [
-//                                                        '/backend/alertsController.js',
-//                                                    ]
-//                                                });
-//                                            }
-//                                        ]
-//                                    }
-//                                })
-//                                .state('alertsUpdate', {
-//                                    url: '/alerts/update/:id',
-//                                    templateUrl: function (stateParams) {
-//                                        return '/alerts/' + stateParams.id + '/edit';
-//                                    },
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Edit Alert',
-//                                        description: ''
-//                                    },
-//                                    resolve: {
-//                                        deps: [
-//                                            '$ocLazyLoad',
-//                                            function ($ocLazyLoad) {
-//                                                return $ocLazyLoad.load(['ui.select', {
-//                                                        serie: true,
-//                                                        files: [
-//                                                            '/backend/alertsController.js',
-//                                                            '/backend/app/controllers/select.js',
-//                                                        ]
-//                                                    }]);
-//                                            }
-//                                        ]
-//                                    }
-//                                })
-//                                .state('customalertsIndex', {
-//                                    url: '/customalerts/index',
-//                                    templateUrl: '/customalerts/',
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Custome Alters'
-//                                    },
-//                                    resolve: {
-//                                        deps: [
-//                                            '$ocLazyLoad',
-//                                            function ($ocLazyLoad) {
-//                                                return $ocLazyLoad.load({
-//                                                    serie: true,
-//                                                    files: [
-//                                                        '/backend/customalertsController.js',
-//                                                    ]
-//                                                });
-//                                            }
-//                                        ]
-//                                    }
-//                                })
-//                                .state('customalertcreate', {
-//                                    url: '/customalerts/create',
-//                                    templateUrl: '/customalerts/create',
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Create Custome Alert',
-//                                        description: ''
-//                                    },
-//                                    resolve: {
-//                                        deps: [
-//                                            '$ocLazyLoad',
-//                                            function ($ocLazyLoad) {
-//                                                return $ocLazyLoad.load(['ui.select', {
-//                                                        serie: true,
-//                                                        files: [
-//                                                            '/backend/customalertsController.js',
-//                                                            '/backend/app/controllers/select.js',
-//                                                        ]
-//                                                    }]);
-//                                            }
-//                                        ]
-//                                    }
-//                                })
-//                                .state('customalertsUpdate', {
-//                                    url: '/customalerts/update/:id',
-//                                    templateUrl: function (stateParams) {
-//                                        return '/customalerts/' + stateParams.id + '/edit';
-//                                    },
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Edit Custome Alert',
-//                                        description: ''
-//                                    },
-//                                    resolve: {
-//                                        deps: [
-//                                            '$ocLazyLoad',
-//                                            function ($ocLazyLoad) {
-//                                                return $ocLazyLoad.load(['ui.select', {
-//                                                        serie: true,
-//                                                        files: [
-//                                                            '/backend/customalertsController.js',
-//                                                            '/backend/app/controllers/select.js',
-//                                                        ]
-//                                                    }]);
-//                                            }
-//                                        ]
-//                                    }
-//                                })
-//                                .state('defaultalertsIndex', {
-//                                    url: '/defaultalerts/index',
-//                                    templateUrl: '/defaultalerts/',
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Custome Alters'
-//                                    },
-//                                    resolve: {
-//                                        deps: [
-//                                            '$ocLazyLoad',
-//                                            function ($ocLazyLoad) {
-//                                                return $ocLazyLoad.load({
-//                                                    serie: true,
-//                                                    files: [
-//                                                        '/backend/defaultalertsController.js',
-//                                                    ]
-//                                                });
-//                                            }
-//                                        ]
-//                                    }
-//                                })
-//                                .state('dafaultalertcreate', {
-//                                    url: '/dafaultalerts/create',
-//                                    templateUrl: '/defaultalerts/create',
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Create Custome Alert',
-//                                        description: ''
-//                                    },
-//                                    resolve: {
-//                                        deps: [
-//                                            '$ocLazyLoad',
-//                                            function ($ocLazyLoad) {
-//                                                return $ocLazyLoad.load(['ui.select', {
-//                                                        serie: true,
-//                                                        files: [
-//                                                            '/backend/defaultalertsController.js',
-//                                                        ]
-//                                                    }]);
-//                                            }
-//                                        ]
-//                                    }
-//                                })
-//                                .state('defaultalertsUpdate', {
-//                                    url: '/defaultalerts/update/:id',
-//                                    templateUrl: function (stateParams) {
-//                                        return '/defaultalerts/' + stateParams.id + '/edit';
-//                                    },
-//                                    requiredLogin: true,
-//                                    ncyBreadcrumb: {
-//                                        label: 'Edit Default Alert',
-//                                        description: ''
-//                                    },
-//                                    resolve: {
-//                                        deps: [
-//                                            '$ocLazyLoad',
-//                                            function ($ocLazyLoad) {
-//                                                return $ocLazyLoad.load(['ui.select', {
-//                                                        serie: true,
-//                                                        files: [
-//                                                            '/backend/defaultalertsController.js',
-//                                                        ]
-//                                                    }]);
-//                                            }
-//                                        ]
-//                                    }
-//                                })
-//                                /**************************** Alerts Routing *****************************/
-
-
                                 /**************************** Alerts Routing *****************************/
                                 .state('alertsIndex', {
                                     url: '/alerts/index',
                                     templateUrl: '/alerts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Template Settings'
+                                        label: 'BMS / BMS Settings / SMS & Email Settings / Template Settings',
+                                        title: 'Template Settings',
                                     },
                                     resolve: {
                                         deps: [
@@ -2396,7 +2226,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Template Settings',
+                                        parent: 'alertsIndex',
+                                        label: 'Edit Template',
+                                        title: 'Edit Template',
                                         description: ''
                                     },
                                     resolve: {
@@ -2425,7 +2257,8 @@ angular.module('app')
                                     templateUrl: '/customalerts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Custom Templates'
+                                        label: 'BMS / BMS Settings / SMS & Email Settings / Manage Custom Templates',
+                                        title: 'Manage Custom Templates',
                                     },
                                     resolve: {
                                         deps: [
@@ -2450,8 +2283,9 @@ angular.module('app')
                                     templateUrl: '/customalerts/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Custom Templates',
-                                        description: ''
+                                        parent: 'customalertsIndex',
+                                        label: 'Create Custom Template',
+                                        title: 'Create Custom Template',
                                     },
                                     resolve: {
                                         deps: [
@@ -2479,8 +2313,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Custom Templates',
-                                        description: ''
+                                        parent: 'customalertsIndex',
+                                        label: 'Edit Custom Template',
+                                        title: 'Edit Custom Template',
                                     },
                                     resolve: {
                                         deps: [
@@ -2506,7 +2341,8 @@ angular.module('app')
                                     templateUrl: '/defaultalerts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Default Templates'
+                                        label: 'BMS / BMS Settings / SMS & Email Settings / Manage Default Templates',
+                                        title: 'Manage Default Templates',
                                     },
                                     resolve: {
                                         deps: [
@@ -2557,7 +2393,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Default Templates',
+                                        parent: 'defaultalertsIndex',
+                                        label: 'Edit Default Template',
+                                        title: 'Edit Default Template',
                                         description: ''
                                     },
                                     resolve: {
@@ -3028,7 +2866,8 @@ angular.module('app')
                                     templateUrl: '/contact-us/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Contact Us'
+                                        label: 'BMS / Website Settings / Contact Us',
+                                        title: 'Contact Us',
                                     },
                                     resolve: {
                                         deps:
@@ -3106,7 +2945,8 @@ angular.module('app')
                                     templateUrl: '/manage-blog/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Blog Management'
+                                        label: 'BMS / Website Settings / Blog Management',
+                                        title: 'Blog Management',
                                     },
                                     resolve: {
                                         deps:
@@ -3162,8 +3002,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: 'manageblogIndex',
                                         label: 'Edit Blog',
-                                        description: ''
+                                        title: 'Edit Blog',
                                     },
                                     resolve: {
                                         deps:
@@ -3452,8 +3293,9 @@ angular.module('app')
                                     templateUrl: '/request-leave/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Request leave',
-                                        description: ''
+                                        parent: 'myRequestIndex',
+                                        label: 'Request Leave',
+                                        title: 'Request Leave',
                                     },
                                     resolve: {
                                         deps:
@@ -3482,29 +3324,30 @@ angular.module('app')
                                     templateUrl: '/request-approval/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: 'myRequestIndex',
                                         label: 'Request other approval',
-                                        description: ''
+                                        title: 'Request other approval',
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/dashBoardController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                            '/backend/app/controllers/select.js',
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/dashBoardController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                                '/backend/app/controllers/select.js',
+                                                            ]
+                                                        }
                                                         );
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('requestForMeIndex', {
@@ -3512,8 +3355,9 @@ angular.module('app')
                                     templateUrl: '/request-for-me/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Request for me',
-                                        description: ''
+                                        parent: 'dashboard',
+                                        label: 'Request For Me',
+                                        title: 'Request For Me'
                                     },
                                     resolve: {
                                         deps:
@@ -3542,8 +3386,9 @@ angular.module('app')
                                     templateUrl: '/my-request/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My request',
-                                        description: ''
+                                        parent: 'dashboard',
+                                        label: 'My Request',
+                                        title: 'My Request',
                                     },
                                     resolve: {
                                         deps:
@@ -3572,7 +3417,8 @@ angular.module('app')
                                     templateUrl: '/operational-setting/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage operational settings',
+                                        label: 'BMS / BMS Settings / Operational Settings / Manage operational settings',
+                                        title: 'Manage operational settings',
                                         description: ''
                                     },
                                     resolve: {
@@ -3989,27 +3835,26 @@ angular.module('app')
                                     templateUrl: '/manage-companies/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage company',
-                                        description: ''
+                                        label: 'BMS / BMS Settings / Firms & Partners / Manage company',
+                                        title: 'Manage company',
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/FirmsAndPartnersController.js'
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/FirmsAndPartnersController.js'
+                                                            ]
+                                                        });
                                                     }
-                                                ]
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('companiesCreate', {
@@ -4017,8 +3862,9 @@ angular.module('app')
                                     templateUrl: '/manage-companies/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage company',
-                                        description: ''
+                                        parent: 'companiesIndex',
+                                        label: 'Add Company Details',
+                                        title: 'Add Company Details',
                                     },
                                     resolve: {
                                         deps:
@@ -4048,8 +3894,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage company',
-                                        description: ''
+                                        parent: 'companiesIndex',
+                                        label: 'Edit Company Details',
+                                        title: 'Edit Company Details',
                                     },
                                     resolve: {
                                         deps:
@@ -4077,8 +3924,8 @@ angular.module('app')
                                     templateUrl: '/bank-accounts/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage bank accounts',
-                                        description: ''
+                                        label: 'BMS / BMS Settings / Bank Accounts / Manage bank accounts',
+                                        title: 'Manage bank accounts',
                                     },
                                     resolve: {
                                         deps:
@@ -4233,7 +4080,8 @@ angular.module('app')
                                     templateUrl: '/website-themes/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Website Themes',
+                                        label: 'BMS / Website Settings / Manage Website Themes',
+                                        title: 'Manage Website Themes',
                                         description: ''
                                     },
                                     resolve: {
@@ -4594,8 +4442,8 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: ' User Management ',
-                                        description: ''
+                                        label: 'HR / User Management / User Management',
+                                        title: 'User Management',
                                     },
                                     resolve: {
                                         deps:
@@ -5006,19 +4854,20 @@ angular.module('app')
                                     templateUrl: '/login', //laravel slug
                                     requiredLogin: false,
                                     ncyBreadcrumb: {
-                                        label: 'Login'
+                                        label: 'Login',
+                                        title: 'Login',
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(
-                                                        {
-                                                            serie: true,
-                                                            files: [
-                                                                '/backend/assets/css/login.css'
-                                                            ]
-                                                        });
+                                                {
+                                                    serie: true,
+                                                    files: [
+                                                        '/backend/assets/css/login.css'
+                                                    ]
+                                                });
                                             }
                                         ]
                                     }
@@ -5028,7 +4877,8 @@ angular.module('app')
                                     templateUrl: '/logout',
                                     requiredLogin: false,
                                     ncyBreadcrumb: {
-                                        label: 'Logout'
+                                        label: 'Logout',
+                                        title: 'Logout',
                                     }
                                 })
 

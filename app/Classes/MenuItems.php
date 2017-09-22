@@ -12,7 +12,7 @@ class MenuItems {
                     1 => array('id' => '0101', 'name' => 'My Salary Slips', 'micon' => 'img/salorySlip.png', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                    2 => array('id' => '0102', 'name' => 'Request Leave', 'micon' => 'img/requestLeave.png', 'icon' => '', 'url' => '/requestLeave/index', 'slug' => 'requestLeaveIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                    2 => array('id' => '0102', 'name' => 'Request Other Approval', 'micon' => 'img/otherApproval.png', 'icon' => '', 'url' => '/requestOtherApproval/index', 'slug' => 'requestOtherApprovalIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    2 => array('id' => '0102', 'name' => 'Requests for Me', 'micon' => 'img/reqForMe.png', 'icon' => '', 'url' => '/requestForMe/index', 'slug' => 'requestForMeIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    2 => array('id' => '0102', 'name' => 'Requests For Me', 'micon' => 'img/reqForMe.png', 'icon' => '', 'url' => '/requestForMe/index', 'slug' => 'requestForMeIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     3 => array('id' => '0103', 'name' => 'My Requests', 'micon' => 'img/myRequest.png', 'icon' => '', 'url' => '/myRequest/index', 'slug' => 'myRequestIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     4 => array('id' => '0104', 'name' => 'Configure Dashboard', 'micon' => 'img/configDashboard.png', 'icon' => '#', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                     5 => array('id' => '0105', 'name' => 'My Settings', 'icon' => '', 'micon' => 'img/mySettings.png', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -73,7 +73,7 @@ class MenuItems {
                                 'submenu_ids' => '02020501', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020501', 'name' => 'Manage', 'icon' => '', 'url' => '/operationalSetting/index', 'slug' => 'operationalSettingIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                            6 => array('id' => '020206', 'name' => 'Configure email accounts', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
+                            6 => array('id' => '020206', 'name' => 'Configure Email Accounts', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                                 'submenu_ids' => '02020601', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020601', 'name' => 'Manage', 'icon' => '', 'url' => '/emailConfig/index', 'slug' => 'emailConfigIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
@@ -86,7 +86,7 @@ class MenuItems {
                                 'submenu_ids' => '02020801', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020801', 'name' => 'Manage', 'icon' => '', 'url' => '/portals/index', 'slug' => 'propertyPortalIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                            9 => array('id' => '020209', 'name' => 'Parking management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                            9 => array('id' => '020209', 'name' => 'Parking Management', 'icon' => 'menu-icon glyphicon glyphicon-home', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
                                 'submenu_ids' => '02020901,02020902', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '02020901', 'name' => 'Parking Type', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                     2 => array('id' => '02020902', 'name' => 'Parking Sub Type', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
