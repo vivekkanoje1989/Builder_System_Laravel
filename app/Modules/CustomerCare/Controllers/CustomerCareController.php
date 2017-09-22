@@ -84,7 +84,7 @@ class CustomerCareController extends Controller {
 
 
         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        $enquiries = DB::select('CALL proc_cc_presales_total("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","","")');
+        $enquiries = DB::select('CALL proc_cc_presales_total("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","")');
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = json_decode(json_encode($enqCnt), true);
 
@@ -684,8 +684,8 @@ class CustomerCareController extends Controller {
                         . $request['itemPerPage'] . ',"' . $filter["fname"] . '","' . $filter["lname"] . '","'
                         . $filter["mobileNumber"] . '","' . $filter["emailId"] . '","' . $filter["verifiedMobNo"] . '","'
                         . $filter["verifiedEmailId"] . '","' . $filter["cc_presales_category_id"] . '","' . $filter['cc_presales_subcategory_id'] . '","'
-                        . $filter["source_id"] . '","' . $filter["subsource_id"] . '","'
-                        . $filter["fromDate"] . '","' . $filter["toDate"] . '","' . $filter["site_visit"] . '","'
+                        . $filter["source_id"] . '","' . $filter["subsource_id"] . '","'.$filter["project_id"].'","'
+                        . $filter["fromDate"] . '","' . $filter["toDate"] . '","'
                         . $filter["cc_presales_status_id"] . '","' . $filter["cc_presales_substatus_id"] .
                         '")'
         );

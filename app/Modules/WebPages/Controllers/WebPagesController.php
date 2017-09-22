@@ -100,7 +100,7 @@ class WebPagesController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($webPages) {
                         $sheet->fromArray($webPages);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

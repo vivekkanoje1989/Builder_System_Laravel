@@ -84,7 +84,7 @@ class CompaniesController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($companies) {
                         $sheet->fromArray($companies);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

@@ -84,7 +84,7 @@ class ManageCountryController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageCountry) {
                         $sheet->fromArray($manageCountry);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

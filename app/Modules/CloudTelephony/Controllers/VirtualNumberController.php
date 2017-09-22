@@ -122,7 +122,7 @@ class VirtualNumberController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageVirtualNumber) {
                         $sheet->fromArray($manageVirtualNumber);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

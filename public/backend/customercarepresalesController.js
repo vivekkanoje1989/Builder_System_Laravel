@@ -166,6 +166,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
             $scope.showloader();
             delete $scope.filter[key];
             $scope.ccfilter($scope.filter, 1, 30);
+            $('#slideout').toggleClass('on');
             $scope.hideloader();
             return false;
     }
@@ -191,12 +192,18 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                     $scope.enquiriesLength = 0;
                 }
                 $scope.showfilterData = filter;
-                $('#showFilterModal').modal('hide');
+                $('#slideout').toggleClass('on');
+                if ($(".wrap-filter-form").hasClass("on")) {
+                    $(".mainDiv").css("opacity", "0.2");
+                    $(".mainDiv").css("pointer-events", "none");
+                } else {
+                    $(".mainDiv").css("opacity", "");
+                    $(".mainDiv").css("pointer-events", "visible");
+                }
                 $scope.hideloader();
                 $scope.flagForPage = 0;
                 return false;
-            });
-                
+            });                
     }
     
     $scope.pageChanged = function (pageNo, functionName, id, type, pageNumber) 
@@ -206,9 +213,11 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
         if($scope.flagForPage == 1){
             if ($scope.filter && Object.keys($scope.filter).length > 0) {
                 $scope.ccfilter($scope.filter, pageNo, $scope.itemsPerPage);
+                $('#slideout').toggleClass('on');
             } else {
                 $scope[functionName](id, type, pageNo, $scope.itemsPerPage);
             }
+            
             $scope.pageNumber = pageNo;
         }
     }

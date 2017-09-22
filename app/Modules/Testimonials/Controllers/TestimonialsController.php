@@ -114,7 +114,7 @@ class TestimonialsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($testimonialData) {
                         $sheet->fromArray($testimonialData);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -179,7 +179,7 @@ class TestimonialsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($testimonialData) {
                         $sheet->fromArray($testimonialData);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

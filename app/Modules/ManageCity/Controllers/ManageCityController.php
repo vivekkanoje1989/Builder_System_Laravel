@@ -85,7 +85,7 @@ class ManageCityController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageCities) {
                         $sheet->fromArray($manageCities);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

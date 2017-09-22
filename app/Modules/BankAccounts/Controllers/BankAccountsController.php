@@ -151,7 +151,7 @@ class BankAccountsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($bankAccountData) {
                         $sheet->fromArray($bankAccountData);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

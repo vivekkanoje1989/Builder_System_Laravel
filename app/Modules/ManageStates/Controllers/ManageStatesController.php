@@ -87,7 +87,7 @@ class ManageStatesController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageState) {
                         $sheet->fromArray($manageState);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

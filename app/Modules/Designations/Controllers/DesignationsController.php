@@ -76,7 +76,7 @@ class DesignationsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageDesignations) {
                         $sheet->fromArray($manageDesignations);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

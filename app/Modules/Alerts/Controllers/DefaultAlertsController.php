@@ -137,7 +137,7 @@ class DefaultAlertsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($defaultAlerts) {
                         $sheet->fromArray($defaultAlerts);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

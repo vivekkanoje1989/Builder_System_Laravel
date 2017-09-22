@@ -196,7 +196,7 @@ class CustomAlertsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($customAlerts) {
                         $sheet->fromArray($customAlerts);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

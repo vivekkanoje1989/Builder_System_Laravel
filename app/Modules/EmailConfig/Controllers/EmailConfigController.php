@@ -105,7 +105,7 @@ class EmailConfigController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($emailConfigaration) {
                         $sheet->fromArray($emailConfigaration);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

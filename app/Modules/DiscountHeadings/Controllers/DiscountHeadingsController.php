@@ -79,7 +79,7 @@ class DiscountHeadingsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageDiscountname) {
                         $sheet->fromArray($manageDiscountname);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

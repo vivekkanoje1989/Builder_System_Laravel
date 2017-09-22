@@ -43,18 +43,16 @@
                         <link ng-href="{{settings.skin}}" rel="stylesheet" type="text/css" />
                         <link href="/backend/assets/css/loader.css" rel="stylesheet" />
                         <link href="/css/filterSlider.css" rel="stylesheet" />
-                        <link rel="stylesheet" type="text/css" href="/backend/assets/css/sweet-alert.css">
-
+                        <link rel="stylesheet" type="text/css" href="/backend/assets/css/sweet-alert.css">                         
                     <?php } else {
                         $getThemeName = config('global.themeName'); ?>
                         <title page-title>BMS Builder</title>  
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
                         <script src="/frontend/angular.min.js"></script>
-
                         <script src="/frontend/angular-route.min.js"></script>
                         <script src="/frontend/angular-animate.min.js"></script>
                         <script src="/backend/app/ng-file-upload.js"></script>
-                        <script src="/frontend/route.js"></script> 
+                        <script src="/frontend/route.js"></script>
                         @include('layouts.frontend.'.$getThemeName.'.style') 
 <?php } ?>
                     </head>
