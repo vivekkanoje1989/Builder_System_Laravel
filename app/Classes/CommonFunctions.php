@@ -92,6 +92,7 @@ class CommonFunctions {
         try {
             config(['mail.username' => $userName, 'mail.password' => $password]);
             $to = explode(",", $data['to']);
+            $data['cc'] = explode(",", $data['cc']);
             if (!empty($data['attachment'])) {
                 if (!empty($data['cc']) && !empty($data['bcc'])) {
                     $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
@@ -99,13 +100,13 @@ class CommonFunctions {
                                 $message->subject($data['subject']);
                                 $message->to($to)->cc($data['cc'])->bcc($data['bcc'])->attach($data['attachment']);
                             });
-                } elseif (!empty($data['bcc'])) {
+                } elseif (!empty($data['bcc'])) { 
                     $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject']);
                                 $message->to($to)->bcc($data['bcc'])->attach($data['attachment']);
                             });
-                } elseif (!empty($data['cc'])) {
+                } elseif (!empty($data['cc'])) { 
                     $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
                                 $message->from($data['fromEmail'], $data['fromName']);
                                 $message->subject($data['subject']);

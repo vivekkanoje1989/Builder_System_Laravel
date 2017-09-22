@@ -87,7 +87,7 @@ class ManageDepartmentController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageDepartments) {
                         $sheet->fromArray($manageDepartments);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

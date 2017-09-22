@@ -3511,7 +3511,7 @@ angular.module('app')
                                     templateUrl: '/request-for-me/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Request for me',
+                                        label: 'Request For Me',
                                         description: ''
                                     },
                                     resolve: {
@@ -3541,7 +3541,7 @@ angular.module('app')
                                     templateUrl: '/my-request/index',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My request',
+                                        label: 'My Requests',
                                         description: ''
                                     },
                                     resolve: {

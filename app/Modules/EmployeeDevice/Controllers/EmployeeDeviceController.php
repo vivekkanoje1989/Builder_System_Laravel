@@ -124,7 +124,7 @@ class EmployeeDeviceController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($employeeData) {
                         $sheet->fromArray($employeeData);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

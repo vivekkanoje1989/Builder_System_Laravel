@@ -244,7 +244,7 @@ $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
                     $excel->sheet('sheet1', function($sheet) use($manageReg) {
                         $sheet->fromArray($manageReg);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

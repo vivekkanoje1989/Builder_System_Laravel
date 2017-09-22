@@ -80,7 +80,7 @@ class BloodGroupsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageBloodGroups) {
                         $sheet->fromArray($manageBloodGroups);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

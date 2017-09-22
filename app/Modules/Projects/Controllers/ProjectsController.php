@@ -617,7 +617,7 @@ class ProjectsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($getProjectData) {
                         $sheet->fromArray($getProjectData);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

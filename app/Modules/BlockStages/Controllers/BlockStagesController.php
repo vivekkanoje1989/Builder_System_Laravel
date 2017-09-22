@@ -70,7 +70,7 @@ class BlockStagesController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageBlockstage) {
                         $sheet->fromArray($manageBlockstage);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

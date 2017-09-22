@@ -67,12 +67,12 @@ class DashBoardController extends Controller {
             $userCC1 = array();
             $userCC = explode(',', $request['cc']);
             $employee = \App\Models\backend\Employee::select('personal_email1')->whereIn('id', $userCC)->get();
-            for($j=0;$j<count($employee);$j++){
-                $userCC1[]= $employee[$j]['personal_email1'];
-            } 
+            for ($j = 0; $j < count($employee); $j++) {
+                $userCC1[] = $employee[$j]['personal_email1'];
+            }
             $empCC = implode(',', $userCC1);
-        }else{
-            $userCC='';
+        } else {
+            $userCC = '';
         }
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['employeeData'] = array_merge($request, $create);
@@ -86,33 +86,31 @@ class DashBoardController extends Controller {
         $userId = array();
         $userId = explode(',', $uid);
         for ($i = 0; $i < count($userId); $i++) {
-            for ($j = 0; $j < count($userCC); $j++) {
-                $templatedata['employee_id'] = $userId[$i];
-                $templatedata['client_id'] = config('global.client_id');
-                $templatedata['template_setting_customer'] = 0;
-                $templatedata['template_setting_employee'] = 48;
-                $templatedata['event_id_customer'] = 0;
-                $templatedata['event_id_employee'] = 68;
-                $templatedata['customer_id'] = 0;
-                $templatedata['model_id'] = 0;
-                if (!empty($empCC)) {
-                    $templatedata['emp_cc'] = $empCC;
-                }
-                $templatedata['arrExtra'][0] = array(
-                    '[#emailBody#]',
-                    '[#loginEmployeeName#]',
-                    '[#fromDate#]',
-                    '[#toDate#]'
-                );
-                $templatedata['arrExtra'][1] = array(
-                    $emailBody,
-                    $loginEmployeeName,
-                    $fromDate,
-                    $toDate
-                );
-               
-                $result = CommonFunctions::templateData($templatedata);
+            $templatedata['employee_id'] = $userId[$i];
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 0;
+            $templatedata['template_setting_employee'] = 48;
+            $templatedata['event_id_customer'] = 0;
+            $templatedata['event_id_employee'] = 68;
+            $templatedata['customer_id'] = 0;
+            $templatedata['model_id'] = 0;
+            if (!empty($empCC)) {
+                $templatedata['emp_cc'] = $empCC;
             }
+            $templatedata['arrExtra'][0] = array(
+                '[#emailBody#]',
+                '[#loginEmployeeName#]',
+                '[#fromDate#]',
+                '[#toDate#]'
+            );
+            $templatedata['arrExtra'][1] = array(
+                $emailBody,
+                $loginEmployeeName,
+                $fromDate,
+                $toDate
+            );
+
+            $result = CommonFunctions::templateData($templatedata);
         }
         if (!empty($employee_request)) {
             $result = ['status' => true, 'records' => $employee_request];
@@ -147,12 +145,14 @@ class DashBoardController extends Controller {
     public function getEmployeesCC() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
+        
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
                 ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
                 ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
-                ->where('db2.id', '!=', $request['id'][0]['id'])
-                ->where('db2.id', '!=', $loggedInUserId)
+                ->where([
+                    ['db2.id', '<>', $loggedInUserId],
+                    ['db2.id', '<>', $request['id'][0]['id']]])
                 ->get();
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
@@ -190,20 +190,20 @@ class DashBoardController extends Controller {
         }
         $request['uid'] = $uid;
         $emailBody = $request['req_desc'];
-        
-         if (!empty($request['cc'])) {
+
+        if (!empty($request['cc'])) {
             $userCC = array();
             $userCC1 = array();
             $userCC = explode(',', $request['cc']);
             $employee = \App\Models\backend\Employee::select('personal_email1')->whereIn('id', $userCC)->get();
-            for($j=0;$j<count($employee);$j++){
-                $userCC1[]= $employee[$j]['personal_email1'];
-            } 
+            for ($j = 0; $j < count($employee); $j++) {
+                $userCC1[] = $employee[$j]['personal_email1'];
+            }
             $empCC = implode(',', $userCC1);
-        }else{
-            $userCC='';
+        } else {
+            $userCC = '';
         }
-        
+
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['employeeData'] = array_merge($request, $create);
         $input['employeeData']['in_date'] = date("Y-m-d") . " " . date("h-i-s");
@@ -215,29 +215,27 @@ class DashBoardController extends Controller {
         $userId = array();
         $userId = explode(',', $uid);
         for ($i = 0; $i < count($userId); $i++) {
-            for ($j = 0; $j < count($userCC); $j++) {
-                $templatedata['employee_id'] = $userId[$i];
-                $templatedata['client_id'] = config('global.client_id');
-                $templatedata['template_setting_customer'] = 0;
-                $templatedata['template_setting_employee'] = 49;
-                $templatedata['event_id_customer'] = 0;
-                $templatedata['event_id_employee'] = 69;
-                $templatedata['customer_id'] = 0;
-                $templatedata['model_id'] = 0;
-                if (!empty($empCC)) {
-                    $templatedata['emp_cc'] = $empCC;
-                }
-                $templatedata['arrExtra'][0] = array(
-                    '[#emailBody#]',
-                    '[#loginEmployeeName#]'
-                );
-                $templatedata['arrExtra'][1] = array(
-                    $emailBody,
-                    $loginEmployeeName
-                );
-               
-                $result = CommonFunctions::templateData($templatedata);
+            $templatedata['employee_id'] = $userId[$i];
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 0;
+            $templatedata['template_setting_employee'] = 49;
+            $templatedata['event_id_customer'] = 0;
+            $templatedata['event_id_employee'] = 69;
+            $templatedata['customer_id'] = 0;
+            $templatedata['model_id'] = 0;
+            if (!empty($empCC)) {
+                $templatedata['emp_cc'] = $empCC;
             }
+            $templatedata['arrExtra'][0] = array(
+                '[#emailBody#]',
+                '[#loginEmployeeName#]'
+            );
+            $templatedata['arrExtra'][1] = array(
+                $emailBody,
+                $loginEmployeeName
+            );
+
+            $result = CommonFunctions::templateData($templatedata);
         }
         if (!empty($employee_request)) {
             $result = ['status' => true, 'records' => $employee_request];

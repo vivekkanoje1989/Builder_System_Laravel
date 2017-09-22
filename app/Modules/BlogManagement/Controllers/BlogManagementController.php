@@ -281,7 +281,7 @@ class BlogManagementController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($blogDetails) {
                         $sheet->fromArray($blogDetails);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
