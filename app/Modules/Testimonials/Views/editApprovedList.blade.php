@@ -120,7 +120,7 @@
                                             <label>Testimonial description <span class="sp-err" >*</span></label>
                                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.description.$dirty && testimonialsForm.description.$invalid) }">
                                                 <span class="input-icon icon-right">
-                                                    <textarea ng-model="testimonial.description" name="description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
+                                                    <textarea ng-model="testimonial.description" name="description" class="capitalize form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
                                                     <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.description.$error">
                                                         <div ng-message="required">Testimonial description is required</div>
                                                     </div>
@@ -140,8 +140,9 @@
                                     </div>
                                 </div><br>-->
                                 <div class="row">
-                                    <div class="col-sm-3 col-xs-6">
+                                    <div class="col-sm-12 col-xs-12 " align="right">
                                         <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
+                                         <a href="[[ config('global.backendUrl') ]]#/testimonials/manage" class="btn btn-primary">Cancel</a>
                                     </div>
                                 </div>
                             </form>

@@ -261,19 +261,11 @@
                                         <br/>
                                     </div>
                                 </div>
-        <!--                        <div class="col-sm-3 col-xs-6">
-                                    <label for="">Customer Image File</label>
-                                    <span class="input-icon icon-right">
-                                        <input type="file" ngf-select ng-model="customerData.image_file" name="image_file" id="image_file" accept="image/*" ngf-max-size="2MB" class="form-control"  ngf-model-invalid="errorFile" >
-                                       <br/>
-                                        <img id="empPhotoPreview" ng-src="[[ Session::get('s3Path') ]]Customer/{{image}}" alt="Image" width="80px" height="80px" class="thumb"/>
-                                    </span> 
-                                </div>-->
                             </div>
                             <div class="row">
                                 <div class="col-md-12 col-xs-12" align="right">
                                     <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
-                                    <a href="[[ config('global.backendUrl') ]]#/customers/index" class="btn btn-primary"><< Back to list</a>
+                                    <a href="[[ config('global.backendUrl') ]]#/customers/index" class="btn btn-primary">Cancel</a>
                                 </div>
                             </div>
                         </div>

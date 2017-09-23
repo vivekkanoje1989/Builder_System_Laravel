@@ -28,10 +28,14 @@ app.controller('customerCtrl', ['$scope', 'Data', '$timeout', 'toaster', 'Upload
         $scope.deleteCustomer = function (id, index) {
             Data.post('customers/deleteCustomer', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Manage Customer', 'Customer deleted successfully');
-                $scope.bloodGrpRow.splice(index, 1);
+//                toaster.pop('success', 'Manage Customer', 'Customer deleted successfully');
+                $scope.customerDataRow.splice(index, 1);
             });
         }
+        
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteCustomer(args['id'], args['index']);
+        });
         
         $scope.searchDetails = {};
         $scope.searchData = {};

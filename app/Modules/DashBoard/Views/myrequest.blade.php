@@ -11,6 +11,9 @@
         padding: 5px;
         width: 110%;
     }
+    .displayDetails td{
+        border:none !important;
+    }
 </style>
 <div class="row" ng-controller="dashboardCtrl" ng-init="getMyRequest()">    
     <div class=" mainDiv col-xs-12 col-md-12">
@@ -186,24 +189,12 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center">Request Description</h4>
                 </div>
-<!--                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-4">
-                            <p><span>Date:</span></p>
-                            <p><span>Date:</span></p>
-                            <p><span>Date:</span></p>
-                        </div>
-                        <div class="col-md-8">
-                            <p>{{in_date}}</p>
-                        </div>
-                    </div>
-                </div>-->
-                <table class="table table-striped table-bordered " style="margin:20px 20px 20px 20px; width:90%; text-align:center">
-                    <tr><td style="font-weight: 600;">DATE</td><td>{{in_date}}</td></tr>
-                    <tr><td style="font-weight: 600;">REQUEST TYPE</td><td>{{request_type}}</td></tr>
-                    <tr><td style="font-weight: 600;">TO</td><td>{{to_name}}</td></tr>
-                    <tr><td style="font-weight: 600;">CC</td><td>{{cc_name}}</td></tr>
-                    <tr><td style="font-weight: 600;">DESCRIPTION</td><td>{{req_desc}}</td></tr>
+                <table class="table table-striped table-hover displayDetails" style="margin:20px 20px 20px 20px; width:90%;">
+                    <tr><td style="font-weight: 600;">DATE</td><td class="text-center"><b>:</b></td><td>{{in_date}}</td></tr>
+                    <tr><td style="font-weight: 600;">REQUEST TYPE</td><td class="text-center"><b>:</b></td><td>{{request_type}}</td></tr>
+                    <tr><td style="font-weight: 600;">TO</td><td class="text-center"><b>:</b></td><td>{{to_name}}</td></tr>
+                    <tr><td style="font-weight: 600;">CC</td><td class="text-center"><b>:</b></td><td>{{cc_name}}</td></tr>
+                    <tr><td style="font-weight: 600;">DESCRIPTION</td><td class="text-center"><b>:</b></td><td>{{req_desc}}</td></tr>
                 </table>
                 <br/>
             </div>

@@ -16,7 +16,10 @@
 <div class="row"  ng-controller="hrController"   >
     <input type="hidden" name="employeeId" id="employeeId"  value="[[$empId]]" ng-cloak="" >
     <div class="col-lg-12 col-sm-12 col-xs-12">
-        <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Edit User</h5>
+        <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Edit User</h5>-->
+        <div class="widget-header bordered-bottom bordered-themeprimary ">
+                <span class="widget-caption">Edit User</span>
+            </div>
         <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
             <ul class="steps">
                 <li   ng-click="getStepDiv(1, steps, 1, steps.first_name)" id="step1" ng-class="{'complete':steps.first_name == 1}" class="user_steps wiredstep1"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
@@ -785,6 +788,7 @@
                             <button type="submit" class="btn btn-primary btn-submit-last"  ng-click="step5 = true">Update</button>
                         </div>
                     </div>
+                    </form>
             </div>
         </div>
     </div>

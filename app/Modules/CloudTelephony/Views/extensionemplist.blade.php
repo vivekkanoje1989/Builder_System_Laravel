@@ -16,34 +16,10 @@
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Employees Extensions</span>
+                <span class="widget-caption">Manage Extensions</span>
             </div>
             <div class="widget-body table-responsive">
-                <!--                <div class="row">
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Search:</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="search" name="search" class="form-control">
-                                                <i class="fa fa-search" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Records per page:</label>
-                                            <input type="text" minlength="1" maxlength="3" ng-model="itemsPerPage" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"  class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-xs-12">
-                                        <div class="form-group">
-                                            <label for=""></label>
-                                            <span class="input-icon icon-right">
-                                                <a href data-toggle="modal" data-target="#addExtensionModal" ng-click="initExtensionModal(ct_employee_extlist)" class="btn btn-primary btn-right">Add New Extension</a>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div><hr>-->
+               
                 <div class="widget-body table-responsive">
 
                     <div class="row table-toolbar">
@@ -55,15 +31,15 @@
                     </div>
                     <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                         <div class="DTTT btn-group ">
-                            <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="employeeExtExportToxls()" ng-show="exportEmpExtensionData == '1'">
+<!--                            <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="employeeExtExportToxls()" ng-show="exportEmpExtensionData == '1'">
                                 <span>Export</span>
-                            </a>
+                            </a>-->
                             <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                                <span>Options</span>
+                                <span>Actions</span>
                                 <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                                 <ul class="dropdown-menu dropdown-default">
                                     <li>
-                                        <a href="javascript:void(0);">Action</a>
+                                        <a href="" ng-click="employeeExtExportToxls()" ng-show="exportEmpExtensionData == '1'">Export</a>
                                     </li>
                                 </ul>
                             </a>
@@ -94,12 +70,17 @@
                         <div class="dataTables_length" >
                             <label>
                                 <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                    <option value="1">1</option>
-                                    <option value="5">5</option>
-                                    <option value="15">15</option>
-                                    <option value="20">20</option>
                                     <option value="30">30</option>
                                     <option value="100">100</option>
+                                    <option value="200">200</option>
+                                    <option value="300">300</option>
+                                    <option value="400">400</option>
+                                    <option value="500">500</option>
+                                    <option value="600">600</option>
+                                    <option value="700">700</option>
+                                    <option value="800">800</option>
+                                    <option value="900">900</option>
+                                    <option value="999">999</option>
                                 </select>
                             </label>
                         </div>
@@ -131,7 +112,7 @@
                                     <td>Extension &nbsp;{{listNumber.extension_no}}</td>
                                     <td class="">
                                         <span class="" tooltip-html-unsafe="Edit" ><a href="javascript:void(0)" data-toggle="modal"  data-target="#addExtensionModal" ng-click="editExtensionModal(ct_employee_extlist, listNumber)" class='btn-info btn-xs'><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
-                                        <span ng-show="deleteData == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteEmpExt({{listNumber.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                        <span ng-show="deleteData == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{listNumber.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -157,7 +138,7 @@
                             <div class="modal-content">
                                 <div class="modal-header navbar-inner">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title" align="center">Add Extension</h4>
+                                    <h4 class="modal-title" align="center">{{heading}}</h4>
                                 </div>
                                 <form novalidate role="form" name="extensionForm" ng-submit="extensionForm.$valid && createExtension(extensionData)">
                                     <div class="row">

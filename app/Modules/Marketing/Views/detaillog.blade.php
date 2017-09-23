@@ -15,15 +15,15 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="logDetailsExportToxls()" ng-show="logDetailsExport == '1'">
+<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="logDetailsExportToxls()" ng-show="logDetailsExport == '1'">
                             <span>Export</span>
-                        </a>
+                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
+                            <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href="" ng-click="logDetailsExportToxls()" ng-show="logDetailsExport == '1'">Export</a>
                                 </li>
 
                             </ul>
@@ -54,19 +54,24 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
                     <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                         <thead class="bord-bot">
                             <tr>
-                                <th style="width:5%">Sr. No.</th>
+                                <th style="width:4%">Sr. No.</th>
                                 <th style="width:15%">
                                     <a href="javascript:void(0);" ng-click="orderByField('call_date')">Sent Date & Time
                                         <span ><img ng-hide="(sortKey == 'call_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
@@ -74,7 +79,7 @@
                                         <span ng-show="(sortKey == 'call_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
-                                <th style="width:15%">
+                                <th style="width:14%">
                                     <a href="javascript:void(0);" ng-click="orderByField('externalId1')">Transaction Id
                                         <span ><img ng-hide="(sortKey == 'externalId1' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'externalId1' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
@@ -110,7 +115,7 @@
                                         <span ng-show="(sortKey == 'credits_deducted' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
-                                <th style="width:6%">Excel File </th>
+                                <th style="width:8%">Excel File </th>
                                 <th style="width:15%">
                                     <a href="javascript:void(0);" ng-click="orderByField('efname')">SMS Send By
                                         <span ><img ng-hide="(sortKey == 'efname' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
@@ -141,7 +146,7 @@
 
                                 <td ng-show="{{listSms.bulk_file_id.length}}!== 0">
 
-                                    <a href="[[config('global.s3Path')]]bulk_sms_file/{{listSms.bulk_file_id}}">Download</a>
+                                    <a href="[[config('global.s3Path')]]bulk_sms_file/{{listSms.bulk_file_id}}" class="btn-info btn-xs"><i class="fa fa-download" aria-hidden="true"></i>Download</a>
 
                                 </td>
                                 <td ng-show="{{listSms.bulk_file_id.length}} == 0">--</td>

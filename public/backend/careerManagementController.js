@@ -14,13 +14,13 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
                 $scope.deleteBtn = response.delete;
             });
         };
-        
-        
+
+
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;
         }
-        
+
         $scope.clearToDate = function ()
         {
             $scope.career.application_close_date = '';
@@ -49,16 +49,16 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
             }
         }
 
-        $scope.jobPostingApplicationExportToxls = function(){
+        $scope.jobPostingApplicationExportToxls = function () {
 //            alert($scope.careerId);
-             $scope.getexcel = window.location = "/manage-job/jobPostingApplicationExportToxls/"+$scope.careerId;
+            $scope.getexcel = window.location = "/manage-job/jobPostingApplicationExportToxls/" + $scope.careerId;
             if ($scope.getexcel) {
                 toaster.pop('info', '', 'Exporting....');
             } else {
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
-        
+
         $scope.searchDetails = {};
         $scope.searchData = {};
 
@@ -98,11 +98,13 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
         $scope.deleteJob = function (id, index) {
             Data.post('manage-job/deleteJob', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Careers', 'Job post deleted successfully');
+//                toaster.pop('success', 'Careers', 'Job post deleted successfully');
                 $scope.careerRow.splice(index, 1);
             });
         }
-
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteJob(args['id'], args['index']);
+        });
         $scope.dojobPostingAction = function (career) {
             $scope.editjob = true;
             $scope.createJob = true;
@@ -158,7 +160,7 @@ app.controller('careerCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '$stat
             }
         }
         $scope.viewApplicants = function (id)
-        { 
+        {
             $scope.careerId = id;
             Data.post('manage-job/viewapplicants', {
                 'career_id': id}).then(function (response) {

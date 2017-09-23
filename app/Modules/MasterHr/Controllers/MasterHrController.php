@@ -183,11 +183,11 @@ class MasterHrController extends Controller {
         $request = json_decode($postdata, true);
 
         $result = Employee::where('id', '=', $request['data']['employee_id'])->select('presale_shared_employee', 'postsale_shared_employee')->first();
-        $arr = explode(",",$result->presale_shared_employee);
+        $arr = explode(",", $result->presale_shared_employee);
         if (!empty($result->presale_shared_employee)) {
             $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                             ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
-                            ->whereIn('employees.id',$arr)
+                            ->whereIn('employees.id', $arr)
                             ->where("employees.employee_status", 1)->get();
             if (!empty($getEmp)) {
                 $preSalesResult = ['success' => true, 'records' => $getEmp];
@@ -861,6 +861,16 @@ class MasterHrController extends Controller {
         $input['userStatus']['employee_permissions'] = '["0101","0102","0103","0104","0105","0106","0107"]';
         $employee = Employee::where('id', '=', $input['employeeId'])->update($input['userStatus']);
         $result = ['success' => true, 'message' => 'Employee registered successfully'];
+        return json_encode($result);
+    }
+
+    public function suspendEmployee() {
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+
+        $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
+        $result = ['success' => true, 'result' => $suspend];
         return json_encode($result);
     }
 
