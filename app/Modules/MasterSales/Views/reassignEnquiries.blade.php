@@ -36,8 +36,7 @@
                         </div>
                         <div class="col-sm-4 col-xs-6" >
                             <label style="margin-top: 25px;"> 
-                                <label><input class="checkbox-slider slider-icon colored-success" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="reassignEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text"></span></label>    
-                                <span class="text">Shared Enquiries of Employees</span>
+                                <label><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="reassignEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>    
                             </label>
                         </div>
                         <?php if (in_array('01603', $array)) { ?>
@@ -52,7 +51,7 @@
                     </div>                       
                     <div class="col-sm-4 col-xs-12 dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginat">                         
                         <span ng-if="enquiriesLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                        <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'reassignEnquiries','',[[ $type ]],newPageNumber, itemsPerPage,listType, sharedemployee, presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
+                        <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'reassignEnquiries','',[[ $type ]],newPageNumber,listType, sharedemployee, presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                     </div>
                 </div> 
                 <hr>
@@ -124,7 +123,7 @@
                                         <span ng-repeat="emailobj in all_email_list| limitTo:2">
                                             {{emailobj}}
                                             <span ng-if="$index == 0 && all_email_list.length >= 2">
-                                                /
+                                              
                                             </span>
 
                                         </span>
@@ -259,7 +258,7 @@
                     </tbody>
                 </table>
                 <hr>
-                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'reassignEnquiries','',[[ $type ]], newPageNumber, itemsPerPage,listType, sharedemployee, presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
+                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'reassignEnquiries','',[[ $type ]], newPageNumber,listType, sharedemployee, presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                 <div ng-if="enquiriesLength == 0">
                     <div>
                         <center><b>No Enquiries Found</b></center>

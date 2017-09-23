@@ -42,8 +42,8 @@
                     </div>
                     <div class="col-sm-3 col-xs-6" >
                         <label style="margin-top: 25px;"> 
-                            <label><input class="checkbox-slider slider-icon colored-success" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="previousFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 5,sharedemployee,presalesemployee)"><span  class="text"></span></label>    
-                            <span class="text">Shared Enquiries of Employees</span>
+                            <label><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="previousFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 5,sharedemployee,presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>    
+                         
                         </label>
                     </div>
                     <div class="col-sm-3 col-xs-12" ng-if="enquiriesLength != 0">
