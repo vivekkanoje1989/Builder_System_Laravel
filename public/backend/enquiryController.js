@@ -15,6 +15,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.btnExport = true;
         $scope.dnExcelSheet = false;
         $scope.pagetitle;
+        $scope.initmoduelswisehisory = [1,2];
         $scope.pageNumber = 1;
         $scope.locations = [];
         $scope.projectList = [];
@@ -69,15 +70,117 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             }, 200);
         }
 
-        $scope.initHistoryDataModal = function (enquiry_id) {
-            Data.post('master-sales/getEnquiryHistory', {
-                enquiryId: enquiry_id,
+//        $scope.initHistoryDataModal = function (enquiry_id) {
+//            Data.post('master-sales/getEnquiryHistory', {
+//                enquiryId: enquiry_id,
+//            }).then(function (response) {
+//                if (response.success) {
+//                    $scope.historyList = angular.copy(response.records);
+//                }
+//            });
+//        }
+
+        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init)
+        {
+            if (init == 1)
+            {
+                /*using the enquiry history modal*/
+                $(':checkbox.chk_followup_history_all').prop('checked', true);
+                $(':checkbox#chk_enquiry_history').prop('checked', true);
+            }
+            Data.post('customer-care/presales/getenquiryHistory', {
+                enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
             }).then(function (response) {
+                $scope.history_enquiryId = enquiry_id;
+                $scope.chk_followup_history_all = true;
                 if (response.success) {
                     $scope.historyList = angular.copy(response.records);
+                    $timeout(function () {
+                        for (i = 0; i < $scope.historyList.length; i++) {
+                            if ($scope.historyList[i].call_recording_url != "" && $scope.historyList[i].call_recording_url != "None") {
+                                document.getElementById("recording_" + $scope.historyList[i].id).src = $scope.historyList[i].call_recording_url;
+                            }
+                        }
+                    }, 1000);
+                } else
+                {
+                    $scope.historyList = angular.copy(response.records);
+
                 }
             });
         }
+
+//        $scope.getModulesWiseHistory = function (enquiry_id, opt)
+//        {
+//            var moduelswisehisory = new Array();
+//            if (opt == 1)
+//            {
+//                if ($('#chk_enquiry_history').is(":checked"))
+//                {
+//                    $(':checkbox.chk_followup_history_all').prop('checked', true);
+//                } else
+//                {
+//                    $(':checkbox.chk_followup_history_all').prop('checked', false);
+//                }
+//            }
+//
+//            $(".chk_followup_history_all").each(function () {
+//                if ($(this).is(":checked"))
+//                {
+//                    moduelswisehisory.push($(this).data("id"))
+//                }
+//            });
+//            
+//            if (moduelswisehisory.length == 2)
+//            {
+//                $(':checkbox#chk_enquiry_history').prop('checked', true);
+//            } else
+//            {
+//                $(':checkbox#chk_enquiry_history').prop('checked', false);
+//            }
+//
+//            $scope.initHistoryDataModal(enquiry_id, moduelswisehisory, 0)
+//        }
+
+        $scope.getModulesWiseHistory = function (enquiry_id, opt, htype)
+        {
+            /*
+             * htype =  1 for the enquiryhistory popup
+             * htype = 2 for the todayremark popup
+             * 
+             */
+            var modules = new Array();
+            if (opt == 1)
+            {
+                if ($('#chk_enquiry_history').is(":checked"))
+                {
+                    $(':checkbox.chk_followup_history_all').prop('checked', true);
+                } else
+                {
+                    $(':checkbox.chk_followup_history_all').prop('checked', false);
+                }
+            }
+
+            $(".chk_followup_history_all").each(function () {
+
+                if ($(this).is(":checked"))
+                {
+                    modules.push($(this).data("id"))
+                }
+            });
+
+            if (modules.length == 2)
+            {
+                $(':checkbox#chk_enquiry_history').prop('checked', true);
+            } else
+            {
+                $(':checkbox#chk_enquiry_history').prop('checked', false);
+            }
+
+            $scope.initHistoryDataModal(enquiry_id, modules, htype)
+        }
+
+
         $scope.exportReport = function (result) {
             Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.report_name.replace(/ /g, "_")}).then(function (response) {
                 $("#downloadExcel").attr("href", response.fileUrl);
@@ -1347,44 +1450,44 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 
         /*********************IMPORT ENQUIRIES (GEETA)*********************/
 
-        $scope.getModulesWiseHistory = function (enquiry_id, opt, htype)
-        {
-            /*
-             * htype =  1 for the enquiryhistory popup
-             * htype = 2 for the todayremark popup
-             * 
-             */
-
-            var modules = new Array();
-            if (opt == 1)
-            {
-                if ($('#chk_enquiry_history').is(":checked"))
-                {
-                    $(':checkbox.chk_followup_history_all').prop('checked', true);
-                } else
-                {
-                    $(':checkbox.chk_followup_history_all').prop('checked', false);
-                }
-            }
-
-            $(".chk_followup_history_all").each(function () {
-
-                if ($(this).is(":checked"))
-                {
-                    modules.push($(this).data("id"))
-                }
-            });
-
-            if (modules.length == 2)
-            {
-                $(':checkbox#chk_enquiry_history').prop('checked', true);
-            } else
-            {
-                $(':checkbox#chk_enquiry_history').prop('checked', false);
-            }
-
-            $scope.gethisotryDataModal(enquiry_id, modules, htype)
-        }
+//        $scope.getModulesWiseHistory = function (enquiry_id, opt, htype)
+//        {
+//            /*
+//             * htype =  1 for the enquiryhistory popup
+//             * htype = 2 for the todayremark popup
+//             * 
+//             */
+//
+//            var modules = new Array();
+//            if (opt == 1)
+//            {
+//                if ($('#chk_enquiry_history').is(":checked"))
+//                {
+//                    $(':checkbox.chk_followup_history_all').prop('checked', true);
+//                } else
+//                {
+//                    $(':checkbox.chk_followup_history_all').prop('checked', false);
+//                }
+//            }
+//
+//            $(".chk_followup_history_all").each(function () {
+//
+//                if ($(this).is(":checked"))
+//                {
+//                    modules.push($(this).data("id"))
+//                }
+//            });
+//
+//            if (modules.length == 2)
+//            {
+//                $(':checkbox#chk_enquiry_history').prop('checked', true);
+//            } else
+//            {
+//                $(':checkbox#chk_enquiry_history').prop('checked', false);
+//            }
+//
+//            $scope.gethisotryDataModal(enquiry_id, modules, htype)
+//        }
 
     }]);
 

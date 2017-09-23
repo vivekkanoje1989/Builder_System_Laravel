@@ -14,7 +14,7 @@
 </style>
 <?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);?>
 <div class="row" ng-controller="enquiryController" ng-init="reassignEnquiries('',[[ $type ]],1, [[config('global.recordsPerPage')]])" >
-    <div class="col-xs-12 col-md-12">
+    <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
               <span class="widget-caption">{{pagetitle}}</span>          
@@ -32,7 +32,7 @@
                         </div>
                         <?php } ?>
                         <div class="col-sm-3 center">
-                            <button type="button" class="btn btn-primary ng-click-active"  data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_reassign_enquiries')">
+                            <button type="button" class="btn btn-primary toggleForm"  data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_reassign_enquiries')">
                                 <i class="btn-label fa fa-filter"></i>Show Filter</button>
                         </div>
                         <?php if (in_array('01603', $array)) { ?>
@@ -53,7 +53,7 @@
                 <hr>
                 <div class="row col-sm-12 col-xs-12" style="border:2px;" id="filter-show">
                     <div class="col-sm-2 alert alert-info fade in"  ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
-                       <button class="close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
+                       <button class="toggleForm close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
                        <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'model_id' || key === 'status_id'">{{  value.substring(value.indexOf("_")+1) }}</strong>
                        <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'>{{ $index +1 }}) {{   emp.first_name  }}  {{ emp.last_name }} </strong>
                        <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'>{{ $index +1 }}) {{   subcat.enquiry_sales_subcategory  }}  </strong>
@@ -308,8 +308,9 @@
                 </div>
             </div>
             
-            <div data-ng-include="'/MasterSales/showFilter'"></div>
+           
              <!--<div data-ng-include="'/MasterSales/bulkreassign'"></div>--> 
         </div>
     </div>
+     <div data-ng-include="'/MasterSales/showFilter'"></div>
 </div>

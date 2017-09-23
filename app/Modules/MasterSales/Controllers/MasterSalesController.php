@@ -35,10 +35,8 @@ use App\Modules\Projects\Models\ProjectWebPage;
 use App\Models\SendDocumentHistory;
 
 class MasterSalesController extends Controller {
-
     public static $procname;
     public $allusers;
-
     /**
      * Display a listing of the resource.
      *
@@ -63,7 +61,6 @@ class MasterSalesController extends Controller {
 
     /**
      * Store a newly created resource in storage.
-     *
      * @return Response
      */
     public function store() {

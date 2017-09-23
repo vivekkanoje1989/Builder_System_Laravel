@@ -1417,7 +1417,7 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Edit Customer',
-                                        description: ''
+                                        description: '',                                       
                                     },
                                     resolve: {
                                         deps:
@@ -1445,7 +1445,7 @@ angular.module('app')
                                     templateUrl: '/master-sales/reassignEnquiry/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Reassign Enquiries'
+                                        label: 'Sales / Pre-Sales / Reassign Enquiries',
                                     },
                                     resolve: {
                                         deps:
@@ -1462,6 +1462,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     }
                                                                     );
