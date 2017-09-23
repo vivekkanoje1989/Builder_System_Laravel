@@ -43,7 +43,8 @@
                                    <strong ng-if="key === 'cc_presales_substatus_id'"> Followup Sub Status :- <span ng-repeat='subst in value track by $index'> {{ $index + 1}}){{   subst.cc_presales_substatus}}</span></strong>
                                    <strong ng-if="key == 'source_id'">Source :- {{  value.substring(value.indexOf("_")+1) }}</strong>
                                    <strong ng-if="key === 'subsource_id'"> Sub Source :- <span ng-repeat='subsouc in value track by $index'> {{ $index + 1}}){{   subsouc.enquiry_subsource}}</span></strong>
-                                   
+                                   <strong ng-if="key == 'project_id'">Project :- <span ng-repeat='proj in value track by $index'> {{ $index + 1}}){{   proj.project_name}}</span></strong>
+                                   <strong ng-if="key == 'site_visit'">Site Visit :- Yes</strong>
                                    <strong ng-if="key == 'fname'">First Name :- {{  value }}</strong>
                                    <strong ng-if="key == 'lname'">Last Name :- {{  value }}</strong>
                                    <strong ng-if="key == 'mobileNumber'">Mobile Number :- {{  value }}</strong>
@@ -182,7 +183,7 @@
                             </div>
                             <hr class="enq-hr-line">
                             <div>
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#historyDataModal" ng-click="initerrorflag = false;initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1);"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                                <a href  data-toggle="modal" data-target="#historyDataModal" ng-click="initerrorflag = false;initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1);"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
                             </div>                   
                         </td>
 
