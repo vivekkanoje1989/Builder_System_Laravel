@@ -1269,7 +1269,13 @@ Regards,<br>
         $filterData = $request['filterData'];
         //print_r($filterData);exit;
         if (empty($request['empId'])) { // For Web
-            $loggedInUserId = Auth::guard('admin')->user()->id;
+            if (!empty($request['sharedEmployees'])) {
+                $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+            } else {
+                $loggedInUserId = Auth::guard('admin')->user()->id;
+            }
+            
+            
             if ($request['teamType'] == 1) {
                 $this->getTeamIds($loggedInUserId);
                 $alluser = $this->allusers;
@@ -1355,6 +1361,7 @@ Regards,<br>
                             $filterData["parking_required"] . '","' . $filterData["loan_required"] . '","' . $filterData["project_id"] . '","' . $filterData["enquiry_locations"] . '","' .
                             $filterData["channel_id"] . '","' . $filterData['max_budget'] . '","' . $filterData["verifiedMobNo"] . '","' . $filterData["verifiedEmailId"] . '",' . $request['pageNumber'] . ',' . $request['itemPerPage'] . ')');
         } else {
+            
             $getEnquiryDetails = DB::select('CALL ' . $request["getProcName"] . '("' . $loggedInUserId . '","' . $filterData["fname"] . '","' . $filterData["lname"] . '","' .
                             $filterData["emailId"] . '","' . $filterData["mobileNumber"] . '","' . $filterData["fromDate"] . '","' . $filterData["toDate"] . '","' .
                             $filterData["category_id"] . '","' . $filterData["subcategory_id"] . '","' . $filterData["status_id"] . '","' . $filterData["substatus_id"] . '","' . $filterData["source_id"] . '","' . $filterData["subsource_id"] . '","' .
@@ -1384,9 +1391,13 @@ Regards,<br>
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) { // total
-                if (empty($request['empId']))
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                else
+                if (empty($request['empId'])) {
+                    if (!empty($request['sharedEmployees'])) {
+                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                } else
                     $loggedInUserId = $request['empId'];
             } else { // team total
                 if (empty($request['empId']))
@@ -1398,12 +1409,14 @@ Regards,<br>
                 $alluser = $this->allusers;
                 $loggedInUserId = implode(',', $alluser);
             }
+
+
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $loggedInUserId = '1,2,3,4';
-            $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
+
+            $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
-            if (count($getTotalEnquiryDetails) != 0) {
+            if (count($getTotalEnquiryDetails) > 0) {
                 $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No Records Found'];
@@ -1426,9 +1439,13 @@ Regards,<br>
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
             if ($request['teamType'] == 0) { // total
-                if (empty($request['empId']))
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                else {
+                if (empty($request['empId'])) {
+                    if (!empty($request['sharedEmployees'])) {
+                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                } else {
                     $loggedInUserId = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_total_enquiries";
@@ -1483,6 +1500,23 @@ Regards,<br>
         return response()->json($result);
     }
 
+    public function sharedEnquiriesEmployee() {
+        $employee_id = Auth::guard('admin')->user()->id;
+        $result = Employee::where('id', '=', $employee_id)->select('presale_shared_employee', 'postsale_shared_employee')->first();
+        if (!empty($result->presale_shared_employee)) {
+            $presale_shared_employee = $result->presale_shared_employee;
+        } else {
+            $presale_shared_employee = '';
+        }
+        if (!empty($result->postsale_shared_employee)) {
+            $postsale_shared_employee = $result->postsale_shared_employee;
+        } else {
+            $postsale_shared_employee = '';
+        }
+        $result = ['success' => false, 'presales' => $presale_shared_employee, 'postsales' => $postsale_shared_employee];
+        return json_encode($result);
+    }
+
     public function showTodaysFollowups($type) {
         return view("MasterSales::todaysfollowups")->with("type", $type);
     }
@@ -1497,9 +1531,13 @@ Regards,<br>
             $request = json_decode($postdata, true);
 
             if ($request['teamType'] == 0) { // total
-                if (empty($request['empId']))
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                else {
+                if (empty($request['empId'])) {
+                    if (!empty($request['sharedEmployees'])) {
+                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                } else {
                     $loggedInUserId = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_today_followups";
@@ -1530,8 +1568,8 @@ Regards,<br>
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTodaysFollowups = json_decode(json_encode($getTodaysFollowups), true);
 
-            
-             $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+
+            $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
             if (in_array('01403', $array)) {
                 $outBoundCall = 1;
             } else {
@@ -1542,9 +1580,9 @@ Regards,<br>
             } else {
                 $displayMobile = '';
             }
-            
+
             if (count($getTodaysFollowups) != 0) {
-                $result = ['success' => true, 'records' => $getTodaysFollowups,'displayCallBtn'=>$outBoundCall,'MobileNopermissions'=>$displayMobile, 'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getTodaysFollowups, 'displayCallBtn' => $outBoundCall, 'MobileNopermissions' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No record Found'];
             }
@@ -1565,12 +1603,14 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-
             if ($request['teamType'] == 0) { // total
-                if (empty($request['empId']))
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-
-                else {
+                if (empty($request['empId'])) {
+                    if (!empty($request['sharedEmployees'])) {
+                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                } else {
                     $loggedInUserId = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_lost_enquiries";
@@ -1613,7 +1653,7 @@ Regards,<br>
                 $displayMobile = '';
             }
             if (count($getlostEnquiryDetails) != 0) {
-                $result = ['success' => true, 'records' => $getlostEnquiryDetails,'callBtnPermissions'=>$outBoundCall,'displayMobile'=>$displayMobile , 'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getlostEnquiryDetails, 'callBtnPermissions' => $outBoundCall, 'displayMobile' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No Records Found'];
             }
@@ -1634,10 +1674,15 @@ Regards,<br>
         try {
             $postdata = file_get_contents("php://input");
             $request = json_decode($postdata, true);
-            if ($request['teamType'] == 0) { // total
-                if (empty($request['empId']))
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                else {
+            if ($request['teamType'] == 0) {
+
+                if (empty($request['empId'])) {
+                    if (!empty($request['sharedEmployees'])) {
+                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                } else {
                     $loggedInUserId = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_booked_enquiries";
@@ -1668,7 +1713,7 @@ Regards,<br>
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getbookedEnquiryDetails = json_decode(json_encode($getbookedEnquiryDetails), true);
 
-             $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
             if (in_array('01403', $array)) {
                 $outBoundCall = 1;
             } else {
@@ -1680,7 +1725,7 @@ Regards,<br>
                 $displayMobile = '';
             }
             if (count($getbookedEnquiryDetails) != 0) {
-                $result = ['success' => true, 'records' => $getbookedEnquiryDetails,'callBtnPermission'=>$outBoundCall,'displayMobileN'=>$displayMobile, 'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getbookedEnquiryDetails, 'callBtnPermission' => $outBoundCall, 'displayMobileN' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No Records Found'];
             }
@@ -1705,8 +1750,11 @@ Regards,<br>
 
             if ($request['teamType'] == 0) { // total
                 if (empty($request['empId']))
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                else {
+                    if (!empty($request['sharedEmployees'])) {
+                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    } else {
                     $loggedInUserId = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_previous_followups";
@@ -1737,7 +1785,7 @@ Regards,<br>
             $getCustomerEnquiryDetails = DB::select('CALL proc_get_previous_followups("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getCustomerEnquiryDetails = json_decode(json_encode($getCustomerEnquiryDetails), true);
-             $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
             if (in_array('01403', $array)) {
                 $outBoundCall = 1;
             } else {
@@ -1749,7 +1797,7 @@ Regards,<br>
                 $displayMobile = '';
             }
             if (count($getCustomerEnquiryDetails) != 0 && !empty($getCustomerEnquiryDetails[0]['id'])) {
-                $result = ['success' => true, 'records' => $getCustomerEnquiryDetails, 'callBtnPermission'=>$outBoundCall,'displayMobileN'=>$displayMobile,  'totalCount' => $cnt[0]->totalCount];
+                $result = ['success' => true, 'records' => $getCustomerEnquiryDetails, 'callBtnPermission' => $outBoundCall, 'displayMobileN' => $displayMobile, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No record Found'];
             }
@@ -1772,9 +1820,13 @@ Regards,<br>
             $request = json_decode($postdata, true);
 
             if ($request['teamType'] == 0) { // total
-                if (empty($request['empId']))
-                    $loggedInUserId = Auth::guard('admin')->user()->id;
-                else {
+                if (empty($request['empId'])) {
+                    if (!empty($request['sharedEmployees'])) {
+                        $loggedInUserId = Auth::guard('admin')->user()->id . "," . $request['sharedEmployees'];
+                    } else {
+                        $loggedInUserId = Auth::guard('admin')->user()->id;
+                    }
+                } else {
                     $loggedInUserId = $request['empId'];
                     if ($request['filterFlag'] == 1) {
                         MasterSalesController::$procname = "proc_get_pending_followups";

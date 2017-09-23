@@ -1090,7 +1090,7 @@ class ReportsController extends Controller {
         echo Json_encode($response);
     }
 
-    public function TeamProjectStatusReport() {
+    public function TeamLeadProjectStatusReport() {
 
         $response = array();
         $postdata = file_get_contents("php://input");
@@ -1194,7 +1194,7 @@ class ReportsController extends Controller {
         echo Json_encode($response);
     }
 
-    public function TeamProjectSourceReport() {
+    public function TeamLeadProjectSourceReport() {
         $response = array();
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
@@ -1239,7 +1239,7 @@ class ReportsController extends Controller {
         echo Json_encode($response);
     }
 
-    public function teamProjectSourceEmpReport() {
+    public function teamProjectSourceReport() {
 
         $response = array();
         $postdata = file_get_contents("php://input");
@@ -1391,7 +1391,7 @@ class ReportsController extends Controller {
         echo Json_encode($response);
     }
 
-    public function teamProjectStatusEmpReport() {
+    public function TeamProjectStatusReport() {
         $response = array();
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);

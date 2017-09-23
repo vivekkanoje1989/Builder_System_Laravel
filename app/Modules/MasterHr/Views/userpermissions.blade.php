@@ -73,7 +73,7 @@
                                                      
                                                             <ui-select  multiple ng-model="predata.presalesemployee_id"  name="presalesemployee_id" theme="select2"  style="width: 300px;" ng-if="child1.name == 'Pre Sales Shared'" >
                                                                 <ui-select-match>{{$item.first_name}}</ui-select-match>
-                                                                <ui-select-choices repeat="list in ct_employee | filter:$select.search">
+                                                                <ui-select-choices repeat="list in ct_presalesemployee | filter:$select.search">
                                                                     {{list.first_name + " " + list.last_name + " (" + list.designation + ")"}} 
                                                                 </ui-select-choices>
                                                             </ui-select>          
@@ -83,7 +83,7 @@
                                                         <form name="postsales" id="postsales" ng-submit="postSalesEnquiry(predata.postsalesemployee_id,[[$empId]])">   
                                                             <ui-select ng-if="child1.name == 'Post Sales Shared'"  multiple ng-model="predata.postsalesemployee_id" name="employee_id" theme="select2"  style="width: 300px;" >
                                                                 <ui-select-match>{{$item.first_name}}</ui-select-match>
-                                                                <ui-select-choices repeat="list in ct_employee | filter:$select.search">
+                                                                <ui-select-choices repeat="list in ct_postsalesemployee | filter:$select.search">
                                                                     {{list.first_name + " " + list.last_name + " (" + list.designation + ")"}} 
                                                                 </ui-select-choices>
                                                             </ui-select>

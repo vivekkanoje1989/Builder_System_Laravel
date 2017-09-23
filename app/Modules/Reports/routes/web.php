@@ -44,12 +44,12 @@ Route::group(array('module' => 'Reports', 'middleware' => ['auth:admin'], 'names
     Route::post('/reports/TeamProjectCategotyReport', 'ReportsController@TeamProjectCategotyReport');
     Route::post('/reports/TeamLeadProjectCategoryReport', 'ReportsController@TeamLeadProjectCategoryReport');
     Route::post('/reports/TeamProjectStatusReport', 'ReportsController@TeamProjectStatusReport');
-    Route::post('/reports/TeamProjectSourceReport', 'ReportsController@TeamProjectSourceReport');
+    Route::post('/reports/TeamLeadProjectSourceReport', 'ReportsController@TeamLeadProjectSourceReport');
     Route::post('/reports/getTeamSourcereports', 'ReportsController@getTeamSourcereports');
     Route::post('/reports/teamProjectCategoryReport', 'ReportsController@teamProjectCategoryReport');
-    Route::post('/reports/teamProjectStatusEmpReport', 'ReportsController@teamProjectStatusEmpReport');
+    Route::post('/reports/TeamLeadProjectStatusReport', 'ReportsController@TeamLeadProjectStatusReport');
     Route::get('/reports/teamfollowupReport', 'ReportsController@teamfollowupReport');
-    Route::post('/reports/teamProjectSourceEmpReport', 'ReportsController@teamProjectSourceEmpReport');
+    Route::post('/reports/teamProjectSourceReport', 'ReportsController@teamProjectSourceReport');
     Route::get('/reports/projectOverviewReport', 'ReportsController@projectOverviewReport');
     Route::get('/reports/overViewReport', 'ReportsController@overViewReport');
 });

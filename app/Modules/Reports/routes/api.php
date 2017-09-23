@@ -22,7 +22,7 @@ Route::group(array('module' => 'Reports', 'middleware' => ['api'], 'namespace' =
 
     Route::post('api/reports/TeamProjectCategotyReport', 'ReportsController@TeamProjectCategotyReport');
     Route::post('api/reports/TeamProjectStatusReport', 'ReportsController@TeamProjectStatusReport');
-    Route::post('api/reports/TeamProjectSourceReport', 'ReportsController@TeamProjectSourceReport');
+    Route::post('api/reports/teamProjectSourceReport', 'ReportsController@teamProjectSourceReport');
 
     Route::post('api/reports/teamProjectCategoryReport', 'ReportsController@teamProjectCategoryReport');
     Route::post('api/reports/teamProjectSourceEmpReport', 'ReportsController@teamProjectSourceEmpReport');
@@ -34,9 +34,8 @@ Route::group(array('module' => 'Reports', 'middleware' => ['api'], 'namespace' =
     Route::post('api/reports/getsourcereports', 'ReportsController@getsourcereports');
     Route::post('api/reports/getEmpStatusreports', 'ReportsController@getEmpStatusreports');
 
-    
     Route::post('api/reports/TeamLeadProjectCategoryReport', 'ReportsController@TeamLeadProjectCategoryReport');
-    Route::post('api/reports/TeamLeadProjectStatusReport', 'ReportsController@TeamProjectStatusReport');
-    Route::post('api/reports/TeamProjectSourceReport', 'ReportsController@TeamProjectSourceReport');
+    Route::post('api/reports/TeamLeadProjectStatusReport', 'ReportsController@TeamLeadProjectStatusReport');
+    Route::post('api/reports/TeamLeadProjectSourceReport', 'ReportsController@TeamLeadProjectSourceReport');
 
 });

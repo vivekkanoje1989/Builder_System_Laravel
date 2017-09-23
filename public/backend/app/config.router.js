@@ -1446,6 +1446,7 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         label: 'Sales / Pre-Sales / Reassign Enquiries',
+                                        title: ' Reassign Enquiries'
                                     },
                                     resolve: {
                                         deps:

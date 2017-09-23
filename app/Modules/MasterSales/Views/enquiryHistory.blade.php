@@ -59,12 +59,12 @@
 <div class="modal-body"> 
     <div>
         <label>
-            <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHistory(history_enquiryId,1)"  id="chk_enquiry_history">
+            <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHistory(history_enquiryId,1,1)"  id="chk_enquiry_history">
             <span class="text">All</span>
         </label>
         &nbsp;&nbsp;
         <label>
-            <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="1" class="chk_followup_history_all" id="chk_presales">
+            <input type="checkbox" name="chk_enquiry_history" ng-click="getModulesWiseHistory(history_enquiryId,0,1)" data-id="1" class="chk_followup_history_all" id="chk_presales">
             <span class="text">Pre Sales</span>
         </label>
         <!--label>&nbsp;&nbsp;
@@ -78,7 +78,7 @@
         </label-->
          &nbsp;&nbsp;
         <label>
-            <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="2"  class="chk_followup_history_all" id="chk_Customer_Care">
+            <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0,1)" data-id="2"  class="chk_followup_history_all" id="chk_Customer_Care">
             <span class="text">Customer Care</span>
         </label>
         <hr class="enq-hr-line">
