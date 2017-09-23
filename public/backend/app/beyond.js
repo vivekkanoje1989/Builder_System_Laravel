@@ -103,7 +103,7 @@ angular.module('app')
                                 }
                             }, 500);
                         });
-
+                /*****************FOR CONTENT PAGE LOADER*********************/
                 $scope.loader = {
                     loading: false,
                 };
@@ -114,6 +114,19 @@ angular.module('app')
                 $scope.hideloader = function () {
                     $timeout(function () {
                         $scope.loader.loading = false;
+                    }, 1000);
+                }
+                /*******************FOR FULL PAGE LOADER*******************/
+                $scope.loader1 = {
+                    loading: false,
+                };
+
+                $scope.showloader1 = function () {
+                    $scope.loader1.loading1 = true;
+                }
+                $scope.hideloader1 = function () {
+                    $timeout(function () {
+                        $scope.loader1.loading1 = false;
                     }, 1000);
                 }
 
@@ -128,14 +141,14 @@ angular.module('app')
                         closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
                         closeOnCancel: false
                     },
-                            function (isConfirm) { //Function that triggers on user action.
-                                if (isConfirm) {
-                                    $scope.$broadcast("deleteRecords", {id, index});
-                                    SweetAlert.swal("Deleted!");
-                                } else {
-                                    SweetAlert.swal("Your record is safe!");
-                                }
-                            });
+                    function (isConfirm) { //Function that triggers on user action.
+                        if (isConfirm) {
+                            $scope.$broadcast("deleteRecords", {id, index});
+                            SweetAlert.swal("Deleted!");
+                        } else {
+                            SweetAlert.swal("Your record is safe!");
+                        }
+                    });
                 }
                 
                 $scope.confirmDelete = function (id, index) {

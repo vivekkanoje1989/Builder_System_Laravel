@@ -33,8 +33,6 @@
                 <br>
                 <div class="row" style="border:2px;" id="filter-show">
                    <div class="col-sm-12 col-xs-12">
-                                             
-                       
                        <b ng-repeat="(key, value) in showfilterData" ng-if="value != 0 && key != 'toDate' ">
                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}"> 
                                 <div class="alert alert-info fade in" style="padding: 6px;">
@@ -54,15 +52,12 @@
                                    <strong ng-if="key == 'mobileNumber'">Mobile Number :- {{  value }}</strong>
                                    <strong ng-if="key == 'emailId'">Email Id :- {{  value }}</strong>
                                    <strong ng-if="key == 'verifiedMobNo'">Verified Mobile Number :- {{  value === true ? " Yes " : "No" }}</strong>
-                                   <strong ng-if="key == 'verifiedEmailId'">Verified Email Id :- {{  value === true ? " Yes " : "No" }}</strong>
-                                   
+                                   <strong ng-if="key == 'verifiedEmailId'">Verified Email Id :- {{  value === true ? " Yes " : "No" }}</strong>                                   
                                </div>
                            </div>
-                       </b>      
-                        
-                   </div>
-               </div>
-                
+                       </b>                        
+                    </div>
+                </div>                
                 <br>
                 <hr>
                     <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">

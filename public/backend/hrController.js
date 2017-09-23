@@ -73,11 +73,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //            });
         }
 
-        //$scope.ct_employee = [];
+        $scope.ct_presalesemployee = [];
+        $scope.ct_postsalesemployee = [];
         $scope.getEmployeeData = function (employee_id) {
             Data.post('master-hr/getEmployeeData', {employee_id: employee_id}).then(function (response) {
-                $scope.ct_employee = response.records;
-                console.log(response);
+                $scope.ct_presalesemployee = response.presalesemprecords;
+                $scope.ct_postsalesemployee = response.postsalesemprecords;
             });
         }
 
@@ -101,7 +102,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.getSharedEmployees = function (employee_id) {
             $scope.predata = [];
-            $scope.postsales = [];
             Data.post('master-hr/getSharedEmployees', {
                 data: {employee_id: employee_id},
                 async: false,
@@ -109,10 +109,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.predata.presalesemployee_id = angular.copy(response.presales.records);
                 //console.log($scope.presales.presalesemployee_id);
 //              $scope.postsales.postsalesemployee_id = response.postsales;
-
+                $scope.predata.postsalesemployee_id = angular.copy(response.postsales.records);
             });
         }
-
 
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;

@@ -603,7 +603,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.employee_id = source.employee_id;
             $scope.empId1 = source.employee_id;
             $scope.emp_name = source.name;
-            Data.post('reports/teamProjectSourceEmpReport', {
+            Data.post('reports/teamProjectSourceReport', {
                 project_id: $scope.project_id, employee_id: source.employee_id
             }).then(function (response) {
 
@@ -709,8 +709,8 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
                     }
                 };
             });
-
-            Data.post('reports/TeamProjectStatusReport', {
+//              TeamProjectStatusReport 
+            Data.post('reports/TeamLeadProjectStatusReport', {
                 project_id: $scope.project_id, employee_id: $scope.employee_id
             }).then(function (response) {
                 console.log(response)
@@ -748,7 +748,8 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.teamsourcedata = [];
             $scope.teamSourcelabels = [];
              $scope.SourceTotal = 0;
-            Data.post('reports/TeamProjectSourceReport', {
+//             TeamProjectSourceReport
+            Data.post('reports/TeamLeadProjectSourceReport', {
                 project_id: $scope.project_id, employee_id: $scope.employee_id
             }).then(function (response) {
                 console.log(response)
@@ -842,7 +843,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.subTotalLost = 0;
             status.flag = 1;
             $scope.statusReport = false;
-            Data.post('reports/teamProjectStatusEmpReport', {
+            Data.post('reports/TeamProjectStatusReport', {
                 project_id: $scope.project_id, employee_id: $scope.employee_id
             }).then(function (response) {
 

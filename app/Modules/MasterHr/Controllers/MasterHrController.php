@@ -34,17 +34,40 @@ class MasterHrController extends Controller {
     }
 
     public function getEmployeeData() {
-        $getEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
-                        ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
-                        ->where("employees.employee_status", 1)->get();
+
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+
+        $result = Employee::where('id', '=', $request['employee_id'])->select('presale_shared_employee', 'postsale_shared_employee')->first();
+
+        $arr = explode(",", $result->presale_shared_employee);
+        $getpresalesEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
+                ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
+                ->where("employees.employee_status", 1)
+                ->whereNotIn('employees.id', $arr)
+                ->get();
 
         $i = 0;
-        foreach ($getEmployees as $ctEmployeesExt) {
-            $getEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
+        foreach ($getpresalesEmployees as $ctEmployeesExt) {
+            $getpresalesEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
             $i++;
         }
-        if (!empty($getEmployees)) {
-            $result = ['success' => true, 'records' => $getEmployees];
+        
+        $arr1 = explode(",", $result->postsale_shared_employee);
+        $getPostSalesEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
+                ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
+                ->where("employees.employee_status", 1)
+                ->whereNotIn('employees.id', $arr1)
+                ->get();
+
+        $i = 0;
+        foreach ($getPostSalesEmployees as $ctEmployees) {
+            $getPostSalesEmployees[$i]['employee'] = $ctEmployees['first_name'] . ' ' . $ctEmployees['last_name'] . '(' . $ctEmployees['designation'] . ')';
+            $i++;
+        }
+        
+        if (!empty($getpresalesEmployees) || !empty($getPostSalesEmployees)) {
+            $result = ['success' => true, 'presalesemprecords' => $getpresalesEmployees, 'postsalesemprecords' => $getPostSalesEmployees];
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
@@ -195,11 +218,11 @@ class MasterHrController extends Controller {
         } else {
             $preSalesResult = [];
         }
-
+        $arr1 = explode(",", $result->postsale_shared_employee);
         if (!empty($result->postsale_shared_employee)) {
             $getEmp = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                             ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
-                            ->whereIn('employees.id', array($result->postsale_shared_employee))
+                            ->whereIn('employees.id', $arr1)
                             ->where("employees.employee_status", 1)->get();
             if (!empty($getEmp)) {
                 $postSalesResult = ['success' => true, 'records' => $getEmp];

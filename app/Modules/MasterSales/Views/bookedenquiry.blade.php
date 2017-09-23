@@ -11,7 +11,7 @@
         padding: 5px;
     }
 </style>
-<div class="row" ng-controller="enquiryController" ng-init="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5)" >
+<div class="row" ng-controller="enquiryController" ng-init="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5,'','');  getEnquirySheredWith()" >
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -25,11 +25,11 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:45%;" class="form-control" ng-model="itemsPerPage">
                         </div>
                     </div>
-                    <div class="col-md-5 col-xs-12">
+                    <div class="col-md-4 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">                                
-                                <button type="button"  class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_booked_enquiries')"><i class="btn-label fa fa-filter"></i>Show Filter</button>
+                                <button type="button"  class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_booked_enquiries','',sharedemployee,presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</button>
                                 <!--<button type="button"  class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Bulk Reassign</button>-->
                                 <div ng-if="enquiriesLength != 0">
                                     <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
@@ -42,12 +42,18 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-5 col-xs-12" ng-if="enquiriesLength != 0">
+                    <div class="col-sm-3 col-xs-6" >
+                        <label style="margin-top: 25px;"> 
+                            <label><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="bookedEnquiries('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee,presalesemployee)"><span  class="text">&nbsp;&nbsp; Shared Enquiries of Employees</span></label>    
+                            
+                        </label>
+                    </div>
+                    <div class="col-sm-3 col-xs-12" ng-if="enquiriesLength != 0">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
                                 <span ng-if="enquiriesLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'bookedEnquiries','', [[$type]],newPageNumber,listType)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                            
+                                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'bookedEnquiries','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                            
                             </span>
                         </div>
                     </div>
@@ -241,7 +247,7 @@
                     </tbody>              
                 </table>
 
-                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'bookedEnquiries','', [[$type]], newPageNumber, listType)" template-url="/dirPagination" ng-if="enquiriesLength" ></dir-pagination-controls>
+                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'bookedEnquiries','', [[$type]], newPageNumber, listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength" ></dir-pagination-controls>
                 <div ng-if="enquiriesLength == 0">
                     <div>
                         <center><b>No Enquiries Found</b></center>

@@ -182,25 +182,25 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Roles',
-                                        description: ''
+                                        label: 'HR / Role Management / Manage Roles',
+                                        title: 'Manage Roles',
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load('toaster').then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/hrController.js',
-                                                                        ]
-                                                                    });
-                                                                });
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load('toaster').then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/hrController.js',
+                                                                ]
+                                                            });
+                                                        });
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('createrole', {
@@ -208,7 +208,8 @@ angular.module('app')
                                     templateUrl: '/master-hr/createrole',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Role Permissions',
+                                        label: 'HR / Role Management / Create Role & Permissions',
+                                        title: 'Create Role & Permissions',
                                         description: ''
                                     },
                                     resolve: {
@@ -273,8 +274,9 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: 'manageRoles',
                                         label: 'Role Permissions',
-                                        description: ''
+                                        title: 'Role Permissions',
                                     },
                                     resolve: {
                                         deps:
@@ -1462,6 +1464,7 @@ angular.module('app')
                                                                             '/backend/app/controllers/datepicker.js',
                                                                             '/backend/app/controllers/timepicker.js',
                                                                             '/backend/app/controllers/select.js',
+                                                                            '/js/accordian.js',
                                                                         ]
                                                                     }
                                                                     );
@@ -3776,8 +3779,8 @@ angular.module('app')
                                     templateUrl: '/user-document/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'User Documents',
-                                        description: ''
+                                        label: 'HR / User Documents / User Documents',
+                                        title: 'User Documents',
                                     },
                                     resolve: {
                                         deps:
@@ -3805,8 +3808,8 @@ angular.module('app')
                                     templateUrl: '/employee-document/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Employee Documents',
-                                        description: ''
+                                        label: 'HR / Manage Documents / Manage Documents',
+                                        title: 'Manage Documents',
                                     },
                                     resolve: {
                                         deps:

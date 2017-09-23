@@ -72,38 +72,15 @@
                                 <button type="submit" ng-click="next2 = true" class="sub-btn w3-btn">Login</button>
                             </div>
                         </div>
-                        <!--                    <div id="otp-form" class="w3-animate-right">
-                                                <div class="group-div">
-                                                    <label>High Security Password</label>
-                                                    <input type="text" name="securityPassword" check-login-credentials minlength="4" maxlength="4" ng-model="loginData.securityPassword" required ng-model-options="{allowInvalid: true, debounce: 100}">
-                                                    <div ng-show="next3" ng-messages="loginForm.securityPassword.$error" class="help-block next3">
-                                                        <div ng-message="required">Required</div>
-                                                        <div ng-message="minlength">Too short (Minimum length is 4 characters)</div>
-                                                        <div ng-message="wrongCredentials">Wrong security password!</div>                                
-                                                    </div>
-                                                </div><br><hr>
-                                                <div class="group-div" align="center">
-                                                    <button type="submit" ng-click="next3 = true" class="sub-btn">Login</button>
-                                                </div>
-                                            </div>-->
-
                     </form>
                 </div>
                 <div class="foot-div2 col-md-12 col-xs-12"></div>
             </div>
-            <!--            <div class="foot-p2" align="center">
-                            <div class="bord2">  
-                                <img src="http://bmsbuilder.in/themes/backend/bms.1.9.14/bms.png" class="bms-logo">
-                                <span class="pos2">1.0</span>
-                            </div>  
-                            <img src="http://bmsbuilderdev.in/common/images/edynamicslogo.jpg" class="foot-logo2">
-            <p> All Rights Reserved © 2017 <a href="http://edynamics.co.in/" target="_blank"> edynamics Business Services LLP </a></p>
-                        </div> -->
             <div class="left-logo-div">
                 <p style=" margin-top: 25px;"><a href="http://edynamics.co.in/" target="_blank" class="footer-a">
                         All Rights Reserved © 2017 edynamics Business Services LLP </a></p>
-                <img src="http://bmsbuilder.in/themes/backend/bms.1.9.14/bms.png" class="bms-logo">     
-                <img src="http://bmsbuilderdev.in/common/images/edynamicslogo.jpg" class="bms-logo">        
+                <img src="images/bmslogo.png" class="bms-logo">     
+                <img src="images/edynamicslogo.jpg" class="bms-logo">        
             </div>
         </div>
     </div>
