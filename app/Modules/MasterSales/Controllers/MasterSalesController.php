@@ -884,7 +884,6 @@ class MasterSalesController extends Controller {
             if (!empty($input['bookingId'])) {
                 $bookingId = $input['bookingId'];
             }
-
             $todayDateTime = date('Y-m-d H:i:s');
             $getvalues = Enquiry::select('sales_category_id', 'sales_subcategory_id', 'sales_status_id')->where('id', $enquiryId)->get();
             $sales_category_id = !empty($input['sales_category_id']) ? $input['sales_category_id'] : $getvalues[0]['sales_category_id'];
