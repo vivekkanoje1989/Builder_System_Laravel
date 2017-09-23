@@ -15,7 +15,10 @@
 <div class="row">
     <div class="widget flat radius-bordered ">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="alertsController">
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
+            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>-->
+            <div class="widget-header">
+                <span class="widget-caption">Edit Template Setting</span>
+            </div>
             <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
                     <form novalidate role="form" ng-submit="alertFrom.$valid && createAlert(alertData, alertData.image_file, [[ !empty($alertId) ?  $alertId : '0' ]])" name="alertFrom" ng-init="manageAlerts([[ !empty($alertId) ?  $alertId : '0' ]], 'edit', [[$customerType]])">
@@ -71,7 +74,7 @@
                                                     </span>
                                                     <div ng-show='alertData.template_type == 1 && ddl_friendly_name_flag == 1'>    
                                                         <span class="close btn-default purple" style="margin-top: 7px;position: absolute;margin-left: 312px;z-index: 0;" ng-click="display_ddl_custom(0)">
-                                                        ×</span>Select Template
+                                                            ×</span>Select Template
                                                         <ui-select ng-model="alertData.custom_template_id" theme="select2"  style="width:90%" ng-change="updateCustomTemplate(alertData)">
                                                             <ui-select-match placeholder="Select or search a custom ">{{$select.selected.friendly_name}}</ui-select-match>
                                                             <ui-select-choices repeat="item in custom_template_list | filter: $select.search">
@@ -191,10 +194,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>    
-                        <div class="row col-lg-12">
-                            <div class="col-lg-12 col-xs-12 col-md-12">
-                                <button type="submit" class="btn btn-primary" ng-click="sbtBtn = true">{{buttonLabel}}</button>
+                        </div> 
+                        <div class="row">
+                            <div class="col-lg-12 col-xs-12 col-md-12 " align="right">
+                                <button type="submit" class="btn btn-primary " ng-click="sbtBtn = true">{{buttonLabel}}</button>
+                                <a href="[[ config('global.backendUrl') ]]#/alerts/index" class="btn btn-primary">Cancel</a>
+
                             </div>
                         </div>
                     </form>
@@ -203,3 +208,4 @@
         </div>
     </div>
 </div>
+

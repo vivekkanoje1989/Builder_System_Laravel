@@ -4,24 +4,6 @@ app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'to
         $scope.noOfRows = 1;
         $scope.pageNumber = 1;
 
-//        $scope.pageChanged = function (pageNo, functionName, id) {
-//            $scope[functionName](id, pageNo, $scope.itemsPerPage);
-//            $scope.pageNumber = pageNo;
-//        };
-//        $scope.pageChanged = function (pageNo, functionName, id, newpage) {
-//            $scope.flagForChange++;
-//
-//            if ($scope.flagForChange == 1)
-//            {
-//                if (($scope.filterData && Object.keys($scope.filterData).length > 0)) {
-//                    $scope.filteredData($scope.filterData, pageNo, $scope.itemsPerPage);
-//                } else {
-//                    $scope[functionName](id, pageNo, $scope.itemsPerPage);
-//                }
-//            }
-//            $scope.pageNumber = pageNo;
-//        }
-
         $scope.manageDiscountHeading = function (empId, pageNumber, itemPerPage) {
             $scope.showloader();
             Data.post('discount-headings/manageDiscountHeading').then(function (response) {
@@ -41,10 +23,14 @@ app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'to
         $scope.deleteDiscountHeading = function (id, index) {
             Data.post('discount-headings/deleteDiscountHeading', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Dic=scount Heading', 'Discount Heading deleted successfully');
+//                toaster.pop('success', 'Dic=scount Heading', 'Discount Heading deleted successfully');
                 $scope.DiscountHeadingRow.splice(index, 1);
             });
         }
+        
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteDiscountHeading(args['id'], args['index']);
+        });
         
         $scope.discountHeadingExportToxls = function () {
             $scope.getexcel = window.location = "/discount-headings/discountHeadingExportToxls";
@@ -115,7 +101,7 @@ app.controller('discountheadingController', ['$scope', 'Data', '$rootScope', 'to
             if (id == 0)
             {
                 $scope.heading = 'Add Discount Heading';
-                $scope.action = 'submit';
+                $scope.action = 'Add';
             } else {
                 $scope.heading = 'Edit Discount Heading';
                 $scope.action = 'Update';

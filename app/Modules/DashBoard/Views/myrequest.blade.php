@@ -82,10 +82,15 @@
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
                                 <option value="30">30</option>
-                                <option value="50">50</option>
                                 <option value="100">100</option>
                                 <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
                                 <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
                                 <option value="999">999</option>
                             </select>
                         </label>
@@ -227,7 +232,12 @@
                     <div class="form-group">
                         <label for="">Request Type</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.request_type" name="request_type" class="form-control">
+                            <select class="form-control" ng-model="searchDetails.request_type" name="request_type">
+                                <option value="">Select Status</option>
+                                <option value="Leave">Leave</option>
+                                <option value="Approval">Approval</option>
+                            </select>
+                            
                         </span>
                     </div>
                 </div>

@@ -34,6 +34,9 @@ div.help-block{
     width: 175px;*/
 }
 
+.capitalize{
+    text-transform: capitalize;
+}
 #ToolTables_editabledatatable_2{
     border-left: 1px solid #ccc !important;
 }

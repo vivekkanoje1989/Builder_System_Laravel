@@ -64,7 +64,7 @@
                                             {{list.first_name}} {{list.last_name}}
                                         </ui-select-choices>
                                     </ui-select>
-                                    <div ng-show="emptyEmpId" class="help-block  createBtn {{ applyClassEmp}}">
+                                    <div ng-if="createBtn" ng-show="deviceData.employee_id.length == '0' || deviceData.employee_id.length == null  " class="help-block  createBtn {{ applyClassEmp}}">
                                         This field is required.
                                     </div>
                                      <div ng-if="employee_id" class="sp-err employee_id">{{employee_id}}</div>
@@ -131,7 +131,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 col-xs-12" align="right">
                             <input type="submit" name="btnname" class="btn btn-primary" value="{{ btnLable}}" ng-click="(createBtn = true); checkemployee();">
-                            <a href="[[ config('global.backendUrl') ]]#/employeeDevice/index"  class="btn btn-primary" value="" ><< Back To List</a>                                  
+                            <a href="[[ config('global.backendUrl') ]]#/employeeDevice/index"  class="btn btn-primary" value="" >Cancel</a>                                  
                         </div>                                
                     </div>
                 </form>

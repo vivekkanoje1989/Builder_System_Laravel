@@ -10,7 +10,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
     $scope.getProcName;
     $scope.btn_todayremark_disable =  false;
     $scope.history_enquiryId;
-    $scope.initmoduelswisehisory = [2];
+    $scope.initmoduelswisehisory = [1,2];
     $scope.contact_permission;
     $scope.email_permission;
     $scope.client_id;

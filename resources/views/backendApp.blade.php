@@ -65,9 +65,17 @@
                                     <div class="rect3"></div>
                                     <div class="rect4"></div>
                                     <div class="rect5"></div>
-                                    <!--<b class="loadermsg">Please Wait...</b>-->
                                 </div>
-                            </div>    
+                            </div> 
+                            <div class="customOverlay" ng-show="loader1.loading1">
+                                <div class="spinner">
+                                    <div class="rect1"></div>
+                                    <div class="rect2"></div>
+                                    <div class="rect3"></div>
+                                    <div class="rect4"></div>
+                                    <div class="rect5"></div>
+                                </div>
+                            </div> 
                             @include('layouts.backend.layout')
                             <!--<div ui-view ng-show="!loader.loading"></div>-->
 
@@ -85,6 +93,8 @@
                             <script src="js/skins.min.js"></script>
                             <!--Beyond Scripts-->
                             <script src="/js/beyond.min.js"></script> 
+                            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
                             <script src="/backend/lib/angular/angular-animate/angular-animate.js"></script>
                             <script src="/backend/lib/angular/angular-cookies/angular-cookies.js"></script>
@@ -132,6 +142,8 @@
                             <script src="/backend/app/directives/widget.js"></script>
                             <script src="/backend/lib/SweetAlert.min.js"></script>
                             <script src="/backend/lib/sweet-alert.min.js"></script>
+                            <script>
+                            </script>
                         <?php } else { ?>
                             <div ng-view></div>
 <?php } ?>

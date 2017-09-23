@@ -16,40 +16,25 @@
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Web Pages</span>                
+                <span class="widget-caption">Webpage Management</span>                
             </div>
-            <!--            <div class="widget-header ">
-                            <span class="widget-caption">Web Pages</span>
-                            <div class="widget-buttons">
-                                <a href="" data-toggle="maximize">
-                                    <i class="fa fa-expand"></i>
-                                </a>
-                                <a href="#" data-toggle="collapse" class="collapsed">
-                                    <i class="fa fa-minus"></i>
-                                </a>
-                                <a href="" data-toggle="dispose">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>-->
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
-                    <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print"  ng-click="contentManagementExportToxls()" ng-show="exportData == '1'" >
+<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print"  ng-click="contentManagementExportToxls()" ng-show="exportData == '1'" >
                             <span>Export</span>
-                        </a>
+                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
+                            <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href="" ng-click="contentManagementExportToxls()" ng-show="exportData == '1'">Export</a>
                                 </li>
                             </ul>
                         </a>
@@ -78,12 +63,17 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
@@ -124,7 +114,7 @@
                                 <td>{{ listpage.status}}</td>                            
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit Web Page Content"><a href="[[ config('global.backendUrl') ]]#/webpages/update/{{ listpage.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>                                
-                                    <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deletePage({{listpage.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete" ><a href="" ng-click="confirm({{listpage.id}},{{$index}})"  class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
 
                                 </td>
                             </tr>
