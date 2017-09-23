@@ -21,20 +21,8 @@
         <div class="widget">
             <div class="widget-header ">
                 <span class="widget-caption">Manage Custom Templates</span>
-
             </div>
             <div class="widget-body table-responsive">
-                <!--                <div class="row">
-                                    <div class="col-sm-6 col-xs-12">
-                                        <label for="search">Search:</label>
-                                        <input type="text" ng-model="search" class="form-control" style="width:25%;" placeholder="Search">
-                                    </div>
-                
-                                    <div class="col-sm-6 col-xs-12">
-                                        <label for="search">Records per page:</label>
-                                        <input type="text" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"   minlength="1" maxlength="3" style="width:25%;" class="form-control" ng-model="itemsPerPage">
-                                    </div>
-                                </div><br>-->
                 <div class="row table-toolbar">
                     <a href="[[ config('global.backendUrl') ]]#/customalerts/create " class="btn btn-default">Create New Template</a>&nbsp;&nbsp;&nbsp;
                     <div class="btn-group pull-right filterBtn">
@@ -43,15 +31,15 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="customTemplatesExportToxls()" ng-show="exportData == '1'" >
-                            <span>Export</span>
-                        </a>
+                        <!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="customTemplatesExportToxls()" ng-show="exportData == '1'" >
+                                                    <span>Export</span>
+                                                </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
+                            <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href="" ng-click="customTemplatesExportToxls()" ng-show="exportData == '1'" >Export</a>
                                 </li>
                             </ul>
                         </a>
@@ -81,12 +69,17 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
@@ -95,22 +88,22 @@
                             <tr>
                                 <th style="width:5%">Sr. No.</th>
                                 <th style="width: 10%">
-                                     <a href="javascript:void(0);" ng-click="orderByField('friendly_name')">Friendly Name
-                                        <span ><img ng-hide="(sortKey == 'friendly_name' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('friendly_name')">Friendly Name
+                                        <span ><img ng-hide="(sortKey == 'friendly_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'friendly_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'friendly_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
                                     <a href="javascript:void(0);" ng-click="orderByField('sms_body')">SMS Body
-                                        <span ><img ng-hide="(sortKey == 'sms_body' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                        <span ><img ng-hide="(sortKey == 'sms_body' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'sms_body' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'sms_body' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                     <a href="javascript:void(0);" ng-click="orderByField('email_subject')">Email Subject
-                                        <span ><img ng-hide="(sortKey == 'email_subject' &&(reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
+                                    <a href="javascript:void(0);" ng-click="orderByField('email_subject')">Email Subject
+                                        <span ><img ng-hide="(sortKey == 'email_subject' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'email_subject' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'email_subject' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
@@ -129,8 +122,8 @@
                         <td>{{ listAlert.sms_body | htmlToPlaintext }}</td>
                         <td>{{ listAlert.email_subject | htmlToPlaintext }}</td>
                         <td class="">
-                            <span class="" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/customalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
-                            <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteCustomTemplate({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                            <span class="" tooltip-html-unsafe="Edit Custom Template" ><a href="[[ config('global.backendUrl') ]]#/customalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
+                            <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                         </td>
                         </tr>
                         <tr><td colspan="5"  ng-show="(listcustomAlerts|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>
@@ -139,7 +132,6 @@
                     </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
-                            <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listdefaultAlertsLength }} entries</div>-->
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                         </div>
                         <div class="col-sm-6">

@@ -19,11 +19,14 @@ app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
      $scope.deleteEmailConfig = function (id, index) {
             Data.post('email-config/deleteEmailConfig', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Email Configure', 'Email Account deleted successfully');
+//                toaster.pop('success', 'Email Configure', 'Email Account deleted successfully');
                 $scope.listmails.splice(index, 1);
             });
         }
         
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteEmailConfig(args['id'], args['index']);
+        });
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
             $scope.reverseSort = !$scope.reverseSort;

@@ -36,10 +36,14 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             });
         };
 
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteTheme(args['id'], args['index']);
+        });
+        
         $scope.deleteTheme = function (id, index) {
             Data.post('website/deleteTheme', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Themes', 'Theme deleted successfully');
+//                toaster.pop('success', 'Themes', 'Theme deleted successfully');
                 $scope.themesRow.splice(index, 1);
             });
         }
@@ -47,15 +51,15 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
 
             if (id == 0)
             {
-                $scope.heading = 'Add Themes';
+                $scope.heading = 'Add Theme';
                 $scope.id = '0';
                 $scope.theme.theme_name = '';
-                $scope.action = 'Submit';
+                $scope.action = 'Add';
                 $scope.require = true;
                 $scope.image = '';
             } else {
                 $scope.require = false;
-                $scope.heading = 'Edit Themes';
+                $scope.heading = 'Edit Theme';
                 $scope.id = id;
                 $scope.theme.theme_name = theme_name;
                 $scope.image = image;
@@ -118,7 +122,6 @@ app.controller('themesController', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                     });
 
                 } else {
-                    alert('ghfgh')
                     $scope.webTheme = false;
                     var obj = response.data.message;
                     var selector = [];

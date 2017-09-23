@@ -51,7 +51,7 @@
                             <div class="form-group">
                                 <label>Meta Description</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="blogData.meta_description" capitalizeFirst name="meta_description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="500" ></textarea>
+                                    <textarea ng-model="blogData.meta_description" style="text-transform: capitalize;" name="meta_description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="500" ></textarea>
                                 </span>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <label>Meta Keywords</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="blogData.meta_Keywords" capitalizeFirst name="meta_Keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="500" ></textarea>
+                                    <textarea ng-model="blogData.meta_Keywords" style="text-transform: capitalize;" name="meta_Keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="500" ></textarea>
                                 </span>
                             </div>
                         </div>
@@ -131,7 +131,7 @@
                                         <div class="widget-header bordered-bottom bordered-themeprimary"><span class="widget-caption">Short Description<span class="sp-err">*</span></span></div>         
                                         <div class="widget-body no-padding">   
                                             <div class="form-group">
-                                                <div text-angular name="blog_short_description" ng-model="blogData.blog_short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" maxlength="500" required></div>
+                                                <div text-angular name="blog_short_description" class="capitalize" ng-model="blogData.blog_short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" maxlength="500" required></div>
                                             </div>
                                         </div>
                                     </div> 
@@ -151,7 +151,7 @@
                                         <div class="widget-header bordered-bottom bordered-themeprimary"><span class="widget-caption">Brief Description<span class="sp-err">*</span></span></div>
                                         <div class="widget-body no-padding">   
                                             <div class="form-group">
-                                                <div text-angular name="blog_description" ng-model="blogData.blog_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" maxlength="500" required ></div>
+                                                <div text-angular name="blog_description" style="text-transform: capitalize;" ng-model="blogData.blog_description" ta-text-editor-class="editor-text"  ta-html-editor-class="editor-text" maxlength="500" required ></div>
                                             </div>
                                         </div>
                                     </div> 
@@ -166,7 +166,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-xs-12" align="right">
                             <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="createBlog">Submit</button>
-                            <a href="[[ config('global.backendUrl') ]]#/blog/index" class="btn btn-primary"><< Back to list</a>
+                          <a href="[[ config('global.backendUrl') ]]#/blog/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>

@@ -13,6 +13,7 @@ Route::group(array('module' => 'ContactUs', 'middleware' => ['auth:admin'],'name
     Route::post('/contact-us/manageCountry','ContactUsController@manageCountry'); 
     Route::post('/contact-us/manageCity','ContactUsController@manageCity'); 
     Route::post('/contact-us/manageLocation','ContactUsController@manageLocation'); 
+    Route::post('/contact-us/deleteContact','ContactUsController@deleteContact'); 
    
    
     
