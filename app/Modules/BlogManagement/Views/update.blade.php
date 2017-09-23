@@ -53,7 +53,7 @@
                             <div class="form-group">
                                 <label>Meta Description</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="blogData.meta_description" capitalizeFirst name="meta_description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" ></textarea>
+                                    <textarea ng-model="blogData.meta_description" capitalizeFirst name="meta_description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched capitalize" maxlength="50" ></textarea>
                                 </span>
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <label>Meta Keywords</label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="blogData.meta_keywords" capitalizeFirst name="meta_keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" maxlength="50" ></textarea>
+                                    <textarea ng-model="blogData.meta_keywords" capitalizeFirst name="meta_keywords" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched capitalize" maxlength="50" ></textarea>
                                 </span>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                                         <div class="widget-header bordered-bottom bordered-themeprimary"><span class="widget-caption">Short Description</span></div>         
                                         <div class="widget-body no-padding">   
                                             <div class="form-group">
-                                                <div text-angular name="blog_short_description"  capitalizeFirst ng-model="blogData.blog_short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
+                                                <div text-angular name="blog_short_description" class="capitalize" capitalizeFirst ng-model="blogData.blog_short_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
                                             </div>
                                         </div>
                                     </div> 
@@ -155,7 +155,7 @@
                                         <div class="widget-header bordered-bottom bordered-themeprimary"><span class="widget-caption">Brief Description</span></div>         
                                         <div class="widget-body no-padding">   
                                             <div class="form-group">
-                                                <div text-angular name="blog_description" capitalizeFirst ng-model="blogData.blog_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
+                                                <div text-angular name="blog_description" class="capitalize" capitalizeFirst ng-model="blogData.blog_description" ta-text-editor-class="editor-text" ta-html-editor-class="editor-text" required></div>
                                             </div>
                                         </div>
                                     </div> 

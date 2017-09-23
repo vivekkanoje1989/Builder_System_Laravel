@@ -1,23 +1,38 @@
+<style>
+    .close {
+        color:black;
+    }
+    .alert.alert-info {
+        border-color: 1px solid #d9d9d9;
+        /* background: rgba(173, 181, 185, 0.81); */
+        background-color: #f5f5f5;
+        border: 1px solid #d9d9d9;
+        color: black;
+        padding: 5px;
+        width: 110%;
+    }
+</style>
 <div class="row" ng-controller="hrController" ng-init="manageRoles()">
-    <div class="col-xs-12 col-md-12">
+    <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Roles</span>                
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
+                    <a href="[[ config('global.backendUrl') ]]#/user/createrole" class="btn btn-default">Create Role</a>
+                    <div class="btn-group pull-right filterBtn">
+                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                    </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View excel" ng-click="manageRoleExportToExcel()" ng-show="exportDetails=='1'"> 
-                            <span>Export</span>
-                        </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
+                            <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href="" ng-click="manageRoleExportToExcel()" ng-show="exportDetails == '1'">Export</a>
                                 </li>
                             </ul>
                         </a>
@@ -34,10 +49,8 @@
                                 <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
-                                        <strong ng-if="key === 'page_name'" data-toggle="tooltip" title="Page Name"><strong> Page Name : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'page_title'" data-toggle="tooltip" title="Page Title"><strong> Page Title : </strong> {{ value}}</strong>
-                                        <strong ng-if="key === 'status'" data-toggle="tooltip" title="Status"><strong> Status : </strong> {{ searchData.status == 1? 'Active':''}}</strong>
-                                    </div>
+                                        <strong ng-if="key === 'role_name'" data-toggle="tooltip" title="Role Name"><strong> Role Name : </strong> {{ value}}</strong>
+                                        </div>
                                 </div>
                             </b>                        
                         </div>
@@ -46,12 +59,17 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
@@ -71,7 +89,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in roleList | filter:search | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
+                            <tr role="row" dir-paginate="list in roleList | filter:search |filter:searchData  | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{list.role_name}}</td>
                                 <td class="">
@@ -94,5 +112,35 @@
             </div>
         </div>
     </div>
+    <!-- Filter Form Start-->
+    <div class="wrap-filter-form show-widget" id="slideout">
+        <form name="firm&partnersFilter" role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
+            <strong>Filter</strong>   
+            <button type="button" class="close toggleForm" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button><hr>
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="">Role Name</label>
+                        <span class="input-icon icon-right">
+                            <input type="text" ng-model="searchDetails.role_name" name="role_name" class="form-control">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12" >
+                    <div class="form-group">
+                        <span class="input-icon icon-right" align="center">
+                            <button type="submit" name="sbtbtn" value="Search" class="btn btn-primary toggleForm">Search</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="/js/filterSlider.js"></script>
+    <!-- Filter Form End-->
 </div>
 

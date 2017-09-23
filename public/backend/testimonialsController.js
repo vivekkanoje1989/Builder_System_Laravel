@@ -49,7 +49,7 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
         $scope.deleteDisApprovedList = function (id, index) {
             Data.post('testimonials/deleteDisApprovedList', {
                 'testimonial_id': id}).then(function (response) {
-                toaster.pop('success', 'Testimonials', 'Testimonial deleted successfully');
+//                toaster.pop('success', 'Testimonials', 'Testimonial deleted successfully');
                 $scope.ApprovedTestimonialsRow.splice(index, 1);
             });
         }
@@ -57,10 +57,18 @@ app.controller('testimonialsCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$par
         $scope.deleteApprovedList = function (id, index) {
             Data.post('testimonials/deleteApprovedList', {
                 'testimonial_id': id}).then(function (response) {
-                toaster.pop('success', 'Testimonials', 'Testimonial deleted successfully');
+//                toaster.pop('success', 'Testimonials', 'Testimonial deleted successfully');
                 $scope.ApprovedTestimonialsRow.splice(index, 1);
             });
         }
+        
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteApprovedList(args['id'], args['index']);
+           
+        });
+        $scope.$on("deleteItems", function (event, args) {
+          $scope.deleteDisApprovedList(args['id'], args['index']);
+        });
 
         $scope.manageTestimonialDisapproveExportToExcel = function () {
             $scope.getexcel = window.location = "/testimonials/manageTestimonialDisapproveExportToExcel";

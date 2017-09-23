@@ -502,6 +502,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     }
                 } else {
                     $scope.errorMsg = response.message;
+                     $scope.searchLength = response.records.total;
                 }
             });
         };
@@ -700,6 +701,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     }, 1000);
                 } else {
                     $scope.errorMsg = response.message;
+                    $scope.inboundLength = response.totalCount;
                 }
             });
         };
@@ -726,10 +728,12 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             Data.post('cloudcallinglogs/teamInboundLogs', {
                 id: empId, pageNumber: pageNumber, itemPerPage: itemPerPage,
             }).then(function (response) {
+                
                 if (response.success) {
                     $scope.teaminboundList = response.records;
                     $scope.teaminboundLength = response.totalCount;
                     $scope.teaminboundExport = response.teaminboundExport;
+                    
                     $timeout(function () {
                         for (i = 0; i < $scope.teaminboundList.length; i++) {
                             if ($scope.teaminboundList[i].customer_call_status == "Connected") {
@@ -740,6 +744,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
 
                 } else {
                     $scope.errorMsg = response.message;
+                     $scope.teaminboundLength = response.totalCount;
                 }
             });
         };
@@ -796,6 +801,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     }, 1000);
                 } else {
                     $scope.errorMsg = response.message;
+                     $scope.outboundLength = response.totalCount;
                 }
             });
         };
@@ -819,6 +825,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
 
                 } else {
                     $scope.errorMsg = response.message;
+                     $scope.teamoutboundLength = response.totalCount;
                 }
             });
         };

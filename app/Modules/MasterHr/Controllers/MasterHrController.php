@@ -887,6 +887,16 @@ class MasterHrController extends Controller {
         return json_encode($result);
     }
 
+    public function suspendEmployee() {
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        $loggedInUserId = Auth::guard('admin')->user()->id;
+
+        $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
+        $result = ['success' => true, 'result' => $suspend];
+        return json_encode($result);
+    }
+
     public function createEducationForm() {
         $validationMessages = Employee::validationStep3();
         $validationRules = Employee::validationRulesstep3();

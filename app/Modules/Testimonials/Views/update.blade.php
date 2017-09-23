@@ -12,7 +12,7 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Create Testimonial</span>
+                <span class="widget-caption">Edit Testimonial</span>
             </div>
             <div class="widget-body">
                 <form novalidate ng-submit="testimonialsForm.$valid && doTestimonialsAction(testimonial.photo_url,testimonial)" name="testimonialsForm"  enctype="multipart/form-data" ng-init="getTestimonialData('<?php echo $testimonialId; ?>')">
@@ -40,7 +40,7 @@
                                 <label>Company Name<span class="sp-err">*</span></label>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.company_name.$dirty && testimonialsForm.company_name.$invalid) }">
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="testimonial.company_name" name="company_name"  required>
+                                        <input type="text" class="form-control" capitalizeFirst ng-model="testimonial.company_name" name="company_name"  required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.company_name.$error">
                                             <div ng-message="required">Company name is required</div>
                                         </div>
@@ -123,7 +123,7 @@
                                 <label>Testimonial description <span class="sp-err" >*</span></label>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.description.$dirty && testimonialsForm.description.$invalid) }">
                                     <span class="input-icon icon-right">
-                                        <textarea ng-model="testimonial.description" name="description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
+                                        <textarea ng-model="testimonial.description" name="description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched capitalize" required></textarea>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.description.$error">
                                             <div ng-message="required">Testimonial description is required</div>
                                         </div>
@@ -146,7 +146,7 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
-                            <a href="[[ config('global.backendUrl') ]]#/testimonials/index" class="btn btn-primary"><< Back To List</a>
+                            <a href="[[ config('global.backendUrl') ]]#/testimonials/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>

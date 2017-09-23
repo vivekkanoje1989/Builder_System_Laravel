@@ -20,7 +20,7 @@
                                 <div class="form-group">
                                     <label for="">Device Name <span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
-                                        <input type="text" ng-model="deviceData.device_name" name="device_name" class="form-control" required>
+                                        <input type="text" ng-model="deviceData.device_name" name="device_name" capitalizeFirst class="form-control" required>
                                         <div ng-show="createBtn" ng-messages="deviceConfig.device_name.$error">
                                             <div ng-message="required" class="sp-err">This field is required.</div>
                                         </div>
@@ -78,7 +78,7 @@
                                 <div class="form-group">
                                     <label for="">Device Description <span class="sp-err"></span></label>
                                     <span class="input-icon icon-right">
-                                        <textarea ng-model="deviceData.device_description" cols="20" rows="4" name="device_description" class="form-control"></textarea>                                            
+                                        <textarea ng-model="deviceData.device_description" cols="20" rows="4" name="device_description" class="form-control capitalize"></textarea>                                            
                                     </span>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                                 <div class="form-group">
                                     <label for="">Remarks <span class="sp-err"></span></label>
                                     <span class="input-icon icon-right">
-                                        <textarea ng-model="deviceData.remarks" name="remarks" cols="20" rows="4" class="form-control"></textarea>                                            
+                                        <textarea ng-model="deviceData.remarks" name="remarks" cols="20" rows="4" class="form-control capitalize"></textarea>                                            
                                     </span>
                                 </div>
                             </div>
