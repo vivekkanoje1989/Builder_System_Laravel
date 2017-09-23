@@ -9,8 +9,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.userPersonalData = {};
         $scope.bulkData = {};
         $scope.designationList = [];
-         $scope.presalesemployee_id = [];
-       // $scope.presales =[];
+        $scope.presalesemployee_id = [];
+        // $scope.presales =[];
         $scope.invalidImage = '';
         $scope.contact = true;
         $scope.listUsers = [];
@@ -67,16 +67,17 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 //            });
         }
 
-       //$scope.ct_employee = [];
+        $scope.ct_presalesemployee = [];
+        $scope.ct_postsalesemployee = [];
         $scope.getEmployeeData = function (employee_id) {
             Data.post('master-hr/getEmployeeData', {employee_id: employee_id}).then(function (response) {
-                $scope.ct_employee = response.records;
-                console.log(response);
+                $scope.ct_presalesemployee = response.presalesemprecords;
+                $scope.ct_postsalesemployee = response.postsalesemprecords;
             });
         }
 
         $scope.preSalesEnquiry = function (presales, employee_id) {
-  
+
             Data.post('master-hr/preSalesEnquiry', {employee_id: presales, empId: employee_id}).then(function (response) {
                 if (response.success) {
                     toaster.pop('success', 'Pre Sales Enquiry', 'Enquiries shared successfully');
@@ -95,18 +96,14 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.getSharedEmployees = function (employee_id) {
             $scope.predata = [];
-            $scope.postsales = [];
             Data.post('master-hr/getSharedEmployees', {
                 data: {employee_id: employee_id},
                 async: false,
             }).then(function (response) {
-               $scope.predata.presalesemployee_id = angular.copy(response.presales.records);
-                //console.log($scope.presales.presalesemployee_id);
-//              $scope.postsales.postsalesemployee_id = response.postsales;
-
+                $scope.predata.presalesemployee_id = angular.copy(response.presales.records);
+                $scope.predata.postsalesemployee_id = angular.copy(response.postsales.records);
             });
         }
-
 
         $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
@@ -633,7 +630,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                 data: {deptId: deptId},
                                 async: false,
                             }).then(function (response) {
-                              
+
                                 if (!response.success) {
                                     $scope.errorMsg = response.message;
                                 } else {

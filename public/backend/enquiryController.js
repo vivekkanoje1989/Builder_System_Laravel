@@ -76,6 +76,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.pageChangeHandler = function (num) {
+
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
@@ -96,10 +97,11 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         $scope.exportReport = function (result) {
+            console.log(result);
             Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.report_name.replace(/ /g, "_")}).then(function (response) {
                 $("#downloadExcel").attr("href", response.fileUrl);
+                
                 $scope.sheetName = response.sheetName;
-
                 $scope.btnExport = false;
                 $scope.dnExcelSheet = true;
                 //$timeout(function(){
@@ -111,7 +113,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         /****************************ENQUIRIES****************************/
-        $scope.pageChanged = function (pageNo, functionName, id, type, newpage, listType) {
+        $scope.pageChanged = function (pageNo, functionName, id, type, newpage, listType, sharedemployee, presalesemployee) {
 
             $('#all_chk_reassign_enq').prop('checked', false);
             $scope.BulkReasign = false;
@@ -119,16 +121,16 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             $scope.flagForChange++;
             if ($scope.flagForChange == 1)
             {
-                if (($scope.filterData && Object.keys($scope.filterData).length > 0) || ($scope.maxBudget > 0)) {
+                if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
                     $scope.getFilteredData($scope.filterData, pageNo, $scope.itemsPerPage);
                     $('#slideout').toggleClass('on');
                 } else {
-                    $scope[functionName](id, type, pageNo, $scope.itemsPerPage, listType);
+                    $scope[functionName](id, type, pageNo, $scope.itemsPerPage, listType, sharedemployee, presalesemployee);
                 }
             }
             $scope.pageNumber = pageNo;
         }
-        $scope.reassignEnquiries = function (id, type, pageNumber, itemPerPage)
+        $scope.reassignEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -141,9 +143,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Teams Reassign Enquiries";
                 $scope.pagetitle = "Team`s Reassign Enquiries ";
             }
+            if (shared) {
+                $scope.sharedEmployees = sharedEmployees;
+            } else {
+                $scope.sharedEmployees = '';
+            }
             Data.post('master-sales/getReassignEnquiry', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
             }).then(function (response) {
+                console.log(response);
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
@@ -155,13 +163,24 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.hideloader();
                 $scope.flagForChange = 0;
             });
+
+            if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                $('#slideout').toggleClass('on');
+                return false;
+            }
         }
-        $scope.getTotalEnquiries = function (id, type, pageNumber, itemPerPage, listType)
+        $scope.getTotalEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
             $scope.showloader();
             $scope.listType = listType;
+            if (shared) {
+                $scope.sharedEmployees = sharedEmployees;
+            } else {
+                $scope.sharedEmployees = '';
+            }
             if (type == 0) {
                 $scope.report_name = "Total Enquiries";
                 $scope.pagetitle = "My Total Enquiries";
@@ -170,7 +189,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.pagetitle = "Team`s Total Enquiries ";
             }
             Data.post('master-sales/getTotalEnquiries', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -186,12 +205,16 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.hideloader();
                 $scope.flagForChange = 0;
             });
+            if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                $('#slideout').toggleClass('on');
+                return false;
+            }
         }
 
-        /****************************ENQUIRIES****************************/
 
-        /****************************FOLLOWUPS****************************/
-        $scope.todaysFollowups = function (id, type, pageNumber, itemPerPage, listType)
+
+        $scope.todaysFollowups = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -203,8 +226,15 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Today's Followups";
                 $scope.pagetitle = "Team`s Today's Followups";
             }
+
+            if (shared) {
+                $scope.sharedEmployees = sharedEmployees;
+            } else {
+                $scope.sharedEmployees = '';
+            }
+
             Data.post('master-sales/getTodaysFollowups', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -219,8 +249,14 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
                 $scope.flagForChange = 0;
             });
+
+            if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                $('#slideout').toggleClass('on');
+                return false;
+            }
         }
-        $scope.pendingsFollowups = function (id, type, pageNumber, itemPerPage, listType)
+        $scope.pendingsFollowups = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -232,8 +268,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Pending Followups";
                 $scope.pagetitle = "Team`s Pending Followups";
             }
+            if (shared) {
+                $scope.sharedEmployees = sharedEmployees;
+            } else {
+                $scope.sharedEmployees = '';
+            }
             Data.post('master-sales/getPendingFollowups', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -251,8 +292,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
                 $scope.flagForChange = 0;
             });
+            if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                $('#slideout').toggleClass('on');
+                return false;
+            }
         }
-        $scope.previousFollowups = function (id, type, pageNumber, itemPerPage, listType)
+        $scope.previousFollowups = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -264,8 +310,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Previous Followups";
                 $scope.pagetitle = "Team`s Previous Followups";
             }
+            if (shared) {
+                $scope.sharedEmployees = sharedEmployees;
+            } else {
+                $scope.sharedEmployees = '';
+            }
             Data.post('master-sales/previousFollowups', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -280,8 +331,13 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
                 $scope.flagForChange = 0;
             });
+            if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                $('#slideout').toggleClass('on');
+                return false;
+            }
         }
-        $scope.lostEnquiries = function (id, type, pageNumber, itemPerPage, listType)
+        $scope.lostEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -293,8 +349,14 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Lost Enquiries";
                 $scope.pagetitle = "Team`s Lost Enquiries";
             }
+            $scope.showloader();
+            if (shared) {
+                $scope.sharedEmployees = sharedEmployees;
+            } else {
+                $scope.sharedEmployees = '';
+            }
             Data.post('master-sales/getLostEnquiries', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -309,8 +371,23 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
                 $scope.flagForChange = 0;
             });
+            if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                $('#slideout').toggleClass('on');
+                return false;
+            }
+            $scope.hideloader();
         }
-        $scope.bookedEnquiries = function (id, type, pageNumber, itemPerPage, listType)
+
+        $scope.getEnquirySheredWith = function () {
+ 
+            Data.get('master-sales/sharedEnquiriesEmployee').then(function (response) {
+                $scope.presalesemployee = response.presales;
+                $scope.postsalesemployee = response.postsales;
+            });
+        }
+
+        $scope.bookedEnquiries = function (id, type, pageNumber, itemPerPage, listType, shared, sharedEmployees)
         {
             $scope.itemsPerPage = itemPerPage;
             $scope.type = type;
@@ -322,8 +399,14 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $scope.report_name = "Team`s Booked Enquiries";
                 $scope.pagetitle = "Team`s Booked Enquiries";
             }
+            if (shared) {
+                $scope.sharedEmployees = sharedEmployees;
+            } else {
+                $scope.sharedEmployees = '';
+            }
+            $scope.showloader();
             Data.post('master-sales/getBookedEnquiries', {
-                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type,
+                empId: id, pageNumber: pageNumber, itemPerPage: itemPerPage, teamType: type, sharedEmployees: $scope.sharedEmployees
             }).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
@@ -338,13 +421,28 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 }
                 $scope.flagForChange = 0;
             });
+            if ($scope.filterData && Object.keys($scope.filterData).length > 0) {
+                $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                $('#slideout').toggleClass('on');
+                return false;
+            }
+            $scope.hideloader();
         }
+
+
+
         /****************************FOLLOWUPS****************************/
         /****************************FILTER (UMA)***************************************/
 
-        $scope.procName = function (procedureName, functionName) {
+        $scope.procName = function (procedureName, functionName, shared, sharedEmployees) {
             $scope.getProcName = angular.copy(procedureName);
             $scope.getFunctionName = angular.copy(functionName);
+
+            if (shared) {
+                $scope.sharedEmployees = sharedEmployees;
+            } else {
+                $scope.sharedEmployees = '';
+            }
         }
 
         $scope.getFilteredData = function (filterData, page, recordsperpage) {
@@ -371,7 +469,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 var tbdate = new Date(filterData.tbdate);
                 $scope.filterData.bookingToDate = (tbdate.getFullYear() + '-' + ("0" + (tbdate.getMonth() + 1)).slice(-2) + '-' + tbdate.getDate());
             }
-            Data.post('master-sales/filteredData', {filterData: filterData, pageNumber: page, itemPerPage: $scope.itemsPerPage, getProcName: $scope.getProcName, teamType: $scope.type}).then(function (response) {
+            Data.post('master-sales/filteredData', {filterData: filterData, pageNumber: page, itemPerPage: $scope.itemsPerPage, getProcName: $scope.getProcName, teamType: $scope.type, sharedEmployees: $scope.sharedEmployees}).then(function (response) {
                 if (response.success) {
                     $scope.enquiries = response.records;
                     $scope.enquiriesLength = response.totalCount;
