@@ -10,7 +10,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
     $scope.getProcName;
     $scope.btn_todayremark_disable =  false;
     $scope.history_enquiryId;
-    $scope.initmoduelswisehisory = [1, 2];
+    $scope.initmoduelswisehisory = [1,2];
     $scope.contact_permission;
     $scope.email_permission;
     $scope.client_id;
@@ -55,21 +55,20 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
     
     $scope.getModulesWiseHistory = function(enquiry_id,opt)
     {
-        var moduelswisehisory = new Array();        
+        var moduelswisehisory = new Array();
         if(opt == 1)
         {
             if($('#chk_enquiry_history').is(":checked"))
             {
                 $(':checkbox.chk_followup_history_all').prop('checked', true);
-            }   
+            }
             else
             {
                 $(':checkbox.chk_followup_history_all').prop('checked', false);
             } 
-        }   
+        }
         
-        $(".chk_followup_history_all").each(function(){
-            
+        $(".chk_followup_history_all").each(function(){            
             if($(this).is(":checked"))
             {
                 moduelswisehisory.push($(this).data("id"))    
@@ -87,8 +86,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                 
         $scope.initHistoryDataModal(enquiry_id,moduelswisehisory,0)            
     }
-    
-    
+        
     $scope.initTodayHistoryDataModal = function (enquiry_id,moduelswisehisory,init) 
     {
         
@@ -168,6 +166,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
             $scope.showloader();
             delete $scope.filter[key];
             $scope.ccfilter($scope.filter, 1, 30);
+            $('#slideout').toggleClass('on');
             $scope.hideloader();
             return false;
     }
@@ -193,12 +192,18 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                     $scope.enquiriesLength = 0;
                 }
                 $scope.showfilterData = filter;
-                $('#showFilterModal').modal('hide');
+                $('#slideout').toggleClass('on');
+                if ($(".wrap-filter-form").hasClass("on")) {
+                    $(".mainDiv").css("opacity", "0.2");
+                    $(".mainDiv").css("pointer-events", "none");
+                } else {
+                    $(".mainDiv").css("opacity", "");
+                    $(".mainDiv").css("pointer-events", "visible");
+                }
                 $scope.hideloader();
                 $scope.flagForPage = 0;
                 return false;
-            });
-                
+            });                
     }
     
     $scope.pageChanged = function (pageNo, functionName, id, type, pageNumber) 
@@ -208,9 +213,11 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
         if($scope.flagForPage == 1){
             if ($scope.filter && Object.keys($scope.filter).length > 0) {
                 $scope.ccfilter($scope.filter, pageNo, $scope.itemsPerPage);
+                $('#slideout').toggleClass('on');
             } else {
                 $scope[functionName](id, type, pageNo, $scope.itemsPerPage);
             }
+            
             $scope.pageNumber = pageNo;
         }
     }

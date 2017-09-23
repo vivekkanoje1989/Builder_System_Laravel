@@ -229,7 +229,7 @@ class PromotionalSMSController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($getsmsLog) {
                         $sheet->fromArray($getsmsLog);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -279,7 +279,7 @@ class PromotionalSMSController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($getsmsLog) {
                         $sheet->fromArray($getsmsLog);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -445,7 +445,7 @@ class PromotionalSMSController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($getsmsLog) {
                         $sheet->fromArray($getsmsLog);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

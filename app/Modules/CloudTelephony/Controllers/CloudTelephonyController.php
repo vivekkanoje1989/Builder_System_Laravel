@@ -12,7 +12,8 @@ use App\Models\CtBillingSetting;
 use Validator;
 //use Illuminate\Support\Facades\Input;
 //use Illuminate\Http\UploadedFile;
-//use File;
+use Auth;
+use Excel;
 use DB;
 //use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Auth;
@@ -186,9 +187,15 @@ class CloudTelephonyController extends Controller {
         } else if ($request['id'] === "") {
             $manageLists = DB::select('CALL proc_manage_ctbillingsettings(0,0)');
         }
-
+$array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+            if (in_array('01401', $array)) {
+                $export = 1;
+            }
+            if (in_array('01402', $array)) {
+                $deleteBtn = 1;
+            } 
         if ($manageLists) {
-            $result = ['success' => true, "records" => ["data" => $manageLists, "total" => count($manageLists), 'per_page' => count($manageLists), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageLists)]];
+            $result = ['success' => true, "records" => ["data" => $manageLists,'exportData'=>$export, "total" => count($manageLists), 'per_page' => count($manageLists), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageLists)]];
             echo json_encode($result);
         } else {
             $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
@@ -196,6 +203,52 @@ class CloudTelephonyController extends Controller {
         }
     }
 
+    
+     public function telephonyRegExportToxls() {
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        if (in_array('01401', $array)) {
+            $client_id = config('global.client_id');
+            $manageLists =  $manageLists = DB::select('CALL proc_manage_ctbillingsettings(0,0)');
+            $getCount = count($manageLists);
+            $manageLists = json_decode(json_encode($manageLists), true);
+            $manageReg = array();
+            $j = 1;
+            for ($i = 0; $i < count($manageLists); $i++) {
+                $blogData['Sr No.'] = $j++;
+                $blogData['Client NamVirtualNumbee'] = $manageLists[$i]['marketing_name'];
+                $blogData['Virtual Number'] = $manageLists[$i]['virtual_number'];
+                $blogData['Activation Date'] = $manageLists[$i]['activation_date'];
+                if ($manageLists[$i]['default_number'] == '1') {
+                    $blogData['Default Number'] = 'Yes';
+                } else {
+                    $blogData['Default Number'] = 'No';
+                }
+                if ($manageLists[$i]['incoming_call_status'] == '1') {
+                    $blogData['Incoming Call Status'] = 'Yes';
+                } else {
+                    $blogData['Incoming Call Status'] = 'No';
+                }
+                if ($manageLists[$i]['outbound_call_status'] == '1') {
+                    $blogData['Outbound Call Status'] = 'Yes';
+                } else {
+                    $blogData['Outbound Call Status'] = 'No';
+                }
+
+                $manageReg[] = $blogData;
+            }
+
+            if ($getCount < 1) {
+                return false;
+            } else {
+                Excel::create('Export Telephony Registration Details', function($excel) use($manageReg) {
+                    $excel->sheet('sheet1', function($sheet) use($manageReg) {
+                        $sheet->fromArray($manageReg);
+                    });
+                })->download('csv');
+            }
+        }
+    }
+    
     /**
      * Show the form for creating a new resource.
      *

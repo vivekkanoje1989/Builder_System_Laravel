@@ -42,45 +42,76 @@ class DashBoardController extends Controller {
         }
         $uid = implode(',', $userId);
         $request['uid']['id'] = $uid;
-        foreach ($request['cc'] as $cc) {
-            $userCCid = $cc['id'];
-            array_push($userCCId, $userCCid);
+
+        if (!empty($request['cc'])) {
+            foreach ($request['cc'] as $cc) {
+                $userCCid = $cc['id'];
+                array_push($userCCId, $userCCid);
+            }
+            $cc = implode(',', $userCCId);
+            $request['cc'] = $cc;
         }
-        $cc = implode(',', $userCCId);
-        $request['uid']['id'] = $cc;
         if (!empty($request["loggedInUserId"])) {
             $loggedInUserId = $request["loggedInUserId"];
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
         }
 
-        unset($request['uid']);
-        unset($request['cc']);
         $request['uid'] = $uid;
-        $request['cc'] = $cc;
+        $emailBody = $request['req_desc'];
+        $fromDate = date("d-m-Y", strtotime($request['from_date']));
+        $toDate = date("d-m-Y", strtotime($request['to_date']));
+
+        if (!empty($request['cc'])) {
+            $userCC = array();
+            $userCC1 = array();
+            $userCC = explode(',', $request['cc']);
+            $employee = \App\Models\backend\Employee::select('personal_email1')->whereIn('id', $userCC)->get();
+            for ($j = 0; $j < count($employee); $j++) {
+                $userCC1[] = $employee[$j]['personal_email1'];
+            }
+            $empCC = implode(',', $userCC1);
+        } else {
+            $userCC = '';
+        }
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['employeeData'] = array_merge($request, $create);
         $input['employeeData']['request_type'] = 'Leave';
         $input['employeeData']['in_date'] = date("Y-m-d") . " " . date("h-i-s");
-
         $employee_request = EmployeeRequest::create($input['employeeData']);
 
-        $templatedata['employee_id'] = $request['uid'];
-        $templatedata['client_id'] = config('global.client_id');
-        $templatedata['template_setting_customer'] = 0;
-        $templatedata['template_setting_employee'] = 25;
-        $templatedata['event_id_customer'] = 0;
-        $templatedata['event_id_employee'] = 7;
-        $templatedata['customer_id'] = 0;
-        $templatedata['model_id'] = 0;
-        $templatedata['arrExtra'][0] = array(
-            '[#employeeRegistrationLink#]'
-        );
-        $templatedata['arrExtra'][1] = array(
-            //$return_val['id'],
-            $return_val
-        );
-        $result = CommonFunctions::templateData($templatedata);
+        $loginFirstName = Auth::guard('admin')->user()->first_name;
+        $loginlastName = Auth::guard('admin')->user()->last_name;
+        $loginEmployeeName = $loginFirstName . ' ' . $loginlastName;
+        $userId = array();
+        $userId = explode(',', $uid);
+        for ($i = 0; $i < count($userId); $i++) {
+            $templatedata['employee_id'] = $userId[$i];
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 0;
+            $templatedata['template_setting_employee'] = 48;
+            $templatedata['event_id_customer'] = 0;
+            $templatedata['event_id_employee'] = 68;
+            $templatedata['customer_id'] = 0;
+            $templatedata['model_id'] = 0;
+            if (!empty($empCC)) {
+                $templatedata['emp_cc'] = $empCC;
+            }
+            $templatedata['arrExtra'][0] = array(
+                '[#emailBody#]',
+                '[#loginEmployeeName#]',
+                '[#fromDate#]',
+                '[#toDate#]'
+            );
+            $templatedata['arrExtra'][1] = array(
+                $emailBody,
+                $loginEmployeeName,
+                $fromDate,
+                $toDate
+            );
+
+            $result = CommonFunctions::templateData($templatedata);
+        }
         if (!empty($employee_request)) {
             $result = ['status' => true, 'records' => $employee_request];
         } else {
@@ -114,13 +145,14 @@ class DashBoardController extends Controller {
     public function getEmployeesCC() {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
-
+        
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = DB::table('laravel_developement_master_edynamics.mlst_bmsb_designations as db1')
                 ->Join('laravel_developement_builder_client.employees as db2', 'db1.id', '=', 'db2.designation_id')
                 ->select(["db2.first_name", "db2.last_name", "db2.id", "db1.designation"])
-                ->where('db2.id', '!=', $request['id'])
-                ->where('db2.id', '!=', $loggedInUserId)
+                ->where([
+                    ['db2.id', '<>', $loggedInUserId],
+                    ['db2.id', '<>', $request['id'][0]['id']]])
                 ->get();
         if (!empty($employees)) {
             $result = ['status' => true, 'records' => $employees];
@@ -141,27 +173,70 @@ class DashBoardController extends Controller {
         }
         $uid = implode(',', $userId);
         $request['uid']['id'] = $uid;
-        foreach ($request['cc'] as $cc) {
-            $userCCid = $cc['id'];
-            array_push($userCCId, $userCCid);
+
+        if (!empty($request['cc'])) {
+            foreach ($request['cc'] as $cc) {
+                $userCCid = $cc['id'];
+                array_push($userCCId, $userCCid);
+            }
+            $cc = implode(',', $userCCId);
+            $request['cc'] = $cc;
         }
-        $cc = implode(',', $userCCId);
-        $request['uid']['id'] = $cc;
+
         if (!empty($request["loggedInUserId"])) {
             $loggedInUserId = $request["loggedInUserId"];
         } else {
             $loggedInUserId = Auth::guard('admin')->user()->id;
         }
-        unset($request['uid']);
-        unset($request['cc']);
         $request['uid'] = $uid;
-        $request['cc'] = $cc;
+        $emailBody = $request['req_desc'];
+
+        if (!empty($request['cc'])) {
+            $userCC = array();
+            $userCC1 = array();
+            $userCC = explode(',', $request['cc']);
+            $employee = \App\Models\backend\Employee::select('personal_email1')->whereIn('id', $userCC)->get();
+            for ($j = 0; $j < count($employee); $j++) {
+                $userCC1[] = $employee[$j]['personal_email1'];
+            }
+            $empCC = implode(',', $userCC1);
+        } else {
+            $userCC = '';
+        }
 
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         $input['employeeData'] = array_merge($request, $create);
         $input['employeeData']['in_date'] = date("Y-m-d") . " " . date("h-i-s");
 
         $employee_request = EmployeeRequest::create($input['employeeData']);
+        $loginFirstName = Auth::guard('admin')->user()->first_name;
+        $loginlastName = Auth::guard('admin')->user()->last_name;
+        $loginEmployeeName = $loginFirstName . ' ' . $loginlastName;
+        $userId = array();
+        $userId = explode(',', $uid);
+        for ($i = 0; $i < count($userId); $i++) {
+            $templatedata['employee_id'] = $userId[$i];
+            $templatedata['client_id'] = config('global.client_id');
+            $templatedata['template_setting_customer'] = 0;
+            $templatedata['template_setting_employee'] = 49;
+            $templatedata['event_id_customer'] = 0;
+            $templatedata['event_id_employee'] = 69;
+            $templatedata['customer_id'] = 0;
+            $templatedata['model_id'] = 0;
+            if (!empty($empCC)) {
+                $templatedata['emp_cc'] = $empCC;
+            }
+            $templatedata['arrExtra'][0] = array(
+                '[#emailBody#]',
+                '[#loginEmployeeName#]'
+            );
+            $templatedata['arrExtra'][1] = array(
+                $emailBody,
+                $loginEmployeeName
+            );
+
+            $result = CommonFunctions::templateData($templatedata);
+        }
         if (!empty($employee_request)) {
             $result = ['status' => true, 'records' => $employee_request];
         } else {
@@ -189,13 +264,12 @@ class DashBoardController extends Controller {
 //                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
 //                ->where('request.created_by', '=', $loggedInUserId)
 //                ->get();
-        
+
         $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = 1";
-           $employees = DB::select($report);
+        $employees = DB::select($report);
 //           print_r($employees);
-        
 //       $employees= "select  request.id, GROUP_CONCAT(employee.name ORDER BY employee.id) DepartmentName from request left join employees GROUP BY request.id";
-                
+
         $i = 0;
         foreach ($employees as $employee) {
             $employees[$i]->application_to = $employee->first_name . ' ' . $employee->last_name;
@@ -316,7 +390,7 @@ class DashBoardController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($data) {
                         $sheet->fromArray($data);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -361,7 +435,7 @@ class DashBoardController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($data) {
                         $sheet->fromArray($data);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

@@ -28,7 +28,8 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
-
+        
+        
         $scope.requestForMeExportToxls = function () {
             $scope.get_excel = window.location = "/request-for-me/requestForMeExportToxls";
             if ($scope.get_excel) {
@@ -85,6 +86,7 @@ app.controller('dashboardCtrl', ['$scope', 'Data', 'toaster', '$state', '$locati
         {
             $scope.request.to_date = '';
         }
+        $scope.employeeRowCC = [];
         $scope.getEmployeesCC = function ()
         {
             Data.post('getEmployeesCC', {'id': $scope.request.application_to}).then(function (response) {

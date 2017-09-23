@@ -46,8 +46,8 @@
                                    <strong ng-if="key === 'cc_presales_subcategory_id'"> Followup Sub Category :- <span ng-repeat='subcat in value track by $index'> {{ $index + 1}}){{   subcat.cc_presales_subcategory}}</span></strong>
                                    <strong ng-if="key == 'source_id'">Source :- {{  value.substring(value.indexOf("_")+1) }}</strong>
                                    <strong ng-if="key === 'subsource_id'"> Sub Source :- <span ng-repeat='subsouc in value track by $index'> {{ $index + 1}}){{   subsouc.enquiry_subsource}}</span></strong>
-                                  
-                                  
+                                   <strong ng-if="key == 'project_id'">Project :- <span ng-repeat='proj in value track by $index'> {{ $index + 1}}){{   proj.project_name}}</span></strong>
+                                   <strong ng-if="key == 'site_visit'">Site Visit :- Yes</strong>                                  
                                    <strong ng-if="key == 'fname'">First Name :- {{  value }}</strong>
                                    <strong ng-if="key == 'lname'">Last Name :- {{  value }}</strong>
                                    <strong ng-if="key == 'mobileNumber'">Mobile Number :- {{  value }}</strong>
@@ -57,11 +57,9 @@
                                    
                                </div>
                            </div>
-                       </b>      
-                        
+                       </b>                        
                    </div>
-               </div>
-                
+               </div>                
                 <br>
                 <hr>
                     <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">
@@ -243,8 +241,6 @@
                             <center><b>Followups Not Found</b></center>
                         </div>
                     </div>
-                
-                    <hr>
                     <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'previous','', [[$type]], newPageNumber, itemsPerPage)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
                 </div>     
             <!-- Today history model =============================================================================-->

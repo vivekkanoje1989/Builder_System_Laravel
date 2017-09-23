@@ -277,7 +277,7 @@ class MasterHrController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageUsers) {
                         $sheet->fromArray($manageUsers);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -487,7 +487,7 @@ class MasterHrController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageRoles) {
                         $sheet->fromArray($manageRoles);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

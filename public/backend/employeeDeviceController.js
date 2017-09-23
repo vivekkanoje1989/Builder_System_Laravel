@@ -40,10 +40,14 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
         $scope.deleteEmployeeDevice = function (id, index) {
             Data.post('employee-device/deleteEmployeeDevice', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Employee Device', 'Employee Device deleted successfully');
+//                toaster.pop('success', 'Employee Device', 'Employee Device deleted successfully');
                 $scope.listDevices.splice(index, 1);
             });
         }
+
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteEmployeeDevice(args['id'], args['index']);
+        });
 
         $scope.manageDevice = function (id, action)
         {
@@ -58,14 +62,14 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
                 }
                 if (id > 0)
                 {
-                    $scope.btnLable = 'Save'
-                    $scope.heading = 'Update Device Information'
+                    $scope.btnLable = 'Update'
+                    $scope.heading = 'Update Device '
                     $scope.deviceData = angular.copy(response.records[0]);
                 }
                 if (id === 0)
                 {
-                    $scope.heading = 'Add Device Information'
-                    $scope.btnLable = 'Create';
+                    $scope.heading = 'Add Device '
+                    $scope.btnLable = 'Add';
                 }
             })
         }

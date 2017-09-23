@@ -113,7 +113,7 @@ class ExtensionEmployeeController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($employeesExtension) {
                         $sheet->fromArray($employeesExtension);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

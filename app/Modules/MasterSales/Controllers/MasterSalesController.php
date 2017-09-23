@@ -1415,8 +1415,7 @@ Regards,<br>
 
 
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            //echo 'CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')';exit;
-            //$loggedInUserId = 1;
+
             $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
@@ -1432,6 +1431,9 @@ Regards,<br>
     }
 
     public function totalEnquiry($type) {
+        return view("MasterSales::totalEnquiries")->with("type", $type);
+    }
+    public function teamTotalEnquiry($type) {
         return view("MasterSales::totalEnquiries")->with("type", $type);
     }
 
@@ -1521,6 +1523,9 @@ Regards,<br>
     public function showTodaysFollowups($type) {
         return view("MasterSales::todaysfollowups")->with("type", $type);
     }
+    public function showTeamTodaysFollowups($type) {
+        return view("MasterSales::todaysfollowups")->with("type", $type);
+    }
 
     public function getTodaysFollowups() {// Todays Followups 
         try {
@@ -1593,6 +1598,9 @@ Regards,<br>
     public function lostEnquiries($type) {
         return view("MasterSales::lostenquiries")->with("type", $type);
     }
+    public function teamLostEnquiries($type) {
+        return view("MasterSales::lostenquiries")->with("type", $type);
+    }
 
     public function getLostEnquiries() {// get lost enquiries
         try {
@@ -1659,6 +1667,9 @@ Regards,<br>
     }
 
     public function bookedEnquiries($type) {
+        return view("MasterSales::bookedenquiry")->with("type", $type);
+    }
+    public function teamBookedEnquiries($type) {
         return view("MasterSales::bookedenquiry")->with("type", $type);
     }
 
@@ -1730,6 +1741,9 @@ Regards,<br>
     public function showPreviousFollowups($type) {
         return view("MasterSales::previousFollowup")->with("type", $type);
     }
+    public function showTeamPreviousFollowups($type) {
+        return view("MasterSales::previousFollowup")->with("type", $type);
+    }
 
     public function previousFollowups() {// Previous Followups 
         try {
@@ -1797,6 +1811,9 @@ Regards,<br>
     }
 
     public function showPendingFollowups($type) {
+        return view("MasterSales::pendingFollowup")->with("type", $type);
+    }
+    public function showTeamPendingFollowups($type) {
         return view("MasterSales::pendingFollowup")->with("type", $type);
     }
 
@@ -1878,158 +1895,6 @@ Regards,<br>
             return;
         }
     }
-
-    /*
-
-      public function getTeamTotalEnquiries() {
-
-      if (empty($request['loggedInUserID']))
-      $loggedInUserId = Auth::guard('admin')->user()->id;
-      else
-      $loggedInUserId = $request['loggedInUserID'];
-
-      $this->allusers = array();
-      $this->getTeamIds($loggedInUserId);
-      $alluser = $this->allusers;
-      $empTeamIds = implode(',', $alluser);
-      $enquiries = DB::select('CALL proc_get_total_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
-      $enquiries = json_decode(json_encode($enquiries), true);
-
-      if (count($enquiries) != 0) {
-      $result = ['success' => true, 'records' => $enquiries];
-      } else {
-      $result = ['success' => false, 'records' => 'No record Found'];
-      }
-      return response()->json($result);
-      }
-
-      public function getTeamlostEnquiries() {
-      $postdata = file_get_contents("php://input");
-      $request = json_decode($postdata, true);
-
-      if (empty($request['loggedInUserID']))
-      $loggedInUserId = Auth::guard('admin')->user()->id;
-      else
-      $loggedInUserId = $request['loggedInUserID'];
-
-      $this->allusers = array();
-      $this->getTeamIds($loggedInUserId);
-      $alluser = $this->allusers;
-      $empTeamIds = implode(',', $alluser);
-
-      $enquiries = DB::select('CALL proc_get_lost_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
-      $enquiries = json_decode(json_encode($enquiries), true);
-
-      if (count($enquiries) != 0) {
-      $result = ['success' => true, 'records' => $enquiries];
-      } else {
-      $result = ['success' => false, 'records' => 'No record Found'];
-      }
-      return response()->json($result);
-      }
-
-      public function getTeamClosedEnquiries() {
-      $postdata = file_get_contents("php://input");
-      $request = json_decode($postdata, true);
-
-      if (empty($request['loggedInUserID']))
-      $loggedInUserId = Auth::guard('admin')->user()->id;
-      else
-      $loggedInUserId = $request['loggedInUserID'];
-
-      $this->allusers = array();
-      $this->getTeamIds($loggedInUserId);
-      $alluser = $this->allusers;
-      $empTeamIds = implode(',', $alluser);
-
-      $enquiries = DB::select('CALL proc_get_closed_enquiries(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","",0,0,0,0)');
-      $enquiries = json_decode(json_encode($enquiries), true);
-
-      if (count($enquiries) != 0) {
-      $result = ['success' => true, 'records' => $enquiries];
-      } else {
-      $result = ['success' => false, 'records' => 'No record Found'];
-      }
-      return response()->json($result);
-      }
-
-      public function getTeamTodayFollowups() {
-      $postdata = file_get_contents("php://input");
-      $request = json_decode($postdata, true);
-
-      if (empty($request['loggedInUserID']))
-      $loggedInUserId = Auth::guard('admin')->user()->id;
-      else
-      $loggedInUserId = $request['loggedInUserID'];
-
-      $this->allusers = array();
-      $this->getTeamIds($loggedInUserId);
-      $alluser = $this->allusers;
-      $empTeamIds = implode(',', $alluser);
-
-      $enquiries = DB::select('CALL proc_get_today_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
-      $enquiries = json_decode(json_encode($enquiries), true);
-
-      if (count($enquiries) != 0) {
-      $result = ['success' => true, 'records' => $enquiries];
-      } else {
-      $result = ['success' => false, 'records' => 'No record Found'];
-      }
-      return response()->json($result);
-      }
-
-      public function getTeamPendingFollowups() {
-      $postdata = file_get_contents("php://input");
-      $request = json_decode($postdata, true);
-
-      if (empty($request['loggedInUserID']))
-      $loggedInUserId = Auth::guard('admin')->user()->id;
-      else
-      $loggedInUserId = $request['loggedInUserID'];
-
-      $this->allusers = array();
-      $this->getTeamIds($loggedInUserId);
-      $alluser = $this->allusers;
-      $empTeamIds = implode(',', $alluser);
-
-      $enquiries = DB::select('CALL proc_get_pending_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
-      $enquiries = json_decode(json_encode($enquiries), true);
-
-      if (count($enquiries) != 0) {
-      $result = ['success' => true, 'records' => $enquiries];
-      } else {
-      $result = ['success' => false, 'records' => 'No record Found'];
-      }
-      return response()->json($result);
-      }
-
-      public function getTeamPreviousFollowups() {
-      $postdata = file_get_contents("php://input");
-      $request = json_decode($postdata, true);
-
-      if (empty($request['loggedInUserID']))
-      $loggedInUserId = Auth::guard('admin')->user()->id;
-      else
-      $loggedInUserId = $request['loggedInUserID'];
-
-      $this->allusers = array();
-      $this->getTeamIds($loggedInUserId);
-      $alluser = $this->allusers;
-      $empTeamIds = implode(',', $alluser);
-
-      $enquiries = DB::select('CALL proc_get_previous_followups(\'"' . $empTeamIds . '"\',"","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0)');
-      $enquiries = json_decode(json_encode($enquiries), true);
-
-      if (count($enquiries) > 0 && !empty($enquiries[0]['id'])) {
-      $result = ['success' => true, 'records' => $enquiries];
-      } else {
-      $result = ['success' => false, 'records' => 'No record Found'];
-      }
-      return response()->json($result);
-      }
-
-
-     */
 
     public function exportToExcel() {
         $postdata = file_get_contents("php://input");

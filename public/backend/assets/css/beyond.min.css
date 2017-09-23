@@ -34,6 +34,9 @@ div.help-block{
     width: 175px;*/
 }
 
+.capitalize{
+    text-transform: capitalize;
+}
 #ToolTables_editabledatatable_2{
     border-left: 1px solid #ccc !important;
 }
@@ -2033,7 +2036,7 @@ a:active {
 .navbar .navbar-inner .navbar-header .navbar-account .account-area {
     position: absolute;
     top: 0;
-    right: 50px;
+    right: 5px;
     zoom: 1;
     filter: alpha(opacity=100);
     -webkit-opacity: 1;
@@ -3829,7 +3832,8 @@ a:active {
 
 .breadcrumb>li>a {
     display: inline-block;
-    color: #2dc3e8
+    color: #2dc3e8;
+    text-decoration: none;
 }
 
 .breadcrumb>li:first-child>a {

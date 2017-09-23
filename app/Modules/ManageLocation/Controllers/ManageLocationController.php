@@ -81,7 +81,7 @@ class ManageLocationController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageLocation) {
                         $sheet->fromArray($manageLocation);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

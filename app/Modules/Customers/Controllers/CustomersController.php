@@ -109,7 +109,7 @@ class CustomersController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($customerDetails) {
                         $sheet->fromArray($customerDetails);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

@@ -84,7 +84,7 @@ class CompaniesController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($companies) {
                         $sheet->fromArray($companies);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }
@@ -317,6 +317,7 @@ class CompaniesController extends Controller {
 
     public function updateStationary() {
         $input = Input::all();
+        $post = array();
         if (!empty($input['stationary']['stationaryId'])) {
 //            print_r($input['stationary']['stationaryId']);
             if (!empty($input['stationary']['estimate_letterhead_file'])) {
@@ -327,7 +328,7 @@ class CompaniesController extends Controller {
                     $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['estimate_letterhead_file']->getClientOriginalExtension();
                     S3::s3FileUpload($input['stationary']['estimate_letterhead_file']->getPathName(), $imageName, $s3FolderName);
                     $letterhead = $imageName;
-                    array_push($post, ["estimate_letterhead_file" => $letterhead]);
+                    $post["estimate_letterhead_file" ]= $letterhead;
                 } else {
                     $post["estimate_letterhead_file"] = $input['stationary']['estimate_letterhead_file'];
                 }
@@ -455,6 +456,7 @@ class CompaniesController extends Controller {
             $create = CompanyStationaries::where('id', '=', $input['stationary']['stationaryId'])->update($allData);
             return json_encode(['records' => $allData, 'status' => true]);
         } else {
+           
             $post = [];
             if (!empty($input['stationary']['estimate_letterhead_file'])) {
 
@@ -464,11 +466,11 @@ class CompaniesController extends Controller {
                     $imageName = 'company_' . rand(pow(10, config('global.randomNoDigits') - 1), pow(10, config('global.randomNoDigits')) - 1) . '.' . $input['stationary']['estimate_letterhead_file']->getClientOriginalExtension();
                     S3::s3FileUpload($input['stationary']['estimate_letterhead_file']->getPathName(), $imageName, $s3FolderName);
                     $letterhead = $imageName;
-                    array_push($post, ["estimate_letterhead_file" => $letterhead]);
+                    $post["estimate_letterhead_file"] = $letterhead;
                 }
 //                        }
                 else {
-                    array_push($post, ["estimate_letterhead_file" => $input['stationary']['estimate_letterhead_file']]);
+                    $post["estimate_letterhead_file"] = $input['stationary']['estimate_letterhead_file'];
                 }
             } else {
                 $input['stationary']['estimate_letterhead_file'] = '';
@@ -586,10 +588,10 @@ class CompaniesController extends Controller {
             } else {
                 $stationary_set_name = '';
             }
-            $postData = array_reduce($post, 'array_merge', array());
+//            $postData = array_reduce($post, 'array_merge', array());
             $loggedInUserId = Auth::guard('admin')->user()->id;
             $common = CommonFunctions::insertMainTableRecords($loggedInUserId);
-            $allData = array_merge($common, $postData);
+            $allData = array_merge($common, $post);
             $allData['company_id'] = $input['id'];
             $allData['status'] = '1';
             $allData['stationary_set_name'] = $stationary_set_name;

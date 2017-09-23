@@ -74,7 +74,7 @@ class ProjectPaymentStagesController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageProjectPayment) {
                         $sheet->fromArray($manageProjectPayment);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

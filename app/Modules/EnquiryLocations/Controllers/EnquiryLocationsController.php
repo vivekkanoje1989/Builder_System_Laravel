@@ -92,7 +92,7 @@ class EnquiryLocationsController extends Controller {
                     $excel->sheet('sheet1', function($sheet) use($manageLocations) {
                         $sheet->fromArray($manageLocations);
                     });
-                })->download('xls');
+                })->download('csv');
             }
         }
     }

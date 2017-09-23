@@ -8,7 +8,6 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
         $scope.searchData = {};
         $scope.searchDetails = {};
         $scope.filterDetails = function (search) {
-//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }
@@ -21,6 +20,18 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
                 toaster.pop('error', '', 'Exporting fails....');
             }
         };
+        
+         $scope.deleteContact = function (id, index) {
+            Data.post('contact-us/deleteContact', {
+                'id': id}).then(function (response) {
+                $scope.contactUsRow.splice(index, 1);
+            });
+        }
+        
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteContact(args['id'], args['index']);
+        });
+        
         
          $scope.orderByField = function (keyname) {
             $scope.sortKey = keyname;
@@ -40,12 +51,13 @@ app.controller('contactUsCtrl', ['$scope', 'Data', 'toaster', '$rootScope', func
             Data.post('contact-us/manageContactUs').then(function (response) {
                 $scope.contactUsRow = response.records;
                 $scope.exportData = response.exportData;
+                $scope.deleteBtn = response.deleteBtn;
                 $scope.hideloader();
             });
         };
         $scope.initialModal = function (id, index) {
 
-            $scope.heading = 'Edit Details';
+            $scope.heading = 'Edit Contact';
             $scope.id = id;
             $scope.index = index;
             Data.post('contact-us/getContactUsRow', {id: $scope.id}).then(function (response) {

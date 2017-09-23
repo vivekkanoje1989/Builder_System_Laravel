@@ -41,20 +41,15 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
             username: loginData.mobile, password: loginData.password,
         }).then(function (response) {
             if (response.success) {
-                $scope.showloader();
-                $state.reload();
+                $scope.showloader1();
+                //$state.reload();
                 $rootScope.authenticated = true;
                 $rootScope.id = response.loggedInUserId;
                 $rootScope.loginFullName = response.fullname;
-                $scope.errlMsg = false;
-//                $http.get('/getMenuItems').then(function (response) {
-//                    $rootScope.getMenu = response.data;
-//                }, function (error) {
-//                    alert('Error');
-//                });                
+                $scope.errlMsg = false;               
                 $state.go('dashboard');
                 window.location.reload(true);
-                $scope.hideloader();
+                $scope.hideloader1();
                 return false;
 
             } else {
@@ -67,7 +62,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
     };
 
     $scope.logout = function (logoutData) {
-        $scope.showloader();
+        $scope.showloader1();
         Data.post('logout', {
             data: logoutData
         }).then(function (response) {
@@ -77,7 +72,7 @@ app.controller('adminController', function ($rootScope, $scope, $state, Data, $s
                 $state.reload();
                 $state.go('login');
                 window.location.reload();
-                $scope.hideloader();
+                $scope.hideloader1();
                 return false;
             } else {
                 $scope.errorMsg = response.message;

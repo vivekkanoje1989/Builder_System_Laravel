@@ -26,7 +26,11 @@ Route::group(['middleware' => 'api'], function () {
     Route::post('/getMenuItems', 'backend\AdminController@getMenuItems');
     Route::post('/checkDomainExists', 'backend\Auth\LoginController@checkDomainExists');
     Route::post('/getnextfollowupTime', 'backend\AdminController@getnextfollowupTime'); // by uma
+<<<<<<< HEAD
     
     Route::get('/getProjects', 'backend\AdminController@getProjects'); //geeta
+=======
+    Route::get('/getProjects', 'backend\AdminController@getProjects');// manoj
+>>>>>>> bd52750db9fe0b704c896dcb24dee625238ef866
 });
 

@@ -43,10 +43,14 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
         $scope.deleteBankAccount = function (id, index) {
             Data.post('bank-accounts/deleteBankAccount', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Bank Accounts', 'Bank Account deleted successfully');
+//                toaster.pop('success', 'Bank Accounts', 'Bank Account deleted successfully');
                 $scope.bankAccountRow.splice(index, 1);
             });
         }
+        
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteBankAccount(args['id'], args['index']);
+        });
 
         $scope.doBankAccountAction = function (bankAccount)
         {
@@ -114,14 +118,16 @@ app.controller('bankAccountsCtrl', ['$scope', 'Data', '$rootScope', '$timeout', 
         {
             $scope.id = id;
             $scope.bankAccount = {};
-            $scope.heading = "Bank Accounts";
+            $scope.heading = "Add Bank Account";
+            $scope.btn = "Add";
             $scope.bankAccount = angular.copy(item);
             $scope.company = item.company_id;
             $scope.account_type = item.account_type;
             $scope.index = (itemsPerPage * ($scope.noOfRows - 1) + (index + 1)) - 1;
             $scope.sbtBtn = false;
             if ($scope.id !== '0')
-            {
+            { $scope.heading = "Edit Bank Account";
+             $scope.btn = "Update";
                 $scope.paymentHeadingEdit(item.preffered_payment_headings_ids);
                 $scope.paymentHeadingFiltered(item.preffered_payment_headings_ids);
             }

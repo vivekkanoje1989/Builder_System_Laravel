@@ -1,4 +1,9 @@
-
+<style>
+    .overlay3{
+    top: 0 !important; 
+    left: 0 !important;
+}
+</style>
 <link rel="stylesheet" href="/backend/assets/css/w3.css">
 <div class="page-bg" ng-controller="adminController" style="background:url(/backend/images/bg.jpg);background-repeat: no-repeat;background-size: cover;min-height: 100%;    position: absolute;    width: 100%;">
     <div class="sub-page-bg">

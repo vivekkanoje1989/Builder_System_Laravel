@@ -84,8 +84,7 @@ class CustomerCareController extends Controller {
 
 
         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        //echo 'CALL proc_cc_presales_total("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","")';exit;
-        $enquiries = DB::select('CALL proc_cc_presales_total("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","","")');
+        $enquiries = DB::select('CALL proc_cc_presales_total("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","")');
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = json_decode(json_encode($enqCnt), true);
 
@@ -111,7 +110,7 @@ class CustomerCareController extends Controller {
             } else {
                 $loggedInUserId = $request['empId'];
                 if ($request['filterFlag'] == 1) {
-                    CustomerCareController::$procname = "proc_cc_presales_completed";
+                    CustomerCareController::$procname = "proc_cc_presales_complete";
                     return $this->ccfilter();
                     exit;
                 }
@@ -124,7 +123,7 @@ class CustomerCareController extends Controller {
                 $loggedInUserId = !empty($alluser) ? implode(',', $alluser) : 0;
             } else {
                 if ($request['filterFlag'] == 1) {
-                    CustomerCareController::$procname = "proc_cc_presales_completed";
+                    CustomerCareController::$procname = "proc_cc_presales_complete";
                     return $this->ccfilter();
                     exit;
                 } else {
@@ -135,9 +134,8 @@ class CustomerCareController extends Controller {
                 }
             }
         }
-
         $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-        $enquiries = DB::select('CALL proc_cc_presales_completed("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","","")');
+        $enquiries = DB::select('CALL proc_cc_presales_complete("' . $loggedInUserId . '",' . $startFrom . ',' . $request['itemPerPage'] . ',"","","","","0","0","","","","","","","","","")');
         $enqCnt = DB::select("select FOUND_ROWS() totalCount");
         $enqCnt = json_decode(json_encode($enqCnt), true);
 
@@ -342,30 +340,28 @@ class CustomerCareController extends Controller {
          * 2 = Customer Care Follouwp
          * 
          */
+       
         if (in_array(2, $modules)) {
             $cc_followup_history = DB::table('cc_presales_followups as ccf')
                     ->leftjoin('employees as e', 'e.id', '=', 'ccf.followup_by')
-                    ->leftjoin(' laravel_developement_master_edynamics.mlst_bmsb_cc_postsales_status as mlps', 'mlps.id', '=', 'ccf.cc_presales_status_id')
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_cc_presales_status as mlps', 'mlps.id', '=', 'ccf.cc_presales_status_id')
                     ->leftjoin('cc_presales_substatus as ccpsubs', 'ccpsubs.id', '=', 'ccf.cc_presales_substatus_id')
                     ->select('ccf.*', DB::raw('DATE_FORMAT(ccf.followup_date_time, "%d-%m-%Y \n@ %h:%i %p") as last_followup_date'), DB::raw('DATE_FORMAT(ccf.next_followup_date, "%d-%m-%Y") as next_followup_date'), DB::raw('DATE_FORMAT(ccf.next_followup_time, "%h:%i %p") as next_followup_time'), 'e.first_name', 'e.last_name', 'mlps.cc_presales_status', 'ccpsubs.cc_presales_substatus')
                     ->where('ccf.enquiry_id', $enquiryId)
                     ->orderBy('ccf.id', 'DESC')
                     ->get();
         }
-
-
         $enqiry_followup_history = array();
         if (in_array(1, $modules)) {
             $enqiry_followup_history = DB::table('enquiry_followups as ef')
-                    ->leftjoin('employees as e', 'e.id', '=', 'ef.followup_by')
-                    ->leftjoin(' laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as mess', 'mess.id', '=', 'ef.sales_status_id')
-                    ->leftjoin('enquiry_sales_substatus as ess', 'ess.id', '=', 'ef.sales_substatus_id')
+                    ->leftjoin('employees as e', 'e.id', '=', 'ef.followup_by_employee_id')
+                    ->leftjoin('laravel_developement_master_edynamics.mlst_enquiry_sales_statuses as mess', 'mess.id', '=', 'ef.sales_status_id')
+                    ->leftjoin('enquiry_sales_substatuses as ess', 'ess.id', '=', 'ef.sales_substatus_id')
                     ->select('ef.*', DB::raw('DATE_FORMAT(ef.followup_date_time, "%d-%m-%Y \n@ %h:%i %p") as last_followup_date'), DB::raw('DATE_FORMAT(ef.next_followup_date, "%d-%m-%Y") as next_followup_date'), DB::raw('DATE_FORMAT(ef.next_followup_time, "%h:%i %p") as next_followup_time'), 'e.first_name', 'e.last_name', 'mess.sales_status', 'ess.enquiry_sales_substatus')
                     ->where('ef.enquiry_id', $enquiryId)
                     ->orderBy('ef.id', 'DESC')
                     ->get();
         }
-
         $enqiry_followup_history = json_decode(json_encode($enqiry_followup_history), True);
         if (!empty($enqiry_followup_history)) {
             $enq_cnt = count($enqiry_followup_history);
@@ -519,7 +515,6 @@ class CustomerCareController extends Controller {
                     $useremail = Auth::guard('admin')->user()->personal_email1;
             }
 
-
             $decodeRemarkDetails['mobileNumber'] = $mobileNumber;
             $decodeRemarkDetails['emailId'] = $emailId;
             //
@@ -557,14 +552,11 @@ class CustomerCareController extends Controller {
                     $cc_presales_employee_id = Auth::guard('admin')->user()->id;
             }
 
-
-
             $cc_presales_category_id = !empty($request['cc_presales_category_id']) ? $request['cc_presales_category_id'] : "0";
             $cc_presales_subcategory_id = !empty($request['cc_presales_subcategory_id']) ? $request['cc_presales_subcategory_id'] : "0";
             $cc_presales_status_id = !empty($request['cc_presales_status_id']) ? $request['cc_presales_status_id'] : "0";
             $cc_presales_substatus_id = !empty($request['cc_presales_substatus_id']) ? $request['cc_presales_substatus_id'] : "0";
             $enquiry_id = $request['enquiryId'];
-
 
             $enqUpdate = Enquiry::where('id', $enquiry_id)
                     ->update([
@@ -692,8 +684,8 @@ class CustomerCareController extends Controller {
                         . $request['itemPerPage'] . ',"' . $filter["fname"] . '","' . $filter["lname"] . '","'
                         . $filter["mobileNumber"] . '","' . $filter["emailId"] . '","' . $filter["verifiedMobNo"] . '","'
                         . $filter["verifiedEmailId"] . '","' . $filter["cc_presales_category_id"] . '","' . $filter['cc_presales_subcategory_id'] . '","'
-                        . $filter["source_id"] . '","' . $filter["subsource_id"] . '","'
-                        . $filter["fromDate"] . '","' . $filter["toDate"] . '","' . $filter["site_visit"] . '","'
+                        . $filter["source_id"] . '","' . $filter["subsource_id"] . '","'.$filter["project_id"].'","'
+                        . $filter["fromDate"] . '","' . $filter["toDate"] . '","'
                         . $filter["cc_presales_status_id"] . '","' . $filter["cc_presales_substatus_id"] .
                         '")'
         );
