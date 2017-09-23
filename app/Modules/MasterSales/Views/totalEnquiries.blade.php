@@ -12,7 +12,7 @@
         padding: 5px;
     }
 </style>
-<div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4);">
+<div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4,'',''); getEnquirySheredWith()">
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
@@ -26,11 +26,11 @@
                             <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:45%;" class="form-control" ng-model="itemsPerPage">
                         </div>
                     </div>
-                    <div class="col-md-5 col-xs-12">
+                    <div class="col-md-4 col-xs-12">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">                                                                
-                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_total_enquiries')"><i class="btn-label fa fa-filter"></i>Show Filter</button>                                
+                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_total_enquiries','',sharedemployee,presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</button>                                
                                 <div ng-if="enquiriesLength != 0">
                                     <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
                                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
@@ -42,12 +42,19 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-5 col-xs-12" ng-if="enquiriesLength != 0">
+                    <div class="col-sm-3 col-xs-6" >
+                        <label style="margin-top: 25px;"> 
+                            <label><input class="checkbox-slider slider-icon colored-success" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="getTotalEnquiries('', [[$type]], 1, 30, 4, sharedemployee,presalesemployee)"><span  class="text"></span></label>    
+                            <span class="text">Shared Enquiries of Employees</span>
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3 col-xs-12" ng-if="enquiriesLength != 0">
                         <div class="form-group">
                             <label for=""></label>
                             <span class="input-icon icon-right">
                                 <span ng-if="enquiriesLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                            
+                                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                            
                             </span>
                         </div>
                     </div>
@@ -100,159 +107,158 @@
                     <tbody>                        
                         <tr dir-paginate="enquiry in filtered=( enquiries | filter:search)  | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength}}">
                             <td width="6%" style="vertical-align:middle">
-                                <center>
-                                {{itemsPerPage * (pageNumber - 1) + $index + 1}}<br> 
+                    <center>
+                        {{itemsPerPage * (pageNumber - 1) + $index + 1}}<br> 
+                        <label> 
+                            <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="enquiry.chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq_{{enquiry.id}}">
+                            <span class="text"></span>
+                        </label>                                
+                    </center>
+                    </td>
+                    <td width="20%">
+                        <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
+                        <div ng-if="[[Auth::guard('admin') -> user() -> customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
+                            <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
+                                <a ng-if="callBtnPermission == '1'" style="cursor: pointer;" class="Linkhref"
+                                   ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[Auth::guard('admin') -> user() -> id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
+                                    <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
+                                </a>
+                                <span  ng-if="displayMobilePermission != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                <span  ng-show="displayMobilePermission == '1'" class="text">{{mobile_obj}}</span>
 
-                                <label> 
-                                    <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="enquiry.chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq_{{enquiry.id}}">
-                                    <span class="text"></span>
-                                </label>                                
-                            </center>
-                            </td>
-                            <td width="20%">
-                                <div>{{enquiry.title}} {{ enquiry.customer_fname}} {{ enquiry.customer_lname}}</div>
-                                <div ng-if="[[Auth::guard('admin')->user()->customer_contact_numbers]] == 1 && enquiry.mobile != ''" ng-init="mobile_list = enquiry.mobile.split(',')">  
-                                    <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
-                                        <a ng-if="callBtnPermission == '1'" style="cursor: pointer;" class="Linkhref"
-                                           ng-if="mobile_obj != null" ng-click="cloudCallingLog(1, [[ Auth::guard('admin')->user()->id ]],{{ enquiry.id}},'{{enquiry.customer_id}}','{{$index}}')">
-                                            <img src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session" style="height: 17px;width: 17px;" />
-                                        </a>
-                                        <span  ng-if="displayMobilePermission != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                        <span  ng-show="displayMobilePermission =='1'" class="text">{{mobile_obj}}</span>
-                                         
+                            </span>
+                        </div>
+                        <div ng-init="mobile_list = enquiry.mobile.split(',')">
+                            <p ng-if="[[ Auth::guard('admin') -> user() -> customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
+                                <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
+                                    <span  ng-if="displayMobilePermission != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
+                                    <span  ng-show="displayMobilePermission == '1'" class="text">{{mobile_obj}}</span>
+                                </span>
+                            </p>
+                            <p ng-if="displayEmailPermission == '1'" ng-if="[[Auth::guard('admin') -> user() -> customer_email]] == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <span ng-repeat="emailobj in all_email_list| limitTo:2">
+                                    {{emailobj}}
+                                    <span ng-if="$index == 0 && all_email_list.length >= 2">
+                                        /
                                     </span>
-                                </div>
-                                <div ng-init="mobile_list = enquiry.mobile.split(',')">
-                                    <p ng-if="[[ Auth::guard('admin')->user()->customer_contact_numbers]] == 0 && enquiry.mobile != ''"> 
-                                        <span ng-repeat="mobile_obj in mobile_list| limitTo:2">
-                                            <span  ng-if="displayMobilePermission != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
-                                        <span  ng-show="displayMobilePermission =='1'" class="text">{{mobile_obj}}</span>
-                                        </span>
-                                    </p>
-                                    <p ng-if="displayEmailPermission == '1'" ng-if="[[Auth::guard('admin')-> user()->customer_email]] == 1 && enquiry.email != '' && enquiry.email != 'null'" ng-init="all_email_list = enquiry.email.split(',');" >
-                                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                                        <span ng-repeat="emailobj in all_email_list| limitTo:2">
-                                            {{emailobj}}
-                                            <span ng-if="$index == 0 && all_email_list.length >= 2">
-                                                /
-                                            </span>
 
-                                        </span>                                        
-                                    </p>
-                                </div>                               
+                                </span>                                        
+                            </p>
+                        </div>                               
+                        <hr class="enq-hr-line">
+                        <div>
+                            <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
+                        </div>                    
+                        <hr class="enq-hr-line">
+                        <div>
+                            <br>
+                            <span ng-if="enquiry.sales_source_name != '' && enquiry.enquiry_sub_source != null"
+                                  ng-init="sourceleng = enquiry.sales_source_name.length + enquiry.enquiry_sub_source.length; source = enquiry.sales_source_name + ' / ' + enquiry.enquiry_sub_source">
+                                <strong>Source : </strong>
+                                <span data-toggle="tooltip" title="{{source}}">{{source| limitTo : 45}} </span>
+                                <span ng-if="source.length > 45" data-toggle="tooltip" title="{{source}}">...</span>
+                            </span>
+                            <span ng-if="enquiry.sales_source_name != '' && enquiry.enquiry_sub_source == null">
+                                <strong>Source : </strong>
+                                <span data-toggle="tooltip" title="{{enquiry.sales_source_name}}">    {{enquiry.sales_source_name| limitTo : 45}} </span>
+                                <span ng-if="enquiry.sales_source_name.length > 45" data-toggle="tooltip" title="{{enquiry.sales_source_name}}">...</span>
+                            </span>
+                        </div>
+                        <div ng-if="enquiry.area != '' && enquiry.area != null" >
+                            <hr class="enq-hr-line">
+                            <strong>Area : </strong>
+                            <span data-toggle="tooltip" title="{{enquiry.area}}">    {{enquiry.area| limitTo : 45}} </span>
+                            <span ng-if="enquiry.area > 45" data-toggle="tooltip" title="{{enquiry.area}}">...</span>
+                        </div>
+                    </td>                            
+
+                    <td width="20%">
+                        <div>
+                            <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus == null"> 
+                                <b>Status : </b>  
+                                <span data-toggle="tooltip" title="{{enquiry.sales_status}}">{{ enquiry.sales_status | limitTo : 45 }}</span>
+                                <span ng-if="enquiry.sales_status > 45" data-toggle="tooltip" title="{{enquiry.sales_status}}">...</span>
                                 <hr class="enq-hr-line">
-                                <div>
-                                    <a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Customer Id ({{enquiry.customer_id}})</a>
-                                </div>                    
-                                <hr class="enq-hr-line">
-                                <div>
-                                    <br>
-                                    <span ng-if="enquiry.sales_source_name != '' && enquiry.enquiry_sub_source != null"
-                                          ng-init="sourceleng = enquiry.sales_source_name.length + enquiry.enquiry_sub_source.length; source = enquiry.sales_source_name + ' / ' + enquiry.enquiry_sub_source">
-                                        <strong>Source : </strong>
-                                        <span data-toggle="tooltip" title="{{source}}">{{source| limitTo : 45}} </span>
-                                        <span ng-if="source.length > 45" data-toggle="tooltip" title="{{source}}">...</span>
-                                    </span>
-                                    <span ng-if="enquiry.sales_source_name != '' && enquiry.enquiry_sub_source == null">
-                                        <strong>Source : </strong>
-                                        <span data-toggle="tooltip" title="{{enquiry.sales_source_name}}">    {{enquiry.sales_source_name| limitTo : 45}} </span>
-                                        <span ng-if="enquiry.sales_source_name.length > 45" data-toggle="tooltip" title="{{enquiry.sales_source_name}}">...</span>
-                                    </span>
-                                </div>
-                                <div ng-if="enquiry.area != '' && enquiry.area != null" >
-                                    <hr class="enq-hr-line">
-                                    <strong>Area : </strong>
-                                    <span data-toggle="tooltip" title="{{enquiry.area}}">    {{enquiry.area| limitTo : 45}} </span>
-                                    <span ng-if="enquiry.area > 45" data-toggle="tooltip" title="{{enquiry.area}}">...</span>
-                                </div>
-                            </td>                            
+                            </span>
 
-                            <td width="20%">
-                                <div>
-                                    <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus == null"> 
-                                        <b>Status : </b>  
-                                        <span data-toggle="tooltip" title="{{enquiry.sales_status}}">{{ enquiry.sales_status | limitTo : 45 }}</span>
-                                        <span ng-if="enquiry.sales_status > 45" data-toggle="tooltip" title="{{enquiry.sales_status}}">...</span>
-                                        <hr class="enq-hr-line">
-                                    </span>
-
-                                    <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus != null" ng-init="enquiry_status_length = enquiry.sales_status.length + enquiry.enquiry_sales_substatus.length; enquiry_status = enquiry.sales_status + ' / ' + enquiry.enquiry_sales_substatus"> 
-                                        <b>Status : </b>  
-                                        <span data-toggle="tooltip" title="{{enquiry_status}}">{{ enquiry_status | limitTo : 45 }}</span>
-                                        <span ng-if="enquiry_status_length > 45" data-toggle="tooltip" title="{{enquiry_status}}">...</span>
-                                        <hr class="enq-hr-line">
-                                    </span>
-
-                                </div>        
-                                <div> 
-                                    <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory == null" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">
-                                        <b>Category : </b>  
-                                        {{ enquiry.enquiry_category | limitTo : 45 }}
-                                        <span ng-if="enquiry.enquiry_category > 45" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">...</span>
-                                        <hr class="enq-hr-line">
-                                    </span>
-                                    <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory != null" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}" ng-init="enquiry_sales_subcategory_length = enquiry.enquiry_sales_subcategory.length + enquiry.enquiry_sales_subcategory.length; enquiry_sales_subcategory = enquiry.enquiry_category + ' / ' + enquiry.enquiry_sales_subcategory">
-                                        <b>Category : </b>  
-                                        {{ enquiry_sales_subcategory | limitTo : 45 }}
-                                        <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
-                                        <hr class="enq-hr-line">
-                                    </span>
-                                </div>
-                                <div>                                   
-                                    <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != ''" data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
-                                        <b>Project :</b>
-                                        {{enquiry.project_block_name| limitTo : 45 }}
-                                        <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                                                                 
-                                    </span>
-                                    <div ng-if="enquiry.parking_required != null">
-                                        <span ng-if="enquiry.parking_required == 0"><b>Parking Required :</b> No</span>
-                                        <span ng-if="enquiry.parking_required == 1"><b>Parking Required :</b> Yes</span>                                    
-                                    </div> 
-                                    <hr class="enq-hr-line">
-                                </div>                                                              
-                                <div>
-                                    <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}/eid/{{ enquiry.id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
-                                </div>                                                              
-                            </td>
-                            <td width="30%">
-                                <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
+                            <span ng-if="enquiry.sales_status != '' && enquiry.enquiry_sales_substatus != null" ng-init="enquiry_status_length = enquiry.sales_status.length + enquiry.enquiry_sales_substatus.length; enquiry_status = enquiry.sales_status + ' / ' + enquiry.enquiry_sales_substatus"> 
+                                <b>Status : </b>  
+                                <span data-toggle="tooltip" title="{{enquiry_status}}">{{ enquiry_status | limitTo : 45 }}</span>
+                                <span ng-if="enquiry_status_length > 45" data-toggle="tooltip" title="{{enquiry_status}}">...</span>
                                 <hr class="enq-hr-line">
-                                <div >
-                                    <b>Last followup : </b>{{ enquiry.last_followup_date}}
-                                </div>
-                                <div><b>By {{enquiry.followupby_fname}} {{enquiry.followupby_lname}} : </b>
-                                    <span data-toggle="tooltip" title="{{enquiry.remarks| removeHTMLTags}}">{{enquiry.remarks| limitTo : 100 | removeHTMLTags }}
-                                        <span ng-if="enquiry.remarks.length > 100" data-toggle="tooltip" title="{{enquiry.remarks| removeHTMLTags}}">...</span>
-                                    </span>
-                                </div>
-                                <div>
-        <!--                                     <span ng-if="enquiry.location_name != null && enquiry.location_name != '' " data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
-                                        <b>Preferred Location :</b>
-                                         {{enquiry.location_name | limitTo : 45 }}
-                                        <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                        
-                                         <hr class="enq-hr-line">
-                                    </span>-->
-                                </div>                                
-                                <hr class="enq-hr-line">
-                                <div>
-                                    <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
-                                </div>
+                            </span>
 
-                            </td>
-                            <td width="20%">
-                                <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            
+                        </div>        
+                        <div> 
+                            <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory == null" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">
+                                <b>Category : </b>  
+                                {{ enquiry.enquiry_category | limitTo : 45 }}
+                                <span ng-if="enquiry.enquiry_category > 45" data-toggle="tooltip" title="{{enquiry.enquiry_category}}">...</span>
                                 <hr class="enq-hr-line">
-                                <div>
-                                    <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
-                                    <a href ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
-                                    <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
-                                </div>
-                            </td>
-                        </tr>
+                            </span>
+                            <span ng-if="enquiry.enquiry_category != '' && enquiry.enquiry_sales_subcategory != null" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}" ng-init="enquiry_sales_subcategory_length = enquiry.enquiry_sales_subcategory.length + enquiry.enquiry_sales_subcategory.length; enquiry_sales_subcategory = enquiry.enquiry_category + ' / ' + enquiry.enquiry_sales_subcategory">
+                                <b>Category : </b>  
+                                {{ enquiry_sales_subcategory | limitTo : 45 }}
+                                <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
+                                <hr class="enq-hr-line">
+                            </span>
+                        </div>
+                        <div>                                   
+                            <span ng-if="enquiry.project_block_name != null && enquiry.project_block_name != ''" data-toggle="tooltip" title="{{enquiry.project_block_name}}">                                    
+                                <b>Project :</b>
+                                {{enquiry.project_block_name| limitTo : 45 }}
+                                <span ng-if="enquiry.project_block_name > 45" data-toggle="tooltip" title="{{enquiry.project_block_name}}">...</span>                                                                                                                 
+                            </span>
+                            <div ng-if="enquiry.parking_required != null">
+                                <span ng-if="enquiry.parking_required == 0"><b>Parking Required :</b> No</span>
+                                <span ng-if="enquiry.parking_required == 1"><b>Parking Required :</b> Yes</span>                                    
+                            </div> 
+                            <hr class="enq-hr-line">
+                        </div>                                                              
+                        <div>
+                            <span style="text-align: center;"><a target="_blank" href="[[ config('global.backendUrl') ]]#/sales/update/cid/{{ enquiry.customer_id}}/eid/{{ enquiry.id}}"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Enquiry Id ({{ enquiry.id}})</a></span>
+                        </div>                                                              
+                    </td>
+                    <td width="30%">
+                        <div><b>Enquiry Owner :</b> {{enquiry.owner_fname}} {{enquiry.owner_lname}}</div>
+                        <hr class="enq-hr-line">
+                        <div >
+                            <b>Last followup : </b>{{ enquiry.last_followup_date}}
+                        </div>
+                        <div><b>By {{enquiry.followupby_fname}} {{enquiry.followupby_lname}} : </b>
+                            <span data-toggle="tooltip" title="{{enquiry.remarks| removeHTMLTags}}">{{enquiry.remarks| limitTo : 100 | removeHTMLTags }}
+                                <span ng-if="enquiry.remarks.length > 100" data-toggle="tooltip" title="{{enquiry.remarks| removeHTMLTags}}">...</span>
+                            </span>
+                        </div>
+                        <div>
+<!--                                     <span ng-if="enquiry.location_name != null && enquiry.location_name != '' " data-toggle="tooltip" title="{{enquiry.location_name}}">                                    
+                                <b>Preferred Location :</b>
+                                 {{enquiry.location_name | limitTo : 45 }}
+                                <span ng-if="enquiry.location_name > 45" data-toggle="tooltip" title="{{enquiry.location_name}}">...</span>                                                                        
+                                 <hr class="enq-hr-line">
+                            </span>-->
+                        </div>                                
+                        <hr class="enq-hr-line">
+                        <div>
+                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                        </div>
+
+                    </td>
+                    <td width="20%">
+                        <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            
+                        <hr class="enq-hr-line">
+                        <div>
+                            <a href data-toggle="modal" data-target="#todayremarkDataModal" ng-click="getTodayRemark({{enquiry.id}},'')"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Todays Remarks</a><br/>
+                            <a href ng-if="enquiry.test_drive_given == 0"   data-toggle="modal" data-target="#testdriveDataModal" ng-click="getscheduleTestDrive({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Schedule Test Drive<br/></a>
+                            <a href data-toggle="modal" data-target="#sendDocumentDataModal" ng-click="sendDocuments({{enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;Send Documents</a><br/>
+                        </div>
+                    </td>
+                    </tr>
                     </tbody>
                 </table>
 
-                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
+                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
                 <div ng-if="enquiriesLength == 0">
                     <div>
                         <center><b>No Enquiries Found</b></center>
