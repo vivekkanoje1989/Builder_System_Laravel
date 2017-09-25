@@ -32,7 +32,7 @@ class BmsConsumptionController extends Controller {
     }
 
     public function smsConsumption() {
-        return view("BmsConsumption::smsConsumption");
+        return view("BmsConsumption::smsConsumption")->with("loggedInUserId", Auth::guard('admin')->user()->id);
     }
 
     public function smsReport() {
@@ -237,7 +237,7 @@ class BmsConsumptionController extends Controller {
             if ($getCount < 1) {
                 return false;
             } else {
-                Excel::create('Export Default Template Data', function($excel) use($smsLogsdata) {
+                Excel::create('Export SMS Logs Data', function($excel) use($smsLogsdata) {
                     $excel->sheet('sheet1', function($sheet) use($smsLogsdata) {
                         $sheet->fromArray($smsLogsdata);
                     });
@@ -291,7 +291,7 @@ class BmsConsumptionController extends Controller {
             if ($getCount < 1) {
                 return false;
             } else {
-                Excel::create('Export Default Template Data', function($excel) use($smsLogsdata) {
+                Excel::create('Export Log Details Data', function($excel) use($smsLogsdata) {
                     $excel->sheet('sheet1', function($sheet) use($smsLogsdata) {
                         $sheet->fromArray($smsLogsdata);
                     });

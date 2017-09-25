@@ -35,15 +35,12 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="smsLogDetailsExportToxls('[[$transactionId]]')" ng-show="smsLogDetailsData=='1'">
-                            <span>Export</span>
-                        </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
+                            <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href="" ng-click="smsLogDetailsExportToxls('[[$transactionId]]')" ng-show="smsLogDetailsData=='1'">Export</a>
                                 </li>
                             </ul>
                         </a>
@@ -73,12 +70,17 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
@@ -107,7 +109,7 @@
                                         <span ng-show="(sortKey == 'sms_body' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
-                                <th style="width: 5%">Excel file</th>
+                                <th style="width: 7%">Excel file</th>
                                 <th style="width: 10%">
                                     <a href="javascript:void(0);" ng-click="orderByField('employee_name')">Employee
                                         <span ><img ng-hide="(sortKey == 'employee_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
@@ -115,8 +117,8 @@
                                         <span ng-show="(sortKey == 'employee_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
-                                <th style="width: 7%">
-                                    <a href="javascript:void(0);" ng-click="orderByField('sms_type')">SMS Type
+                                <th style="width: 5%">
+                                    <a href="javascript:void(0);" ng-click="orderByField('sms_type')">Type
                                         <span ><img ng-hide="(sortKey == 'sms_type' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'sms_type' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'sms_type' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
@@ -159,7 +161,7 @@
                                 <td>{{ smsLogDetails.mobile_number}}</td>
                                 <td>{{ smsLogDetails.sms_body}}</td>
                                 <td ng-show="{{smsLogDetails.bulk_file_id.length}}!== 0">
-                                    <a href="[[config('global.s3Path')]]bulk_sms_file/{{smsLogDetails.bulk_file_id}}">Download</a>
+                                    <a href="[[config('global.s3Path')]]bulk_sms_file/{{smsLogDetails.bulk_file_id}}" class="btn-info btn-xs"><i class="fa fa-download" aria-hidden="true"></i>Download</a>
                                 </td>
                                 <td ng-show="{{smsLogDetails.bulk_file_id.length}} == 0">--</td>
                                 <td>{{ employee_name}}</td>
