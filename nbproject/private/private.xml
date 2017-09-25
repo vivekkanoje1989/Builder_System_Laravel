@@ -2,65 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
         <group>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/pendingFollowup.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/previousFollowup.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/todaysfollowups.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/totalEnquiries.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/reassignEnquiries.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/bookedenquiry.blade.php</file>
-        </group>
-=======
-<<<<<<< HEAD
-        <group/>
-=======
-        <group>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-            <file>file:/var/www/html/Builder_System_Laravel/resources/views/layouts/backend/breadcrumbs.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/assets/css/beyond.min.css</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/routes/web.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/lib/angular/angular-breadcrumb/angular-breadcrumb.js</file>
-=======
-<<<<<<< HEAD
->>>>>>> 8ac345c42491872a3a5e98eef2b069adb6d34326
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customercarepresalesController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/showFilter.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/adminController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/css/filterSlider.css</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/previous.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/pending.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/filter.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/today.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Reports/routes/api.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/history.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/completed.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Controllers/CustomerCareController.php</file>
-<<<<<<< HEAD
-=======
-=======
-            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/index.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/requestsforme.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Controllers/DashBoardController.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/other.blade.php</file>
-            <file>file:/var/www/html/Builder_System_Laravel/public/backend/dashBoardController.js</file>
-            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/myrequest.blade.php</file>
->>>>>>> 28c078748d40733364e3251f296e2690bcbd50a8
->>>>>>> c3080cc19577239062e3e2da2ffa0433c7870702
->>>>>>> 8ac345c42491872a3a5e98eef2b069adb6d34326
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/index.blade.php</file>
         </group>
->>>>>>> 9d7e9788b1be641be6c98814f6fdd1f96fc95302
->>>>>>> bd52750db9fe0b704c896dcb24dee625238ef866
     </open-files>
 </project-private>

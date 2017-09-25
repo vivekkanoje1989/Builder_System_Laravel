@@ -92,7 +92,9 @@ class CommonFunctions {
         try {
             config(['mail.username' => $userName, 'mail.password' => $password]);
             $to = explode(",", $data['to']);
-            $data['cc'] = explode(",", $data['cc']);
+            if(isset($data['cc'])){
+                $data['cc'] = explode(",", $data['cc']);
+            }                        
             if (!empty($data['attachment'])) {
                 if (!empty($data['cc']) && !empty($data['bcc'])) {
                     $isSent = Mail::send('layouts.backend.email_template', $data, function ($message) use ($data, $to) {
@@ -145,7 +147,7 @@ class CommonFunctions {
                                 $message->to($to);
                             });
                 }
-            }
+            }            
             if (count(Mail::failures()) <= 0) {
                 return true;
             } else {
@@ -448,7 +450,7 @@ class CommonFunctions {
                     $subject = $cust_email_subject;
                     if (!empty($subject)) {
                         $data = ['mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile];
-//                        print_r(array('mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile));exit;
+                       // print_r(array('mailBody' => $cust_emailTemplate, "fromEmail" => $userName, "fromName" => $companyName, "subject" => $subject, "to" => $customer_email_to, "cc" => $template_customer->email_cc_ids, "attachment" => $cust_attachedfile));exit;
                         $sentSuccessfully = CommonFunctions::sendMail($userName, $password, $data);
                     }
                 }
@@ -456,7 +458,7 @@ class CommonFunctions {
                     $mobile = $customer_mobile_number;
                     $customer = "Yes";
                     $customerId = $customer_contact->customer_id;
-                    $result = Gupshup::sendSMS($cust_smsTemplate, $customer_mobile_to, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
+                   // $result = Gupshup::sendSMS($cust_smsTemplate, $customer_mobile_to, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);
                 }
             }
         }
@@ -481,7 +483,7 @@ class CommonFunctions {
                     }
                     $customer = "No";
                     $customerId = 0;
-                    $result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);             
+                    //$result = Gupshup::sendSMS($emp_smsTemplate, $mobile, $employee_id, $customer, $customerId, $isInternational, $sendingType, $smsType);             
                 }
             }
         }

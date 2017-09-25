@@ -881,7 +881,6 @@ class MasterSalesController extends Controller {
             if (!empty($input['bookingId'])) {
                 $bookingId = $input['bookingId'];
             }
-
             $todayDateTime = date('Y-m-d H:i:s');
             $getvalues = Enquiry::select('sales_category_id', 'sales_subcategory_id', 'sales_status_id')->where('id', $enquiryId)->get();
             $sales_category_id = !empty($input['sales_category_id']) ? $input['sales_category_id'] : $getvalues[0]['sales_category_id'];
@@ -1412,7 +1411,7 @@ Regards,<br>
 
 
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-
+            
             $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
@@ -2965,7 +2964,7 @@ Regards,<br>
                 $arr = explode('@', $val);
                 $doc[$arr[0]] = $arr[1];
             }
-            //
+            
             if (!empty($doc['floor_plan_images'])) {
                 $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'], true);
             }
@@ -3039,8 +3038,9 @@ Regards,<br>
                 $amenities,
                 $videoLink,
             );
-            // $Templateresult = CommonFunctions::templateData($templatedata);
-            //print_r($Templateresult);exit;
+            //print_r($templatedata);exit;
+            $Templateresult = CommonFunctions::templateData($templatedata);exit;
+            //
             // insert into send document history
             $insertDocument['send_documents'] = json_encode($doc);
             $insertDocument['send_by'] = $loggedInUserId;
