@@ -23,7 +23,7 @@
                                             <div ng-if="sbtBtn" ng-show="request.application_to.length == '0' || request.application_to.length == null" class="help-block department sbtBtn ">
                                                 Application to is required.
                                             </div>
-                                            <i class="glyphicon glyphicon-user "></i>
+                                            <i class="glyphicon glyphicon-user " style="color:#444;"></i>
                                         </span>
                                     </div>
 
@@ -39,7 +39,7 @@
                                                 {{itemone.first_name + " " + itemone.last_name + " " + "(" + itemone.designation + ")"}} 
                                             </ui-select-choices>
                                         </ui-select>
-                                        <i class="glyphicon glyphicon-user "></i>
+                                        <i class="glyphicon glyphicon-user " style="color:#444;"></i>
                                     </span>
 
                                 </div>
@@ -49,7 +49,7 @@
                                     <label>Application Description<span class="sp-err">*</span></label>
                                     <span class="input-icon icon-right">
                                         <textarea ng-model="request.req_desc" name="req_desc" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched capitalize"   maxlength="300" required></textarea>
-                                        <i class="glyphicon glyphicon-briefcase "></i>
+                                        <i class="glyphicon glyphicon-briefcase " style="color:#444;"></i>
                                     </span>
                                     <div class="help-block" ng-show="sbtBtn" ng-messages="requestLeave.req_desc.$error">
                                         <div ng-message="required">Application description is required.</div>

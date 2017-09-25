@@ -311,8 +311,8 @@ class DashBoardController extends Controller {
         $postdata = file_get_contents('php://input');
         $request = json_decode($postdata, true);
         $export = '';
-        if (!empty($request['data']['loggedInUserID']))
-            $loggedInUserId = $request['data']['loggedInUserID'];
+        if (!empty($request['loggedInUserID']))
+            $loggedInUserId = $request['loggedInUserID'];
         else
             $loggedInUserId = Auth::guard('admin')->user()->id;
         $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
