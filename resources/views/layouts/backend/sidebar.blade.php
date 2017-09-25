@@ -65,75 +65,41 @@ $(document).ready(function(){
             $('ul#cstmenu > li > ul.submenu').not($(this).siblings()).slideUp();
             $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();
             $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).slideUp();
-            $(this).siblings("ul.submenu").slideToggle();
-            
-            $(this).parent().addClass("open");
-            $(this).nextAll().removeClass("open");
-            $(this).prevAll().removeClass("open");
-            
-            /*var n = $("#sidebar").hasClass("menu-compact");console.log($(this).siblings());
-            var i = $(t.target).closest("a"),
-                    u, r, f;
-            if (i && i.length != 0) {
-                if (!i.hasClass("menu-dropdown")) return n && i.get(0).parentNode.parentNode == this && (u = i.find(".menu-text").get(0), t.target != u && !$.contains(u, t.target)) ? !1 : void 0;
-                if (r = i.next().get(0), !$(r).is(":visible")) {
-                    if (f = $(r.parentNode).closest("ul"), n && f.hasClass("sidebar-menu")) return;
-                    f.find("> .open > .submenu").each(function() {
-                        this == r || $(this.parentNode).hasClass("active") || $(this).slideUp(200).parent().removeClass("open")
-                    })
+            $(this).siblings("ul.submenu").slideToggle(function() { 
+                if($(this).parent().hasClass("open")){
+                    $(this).parent().removeClass("open");
+                }else{
+                    $('ul#cstmenu > li').removeClass("open");
+                    $('ul#cstmenu > li > ul > li').removeClass("open");
+                    $('ul#cstmenu > li > ul > li > ul > li').removeClass("open");
+                    $(this).parent().addClass("open");
                 }
-                
-            return n && $(r.parentNode.parentNode).hasClass("sidebar-menu") ? !1 : ($(r).slideToggle(200).parent().toggleClass("open"), !1)
-            }*/
+            });
         });
 
         $("#cstmenu > li > ul > li > a").click(function (t) {
-            $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();
-            $(this).siblings("ul.submenu").slideToggle();
-            $(this).parent().addClass("open");
-            //$('#cstmenu > li > ul > li ').not($(this).siblings()).removeClass("open");
-          
-            
-            
-            /*var n = $("#sidebar").hasClass("menu-compact");
-            var i = $(t.target).closest("a"),
-                    u, r, f;
-            if (i && i.length != 0) {
-                if (!i.hasClass("menu-dropdown")) return n && i.get(0).parentNode.parentNode == this && (u = i.find(".menu-text").get(0), t.target != u && !$.contains(u, t.target)) ? !1 : void 0;
-                if (r = i.next().get(0), !$(r).is(":visible")) {
-                    if (f = $(r.parentNode).closest("ul"), n && f.hasClass("sidebar-menu")) return;
-                    f.find("> .open > .submenu").each(function() {
-                        this == r || $(this.parentNode).hasClass("active") || $(this).slideUp(200).parent().removeClass("open")
-                    })
+            $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();            
+            $(this).siblings("ul.submenu").slideToggle(function() { 
+                if($(this).parent().hasClass("open")){
+                    $(this).parent().removeClass("open");
+                }else{
+                    $('ul#cstmenu > li > ul > li').removeClass("open");
+                    $(this).parent().addClass("open");
                 }
-                return n && $(r.parentNode.parentNode).hasClass("sidebar-menu") ? !1 : ($(r).slideToggle(200).parent().toggleClass("open"), !1)
-            }*/
+            });
         });
 
         $("#cstmenu > li > ul > li > ul > li > a").click(function (t) {
             $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).slideUp();
-            $(this).siblings("ul.submenu").slideToggle();
-            console.log($(this).siblings("li.open"));
-            $(this).parent().addClass("open");
-            $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).removeClass("open");
-            
-            
-            
-           /* var n = $("#sidebar").hasClass("menu-compact");
-            var i = $(t.target).closest("a"),
-                    u, r, f;
-            if (i && i.length != 0) {
-                if (!i.hasClass("menu-dropdown")) return n && i.get(0).parentNode.parentNode == this && (u = i.find(".menu-text").get(0), t.target != u && !$.contains(u, t.target)) ? !1 : void 0;
-                if (r = i.next().get(0), !$(r).is(":visible")) {
-                    if (f = $(r.parentNode).closest("ul"), n && f.hasClass("sidebar-menu")) return;
-                    f.find("> .open > .submenu").each(function() {
-
-                        this == r || $(this.parentNode).hasClass("active") || $(this).slideUp(200).parent().removeClass("open")
-                    })
+            $(this).siblings("ul.submenu").slideToggle(function() { 
+                if($(this).parent().hasClass("open")){
+                    $(this).parent().removeClass("open");
+                }else{
+                    $('ul#cstmenu > li > ul > li > ul > li').removeClass("open");
+                    $(this).parent().addClass("open");
                 }
-                return n && $(r.parentNode.parentNode).hasClass("sidebar-menu") ? !1 : ($(r).slideToggle(200).parent().toggleClass("open"), !1)
-            }*/
+            });
         });
-    }, 1000); 
+    }, 200); 
 });
 </script>

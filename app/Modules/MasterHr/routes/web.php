@@ -56,6 +56,7 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::post('/master-hr/createEducationForm', 'MasterHrController@createEducationForm');
     Route::post('/master-hr/manageJobForm', 'MasterHrController@manageJobForm');
     Route::post('/master-hr/manageStatusForm', 'MasterHrController@manageStatusForm');
+    Route::post('/master-hr/suspendEmployee', 'MasterHrController@suspendEmployee');
     Route::post('/master-hr/update', 'MasterHrController@updateEmployee');
 
     Route::post('/master-hr/customerDataPermission', 'MasterHrController@customerDataPermission');

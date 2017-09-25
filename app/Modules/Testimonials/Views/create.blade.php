@@ -38,7 +38,7 @@
                                 <label>Company Name<span class="sp-err">*</span></label>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.company_name.$dirty && testimonialsForm.company_name.$invalid) }">
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="testimonial.company_name" name="company_name"  required>
+                                        <input type="text" class="form-control" ng-model="testimonial.company_name" name="company_name" capitalizeFirst required>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.company_name.$error">
                                             <div ng-message="required">Company name is required</div>
                                         </div>
@@ -90,7 +90,7 @@
                         </div>
                         <div class="col-sm-3 col-xs-12">
                             <div class="form-group">
-                                <label>Display on website <span class="sp-err">*</span></label>
+                                <label>Display on website</label>
                                 <span class="input-icon icon-right">
                                     <select name="web_status" ng-model="testimonial.web_status"  class="form-control" >
                                         <option value="1" >Yes</option> 
@@ -105,7 +105,7 @@
                                 <label>Description <span class="sp-err">*</span></label>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!testimonialsForm.description.$dirty && testimonialsForm.description.$invalid) }">
                                     <span class="input-icon icon-right">
-                                        <textarea ng-model="testimonial.description" name="description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
+                                        <textarea ng-model="testimonial.description" name="description" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched capitalize" required></textarea>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="testimonialsForm.description.$error">
                                             <div ng-message="required">Description is required</div>
                                         </div>
@@ -128,7 +128,7 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="testimonialsBtn">Submit</button>
-                            <a href="[[ config('global.backendUrl') ]]#/testimonials/index" class="btn btn-primary"><< Back To List</a>
+                            <a href="[[ config('global.backendUrl') ]]#/testimonials/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>

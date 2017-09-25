@@ -5,7 +5,10 @@
 </style>
 <div class="row" ng-controller="projectController">
     <div class="col-lg-12 col-sm-12 col-xs-12">
-        <h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Project Web Page</h5>
+        <!--<h5 class="row-title"><i class="fa fa-arrow-circle-o-right themeprimary"></i>Project Web Page</h5>-->
+        <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">Project Web Page</span>                
+            </div>
         <div class="row">
             <div class="col-lg-12 col-sm-6 col-xs-12">
                 <input type="hidden" ng-model="projectData.project_id" name="project_id" value="[[ $projectId ]]"/>

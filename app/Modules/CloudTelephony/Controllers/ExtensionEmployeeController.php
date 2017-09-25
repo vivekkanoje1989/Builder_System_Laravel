@@ -169,6 +169,7 @@ class ExtensionEmployeeController extends Controller {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
 
+       
         if (!empty($input['userData']['loggedInUserId'])) {
             $loggedInUserId = $input['userData']['loggedInUserId'];
         } else if (empty($input['userData']['loggedInUserId'])) {
@@ -187,8 +188,9 @@ class ExtensionEmployeeController extends Controller {
 
         $create = CommonFunctions::insertMainTableRecords($loggedInUserId);
         if (!empty($empId) && !empty($extNo)) {
-
+ 
             $existEmployee = CtEmployeesExtension::select("id")->where('employee_id', '=', $empId)->first();
+        
             if (empty($existEmployee->id)) {
                 $input['extData']['employee_id'] = $empId;
                 $input['extData']['extension_no'] = $extNo;
@@ -204,14 +206,14 @@ class ExtensionEmployeeController extends Controller {
                     $result = ["success" => true, "records" => $createExtension, "flag" => 'create'];
                 }
             } else {
-                $input['extData']['employee_id'] = $existEmployee->employee_id;
+                $input['extData']['employee_id'] = $empId;
                 $input['extData']['extension_no'] = $extNo;
 
                 $input['extData']['client_id'] = config('global.client_id');
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $input['extensionData'] = array_merge($input['extData'], $update);
 
-                $updateExtension = CtEmployeesExtension::where('employee_id', $existEmployee->employee_id)->update($input['extensionData']);
+                $updateExtension = CtEmployeesExtension::where('employee_id', $empId)->update($input['extensionData']);
                 $CtEmployeesExtensionsLog = CtEmployeesExtensionsLog::create($input['extensionData']);
                 $input['customerData']['main_record_id'] = $existEmployee->id;
                 $input['customerData']['record_type'] = 2;
