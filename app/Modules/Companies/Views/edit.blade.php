@@ -10,7 +10,7 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Edit Company Information</span>
+                <span class="widget-caption">Edit Company Details</span>
             </div>
             <div class="widget-body">
 
@@ -24,7 +24,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.legal_name.$dirty && companysForm.legal_name.$invalid) }">
                                         <label>Legal name<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="CompanyData.legal_name" name="legal_name"  ng-change="errorMsg = null" >
+                                            <input type="text" class="form-control" ng-model="CompanyData.legal_name" name="legal_name"  ng-change="errorMsg = null" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.legal_name.$error">
                                                 <div ng-message="required" class="sp-err">Legal name is required</div>
                                                 <div ng-if="errorMsg">{{errorMsg}}</div>
@@ -35,10 +35,10 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-xs-12 ">
-                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.punch_line.$dirty && companysForm.legal_name.$invalid) }">
+                                    <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.punch_line.$dirty && companysForm.legal_name.$invalid) }" >
                                         <label>Punch line<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <input type="text" class="form-control" ng-model="CompanyData.punch_line" name="punch_line"  required>
+                                            <input type="text" class="form-control" ng-model="CompanyData.punch_line" name="punch_line"  required capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.punch_line.$error">
                                                 <div ng-message="required" class="sp-err">Punch Line is required</div>
                                             </div>
@@ -127,7 +127,7 @@
                                     <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!companysForm.office_address.$dirty && companysForm.office_address.$invalid) }">   
                                         <label> Main Office Address<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
-                                            <textarea ng-model="CompanyData.office_address" required name="office_address" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
+                                            <textarea ng-model="CompanyData.office_address" required name="office_address" class="form-control ng-pristine ng-valid capitalize ng-valid-maxlength ng-touched" required></textarea>
                                             <div class="help-block" ng-show="sbtBtn" ng-messages="companysForm.office_address.$error">
                                                 <div ng-message="required" class="sp-err">Main Office Address is required</div>
                                             </div>

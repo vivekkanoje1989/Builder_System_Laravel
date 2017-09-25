@@ -44,7 +44,7 @@ app.controller('emailconfigCtrl', ['$scope', 'Data', '$rootScope', '$timeout', '
     
     $scope.manageEmailConfig = function (id)
     {
-        $scope.pageHeading = "Edit Email Account";
+        $scope.pageHeading = "Edit Email Account Configuration";
         Data.post('email-config/manageEmails', {id: id}).then(function (response) {
             if (id === 'index'){ // index
                 $scope.listmails = response.records;

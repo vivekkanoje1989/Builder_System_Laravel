@@ -27,7 +27,7 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-blue">
-                <span class="widget-caption">Source Name</span>
+                <span class="widget-caption"> Manage operational settings</span>
             </div>
             <div class="widget-body no-padding">
 

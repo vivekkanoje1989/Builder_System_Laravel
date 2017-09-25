@@ -109,7 +109,7 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
                         $scope.listcustomAlertsLength = response.records.total;
                     } else if (action === 'edit') {
                         if (id !== '0') {
-                            $scope.pageHeading = 'Update Custom Template';
+                            $scope.pageHeading = 'Edit Custom Template';
                             $scope.buttonLabel = 'Update';
                             $scope.isDisabled = true;
                             $scope.customAlertData = angular.copy(response.records.data[0]);

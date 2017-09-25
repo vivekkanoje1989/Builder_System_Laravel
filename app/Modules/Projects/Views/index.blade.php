@@ -28,9 +28,6 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="manageProjectsExportToExcel()" ng-show="exportData == '1'">
-                            <span>Export</span>
-                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
@@ -140,7 +137,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="7"  ng-show="(projectRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="7"  ng-show="(projectRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
@@ -183,10 +180,15 @@
                     </div>
                 </div>
                 <div class="col-sm-12 col-xs-12">
-                    <div class="form-group">
-                        <label for="">Prooject Type</label>
+                    <div class="form-group" ng-controller="projectTypeCntrl" >
+                        <label>Project Type <span class="sp-err">*</span></label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.projectType" name="projectType" class="form-control">
+                            <select ng-model="searchDetails.projectType" name="projectType" class="form-control" >
+                                <option value="">Select type</option>
+                                <option ng-repeat="tlist in typeList" value="{{tlist.project_type}}">{{tlist.project_type}}</option>
+                            </select>
+                            <i class="fa fa-sort-desc"></i>
+
                         </span>
                     </div>
                 </div>
@@ -203,8 +205,6 @@
                         </span>
                     </div>
                 </div>
-
-
             </div>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12" >

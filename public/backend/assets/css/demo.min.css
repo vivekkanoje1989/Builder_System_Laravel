@@ -62,6 +62,7 @@
 .tableHeader th a{
     color:#444 !important;
     display: block;
+    text-decoration: none !important;
 }
 .tableHeader thead tr {
     background-color: #eee;
