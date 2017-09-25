@@ -13,11 +13,14 @@
         <div class="widget">
             <div class="col-lg-12 col-sm-12 col-xs-12">
                 <div class="widget flat radius-bordered">
+                    <div class="widget-header bordered-bottom bordered-themeprimary">
+                        <span class="widget-caption">Update Testimonial</span>
+                    </div>
                     <div class="widget-body">
                         <div id="registration-form">
                             <form novalidate ng-submit="testimonialsForm.$valid && doTestimonialsAction(testimonial.photo_url, testimonial)" name="testimonialsForm"  enctype="multipart/form-data" ng-init="getTestimonialData('<?php echo $testimonialId; ?>')">
                                 <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
-                                <div class="form-title">Testimonials</div>
+                                <div class=""></div>
                                 <input type="hidden" class="form-control" ng-model="testimonial.testimonial_id" name="testimonial_id"  >
                                 <div class="row">
                                     <div class="col-sm-3 col-xs-12 ">
@@ -129,20 +132,11 @@
                                         </div>
                                     </div>
                                 </div>   
-<!--                                <div class="row">
-                                    <div class="col-sm-3 col-xs-6">
-                                        <div ng-if="!photo_url_preview && !photo_url_err" class="img-div2" data-title="name">    
-                                            <img ng-src="[[ Session::get('s3Path') ]]/Testimonial/{{photo_url}}" class="thumb photoPreview">
-                                        </div>
-                                        <div ng-if="!photo_url_err"class="img-div2" data-title="name" ng-repeat="list in photo_url_preview"> 
-                                            <img ng-src="{{list}}" class="thumb photoPreview">
-                                        </div>
-                                    </div>
-                                </div><br>-->
+                             
                                 <div class="row">
                                     <div class="col-sm-12 col-xs-12 " align="right">
                                         <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true">Update</button>
-                                         <a href="[[ config('global.backendUrl') ]]#/testimonials/manage" class="btn btn-primary">Cancel</a>
+                            <a href="[[ config('global.backendUrl') ]]#/testimonials/index" class="btn btn-primary">Cancel</a>
                                     </div>
                                 </div>
                             </form>

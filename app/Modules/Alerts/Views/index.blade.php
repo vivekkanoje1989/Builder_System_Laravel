@@ -20,7 +20,7 @@
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
             <div class="widget-header  bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Templates Settings</span>
+                <span class="widget-caption">Template Settings</span>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">

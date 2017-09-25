@@ -30,7 +30,7 @@
                 <div class="row table-toolbar">
                     <a data-toggle="modal" id="editabledatatable_new" data-target="#themesModal" ng-click="initialModal(0, '', '')" class="btn btn-default">Create Themes</a>
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href="" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -112,8 +112,7 @@
                     </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
-                            <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listUsersLength }} entries</div>-->
-                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
+                           <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                         </div>
                         <div class="col-sm-6">
                             <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">

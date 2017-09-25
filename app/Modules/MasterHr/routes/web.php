@@ -37,6 +37,7 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['auth:admin'], 'name
     Route::post('/master-hr/createUserRole', 'MasterHrController@createUserRole'); //create user role
     Route::post('/master-hr/updateUserRole', 'MasterHrController@updateUserRole'); //update user role
     Route::post('/master-hr/bulkreasignemployee', 'MasterHrController@bulkreasignemployee');
+    Route::post('/master-hr/BulkReasignEmployeeFromList', 'MasterHrController@BulkReasignEmployeeFromList');
     Route::post('/master-hr/getsalesEmployees', 'MasterHrController@getsalesEmployees');
     Route::post('/master-hr/getEnquiriesCnt', 'MasterHrController@getEnquiriesCnt');
     Route::post('/master-hr/getpresalesEmployees', 'MasterHrController@getpresalesEmployees');

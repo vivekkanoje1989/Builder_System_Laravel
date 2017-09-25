@@ -17,7 +17,7 @@
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="alertsController">
             <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>-->
             <div class="widget-header">
-                <span class="widget-caption">Edit Template Setting</span>
+                <span class="widget-caption">Edit Template</span>
             </div>
             <div class="widget-body bordered-top bordered-sky col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
@@ -45,12 +45,6 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="">Template Category</label>
-
-
-                                            <!--select ng-model="alertData.template_category" name="template_category" class="form-control" required disabled>
-                                                <option ng-if="alertData.template_category===0" value="0" ng-selected="true" >Default</option>
-                                                <option ng-if="alertData.template_category===1" value="1" ng-selected = "true">Default/Custom</option>
-                                            </select-->
 
                                             <div class="form-group" ng-if="alertData.template_category === 1">   
                                                 <div>

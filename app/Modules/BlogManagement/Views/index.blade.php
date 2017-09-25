@@ -20,7 +20,6 @@
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
-                    <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
                     <a title="Create blog" class="btn btn-default " href="[[ config('global.backendUrl') ]]#/blog/create" id="editabledatatable_new">Create Blog</a>
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href="" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</a>
@@ -28,15 +27,12 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Execl" ng-click="blogManagementExportToxls()" ng-show="exportData == '1'">
-                            <span>Export</span>
-                        </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
+                            <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href="" ng-click="blogManagementExportToxls()" ng-show="exportData == '1'">Export</a>
                                 </li>
                             </ul>
                         </a>

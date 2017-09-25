@@ -28,7 +28,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_locations.$dirty && jobPosting.job_locations.$invalid) }">
                                 <label>Job Location <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" class="form-control" ng-model="career.job_locations" name="job_locations" capitalizeFirst required  oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
+                                    <input type="text" class="form-control" ng-model="career.job_locations" name="job_locations" capitalizeFirst required  >
                                     <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_locations.$error">
                                         <div ng-message="required">Job location is required</div>
                                     </div>

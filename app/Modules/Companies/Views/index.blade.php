@@ -16,7 +16,7 @@
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Companies</span>                
+                <span class="widget-caption">Manage Company</span>                
             </div>
             <div class="widget-body table-responsive">
 
@@ -104,9 +104,7 @@
                                 <td>{{list.legal_name}}</td> 
                                 <td class="">
                                     <span class="" tooltip-html-unsafe="Edit Information" data-toggle="modal" data-target="#companyModal"><a href="[[ config('global.backendUrl') ]]#/companies/edit/{{list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-<!--                                    <span  ng-show="deleteBtn == '1'" id="dialog" class="" tooltip-html-unsafe="Delete"  confirmed-click="deleteCompany({{list.id}},{{$index}})" 
-    ng-confirm-click="Sure you want to delete {{list.legal_name}} company "><a href="" class="btn-danger btn-xs "><i class="fa fa-trash-o"></i>Delete</a></span>
-                                </td>-->
+                            
                                     <span  ng-show="deleteBtn == '1'" id="dialog" class="" tooltip-html-unsafe="Delete"  ng-click="confirm({{list.id}},{{$index}})" ><a href="" class="btn-danger btn-xs "><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
 

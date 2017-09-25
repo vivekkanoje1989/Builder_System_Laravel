@@ -1,4 +1,4 @@
-app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster','SweetAlert', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster,SweetAlert) {
+app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster', 'SweetAlert', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster, SweetAlert) {
         $scope.pageHeading = 'Create User';
         $scope.buttonLabel = 'Create';
         $scope.userData = {};
@@ -1015,10 +1015,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         }
-        
+
 //       Archana Employee suspended from listing 
-        $scope.employeeSuspend = function (emp_id, index) {
+        $scope.employeeSuspend = function (emp_id, index, items,pageNo) {
+
             $scope.suspendId = emp_id;
+            $scope.indexing = index;
             Data.post('/master-hr/getEnquiriesCnt', {
                 empId: emp_id,
             }).then(function (response) {
@@ -1042,6 +1044,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                                     Data.post('/master-hr/suspendEmployee', {
                                         empId: emp_id
                                     }).then(function (response) {
+//                                        var index = items * (pageNo - 1) +  $scope.indexing + 1;
+//                                            alert(index);
+//                                        alert('#suspend'+index);
+//                                        $('#suspend'+index).remove();
+
                                         $scope.listUsers.splice(index, 1);
                                     });
                                     SweetAlert.swal("Deleted!");
@@ -1095,6 +1102,24 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     toaster.pop('success', 'Bulk Reassign', response.message);
                     $('#BulkModal').modal('toggle');
 
+                    $(".modal-backdrop").hide();
+                }
+            });
+
+        }
+        $scope.BulkReasignEmployeeFromList = function (bulkData, employee_id) {
+            Data.post('/master-hr/BulkReasignEmployeeFromList', {
+                bulkData: bulkData, employee_id: employee_id
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                    toaster.pop('error', 'Bulk Reassign', "Something went wrong...");
+                } else {
+                    $scope.reassigned = true;
+                    toaster.pop('success', 'Bulk Reassign', response.message);
+                    $('#BulkModal').modal('toggle');
+//                    $('suspend'+employee_id).remove();
+                    $scope.listUsers.splice($scope.indexing, 1);
                     $(".modal-backdrop").hide();
                 }
             });
