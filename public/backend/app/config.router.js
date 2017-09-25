@@ -930,6 +930,36 @@ angular.module('app')
                                                 ]
                                     }
                                 })
+                                .state('smsConsumptionlogs', {
+                                    url: '/bmsConsumption/smsLogs',
+                                    templateUrl: '/bmsConsumption/smsLogs',
+                                    requiredLogin: true,
+                                    ncyBreadcrumb: {
+                                        label: 'BMS / BMS Consumption / Sms Consumption',
+                                        title: 'Sms Logs',
+                                    },
+                                    resolve: {
+                                        deps:
+                                                [
+                                                    '$ocLazyLoad',
+                                                    function ($ocLazyLoad) {
+                                                        return $ocLazyLoad.load('toaster').then(
+                                                                function () {
+                                                                    return $ocLazyLoad.load({
+                                                                        serie: true,
+                                                                        files: [
+                                                                            '/backend/smsConsumptionController.js',
+                                                                            '/backend/app/controllers/datepicker.js',
+                                                                            '/backend/app/controllers/select.js',
+                                                                        ]
+                                                                    }
+                                                                    );
+                                                                }
+                                                        );
+                                                    }
+                                                ]
+                                    }
+                                })
 
                                 .state('smsDetails', {
                                     url: '/bmsConsumption/smsLogDetails/:transactionId',

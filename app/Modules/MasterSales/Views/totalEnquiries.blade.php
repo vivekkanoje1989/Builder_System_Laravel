@@ -202,7 +202,7 @@
                                 <b>Category : </b>  
                                 {{ enquiry_sales_subcategory | limitTo : 45 }}
                                 <span ng-if="enquiry_sales_subcategory_length > 45" data-toggle="tooltip" title="{{enquiry_sales_subcategory}}">...</span>
-                                <hr class="enq-hr-line">
+                                
                             </span>
                         </div>
                         <div>                                   
@@ -240,11 +240,10 @@
                                  <hr class="enq-hr-line">
                             </span>-->
                         </div>                                
-                        <hr class="enq-hr-line">
-                        <div>
-                            <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initHistoryDataModal({{ enquiry.id}})"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
-                        </div>
-
+                            <hr class="enq-hr-line">
+                            <div>
+                                <a href data-toggle="modal" data-target="#historyDataModal" ng-click="initerrorflag = false;initHistoryDataModal({{ enquiry.id}},{{initmoduelswisehisory}},1)"><i class="fa fa-external-link" aria-hidden="true"></i>&nbsp;View History</a>
+                            </div>
                     </td>
                     <td width="20%">
                         <div><b>Followup due : </b>{{ enquiry.next_followup_date}} @ {{ enquiry.next_followup_time}}</div>                            

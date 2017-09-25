@@ -35,10 +35,8 @@ use App\Modules\Projects\Models\ProjectWebPage;
 use App\Models\SendDocumentHistory;
 
 class MasterSalesController extends Controller {
-
     public static $procname;
     public $allusers;
-
     /**
      * Display a listing of the resource.
      *
@@ -63,7 +61,6 @@ class MasterSalesController extends Controller {
 
     /**
      * Store a newly created resource in storage.
-     *
      * @return Response
      */
     public function store() {
@@ -1414,11 +1411,11 @@ Regards,<br>
 
 
             $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
-            $loggedInUserId = '1,2,3,4';
+            
             $getTotalEnquiryDetails = DB::select('CALL proc_reassign_enquiries("' . $loggedInUserId . '","","","","","0000-00-00","0000-00-00","","","","","","","","","","","",0,0,0,' . $startFrom . ',' . $request['itemPerPage'] . ')');
             $cnt = DB::select('select FOUND_ROWS() as totalCount');
             $getTotalEnquiryDetails = json_decode(json_encode($getTotalEnquiryDetails), true);
-            if (count($getTotalEnquiryDetails) != 0) {
+            if (count($getTotalEnquiryDetails) > 0) {
                 $result = ['success' => true, 'records' => $getTotalEnquiryDetails, 'totalCount' => $cnt[0]->totalCount];
             } else {
                 $result = ['success' => false, 'records' => 'No Records Found'];
@@ -2967,7 +2964,7 @@ Regards,<br>
                 $arr = explode('@', $val);
                 $doc[$arr[0]] = $arr[1];
             }
-            //
+            
             if (!empty($doc['floor_plan_images'])) {
                 $doc['floor_plan_images'] = json_decode($doc['floor_plan_images'], true);
             }
@@ -3041,8 +3038,9 @@ Regards,<br>
                 $amenities,
                 $videoLink,
             );
-            // $Templateresult = CommonFunctions::templateData($templatedata);
-            //print_r($Templateresult);exit;
+            //print_r($templatedata);exit;
+            $Templateresult = CommonFunctions::templateData($templatedata);exit;
+            //
             // insert into send document history
             $insertDocument['send_documents'] = json_encode($doc);
             $insertDocument['send_by'] = $loggedInUserId;

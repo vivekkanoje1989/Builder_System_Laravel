@@ -2,6 +2,33 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+<<<<<<< HEAD
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Controllers/MasterSalesController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterSales/Views/pendingFollowup.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/index.blade.php</file>
+=======
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/MenuItems.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/webpage.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/basicinfo.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/edit.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/hrController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/create.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/manageroles.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Controllers/MasterHrController.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/MasterHr/Views/updatehr.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/DashBoard/Views/myrequest.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Projects/Views/webpagedetails.blade.php</file>
+>>>>>>> d6b4453340fb02d3a8b0a2a512552ba154c9ac9b
+        </group>
+>>>>>>> 0cd831ebac0fb38519775ccba7c9cc17615d9ac5
     </open-files>
 </project-private>

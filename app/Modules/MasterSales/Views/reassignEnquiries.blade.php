@@ -12,9 +12,8 @@
         margin-right: 5px;
     }
 </style>
-
 <?php $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true); ?>
-<div class="row" ng-controller="enquiryController" ng-init="reassignEnquiries('', [[ $type ]], 1, [[config('global.recordsPerPage')]], '', ''); getEnquirySheredWith()" >
+<div class="row" ng-controller="enquiryController" ng-init="reassignEnquiries('', [[ $type ]], 1, [[config('global.recordsPerPage')]], 6,'', ''); getEnquirySheredWith()" >
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
             <div class="widget-header ">
@@ -31,8 +30,8 @@
                                 <button type="button"  class="btn btn-primary"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();">Bulk Reassign</button>
                             </div>
                         <?php } ?>
-                        <div class="col-sm-3 center">
-                            <button type="button" class="btn btn-primary toggleForm"  data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_reassign_enquiries')">
+                        <div class="col-sm-2 center">
+                            <button type="button" class="btn btn-primary toggleForm"  data-toggle="modal" data-target="#showFilterModal" ng-click="procName('proc_reassign_enquiries', '', sharedemployee, presalesemployee)">
                                 <i class="btn-label fa fa-filter"></i>Show Filter</button>
                         </div>
                         <div class="col-sm-4 col-xs-6" >
@@ -57,20 +56,22 @@
                 </div> 
                 <hr>
                 <div class="row col-sm-12 col-xs-12" style="border:2px;" id="filter-show">
-                    <div class="col-sm-2 alert alert-info fade in"  ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
+                    <b ng-repeat="(key, value) in showFilterData" ng-if="value != 0 && key != 'toDate' ">
+                    <div class="col-sm-2 alert alert-info fade in">
                        <button class="toggleForm close" ng-click=" removeDataFromFilter('{{ key }}');" data-dismiss="alert"> ×</button>
-                       <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'model_id' || key === 'status_id'">{{  value.substring(value.indexOf("_")+1) }}</strong>
+                       <strong ng-if="key === 'category_id' || key === 'source_id' || key === 'status_id'">{{  value.substring(value.indexOf("_")+1) }}</strong>
                        <strong ng-if="key === 'employee_id' " ng-repeat='emp in value track by $index'>{{ $index +1 }}) {{   emp.first_name  }}  {{ emp.last_name }} </strong>
                        <strong ng-if="key === 'subcategory_id' " ng-repeat='subcat in value track by $index'>{{ $index +1 }}) {{   subcat.enquiry_sales_subcategory  }}  </strong>
                        <strong ng-if="key === 'substatus_id' " ng-repeat='substatus in value track by $index'> {{ $index +1 }}){{ substatus.enquiry_sales_substatus }} </strong>
                        <strong ng-if="key === 'subsource_id' " ng-repeat='subsource in value track by $index'>{{ $index +1 }}) {{ subsource.enquiry_subsource }} </strong>
-                       <strong ng-if="key === 'test_drive_given' && value == 1 " data-toggle="tooltip" title="Test Drive"> <strong>Test Drive Given:</strong>Yes</strong>
                        <strong ng-if="key === 'verifiedEmailId' && value == 1 "> <strong>Verified Email ID:</strong>Yes</strong>
                        <strong ng-if="key === 'verifiedMobNo' && value == 1  " data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile No:</strong>Yes</strong>
                        <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
                        <strong ng-if="key != 'status_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'model_id' && key != 'test_drive_given' && key != 'employee_id' " data-toggle="tooltip" title="{{ key }}"> {{ value}}</strong>
                    </div>   
+                   </b>
                </div>
+
                 <br>     
                 <table class="table table-hover table-striped table-bordered" at-config="config" ng-if="enquiriesLength">
                     <thead>
@@ -258,7 +259,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <hr>
+                
                 <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'reassignEnquiries','',[[ $type ]], newPageNumber,listType, sharedemployee, presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
                 <div ng-if="enquiriesLength == 0">
                     <div>
@@ -311,8 +312,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>            
         </div>
     </div>
-    <div data-ng-include="'/MasterSales/showFilter'"></div>
+     <div data-ng-include="'/MasterSales/showFilter'"></div>
 </div>

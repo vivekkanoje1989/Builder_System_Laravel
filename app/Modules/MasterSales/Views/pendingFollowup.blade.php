@@ -18,7 +18,103 @@
             <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">{{pagetitle}}</span>                
             </div>
-            <div class="widget-body table-responsive">               
+            <div class="widget-body table-responsive">                
+                <div class="row table-toolbar">
+                    <div class="row col-sm-2">
+                        <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-default"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >Reassign</button>
+                    </div>                                      
+                    <div class="col-sm-4">
+                        
+                    </div>                    
+                    <div class="col-sm-4">
+                        
+                    </div>                    
+                    <div class="btn-group pull-right filterBtn">
+                        <a class="btn btn-default toggleForm" ng-click="procName('proc_get_pending_followups', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                    </div>
+                </div>
+                
+                <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                    <div class="DTTT btn-group">
+                        <!--<span ng-if="enquiriesLength != 0" style="float: left;"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>-->                        
+                        <span class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                            <span>Actions</span>
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu dropdown-default">
+<!--                                <li ng-if="enquiriesLength != 0">
+                                   
+                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
+                                        <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
+                                </li>
+                                <li><a href id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-left: 5px;">
+                                        <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
+                                    </a> 
+                                </li>
+                                <li>
+                                    <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >Reassign</button>
+                                </li>-->
+<li>uma</li>
+
+                            </ul>
+                        </span>
+                    </div>
+                    
+                    <div  class="dataTables_filter">                        
+                        <label>
+                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                        </label>
+                        <label style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="pendingsFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>
+                    </div>
+                    <!-- filter data--> 
+                     <div class="row col-sm-12" style="border:2px;" id="filter-show">
+                    <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
+                        <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}" ng-if="value != ''">
+                            <div class="alert alert-info fade in">
+                                <button class="close" ng-click=" removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
+                                <strong ng-if="key === 'channel_id' || key === 'city_id' || key === 'category_id' || key === 'source_id' || key == 'status_id'"><strong>{{  key.substring(0, key.indexOf('_'))}} :</strong>{{  value.substring(value.indexOf("_") + 1)}}</strong>
+                                <strong ng-if="key === 'employee_id'" ng-repeat='emp in value track by $index'> {{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}} </strong>
+                                <strong ng-if="key === 'subcategory_id'" ng-repeat='subcat in value track by $index'> {{ $index + 1}}){{   subcat.enquiry_sales_subcategory}}</strong>
+                                <strong ng-if="key === 'subsource_id'" ng-repeat='subsource in value track by $index'> {{ $index + 1}}){{ subsource.sub_source}} </strong>
+                                <strong ng-if="key === 'substatus_id'" ng-repeat='substatus in value track by $index'>{{ $index + 1}}) {{ substatus.enquiry_sales_substatus}} </strong>
+                                <strong ng-if="key === 'enquiry_locations'" ng-repeat='loc in value track by $index'>{{ $index + 1}}) {{ loc.location}} </strong>
+                                <strong ng-if="key === 'project_id'" ng-repeat='project in value track by $index'>{{ $index + 1}}) {{ project.project_name}}</strong>
+                                <strong ng-if="key === 'verifiedEmailId'"> <strong>Verified Email ID:</strong>Yes</strong>
+                                <strong ng-if="key === 'verifiedMobNo'" data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile:</strong>Yes</strong>
+                                <strong ng-if="key === 'site_visited'" data-toggle="tooltip" title="Site Visited"> <strong ng-if="value == 1">Site Visit:Yes</strong>
+                                    <strong ng-if="value == 0">Site Visit:No</strong>
+                                </strong>
+                                <strong ng-if="key === 'loan_required'" data-toggle="tooltip" title="Loan Required"> <strong ng-if="value == 1">Loan Required:Yes</strong>
+                                    <strong ng-if="value == 0">Loan Required:No</strong>
+                                </strong>
+                                <strong ng-if="key === 'parking_required'" data-toggle="tooltip" title="Parking Required"> <strong ng-if="value == 1">Parking Required:Yes</strong>
+                                    <strong ng-if="value == 0">Parking Required:No</strong>
+                                </strong>
+                                <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
+                                <!--<strong ng-if="key != 'channel_id' && key != 'city_id' && key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>-->
+                                <strong ng-if="key == 'max_budget' || key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key}}">{{ value}}</strong>
+                            </div>
+                        </div>
+                    </b>
+                </div> 
+                    <!-- filter data-->
+                    <div class="dataTables_length" >
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                                <option value="30">30</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
+                            </select>
+                        </label>
+                    </div>                    
+<!--                
                 <div class="row"> 
                     <div class="col-sm-2 col-xs-12">
                         <div class="form-group">
@@ -82,14 +178,14 @@
                                     <strong ng-if="value == 0">Parking Required:No</strong>
                                 </strong>
                                 <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                                <!--<strong ng-if="key != 'channel_id' && key != 'city_id' && key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>-->
+                                <strong ng-if="key != 'channel_id' && key != 'city_id' && key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
                                 <strong ng-if="key == 'max_budget' || key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key}}">{{ value}}</strong>
                             </div>
                         </div>
                     </b>
                 </div> 
-                <br>               
-                <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">
+                <br>               -->
+                <table class="table table-hover table-striped table-bordered tableHeader" ng-if="enquiriesLength">
                     <thead>                        
                         <tr>
                             <th class="enq-table-th">SR / 
@@ -265,6 +361,7 @@
                     <div>
                         <center><b>No Enquiries Found</b></center>
                     </div>
+                </div>
                 </div>
             </div>
             <!-- Today history model =============================================================================-->

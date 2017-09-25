@@ -20,26 +20,27 @@
 </style>
 <div class="row" ng-controller="smsController" ng-init="smsLogsLists([[$loggedInUserId]], 1, [[config('global.recordsPerPage')]])">
     <div class="col-xs-12 col-md-12 mainDiv">
-        <div class="widget">
+       <div class="widget flat radius-bordered">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">SMS Logs</span>                
+            </div>
             <div class="widget-body table-responsive">
-
                 <div class="row table-toolbar">
-                    <!--<a href="" data-toggle="modal" data-target="#designations" ng-click="initialModal(0, '', '')" class="btn btn-default">Create Designations</a>-->
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href="" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="smsLogsExportToxls()" ng-show="exportSmsLogsData == '1'">
+<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="smsLogsExportToxls()" ng-show="exportSmsLogsData == '1'">
                             <span>Export</span>
-                        </a>
+                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
+                            <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href="" ng-click="smsLogsExportToxls()" ng-show="exportSmsLogsData == '1'">Export</a>
                                 </li>
 
                             </ul>
