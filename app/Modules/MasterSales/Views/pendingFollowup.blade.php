@@ -35,35 +35,40 @@
                 </div>
                 
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+<!--                    <div>
+                    <span ng-if="enquiriesLength != 0" style="float: left;"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
+                    </div>-->
                     <div class="DTTT btn-group">
-                        <!--<span ng-if="enquiriesLength != 0" style="float: left;"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>-->                        
-                        <span class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                                               
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
-<!--                                <li ng-if="enquiriesLength != 0">
+                                <li ng-if="enquiriesLength != 0">
                                    
-                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
+                                    <a href=""  id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" >
                                         <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
                                 </li>
-                                <li><a href id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-left: 5px;">
+                                <li><a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
                                         <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
                                     </a> 
                                 </li>
                                 <li>
                                     <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >Reassign</button>
-                                </li>-->
-<li>uma</li>
+                                </li>
+
 
                             </ul>
-                        </span>
+                        </a>
                     </div>
+ 
                     
                     <div  class="dataTables_filter">                        
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
                         <label style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="pendingsFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>
+                    
                     </div>
                     <!-- filter data--> 
                      <div class="row col-sm-12" style="border:2px;" id="filter-show">
@@ -97,6 +102,9 @@
                     </b>
                 </div> 
                     <!-- filter data-->
+                      <div>
+                    <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
+                    </div>
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
