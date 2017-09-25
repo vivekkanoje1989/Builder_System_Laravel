@@ -18,7 +18,7 @@
     <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="hrController" >
         <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>New User</h5>-->
         <div class="widget-header bordered-bottom bordered-themeprimary ">
-                <span class="widget-caption">New User</span>
+                <span class="widget-caption">Add New User</span>
             </div>
         <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
             <ul class="steps">

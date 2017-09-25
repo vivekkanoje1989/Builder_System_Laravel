@@ -38,4 +38,6 @@ Route::group(array('module' => 'Reports', 'middleware' => ['api'], 'namespace' =
     Route::post('api/reports/TeamLeadProjectStatusReport', 'ReportsController@TeamLeadProjectStatusReport');
     Route::post('api/reports/TeamLeadProjectSourceReport', 'ReportsController@TeamLeadProjectSourceReport');
 
+    Route::post('api/reports/subSourceReport', 'ReportsController@subSourceReport');
+    Route::post('api/reports/subStatusReport', 'ReportsController@subStatusReport');
 });

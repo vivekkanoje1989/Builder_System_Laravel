@@ -305,7 +305,7 @@ class MenuItems {
                                     2 => array('id' => '09010102', 'name' => 'Followup Report', 'icon' => '', 'url' => '/reports/followupReport', 'slug' => 'followupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                     3 => array('id' => '09010103', 'name' => 'Project Wise Report', 'icon' => '', 'url' => '/reports/projectwiseReport', 'slug' => 'projectwiseReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                            2 => array('id' => '090102', 'name' => 'Team Report', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
+                            2 => array('id' => '090102', 'name' => 'Team`s Report', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                                 'submenu_ids' => '09010201,09010202,09010203', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '09010201', 'name' => 'Enquiry Report', 'icon' => '', 'url' => '/reports/teamEnquiryReport', 'slug' => 'teamenquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                     2 => array('id' => '09010202', 'name' => 'Followup Report', 'icon' => '', 'url' => '/reports/teamFollowupReport', 'slug' => 'teamfollowupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -329,10 +329,10 @@ class MenuItems {
                 )),
             11 => array('name' => 'Cloud Telephony', 'icon' => 'cloud-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'cloud-telephony', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '01101,01102,01103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '01101', 'name' => 'Manage Virtual Numbers', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
+                    1 => array('id' => '01101', 'name' => 'Virtual Numbers', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                         'submenu_ids' => '0110101,0110102,0110103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '0110101', 'name' => 'Virtual Numbers', 'icon' => '', 'micon' => 'img/virtualNumber.png', 'url' => '/virtualnumber/index', 'slug' => 'virtualnumberslist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '0110102', 'name' => 'Manage Templates', 'icon' => '', 'micon' => 'img/manageTemplates.png', 'url' => '/extensionemployee/index', 'slug' => 'extensionemplist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '0110101', 'name' => 'Manage Virtual Numbers', 'icon' => '', 'micon' => 'img/virtualNumber.png', 'url' => '/virtualnumber/index', 'slug' => 'virtualnumberslist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '0110102', 'name' => 'Manage Extensions', 'icon' => '', 'micon' => 'img/manageTemplates.png', 'url' => '/extensionemployee/index', 'slug' => 'extensionemplist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             3 => array('id' => '0110103', 'name' => 'Out-bound Call Log', 'icon' => '', 'micon' => 'img/outBoundCall.png', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '01102', 'name' => 'Call Logs', 'icon' => '', 'micon' => 'img/callLog.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
@@ -344,7 +344,7 @@ class MenuItems {
                         )),
                     3 => array('id' => '01103', 'name' => 'Telephony Registration', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                         'submenu_ids' => '0110301', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '0110301', 'name' => 'Registration', 'icon' => '', 'url' => '/cloudtelephony/index', 'slug' => 'numbersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '0110301', 'name' => 'Manage', 'icon' => '', 'url' => '/cloudtelephony/index', 'slug' => 'numbersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                 )),
             12 => array('name' => 'My Storage', 'icon' => 'stor-img menu-icon-sz', 'uiSrefActive' => '', 'url' => '', 'slug' => 'my-storage', 'has_submenu' => true, 'total_submenu' => 3,
