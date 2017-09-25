@@ -2,7 +2,7 @@
     <div  class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Add Job Description</span>
+                <span class="widget-caption">Add Details</span>
             </div>
             <div class="widget-body">
                 <form  ng-submit="jobPosting.$valid && dojobPostingAction(career)" name="jobPosting"  novalidate enctype="multipart/form-data">
@@ -129,8 +129,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-xs-12" align="right">
-                            <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="createJob">Submit</button>
-                            <a href="[[ config('global.backendUrl') ]]#/job-posting/index" class="btn btn-primary">Cancel</a>
+                            <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="createJob">Add</button>
+                            <a href="[[ config('global.backendUrl') ]]#/career/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>

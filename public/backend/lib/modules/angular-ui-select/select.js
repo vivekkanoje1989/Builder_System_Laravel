@@ -636,7 +636,7 @@ uis.controller('uiSelectCtrl',
   ctrl.sizeSearchInput = function(){
     var input = _searchInput[0],
         container = _searchInput.parent().parent()[0];
-    _searchInput.css('width','10px');
+    _searchInput.css('width','100%');
     var calculate = function(){
       var newWidth = container.clientWidth - input.offsetLeft - 10;
       if(newWidth < 50) newWidth = container.clientWidth;
