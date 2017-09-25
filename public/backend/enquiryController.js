@@ -97,19 +97,14 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
             });
         }
         $scope.exportReport = function (result) {
-            console.log(result);
+            
             Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.report_name.replace(/ /g, "_")}).then(function (response) {
                 $("#downloadExcel").attr("href", response.fileUrl);
-                
+            
+                window.location.href = response.fileUrl;
                 $scope.sheetName = response.sheetName;
                 $scope.btnExport = false;
                 $scope.dnExcelSheet = true;
-                //$timeout(function(){
-                //angular.element('#downloadExcel').siblings('#exportExcel').trigger('click');
-                //window.open($('#downloadExcel').attr('href'),"_blank");
-//                  angular.element('#downloadExcel').trigger('click');
-
-                // },500);
             });
         }
         /****************************ENQUIRIES****************************/

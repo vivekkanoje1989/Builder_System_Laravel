@@ -19,52 +19,8 @@
                 <span class="widget-caption">Manage Career</span>                
             </div>
             <div class="widget-body table-responsive">
-                <!--                <div class="row">
-                                    <div class="col-md-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Search:</label>
-                                            <span class="input-icon icon-right">
-                                                <input type="text" ng-model="search" name="search" class="form-control">
-                                                <i class="fa fa-search" aria-hidden="true"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3 col-xs-12">
-                                        <div class="form-group">
-                                            <label for="search">Records per page:</label>
-                                            <input type="text" minlength="1" maxlength="3" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:30%;" class="form-control" ng-model="itemsPerPage">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-xs-12">
-                                        <div class="form-group">
-                                            <label for=""></label>
-                                            <span class="input-icon icon-right">
-                                                <a href="[[ config('global.backendUrl') ]]#/job-posting/create" class="btn btn-primary btn-right">Post Job</a>
-                                           <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>        
-                                  filter data
-                                <div class="row" style="border:2px;" id="filter-show">
-                                    <div class="col-sm-12 col-xs-12">
-                                        <b ng-repeat="(key, value) in searchData" ng-if="value != 0">
-                                            <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
-                                                <div class="alert alert-info fade in">
-                                                    <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
-                                                    <strong ng-if="key === 'first_name'" data-toggle="tooltip" title="First Name"><strong> First Name: </strong> {{ value}}</strong>
-                                                    <strong ng-if="key === 'last_name'" data-toggle="tooltip" title="Last Name"><strong> Last Name : </strong> {{ value}}</strong>
-                                                    <strong ng-if="key === 'mobile_number'" data-toggle="tooltip" title="Mobile Number"><strong> Mobile Number : </strong> {{ value}}</strong>
-                                                    <strong ng-if="key === 'email_id'" data-toggle="tooltip" title=" Email Id"><strong> Email Id : </strong> {{ value}}</strong>
-                                                </div>
-                                            </div>
-                                        </b>                        
-                                    </div>
-                                </div>-->
-                <!-- filter data-->
-
                 <div class="row table-toolbar">
-                    <a href="[[ config('global.backendUrl') ]]#/job-posting/create" class="btn btn-default">Post Job</a>
+                    <a href="[[ config('global.backendUrl') ]]#/career/create" class="btn btn-default">Add Details</a>
                     <div class="btn-group pull-right">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>

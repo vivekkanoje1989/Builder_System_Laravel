@@ -2,7 +2,7 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Edit Job Description</span>
+                <span class="widget-caption">Edit Details</span>
             </div>
             <div class="widget-body">
                 <form  ng-submit="jobPosting.$valid && dojobPostingAction(career)" name="jobPosting"  novalidate enctype="multipart/form-data">
@@ -99,19 +99,6 @@
                         </div>
 
                         <div class="col-sm-3 col-xs-12 ">
-                            <!--                            <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.application_close_date.$dirty || jobPosting.application_close_date.$invalid)}">
-                                                            <label>Application end date<span class="sp-err">*</span></label>
-                                                            <p class="input-group">
-                                                                <input type="text" ng-model="career.application_close_date"  min-date="model.application_start_date" min-date="career.application_start_date" name="application_close_date" id="application_close_date" class="form-control" datepicker-popup="{{format}}" is-open="opened"  max-date=maxDate datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
-                                                                <span class="input-group-btn">
-                                                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                                                </span>
-                                                            </p>
-                                                            <div  class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.application_close_date.$error">
-                                                                <div ng-message="required" class="sp-err">Application closing date is required.</div>
-                                                            </div>
-                                                            <div ng-if="application_close_date" class="sp-err application_close_date">{{application_close_date}}</div>
-                                                        </div>-->
                             <div ng-controller="DatepickerDemoCtrl" class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.application_close_date.$dirty || jobPosting.application_close_date.$invalid)}">
                                 <label>Application End Date<span class="sp-err">*</span></label>
                                 <p class="input-group">
@@ -125,7 +112,6 @@
                                 </div>
                                 <div ng-if="application_close_date" class="sp-err application_close_date">{{application_close_date}}</div>
                             </div>
-
                         </div>
 
                         <div class="col-sm-3 col-xs-12">
@@ -145,7 +131,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-xs-12" align="right">
                             <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="editjob">Update</button>
-                            <a href="[[ config('global.backendUrl') ]]#/job-posting/index" class="btn btn-primary">Cancel</a>
+                            <a href="[[ config('global.backendUrl') ]]#/career/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>                    
                 </form>
