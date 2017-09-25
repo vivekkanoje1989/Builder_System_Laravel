@@ -4555,7 +4555,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/total/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Total Followups'
+                                        label: 'Customer Care/ Pre-Sales /My Total Followups',
+                                        title:'My Total Followups'                                        
                                     },
                                     resolve: {
                                         deps:
@@ -4590,7 +4591,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/total/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Total Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Total Followups',
+                                        title:'Team`s Total Followups'  
                                     },
                                     resolve: {
                                         deps:
@@ -4623,7 +4625,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/completed/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Completed Followups'
+                                        label: 'Customer Care/ Pre-Sales / My Completed Followups',
+                                        title:'My Completed Followups'  
                                     },
                                     resolve: {
                                         deps:
@@ -4657,7 +4660,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/completed/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Completed Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Completed Followups',
+                                        title:'Team`s Completed Followups' 
                                     },
                                     resolve: {
                                         deps:
@@ -4690,7 +4694,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/previous/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Previous Followups'
+                                        label: 'Customer Care/ Pre-Sales / My Previous Followups',
+                                        title:'My Previous Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4725,7 +4730,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/previous/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Previous Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Previous Followups',
+                                        title:'Team`s Previous Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4759,7 +4765,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/today/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Today`s Followups'
+                                        label: 'Customer Care/ Pre-Sales / My Today`s Followups',
+                                        title:'My Today`s Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4792,7 +4799,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/today/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Today`s Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Today`s Followups',
+                                        title:'Team`s Today`s Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4826,7 +4834,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/pending/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Pending Followups'
+                                        label: 'Customer Care/ Pre-Sales / My Pending Followups',
+                                        title:'My Pending Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4860,7 +4869,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/pending/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Pending Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Pending Followups',
+                                        title:'Team`s Pending Followups'
                                     },
                                     resolve: {
                                         deps:
