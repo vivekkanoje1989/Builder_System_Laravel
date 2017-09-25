@@ -110,9 +110,7 @@
         background: #ccc;
         color:#fff;
     }
-    .dropdown-menu{
-        top: -254px !important;
-    }
+  
     /*******************Company END**********************/
 
     .main-container1 {

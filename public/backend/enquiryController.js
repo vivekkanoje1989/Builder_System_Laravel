@@ -75,7 +75,6 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.clearToDate = function () {
             $scope.filterData.toDate = '';
         }
-
         $scope.pageChangeHandler = function (num) {
 
             $scope.noOfRows = num;
@@ -98,35 +97,116 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 //            });
 //        }
 
-        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init)
+
+
+ $scope.initHistoryDataModal = function (enquiry_id) {
+            var modules = [1, 2];
+            var htype = 1;
+            $(':checkbox.chk_followup_history_all').prop('checked', true);
+            $(':checkbox#chk_enquiry_history').prop('checked', true);
+            $scope.gethisotryDataModal(enquiry_id, modules, htype)
+            $timeout(function () {
+                angular.element('li#tab_enq_history_lst a').triggerHandler('click');
+            }, 100);
+        }
+
+
+ $scope.gethisotryDataModal = function (enquiry_id, modules, htype)
         {
-            if (init == 1)
-            {
-                /*using the enquiry history modal*/
-                $(':checkbox.chk_followup_history_all').prop('checked', true);
-                $(':checkbox#chk_enquiry_history').prop('checked', true);
-            }
+            /*
+             * htype =  1 for the enquiryhistory popup
+             * htype = 2 for the todayremark popup
+             * 
+             */
+
+
             Data.post('customer-care/presales/getenquiryHistory', {
-                enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
+                enquiryId: enquiry_id, moduelswisehisory: modules
             }).then(function (response) {
                 $scope.history_enquiryId = enquiry_id;
                 $scope.chk_followup_history_all = true;
                 if (response.success) {
-                    $scope.historyList = angular.copy(response.records);
-                    $timeout(function () {
-                        for (i = 0; i < $scope.historyList.length; i++) {
-                            if ($scope.historyList[i].call_recording_url != "" && $scope.historyList[i].call_recording_url != "None") {
-                                document.getElementById("recording_" + $scope.historyList[i].id).src = $scope.historyList[i].call_recording_url;
-                            }
-                        }
-                    }, 1000);
-                } else
-                {
-                    $scope.historyList = angular.copy(response.records);
 
+
+                    if (htype == 1)
+                    {
+                        $scope.historyList = angular.copy(response.records);
+                        $timeout(function () {
+                            for (i = 0; i < $scope.historyList.length; i++) {
+                                if ($scope.historyList[i].call_recording_url != "" && $scope.historyList[i].call_recording_url != "None") {
+                                    document.getElementById("recording_" + $scope.historyList[i].id).src = $scope.historyList[i].call_recording_url;
+                                }
+                            }
+                        }, 1000);
+                    } else if (htype == 2)
+                    {
+                        $scope.historyList1 = angular.copy(response.records);
+                        $timeout(function () {
+                            for (i = 0; i < $scope.historyList1.length; i++) {
+                                if ($scope.historyList1[i].call_recording_url != "" && $scope.historyList1[i].call_recording_url != "None") {
+                                    document.getElementById("recording1_" + $scope.historyList1[i].id).src = $scope.historyList1[i].call_recording_url;
+                                }
+                            }
+                        }, 1000);
+                    } else if (htype == 3)
+                    {
+                        $scope.historyList2 = angular.copy(response.records);
+                        $timeout(function () {
+                            for (i = 0; i < $scope.historyList2.length; i++) {
+                                if ($scope.historyList2[i].call_recording_url != "" && $scope.historyList2[i].call_recording_url != "None") {
+                                    document.getElementById("recording2_" + $scope.historyList2[i].id).src = $scope.historyList2[i].call_recording_url;
+                                }
+                            }
+                        }, 1000);
+                    }
+
+                } 
+                else
+                {
+                    if (htype == 1)
+                    {
+                        $scope.historyList = angular.copy(response.records);
+                    } else if (htype == 2)
+                    {
+                        $scope.historyList1 = angular.copy(response.records);
+                    } else if (htype == 3)
+                    {
+                        $scope.historyList2 = angular.copy(response.records);
+                    }
                 }
             });
         }
+
+
+//        $scope.initHistoryDataModal = function (enquiry_id, moduelswisehisory, init)
+//        {
+//            if (init == 1)
+//            {
+//                /*using the enquiry history modal*/
+//                $(':checkbox.chk_followup_history_all').prop('checked', true);
+//                $(':checkbox#chk_enquiry_history').prop('checked', true);
+//            }
+//            Data.post('customer-care/presales/getenquiryHistory', {
+//                enquiryId: enquiry_id, moduelswisehisory: moduelswisehisory
+//            }).then(function (response) {
+//                $scope.history_enquiryId = enquiry_id;
+//                $scope.chk_followup_history_all = true;
+//                if (response.success) {
+//                    $scope.historyList = angular.copy(response.records);
+//                    $timeout(function () {
+//                        for (i = 0; i < $scope.historyList.length; i++) {
+//                            if ($scope.historyList[i].call_recording_url != "" && $scope.historyList[i].call_recording_url != "None") {
+//                                document.getElementById("recording_" + $scope.historyList[i].id).src = $scope.historyList[i].call_recording_url;
+//                            }
+//                        }
+//                    }, 1000);
+//                } else
+//                {
+//                    $scope.historyList = angular.copy(response.records);
+//
+//                }
+//            });
+//        }
 
 //        $scope.getModulesWiseHistory = function (enquiry_id, opt)
 //        {
@@ -160,6 +240,44 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
 //            $scope.initHistoryDataModal(enquiry_id, moduelswisehisory, 0)
 //        }
 
+//        $scope.getModulesWiseHistory = function (enquiry_id, opt, htype)
+//        {
+//            /*
+//             * htype =  1 for the enquiryhistory popup
+//             * htype = 2 for the todayremark popup
+//             * 
+//             */
+//            var modules = new Array();
+//            if (opt == 1)
+//            {
+//                if ($('#chk_enquiry_history').is(":checked"))
+//                {
+//                    $(':checkbox.chk_followup_history_all').prop('checked', true);
+//                } else
+//                {
+//                    $(':checkbox.chk_followup_history_all').prop('checked', false);
+//                }
+//            }
+//
+//            $(".chk_followup_history_all").each(function () {
+//
+//                if ($(this).is(":checked"))
+//                {
+//                    modules.push($(this).data("id"))
+//                }
+//            });
+//
+//            if (modules.length == 2)
+//            {
+//                $(':checkbox#chk_enquiry_history').prop('checked', true);
+//            } else
+//            {
+//                $(':checkbox#chk_enquiry_history').prop('checked', false);
+//            }
+//
+//            $scope.initHistoryDataModal(enquiry_id, modules, htype)
+//        }
+                
         $scope.getModulesWiseHistory = function (enquiry_id, opt, htype)
         {
             /*
@@ -167,6 +285,7 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
              * htype = 2 for the todayremark popup
              * 
              */
+
             var modules = new Array();
             if (opt == 1)
             {
@@ -195,17 +314,18 @@ app.controller('enquiryController', ['$rootScope', '$scope', '$state', 'Data', '
                 $(':checkbox#chk_enquiry_history').prop('checked', false);
             }
 
-            $scope.initHistoryDataModal(enquiry_id, modules, htype)
+            $scope.gethisotryDataModal(enquiry_id, modules, htype)
         }
+
 
 
         $scope.exportReport = function (result) {
             console.log(result);
             Data.post('master-sales/exportToExcel', {result: result, reportName: $scope.report_name.replace(/ /g, "_")}).then(function (response) {
                 $("#downloadExcel").attr("href", response.fileUrl);
-                
+                window.location.href = response.fileUrl;
                 $scope.sheetName = response.sheetName;
-                $scope.btnExport = false;
+                //$scope.btnExport = false;
                 $scope.dnExcelSheet = true;
                 //$timeout(function(){
                 //angular.element('#downloadExcel').siblings('#exportExcel').trigger('click');

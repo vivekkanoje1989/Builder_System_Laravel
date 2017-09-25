@@ -32,38 +32,28 @@
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" ng-click="procName('proc_get_pending_followups', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
-                </div>
-                
+                </div>                
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
-                    <div class="DTTT btn-group">
-                        <!--<span ng-if="enquiriesLength != 0" style="float: left;"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>-->                        
-                        <span class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                    <div class="DTTT btn-group">                                               
+                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
-                            <ul class="dropdown-menu dropdown-default">
-<!--                                <li ng-if="enquiriesLength != 0">
-                                   
-                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
-                                        <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                                </li>
-                                <li><a href id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-left: 5px;">
-                                        <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
+                            <ul class="dropdown-menu dropdown-default">                                
+                                <li  ng-if="enquiriesLength != 0"><a href id="exportExcel" uploadfile  ng-click="exportReport(enquiries)" ng-show="btnExport" >
+                                        <!--<i class="btn-label fa fa-file-excel-o"></i>--> Export
                                     </a> 
                                 </li>
                                 <li>
                                     <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >Reassign</button>
-                                </li>-->
-<li>uma</li>
-
+                                </li>
                             </ul>
-                        </span>
+                        </a>
                     </div>
-                    
                     <div  class="dataTables_filter">                        
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
                         </label>
-                        <label style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="pendingsFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>
+                        <label style="left:2%"><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="pendingsFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>                    
                     </div>
                     <!-- filter data--> 
                      <div class="row col-sm-12" style="border:2px;" id="filter-show">
@@ -97,94 +87,26 @@
                     </b>
                 </div> 
                     <!-- filter data-->
-                    <div class="dataTables_length" >
-                        <label>
-                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="30">30</option>
-                                <option value="100">100</option>
-                                <option value="200">200</option>
-                                <option value="300">300</option>
-                                <option value="400">400</option>
-                                <option value="500">500</option>
-                                <option value="600">600</option>
-                                <option value="700">700</option>
-                                <option value="800">800</option>
-                                <option value="900">900</option>
-                                <option value="999">999</option>
-                            </select>
-                        </label>
-                    </div>                    
-<!--                
-                <div class="row"> 
-                    <div class="col-sm-2 col-xs-12">
-                        <div class="form-group">
-                            <label for="search">Records per page:</label>
-                            <input type="text" minlength="1" maxlength="3"  oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" style="width:45%;" class="form-control" ng-model="itemsPerPage">
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-xs-6">
-                        <div class="form-group">
-                            <label for=""></label>
-                            <span class="input-icon icon-right">                                
-                                <button type="button" class="btn btn-primary btn-right toggleForm" style="margin-left: 5px;"  ng-click="procName('proc_get_pending_followups', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</button>
-                                <div ng-if="enquiriesLength != 0">
-                                    <a href="" class="btn btn-primary btn-right" id="downloadExcel" download="{{fileUrl}}" ng-show="dnExcelSheet" style="margin-left: 5px;">
-                                        <i class="btn-label fa fa-file-excel-o"></i>Download excel</a>
-                                    <a href id="exportExcel" uploadfile class="btn btn-primary btn-right" ng-click="exportReport(enquiries)" ng-show="btnExport" style="margin-left: 5px;">
-                                        <i class="btn-label fa fa-file-excel-o"></i>Export to Excel
-                                    </a> 
-                                </div>
-                                <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >Reassign</button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3 col-xs-6" >
-                        <label style="margin-top: 25px;"> 
-                            <label><input class="checkbox-slider slider-icon colored-primary" type="checkbox" id="statuschk1" ng-model="sharedemployee" checked="" ng-click="pendingsFollowups('', [[$type]], 1, [[config('global.recordsPerPage')]], 5, sharedemployee, presalesemployee)"><span  class="text">&nbsp;&nbsp;Shared Enquiries of Employees</span></label>    
-
-                        </label>
-                    </div>
-                    <div class="col-sm-4 col-xs-12" ng-if="enquiriesLength != 0">
-                        <div class="form-group">
-                            <label for=""></label>
-                            <span class="input-icon icon-right">
-                                <span ng-if="enquiriesLength != 0" >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                                <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'pendingsFollowups','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                            
-                            </span>
-                        </div>
-                    </div>
+                <div>
+                    <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
                 </div>
-                <div class="row" style="border:2px;" id="filter-show">
-                    <b ng-repeat="(key, value) in showFilterData" ng-if="key != 'toDate'">                         
-                        <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}" ng-if="value != ''">
-                            <div class="alert alert-info fade in">
-                                <button class="close" ng-click=" removeDataFromFilter('{{ key}}');" data-dismiss="alert"> ×</button>
-                                <strong ng-if="key === 'channel_id' || key === 'city_id' || key === 'category_id' || key === 'source_id' || key == 'status_id'"><strong>{{  key.substring(0, key.indexOf('_'))}} :</strong>{{  value.substring(value.indexOf("_") + 1)}}</strong>
-                                <strong ng-if="key === 'employee_id'" ng-repeat='emp in value track by $index'> {{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}} </strong>
-                                <strong ng-if="key === 'subcategory_id'" ng-repeat='subcat in value track by $index'> {{ $index + 1}}){{   subcat.enquiry_sales_subcategory}}</strong>
-                                <strong ng-if="key === 'subsource_id'" ng-repeat='subsource in value track by $index'> {{ $index + 1}}){{ subsource.sub_source}} </strong>
-                                <strong ng-if="key === 'substatus_id'" ng-repeat='substatus in value track by $index'>{{ $index + 1}}) {{ substatus.enquiry_sales_substatus}} </strong>
-                                <strong ng-if="key === 'enquiry_locations'" ng-repeat='loc in value track by $index'>{{ $index + 1}}) {{ loc.location}} </strong>
-                                <strong ng-if="key === 'project_id'" ng-repeat='project in value track by $index'>{{ $index + 1}}) {{ project.project_name}}</strong>
-                                <strong ng-if="key === 'verifiedEmailId'"> <strong>Verified Email ID:</strong>Yes</strong>
-                                <strong ng-if="key === 'verifiedMobNo'" data-toggle="tooltip" title="Verified Mobile Number"> <strong>Verified Mobile:</strong>Yes</strong>
-                                <strong ng-if="key === 'site_visited'" data-toggle="tooltip" title="Site Visited"> <strong ng-if="value == 1">Site Visit:Yes</strong>
-                                    <strong ng-if="value == 0">Site Visit:No</strong>
-                                </strong>
-                                <strong ng-if="key === 'loan_required'" data-toggle="tooltip" title="Loan Required"> <strong ng-if="value == 1">Loan Required:Yes</strong>
-                                    <strong ng-if="value == 0">Loan Required:No</strong>
-                                </strong>
-                                <strong ng-if="key === 'parking_required'" data-toggle="tooltip" title="Parking Required"> <strong ng-if="value == 1">Parking Required:Yes</strong>
-                                    <strong ng-if="value == 0">Parking Required:No</strong>
-                                </strong>
-                                <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showFilterData.fromDate | date:'dd-MMM-yyyy' }} To {{ showFilterData.toDate |date:'dd-MMM-yyyy' }}</strong>
-                                <strong ng-if="key != 'channel_id' && key != 'city_id' && key != 'project_id' && key != 'substatus_id' && key != 'subsource_id' && key != 'subcategory_id' && key != 'category_id' && key != 'fromDate' && key != 'toDate' && key != 'source_id' && key != 'employee_id' && key!='status_id' " data-toggle="tooltip" title="{{ key }}">{{ value}}</strong>
-                                <strong ng-if="key == 'max_budget' || key == 'fname' || key == 'mobileNumber' || key == 'lname' || key == 'emailId'" data-toggle="tooltip" title="{{ key}}">{{ value}}</strong>
-                            </div>
-                        </div>
-                    </b>
-                </div> 
-                <br>               -->
+                <div class="dataTables_length" >
+                    <label>
+                        <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                            <option value="30">30</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="400">400</option>
+                            <option value="500">500</option>
+                            <option value="600">600</option>
+                            <option value="700">700</option>
+                            <option value="800">800</option>
+                            <option value="900">900</option>
+                            <option value="999">999</option>
+                        </select>
+                    </label>
+                </div>
                 <table class="table table-hover table-striped table-bordered tableHeader" ng-if="enquiriesLength">
                     <thead>                        
                         <tr>
@@ -203,15 +125,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr dir-paginate="enquiry in filtered=( enquiries | filter:search) | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength}}">
-                            <td width="7%" style="vertical-align:middle">
-                    <center>
-                        {{itemsPerPage * (pageNumber - 1) + $index + 1}}<br> 
-                        <label>
-                            <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq">   
-                            <span class="text"></span>
-                        </label>                                
-                    </center>
+                    <tr dir-paginate="enquiry in filtered=( enquiries | filter:search) | itemsPerPage: itemsPerPage | orderBy:orderByField:reverseSort" total-items="{{ enquiriesLength}}">
+                    <td width="7%" style="vertical-align:middle">
+                        <center>
+                            {{itemsPerPage * (pageNumber - 1) + $index + 1}}<br> 
+                            <label>
+                                <input type="checkbox" name="chk_reassign_enq" ng-click="singleSelect()" ng-model="chk_reassign_enq"  value="{{enquiry.id}}" class="chk_reassign_enq form-control" id="chk_reassign_enq">   
+                                <span class="text"></span>
+                            </label>                                
+                        </center>
                     </td>
                     <td width="7%"> 
                         <div style="color: #f73131">
@@ -228,7 +150,6 @@
                                 </a>
                                 <span  ng-if="displayMobileNo != '1'" class="text">+91-xxxxxx{{  mobile_obj.substring(mobile_obj.length - 4, mobile_obj.length)}}</span>
                                 <span  ng-if="displayMobileNo == '1'" class="text">{{mobile_obj}}</span>
-
                             </span>
                         </div>
                         <div ng-init="mobile_list = enquiry.mobile.split(',')">
@@ -242,13 +163,10 @@
                                 <i class="fa fa-envelope" aria-hidden="true"></i>
                                 <span ng-repeat="emailobj in all_email_list| limitTo:2">
                                     <span   class="text">{{  emailobj}}</span>
-
                                     <span ng-if="$index == 0 && all_email_list.length >= 2">
                                         /
                                     </span>
-
                                 </span>
-
                             </p>
                         </div>
                         <hr class="enq-hr-line">
@@ -428,5 +346,3 @@
     </div>
     <div data-ng-include="'/MasterSales/showFilter'"></div>
 </div>
-
-

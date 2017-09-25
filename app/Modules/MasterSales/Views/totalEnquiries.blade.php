@@ -11,7 +11,6 @@
         color: black;
         padding: 5px;
     }
-
 </style>
 <div class="row" ng-controller="enquiryController" ng-init="getTotalEnquiries('', [[$type]], 1, 30, 4,'',''); getEnquirySheredWith()">
     <div class="mainDiv col-xs-12 col-md-12">
@@ -49,7 +48,6 @@
                   
                         </label>
                     </div>
-
                     <div class="col-sm-3 col-xs-12" ng-if="enquiriesLength != 0">
                         <div class="form-group">
                             <label for=""></label>
