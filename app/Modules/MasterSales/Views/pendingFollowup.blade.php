@@ -33,11 +33,11 @@
                         <a class="btn btn-default toggleForm" ng-click="procName('proc_get_pending_followups', '', sharedemployee, presalesemployee)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
+                
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <span ng-if="enquiriesLength != 0" style="float: left;"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
-                        
-                        <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
+                        <!--<span ng-if="enquiriesLength != 0" style="float: left;"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>-->                        
+                        <span class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
@@ -53,13 +53,12 @@
                                 <li>
                                     <button  ng-model="BulkReasign" type="button" id="BulkReasign" class="btn btn-primary btn-right"  data-toggle="modal" data-target="#BulkModal" ng-click="initBulkModal();" ng-if="BulkReasign" >Reassign</button>
                                 </li>-->
+<li>uma</li>
 
-<li>ghgh</li>
-<li>fghgh</li>
-<li>ghg</li>
                             </ul>
-                        </a>
+                        </span>
                     </div>
+                    
                     <div  class="dataTables_filter">                        
                         <label>
                             <input type="search" class="form-control input-sm" ng-model="search" name="search" >
