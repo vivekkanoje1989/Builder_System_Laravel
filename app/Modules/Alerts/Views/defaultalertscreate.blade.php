@@ -2,6 +2,10 @@
     .bordered-bot {
         border-color: #2dc3e8 !important;
     }
+    
+    table{
+            background-color:none !important;
+    }
 
 </style>
 
@@ -18,14 +22,6 @@
                         <input type="hidden" ng-model="defaultAlertData.csrfToken" name="csrftoken" id="csrftoken" ng-init="defaultAlertData.csrfToken = '[[ csrf_token() ]]'" class="form-control">
                         <input type="hidden" ng-model="defaultAlertData.client_id" name="client_id">
                         <div class="row col-lg-12 col-sm-12 col-xs-12">  
-                            <!--                            <hr class="wide" />
-                                                        <div class="col-lg-12 col-sm-12 col-xs-12">
-                                                            <div class="form-title">
-                                                                Default Template 
-                                                            </div>
-                                                        </div>-->
-
-
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="well with-header  with-footer col-md-12 col-xs-12 mar-bot30">
                                     <div class="buttons-preview">
@@ -82,7 +78,7 @@
                                                         <span class="input-icon icon-right">
                                                             <textarea ng-model="defaultAlertData.sms_body" name="sms_body" style="height: 100px;" class="form-control ng-pristine ng-valid ng-valid-required ng-touched" ng-disabled="true" required=""></textarea>
                                                             <i class="fa fa fa-align-left"></i>
-                                                            <div ng-show="sbtBtn & amp; & amp; defaultAlertForm.sms_body.$invalid" ng-messages="defaultAlertForm.sms_body.$error" class="help-block ng-hide ng-inactive">
+                                                            <div ng-show="sbtBtn && defaultAlertForm.sms_body.$invalid" ng-messages="defaultAlertForm.sms_body.$error" class="help-block ng-hide ng-inactive">
                                                                 <div ng-message="required" style="color: red !important;">This field is required</div>
                                                             </div>
                                                         </span>      
@@ -98,7 +94,7 @@
                                                         <span class="input-icon icon-right">
                                                             <textarea ng-model="defaultAlertData.email_subject" name="email_subject" class="form-control ng-pristine ng-valid ng-valid-required ng-touched" ng-disabled="true" required=""></textarea>
                                                             <i class="fa fa fa-align-left"></i>
-                                                            <div ng-show="sbtBtn & amp; & amp; defaultAlertForm.email_subject.$invalid" ng-messages="defaultAlertForm.email_subject.$error" class="help-block ng-hide ng-inactive">
+                                                            <div ng-show="sbtBtn && defaultAlertForm.email_subject.$invalid" ng-messages="defaultAlertForm.email_subject.$error" class="help-block ng-hide ng-inactive">
                                                                 <div ng-message="required" style="color: red !important;">This field is required</div>
                                                             </div>
                                                         </span>   

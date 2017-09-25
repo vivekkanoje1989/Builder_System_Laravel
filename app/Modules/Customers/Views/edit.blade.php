@@ -21,7 +21,7 @@
                 <input type="hidden" ng-model="customerForm.id" name="id" id="id" ng-init="customerForm.id = '<?php ?>'" class="form-control">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 col-xs-12">
-                        <div class="form-title">Customer Information</div>
+                        <div class=""></div>
                             <div class="row">
                                 <input type="hidden" ng-model="customerData.id" name="id" >
                                 <div class="col-sm-3 col-xs-6">
@@ -133,6 +133,7 @@
                                             <label for="">Aadhar Card Number<span class="sp-err">*</span></label>
                                             <span class="input-icon icon-right">
                                                 <input type="text" ng-model="customerData.aadhar_number" name="aadhar_number" ng-maxlength="12" ng-minlength="12" class="form-control" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
+                                                <i class="fa fa-credit-card" aria-hidden="true"></i>
                                                 <div ng-show="sbtBtn" ng-messages="customerForm.aadhar_number.$error" class="help-block">
                                                     <div ng-message="required">This field is required.</div>
                                                     <div ng-message="minlength">Aadhar card number must be 12 digits.</div>
@@ -151,6 +152,7 @@
                                             <label for="">Pan Card Number</label>
                                             <span class="input-icon icon-right">
                                                 <input type="text" ng-model="customerData.pan_number" name="pan_number" class="form-control">
+                                           <i class="fa fa-credit-card" aria-hidden="true"></i>
                                             </span>
                                         </div>
                                     </div>

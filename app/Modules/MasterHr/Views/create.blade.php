@@ -16,10 +16,9 @@
 <div class="row" >
     <input type="hidden" name="employeeId" id="employeeId"  value="[[$empId]]" >
     <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="hrController" >
-        <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>New User</h5>-->
         <div class="widget-header bordered-bottom bordered-themeprimary ">
-                <span class="widget-caption">New User</span>
-            </div>
+            <span class="widget-caption">Create User</span>
+        </div>
         <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
             <ul class="steps">
                 <li  class="wiredstep1 active"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
@@ -94,7 +93,7 @@
                                 <p class="input-group">
                                     <input type="text" ng-model="userData.birth_date" name="date_of_birth" id="date_of_birth" max-date="maxDates" class="form-control" datepicker-popup="{{format}}" is-open="opened"  datepicker-options="dateOptions" close-text="Close" readonly />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open($event,1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="open($event, 1)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
                             </div>
@@ -192,7 +191,7 @@
                 </form>
             </div>	
             <div class="step-pane" id="wiredstep2" >	
-                 <form name="userContactForm" novalidate ng-submit="userContactForm.$valid && contact && createContactForm(userContact, [[$empId]])"   >
+                <form name="userContactForm" novalidate ng-submit="userContactForm.$valid && contact && createContactForm(userContact, [[$empId]])"   >
                     <div class="form-title">
                         Contact Information
                     </div>
@@ -204,7 +203,7 @@
                                         <label for="">Calling code</label>
                                         <span class="input-icon icon-right"> 
                                             <input type="text" disabled ng-model="userContact.personal_mobile1_calling_code" style="width:110px; height:34px;" name="personal_mobile1_calling_code"  id="personal_mobile1_calling_code" class="form-control" >
-                                           
+
                                         </span>
                                     </div>
                                 </div>
@@ -273,16 +272,16 @@
                                 </div> 
                                 <div class="col-sm-2 col-xs-2">
                                     <div class="form-group">
-                                         <label for="">Country code</label>
+                                        <label for="">Country code</label>
                                         <span class="input-icon icon-right">
                                             <input type="text" disabled ng-model="userContact.personal_landline_calling_code" style="width:110px; height:34px;" name="personal_landline_calling_code" id="personal_landline_calling_code" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userContact.personal_landline_no)">
-               
+
                                         </span>                               
                                     </div> 
                                 </div>
                                 <div class="col-sm-4 col-xs-4">
                                     <div class="form-group">
-                                       <label for="">Landline Number</label>
+                                        <label for="">Landline Number</label>
                                         <span class="input-icon icon-right1">
                                             <input type="text" ng-model="userContact.personal_landline_no" ng-minlength="10" style="margin: 0px 0 0 -25px;" maxlength="10" ng-minlength="10" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" name="personal_landline_no" id="personal_landline_no" class="form-control"  ng-model-options="{ updateOn: 'blur' }" ng-change="validateLandlineNumber(userContact.personal_landline_no)">
                                             <i class="fa fa-phone"></i>
@@ -527,7 +526,7 @@
                 </form>
             </div>
             <div class="step-pane" id="wiredstep3" >
-                <form name="usereducationForm" novalidate ng-submit="usereducationForm.$valid && invalidImage == '' &&  createEducationForm(userEducation, userEducation.employee_photo_file_name, [[ $empId ]]);" enctype="multipart/form-data">
+                <form name="usereducationForm" novalidate ng-submit="usereducationForm.$valid && invalidImage == '' && createEducationForm(userEducation, userEducation.employee_photo_file_name, [[ $empId ]]);" enctype="multipart/form-data">
                     <div class="form-title">
                         Educational & Other Details
                     </div>
@@ -556,7 +555,7 @@
                                 </span>
                             </div>
                         </div>
-                         <div class="col-sm-3 col-xs-6">
+                        <div class="col-sm-3 col-xs-6">
                             <label for="">Employee Photo ( W 105 X H 120 )</label>
                             <span class="input-icon icon-right">
                                 <input type="file" ngf-select ng-model="userEducation.employee_photo_file_name" value="Select photo" ng-change="checkImageExtension(userEducation.employee_photo_file_name)" name="employee_photo_file_name"   ng-model-options="{ allowInvalid: true, debounce: 300 }"  id="employee_photo_file_name" accept="image/*" ngf-max-size="2MB" class="form-control imageFile"  ngf-model-invalid="errorFile" accept="image/x-png,image/gif,image/jpeg,image/bmp" >

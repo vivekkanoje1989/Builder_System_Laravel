@@ -123,7 +123,7 @@
                                 <td>{{list.job_eligibility}}</td> 
                                 <td>{{list.application_start_date}}</td> 
                                 <td>{{list.application_close_date}}</td>
-                                <td><a href="[[ config('global.backendUrl') ]]#/career/show/{{ list.id}}" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>View Application</a></td>
+                                <td><a href="[[ config('global.backendUrl') ]]#/career/show/{{ list.id}}" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>View Applications</a></td>
                                 <td class="">	
                                     <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/career/update/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>

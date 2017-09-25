@@ -52,7 +52,7 @@ class MasterHrController extends Controller {
             $getpresalesEmployees[$i]['employee'] = $ctEmployeesExt['first_name'] . ' ' . $ctEmployeesExt['last_name'] . '(' . $ctEmployeesExt['designation'] . ')';
             $i++;
         }
-        
+
         $arr1 = explode(",", $result->postsale_shared_employee);
         $getPostSalesEmployees = Employee::join('laravel_developement_master_edynamics.mlst_bmsb_designations as mbd', 'mbd.id', '=', 'employees.designation_id')
                 ->select('employees.id', 'employees.first_name', 'employees.last_name', 'mbd.designation')
@@ -65,7 +65,7 @@ class MasterHrController extends Controller {
             $getPostSalesEmployees[$i]['employee'] = $ctEmployees['first_name'] . ' ' . $ctEmployees['last_name'] . '(' . $ctEmployees['designation'] . ')';
             $i++;
         }
-        
+
         if (!empty($getpresalesEmployees) || !empty($getPostSalesEmployees)) {
             $result = ['success' => true, 'presalesemprecords' => $getpresalesEmployees, 'postsalesemprecords' => $getPostSalesEmployees];
         } else {
@@ -360,6 +360,25 @@ class MasterHrController extends Controller {
             if (!empty($request['bulkData']['sales_employee_id'])) {
                 $sales_employee_id = $request['bulkData']['sales_employee_id'];
                 $enquiryUpdate = DB::table('enquiries')->where('sales_employee_id', $employee_id)->update(array('sales_employee_id' => $sales_employee_id));
+            }
+            if (!empty($request['bulkData']['cc_presales_employee_id'])) {
+                $cc_presales_employee_id = $request['bulkData']['cc_presales_employee_id'];
+                $enquiryUpdate = DB::table('enquiries')->where('cc_presales_employee_id', $employee_id)->update(array('cc_presales_employee_id' => $cc_presales_employee_id));
+            }
+            $result = ['success' => true, "message" => "Enquiries reassigned successfully.."];
+            echo json_encode($result);
+        }
+    }
+
+    public function BulkReasignEmployeeFromList() {
+        $postdata = file_get_contents("php://input");
+        $request = json_decode($postdata, true);
+        $employee_id = $request['employee_id'];
+        if (!empty($request)) {
+            if (!empty($request['bulkData']['sales_employee_id'])) {
+                $sales_employee_id = $request['bulkData']['sales_employee_id'];
+                $enquiryUpdate = DB::table('enquiries')->where('sales_employee_id', $employee_id)->update(array('sales_employee_id' => $sales_employee_id));
+                $employee = Employee::where('id', '=', $employee_id)->update(['employee_status' => 3]);
             }
             if (!empty($request['bulkData']['cc_presales_employee_id'])) {
                 $cc_presales_employee_id = $request['bulkData']['cc_presales_employee_id'];
@@ -890,10 +909,14 @@ class MasterHrController extends Controller {
     public function suspendEmployee() {
         $postdata = file_get_contents("php://input");
         $input = json_decode($postdata, true);
-        $loggedInUserId = Auth::guard('admin')->user()->id;
+        if (!empty($input['loggedInUserId'])) {
+            $loggedInUserId = $input['loggedInUserId'];
+        } else {
+            $loggedInUserId = Auth::guard('admin')->user()->id;
+        }
 
-        $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
-        $result = ['success' => true, 'result' => $suspend];
+//        $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
+        $result = ['success' => true, ];
         return json_encode($result);
     }
 

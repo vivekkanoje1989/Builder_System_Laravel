@@ -37,22 +37,18 @@
 
                         </ul>
                     </div>
-                    <!--<a  href="[[ config('global.backendUrl') ]]#/request-leave/index"  id="editabledatatable_new" class="btn btn-default">Request Leave</a>-->
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  >
-                            <span>Export</span> href="/manageVerticals/exportToxls"  ng-click="ExportToxls()"
-                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="" ng-click="ExportToxls()" ng-show="exportMyRequest == '1'" >Export</a>
+                                    <a href="" ng-click="ExportToxls()" ng-show="exportMyRequest == '1'" > Export</a>
                                 </li>
                             </ul>
                         </a>
@@ -98,8 +94,7 @@
                             </select>
                         </label>
                     </div>
-                    <!--<table class="table table-striped table-hover table-bordered dataTable no-footer" at-config="config">-->
-                    <table class="table table-hover table-striped table-bordered dataTable no-footer tableHeader" at-config="config">
+                     <table class="table table-hover table-striped table-bordered dataTable no-footer tableHeader" at-config="config">
                         <thead class="bord-bot">
                             <tr>
                             <tr>
@@ -169,8 +164,7 @@
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
-                            <!--div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div-->
-                        </div>
+                         </div>
                         <div class="col-sm-6">
                             <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
                                 <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
@@ -216,6 +210,7 @@
                                 <option value="">Select Employee</option>
                                 <option ng-repeat="item in employeeRow" value="{{item.employeeName}}" ng-selected="{{ item.employeeName == searchDetails.application_to}}" >{{item.employeeName}}</option>
                             </select>
+                             <i class="fa fa-sort-desc"></i>
                         </span>
                     </div>
                 </div>
@@ -228,7 +223,7 @@
                                 <option value="Leave">Leave</option>
                                 <option value="Approval">Approval</option>
                             </select>
-                            
+                             <i class="fa fa-sort-desc"></i>
                         </span>
                     </div>
                 </div>
