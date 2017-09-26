@@ -1,6 +1,6 @@
 'use strict';
 app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload', '$window', '$timeout', '$state', '$rootScope', 'toaster', function ($scope, Data, $filter, Upload, $window, $timeout, $state, $rootScope, toaster) {
-        $scope.pageHeading = 'Virtual Number';
+        //$scope.pageHeading = 'Virtual Number';
         $scope.registrationData = {};
         $scope.registrationData.client = "";
         $scope.registrationData.incoming_call_status = '1';
@@ -332,17 +332,17 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
             }).then(function (response) {
                 if (response.success) {
                     if (action === 'index') {
-
                         $scope.listNumbers = response.records.data;
                         $scope.listNumbersLength = response.records.total;
                         $scope.exportData = response.records.exportData;
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 30;
                     } else if (action === 'edit') {
-                        if (id !== '0') {
-                            $scope.pageHeading = 'Edit Number';
+                        if (id === 0){
+                            $scope.pageHeading = 'New Registration';
+                        }else if (id !== '0') {
+                            $scope.pageHeading = 'Edit Registration';
                             $timeout(function () {
-                                //alert(response.records.data[0]['default_number']);return false;
                                 if (response.records.data[0]['default_number'] == 1) {
                                     response.records.data[0]['default_number'] = true;
                                 } else {
@@ -355,7 +355,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                                     $scope.cls = '';
                             }, 500);
                         }
-                    } else {
+                    } else {                        
                         $scope.registrationData.id = id;
                     }
                 } else {

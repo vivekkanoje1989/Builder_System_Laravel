@@ -1,5 +1,5 @@
 app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', 'toaster', '$timeout', '$stateParams', 'Upload', function ($rootScope, $scope, $state, Data, toaster, $timeout, $stateParams, Upload) {
-        $scope.pageHeading = "Create Project";
+        $scope.pageHeading = "Add New Project";
         $scope.showAllTabs = true;
         $scope.projectData = {};
         $scope.mapData = {};

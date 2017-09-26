@@ -63,7 +63,7 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
         };
         $scope.initExtensionModal = function (employeelist) {
             $scope.btnlable = "Add";
-            $scope.heading = "Add Extension";
+            $scope.heading = "Add New Extension";
             Data.post('getExtensionEmployee', {
                 employees: employeelist
             }).then(function (response) {

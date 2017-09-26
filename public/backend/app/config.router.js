@@ -61,8 +61,8 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'HR / User Management / Create User',
-                                        title: 'Create User',
+                                        label: 'HR / User Management / Add New User',
+                                        title: 'Add New User',
                                     },
                                     resolve: {
                                         deps:
@@ -208,9 +208,8 @@ angular.module('app')
                                     templateUrl: '/master-hr/createrole',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'HR / Role Management / Create Role & Permissions',
-                                        title: 'Create Role & Permissions',
-                                        description: ''
+                                        label: 'HR / Role Management / Create Role',
+                                        title: 'Create Role',
                                     },
                                     resolve: {
                                         deps:
@@ -337,7 +336,8 @@ angular.module('app')
                                     controller: 'customerController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Quick Enquiry'
+                                        label: 'Sales/ Pre Sales / Quick Enquiry',
+                                        title: 'Quick Enquiry',
                                     },
                                     resolve: {
                                         deps:
@@ -524,7 +524,9 @@ angular.module('app')
                                     templateUrl: '/projects/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Create Project'
+                                        parent: 'manageProjectIndex',
+                                        label: 'Create Project',
+                                        title: 'Create Project',
                                     },
                                     resolve: {
                                         deps:
@@ -579,7 +581,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Project Details'
+                                        parent: 'manageProjectIndex',
+                                        label: 'Project Details',
+                                        title: 'Project Details',
                                     },
                                     resolve: {
                                         deps:
@@ -608,8 +612,8 @@ angular.module('app')
                                     templateUrl: '/projects/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage project',
-                                        description: ''
+                                        label: 'Projects / Projects Management / Manage project',
+                                        title: 'Manage project',
                                     },
                                     resolve: {
                                         deps:
@@ -1925,8 +1929,9 @@ angular.module('app')
                                     templateUrl: '/cloudtelephony/showvirtualnumusers',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: 'virtualnumberslist',
                                         label: 'Virtual Number Wiseusers',
-                                        description: ''
+                                        title: 'Virtual Number Wiseusers',
                                     },
                                     resolve: {
                                         deps:
@@ -1952,8 +1957,9 @@ angular.module('app')
                                     templateUrl: '/cloudtelephony/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Virtual Number Registration',
-                                        description: ''
+                                        parent: 'numbersIndex',
+                                        label: 'New Registration',
+                                        title: 'New Registration',
                                     },
                                     resolve: {
                                         deps: [
@@ -1982,8 +1988,8 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Virtual Numbers',
-                                        description: ''
+                                        label: 'Cloud Telephony / Virtual Numbers / Manage Virtual Numbers',
+                                        title: 'Manage Virtual Numbers',
                                     },
                                     resolve: {
                                         deps: [
@@ -2015,8 +2021,8 @@ angular.module('app')
                                     controller: 'extensionemployeeController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Extension Employees',
-                                        description: ''
+                                        label: 'Cloud Telephony / Virtual Numbers / Manage Extensions',
+                                        title: 'Manage Extensions',
                                     },
                                     resolve: {
                                         deps: [
@@ -2049,8 +2055,8 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Virtual Numbers',
-                                        description: ''
+                                        label: 'Cloud Telephony / Telephony Registration / Manage',
+                                        title: 'Manage',
                                     },
                                     resolve: {
                                         deps: [
@@ -2080,8 +2086,9 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Edit Number',
-                                        description: ''
+                                        parent: 'numbersIndex',
+                                        label: 'Edit Registration',
+                                        title: 'Edit Registration',
                                     },
                                     resolve: {
                                         deps: [
@@ -2109,8 +2116,9 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent: 'virtualnumberslist',
                                         label: 'Edit Virtual Number',
-                                        description: ''
+                                        title: 'Edit Virtual Number',
                                     },
                                     resolve: {
                                         deps: [
@@ -3317,28 +3325,29 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'View application',
-                                        description: ''
+                                        parent: 'manageJobIndex',
+                                        label: 'View Applications',
+                                        title: 'View Applications',
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/careerManagementController.js',
-                                                                            '/backend/app/controllers/datepicker.js'
-                                                                        ]
-                                                                    }
-                                                                    );
-                                                                }
-                                                        );
-                                                    }
-                                                ]
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['toaster']).then(
+                                                        function () {
+                                                            return $ocLazyLoad.load({
+                                                                serie: true,
+                                                                files: [
+                                                                    '/backend/careerManagementController.js',
+                                                                    '/backend/app/controllers/datepicker.js'
+                                                                ]
+                                                            }
+                                                            );
+                                                        }
+                                                );
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('requestLeaveIndex', {
@@ -3352,24 +3361,24 @@ angular.module('app')
                                     },
                                     resolve: {
                                         deps:
-                                                [
-                                                    '$ocLazyLoad',
-                                                    function ($ocLazyLoad) {
-                                                        return $ocLazyLoad.load(['ui.select', 'toaster']).then(
-                                                                function () {
-                                                                    return $ocLazyLoad.load({
-                                                                        serie: true,
-                                                                        files: [
-                                                                            '/backend/dashBoardController.js',
-                                                                            '/backend/app/controllers/datepicker.js',
-                                                                            '/backend/app/controllers/select.js',
-                                                                        ]
-                                                                    });
-                                                                }
-                                                        );
-
+                                        [
+                                            '$ocLazyLoad',
+                                            function ($ocLazyLoad) {
+                                                return $ocLazyLoad.load(['ui.select', 'toaster']).then(
+                                                    function () {
+                                                        return $ocLazyLoad.load({
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/dashBoardController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                                '/backend/app/controllers/select.js',
+                                                            ]
+                                                        });
                                                     }
-                                                ]
+                                                );
+
+                                            }
+                                        ]
                                     }
                                 })
                                 .state('requestOtherApprovalIndex', {
@@ -3558,8 +3567,8 @@ angular.module('app')
                                     templateUrl: '/storage-list/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Storage',
-                                        description: ''
+                                        label: 'My Storage / Storage List',
+                                        title: 'Storage List',
                                     },
                                     resolve: {
                                         deps:
@@ -3586,8 +3595,8 @@ angular.module('app')
                                     templateUrl: '/sharedwith-me/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Storage',
-                                        description: ''
+                                        label: 'My Storage / Shared With Me',
+                                        title: 'Shared With Me',
                                     },
                                     resolve: {
                                         deps:
@@ -3614,8 +3623,8 @@ angular.module('app')
                                     templateUrl: '/recycle-bin/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Storage',
-                                        description: ''
+                                        label: 'My Storage / Recycle Bin',
+                                        title: 'Recycle Bin',
                                     },
                                     resolve: {
                                         deps:
@@ -3645,8 +3654,9 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Storage',
-                                        description: ''
+                                        parent: 'storageListIndex',
+                                        label: 'Storage Data',
+                                        title: 'Storage Data',
                                     },
                                     resolve: {
                                         deps:
@@ -3676,8 +3686,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Storage',
-                                        description: ''
+                                        label: 'Storage Data',
+                                        title: 'Storage Data',
                                     },
                                     resolve: {
                                         deps:
@@ -3708,8 +3718,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Storage',
-                                        description: ''
+                                        label: 'Storage Data',
+                                        title: 'Storage Data',
                                     },
                                     resolve: {
                                         deps:
@@ -3738,8 +3748,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Storage',
-                                        description: ''
+                                        label: 'Storage Data',
+                                        title: 'Storage Data',
                                     },
                                     resolve: {
                                         deps:
@@ -3769,8 +3779,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Storage',
-                                        description: ''
+                                        label: 'Storage Data',
+                                        title: 'Storage Data',
                                     },
                                     resolve: {
                                         deps:
@@ -3800,8 +3810,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Storage',
-                                        description: ''
+                                        label: 'Storage Data',
+                                        title: 'Storage Data',
                                     },
                                     resolve: {
                                         deps:
@@ -4157,7 +4167,8 @@ angular.module('app')
                                     templateUrl: '/reports/getEnquiryReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Enquiry Report'
+                                        label: 'Reports / Pre Sales / My Reports / Enquiry Report',
+                                        title: 'Enquiry Report',
                                     },
                                     resolve: {
                                         deps:
@@ -4186,7 +4197,8 @@ angular.module('app')
                                     templateUrl: '/reports/followupReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Followup Report'
+                                        label: 'Reports / Pre Sales / My Reports /  Followup Report',
+                                        title: 'Followup Report',
                                     },
                                     resolve: {
                                         deps:
@@ -4214,7 +4226,8 @@ angular.module('app')
                                     templateUrl: '/reports/projectwiseReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales Report'
+                                        label: 'Reports / Pre Sales / My Reports / Sales Report',
+                                        title: 'Sales Report',
                                     },
                                     resolve: {
                                         deps:
@@ -4242,7 +4255,8 @@ angular.module('app')
                                     templateUrl: '/reports/getTeamEnquiryreports',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team Enquiry Report'
+                                        label: 'Reports / Pre Sales / Team`s Report / Team`s Enquiry Report',
+                                        title: 'Team`s Enquiry Report',
                                     },
                                     resolve: {
                                         deps:
@@ -4271,7 +4285,8 @@ angular.module('app')
                                     templateUrl: '/reports/teamfollowupReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team Followup Reports'
+                                        label: 'Reports / Pre Sales / Team`s Report / Team`s Followup Report',
+                                        title: 'Team`s Followup Reports',
                                     },
                                     resolve: {
                                         deps:
@@ -4300,7 +4315,8 @@ angular.module('app')
                                     templateUrl: '/reports/projectwiseTeamreport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Project wise Reports'
+                                        label: 'Reports / Pre Sales / Team`s Report / Project Wise Reports',
+                                        title: 'Project Wise Reports',
                                     },
                                     resolve: {
                                         deps:
@@ -4363,8 +4379,8 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Inbound Logs',
-                                        description: ''
+                                        label: 'Cloud Telephony / Call Logs / My Incoming Call Logs',
+                                        title: 'My Incoming Call Logs',                                        
                                     },
                                     resolve: {
                                         deps: [
@@ -4396,8 +4412,8 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team Inbound Logs',
-                                        description: ''
+                                        label: 'Cloud Telephony / Call Logs / Team`s Incoming Call Logs',
+                                        title: 'Team`s Incoming Call Logs',
                                     },
                                     resolve: {
                                         deps: [
@@ -4429,8 +4445,8 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Outbound Logs',
-                                        description: ''
+                                        label: 'Cloud Telephony / Call Logs / My Outgoing Call Logs',
+                                        title: 'My Outgoing Call Logs',
                                     },
                                     resolve: {
                                         deps: [
@@ -4462,25 +4478,25 @@ angular.module('app')
                                     controller: 'cloudtelephonyController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team Outbound Logs',
-                                        description: ''
+                                        label: 'Cloud Telephony / Call Logs / Team`s Outgoing Logs',
+                                        title: 'Team`s Outgoing Logs',
                                     },
                                     resolve: {
                                         deps: [
                                             '$ocLazyLoad',
                                             function ($ocLazyLoad) {
                                                 return $ocLazyLoad.load(['toaster']).then(
-                                                        function () {
-                                                            return $ocLazyLoad.load(['ui.select', {
-                                                                    serie: true,
-                                                                    files: [
-                                                                        '/backend/cloudtelephonyController.js',
-                                                                        '/backend/app/controllers/datepicker.js',
-                                                                        '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
-                                                                        '/backend/app/controllers/select2.js',
-                                                                    ]
-                                                                }]);
-                                                        }
+                                                    function () {
+                                                        return $ocLazyLoad.load(['ui.select', {
+                                                            serie: true,
+                                                            files: [
+                                                                '/backend/cloudtelephonyController.js',
+                                                                '/backend/app/controllers/datepicker.js',
+                                                                '/backend/lib/jquery/fuelux/wizard/wizard-custom.js',
+                                                                '/backend/app/controllers/select2.js',
+                                                            ]
+                                                        }]);
+                                                    }
                                                 );
                                             }
                                         ]
@@ -4555,7 +4571,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/total/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Total Followups'
+                                        label: 'Customer Care/ Pre-Sales /My Total Followups',
+                                        title:'My Total Followups'                                        
                                     },
                                     resolve: {
                                         deps:
@@ -4590,7 +4607,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/total/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Total Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Total Followups',
+                                        title:'Team`s Total Followups'  
                                     },
                                     resolve: {
                                         deps:
@@ -4623,7 +4641,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/completed/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Completed Followups'
+                                        label: 'Customer Care/ Pre-Sales / My Completed Followups',
+                                        title:'My Completed Followups'  
                                     },
                                     resolve: {
                                         deps:
@@ -4657,7 +4676,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/completed/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Completed Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Completed Followups',
+                                        title:'Team`s Completed Followups' 
                                     },
                                     resolve: {
                                         deps:
@@ -4690,7 +4710,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/previous/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Previous Followups'
+                                        label: 'Customer Care/ Pre-Sales / My Previous Followups',
+                                        title:'My Previous Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4725,7 +4746,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/previous/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Previous Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Previous Followups',
+                                        title:'Team`s Previous Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4759,7 +4781,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/today/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Today`s Followups'
+                                        label: 'Customer Care/ Pre-Sales / My Today`s Followups',
+                                        title:'My Today`s Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4792,7 +4815,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/today/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Today`s Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Today`s Followups',
+                                        title:'Team`s Today`s Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4826,7 +4850,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/pending/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'My Pending Followups'
+                                        label: 'Customer Care/ Pre-Sales / My Pending Followups',
+                                        title:'My Pending Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -4860,7 +4885,8 @@ angular.module('app')
                                     templateUrl: '/customer-care/presales/pending/1',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Team`s Pending Followups'
+                                        label: 'Customer Care/ Pre-Sales / Team`s Pending Followups',
+                                        title:'Team`s Pending Followups'
                                     },
                                     resolve: {
                                         deps:
@@ -5001,7 +5027,10 @@ angular.module('app')
                     $rootScope.email = results.email;
                     $window.sessionStorage.setItem("userLoggedIn", true);
                     $http.get('/getMenuItems').then(function (response) {
-                        $rootScope.getMenu = response.data;
+                        if(response.data !== '')
+                            $rootScope.getMenu = response.data;
+                        else
+                            $rootScope.getMenu = [];
                     }, function (error) {
                         console.log('showMenu');
                     });
