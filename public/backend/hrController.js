@@ -1017,12 +1017,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
 //       Archana Employee suspended from listing 
-        $scope.employeeSuspend = function (emp_id, index, items,pageNo) {
+        $scope.employeeSuspend = function (empId, index, items,pageNo) {
 
-            $scope.suspendId = emp_id;
+            $scope.suspendId = empId;
             $scope.indexing = index;
             Data.post('/master-hr/getEnquiriesCnt', {
-                empId: emp_id,
+                empId: empId,
             }).then(function (response) {
                 $scope.totsalesEnquiries = response.salesEnqcount;
                 $scope.totpresalesEnquiries = response.presalesEnqcount;
@@ -1042,16 +1042,11 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                             function (isConfirm) { //Function that triggers on user action.
                                 if (isConfirm) {
                                     Data.post('/master-hr/suspendEmployee', {
-                                        empId: emp_id
+                                        empId: empId
                                     }).then(function (response) {
-//                                        var index = items * (pageNo - 1) +  $scope.indexing + 1;
-//                                            alert(index);
-//                                        alert('#suspend'+index);
-//                                        $('#suspend'+index).remove();
-
-                                        $scope.listUsers.splice(index, 1);
+                                        $("tr#"+empId+"").remove();
                                     });
-                                    SweetAlert.swal("Deleted!");
+                                    SweetAlert.swal("Deleted!");                                    
                                 } else {
                                     SweetAlert.swal("Your Employee is safe!");
                                 }

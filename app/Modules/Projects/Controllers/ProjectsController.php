@@ -216,7 +216,7 @@ class ProjectsController extends Controller {
                 }
             }
 
-            if (isset($input['projectData'])) {
+            if (!empty($input['projectData'])) {
                 unset($input["projectData"]["csrfToken"]);
                 if (!empty($input['projectData']['project_amenities_list'])) {
                     $input['projectData']['project_amenities_list'] = implode(',', array_map(function($el) {

@@ -18,7 +18,7 @@ var app = angular.module('app', [
     'rzModule',
     'oitozero.ngSweetAlert',
 ]);
-var getUrl = 'office';
+var getUrl = 'office.php';
 var getWebsiteUrl = 'website';
 
 /*app.directive('ngRightClick', function() {

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-lg-12 col-sm-6 col-xs-12">
-        <tabset class="tabs-left">
+        <tabset>
             <tab heading="Images">
                 <div data-ng-include=" '/projects/uploads/images'"></div>
             </tab>
@@ -23,7 +23,6 @@
                 <div data-ng-include=" '/projects/uploads/gallery' "></div>
             </tab>
         </tabset>
-        <div class="horizontal-space"></div>
     </div>
 </div>
 <style>

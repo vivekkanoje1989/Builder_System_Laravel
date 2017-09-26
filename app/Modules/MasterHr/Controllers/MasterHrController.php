@@ -393,7 +393,6 @@ class MasterHrController extends Controller {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $salesEnqcount = $presalesEnqcount = 0;
-        //echo $request['empId'];exit;
         if (!empty($request['empId']) && $request['empId'] !== "0") {
             $salesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('sales_employee_id', $request['empId'])->count();
             $presalesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('cc_presales_employee_id', $request['empId'])->count();
