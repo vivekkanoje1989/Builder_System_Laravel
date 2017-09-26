@@ -9,28 +9,7 @@
             <span class="widget-caption">Project Web Page</span>                
         </div>
         <div class="row">
-            <div class="col-lg-12 col-sm-6 col-xs-12">                
-                <div class="col-md-3">
-                    <div class="panel panel-default" style="width: 190px;text-align: center;">
-                        <div class="panel-body">Website Settings</div>
-                    </div>              
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default" style="width: 190px;text-align: center;">
-                        <div class="panel-body">Uploads</div>
-                    </div>              
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default" style="width: 190px;text-align: center;">
-                        <div class="panel-body">Project Inventory</div>
-                    </div>              
-                </div>
-                <div class="col-md-3">
-                    <div class="panel panel-default" style="width: 190px;text-align: center;">
-                        <div class="panel-body">Floor Inventory</div>
-                    </div>              
-                </div>
-                 
+            <div class="col-lg-12 col-sm-6 col-xs-12">
                 <input type="hidden" ng-model="projectData.project_id" name="project_id" value="[[ $projectId ]]"/>
                 <tabset>
                     <tab heading="Website Settings">

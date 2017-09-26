@@ -4,11 +4,8 @@ namespace App\Modules\Reports\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Modules\Reports\Models\Enquiry;
-use App\Modules\Reports\Models\EnquiryDetail;
-use App\Modules\Reports\Models\EnquiryFollowup;
 use App\Modules\Projects\Models\Project;
-use App\Modules\Projects\Models\MlstBmscEnquirySalesSources;
+use App\Models\MlstBmscEnquirySalesSources;
 use DB;
 use Auth;
 

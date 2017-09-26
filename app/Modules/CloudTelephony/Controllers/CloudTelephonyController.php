@@ -174,33 +174,25 @@ class CloudTelephonyController extends Controller {
     }
 
     public function manageLists() {
-
-        //$authUser = \Auth()->guard('admin')->user();
-        //print_r($authUser);exit;
-
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
         $manageLists = [];
         if (!empty($request['id']) && $request['id'] !== "0") { // for edit
             $manageLists = DB::select('CALL proc_manage_ctbillingsettings(1,' . $request["id"] . ')');
-            //echo "here"; print_r($manageLists);exit;
         } else if ($request['id'] === "") {
             $manageLists = DB::select('CALL proc_manage_ctbillingsettings(0,0)');
         }
-$array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
+        $array = json_decode(Auth::guard('admin')->user()->employee_submenus, true);
             if (in_array('01401', $array)) {
                 $export = 1;
             }
             if (in_array('01402', $array)) {
                 $deleteBtn = 1;
             } 
-        if ($manageLists) {
+//        if ($manageLists) {
             $result = ['success' => true, "records" => ["data" => $manageLists,'exportData'=>$export, "total" => count($manageLists), 'per_page' => count($manageLists), "current_page" => 1, "last_page" => 1, "next_page_url" => null, "prev_page_url" => null, "from" => 1, "to" => count($manageLists)]];
-            echo json_encode($result);
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong. Please check internet connection or try again'];
-            echo json_encode($result);
-        }
+//        } 
+        echo json_encode($result);
     }
 
     
