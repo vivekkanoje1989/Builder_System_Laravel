@@ -16,13 +16,12 @@
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">My Inbound Logs</span>
+                <span class="widget-caption">My Incoming Call Logs</span>
             </div>
             <div class="widget-body table-responsive">
                 
                 <div class="row table-toolbar">
-                    <!--<a href="[[ config('global.backendUrl') ]]#/job-posting/create" class="btn btn-default">Post Job</a>-->
-                    <div class="btn-group pull-right filterBtn">
+                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>

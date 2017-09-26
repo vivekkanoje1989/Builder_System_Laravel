@@ -121,7 +121,7 @@
                     </label>
                 </div>
                 <br>
-                <table ng-if="enquiriesLength" class="table table-hover table-striped table-bordered" at-config="config">
+                <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                     <thead>
                         <tr>                            
                             <th class="enq-table-th">SR</th>
@@ -254,17 +254,17 @@
                             </td>
                         </tr>
                         <tr>
-                          <td colspan="7"  ng-show="(enquiries|filter:search).length==0" align="center">Record Not Found</td>   
+                          <td colspan="7"  ng-show="enquiriesLength== 0 || (enquiries|filter:search).length==0" align="center">No Enquiries Found</td>   
                         </tr>
                     </tbody>
                 </table>
                
                <dir-pagination-controls   max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'previousFollowups','', [[$type]], newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
-               <div ng-if="enquiriesLength == 0 ">
+<!--               <div ng-if="enquiriesLength == 0 ">
                     <div>
                         <center><b>No Enquiries Found</b></center>
                     </div>
-                </div>
+                </div>-->
                 </div>
             <!-- Modal -->
             <!-- send Document Data Modal ===================================================================================== -->

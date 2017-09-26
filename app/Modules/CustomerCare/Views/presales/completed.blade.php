@@ -11,12 +11,67 @@
 <div class="row" ng-controller="customercarepresalesController" ng-init="completed('', [[$type]], 1, [[config('global.recordsPerPage')]],5)" >
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget">
-            <div class="widget-header ">
+            <div class="widget-header  bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">{{pagetitle}}</span>
             </div>
         
             <div class="widget-body table-responsive">
-                <div class="row">
+                <div class="row table-toolbar">      
+                    <div class="btn-group pull-right filterBtn">
+                        <a class="btn btn-default toggleForm" data-target="#showFilterModal" ng-click="procName('proc_cc_presales_complete',5)"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                    </div>
+                </div>
+                <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                    <div  class="dataTables_filter">                        
+                        <label>
+                            <input type="search" class="form-control input-sm" ng-model="search" name="search" >
+                        </label>
+                    </div>
+                    <!--filter data--> 
+                    <div class="row col-sm-12" style="border:2px;" id="filter-show">
+                       <b ng-repeat="(key, value) in showfilterData" ng-if="value != 0 && key != 'toDate' ">
+                           <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_')) }}"> 
+                                <div class="alert alert-info fade in" style="padding: 6px;">
+                                   <button class="toggleForm close" ng-click=" removefilter('{{ key }}');" data-dismiss="alert"> ×</button>
+                                   <strong ng-if="key === 'employee_id'"> Owners Name :- <span ng-repeat='emp in value track by $index'>{{ $index + 1}}){{   emp.first_name}}  {{ emp.last_name}}&nbsp;</span> </strong>
+                                   <strong ng-if="key === 'fromDate'"  data-toggle="tooltip" title="Enquiry Date"><strong>Enquiry Date:</strong>{{ showfilterData.fromDate | date:'dd-MMM-yyyy' }} <span ng-if="showfilterData.toDate!='' && showfilterData.toDate!= null ">To {{ showfilterData.toDate |date:'dd-MMM-yyyy' }}</span></strong>
+                                   <strong ng-if="key === 'cc_presales_substatus_id'"> Followup Sub Status :- <span ng-repeat='subst in value track by $index'> {{ $index + 1}}){{   subst.cc_presales_substatus}}</span></strong>
+                                   <strong ng-if="key == 'source_id'">Source :- {{  value.substring(value.indexOf("_")+1) }}</strong>
+                                   <strong ng-if="key === 'subsource_id'"> Sub Source :- <span ng-repeat='subsouc in value track by $index'> {{ $index + 1}}){{   subsouc.enquiry_subsource}}</span></strong>
+                                   <strong ng-if="key == 'project_id'">Project :- <span ng-repeat='proj in value track by $index'> {{ $index + 1}}){{   proj.project_name}}</span></strong>
+                                   <strong ng-if="key == 'site_visit'">Site Visit :- Yes</strong>
+                                   <strong ng-if="key == 'fname'">First Name :- {{  value }}</strong>
+                                   <strong ng-if="key == 'lname'">Last Name :- {{  value }}</strong>
+                                   <strong ng-if="key == 'mobileNumber'">Mobile Number :- {{  value }}</strong>
+                                   <strong ng-if="key == 'emailId'">Email Id :- {{  value }}</strong>
+                                   <strong ng-if="key == 'verifiedMobNo'">Verified Mobile Number :- {{  value === true ? " Yes " : "No" }}</strong>
+                                   <strong ng-if="key == 'verifiedEmailId'">Verified Email Id :- {{  value === true ? " Yes " : "No" }}</strong>                                   
+                               </div>
+                           </div>
+                       </b> 
+                    </div> 
+                    <!--filter data-->
+                    <div>
+                       <span class='ShowingLength' ng-if="enquiriesLength != 0 " >&nbsp; &nbsp; &nbsp; Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span>
+                        </div>
+                    <div class="dataTables_length" >
+                        <label>
+                            <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
+                                <option value="30">30</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
+                            </select>
+                        </label>
+                    </div>
+<!--                <div class="row">
                     <div class="col-sm-5 col-xs-12" style="float:left">
                         <div class="col-sm-3 center">
                             <input type="text" minlength="1" maxlength="3" placeholder="Records per page" ng-model="itemsPerPage" ng-model-options="{ updateOn: 'blur' }" oninput="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control">
@@ -57,8 +112,8 @@
                    </div>
                </div>
                 <br>
-                <hr>
-                <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">
+                <hr>-->
+                <table class="table table-hover table-striped table-bordered tableHeader" >
                     <thead>
                         <tr>
                             <th class="enq-table-th">SR </th>
@@ -188,15 +243,19 @@
                         </td>
 
                         </tr>
+                         <tr>
+                        <td colspan="5"  ng-if="enquiriesLength == 0 ||(enquiries|filter:search).length == 0 " align="center">Followups Not Found</td>   
+                    </tr>
                     </tbody>
                 </table>
-                <div ng-if="enquiriesLength == 0 ">
+<!--                <div ng-if="enquiriesLength == 0 ">
                     <div>
                         <center><b>Followups Not Found</b></center>
                     </div>
-                </div>
+                </div>-->
                 <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'completed','', [[$type]], newPageNumber, itemsPerPage)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                                            
-            </div>            
+            </div>
+            </div>
             <!-- Today history model =============================================================================-->
             <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>
                 <div class="modal-dialog modal-lg">

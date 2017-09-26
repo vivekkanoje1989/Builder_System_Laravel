@@ -157,7 +157,7 @@
 
                             </tr>
                             <tr>
-                                <td colspan="8"  ng-show="(myRequest|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="8"  ng-show="(myRequest|filter:search | filter:searchData).length == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>

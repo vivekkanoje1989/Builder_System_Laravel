@@ -1,10 +1,10 @@
 <form name="promotionalsmsForm" novalidate ng-submit="promotionalsmsForm.$valid && sendPromotionalSMS(promotionalsmsData, promotionalsmsData.mobilenumbers)" ng-controller="promotionalsmsController">
     <input type="hidden" ng-model="promotionalsmsForm.csrfToken" name="csrftoken" id="csrftoken" ng-init="promotionalsmsForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
     <div class="col-lg-12 col-sm-12 col-xs-12">
-        <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>
+        <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{ pageHeading}}</h5>-->
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Promotional SMS</span>
+                <span class="widget-caption">Send SMS</span>
             </div>
             <div class="widget-body">
                 <div id="promotionalsms-form">

@@ -100,7 +100,7 @@
                     </div> 
                     <!-- filter data-->
                     <div>
-                        <span ng-if="enquiriesLength != 0" class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
+                        <span ng-if="enquiriesLength != 0 " class="ShowingLength"> Showing {{enquiries.length}}  Enquiries Out Of Total {{enquiriesLength}} Enquiries.  &nbsp;</span> 
                     </div>
                     <div class="dataTables_length" >
                         <label>
@@ -119,7 +119,7 @@
                             </select>
                         </label>
                     </div><br>
-                <table class="table table-hover table-striped table-bordered tableHeader" ng-if="enquiriesLength">
+                <table class="table table-hover table-striped table-bordered tableHeader">
                     <thead>                        
                         <tr>
                             <th class="enq-table-th">SR / 
@@ -284,18 +284,18 @@
 
                     </td>
                     </tr>
-                    <tr ng-show="(enquiries|filter:search).length == 0">
-                        <td colspan="7" align="center">Record Not Found</td>   
+                    <tr ng-if="enquiriesLength == 0 ||(enquiries|filter:search).length == 0">
+                        <td colspan="7" align="center">No Enquiries Found</td>   
                     </tr>
                     </tbody>
                 </table>
 
                 <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'pendingsFollowups','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
-                <div ng-if="enquiriesLength == 0">
+<!--                <div ng-if="enquiriesLength == 0">
                     <div>
                         <center><b>No Enquiries Found</b></center>
                     </div>
-                </div>
+                </div>-->
                 </div>
             </div>
             <!-- Today history model =============================================================================-->

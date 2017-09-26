@@ -1280,7 +1280,8 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Email Account Configuration'
+                                        parent:'emailConfigIndex',
+                                        label: 'Edit Email Account Configuration'
                                     },
                                     resolve: {
                                         deps: [
@@ -1455,6 +1456,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent:'customersIndex',
                                         label: 'Edit Customer',
                                         title: 'Edit Customer',
                                     },
@@ -3029,8 +3031,9 @@ angular.module('app')
                                     templateUrl: '/manage-blog/create',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
+                                        parent:'manageblogIndex',
                                         label: 'Create blog',
-                                        description: ''
+                                        title:'Create blog'
                                     },
                                     resolve: {
                                         deps:
@@ -3089,7 +3092,7 @@ angular.module('app')
                                     templateUrl: '/testimonials/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Response / Testinmonials / Approve',
+                                        label: 'Response / Testimonials / Approve',
                                         title: 'Approved Testimonials',
                                     },
                                     resolve: {
@@ -3206,7 +3209,7 @@ angular.module('app')
                                     templateUrl: '/testimonials/manage',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Response / Testinmonials / Manage',
+                                        label: 'Response / Testimonials / Manage',
                                         title: 'Manage Testimonials',
                                         description: ''
                                     },
@@ -3450,8 +3453,8 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         parent: 'dashboard',
-                                        label: 'My Request',
-                                        title: 'My Request',
+                                        label: 'My Requests',
+                                        title: 'My Requests',
                                     },
                                     resolve: {
                                         deps:
@@ -4016,8 +4019,8 @@ angular.module('app')
                                     templateUrl: '/customers/',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Manage Customers',
-                                        description: ''
+                                        label: 'Sales /  Customers Management / Manage Customers ',
+                                         title: 'Manage Customers',
                                     },
                                     resolve: {
                                         deps:
@@ -4512,8 +4515,9 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'HR / User Management / User Management',
-                                        title: 'User Management',
+                                        parent:'userIndex',
+                                        label: 'Add Quick User',
+                                        title: 'Add Quick User',
                                     },
                                     resolve: {
                                         deps:
