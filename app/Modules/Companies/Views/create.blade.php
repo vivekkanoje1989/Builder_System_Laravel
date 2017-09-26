@@ -171,7 +171,7 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody>{{documents}}
                                             <tr ng-repeat="list in documents">
                                                 <td>{{$index + 1}}</td>
                                                 <td>{{list.document_name}}</td>
@@ -243,7 +243,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12 col-sm-12 col-xs-12">
-                            <form name="stationaryForm"  ng-submit="documentDetails(documentData, documentData.document_file, companyId)" enctype="multipart/form-data">  
+                            <form name="documentForm"  ng-submit="documentDetails(documentData, documentData.document_file, companyId)" enctype="multipart/form-data">  
                                 <div class="row">
                                     <div class="col-md-12">
                                         <label>Document Name </label>
@@ -344,7 +344,7 @@
                                 <input type="hidden" ng-model="companyId" name="companyId" value="{{companyId}}">
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12" align="right">
-                                        <button type="submit" class="btn btn-primary btn-submit-last" >Save</button>
+                                        <button type="submit" class="btn btn-primary btn-submit-last" ng-disable="stationaryBtn" >Save</button>
                                     </div>
                                 </div>
                             </form>

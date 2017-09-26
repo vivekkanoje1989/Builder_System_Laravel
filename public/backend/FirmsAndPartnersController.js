@@ -11,6 +11,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
         $scope.documentData = [];
         $scope.exportData = '';
         $scope.firmBtn = false;
+        $scope.stationaryBtn = false;
         $scope.companyDocTab = true;
         $scope.manageCompany = function () {
             Data.get('manage-companies/manageCompany').then(function (response) {
@@ -95,7 +96,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         /*push client the stationary info*/
         $scope.stationaries = function (stationaryData, estimateLogoFile, companyid)
-        {
+        { $scope.stationaryBtn = true;
             if ($scope.id == 0) {
                 var url = '/manage-companies/stationary';
                 var data = {
@@ -118,7 +119,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                 data: data
             });
             estimateLogoFile.upload.then(function (response) {
-                $scope.firmBtn = false;
+                $scope.stationaryBtn = false;
                 if (response.data.status) {
                     if ($scope.id == 0) {
                         toaster.pop('success', 'Manage Stationary', 'Record successfully created');
@@ -132,7 +133,7 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
                     $('#stationaryModal').modal('hide');
                 } else {
 
-                    $scope.firmBtn = false;
+                    $scope.stationaryBtn = false;
                     $scope.errorMsg = response.data.errormsg;
                 }
             }, function (response) {
@@ -337,8 +338,8 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             });
         }
 
-        $scope.Stationary = [{id: '1'}];
-        $scope.documents = [{id: '1'}];
+        $scope.Stationary = [];
+        $scope.documents = [];
         $scope.addNewStationary = function () {
             var newItemNo = $scope.Stationary.length + 1;
             $scope.Stationary.push({'id': newItemNo});

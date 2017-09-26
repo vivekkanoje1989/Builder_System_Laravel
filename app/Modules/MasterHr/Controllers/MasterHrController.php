@@ -915,8 +915,8 @@ class MasterHrController extends Controller {
             $loggedInUserId = Auth::guard('admin')->user()->id;
         }
 
-//        $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
-        $result = ['success' => true, ];
+        $suspend = Employee::where('id', $input['empId'])->update(['employee_status' => 3]);
+        $result = ['success' => true, 'result' => $suspend];
         return json_encode($result);
     }
 
