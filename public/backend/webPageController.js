@@ -63,7 +63,8 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
             Data.post('web-pages/deletePage', {
                 'id': id}).then(function (response) {
 //                toaster.pop('success', 'Content Management', 'Web Page deleted successfully');
-                $scope.listPages.splice(index, 1);
+//                $scope.listPages.splice(index, 1);
+                $("tr#" + id + "").remove();
             });
         }
 
@@ -129,6 +130,8 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
         $scope.editSubPage = function (list, index, pageId)
         {
             $scope.subcontentPage = list;
+            $scope.subcontentPage['subpage_name'] = list.page_name;
+            $scope.subcontentPage['subpage_title'] = list.page_title;
             if (list.banner_images != '') {
                 var banner = list.banner_images.split(',');
             }
@@ -175,6 +178,7 @@ app.controller('contentPagesCtrl', ['$scope', 'Data', 'Upload', '$timeout', 'toa
                 }
                 if ($scope.subId == 0)
                 {
+                    
                     $scope.subPage.push({'page_name': record.page_name, 'page_title': record.page_title, 'seo_url': record.seo_url, 'seo_page_title': record.seo_page_title,
                         'meta_description': record.meta_description, 'meta_keywords': record.meta_keywords, 'canonical_tag': record.canonical_tag, 'child_page_position': record.child_page_position,
                         'status': record.status, 'id': response.data.id, 'banner_images': record.banner_images});

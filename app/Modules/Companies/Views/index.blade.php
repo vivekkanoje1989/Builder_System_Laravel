@@ -98,7 +98,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in CompanyRow| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
+                            <tr role="row" dir-paginate="list in CompanyRow| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" id='{{list.id}}'>
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{list.punch_line}}</td> 
                                 <td>{{list.legal_name}}</td> 

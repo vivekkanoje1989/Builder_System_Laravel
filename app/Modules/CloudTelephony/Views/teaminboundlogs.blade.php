@@ -16,7 +16,7 @@
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Team Inbound Logs</span>
+                <span class="widget-caption">Team's Incoming Call Logs</span>
             </div>
             <div class="widget-body table-responsive">
                 

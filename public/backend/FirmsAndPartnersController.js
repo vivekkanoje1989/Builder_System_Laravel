@@ -46,10 +46,11 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
             Data.post('manage-companies/deleteCompany', {
                 'id': id}).then(function (response) {
 //                toaster.pop('success', 'Firms and partners', 'Company deleted successfully');
-                $scope.CompanyRow.splice(index, 1);
+//                $scope.CompanyRow.splice(index, 1);
+                $("tr#" + id + "").remove();
             });
         }
-        
+
         $scope.$on("deleteRecords", function (event, args) {
             $scope.deleteCompany(args['id'], args['index']);
         });
@@ -96,7 +97,8 @@ app.controller('companyCtrl', ['$scope', 'Data', 'Upload', 'toaster', '$state', 
 
         /*push client the stationary info*/
         $scope.stationaries = function (stationaryData, estimateLogoFile, companyid)
-        { $scope.stationaryBtn = true;
+        {
+            $scope.stationaryBtn = true;
             if ($scope.id == 0) {
                 var url = '/manage-companies/stationary';
                 var data = {

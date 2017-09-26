@@ -19,7 +19,7 @@
 <div class="row" ng-controller="customalertsController" ng-init="manageAlerts('', 'index', 1, [[config('global.recordsPerPage')]])">
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
-            <div class="widget-header ">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Custom Templates</span>
             </div>
             <div class="widget-body table-responsive">
@@ -112,7 +112,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr dir-paginate="listAlert in listcustomAlerts | filter:search  | filter:searchData | itemsPerPage: itemsPerPage | orderBy:sortKey:reverseSort" >
+                            <tr dir-paginate="listAlert in listcustomAlerts | filter:search  | filter:searchData | itemsPerPage: itemsPerPage | orderBy:sortKey:reverseSort" id='{{listAlert.id}}'>
                                 <td>
                         <center>
                             {{itemsPerPage * (noOfRows - 1) + $index + 1}}<br>                              

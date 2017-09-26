@@ -119,7 +119,7 @@
                     </label>
                 </div><br>    
 
-                <table class="table table-hover table-striped table-bordered" at-config="config" ng-if="enquiriesLength">
+                <table class="table table-hover table-striped table-bordered tableHeader" at-config="config" >
                     <thead>
                         <tr>
                             <th class="enq-table-th">SR / 
@@ -274,17 +274,17 @@
                                 </span> 
                             </td>
                         </tr>
-                        <tr ng-show="(enquiries|filter:search).length == 0">
-                            <td colspan="7" align="center">Record Not Found</td>   
+                        <tr ng-show="(enquiries|filter:search).length == 0 || enquiriesLength == 0 ">
+                            <td colspan="5" align="center">No Enquiries Found</td>   
                         </tr>
                     </tbody>
                 </table>
                  <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'lostEnquiries','', [[$type]], newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>
-                 <div ng-if="enquiriesLength == 0 ">
+<!--                 <div ng-if="enquiriesLength == 0 ">
                         <div>
                             <center><b>No Enquiries Found</b></center>
                     </div>
-                </div>
+                </div>-->
                     </div>
 
             <!-- Today history model =============================================================================-->

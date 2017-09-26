@@ -120,7 +120,7 @@
                         </label>
                     </div>
                     <br>
-                <table class="table table-hover table-striped table-bordered" ng-if="enquiriesLength">
+                <table class="table table-hover table-striped table-bordered tableHeader">
                     <thead>
                         <tr>
                             <th class="enq-table-th">SR / 
@@ -285,16 +285,20 @@
                         </div>
                     </td>
                     </tr>
+                     <tr>
+                        <td colspan="5"  ng-if="enquiriesLength == 0 ||(enquiries|filter:search).length == 0 " align="center">No Enquiries Found</td>   
+                    </tr>
                     </tbody>
                 </table>
 
                 <dir-pagination-controls max-size="5"  class="pull-right pagination" on-page-change="pageChanged(newPageNumber,'getTotalEnquiries','', [[$type]],newPageNumber,listType,sharedemployee,presalesemployee)" template-url="/dirPagination" ng-if="enquiriesLength"></dir-pagination-controls>                        
-                <div ng-if="enquiriesLength == 0">
+<!--                <div ng-if="enquiriesLength == 0">
                     <div>
                         <center><b>No Enquiries Found</b></center>
                     </div>
-                </div>
+                </div>-->
             </div>
+            </div> 
 
             <!-- Today history model =============================================================================-->
             <div class="modal fade modal-primary" id="historyDataModal" role="dialog" tabindex='-1'>

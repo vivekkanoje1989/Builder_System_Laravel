@@ -41,9 +41,7 @@
                             <li>
                                 <a href="[[ config('global.backendUrl') ]]#/user/quickuser">Quick User</a>
                             </li>
-                            <li>
-                                <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" >Permission Wise Users</a>
-                            </li>
+
 
                         </ul>
                     </div>
@@ -60,6 +58,9 @@
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
                                     <a href="" ng-click="hrDetailsExporToxls()" ng-show="exportData == '1'" >Export</a>
+                                </li>
+                                <li>
+                                    <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" >Permission Wise Users</a>
                                 </li>
                             </ul>
                         </a>
@@ -187,12 +188,12 @@
                                     <div class="hrbtn" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
                                     <div class="hrbtn" tooltip-html-unsafe="User Permissions" tooltip-placement="top" ><a href="[[ config('global.backendUrl') ]]#/user/permissions/{{ listUser.id}}"  class=" btn-success btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</div>
                                     <div class="hrbtn" tooltip-html-unsafe="Change Password" data-toggle="modal" data-target="#myModal" ><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id}},'changePassword')"  class="btn-warning btn-xs"><i class="fa fa-lock"></i>Change Password</a>&nbsp;&nbsp;</div>
-                                    <div class="hrbtn" tooltip-html-unsafe="Suspend Employee" ><a href ng-click="employeeSuspend({{ listUser.id}},{{$index}},itemsPerPage,noOfRows)" class="btn-danger btn-xs" ><i class="fa fa-user-times"></i>Suspend</a>&nbsp;&nbsp;</div>
+                                    <div class="hrbtn" tooltip-html-unsafe="Suspend Employee" ><a href ng-click="employeeSuspend({{ listUser.id}},{{$index}},itemsPerPage, noOfRows)" class="btn-danger btn-xs" ><i class="fa fa-user-times"></i>Suspend</a>&nbsp;&nbsp;</div>
                                 </td>
-                        </tr>
-                        <tr>
-                            <td colspan="10"  ng-show="(listUsers|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
-                        </tr>
+                            </tr>
+                            <tr>
+                                <td colspan="10"  ng-show="(listUsers|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            </tr>
 
                         </tbody>
                     </table>
@@ -260,7 +261,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title" align="center"> Reassign Enquiries</h4>
                 </div>
-                <form name="bulkForm"   ng-submit="bulkForm.$valid && BulkReasignEmployeeFromList(bulkData,suspendId)" novalidate >
+                <form name="bulkForm"   ng-submit="bulkForm.$valid && BulkReasignEmployeeFromList(bulkData, suspendId)" novalidate >
                     <div class="modal-body">
                         <div  ng-if="totsalesEnquiries > '0'">
                             <div class="row">

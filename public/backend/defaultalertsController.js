@@ -42,14 +42,15 @@ app.controller('defaultalertsController', ['$rootScope', '$scope', '$state', 'Da
             Data.post('defaultalerts/deleteDefaultTemplate', {
                 'id': id}).then(function (response) {
 //                toaster.pop('success', 'Manage Default Template', 'Default Template deleted successfully');
-                $scope.listdefaultAlerts.splice(index, 1);
+//                $scope.listdefaultAlerts.splice(index, 1);
+                $("tr#" + id + "").remove();
             });
         }
-        
+
         $scope.$on("deleteRecords", function (event, args) {
             $scope.deleteDefaultTemplate(args['id'], args['index']);
         });
-        
+
         $scope.defaultTemplatesExportToxls = function () {
             $scope.getexcel = window.location = "/defaultalerts/defaultTemplatesExportToxls";
             if ($scope.getexcel) {

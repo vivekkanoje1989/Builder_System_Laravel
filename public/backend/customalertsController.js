@@ -51,7 +51,8 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
             Data.post('customalerts/deleteCustomTemplate', {
                 'id': id}).then(function (response) {
 //                toaster.pop('success', 'Custom template', 'Custom Template deleted successfully');
-                $scope.listcustomAlerts.splice(index, 1);
+//                $scope.listcustomAlerts.splice(index, 1);
+                $("tr#"+id+"").remove();
             });
         }
 
