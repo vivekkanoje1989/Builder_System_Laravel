@@ -34,7 +34,7 @@
                                             <div class="form-group">
                                                 <label for="">Page Name<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contentPage.page_name" name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="255">
+                                                    <input type="text" ng-model="contentPage.page_name" required name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="255">
                                                     <i class="fa fa-address-card"></i>
                                                     <div  ng-if="sbtBtn1" ng-messages="contentPageForm.page_name.$error">
                                                         <div ng-message="required" class="err">Page name is required.</div>
@@ -187,7 +187,7 @@
 
                                                 <label for="">Sub Page Name<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.subpage_name"  name="subpage_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
+                                                    <input type="text" ng-model="subcontentPage.subpage_name" required  name="subpage_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
                                                     <i class="fa fa-address-card"></i>
                                                     <div  ng-if="sbtBtn"  ng-messages="imageMgntForm.subpage_name.$error">
                                                         <div ng-message="required" class="err">Page name is required.</div>

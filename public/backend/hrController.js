@@ -19,6 +19,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.maxDates = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         $scope.currentPin = false;
         $scope.isDisabled = false;
+        $scope.passwordBtn = false;
         $scope.roleData = {};
         $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
                 $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
@@ -736,14 +737,19 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         };
         $scope.wrongpwd = false;
         $scope.changePassword = function (adata) {
+             $scope.passwordBtn = true;
             Data.post('master-hr/changePassword', {
                 data: adata,
             }).then(function (response) {
                 if (response.success) {
+                     $scope.passwordBtn = false;
                     $scope.successMsg = response.message;
                     $scope.wrongpwd = false;
                     $scope.step1 = false;
                     $("#passwordClosebtn").trigger('click');
+                    $timeout(function () {
+                       toaster.pop('success', '', 'Your password has been successfully changed. Please check your mail.');
+                    }, 500);
                 } else {
                     $scope.errorMsg = response.message;
                     $scope.wrongpwd = true;
@@ -1005,6 +1011,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.getEnqCount = function (emp_id) {
+            $scope.salesemployeeList = [];
             Data.post('/master-hr/getEnquiriesCnt', {
                 empId: emp_id,
             }).then(function (response) {
@@ -1012,15 +1019,16 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.totpresalesEnquiries = response.presalesEnqcount;
                 if ($scope.totsalesEnquiries > 0 || $scope.totpresalesEnquiries > 0) {
                     $('#BulkModal').modal('show');
+                    $scope.salesemployeeList = response.employees;
                 }
             });
         }
 
 //       Archana Employee suspended from listing 
-        $scope.employeeSuspend = function (emp_id, index, items,pageNo) {
-
+        $scope.employeeSuspend = function (emp_id, index, items, pageNo) {
             $scope.suspendId = emp_id;
             $scope.indexing = index;
+            $scope.salesemployeeList = [];
             Data.post('/master-hr/getEnquiriesCnt', {
                 empId: emp_id,
             }).then(function (response) {
@@ -1028,6 +1036,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.totpresalesEnquiries = response.presalesEnqcount;
                 if ($scope.totsalesEnquiries > 0 || $scope.totpresalesEnquiries > 0) {
                     $('#BulkModal').modal('show');
+                    $scope.salesemployeeList = response.employees;
                 } else {
                     SweetAlert.swal({
                         title: "Are you sure?", //Bold text
@@ -1062,18 +1071,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
             });
         }
-        $scope.getsalesEmployees = function (emp_id) {
-            $scope.salesemployeeList = [];
-            Data.post('/master-hr/getsalesEmployees', {
-                empId: emp_id,
-            }).then(function (response) {
-                if (!response.success) {
-                    $scope.errorMsg = response.message;
-                } else {
-                    $scope.salesemployeeList = response.records;
-                }
-            });
-        }
+
 
         $scope.getpresalesEmployees = function (emp_id) {
 

@@ -205,8 +205,6 @@ class WebPagesController extends Controller {
         $validationRules = WebPage::validationRules1();
 
         $input = Input::all();
-//         $input['subcontentPages']['page_name'] = $input['subcontentPages']['subpage_name'];
-//        $input['subcontentPages']['page_title'] = $input['subcontentPages']['subpage_title'];
         
          if (!empty($input['subcontentPages']['subpage_title'])) {
             $input['subcontentPages']['page_title'] = $input['subcontentPages']['subpage_title'];
@@ -288,24 +286,6 @@ class WebPagesController extends Controller {
         }else{
             $input['subcontentPage']['page_title'] ='';
         }
-//        if (!empty($input['subcontentPage']['seo_page_title'])) {
-//            $input['subPages']['seo_page_title'] = $input['subcontentPage']['seo_page_title'];
-//        }else{
-//            $input['subPages']['seo_page_title'] ='';
-//        }
-//        if (!empty($input['subcontentPage']['seo_url'])) {
-//            $input['subPages']['seo_url'] = $input['subcontentPage']['seo_url'];
-//        }else{
-//            $input['subPages']['seo_url'] ='';
-//        }
-//      
-//       $input['subPages']['seo_url'] = $input['subcontentPage']['seo_url'];
-//        $input['subPages']['meta_description'] = $input['subcontentPage']['meta_description'];
-//        $input['subPages']['meta_keywords'] = $input['subcontentPage']['meta_keywords'];
-//        $input['subPages']['canonical_tag'] = $input['subcontentPage']['canonical_tag'];
-//        $input['subPages']['child_page_position'] = $input['subcontentPage']['child_page_position'];
-//        $input['subPages']['status'] = $input['subcontentPage']['status'];
-//        $input['subPages']['page_content'] = $input['subcontentPage']['page_content'];
         unset($input['subcontentPage']['subpage_name']);
         unset($input['subcontentPage']['subpage_title']);
         $userAgent = $_SERVER['HTTP_USER_AGENT'];

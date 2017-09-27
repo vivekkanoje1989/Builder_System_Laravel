@@ -343,7 +343,7 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
             }
             if (type == 0) {
                 $scope.report_name = "Total Enquiries";
-                $scope.pagetitle = "Total Enquiries";
+                $scope.pagetitle = "My Total Enquiries";
             } else {
                 $scope.report_name = "Teams Total Enquiries";
                 $scope.pagetitle = "Team`s Total Enquiries ";

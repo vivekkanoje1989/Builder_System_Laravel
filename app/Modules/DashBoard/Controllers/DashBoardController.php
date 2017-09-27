@@ -216,8 +216,16 @@ class DashBoardController extends Controller {
         $input['employeeData']['in_date'] = date("Y-m-d") . " " . date("h-i-s");
 
         $employee_request = EmployeeRequest::create($input['employeeData']);
-        $loginFirstName = Auth::guard('admin')->user()->first_name;
-        $loginlastName = Auth::guard('admin')->user()->last_name;
+       if (!empty($request["empFirstName"])) {
+            $loginFirstName = $request["empFirstName"];
+        } else {
+            $loginFirstName = Auth::guard('admin')->user()->first_name;
+        }
+        if (!empty($request["empLastName"])) {
+            $loginlastName = $request["empLastName"];
+        } else {
+            $loginlastName = Auth::guard('admin')->user()->last_name;
+        }
         $loginEmployeeName = $loginFirstName . ' ' . $loginlastName;
         $userId = array();
         $userId = explode(',', $uid);
