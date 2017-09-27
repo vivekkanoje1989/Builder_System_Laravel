@@ -13,11 +13,11 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Add Company Information</span>
+                <span class="widget-caption">Add Company Details</span>
             </div>
             <div class="widget-body">
                 <tabset>
-                    <tab heading="Company Information" id="remarkTab">
+                    <tab heading="Company Information" id="companyTab">
                         <form  ng-submit="companysForm.$valid && docompanyscreateAction(CompanyData.firm_logo, CompanyData, document)" name="companysForm"  novalidate enctype="multipart/form-data">
                             <input type="hidden" ng-model="csrfToken" name="csrftoken" id="csrftoken" ng-init="csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
                             <input type="hidden" ng-model="id" name="id"  class="form-control">
@@ -152,13 +152,13 @@
                             </div>                    
                         </form>
                     </tab>
-                    <tab heading="Company Documents" disabled="companyDocTab">
+                    <tab heading="Company Documents" id="documentTab" disabled="companyDocTab">
                         <div class="row">
                             <div class="col-xs-12 col-md-12">
                                 <div class="well with-header  with-footer">
                                     <div class="header ">
                                         <!--Manage Documents-->
-                                        <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  data-toggle="modal" data-target="#documentModal" >
+                                        <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  data-toggle="modal" data-target="#documentModal" ng-click="clearData();editdocument(0,'','',1)">
                                     </div>
                                     <div class="widget-body table-responsive" >
 
@@ -171,13 +171,13 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody>{{documents}}
+                                        <tbody>
                                             <tr ng-repeat="list in documents">
                                                 <td>{{$index + 1}}</td>
                                                 <td>{{list.document_name}}</td>
-                                                <td>{{list.document_file}} </td>
+                                                <td><img ng-src="[[ Config('global.s3Path') ]]/Company/documents/{{list.documentFile}}" width="80px" height="80px"></td>
                                                 <td class="fa-div">
-                                                    <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="editStationary({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
+                                                    <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#documentModal"><a href="javascript:void(0);" ng-click="editdocument({{list.documentId}},{{list}},{{$index}}, 0)"><i class="fa fa-pencil"></i></a></div>
                                                 </td>
                                             </tr>  
                                         </tbody>
@@ -187,16 +187,15 @@
                             </div>
                         </div>
                     </tab>
-                    <tab heading="Stationary" disabled="companyDocTab">
+                    <tab heading="Stationary" disabled="companyDocTab" id="stationaryTab">
 
                         <div class="row">
                             <div class="col-xs-12 col-md-12">
                                 <div class="well with-header  with-footer">
                                     <div class="header">
                                         <!--Manage Stationary-->
-                                        <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  data-toggle="modal" data-target="#stationaryModal" ng-click="clearData()">
-                                        <!--<input type="button" value="Add More" class="btn btn-primary" style="float:right;"  ng-click="addNewStationary()">-->
-                                    </div>
+                                        <input type="button" value="Add More" class="btn btn-primary" style="float:right;"  data-toggle="modal" data-target="#stationaryModal" ng-click="clearData();editStationary(0,'','', 1)">
+                                       </div>
 
                                     <div class="widget-body table-responsive" >
                                         <table class="table table-hover table-striped table-bordered" at-config="config">
@@ -218,7 +217,7 @@
                                                     <td><img ng-src="[[ Config('global.s3Path') ]]/Company/receiptLetterhead/{{list.receipt_letterhead_file}}" width="80px" height="80px"></td>
                                                     <td><img ng-src="[[ Config('global.s3Path') ]]/Company/rubberStampFile/{{list.rubber_stamp_file}}" width="80px" height="80px"></td>
                                                     <td class="fa-div">
-                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#stationaryModal"><a href="javascript:void(0);" ng-click="editStationary({{list}},{{$index}}, 1)"><i class="fa fa-pencil"></i></a></div>
+                                                        <div class="fa-hover" style="float:center" tooltip-html-unsafe="Edit" style="display: block;"data-toggle="modal" data-target="#stationaryModal"><a href="javascript:void(0);" ng-click="editStationary({{list.stationaryId}},{{list}},{{$index}}, 0)"><i class="fa fa-pencil"></i></a></div>
                                                     </td>
                                                 </tr>                                            
                                             </tbody>
@@ -238,7 +237,7 @@
             <div class="modal-content">
                 <div class="modal-header navbar-inner">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center">Add Document</h4>
+                    <h4 class="modal-title" align="center">{{modalHeading}}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -261,7 +260,7 @@
                                 <input type="hidden" ng-model="companyId" name="companyId" value="{{companyId}}">
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12" align="right">
-                                        <button type="submit" class="btn btn-primary btn-submit-last" >Save</button>
+                                        <button type="submit" class="btn btn-primary btn-submit-last" style=" margin-top: 20px;" >{{modalBtn}}</button>
                                     </div>
                                 </div>
                             </form>
@@ -276,7 +275,7 @@
             <div class="modal-content">
                 <div class="modal-header navbar-inner">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" align="center">Add Stationary</h4>
+                    <h4 class="modal-title" align="center">{{modalHeading}}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -344,7 +343,7 @@
                                 <input type="hidden" ng-model="companyId" name="companyId" value="{{companyId}}">
                                 <div class="row">
                                     <div class="col-md-12 col-xs-12" align="right">
-                                        <button type="submit" class="btn btn-primary btn-submit-last" ng-disable="stationaryBtn" >Save</button>
+                                        <button type="submit" class="btn btn-primary btn-submit-last" ng-disable="stationaryBtn" style=" margin-top: 20px;" >{{modalBtn}}</button>
                                     </div>
                                 </div>
                             </form>

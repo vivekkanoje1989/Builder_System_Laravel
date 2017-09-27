@@ -1486,8 +1486,8 @@ angular.module('app')
                                     templateUrl: '/master-sales/reassignEnquiry/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        lable: 'Sales / Pre Sales / Reassigned Enquiries',
-                                        title: 'Reassignd Enquiries',
+                                        label: 'Sales / Pre Sales / My Reassigned Enquiries',
+                                        title: 'Reassigned Enquiries',
                                     },
                                     resolve: {
                                         deps:
@@ -1519,7 +1519,7 @@ angular.module('app')
                                     templateUrl: '/master-sales/totalEnquiry/0',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Total Enquiries',
+                                        label: 'Sales / Pre Sales / My Total Enquiries',
                                         title: 'Total Enquiries',
                                     },
                                     resolve: {
@@ -1555,7 +1555,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Lost Enquiries',
+                                        label: 'Sales / Pre Sales / My Lost Enquiries',
                                         title: 'Lost Enquiries',
                                     },
                                     resolve: {
@@ -1589,7 +1589,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Booked Enquiry',
+                                        label: 'Sales / Pre Sales / My Booked Enquiry',
                                         title: 'Booked Enquiry',
                                     },
                                     resolve: {
@@ -1623,7 +1623,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Todays Followups',
+                                        label: 'Sales / Pre Sales / My Todays Followups',
                                         title: 'Todays Followups',
                                     },
                                     resolve: {
@@ -1657,7 +1657,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Pending Followups',
+                                        label: 'Sales / Pre Sales / My Pending Followups',
                                         title: 'Pending Followups',
                                     },
                                     resolve: {
@@ -1691,7 +1691,7 @@ angular.module('app')
                                     },
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Sales / Pre Sales / Previous Followups',
+                                        label: 'Sales / Pre Sales / My Previous Followups',
                                         title: 'Previous Followups',
                                     },
                                     resolve: {
@@ -4230,8 +4230,8 @@ angular.module('app')
                                     templateUrl: '/reports/projectwiseReport',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'Reports / Pre Sales / My Reports / Sales Report',
-                                        title: 'Sales Report',
+                                        label: 'Reports / Pre Sales / My Reports / Project Report',
+                                        title: 'Project Report',
                                     },
                                     resolve: {
                                         deps:

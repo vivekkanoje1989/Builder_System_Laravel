@@ -1,12 +1,13 @@
 <div class="row">
     <div class="widget flat radius-bordered">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController" ng-init="teamFollowupReport(<?php echo Auth::guard('admin')->user()->id; ?>)">
-            <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
-                <div id="status-report">
-                    <div class="widget">                                
-                        <div class="widget-header">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
                             <span class="widget-caption" style="font-size: 15px;font-weight: 600 !important;">Team Followup's Report</span>
                         </div>
+            <!--<div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">--> 
+                <div id="status-report">
+                    <!--<div class="widget">-->                                
+                        
                         <div class="widget-body table-responsive">
                             <table class="table table-hover table-striped table-bordered" at-config="config">
                                 <thead class="bord-bot">
@@ -131,9 +132,9 @@
                                 </tabset>
                             </div>
                         </div>
-                    </div>
+                    <!--</div>-->
                 </div>
-            </div>
+            <!--</div>-->
         </div>
     </div>
 </div>

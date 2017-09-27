@@ -398,38 +398,27 @@ class MasterHrController extends Controller {
         if (!empty($request['empId']) && $request['empId'] !== "0") {
             $salesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('sales_employee_id', $request['empId'])->count();
             $presalesEnqcount = \App\Modules\MasterSales\Models\Enquiry::where('cc_presales_employee_id', $request['empId'])->count();
-            $result = ['success' => true, "salesEnqcount" => $salesEnqcount, 'presalesEnqcount' => $presalesEnqcount];
-            return json_encode($result);
-        }
-    }
 
-    public function getsalesEmployees() {
-        $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
-        $empId = $input['empId'];
-        $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name', 'designation_id', 'employee_submenus')
-                        ->where(["employee_status" => 1])->whereNotIn('id', [$empId])->get();
-        $i = 0;
-        if (!empty($getEmployees)) {
-            foreach ($getEmployees as $emp) {
-                if (!empty($emp->employee_submenus)) {
-                    $a = json_decode($emp->employee_submenus, true);
-                    if (in_array("0401", $a) == 1) {
-                        $emp->first_name = $emp->first_name . " " . $emp->last_name;
-                        unset($emp->employee_submenus, $emp->last_name);
-                        $getEmployees1[] = $emp;
-                    }
-                }$i++;
+            $getEmployees = \App\Models\backend\Employee::with('designationName')->select('id', 'first_name', 'last_name', 'designation_id', 'employee_submenus')
+                            ->where(["employee_status" => 1])->whereNotIn('id', [$request['empId']])->get();
+            $i = 0;
+            if (!empty($getEmployees)) {
+                foreach ($getEmployees as $emp) {
+                    if (!empty($emp->employee_submenus)) {
+                        $a = json_decode($emp->employee_submenus, true);
+                        if (in_array("0401", $a) == 1) {
+                            $emp->first_name = $emp->first_name . " " . $emp->last_name;
+                            unset($emp->employee_submenus, $emp->last_name);
+                            $getEmployees1[] = $emp;
+                        }
+                    }$i++;
+                }
             }
+            $result = ['success' => true, "salesEnqcount" => $salesEnqcount, 'presalesEnqcount' => $presalesEnqcount, 'employees' => $getEmployees1];
+            echo json_encode($result);
         }
-
-        if (!empty($getEmployees1)) {
-            $result = ['success' => true, 'records' => $getEmployees1];
-        } else {
-            $result = ['success' => false, 'message' => 'Something went wrong'];
-        }
-        return json_encode($result);
     }
+
 
     public function getpresalesEmployees() {
         $postdata = file_get_contents("php://input");
@@ -1793,7 +1782,7 @@ class MasterHrController extends Controller {
 
     public function getTeamLeadForQuick() {
         //$employee = Employee::select("id", "first_name", "last_name")->where("id", "<>", $id)->with('designationName')->get();
-        $employee = Employee::with('designationName')->select("id", "first_name", "last_name", 'designation_id')->orderBy("first_name", "ASC")->get();
+        $employee = Employee::with('designationName')->select("id", "first_name", "last_name", 'designation_id')->where(["employee_status" => 1])->orderBy("first_name", "ASC")->get();
 
         if (!empty($employee)) {
             $result = ['success' => true, 'records' => $employee];

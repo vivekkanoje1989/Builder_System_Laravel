@@ -11,7 +11,7 @@
             <div class="step-content" id="WiredWizardsteps">
 
                 <div class="step-pane active" id="wiredstep2">	
-                    
+
                     <div class="row">
                         <div class="col-sm-12 col-xs-12">
                             <div class="row">
@@ -227,8 +227,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 col-xs-12" align="center">
+                        <div class="col-md-12 col-xs-12" align="right">
                             <button type="submit" ng-disabled="isDisabled" class="btn btn-primary" ng-click="btnQukEmp = true; emptyDepartmentId = true;">Create</button>
+                            <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </div>

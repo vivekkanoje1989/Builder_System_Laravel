@@ -1,8 +1,11 @@
 <div class="row">
     <div class="widget flat radius-bordered">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="reportsController" >
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Project Report</h5>
-            <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
+            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Project Report</h5>-->
+            <div class="widget-header bordered-bottom bordered-themeprimary">
+                <span class="widget-caption">Project Report</span>                
+            </div>
+            <div class="widget-body  col-lg-12 col-sm-12 col-xs-12">
                 <div class="col-sm-3 col-xs-12" ng-controller="projectCtrl">
                     <label for="search">Select Project:</label>
                     <span class="input-icon icon-right">

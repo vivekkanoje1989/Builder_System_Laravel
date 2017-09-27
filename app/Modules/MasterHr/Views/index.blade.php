@@ -229,25 +229,25 @@
 
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="modal.firstName" name="firstName" placeholder="First Name">
+                                <input type="text" class="form-control" ng-model="modal.firstName" name="firstName" placeholder="First Name" readonly="">
                                 <i class="fa fa-user thm-color circular"></i>
                             </span>
                         </div>
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="modal.lastName" name="lastName" placeholder="Last Name">
+                                <input type="text" class="form-control" ng-model="modal.lastName" name="lastName" placeholder="Last Name" readonly="">
                                 <i class="fa fa-user thm-color circular"></i>
                             </span>
                         </div>
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="modal.userName" name="userName" placeholder="User Name">
+                                <input type="text" class="form-control" ng-model="modal.userName" name="userName" placeholder="User Name" readonly="">
                                 <i class="fa fa-user thm-color circular"></i>
                             </span>
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-sub  btn-primary" ng-click="step1 = true">Submit</button>
+                        <button type="submit" class="btn btn-sub  btn-primary" ng-click="step1 = true" ng-disabled="passwordBtn" >Submit</button>
                     </div>
                 </form>
             </div>
@@ -284,12 +284,12 @@
                             <div class="">
                                 <span><strong>Total Enquires found : {{totsalesEnquiries}}</strong></span>
                             </div>
-                            <div class="">
+<!--                            <div class="">
                                 <span><strong>Total Deals : </strong></span>
-                            </div>
+                            </div>-->
                         </div>
                         <br>
-                        <div class="row" ng-if="totpresalesEnquiries > 0">
+<!--                        <div class="row" ng-if="totpresalesEnquiries > 0">
                             <div class="col-sm-5 col-sx-12">
                                 <label for="">Customer Care Enquiries Reassign To</label>  <br> 
                                 <span>(<strong>Total Enquires found : {{totpresalesEnquiries}}</strong>)</span>
@@ -306,7 +306,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="modal-footer" align="center">
                         <button  type="submit" ng-click="sbtBtn = true" class="btn btn-primary pull-right">Reassign To</button></center>
