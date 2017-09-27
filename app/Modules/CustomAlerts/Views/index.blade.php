@@ -122,7 +122,7 @@
                         <td>{{ listAlert.sms_body | htmlToPlaintext }}</td>
                         <td>{{ listAlert.email_subject | htmlToPlaintext }}</td>
                         <td class="">
-                            <span class="" tooltip-html-unsafe="Edit Custom Template" ><a href="[[ config('global.backendUrl') ]]#/customalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
+                            <span class="" tooltip-html-unsafe="Edit Custom Template" ><a href="[[ config('global.backendUrl') ]]#/customalerts/update/{{ listAlert.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
                             <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                         </td>
                         </tr>

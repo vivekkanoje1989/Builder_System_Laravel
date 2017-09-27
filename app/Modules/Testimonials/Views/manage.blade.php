@@ -119,7 +119,7 @@
                                 <td>{{ list.company_name}}</td>
                                 <td>{{(list.approve_status == 1) ? "Approved" : "Not Approve"}}</td>
                                 <td class="">
-                                   <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/testimonials-manage/update/{{ list.testimonial_id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                   <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/testimonials-manage/update/{{ list.testimonial_id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                      <span ng-show="deleteDisApprove == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirmDelete({{list.testimonial_id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>

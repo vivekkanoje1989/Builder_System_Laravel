@@ -339,7 +339,7 @@
                                                             <td>{{list.page_title}}</td>
                                                             <td>{{list.seo_url}}</td>
                                                             <td class="">
-                                                                <div  style="float:center" tooltip-html-unsafe="Edit Sub Page" style="display: block;"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}},{{list.id}})" class='btn-info btn-xs'><i class="fa fa-edit"></i>Edit</a></div>
+                                                                <div  style="float:center" tooltip-html-unsafe="Edit Sub Page" style="display: block;"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}},{{list.id}})" class='btn btn-primary btn-xs'><i class="fa fa-edit"></i>Edit</a></div>
                                                             </td>
                                                         </tr>                                            
                                                     </tbody>

@@ -122,6 +122,7 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
                                 });
                             }
                         });
+                        $scope.projectName = response.settingData.project_name;
                         $scope.showAllTabs = false;
                     } else {
                         $scope.projectData.project_id = prid;
@@ -528,112 +529,5 @@ app.directive('ngConfirmClick', [
                 });
             }
         };
-    }]);
-
-
-
-/*$scope.getProjectDetails = function (projectId) { //get project details
- Data.get('projects/getProjectDetails/' + projectId).then(function (response) {
- if (!response.success) {
- $scope.projectData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.inventoryData = $scope.amenityData = $scope.galleryData = $scope.specificationData = {};
- $scope.statusRow = $scope.statusImages = $scope.specificationTitle = $scope.floorTitle = $scope.layoutTitle = [];
- $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
- $scope.projectData.project_id = projectId;
- $scope.wingList = $scope.floorList = [];
- $scope.notFound = true;
- } else {
- Data.post('getStates', {
- data: {countryId: response.details.project_country},
- }).then(function (responseState) {
- if (!responseState.success) {
- $scope.errorMsg = responseState.message;
- } else {
- $scope.stateList = responseState.records;
- $scope.contactData.project_state = angular.copy(response.details.project_state);
- Data.post('getCities', {
- data: {stateId: response.details.project_state},
- }).then(function (responseCity) {
- if (!responseCity.success) {
- $scope.errorMsg = responseCity.message;
- } else {
- $scope.cityList = responseCity.records;
- Data.post('getLocations', {
- data: {countryId: response.details.project_country, stateId: response.details.project_state, cityId: response.details.project_city},
- }).then(function (responseLoc) {
- if (!responseLoc.success) {
- $scope.errorMsg = responseLoc.message;
- } else {
- $scope.locationList = responseLoc.records;
- }
- });
- }
- });
- }
- });
- Data.post('projects/getAmenitiesListOnEdit', {
- data: response.details.project_amenities_list,
- async: false,
- }).then(function (responseAList) {
- if (!responseAList.success) {
- $scope.errorMsg = responseAList.message;
- } else {
- $scope.project_logo = $scope.project_thumbnail = $scope.project_favicon = $scope.project_banner_images = $scope.project_background_images = $scope.project_brochure = $scope.project_favicon = $scope.location_map_images = $scope.amenities_images = $scope.project_gallery = [];
- //$scope.projectData = $scope.contactData = $scope.seoData = $scope.mapData = $scope.amenityData = $scope.galleryData = $scope.specificationData = angular.copy(response.details);
- 
- $scope.project_logo = (response.details.project_logo !== null && response.details.project_logo !== "null") ? response.details.project_logo.split(',') : [];
- $scope.project_thumbnail = (response.details.project_thumbnail !== null && response.details.project_thumbnail !== "null") ? response.details.project_thumbnail.split(',') : [];
- $scope.project_favicon = (response.details.project_favicon !== null && response.details.project_favicon !== "null") ? response.details.project_favicon.split(',') : [];
- $scope.project_banner_images = (response.details.project_banner_images !== null && response.details.project_banner_images !== "null") ? response.details.project_banner_images.split(',') : [];
- $scope.project_background_images = (response.details.project_background_images !== null && response.details.project_background_images !== "null") ? response.details.project_background_images.split(',') : [];
- $scope.project_brochure = (response.details.project_brochure !== null && response.details.project_brochure !== "null") ? response.details.project_brochure.split(',') : [];
- $scope.location_map_images = (response.details.location_map_images !== null && response.details.location_map_images !== "null") ? response.details.location_map_images.split(',') : [];
- $scope.amenities_images = (response.details.amenities_images !== null && response.details.amenities_images !== "null") ? response.details.amenities_images.split(',') : [];
- $scope.project_gallery = (response.details.project_gallery !== null && response.details.project_gallery !== "null") ? response.details.project_gallery.split(',') : [];
- $scope.amenityData.project_amenities_list = angular.copy(responseAList.records);
- 
- $scope.specificationTitle = response.specificationTitle;
- $scope.floorTitle = response.floorTitle;
- $scope.layoutTitle = response.layoutTitle;
- $scope.statusRow = response.projectStatusRecords;
- for (var i = 0; i < response.projectStatusRecords.length; i++) {
- var array = response.projectStatusRecords[i].images.split(',');
- $scope.statusImages.push(array);
- }
- $scope.inventoryData = angular.copy(response.getProjectInventory);
- }
- });
- $scope.getWings();
- $scope.getBlocks();
- $scope.getInventoryDetails(0);
- }
- $scope.projectDetails = true;
- });
- }*/
-
-/*$scope.saveBasicInfo = function (projectData, projectImages) {
- console.log(projectImages);
- if (angular.equals(projectData, {}) === false || angular.equals(projectImages, {}) === false)
- {
- if (typeof projectImages === 'undefined') {
- projectImages = new File([""], "fileNotSelected", {type: "text/jpg", lastModified: new Date(), image: false});
- }
- projectImages.upload = Upload.upload({
- url: '/projects/basicInfo',
- headers: {enctype: 'multipart/form-data'},
- data: {project_id: $scope.projectData.project_id, projectData: projectData, projectImages: projectImages},
- });
- projectImages.upload.then(function (response) {
- if (!response.data.success) {
- $scope.errorMsg = response.message;
- } else {
- $state.reload();
- toaster.pop('success', 'Project', response.data.message);
- //                    angular.element('.btn-next').trigger('click');
- }
- }, function (response) {
- if (response.data.status !== 200) {
- $scope.errorMsg = "Something went wrong.";
- }
- });
- }
- }*/
+    }
+]);

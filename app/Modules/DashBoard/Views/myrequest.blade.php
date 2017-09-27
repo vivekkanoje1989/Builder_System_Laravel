@@ -153,7 +153,7 @@
                                 <td>{{list.from_date}}</td> 
                                 <td>{{list.to_date}}</td>
                                 <td>{{list.status == 1 ? "Leave" : "Approved" }}</td>
-                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
 
                             </tr>
                             <tr>

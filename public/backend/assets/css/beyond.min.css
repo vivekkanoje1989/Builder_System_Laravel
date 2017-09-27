@@ -11922,9 +11922,9 @@ input[type="color"]:focus {
 .form-control,
 select {
     font-size: 13px;
-    color: #858585;
+    color: #797979;
     background-color: #fbfbfb;
-    border: 1px solid #d5d5d5;
+    border: 1px solid #797979 !important;
     padding: 6px 12px;
     -webkit-appearance: none;
     -moz-appearance: none;

@@ -3267,8 +3267,8 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         parent: 'manageJobIndex',
-                                        label: 'Add Details',
-                                        title: 'Add Details',
+                                        label: 'Add Job Details',
+                                        title: 'Add Job Details',
                                     },
                                     resolve: {
                                         deps:
@@ -3298,8 +3298,8 @@ angular.module('app')
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
                                         parent: 'manageJobIndex',
-                                        label: 'Edit Details',
-                                        title: 'Edit Details',
+                                        label: 'Edit Job Details',
+                                        title: 'Edit Job Details',
                                     },
                                     resolve: {
                                         deps:

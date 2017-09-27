@@ -992,7 +992,7 @@ class MasterSalesController extends Controller {
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_employee_id" => $input['followup_by']['id']]);
             }
 
-            $input['followup_by'] = $loggedInUserId;
+            $input['followup_by_employee_id'] = $loggedInUserId;
             if (!empty($input)) {
                 $lostReason = $lostSubReason = 0;
                 if ($input['sales_status_id'] == 3) {//booked
@@ -1108,7 +1108,8 @@ Regards,<br>
 
                 $update = CommonFunctions::updateMainTableRecords($loggedInUserId);
                 $editExistingFollowup = $input['editExistingFollowup'];
-                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup']);
+                unset($input['followupId'], $input['customerId'], $input['mobileNumber'], $input['email_id_arr'], $input['textRemark'], 
+                        $input['msgRemark'], $input['email_content'], $input['subject'], $input['editExistingFollowup'],$input['followup_by']);
                 $enqUpdate = Enquiry::where('id', $enquiryId)->update(["sales_status_id" => $sales_status_id, "sales_substatus_id" => $sales_substatus_id,
                     "sales_category_id" => $sales_category_id, "sales_subcategory_id" => $sales_subcategory_id, 'sales_lost_reason_id' => $lostReason,
                     "sales_lost_sub_reason_id" => $lostSubReason], $update);
@@ -1119,7 +1120,7 @@ Regards,<br>
                     $input = array_merge($input, $update);
                     $input['client_id'] = config('global.client_id');
                     $insertFollowup = EnquiryFollowup::where("id", $followupId)->update($input);
-                    $result = ['success' => true, 'message' => "", 'bookingId' => $bookingId];
+                    $result = ['success' => true, 'message' => $msg, 'bookingId' => $bookingId];
                 } else {
                     $input = array_merge($input, $create);
                     $insertFollowup = EnquiryFollowup::create($input);

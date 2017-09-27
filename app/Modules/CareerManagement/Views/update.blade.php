@@ -2,7 +2,7 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Edit Details</span>
+                <span class="widget-caption">Edit Job Details</span>
             </div>
             <div class="widget-body">
                 <form  ng-submit="jobPosting.$valid && dojobPostingAction(career)" name="jobPosting"  novalidate enctype="multipart/form-data">

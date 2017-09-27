@@ -67,8 +67,10 @@ class ProjectsController extends Controller {
         $loggedInUserId = Auth::guard('admin')->user()->id;
         $msg = "";
         if (!empty($input["getDataByPrid"])) { //for list
-            $getProjectDetails = ProjectWebPage::select("project_id", "alias_status", "project_alias", "short_description", "brief_description", "project_country", "project_state", "project_city", "project_location", "project_address", "project_contact_numbers", "project_website", "page_title", "seo_url", "meta_description", "meta_keywords", "canonical_tag")
-                    ->where("project_id", "=", $input["getDataByPrid"])
+            
+            $getProjectDetails = ProjectWebPage::select("pr.project_name","project_id", "alias_status", "project_alias", "short_description", "brief_description", "project_country", "project_state", "project_city", "project_location", "project_address", "project_contact_numbers", "project_website", "page_title", "seo_url", "meta_description", "meta_keywords", "canonical_tag")
+                    ->leftJoin('projects as pr','pr.id', '=', 'project_web_pages.project_id')
+                    ->where("project_web_pages.project_id", "=", $input["getDataByPrid"])
                     ->get();
 
             unset($input["settingData"]["prid"], $input["settingData"]["csrfToken"]);

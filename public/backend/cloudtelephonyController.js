@@ -1,6 +1,6 @@
 'use strict';
-app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload', '$window', '$timeout', '$state', '$rootScope', 'toaster', function ($scope, Data, $filter, Upload, $window, $timeout, $state, $rootScope, toaster) {
-        //$scope.pageHeading = 'Virtual Number';
+app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload', '$window', '$timeout', '$state', '$rootScope', 'toaster','$stateParams', function ($scope, Data, $filter, Upload, $window, $timeout, $state, $rootScope, toaster,$stateParams) {
+        $scope.pageHeading = 'Virtual Number';
         $scope.registrationData = {};
         $scope.registrationData.client = "";
         $scope.registrationData.incoming_call_status = '1';
@@ -60,18 +60,45 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
         $scope.closeModal = function () {
             $scope.searchData = {};
         }
-
-
+        
+        $scope.filterVNumbers = function(empId){
+            Data.post('cloudtelephony/getVirtualNumList',{
+                empId:empId,
+            }).then(function (response, evt) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                } else {
+                    $scope.virtualnumList = response.data;                   
+                    $scope.empId = response.empId;                   
+                }
+            });
+        }
         $scope.showvirtualnumusers = function () {
             Data.post('cloudtelephony/getVirtualNumList').then(function (response, evt) {
                 if (!response.success) {
                     $scope.errorMsg = response.message;
                 } else {
                     $scope.virtualnumList = response.data;
+                    $scope.empId = response.empId; 
                 }
             });
         }
-        $scope.removeEmpID = function (pmKey, empId, extid, removeType) {
+        $scope.removeEmpID = function(pmKey,empId,extid,removeType){
+            Data.post('cloudtelephony/removeEmpID',{data:{pmKey:pmKey,empId:empId,extid:extid,removeType:removeType}}).then(function (response, evt) {
+                if (!response.success) {
+                    toaster.pop('error', '', response.message);
+                } else {
+                    toaster.pop('success', '', 'Employee removed successfully');
+                }               
+                $timeout(function(){     
+                    $("#emp_id").val(empId);
+                    $scope.registrationData.emp_id = angular.copy(empId);
+                    $scope.filterVNumbers(empId);
+                    angular.element("a.accordion-toggle."+response.data).trigger("click");
+                },500);
+            });
+        }
+        /*$scope.removeEmpID = function (pmKey, empId, extid, removeType) {
             Data.post('cloudtelephony/removeEmpID', {data: {pmKey: pmKey, empId: empId, extid: extid, removeType: removeType}}).then(function (response, evt) {
                 if (!response.success) {
                     toaster.pop('error', '', response.message);
@@ -83,7 +110,7 @@ app.controller('cloudtelephonyController', ['$scope', 'Data', '$filter', 'Upload
                     angular.element("a.accordion-toggle." + response.data).trigger("click");
                 }, 500);
             });
-        }
+        }*/
 
         $scope.registrationNumber = function (registrationData) {
             var date = new Date($scope.registrationData.activation_date);

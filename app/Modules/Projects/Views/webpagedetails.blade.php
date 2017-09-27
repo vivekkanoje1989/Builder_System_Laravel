@@ -28,61 +28,62 @@
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Project Web Page</span>
+                <span class="widget-caption">{{projectName}}</span>
             </div>
             <div class="widget-body">
                 <div class="row">
-            <div class="col-lg-12 col-sm-6 col-xs-12">
-                <div class="mainPanel">
-                    <div class="col-md-3">
-                        <div class="databox radius-bordered databox-shadowed databox-graded databox-vertical">
-                            <div class="databox-top bg-blue">
-                                <div class="databox-icon">
-                                    <i class="fa fa-upload"></i>
+                    <div class="col-lg-12 col-sm-6 col-xs-12">
+                        <input type="hidden" ng-model="projectData.project_id" name="project_id" value="[[ $projectId ]]"/>
+                        <div class="mainPanel">
+                            <div class="col-md-3">
+                                <div class="databox radius-bordered databox-shadowed databox-graded databox-vertical">
+                                    <div class="databox-top bg-blue">
+                                        <div class="databox-icon">
+                                            <i class="fa fa-upload"></i>
+                                        </div>
+                                    </div>
+                                    <div class="databox-bottom text-align-center">
+                                        <span class="databox-text">
+                                            <button class="btn_webpageSettings" ng-init="webpageSettings([[ $projectId ]],'')">Website Settings</button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="databox-bottom text-align-center">
-                                <span class="databox-text">
-                                    <button class="btn_webpageSettings" ng-init="webpageSettings([[ $projectId ]],'')">Website Settings</button>
-                                </span>
+                            <div class="col-md-3">
+                                <div class="panel panel-default">
+                                    <div class="panel-body"><button class="btn_uploads" ng-disabled="showAllTabs" ng-click="!showAllTabs && uploadsData([[ $projectId ]],'', '')">Uploads</button></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="panel panel-default">
+                                    <div class="panel-body"><button class="btn_inventory" ng-disabled="showAllTabs" ng-click="!showAllTabs && getInventoryDetails([[ $projectId ]],0, '')">Project Inventory</button></div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="panel panel-default">
+                                    <div class="panel-body"><button class="btn_floor_inventory" ng-disabled="showAllTabs">Floor Inventory</button></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div id="fade-in" class="box">
+                            <div class="content_website_settings">
+                                <div data-ng-include="'/projects/basicinfo'"></div>
+                            </div>
+                        </div>
+                        <div id="fade-in-uploads" class="box">
+                            <div heading="Uploads" class="content_uploads">
+                                <div data-ng-include="'/projects/uploads'"></div>
+                            </div>
+                        </div>
+                        <div id="fade-in-inventory" class="box">
+                            <div heading="Uploads" class="content_inventory">
+                                <div data-ng-include="'/projects/inventory'"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="panel panel-default">
-                            <div class="panel-body"><button class="btn_uploads" ng-disabled="showAllTabs" ng-click="!showAllTabs && uploadsData([[ $projectId ]],'', '')">Uploads</button></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="panel panel-default">
-                            <div class="panel-body"><button class="btn_inventory" ng-disabled="showAllTabs" ng-click="!showAllTabs && getInventoryDetails([[ $projectId ]],0,'')">Project Inventory</button></div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="panel panel-default">
-                            <div class="panel-body"><button class="btn_floor_inventory" ng-disabled="showAllTabs">Floor Inventory</button></div>
-                        </div>
-                    </div>
                 </div>
-                
-                <input type="hidden" ng-model="projectData.project_id" name="project_id" value="[[ $projectId ]]"/>
-                <div id="fade-in" class="box">
-                    <div class="content_website_settings">
-                        <div data-ng-include="'/projects/basicinfo'"></div>
-                    </div>
-                </div>
-                <div id="fade-in-uploads" class="box">
-                    <div heading="Uploads" class="content_uploads">
-                        <div data-ng-include="'/projects/uploads'"></div>
-                    </div>
-                </div>
-                <div id="fade-in-inventory" class="box">
-                    <div heading="Uploads" class="content_inventory">
-                        <div data-ng-include="'/projects/inventory'"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
             </div>
         </div>
     </div>
@@ -109,7 +110,5 @@ $(document).ready(function() {
         $('.mainPanel').hide();
         $('.content_inventory').show();        
     }); 
-    
-    
 });
 </script>

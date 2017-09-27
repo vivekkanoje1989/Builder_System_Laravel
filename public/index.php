@@ -10,7 +10,7 @@ $GLOBALS['dbname'] = $dbname;
 $GLOBALS['server'] = $server_name;
 session_start();
 $domain = ltrim($_SERVER['HTTP_HOST'], "www.");
-//print_r($domain['client_info']);exit;
+
 if (empty($_SESSION[$domain]['client_info']) || empty($_SESSION[$domain]['aws_bucket_id'])) {
     $connetion = mysqli_connect("$server_name", "$uname", "$password");
     if (!$connetion) {

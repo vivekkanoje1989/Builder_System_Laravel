@@ -185,7 +185,7 @@
                                 <td ng-if="listUser.employee_status == 3">Permanent Suspended</td>
                                 <td>{{ listUser.login_date_time == null ? '-' : listUser.login_date_time | date : "dd-MM-yyyy"  }}</td>
                                 <td class="">
-                                    <div class="hrbtn" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
+                                    <div class="hrbtn" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
                                     <div class="hrbtn" tooltip-html-unsafe="User Permissions" tooltip-placement="top" ><a href="[[ config('global.backendUrl') ]]#/user/permissions/{{ listUser.id}}"  class=" btn-success btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</div>
                                     <div class="hrbtn" tooltip-html-unsafe="Change Password" data-toggle="modal" data-target="#myModal" ><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id}},'changePassword')"  class="btn-warning btn-xs"><i class="fa fa-lock"></i>Change Password</a>&nbsp;&nbsp;</div>
                                     <div class="hrbtn" tooltip-html-unsafe="Suspend Employee" ><a href ng-click="employeeSuspend({{ listUser.id}},{{$index}},itemsPerPage, noOfRows)" class="btn-danger btn-xs" ><i class="fa fa-user-times"></i>Suspend</a>&nbsp;&nbsp;</div>

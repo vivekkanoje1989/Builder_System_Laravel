@@ -108,6 +108,11 @@ class CloudTelephonyController extends Controller {
 
     public function getVirtualNumList() {
         try {
+            $postdata = file_get_contents("php://input");
+            $request = json_decode($postdata, true);
+            
+            $empId = (!empty($request['empId'])) ? $request['empId'] : "";
+//            $getEmployee = \App\Model\backend\Employee::select("id","first_name","last_name")->get();
             $getList = DB::table('ct_settings')->leftjoin('ct_menu_settings as cms', 'cms.ct_settings_id', '=', 'ct_settings.id')
                     ->leftjoin('laravel_developement_master_edynamics.mlst_bmsb_enquiry_sales_sources as salessource', 'salessource.id', '=', 'ct_settings.source_id')
                     ->leftjoin('enquiry_sales_sub_sources as salessubsource', 'salessubsource.id', '=', 'ct_settings.sub_source_id')
@@ -158,14 +163,30 @@ class CloudTelephonyController extends Controller {
                             $getEmployeeDetails = \App\Model\backend\Employee::select("id","first_name","last_name")->where('id',$emp)->get();
                             $listArr2[$record['extid']."_"."".$record['ext_number']."-".$record['ext_name']][$getEmployeeDetails[0]['id']] = $getEmployeeDetails[0]['first_name']." ".$getEmployeeDetails[0]['last_name'];
                         }
+                        if(!empty($empId)){
+                            if(array_key_exists($empId, $listArr1["_Default Employee"]) || 
+                                array_key_exists($empId, $listArr2[$record['extid']."_"."".$record['ext_number']."-".$record['ext_name']]) || 
+                                array_key_exists("extDefault_".$empId, $listArr2[$record['extid']."_"."".$record['ext_number']."-".$record['ext_name']]))
+                            {
                         $listArr[$record['id']."_".$virtualNum][0] = $listArr1;
                         $listArr[$record['id']."_".$virtualNum][$i] = $listArr2;
+                            }
                     }else{
                         $listArr[$record['id']."_".$virtualNum][0] = $listArr1;
+                            $listArr[$record['id']."_".$virtualNum][$i] = $listArr2;
+                    }
+                    }else{
+                        if(!empty($empId)){
+                            if(array_key_exists($empId, $listArr1["_Employees"])){
+                                $listArr[$record['id']."_".$virtualNum][0] = $listArr1;
+                            }
+                        }else{
+                            $listArr[$record['id']."_".$virtualNum][0] = $listArr1;
+                        }
                     }
                     $i++;
                 }
-                $result = ["success" => true, "data" => $listArr];
+                $result = ["success" => true, "data" => $listArr, "empId" => $empId];
             }
         } catch (Exception $ex) {
             $result = ["success" => false, "status" => 412, "message" => $ex->getMessage()];

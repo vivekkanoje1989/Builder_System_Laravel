@@ -73,6 +73,7 @@
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-primary" ng-click="cancel_basic_info()">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -149,6 +150,7 @@
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-primary" ng-click="cancel_basic_info()">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -200,7 +202,8 @@
                 <div class="row">
                     <div class="col-sm-3 col-xs-6">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save</button>                            
+                            <button type="submit" class="btn btn-primary">Save</button>  
+                            <button type="button" class="btn btn-primary" ng-click="cancel_basic_info()">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -209,7 +212,6 @@
     </div>
     <div class="actions actions-footer" id="tabbedwizard-actions">
         <div class="btn-group">
-            <button type="button" class="btn btn-primary" ng-click="cancel_basic_info()">Cancel</button>
             <button type="button" class="btn btn-default btn-sm btn-prev"> <i class="fa fa-angle-left"></i>Prev</button>
             <button type="button" class="btn btn-default btn-sm btn-next" data-last="Finish">Next<i class="fa fa-angle-right"></i></button>
         </div>

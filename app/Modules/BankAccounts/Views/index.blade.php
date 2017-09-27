@@ -145,7 +145,7 @@
                                 <td>{{item.account_type == '1' ? "Saving":"Current"}}</td>
                                 <td>{{item.account_number}}</td>  
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#bankAccountModal"><a href="javascript:void(0);" ng-click="initialModel({{ item.id}},{{item}},{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#bankAccountModal"><a href="javascript:void(0);" ng-click="initialModel({{ item.id}},{{item}},{{itemsPerPage}},{{$index}})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{item.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>

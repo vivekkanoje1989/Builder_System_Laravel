@@ -130,8 +130,8 @@
                                 <td>{{list.application_from}}</td>
                                 <td>{{list.from_date}}</td> 
                                 <td>{{list.to_date}}</td>
-                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn-info btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
-                                <td><a href="" data-toggle="modal" data-target="#newModal" class="btn-info btn-xs" ng-click="statusChange({{list}},$index); view_description({{list}})" ><i class="fa fa-info-circle" aria-hidden="true"></i>Action</a></td>
+                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                <td><a href="" data-toggle="modal" data-target="#newModal" class="btn btn-primary btn-xs" ng-click="statusChange({{list}},$index); view_description({{list}})" ><i class="fa fa-info-circle" aria-hidden="true"></i>Action</a></td>
                             </tr>
                             <tr>
                                 <td colspan="8"  ng-show="(myRequest|filter:search|filter:searchData).length == 0" align="center">Records Not Found</td>   

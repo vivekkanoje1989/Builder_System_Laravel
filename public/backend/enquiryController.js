@@ -1375,7 +1375,7 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
                 company_id: modalData.company_id,
                 corporate_customer: modalData.corporateCust,
                 company_name: $scope.remarkData.company_name,
-                followup_by: modalData.followup_by,
+                followup_by_employee_id: modalData.followup_by_employee_id,
                 next_followup_date: modalData.next_followup_date,
                 next_followup_time: modalData.next_followup_time,
                 sales_status_id: modalData.sales_status_id,
@@ -1423,19 +1423,21 @@ $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init)
                         $("li#bookingTab").removeClass('active');
                         $("li#collectedTab").addClass('active');
                         toaster.pop('success', 'Booking Details', response.message);
+                        if (typeof $scope.filterData !== 'undefined') {
+                            $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                        }
                     } else {
                         $('#todayremarkDataModal').modal('toggle');
                         toaster.pop('success', '', response.message);
-                        /*if (typeof $scope.filterData !== 'undefined') {
-                         $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
-                         } else {*/
-
-                        $state.transitionTo($state.current, $stateParams, {
-                            reload: true, //reload current page
-                            inherit: false, //if set to true, the previous param values are inherited
-                            notify: true //reinitialise object
-                        });
-//                        }
+                        if (typeof $scope.filterData !== 'undefined') {
+                            $scope.getFilteredData($scope.filterData, 1, $scope.itemsPerPage);
+                        } else {
+                            $state.transitionTo($state.current, $stateParams, {
+                                reload: true, //reload current page
+                                inherit: false, //if set to true, the previous param values are inherited
+                                notify: true //reinitialise object
+                            });
+                        }
                         $(".modal-backdrop").hide();
                     }
                 }

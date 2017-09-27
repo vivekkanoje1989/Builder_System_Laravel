@@ -132,8 +132,7 @@
                                 <td>{{list.projectType}}</td>
                                 <td>{{list.projectStatus}}</td>
                                 <td class="">
-                                    <!--<div class="" tooltip-html-unsafe="Edit" style="display: block;"><a href="javascript:void(0);" ng-click="showWebPage({{list.id}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></div>-->
-                                    <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/projects/webpageDetails/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit"><a href="[[ config('global.backendUrl') ]]#/projects/webpageDetails/{{ list.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                 </td>
                             </tr>
                             <tr>

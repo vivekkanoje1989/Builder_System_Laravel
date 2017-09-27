@@ -93,7 +93,7 @@
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{list.role_name}}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/role/permissions/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</div>
+                                    <div class="" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href="[[ config('global.backendUrl') ]]#/role/permissions/{{ list.id}}" class="btn btn-primary btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</div>
                                 </td>
                             </tr>
                         </tbody>

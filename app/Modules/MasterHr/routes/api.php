@@ -15,7 +15,8 @@ Route::group(array('module' => 'MasterHr', 'middleware' => ['api'], 'namespace' 
     Route::post('api/master-hr/getEnquiriesCnt', 'MasterHrController@getEnquiriesCnt');
     Route::post('api/master-hr/bulkreasignemployee', 'MasterHrController@bulkreasignemployee');
     Route::post('api/master-hr/BulkReasignEmployeeFromList', 'MasterHrController@BulkReasignEmployeeFromList');
-
+    Route::post('api/master-hr/changePassword', 'MasterHrController@changePassword');
+    
     Route::post('api/master-hr/appCreateUser', 'MasterHrController@appCreateUser');
     Route::post('api/master-hr/createquickuser', 'MasterHrController@createquickuser');
     Route::post('api/master-hr/updatePassword', 'MasterHrController@updatePassword');

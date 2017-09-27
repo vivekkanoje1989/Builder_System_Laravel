@@ -396,7 +396,7 @@ class AdminController extends Controller {
         $getMlstProfession = MlstProfession::where("status", 1)->get();
         $getMlstBmsbDesignation = MlstBmsbDesignation::where("status", 1)->get();
         $getStates = MlstState::where('country_id', 101)->get();
-        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id', 'employee_id', 'designation_id')->where("employee_status", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id', 'employee_id', 'designation_id', 'employee_status')->where("employee_status", 1)->get();
         $blockTypeList = MlstBmsbBlockType::select("id", "project_type_id", "block_name")->get();
         $projectList = Project::select('id', 'project_name')->get();
         $subBlocksList = ProjectBlock::select("id", "project_id", "block_type_id", "block_sub_type")->get();

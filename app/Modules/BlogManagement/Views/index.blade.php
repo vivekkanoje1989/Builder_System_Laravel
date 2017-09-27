@@ -130,7 +130,7 @@
                                 <td>{{item.meta_keywords}}</td>
                                 <td>{{item.blog_status}}</td>
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit blog"  data-toggle="modal" ng-click="editBlogData({{item}},{{$index}})"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit blog"  data-toggle="modal" ng-click="editBlogData({{item}},{{$index}})"><a href="[[ config('global.backendUrl') ]]#/blog/update/{{ item.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{item.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>

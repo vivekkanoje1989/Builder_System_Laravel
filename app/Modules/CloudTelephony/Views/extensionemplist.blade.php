@@ -111,7 +111,7 @@
                                     <td>{{ listNumber.employee}}</td>
                                     <td>Extension &nbsp;{{listNumber.extension_no}}</td>
                                     <td class="">
-                                        <span class="" tooltip-html-unsafe="Edit" ><a href="javascript:void(0)" data-toggle="modal"  data-target="#addExtensionModal" ng-click="editExtensionModal(ct_employee_extlist, listNumber)" class='btn-info btn-xs'><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
+                                        <span class="" tooltip-html-unsafe="Edit" ><a href="javascript:void(0)" data-toggle="modal"  data-target="#addExtensionModal" ng-click="editExtensionModal(ct_employee_extlist, listNumber)" class='btn btn-primary btn-xs'><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
                                         <span ng-show="deleteData == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{listNumber.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                     </td>
                                 </tr>

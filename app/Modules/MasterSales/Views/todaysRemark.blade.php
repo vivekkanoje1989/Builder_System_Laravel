@@ -437,6 +437,7 @@
                                                     <option value=""> Select Time </option>
                                                     <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="{{time.value == remarkData.next_followup_time}}">{{time.label}}</option>
                                                 </select>
+                                                <i class="fa fa-sort-desc"></i>
                                                 <div  ng-show="sbtBtn" ng-messages="remarkForm.next_followup_time.$error" class="help-block">
                                                     <div ng-message="required" >This field is required</div>
                                                 </div>
@@ -450,8 +451,8 @@
                                         <div class="form-group">
                                             <label ng-if="remarkData.sales_status_id != 3">Reassign to</label>
                                             <label ng-if="remarkData.sales_status_id == 3">Reassign this booking to</label>
-                                            <ui-select ng-controller="salesemployeesCtrl" ng-model="remarkData.followup_by" name="followup_by" theme="bootstrap">
-                                                <ui-select-match placeholder="Select Employee">{{remarkData.followup_by.first_name}}</ui-select-match>
+                                            <ui-select ng-controller="salesemployeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id" theme="bootstrap">
+                                                <ui-select-match placeholder="Select Employee">{{remarkData.followup_by_employee_id.first_name}}</ui-select-match>
                                                 <ui-select-choices repeat="item in salesemployeeList | filter: $select.search">
                                                     <div ng-bind-html="item.first_name | highlight: $select.search"></div>
                                                 </ui-select-choices>
