@@ -18,6 +18,39 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         $scope.lmodalForm = {};
         $scope.wingList = $scope.floorList = [];
 
+
+        /***************************************
+        $scope.mainPanel = true;
+        $scope.content_website_settings = false;
+        $scope.content_uploads = false;
+        
+        
+        $scope.content = function(){
+            $('#fade-in1').toggleClass('show'); 
+            $scope.content_website_settings = false;
+            $scope.mainPanel = true;
+        }
+        $scope.content1 = function(){
+            $('#fade-in2').toggleClass('show'); 
+            $scope.content_uploads = false;
+            $scope.mainPanel = true;
+        }
+        /**************************************/
+        $scope.cancel_basic_info = function(){
+            $('#fade-in').toggleClass('show');
+            $('.mainPanel').show();
+            $('.content_website_settings').hide();
+        }
+        $scope.cancel_uploads = function(){
+            $('#fade-in-uploads').toggleClass('show');
+            $('.mainPanel').show();
+            $('.content_uploads').hide();
+        }
+        $scope.cancel_inventory = function(){
+            $('#fade-in-inventory').toggleClass('show');
+            $('.mainPanel').show();
+            $('.content_inventory').hide();
+        }
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
@@ -47,6 +80,10 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.webpageSettings = function (prid, settingData) {
+//            $('#fade-in1').toggleClass('show'); 
+//            $scope.mainPanel = false;
+//            $scope.content_website_settings = true;
+            
             if (settingData === '') { //for data
                 Data.post('projects/webpageSettings', {
                     getDataByPrid: prid,
@@ -106,8 +143,11 @@ app.controller('projectController', ['$rootScope', '$scope', '$state', 'Data', '
         }
 
         $scope.uploadsData = function (prid, uploadData, otherData) {
+//            $('#fade-in2').toggleClass('show'); 
+//            $scope.mainPanel = false;
+//            $scope.content_uploads = true;
+            
             if (uploadData === "" && otherData === "") { //for display data
-
                 $scope.getWings();
                 $scope.getBlocks();
                 $scope.amenityData.project_amenities_list = {};

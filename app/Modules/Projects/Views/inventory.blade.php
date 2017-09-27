@@ -1,7 +1,7 @@
 <div class="row" >
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div ng-if="notFound">No wings found</div>
-        <tabset class="tabs-left" ng-show="wingList">
+        <tabset ng-show="wingList">
             <tab ng-repeat="wlist in wingList" heading="{{wlist.wing_name}}" ng-click="getInventoryDetails(projectData.prid,{{wlist.id}},'')" class="themeprimary">
                 <div class="row">
                     <form role="form" name="inventoryInfoForm" ng-submit="getInventoryDetails(projectData.prid, wlist.id, inventoryData)" novalidate>
@@ -262,6 +262,7 @@
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
                                 <div class="form-group" align="center">
+                                    <button type="button" class="btn btn-primary" ng-click="cancel_inventory()">Cancel</button>
                                     <button type="submit" class="btn btn-primary" ng-click="sbtBtn=true">Save</button>
                                 </div>
                             </div>

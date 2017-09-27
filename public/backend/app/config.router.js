@@ -61,7 +61,8 @@ angular.module('app')
                                     controller: 'hrController',
                                     requiredLogin: true,
                                     ncyBreadcrumb: {
-                                        label: 'HR / User Management / Add New User',
+                                        parent: 'userIndex',
+                                        label: 'Add New User',
                                         title: 'Add New User',
                                     },
                                     resolve: {
