@@ -255,7 +255,6 @@ return array(
     'App\\Modules\\PropertyPortals\\Models\\LstPropertyPortalsProjectConfig' => $baseDir . '/app/Modules/PropertyPortals/Models/LstPropertyPortalsProjectConfig.php',
     'App\\Modules\\PropertyPortals\\Models\\MlstBmsbPropertyPortal' => $baseDir . '/app/Modules/PropertyPortals/Models/MlstBmsbPropertyPortal.php',
     'App\\Modules\\Reports\\Controllers\\ReportsController' => $baseDir . '/app/Modules/Reports/Controllers/ReportsController.php',
-    'App\\Modules\\Reports\\Models\\EnquiryFollowup' => $baseDir . '/app/Modules/Reports/Models/EnquiryFollowup.php',
     'App\\Modules\\SocialWebsites\\Controllers\\SocialWebsitesController' => $baseDir . '/app/Modules/SocialWebsites/Controllers/SocialWebsitesController.php',
     'App\\Modules\\SocialWebsites\\Models\\SocialWebsites' => $baseDir . '/app/Modules/SocialWebsites/Models/SocialWebsites.php',
     'App\\Modules\\Testimonials\\Controllers\\TestimonialsController' => $baseDir . '/app/Modules/Testimonials/Controllers/TestimonialsController.php',

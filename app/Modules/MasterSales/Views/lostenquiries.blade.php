@@ -1,5 +1,5 @@
 <style>    
-     .close {
+.close {
         color:black;
     }
 .alert.alert-info {

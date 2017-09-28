@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/enquiryController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Models/CcPresalesFollowup.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/app/config.router.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/public/backend/customercarepresalesController.js</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Classes/CommonFunctions.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/todayremarks.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/Companies/Views/index.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/total.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Views/presales/history.blade.php</file>
+            <file>file:/var/www/html/Builder_System_Laravel/app/Modules/CustomerCare/Controllers/CustomerCareController.php</file>
+=======
         <group/>
 <<<<<<< HEAD
 =======
@@ -13,6 +26,7 @@
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Views/updateWebPage.blade.php</file>
             <file>file:/var/www/html/Builder_System_Laravel/public/backend/webPageController.js</file>
             <file>file:/var/www/html/Builder_System_Laravel/app/Modules/WebPages/Controllers/WebPagesController.php</file>
+>>>>>>> 3e2eb41d89fc2d54d8d77e586b90badd3587a1ca
         </group>
 >>>>>>> c5be04c6f3bb5bf5e20def061f497da073e4f9be
 >>>>>>> 1fddc1097fc608cac4cef090bc52ff901bdbd5e9

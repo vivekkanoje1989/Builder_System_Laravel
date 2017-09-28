@@ -4,6 +4,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
     $scope.pageNumber = 1;
     $scope.flagForPage = 0;
     $scope.enquiries = {};
+    $scope.remarkData = {};
     $scope.btnExport = true;
     $scope.filter = {};
     $scope.showfilterData = {};
@@ -20,6 +21,7 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
     $scope.ccpresalesSubCategoriesList = [];
     $scope.subSourceList = [];
     $scope.projectList = [];
+    $scope.enq = '';
     $scope.initHistoryDataModal = function (enquiry_id,moduelswisehisory,init) 
     {
         if(init == 1 )
@@ -86,18 +88,20 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                 
         $scope.initHistoryDataModal(enquiry_id,moduelswisehisory,0)            
     }
-        
+    
+    
     $scope.initTodayHistoryDataModal = function (enquiry_id,moduelswisehisory,init) 
     {
         
+        alert(init);        
+        alert(moduelswisehisory);        
+        alert(enquiry_id);        
         if(init == 1 )
         {   
             /*using the today remark popup history tap*/
             $(':checkbox.chk_today_remark_history_all').prop('checked', true);
             $(':checkbox#chk_today_remark_history').prop('checked', true);
-        }
-          
-        
+        }        
         Data.post('customer-care/presales/getenquiryHistory', {
             enquiryId: enquiry_id,moduelswisehisory:moduelswisehisory
         }).then(function (response) {
@@ -116,7 +120,6 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
             else
             {
                 $scope.historyList = angular.copy(response.records);
-                
             }    
         });
     }
@@ -399,11 +402,12 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
 
    };
 
-   
-    
+         
     /*today remark*/
     
     $scope.gettodayremarksEnquiry = function (id) {
+            $scope.enq = id;
+            $scope.remarkData.enquiryId = id;
             $scope.chk_followup_history_all = true;
             $scope.minDate = new Date();
             var time = new Date();
@@ -561,12 +565,12 @@ app.controller('customercarepresalesController', ['$rootScope', '$scope', '$stat
                 $scope.timeList = response.records;
             }
         });
-        
     }
-    
    
     $scope.insertCcPreSalesTodayRemark = function(remarkData)
     {
+        alert("hi");
+        console.log(remarkData);
         $scope.btn_todayremark_disable = true;
         Data.post('customer-care/presales/insertCcPreSalesRemark', {
                             data:remarkData ,

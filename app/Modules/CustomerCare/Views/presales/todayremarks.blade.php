@@ -168,10 +168,8 @@
                         <div class="row">
                             <div class="col-md-6 col-xs-12">
                                 <span ng-show="custInfo"><b style="font-size: 17px;">{{remarkData.title}} {{remarkData.customer_fname}} {{remarkData.customer_lname}}</b></span>  	
-                                                               
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        
                                         <span ng-if="contact_permission == 1" ng-controller="outboundCallController">
                                             <span ng-if="mobileList" ng-repeat="mlist in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">  
                                                 <a style="cursor: pointer;" class="Linkhref" ng-click="cloudCallingLog(5,{{login_user_id}},{{ remarkData.enquiryId}},{{remarkData.customerId}},{{$index}})">
@@ -211,10 +209,7 @@
                         <div class="row">
                             <div class="col-sm-6"></div>                            
                         </div>
-                                             
-                         
                         <br/>
-
                         <div class="row" ng-controller="ccpresalesStatusCtrl">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -247,7 +242,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <div class="row" ng-if="remarkData.cc_presales_status_id !=2" ng-controller="ccpresalesCategoryCtrl">
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -279,10 +273,7 @@
                                     </span>
                                 </div>
                             </div>
-                        </div>
-
-
-                        
+                        </div>                        
                         <div class="row" ng-if="remarkData.cc_presales_status_id !=2">
                             <div class="col-sm-4">
                                 <div class="form-group">
@@ -305,16 +296,14 @@
                             <div class="col-md-2" >
                                 <label for="">&nbsp;</label>
                                     <select ng-model="remarkData.next_followup_time" name="next_followup_time" class="form-control" required>
-                                        <option value="">--  Time  --</option>
+                                        <!--<option value="">--  Time  --</option>-->
                                         <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="{{time.value == remarkData.next_followup_time}}">{{time.label}}</option>
                                     </select>
                                     <div  ng-show="sbtBtn" ng-messages="remarkForm.next_followup_time.$error" class="help-block">
                                         <div ng-message="required" >This field is required</div>
                                     </div>
                             </div>
-                            
                         </div>
-
                         <div class="row">
                             <div class="col-sm-12 col-lg-12">
                                 <div class="row">
@@ -337,41 +326,30 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-12">                       
-                                                <div class="col-sm-6">
-                                                    <button type="submit" ng-disabled="btn_todayremark_disable" class="btn btn-primary custom-btn" ng-click="sbtBtn = true;">Submit</button>
-                                                </div> 
-                                            </div>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>                
+                        </div> 
+                        <div class="col-sm-12">                       
+                            <div class="col-sm-6">
+                                <button type="submit" ng-disabled="btn_todayremark_disable" class="btn btn-primary custom-btn" ng-click="sbtBtn = true;">Submit</button>
+                            </div> 
+                        </div>
                     </form>
                 </tab>
-                <tab heading="Followup History" ng-click="initTodayHistoryDataModal(remarkData.enquiryId,{{initmoduelswisehisory}},1);">
+                <tab heading="Followup History" ng-click='initTodayHistoryDataModal("{{ enq }}",{{initmoduelswisehisory}},1)'>
                     <div>
                         <label>
                             <input type="checkbox" name="chk_today_remark_history" ng-click="getModulesWiseHistory_Today(history_enquiryId,1)"  id="chk_today_remark_history">
                             <span class="text">All</span>
                         </label>
-                        &nbsp;&nbsp;
-
+                        &nbsp;&nbsp;                       
                         <label>
                             <input type="checkbox"  ng-click="getModulesWiseHistory_Today(history_enquiryId,0)" data-id="1" class="chk_today_remark_history_all" id="chk_today_remrk_presales">
                             <span class="text">Pre Sales</span>
                         </label>
-            
-                        <!--label>&nbsp;&nbsp;
-                            <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="3" class="chk_followup_history_all" id="chk_finance">
-                            <span class="text">Finance</span>
-                        </label>
-                         &nbsp;&nbsp;
-                         <label>
-                             <input type="checkbox" name="chk_cc_follouwp_history" ng-click="getModulesWiseHistory(history_enquiryId,0)" data-id="4" class="chk_followup_history_all" id="chk_Exchange">
-                            <span class="text">Exchange</span>
-                        </label-->
                          &nbsp;&nbsp;
                         <label>
                             <input type="checkbox"  ng-click="getModulesWiseHistory_Today(history_enquiryId,0)" data-id="2"  class="chk_today_remark_history_all" id="chk_today_remrk_Customer_Care">
@@ -435,7 +413,6 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function(){ 
         $("a#gotoCustomerTab").on("click",function(){
