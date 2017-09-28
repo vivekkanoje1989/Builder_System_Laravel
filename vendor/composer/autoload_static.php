@@ -682,7 +682,6 @@ class ComposerStaticInita4a83323fa74f9ee3390af915b46a8f0
         'App\\Modules\\PropertyPortals\\Models\\LstPropertyPortalsProjectConfig' => __DIR__ . '/../..' . '/app/Modules/PropertyPortals/Models/LstPropertyPortalsProjectConfig.php',
         'App\\Modules\\PropertyPortals\\Models\\MlstBmsbPropertyPortal' => __DIR__ . '/../..' . '/app/Modules/PropertyPortals/Models/MlstBmsbPropertyPortal.php',
         'App\\Modules\\Reports\\Controllers\\ReportsController' => __DIR__ . '/../..' . '/app/Modules/Reports/Controllers/ReportsController.php',
-        'App\\Modules\\Reports\\Models\\EnquiryFollowup' => __DIR__ . '/../..' . '/app/Modules/Reports/Models/EnquiryFollowup.php',
         'App\\Modules\\SocialWebsites\\Controllers\\SocialWebsitesController' => __DIR__ . '/../..' . '/app/Modules/SocialWebsites/Controllers/SocialWebsitesController.php',
         'App\\Modules\\SocialWebsites\\Models\\SocialWebsites' => __DIR__ . '/../..' . '/app/Modules/SocialWebsites/Models/SocialWebsites.php',
         'App\\Modules\\Testimonials\\Controllers\\TestimonialsController' => __DIR__ . '/../..' . '/app/Modules/Testimonials/Controllers/TestimonialsController.php',
