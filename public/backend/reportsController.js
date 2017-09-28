@@ -399,6 +399,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
         }
 
         $scope.teamcategoryEnquiryReport = function (category) {
+            console.log(category);
             $scope.fromDate = "0000-00-00";
             $scope.toDate = new Date();
             $scope.reportFlag = '0';
@@ -414,9 +415,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             Data.post('reports/getTeamcategoryreports', {
                 employee_id: category.employee_id
             }).then(function (response) {
-
                 $scope.subteam_category_report = angular.copy(response.category_wise_report);
-
                 for (var i = 0; i < $scope.subteam_category_report.length; i++) {
                     $scope.subtotalNew += $scope.subteam_category_report[i].New;
                     $scope.subtotalHot += $scope.subteam_category_report[i].Hot;
@@ -1082,7 +1081,6 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.sourceEmployee = source.name;
             $scope.sourceTotal = 0;
             $scope.unknownSource = 0;
-            $scope.employee_id = source.employee_id;
             $scope.subSourceCheck = false;
             Data.post('reports/projectSourceReport', {
                 source: source, project_id: $scope.project_id
@@ -1139,7 +1137,6 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
 
 
         $scope.subProjectCategoryReport = function (category, category_id, is_category_group) {
-
             if (category_id == 1) {
                 var totalCount = category.New;
                 $scope.cat = "new";
