@@ -34,7 +34,7 @@
                                             <div class="form-group">
                                                 <label for="">Page Name<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="contentPage.page_name" name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="255">
+                                                    <input type="text" ng-model="contentPage.page_name" required name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="255">
                                                     <i class="fa fa-address-card"></i>
                                                     <div  ng-if="sbtBtn1" ng-messages="contentPageForm.page_name.$error">
                                                         <div ng-message="required" class="err">Page name is required.</div>
@@ -187,12 +187,12 @@
 
                                                 <label for="">Sub Page Name<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.page_name" required name="page_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
+                                                    <input type="text" ng-model="subcontentPage.subpage_name" required  name="subpage_name" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" >
                                                     <i class="fa fa-address-card"></i>
-                                                    <div  ng-if="sbtBtn"  ng-messages="imageMgntForm.page_name.$error">
+                                                    <div  ng-if="sbtBtn"  ng-messages="imageMgntForm.subpage_name.$error">
                                                         <div ng-message="required" class="err">Page name is required.</div>
                                                     </div>
-                                                    <div ng-if="page_name" class="errMsg page_name sp-err">{{page_name}}</div>
+                                                    <div ng-if="subpage_name" class="errMsg page_name sp-err">{{subpage_name}}</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -200,12 +200,12 @@
                                             <div class="form-group">
                                                 <label for="">Page Title<span class="sp-err">*</span></label>
                                                 <span class="input-icon icon-right">
-                                                    <input type="text" ng-model="subcontentPage.page_title" name="page_title" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
+                                                    <input type="text" ng-model="subcontentPage.subpage_title" name="subpage_title" class="form-control" capitalizeFirst oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')" maxlength="15" required>
                                                     <i class="fa fa-address-card"></i>
-                                                    <div ng-if="sbtBtn" ng-messages="imageMgntForm.page_title.$error">
+                                                    <div ng-if="sbtBtn" ng-messages="imageMgntForm.subpage_title.$error">
                                                         <div ng-message="required" class="err">Page title is required.</div>
                                                     </div>
-                                                    <div ng-if="page_title" class="errMsg page_title sp-err">{{page_title}}</div>
+                                                    <div ng-if="subpage_title" class="errMsg page_title sp-err">{{subpage_title}}</div>
                                                 </span>
                                             </div>
                                         </div>
@@ -339,7 +339,7 @@
                                                             <td>{{list.page_title}}</td>
                                                             <td>{{list.seo_url}}</td>
                                                             <td class="">
-                                                                <div  style="float:center" tooltip-html-unsafe="Edit Sub Page" style="display: block;"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}},{{list.id}})" class='btn-info btn-xs'><i class="fa fa-edit"></i>Edit</a></div>
+                                                                <div  style="float:center" tooltip-html-unsafe="Edit Sub Page" style="display: block;"><a href="javascript:void(0);" ng-click="editSubPage({{list}},{{$index}},{{list.id}})" class='btn btn-primary btn-xs'><i class="fa fa-edit"></i>Edit</a></div>
                                                             </td>
                                                         </tr>                                            
                                                     </tbody>

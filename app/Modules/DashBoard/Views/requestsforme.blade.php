@@ -20,16 +20,12 @@
             <div class="widget-body table-responsive">
 
                 <div class="row table-toolbar">
-                    <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
                     <div class="btn-group pull-right">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view"  ng-click="requestForMeExportToxls()" ng-show="exportData == '1'">
-                            <span>Export</span> 
-                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
@@ -134,19 +130,18 @@
                                 <td>{{list.application_from}}</td>
                                 <td>{{list.from_date}}</td> 
                                 <td>{{list.to_date}}</td>
-                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn-info btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
-                                <td><a href="" data-toggle="modal" data-target="#newModal" class="btn-info btn-xs" ng-click="statusChange({{list}},$index); view_description({{list}})" ><i class="fa fa-info-circle" aria-hidden="true"></i>Action</a></td>
+                                <td><a href="" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-xs" ng-click="view_description({{list}})"><i class="fa fa-eye" aria-hidden="true"></i>View</a></td>
+                                <td><a href="" data-toggle="modal" data-target="#newModal" class="btn btn-primary btn-xs" ng-click="statusChange({{list}},$index); view_description({{list}})" ><i class="fa fa-info-circle" aria-hidden="true"></i>Action</a></td>
                             </tr>
                             <tr>
-                                <td colspan="8"  ng-show="(myRequest|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                                <td colspan="8"  ng-show="(myRequest|filter:search|filter:searchData).length == 0" align="center">Records Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
-                            <!--div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div-->
-                        </div>
+                          </div>
                         <div class="col-sm-6">
                             <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">
                                 <dir-pagination-controls class="pagination" on-page-change="pageChangeHandler(newPageNumber)" max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>

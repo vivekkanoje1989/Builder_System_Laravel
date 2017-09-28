@@ -16,22 +16,18 @@
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Companies</span>                
+                <span class="widget-caption">Manage Company</span>                
             </div>
             <div class="widget-body table-responsive">
 
                 <div class="row table-toolbar">
                     <a href="[[ config('global.backendUrl') ]]#/companies/create" class="btn btn-default">Add New Company</a>
-                    <!--<a id="editabledatatable_new" href="" class="btn btn-default" data-toggle="modal" data-target="#verticalModal" ng-click="initialModal(0, '', '', '', '')">Add New Vertical</a>-->
-                    <div class="btn-group pull-right filterBtn">
+                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="companiesExportToxls()" ng-show="exportData == '1'"> 
-                                                    <span>Export</span>
-                                                </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
@@ -102,15 +98,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in CompanyRow| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
+                            <tr role="row" dir-paginate="list in CompanyRow| filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" id='{{list.id}}'>
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{list.punch_line}}</td> 
                                 <td>{{list.legal_name}}</td> 
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit Information" data-toggle="modal" data-target="#companyModal"><a href="[[ config('global.backendUrl') ]]#/companies/edit/{{list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-<!--                                    <span  ng-show="deleteBtn == '1'" id="dialog" class="" tooltip-html-unsafe="Delete"  confirmed-click="deleteCompany({{list.id}},{{$index}})" 
-    ng-confirm-click="Sure you want to delete {{list.legal_name}} company "><a href="" class="btn-danger btn-xs "><i class="fa fa-trash-o"></i>Delete</a></span>
-                                </td>-->
+                                    <span class="" tooltip-html-unsafe="Edit Information" data-toggle="modal" data-target="#companyModal"><a href="[[ config('global.backendUrl') ]]#/companies/edit/{{list.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                            
                                     <span  ng-show="deleteBtn == '1'" id="dialog" class="" tooltip-html-unsafe="Delete"  ng-click="confirm({{list.id}},{{$index}})" ><a href="" class="btn-danger btn-xs "><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
 

@@ -20,7 +20,7 @@
 <div class="row" ng-controller="defaultalertsController" ng-init="manageDafaultAlerts('', 'index')">
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
-            <div class="widget-header ">
+            <div class="widget-header bordered-bottom bordered-themeprimary">
                 <span class="widget-caption">Manage Default Templates</span>
 
             </div>
@@ -33,9 +33,6 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="defaultTemplatesExportToxls();" ng-show="exportData == '1'">
-                            <span>Export</span>
-                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
@@ -113,14 +110,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listAlert in listdefaultAlerts | filter:search  | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
+                            <tr role="row" dir-paginate="listAlert in listdefaultAlerts | filter:search  | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" id='{{listAlert.id}}'>
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listAlert.event_name}}</td>
                                 <td ng-if="listAlert.template_for == 1">Customer</td>
                                 <td ng-if="listAlert.template_for == 0">Employee</td>
                                 <td>{{ listAlert.email_subject | htmlToPlaintext }}</td>
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="view template" ><a href="[[ config('global.backendUrl') ]]#/defaultalerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-eye"></i>View</a> &nbsp;&nbsp;</span>
+                                    <span class="" tooltip-html-unsafe="view template" ><a href="[[ config('global.backendUrl') ]]#/defaultalerts/update/{{ listAlert.id}}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>View</a> &nbsp;&nbsp;</span>
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>

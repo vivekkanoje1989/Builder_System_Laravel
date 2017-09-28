@@ -34,6 +34,12 @@ div.help-block{
     width: 175px;*/
 }
 
+.ShowingLength{
+    position: absolute;
+    top: 0;
+    right: 13%;
+}
+
 .capitalize{
     text-transform: capitalize;
 }
@@ -3128,12 +3134,25 @@ a:active {
     box-shadow: 0 1px 4px rgba(0, 0, 0, .3)
 }
 
-.page-sidebar {
+/*.page-sidebar {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 224px;
     display: block
+}*/
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+.page-sidebar {
+    position: fixed;
+    top: 44px;
+    bottom: 0;
+    width: 224px;
+    display: block;
+    overflow-x: scroll;
+    padding-bottom: 50px;
 }
 
 .page-sidebar.sidebar-fixed {
@@ -3780,6 +3799,19 @@ a:active {
 }
 
 .page-breadcrumbs {
+    position: fixed;
+    background: #f3f3f3;
+    min-height: 40px;
+    line-height: 39px;
+    padding: 0;
+    display: block;
+    z-index: 1;
+    width:100%;
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15)
+}
+/*.page-breadcrumbs {
     position: relative;
     background: #f3f3f3;
     min-height: 40px;
@@ -3790,7 +3822,9 @@ a:active {
     -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
     -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15)
-}
+}*/
+
+
 
 .page-breadcrumbs.breadcrumbs-fixed {
     position: fixed;
@@ -3871,13 +3905,33 @@ a:active {
     z-index: 0;
     min-height: 40px;
     border-bottom: 1px solid #e5e5e5;
-    height: 40px
+    height: 40px;
+    top: 40px;
 }
+/*.page-header {
+    position: relative;
+    margin: 0;
+    padding-bottom: 1px;
+    padding-left: 12px;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48bGluZWFyR3JhZGllbnQgaWQ9Imxlc3NoYXQtZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNmZmZmZmYiIHN0b3Atb3BhY2l0eT0iMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2YzZjNmMyIgc3RvcC1vcGFjaXR5PSIxIi8+PC9saW5lYXJHcmFkaWVudD48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2xlc3NoYXQtZ2VuZXJhdGVkKSIgLz48L3N2Zz4=);
+    background-image: -webkit-linear-gradient(left, #fff, #f3f3f3);
+    background-image: -moz-linear-gradient(left, #fff, #f3f3f3);
+    background-image: -o-linear-gradient(left, #fff, #f3f3f3);
+    background-image: linear-gradient(to right, #fff, #f3f3f3);
+    z-index: 0;
+    min-height: 40px;
+    border-bottom: 1px solid #e5e5e5;
+    height: 40px
+}*/
 
 .page-header .header-title {
     display: inline-block;
     position: relative;
     height: 40px
+}
+.navbar .navbar-inner {
+    position: fixed;
+    width: 100%;
 }
 
 .page-header .header-title h1 {
@@ -4013,9 +4067,14 @@ a:active {
     }
 }
 
-.page-body {
+/*.page-body {
     background: #eee;
     padding: 18px 20px 24px
+}*/
+
+.page-body {
+    background: #eee;
+    padding: 45px 20px 24px;
 }
 
 .widget {
@@ -11916,9 +11975,9 @@ input[type="color"]:focus {
 .form-control,
 select {
     font-size: 13px;
-    color: #858585;
+    color: #797979;
     background-color: #fbfbfb;
-    border: 1px solid #d5d5d5;
+    border: 1px solid #797979 !important;
     padding: 6px 12px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -12679,7 +12738,7 @@ input[type=radio].disabled~.text:before {
 input[type=checkbox]~.text,
 input[type=radio]~.text {
     position: relative;
-    z-index: 11;
+    /*z-index: 11;*/
     display: inline-block;
     margin: 0;
     line-height: 20px;
@@ -20095,4 +20154,49 @@ a.fc-more:hover {
 
 .err{
     color:red;
+}
+
+
+@media all and (min-width:768px) and (max-width:1366px) {
+    .page-sidebar {
+        position: fixed;
+        top: 45px;
+        bottom: 0;
+        width: 224px;
+        display: block;
+        overflow-x: scroll;
+    }
+    .page-header {
+        top: 39px;
+    }
+    .page-body {
+
+        padding: 61px 20px 24px;
+    }
+
+    .page-breadcrumbs {
+        position: fixed;
+        background: #f3f3f3;
+        min-height: 40px;
+        line-height: 39px;
+        padding: 0;
+        display: block;
+        z-index: 1;
+        -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+        -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .15);
+        width:100%;
+    }
+    .page-sidebar {
+        position: fixed;
+        top: 45px;
+        bottom: 0;
+        width: 224px;
+        display: block;
+        overflow-x: scroll;
+    }
+    .navbar .navbar-inner {
+        position: fixed;
+        width: 100%;
+    }
 }

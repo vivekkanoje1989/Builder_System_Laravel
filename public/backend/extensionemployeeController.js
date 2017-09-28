@@ -48,17 +48,22 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
         $scope.deleteEmpExt = function (id, index) {
             Data.post('deleteEmpExt', {
                 'id': id}).then(function (response) {
-                toaster.pop('success', 'Manage Templates', 'Employee Extension deleted successfully');
+//                toaster.pop('success', 'Manage Templates', 'Employee Extension deleted successfully');
                 $scope.ct_employee_extlist.splice(index, 1);
             });
         }
+        $scope.$on("deleteRecords", function (event, args) {
+            $scope.deleteEmpExt(args['id'], args['index']);
+        });
+        
 
         $scope.pageChangeHandler = function (num) {
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
         $scope.initExtensionModal = function (employeelist) {
-            $scope.btnlable = "Create";
+            $scope.btnlable = "Add";
+            $scope.heading = "Add New Extension";
             Data.post('getExtensionEmployee', {
                 employees: employeelist
             }).then(function (response) {
@@ -74,6 +79,7 @@ app.controller('extensionemployeeController', ['$scope', 'Data', '$filter', 'Upl
 
         $scope.editExtensionModal = function (employeelist, listNumber) {
             $scope.btnlable = "Update";
+            $scope.heading = "Edit Extension";
             employeelist = {};
             $scope.extensionData = {};
             Data.post('getExtensionEmployee', {

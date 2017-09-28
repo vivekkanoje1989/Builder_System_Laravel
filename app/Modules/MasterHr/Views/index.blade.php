@@ -11,6 +11,15 @@
         padding: 5px;
         width: 110%;
     }
+    .hrbtn { 
+        margin-bottom: -10px;
+    }
+    .hrbtn a{   
+        width: 118px;
+        display: block;
+        text-align: center;
+        margin-bottom:4px !important;
+    }
 </style>
 
 <div class="row" ng-controller="hrController" ng-init="manageUsers('', 'index')">
@@ -22,22 +31,36 @@
             <div class="widget-body table-responsive">
 
                 <div class="row table-toolbar">
-                    <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" class="btn btn-default">Permission Wise Users</a>
+                    <div class="btn-group">
+                        <a class="btn btn-default shiny " href="javascript:void(0);">Add Employee</a>
+                        <a class="btn btn-default  dropdown-toggle shiny" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="[[ config('global.backendUrl') ]]#/user/create">Add New User</a>
+                            </li>
+                            <li>
+                                <a href="[[ config('global.backendUrl') ]]#/user/quickuser">Quick User</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                    <!---->
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="hrDetailsExporToxls()" ng-show="exportData == '1'">
-                            <span>Export</span>
-                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
                                     <a href="" ng-click="hrDetailsExporToxls()" ng-show="exportData == '1'" >Export</a>
+                                </li>
+                                <li>
+                                    <a href="[[ config('global.backendUrl') ]]#/user/showpermissions" >Permission Wise Users</a>
                                 </li>
                             </ul>
                         </a>
@@ -97,14 +120,14 @@
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                     <a href="javascript:void(0);" ng-click="orderByField('designation')">Designation 
+                                    <a href="javascript:void(0);" ng-click="orderByField('designation')">Designation 
                                         <span ><img ng-hide="(sortKey == 'designation' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'designation' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'designation' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                     <a href="javascript:void(0);" ng-click="orderByField('reporting_to_name')">Reporting To 
+                                    <a href="javascript:void(0);" ng-click="orderByField('reporting_to_name')">Reporting To 
                                         <span ><img ng-hide="(sortKey == 'reporting_to_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'reporting_to_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'reporting_to_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
@@ -125,7 +148,7 @@
                                     </a>
                                 </th>
                                 <th style="width: 10%">
-                                     <a href="javascript:void(0);" ng-click="orderByField('joining_date')">Joining Date
+                                    <a href="javascript:void(0);" ng-click="orderByField('joining_date')">Joining Date
                                         <span ><img ng-hide="(sortKey == 'joining_date' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'joining_date' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'joining_date' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
@@ -149,7 +172,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort " >
+                            <tr role="row" dir-paginate="listUser in listUsers | filter:search |filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort " id="{{listUser.id}}" >
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listUser.firstName}}</td>
                                 <td>{{ listUser.designation == null? '-' : listUser.designation}}</td>
@@ -162,11 +185,11 @@
                                 <td ng-if="listUser.employee_status == 3">Permanent Suspended</td>
                                 <td>{{ listUser.login_date_time == null ? '-' : listUser.login_date_time | date : "dd-MM-yyyy"  }}</td>
                                 <td class="">
-                                    <div class="" tooltip-html-unsafe="Edit User" style="margin-bottom:8px;"><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
-                                    <div class="" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="margin-bottom:8px;"><a href="[[ config('global.backendUrl') ]]#/user/permissions/{{ listUser.id}}"  class="btn-info btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</div>
-                                    <div class="" tooltip-html-unsafe="Change Password" data-toggle="modal" data-target="#myModal" style="margin-bottom:8px;"><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id}},'changePassword')"  class="btn-info btn-xs"><i class="fa fa-lock"></i>Change Password</a></div>
+                                    <div class="hrbtn" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/user/update/{{ listUser.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</div>
+                                    <div class="hrbtn" tooltip-html-unsafe="User Permissions" tooltip-placement="top" ><a href="[[ config('global.backendUrl') ]]#/user/permissions/{{ listUser.id}}"  class=" btn-success btn-xs"><i class="fa fa-user-plus"></i>Permissions</a> &nbsp;&nbsp;</div>
+                                    <div class="hrbtn" tooltip-html-unsafe="Change Password" data-toggle="modal" data-target="#myModal" ><a href="javascript:void(0);" ng-click="manageUsers({{ listUser.id}},'changePassword')"  class="btn-warning btn-xs"><i class="fa fa-lock"></i>Change Password</a>&nbsp;&nbsp;</div>
+                                    <div class="hrbtn" tooltip-html-unsafe="Suspend Employee" ><a href ng-click="employeeSuspend({{ listUser.id}},{{$index}},itemsPerPage, noOfRows)" class="btn-danger btn-xs" ><i class="fa fa-user-times"></i>Suspend</a>&nbsp;&nbsp;</div>
                                 </td>
-
                             </tr>
                             <tr>
                                 <td colspan="10"  ng-show="(listUsers|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
@@ -191,6 +214,7 @@
     </div>
 
 
+
     <!-- Modal -->
     <div class="modal fade modal-primary" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -205,30 +229,95 @@
 
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="modal.firstName" name="firstName" placeholder="First Name">
+                                <input type="text" class="form-control" ng-model="modal.firstName" name="firstName" placeholder="First Name" readonly="">
                                 <i class="fa fa-user thm-color circular"></i>
                             </span>
                         </div>
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="modal.lastName" name="lastName" placeholder="Last Name">
+                                <input type="text" class="form-control" ng-model="modal.lastName" name="lastName" placeholder="Last Name" readonly="">
                                 <i class="fa fa-user thm-color circular"></i>
                             </span>
                         </div>
                         <div class="form-group">
                             <span class="input-icon icon-right">
-                                <input type="text" class="form-control" ng-model="modal.userName" name="userName" placeholder="User Name">
+                                <input type="text" class="form-control" ng-model="modal.userName" name="userName" placeholder="User Name" readonly="">
                                 <i class="fa fa-user thm-color circular"></i>
                             </span>
                         </div>
                     </div>
                     <div class="modal-footer" align="center">
-                        <button type="submit" class="btn btn-sub  btn-primary" ng-click="step1 = true">Submit</button>
+                        <button type="submit" class="btn btn-sub  btn-primary" ng-click="step1 = true" ng-disabled="passwordBtn" >Submit</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="BulkModal" role="dialog" tabindex='-1'>
+        <div class="modal-dialog modal-md" >
+            <!-- Modal content-->
+            <div class="modal-content" >
+                <div class="modal-header navbar-inner">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" align="center"> Reassign Enquiries</h4>
+                </div>
+                <form name="bulkForm"   ng-submit="bulkForm.$valid && BulkReasignEmployeeFromList(bulkData, suspendId)" novalidate >
+                    <div class="modal-body">
+                        <div  ng-if="totsalesEnquiries > '0'">
+                            <div class="row">
+                                <div class="col-sm-4 col-sx-12">
+                                    <label for="">Sales Enquiries Reassign To</label>
+                                </div>
+                                <div class="col-sm-5 col-sx-12">
+                                    <div class="form-group" >
+                                        <select class="form-control"  ng-model="bulkData.sales_employee_id" name="sales_employee_id" id="sales_employee_id" ng-init="getsalesEmployees(suspendId)" required>
+                                            <option value="">Select Employee</option>
+                                            <option ng-repeat="item in salesemployeeList" value="{{item.id}}"  >{{item.first_name}} {{item.last_name}} ({{item.designation_name.designation}})</option>
+                                        </select>
+                                        <div ng-show="sbtBtn" ng-messages="bulkForm.sales_employee_id.$error" class="help-block errMsg">
+                                            <div style="sp-err" ng-message="required">Please Select Employee</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3"></div>
+                            </div>
+                            <div class="">
+                                <span><strong>Total Enquires found : {{totsalesEnquiries}}</strong></span>
+                            </div>
+<!--                            <div class="">
+                                <span><strong>Total Deals : </strong></span>
+                            </div>-->
+                        </div>
+                        <br>
+<!--                        <div class="row" ng-if="totpresalesEnquiries > 0">
+                            <div class="col-sm-5 col-sx-12">
+                                <label for="">Customer Care Enquiries Reassign To</label>  <br> 
+                                <span>(<strong>Total Enquires found : {{totpresalesEnquiries}}</strong>)</span>
+                            </div>
+                            <div class="col-sm-6 col-sx-12">
+                                <div class="form-group" >
+                                    <label for="">Select Employee <span class="sp-err">*</span></label>   
+                                    <select class="form-control"  ng-model="bulkData.cc_presales_employee_id" name="cc_presales_employee_id" id="cc_presales_employee_id" ng-init="getpresalesEmployees(suspendId)" required>
+                                        <option value="">Select Employee</option>
+                                        <option ng-repeat="item in presalesemployeeList" value="{{item.id}}"  >{{item.first_name}} {{item.last_name}} ({{item.designation_name.designation}})</option>
+                                    </select>
+                                    <div ng-show="sbtBtn" ng-messages="bulkForm.cc_presales_employee_id.$error" class="help-block errMsg">
+                                        <div style="sp-err" ng-message="required">Please Select Employee</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="modal-footer" align="center">
+                        <button  type="submit" ng-click="sbtBtn = true" class="btn btn-primary pull-right">Reassign To</button></center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
     <!-- Filter Form Start-->
     <div class="wrap-filter-form show-widget" id="slideout">
         <form name="hrFilter" role="form" ng-submit="filterDetails(searchDetails)" class="embed-contact-form">
@@ -240,9 +329,6 @@
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Employee Name</label>
-<!--                        <span class="input-icon icon-right" ng-controller="employeesCtrl">
-                            <input type="text" ng-model="searchDetails.employeeName" name="firstName" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
-                        </span>-->
                         <span class="input-icon icon-right" ng-controller="employeesCtrl"> 
                             <select class="form-control"  ng-model="searchDetails.firstName" name="firstName" id="application_to" >
                                 <option value="">Select Employee</option>
@@ -251,9 +337,6 @@
                         </span>
                     </div>
                 </div>
-
-
-
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Designation</label>
@@ -269,7 +352,7 @@
                 <div class="col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="">Department</label>
-                         <span class="input-icon icon-right" ng-controller="departmentCtrl"> 
+                        <span class="input-icon icon-right" ng-controller="departmentCtrl"> 
                             <select class="form-control"  ng-model="searchDetails.departmentName" name="departmentName" id="reporting_to_name" >
                                 <option value="">Select Department</option>
                                 <option ng-repeat="item in departments" value="{{item.department_name}}" ng-selected="{{ item.department_name == searchDetails.departmentName}}" >{{item.department_name}}</option>

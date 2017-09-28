@@ -8,8 +8,7 @@
 
 return [
     'getUrl' => 'office',
-     's3Path'=>'https://storage.googleapis.com/bkt_bms_laravel',
-//     's3Path'=>'https://storage.googleapis.com/'.$GLOBALS['aws_bucket_id'],
+    's3Path'=>'https://storage.googleapis.com/bkt_bms_laravel',
     'mastergcsPath'=>'https://storage.googleapis.com/businessapps.co.in',
     'getWebsiteUrl' => 'website',
     'companyName' => 'BMS BUILDER',
@@ -18,6 +17,6 @@ return [
     'themeName' => '',
     'backendUrl' => 'office.php',
     'recordsPerPage' =>30,
-    'client_id' =>1,
+    'client_id' =>$GLOBALS['client_id'],
     'client_info'=>$GLOBALS['client_info'],
 ];

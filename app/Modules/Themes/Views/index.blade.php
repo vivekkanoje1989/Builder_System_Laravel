@@ -30,7 +30,7 @@
                 <div class="row table-toolbar">
                     <a data-toggle="modal" id="editabledatatable_new" data-target="#themesModal" ng-click="initialModal(0, '', '')" class="btn btn-default">Create Themes</a>
                     <div class="btn-group pull-right filterBtn">
-                        <a class="btn btn-default toggleForm" href="" style="margin-right: 10px;"><i class="btn-label fa fa-filter"></i>Show Filter</a>
+                        <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
@@ -101,7 +101,7 @@
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{ list.theme_name}}</td>   
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit {{ list.theme_name}}"  data-toggle="modal" data-target="#themesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.theme_name}}','{{list.image_url}}',{{ itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit {{ list.theme_name}}"  data-toggle="modal" data-target="#themesModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{ list.theme_name}}','{{list.image_url}}',{{ itemsPerPage}},{{$index}})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>
@@ -112,8 +112,7 @@
                     </table>
                     <div class="DTTTFooter">
                         <div class="col-sm-6">
-                            <!--<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{itemsPerPage * (noOfRows-1)+1}} to of {{ listUsersLength }} entries</div>-->
-                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
+                           <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Page No. {{noOfRows}}</div>
                         </div>
                         <div class="col-sm-6">
                             <div class="dataTables_paginate paging_bootstrap" id="DataTables_Table_0_paginate">

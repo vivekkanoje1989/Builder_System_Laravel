@@ -1,8 +1,11 @@
 <div class="row">
     <div class="widget flat radius-bordered">
         <div class="col-lg-12 col-sm-12 col-xs-12" ng-controller="projectController">
-            <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>
-            <div class="widget-body bordered-top bordered-themeprimary col-lg-12 col-sm-12 col-xs-12">
+            <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>{{pageHeading}}</h5>-->
+            <div class="widget-header bordered-bottom bordered-themeprimary ">
+                <span class="widget-caption">{{pageHeading}}</span>
+            </div>
+            <div class="widget-body bordered-top  col-lg-12 col-sm-12 col-xs-12">
                 <div id="customer-form">
                     <form novalidate name="projectForm" ng-submit="projectForm.$valid && createProject(projectData)">
                         <input type="hidden" ng-model="projectForm.csrfToken" name="csrftoken" ng-init="projectForm.csrfToken = '<?php echo csrf_token(); ?>'" class="form-control">
@@ -57,9 +60,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-3 col-xs-6">
+                            <div class="col-sm-12 col-xs-12" align="right">
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary" ng-disabled="projectSbtBtn" ng-click="formButton=true">Submit</button>
+                                <a href="[[ config('global.backendUrl') ]]#/projects/index" class="btn btn-primary">Cancel</a>
                                 </div>
                             </div>
                         </div>

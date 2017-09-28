@@ -125,7 +125,7 @@
                                 <td>{{item.contact_person_name}}</td>  
                                 <td>{{item.email}}</td>     
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#contactUsModal"><a href="javascript:void(0);" ng-click="initialModal({{ item.id}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit" data-toggle="modal" data-target="#contactUsModal"><a href="javascript:void(0);" ng-click="initialModal({{ item.id}},{{$index}})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete" ><a href="" ng-click="confirm({{item.id}},{{$index}})"  class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>

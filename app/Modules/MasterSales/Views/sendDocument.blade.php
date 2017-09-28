@@ -138,7 +138,7 @@
                             </thead>
                             <tbody>                                
                                 <tr role="row"  ng-repeat="history in sendList track by $index | orderBy:orderByField:reverseSort">
-                                    <td rowspan="2">
+                                    <td>
                                         {{ $index + 1}}
                                     </td>
                                     <td>

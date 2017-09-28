@@ -109,26 +109,28 @@ class MenuItems {
                 )),
             3 => array('name' => 'HR', 'icon' => 'hr-img menu-icon-sz', 'micon' => 'img/human.resource.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'hr', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '0301,0302,0303', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '0301', 'name' => 'User Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 7,
-                        'submenu_ids' => '030101,030102,030103,030104,030105,030106,030107', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '030101', 'name' => 'List Users', 'micon' => 'img/list.png', 'icon' => '', 'url' => '/user/index', 'slug' => 'userIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '030102', 'name' => 'New User', 'micon' => 'img/newUser.png', 'icon' => '', 'url' => '/user', 'slug' => 'user', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '030103', 'name' => 'Quick User', 'micon' => 'img/quickUser.png', 'url' => '/user/quick-user', 'slug' => 'quickUser', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                    1 => array('id' => '0301', 'name' => 'User Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 5,
+                        'submenu_ids' => '030101,030102,030103,030104,030105', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                            1 => array('id' => '030101', 'name' => 'Manage Users', 'micon' => 'img/list.png', 'icon' => '', 'url' => '/user/index', 'slug' => 'userIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+//                            2 => array('id' => '030102', 'name' => 'New User', 'micon' => 'img/newUser.png', 'icon' => '', 'url' => '/user', 'slug' => 'user', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+//                            3 => array('id' => '030103', 'name' => 'Quick User', 'micon' => 'img/quickUser.png', 'url' => '/user/quick-user', 'slug' => 'quickUser', 'uiSrefActive' => 'active', 'total_submenu' => 1),
 //                            4 => array('id' => '030104', 'name' => 'Manage Roles', 'micon' => 'img/newUser.png', 'icon' => '', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            4 => array('id' => '030104', 'name' => 'Reassign Data', 'micon' => 'img/reassignData.png', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            5 => array('id' => '030105', 'name' => 'Organization Chart', 'micon' => 'img/chart.png', 'icon' => '', 'url' => '/user/orgchart', 'slug' => 'userChart', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            6 => array('id' => '030106', 'name' => 'User Documents', 'icon' => '', 'url' => '/user/document', 'slug' => 'userDocument', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            7 => array('id' => '030107', 'name' => 'Manage Documents', 'icon' => '', 'url' => '/manage/document', 'slug' => 'documentIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '030104', 'name' => 'Reassign Data', 'micon' => 'img/reassignData.png', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            3 => array('id' => '030105', 'name' => 'Organization Chart', 'micon' => 'img/chart.png', 'icon' => '', 'url' => '/user/orgchart', 'slug' => 'userChart', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            4 => array('id' => '030106', 'name' => 'User Documents', 'icon' => '', 'url' => '/user/document', 'slug' => 'userDocument', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            5 => array('id' => '030107', 'name' => 'Manage Documents', 'icon' => '', 'url' => '/manage/document', 'slug' => 'documentIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '0302', 'name' => 'Salary Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                         'submenu_ids' => '030201', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '030201', 'name' => 'Salary Slips', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
-                    3 => array('id' => '0303', 'name' => 'Role Management', 'icon' => '', 'micon' => 'img/role.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
-                        'submenu_ids' => '030301,030302', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '030301', 'name' => 'Create Role', 'micon' => 'img/createRole.png', 'url' => '/user/createrole', 'slug' => 'createrole', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '030302', 'name' => 'Manage Role', 'micon' => 'img/manageRole.png', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                        )),
+//                    3 => array('id' => '0303', 'name' => 'Role Management', 'icon' => '', 'micon' => 'img/role.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+//                        'submenu_ids' => '030301,030302', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+//                            1 => array('id' => '030301', 'name' => 'Create Role', 'micon' => 'img/createRole.png', 'url' => '/user/createrole', 'slug' => 'createrole', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+//                            2 => array('id' => '030302', 'name' => 'Manage Role', 'micon' => 'img/manageRole.png', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+//                        )),
+                    3 => array('id' => '0303', 'name' => 'Manage Role', 'icon' => '', 'url' => '/user/manageroles', 'slug' => 'manageRoles', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+               
                 )),
             4 => array('name' => 'Sales', 'icon' => 'sale-img menu-icon-sz', 'micon' => 'img/sales.logo.0.png', 'ui-sref-active' => '', 'url' => '', 'slug' => 'sales', 'has_submenu' => true, 'total_submenu' => 5,
                 'submenu_ids' => '0401,0402,0403,0404,0405', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -203,11 +205,11 @@ class MenuItems {
                 )),
             5 => array('name' => 'Projects', 'icon' => 'proj-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'projects', 'has_submenu' => true, 'total_submenu' => 4,
                 'submenu_ids' => '0501,0502,0503,0504', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '0501', 'name' => 'Projects Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
-                        'submenu_ids' => '050101,050102,050103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                    1 => array('id' => '0501', 'name' => 'Projects Management', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                        'submenu_ids' => '050101,050102', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '050101', 'name' => 'Manage Projects', 'icon' => '', 'url' => '/project/manage', 'slug' => 'manageProjectIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '050102', 'name' => 'New Project', 'icon' => '', 'url' => '/project/create', 'slug' => 'projectCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '050103', 'name' => 'Project Availability', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+//                            2 => array('id' => '050102', 'name' => 'New Project', 'icon' => '', 'url' => '/project/create', 'slug' => 'projectCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '050102', 'name' => 'Project Availability', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '0502', 'name' => 'Manage Project Stages', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'has_submenu' => true, 'uiSrefActive' => 'active', 'total_submenu' => 1,
                         'submenu_ids' => '050201', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -233,11 +235,11 @@ class MenuItems {
                         'submenu_ids' => '060201', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '060201', 'name' => 'Manage', 'icon' => '', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
-                    3 => array('id' => '0603', 'name' => 'Testimonials', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
-                        'submenu_ids' => '060301,060302,060303', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                    3 => array('id' => '0603', 'name' => 'Testimonials', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 2,
+                        'submenu_ids' => '060301,060302', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                             1 => array('id' => '060301', 'name' => 'Approve', 'icon' => '', 'url' => '/testimonials/index', 'slug' => 'testimonialsIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '060302', 'name' => 'Create', 'icon' => '', 'url' => '/testimonials/create', 'slug' => 'testimonialsCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            3 => array('id' => '060303', 'name' => 'Manage', 'icon' => '', 'url' => '/testimonials/manage', 'slug' => 'testimonialsManage', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+//                            2 => array('id' => '060302', 'name' => 'Create', 'icon' => '', 'url' => '/testimonials/create', 'slug' => 'testimonialsCreate', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '060302', 'name' => 'Manage', 'icon' => '', 'url' => '/testimonials/manage', 'slug' => 'testimonialsManage', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     4 => array('id' => '0604', 'name' => 'Website Visitors', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                         'submenu_ids' => '060401', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
@@ -303,7 +305,7 @@ class MenuItems {
                                     2 => array('id' => '09010102', 'name' => 'Followup Report', 'icon' => '', 'url' => '/reports/followupReport', 'slug' => 'followupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                     3 => array('id' => '09010103', 'name' => 'Project Wise Report', 'icon' => '', 'url' => '/reports/projectwiseReport', 'slug' => 'projectwiseReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                 )),
-                            2 => array('id' => '090102', 'name' => 'Team Report', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
+                            2 => array('id' => '090102', 'name' => 'Team`s Report', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                                 'submenu_ids' => '09010201,09010202,09010203', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
                                     1 => array('id' => '09010201', 'name' => 'Enquiry Report', 'icon' => '', 'url' => '/reports/teamEnquiryReport', 'slug' => 'teamenquiryReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                                     2 => array('id' => '09010202', 'name' => 'Followup Report', 'icon' => '', 'url' => '/reports/teamFollowupReport', 'slug' => 'teamfollowupReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
@@ -321,17 +323,16 @@ class MenuItems {
                             2 => array('id' => '090302', 'name' => 'All Projects ( Overview Report )', 'icon' => '', 'url' => '/reports/projectOverviewReport', 'slug' => 'projectOverviewReport', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                 )),
-            10 => array('name' => 'Careers', 'icon' => 'care-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'careers', 'has_submenu' => true, 'total_submenu' => 2,
-                'submenu_ids' => '01001,01002', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '01001', 'name' => 'Manage Job Postings', 'icon' => '', 'url' => '/manageCareer/index', 'slug' => 'manageJobIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                    2 => array('id' => '01002', 'name' => 'Create Job Posting', 'icon' => '', 'url' => '/manageCareer/create', 'slug' => 'createJobIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+            10 => array('name' => 'Careers', 'icon' => 'care-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'careers', 'has_submenu' => true, 'total_submenu' => 1,
+                'submenu_ids' => '01001', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
+                    1 => array('id' => '01001', 'name' => 'Manage', 'icon' => '', 'url' => '/manageCareer/index', 'slug' => 'manageJobIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                 )),
             11 => array('name' => 'Cloud Telephony', 'icon' => 'cloud-img menu-icon-sz', 'ui-sref-active' => '', 'url' => '', 'slug' => 'cloud-telephony', 'has_submenu' => true, 'total_submenu' => 3,
                 'submenu_ids' => '01101,01102,01103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                    1 => array('id' => '01101', 'name' => 'Manage Virtual Numbers', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
+                    1 => array('id' => '01101', 'name' => 'Virtual Numbers', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 3,
                         'submenu_ids' => '0110101,0110102,0110103', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '0110101', 'name' => 'Virtual Numbers', 'icon' => '', 'micon' => 'img/virtualNumber.png', 'url' => '/virtualnumber/index', 'slug' => 'virtualnumberslist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
-                            2 => array('id' => '0110102', 'name' => 'Manage Templates', 'icon' => '', 'micon' => 'img/manageTemplates.png', 'url' => '/extensionemployee/index', 'slug' => 'extensionemplist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '0110101', 'name' => 'Manage Virtual Numbers', 'icon' => '', 'micon' => 'img/virtualNumber.png', 'url' => '/virtualnumber/index', 'slug' => 'virtualnumberslist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            2 => array('id' => '0110102', 'name' => 'Manage Extensions', 'icon' => '', 'micon' => 'img/manageTemplates.png', 'url' => '/extensionemployee/index', 'slug' => 'extensionemplist', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                             3 => array('id' => '0110103', 'name' => 'Out-bound Call Log', 'icon' => '', 'micon' => 'img/outBoundCall.png', 'url' => '/underconstruction', 'slug' => 'underconstruction', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                     2 => array('id' => '01102', 'name' => 'Call Logs', 'icon' => '', 'micon' => 'img/callLog.png', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 4,
@@ -343,7 +344,7 @@ class MenuItems {
                         )),
                     3 => array('id' => '01103', 'name' => 'Telephony Registration', 'icon' => '', 'ui-sref-active' => '', 'slug' => '#', 'has_submenu' => true, 'total_submenu' => 1,
                         'submenu_ids' => '0110301', 'anchorClass' => 'menu-dropdown', 'submenuClass' => 'submenu', 'liClass' => 'open', 'submenu' => array(
-                            1 => array('id' => '0110301', 'name' => 'Registration', 'icon' => '', 'url' => '/cloudtelephony/index', 'slug' => 'numbersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
+                            1 => array('id' => '0110301', 'name' => 'Manage', 'icon' => '', 'url' => '/cloudtelephony/index', 'slug' => 'numbersIndex', 'uiSrefActive' => 'active', 'total_submenu' => 1),
                         )),
                 )),
             12 => array('name' => 'My Storage', 'icon' => 'stor-img menu-icon-sz', 'uiSrefActive' => '', 'url' => '', 'slug' => 'my-storage', 'has_submenu' => true, 'total_submenu' => 3,

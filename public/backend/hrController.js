@@ -1,4 +1,4 @@
-app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster) {
+app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Upload', '$timeout', '$parse', '$stateParams', 'toaster', 'SweetAlert', function ($rootScope, $scope, $state, Data, Upload, $timeout, $parse, $stateParams, toaster, SweetAlert) {
         $scope.pageHeading = 'Create User';
         $scope.buttonLabel = 'Create';
         $scope.userData = {};
@@ -19,6 +19,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.maxDates = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         $scope.currentPin = false;
         $scope.isDisabled = false;
+        $scope.passwordBtn = false;
         $scope.roleData = {};
         $scope.userData.gender_id = $scope.userData.title_id = $scope.userData.blood_group_id =
                 $scope.userData.physic_status = $scope.userData.marital_status = $scope.userData.highest_education_id =
@@ -34,10 +35,12 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $scope.flagForChange = 0;
         $scope.itemsPerPage = 30;
         $scope.pageNumber = 1;
+        $scope.totpresalesEnquiries = $scope.totsalesEnquiries = 0;
         $rootScope.menuId = [];
         $rootScope.roleMenuList = [];
         $scope.currentPage = 30;
         $scope.noOfRows = 1;
+        $scope.suspendId = 0;
         $rootScope.imageUrl = "";
         $scope.userData.high_security_password_type = 0;
         $scope.userData.current_country_id = $scope.userData.permenent_country_id = 101;
@@ -48,6 +51,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         $rootScope.roleMenuList = [];
         $scope.searchDetails = {};
         $scope.searchData = {};
+//        $scope.manageSuspend = function(id){
+//            alert(id);
+//            $scope.suspendId = id;
+//        };
 
         $scope.filterDetails = function (search) {
 //            angular.forEach(search, function (key, value) {
@@ -101,6 +108,8 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 async: false,
             }).then(function (response) {
                 $scope.predata.presalesemployee_id = angular.copy(response.presales.records);
+                //console.log($scope.presales.presalesemployee_id);
+//              $scope.postsales.postsalesemployee_id = response.postsales;
                 $scope.predata.postsalesemployee_id = angular.copy(response.postsales.records);
             });
         }
@@ -709,38 +718,6 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
 
-//        $scope.pageChanged = function (pageNo, functionName, id) {
-//            $scope.action = 'index';
-//            $scope[functionName](id, $scope.action, id, pageNo, $scope.itemsPerPage);
-//            $scope.pageNumber = pageNo;
-//        };
-//        $scope.filterData = {};
-//        $scope.data = {};
-//
-//        $scope.filteredData = function (data, page, noOfRecords) {
-//
-//            $scope.showloader();
-//            page = noOfRecords * (page - 1);
-//            Data.post('cloudcallinglogs/filteredData', {filterData: data, getProcName: $scope.getProcName, pageNumber: page, itemPerPage: noOfRecords, isTeamType: $scope.type}).then(function (response) {
-//                if (response.success)
-//                {
-//                    $scope.listUsers = response.records.data;
-//                    $scope.listUsersLength = response.totalCount;
-//
-//                } else
-//                {
-//                    $scope.listUsers = '';
-//                    $scope.listUsersLength = 0;
-//                }
-//                $('#showFilterModal').modal('hide');
-//                $scope.showFilterData = $scope.filterData;
-//                $scope.hideloader();
-//                $scope.flagForChange = 0;
-//                return false;
-//
-//            });
-//        }
-
         $scope.removeDataFromFilter = function (keyvalue)
         {
             delete $scope.filterData[keyvalue];
@@ -758,31 +735,21 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
             $scope.noOfRows = num;
             $scope.currentPage = num * $scope.itemsPerPage;
         };
-
-//        $scope.changePassword = function (id, username) {
-//
-//            Data.post('master-hr/changePassword', {
-//                empId: id, username: username
-//            }).then(function (response) {
-//                if (response.success) {
-//                    $("#myModal").modal("toggle");
-//                    $scope.successMsg = response.message;
-//                } else {
-//                    $scope.errorMsg = response.message;
-//                }
-//            });
-//        }
-
         $scope.wrongpwd = false;
         $scope.changePassword = function (adata) {
+             $scope.passwordBtn = true;
             Data.post('master-hr/changePassword', {
                 data: adata,
             }).then(function (response) {
                 if (response.success) {
+                     $scope.passwordBtn = false;
                     $scope.successMsg = response.message;
                     $scope.wrongpwd = false;
                     $scope.step1 = false;
                     $("#passwordClosebtn").trigger('click');
+                    $timeout(function () {
+                       toaster.pop('success', '', 'Your password has been successfully changed. Please check your mail.');
+                    }, 500);
                 } else {
                     $scope.errorMsg = response.message;
                     $scope.wrongpwd = true;
@@ -1044,6 +1011,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
         }
 
         $scope.getEnqCount = function (emp_id) {
+            $scope.salesemployeeList = [];
             Data.post('/master-hr/getEnquiriesCnt', {
                 empId: emp_id,
             }).then(function (response) {
@@ -1051,23 +1019,59 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 $scope.totpresalesEnquiries = response.presalesEnqcount;
                 if ($scope.totsalesEnquiries > 0 || $scope.totpresalesEnquiries > 0) {
                     $('#BulkModal').modal('show');
-                }
-            });
-        }
-        $scope.getsalesEmployees = function (emp_id) {
-            $scope.salesemployeeList = [];
-            Data.post('/master-hr/getsalesEmployees', {
-                empId: emp_id,
-            }).then(function (response) {
-                if (!response.success) {
-                    $scope.errorMsg = response.message;
-                } else {
-                    $scope.salesemployeeList = response.records;
+                    $scope.salesemployeeList = response.employees;
                 }
             });
         }
 
+//       Archana Employee suspended from listing 
+
+        $scope.employeeSuspend = function (emp_id, index, items, pageNo) {
+            $scope.suspendId = emp_id;
+
+            $scope.indexing = index;
+            $scope.salesemployeeList = [];
+            Data.post('/master-hr/getEnquiriesCnt', {
+                empId: empId,
+            }).then(function (response) {
+                $scope.totsalesEnquiries = response.salesEnqcount;
+                $scope.totpresalesEnquiries = response.presalesEnqcount;
+                if ($scope.totsalesEnquiries > 0 || $scope.totpresalesEnquiries > 0) {
+                    $('#BulkModal').modal('show');
+                    $scope.salesemployeeList = response.employees;
+                } else {
+                    SweetAlert.swal({
+                        title: "Are you sure?", //Bold text
+                        text: "Your will not be able to recover this employee!", //light text
+                        type: "warning", //type -- adds appropiriate icon
+                        showCancelButton: true, // displays cancel btton
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes, delete it!",
+                        closeOnConfirm: false, //do not close popup after click on confirm, usefull when you want to display a subsequent popup
+                        closeOnCancel: false
+                    },
+                            function (isConfirm) { //Function that triggers on user action.
+                                if (isConfirm) {
+                                    Data.post('/master-hr/suspendEmployee', {
+                                        empId: empId
+                                    }).then(function (response) {
+                                        $("tr#"+empId+"").remove();
+                                    });
+                                    SweetAlert.swal("Deleted!");                                    
+                                } else {
+                                    SweetAlert.swal("Your Employee is safe!");
+                                }
+                            });
+
+
+                }
+
+            });
+        }
+
+
         $scope.getpresalesEmployees = function (emp_id) {
+
             $scope.presalesemployeeList = [];
             Data.post('/master-hr/getpresalesEmployees', {
                 empId: emp_id,
@@ -1093,6 +1097,24 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                     toaster.pop('success', 'Bulk Reassign', response.message);
                     $('#BulkModal').modal('toggle');
 
+                    $(".modal-backdrop").hide();
+                }
+            });
+
+        }
+        $scope.BulkReasignEmployeeFromList = function (bulkData, employee_id) {
+            Data.post('/master-hr/BulkReasignEmployeeFromList', {
+                bulkData: bulkData, employee_id: employee_id
+            }).then(function (response) {
+                if (!response.success) {
+                    $scope.errorMsg = response.message;
+                    toaster.pop('error', 'Bulk Reassign', "Something went wrong...");
+                } else {
+                    $scope.reassigned = true;
+                    toaster.pop('success', 'Bulk Reassign', response.message);
+                    $('#BulkModal').modal('toggle');
+//                    $('suspend'+employee_id).remove();
+                    $scope.listUsers.splice($scope.indexing, 1);
                     $(".modal-backdrop").hide();
                 }
             });
@@ -1657,6 +1679,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 empId = $rootScope.employeeId;
             }
             var createStatus = $("#employeeId").val();
+            alert(createStatus)
             userStatus = angular.fromJson(angular.toJson(userStatus));
             Data.post('master-hr/manageStatusForm', {
                 userStatus: userStatus, employeeId: empId, createStatus: createStatus
@@ -1696,16 +1719,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                 }
             });
         };
-//        $scope.getEmpId = function (empId)
-//        {
-//            if (empId != 0) {
-//                $scope.userId = empId;
-//            } else {
-//                Data.get('master-hr/getEmpId').then(function (response) {
-//                    $scope.userData.employee_id = response;
-//                });
-//            }
-//        }
+
         $scope.getStepDiv = function (stepId, steps, uniqueId, classCheck)
         {
             if (classCheck == 1) {

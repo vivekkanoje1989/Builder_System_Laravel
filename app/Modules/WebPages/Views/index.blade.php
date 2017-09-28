@@ -16,7 +16,7 @@
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Webpage Management</span>                
+                <span class="widget-caption">Content Management</span>                
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
@@ -26,9 +26,6 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print"  ng-click="contentManagementExportToxls()" ng-show="exportData == '1'" >
-                            <span>Export</span>
-                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
@@ -107,13 +104,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="listpage in listPages | filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort">
+                            <tr role="row" dir-paginate="listpage in listPages | filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" id='{{listpage.id}}'>
                                 <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ listpage.page_name}}</td>
                                 <td>{{ listpage.page_title}}</td>                            
                                 <td>{{ listpage.status}}</td>                            
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit Web Page Content"><a href="[[ config('global.backendUrl') ]]#/webpages/update/{{ listpage.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>                                
+                                    <span class="" tooltip-html-unsafe="Edit Web Page Content"><a href="[[ config('global.backendUrl') ]]#/webpages/update/{{ listpage.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>                                
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete" ><a href="" ng-click="confirm({{listpage.id}},{{$index}})"  class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
 
                                 </td>

@@ -16,7 +16,7 @@
     <div class=" mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Device Information</span>                
+                <span class="widget-caption">Employee Device Management</span>                
             </div>
             <div class="widget-body table-responsive">
 
@@ -135,7 +135,7 @@
                                 <td ng-if="listDevice.device_status == 1">Active</td>
                                 <td ng-if="listDevice.device_status == 0">Inactive</td>
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit Information" ><a href="[[ config('global.backendUrl') ]]#/employeeDevice/update/{{ listDevice.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>                               
+                                    <span class="" tooltip-html-unsafe="Edit Information" ><a href="[[ config('global.backendUrl') ]]#/employeeDevice/update/{{ listDevice.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>                               
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{listDevice.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>

@@ -59,85 +59,47 @@
 <toaster-container toaster-options="{'time-out': 2000,'position-class': 'toast-center', 'close-button':true}"></toaster-container>
 
 <script>
-    $(document).ready(function(){
-        setTimeout(function(t){  
-            $("ul#cstmenu > li > a").click(function (t) {
-                              
-//                $('ul#cstmenu > li > ul.submenu').not($(this).siblings()).slideUp();
-//                $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();
-//                $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).slideUp();
-//                $(this).siblings("ul.submenu").slideToggle();
-                 var n = $("#sidebar").hasClass("menu-compact");console.log($(this).siblings());
-                var i = $(t.target).closest("a"),
-                                    u, r, f;
-                            if (i && i.length != 0) {
-                            if (!i.hasClass("menu-dropdown")) return n && i.get(0).parentNode.parentNode == this && (u = i.find(".menu-text").get(0), t.target != u && !$.contains(u, t.target)) ? !1 : void 0;
-                            if (r = i.next().get(0), !$(r).is(":visible")) {
-                            if (f = $(r.parentNode).closest("ul"), n && f.hasClass("sidebar-menu")) return;
-                            f.find("> .open > .submenu").each(function() {
-                            this == r || $(this.parentNode).hasClass("active") || $(this).slideUp(200).parent().removeClass("open")
-                            })
-                            }
-                           
-                            return n && $(r.parentNode.parentNode).hasClass("sidebar-menu") ? !1 : ($(r).slideToggle(200).parent().toggleClass("open"), !1)
-                            }
+$(document).ready(function(){
+    setTimeout(function(t){  
+        $("ul#cstmenu > li > a").click(function (t) {
+            $('ul#cstmenu > li > ul.submenu').not($(this).siblings()).slideUp();
+            $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();
+            $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).slideUp();
+            $(this).siblings("ul.submenu").slideToggle(function() { 
+                if($(this).parent().hasClass("open")){
+                    $(this).parent().removeClass("open");
+                }else{
+                    $('ul#cstmenu > li').removeClass("open");
+                    $('ul#cstmenu > li > ul > li').removeClass("open");
+                    $('ul#cstmenu > li > ul > li > ul > li').removeClass("open");
+                    $(this).parent().addClass("open");
+                }
             });
+        });
 
-            $("#cstmenu > li > ul > li > a").click(function (t) {
-//                $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();
-//                $(this).siblings("ul.submenu").slideToggle();
-  var n = $("#sidebar").hasClass("menu-compact");
-                var i = $(t.target).closest("a"),
-                                    u, r, f;
-                            if (i && i.length != 0) {
-                            if (!i.hasClass("menu-dropdown")) return n && i.get(0).parentNode.parentNode == this && (u = i.find(".menu-text").get(0), t.target != u && !$.contains(u, t.target)) ? !1 : void 0;
-                            if (r = i.next().get(0), !$(r).is(":visible")) {
-                            if (f = $(r.parentNode).closest("ul"), n && f.hasClass("sidebar-menu")) return;
-                            f.find("> .open > .submenu").each(function() {
-                            this == r || $(this.parentNode).hasClass("active") || $(this).slideUp(200).parent().removeClass("open")
-                            })
-                            }
-                            return n && $(r.parentNode.parentNode).hasClass("sidebar-menu") ? !1 : ($(r).slideToggle(200).parent().toggleClass("open"), !1)
-                            }
+        $("#cstmenu > li > ul > li > a").click(function (t) {
+            $('#cstmenu > li > ul > li > ul').not($(this).siblings()).slideUp();            
+            $(this).siblings("ul.submenu").slideToggle(function() { 
+                if($(this).parent().hasClass("open")){
+                    $(this).parent().removeClass("open");
+                }else{
+                    $('ul#cstmenu > li > ul > li').removeClass("open");
+                    $(this).parent().addClass("open");
+                }
             });
+        });
 
-            $("#cstmenu > li > ul > li > ul > li > a").click(function (t) {
-//                $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).slideUp();
-//                $(this).siblings("ul.submenu").slideToggle();
-               var n = $("#sidebar").hasClass("menu-compact");
-                var i = $(t.target).closest("a"),
-                                    u, r, f;
-                            if (i && i.length != 0) {
-                            if (!i.hasClass("menu-dropdown")) return n && i.get(0).parentNode.parentNode == this && (u = i.find(".menu-text").get(0), t.target != u && !$.contains(u, t.target)) ? !1 : void 0;
-                            if (r = i.next().get(0), !$(r).is(":visible")) {
-                            if (f = $(r.parentNode).closest("ul"), n && f.hasClass("sidebar-menu")) return;
-                            f.find("> .open > .submenu").each(function() {
-                            this == r || $(this.parentNode).hasClass("active") || $(this).slideUp(200).parent().removeClass("open")
-                            })
-                            }
-                            return n && $(r.parentNode.parentNode).hasClass("sidebar-menu") ? !1 : ($(r).slideToggle(200).parent().toggleClass("open"), !1)
-                            }
+        $("#cstmenu > li > ul > li > ul > li > a").click(function (t) {
+            $('#cstmenu > li > ul > li > ul > li > ul').not($(this).siblings()).slideUp();
+            $(this).siblings("ul.submenu").slideToggle(function() { 
+                if($(this).parent().hasClass("open")){
+                    $(this).parent().removeClass("open");
+                }else{
+                    $('ul#cstmenu > li > ul > li > ul > li').removeClass("open");
+                    $(this).parent().addClass("open");
+                }
             });
-          }, 1000); 
-//        
-//        setTimeout(function(){  
-//    var n = $("#sidebar").hasClass("menu-compact");
-//       
-//                             $("ul#cstmenu > li > a.abcd").click( function(t) {
-//                            var i = $(t.target).closest("a"),
-//                                    u, r, f;
-//                            if (i && i.length != 0) {
-//                            if (!i.hasClass("menu-dropdown")) return n && i.get(0).parentNode.parentNode == this && (u = i.find(".menu-text").get(0), t.target != u && !$.contains(u, t.target)) ? !1 : void 0;
-//                            if (r = i.next().get(0), !$(r).is(":visible")) {
-//                            if (f = $(r.parentNode).closest("ul"), n && f.hasClass("sidebar-menu")) return;
-//                            f.find("> .open > .submenu").each(function() {
-//                            this == r || $(this.parentNode).hasClass("active") || $(this).slideUp(200).parent().removeClass("open")
-//                            })
-//                            }
-//                            return n && $(r.parentNode.parentNode).hasClass("sidebar-menu") ? !1 : ($(r).slideToggle(200).parent().toggleClass("open"), !1)
-//                            }
-//                            })
-//                            }, 1000); 
-                          
-    });
+        });
+    }, 200); 
+});
 </script>

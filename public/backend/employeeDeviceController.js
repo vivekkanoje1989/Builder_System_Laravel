@@ -12,7 +12,6 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
         $scope.searchData = {};
 
         $scope.filterDetails = function (search) {
-//            $scope.searchDetails = {};
             $scope.searchData = search;
             $('#showFilterModal').modal('hide');
         }
@@ -40,7 +39,6 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
         $scope.deleteEmployeeDevice = function (id, index) {
             Data.post('employee-device/deleteEmployeeDevice', {
                 'id': id}).then(function (response) {
-//                toaster.pop('success', 'Employee Device', 'Employee Device deleted successfully');
                 $scope.listDevices.splice(index, 1);
             });
         }
@@ -62,27 +60,17 @@ app.controller('empDeviceController', ['$scope', '$state', 'Data', 'toaster', '$
                 }
                 if (id > 0)
                 {
-                    $scope.btnLable = 'Update'
-                    $scope.heading = 'Update Device '
+                    $scope.btnLable = 'Update';
+                    $scope.heading = 'Edit Device Details';
                     $scope.deviceData = angular.copy(response.records[0]);
                 }
                 if (id === 0)
                 {
-                    $scope.heading = 'Add Device '
+                    $scope.heading = 'Add Device Details';
                     $scope.btnLable = 'Add';
                 }
-            })
+            });
         }
-//        $scope.checkemployee = function () {
-//            if ($scope.deviceData.employee_id.length === 0) {
-//                $scope.emptyEmpId = true;
-//                $scope.applyClassEmp = 'ng-active';
-//            } else {
-//                $scope.emptyEmpId = false;
-//                $scope.applyClassEmp = 'ng-inactive';
-//            }
-//        };
-
         $scope.saveDeviceConfig = function (id, data)
         {
             if (id === 0)

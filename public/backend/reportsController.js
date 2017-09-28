@@ -14,7 +14,7 @@ app.controller('reportsController', ['$scope', 'Data', '$timeout', function ($sc
             $scope.sourcecolors = [];
             $scope.source_total = 0;
             $scope.projectShow = false;
-            $scope.headingName = "Enquiry Category Report";
+            $scope.headingName = "Enquiry Report";
             $scope.empListTab = [];
 
             $scope.empListTab1 = [];

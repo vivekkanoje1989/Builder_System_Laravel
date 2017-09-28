@@ -249,7 +249,7 @@
                             </li>
                             <!--Avatar Area-->
                             <li class="edit">
-                                <a href="office.php#/user/profile" class="text-center" style="color:black;"><strong>Manage Profile</strong></a>
+                                <a href="office.php#/user/profile" class="text-center" style="color:black;text-decoration: underline;"><strong>Manage Profile</strong></a>
                                 <!--<a href="#" class="pull-right">Setting</a>-->
                             </li>
                             <!--Theme Selector Area-->

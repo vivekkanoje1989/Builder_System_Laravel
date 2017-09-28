@@ -103,7 +103,50 @@ class AdminController extends Controller {
         $fullName = Auth::guard('admin')->user()->first_name . " " . Auth::guard('admin')->user()->last_name;
         return view('layouts.backend.dashboard')->with('id', $fullName);
     }
+    
+    public function getnextfollowupTime() {
+        $postdata = file_get_contents("php://input");
+        $input = json_decode($postdata, true);
+        $start_time = "09:00:00";
+        $end_time = "19:00:00";
+        $interval = "15";
+        if (!empty($input['data']['selectedDate'])) {
+            $selectedDate = date('Y-m-d', strtotime($input['data']['selectedDate']));
+            $time_slot = array();
 
+            while ($start_time <= $end_time) {
+                $current_date = date('Y-m-d');
+                $current_time = date('H:i', strtotime("+15 minutes"));
+
+                if ($selectedDate == $current_date) {
+                    $start_h = date('H:i', strtotime($start_time));
+                    if ($start_h >= $current_time) {
+                        $time_slot[] = $start_time;
+                    }
+                    $start_time = date("H:i:s", strtotime("+$interval minutes", strtotime($start_time)));
+                } else {
+                    $time_slot[] = $start_time;
+                    $start_time = date("H:i:s", strtotime("+$interval minutes", strtotime($start_time)));
+                }
+            }
+
+            $final_time_slot = array();
+            $i = 0;
+            foreach ($time_slot as $final_time_slot_row) {
+                $final_time_slot[$i]['value'] = $final_time_slot_row;
+                $final_time_slot[$i]['label'] = date('h:i A', strtotime($final_time_slot_row));
+                $i++;
+            }
+            if (empty($final_time_slot)) {
+                $result = ['success' => false, 'flag' => 1, 'message' => 'Please select next date'];
+            } else {
+                $result = ['success' => true, 'records' => $final_time_slot];
+            }
+        } else {
+            $result = ['success' => false, 'flag' => 1, 'message' => 'Please select date'];
+        }
+        return json_encode($result);
+    }
     public function getCompanyList() {
         $getCompanyList = MlstBmsbCompany::select('id', 'company_name')->get();
         if (!empty($getCompanyList)) {
@@ -121,6 +164,7 @@ class AdminController extends Controller {
     public function getMenuItems() {
         $postdata = file_get_contents("php://input");
         $request = json_decode($postdata, true);
+
         if (!empty($request['data']['loggedInUserId'])) { //for mobile app
             $employeeSubmenus = Employee::select("employee_submenus")->where("id", json_decode($request['data']['loggedInUserId']))->get();
             $permission = json_decode($employeeSubmenus[0]->employee_submenus, true);
@@ -352,7 +396,7 @@ class AdminController extends Controller {
         $getMlstProfession = MlstProfession::where("status", 1)->get();
         $getMlstBmsbDesignation = MlstBmsbDesignation::where("status", 1)->get();
         $getStates = MlstState::where('country_id', 101)->get();
-        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id', 'employee_id')->where("employee_status", 1)->get();
+        $getEmployees = Employee::select('id', 'first_name', 'last_name', 'department_id', 'employee_id', 'designation_id', 'employee_status')->where("employee_status", 1)->get();
         $blockTypeList = MlstBmsbBlockType::select("id", "project_type_id", "block_name")->get();
         $projectList = Project::select('id', 'project_name')->get();
         $subBlocksList = ProjectBlock::select("id", "project_id", "block_type_id", "block_sub_type")->get();
@@ -822,61 +866,6 @@ class AdminController extends Controller {
             $result = ['success' => false, 'message' => 'Something went wrong'];
         }
         return json_encode($result);
-    }
-
-    public function getnextfollowupTime() {
-        $postdata = file_get_contents("php://input");
-        $input = json_decode($postdata, true);
-
-//echo "<pre>";print_r($input);exit;
-        $start_time = "09:00:00";
-//$start_time = date('H:i:s', strtotime($start_time));
-        $end_time = "19:00:00";
-        $interval = "15";
-//$end_time = date('H:i:s', strtotime($end_time));
-        if (!empty($input['data']['selectedDate'])) {
-            $selectedDate = date('Y-m-d', strtotime($input['data']['selectedDate']));
-            $time_slot = array();
-
-
-
-            while ($start_time <= $end_time) {
-                $current_date = date('Y-m-d');
-                $current_time = date('H:i', strtotime("+15 minutes"));
-
-
-                if ($selectedDate == $current_date) {
-                    $start_h = date('H:i', strtotime($start_time));
-                    if ($start_h >= $current_time) {
-                        $time_slot[] = $start_time;
-                    }
-                    $start_time = date("H:i:s", strtotime("+$interval minutes", strtotime($start_time)));
-                } else {
-                    $time_slot[] = $start_time;
-                    $start_time = date("H:i:s", strtotime("+$interval minutes", strtotime($start_time)));
-                }
-            }
-
-            $final_time_slot = array();
-            $i = 0;
-            foreach ($time_slot as $final_time_slot_row) {
-                $final_time_slot[$i]['value'] = $final_time_slot_row;
-                $final_time_slot[$i]['label'] = date('h:i A', strtotime($final_time_slot_row));
-                //$final_time_slot[$final_time_slot_row] = date('h:i A', strtotime($final_time_slot_row));
-                $i++;
-            }
-
-            if (empty($final_time_slot)) {
-                $result = ['success' => false, 'flag' => 1, 'message' => 'Please select next date'];
-                return json_encode($result);
-            } else {
-                $result = ['success' => true, 'records' => $final_time_slot];
-                return json_encode($result);
-            }
-        } else {
-            $result = ['success' => false, 'flag' => 1, 'message' => 'Please select date'];
-            return json_encode($result);
-        }
     }
 
     public function getccPreSalesStates()

@@ -1,7 +1,7 @@
 <div class="row" >
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div ng-if="notFound">No wings found</div>
-        <tabset class="tabs-left" ng-show="wingList">
+        <tabset ng-show="wingList">
             <tab ng-repeat="wlist in wingList" heading="{{wlist.wing_name}}" ng-click="getInventoryDetails(projectData.prid,{{wlist.id}},'')" class="themeprimary">
                 <div class="row">
                     <form role="form" name="inventoryInfoForm" ng-submit="getInventoryDetails(projectData.prid, wlist.id, inventoryData)" novalidate>
@@ -18,45 +18,56 @@
                                             </select>
                                             <i class="fa fa-sort-desc"></i> 
                                             <div ng-show="sbtBtn" ng-messages="inventoryInfoForm.block_type_id.$error" class="help-block">
-                                                <div ng-message="required">This field is</div>
+                                                <div ng-message="required">Please select block</div>
                                             </div>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-sx-6">
                                     <div class="form-group">
-                                        <label for="">Block Sub Type<span class="sp-err">*</span></label>
+                                        <label for="">Sub Block Type<span class="sp-err">*</span></label>
                                         <span class="input-icon icon-right">
                                             <input type="text" class="form-control" ng-model="inventoryData.block_sub_type" name="block_sub_type" required>
                                             <i class="fa fa-crosshairs"></i>
                                             <div ng-show="sbtBtn" ng-messages="inventoryInfoForm.block_sub_type.$error" class="help-block">
-                                                <div ng-message="required">Please enter first name</div>
+                                                <div ng-message="required">Please enter sub block name</div>
                                             </div>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-sx-6">
                                     <div class="form-group">
-                                        <label for="">Block Availability<span class="sp-err">*</span></label>    
-                                        <div class="control-group">
-                                            <div class="radio">
-                                                <label>
-                                                    <input name="form-field-radio" type="radio" ng-model="inventoryData.block_availablity" value="1" class="colored-success" required>
-                                                    <span class="text">Available</span>
-                                                </label>
-                                                &nbsp;&nbsp;
-                                                <label>
-                                                    <input name="form-field-radio" type="radio" ng-model="inventoryData.block_availablity" value="2" class="colored-blue" required>
-                                                    <span class="text">Not Available</span>
-                                                </label>
+                                        <label for="">Sub Block Label (Display on Website)<span class="sp-err">*</span></label>
+                                        <span class="input-icon icon-right">
+                                            <input type="text" class="form-control" ng-model="inventoryData.block_sub_type_label" name="block_sub_type_label" required>
+                                            <i class="fa fa-newspaper-o"></i>
+                                            <div ng-show="sbtBtn" ng-messages="inventoryInfoForm.block_sub_type_label.$error" class="help-block">
+                                                <div ng-message="required">Please enter sub block label</div>
                                             </div>
-                                        </div>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-sx-6">
+                                    <div class="form-group">
+                                        <label for=""></label> 
+                                        <span class="input-icon icon-right">
+                                            <label>
+                                                <input class="checkbox-slider slider-icon colored-primary" type="checkbox" ng-model="inventoryData.block_availablity" checked="" name="block_availablity">
+                                                <span  class="text">&nbsp;&nbsp;Block Availablity<span class="sp-err">*</span></span>
+                                            </label>
+                                        </span>
+                                        <span class="input-icon icon-right">
+                                            <label>
+                                                <input class="checkbox-slider slider-icon colored-primary" type="checkbox" ng-model="inventoryData.show_on_website" checked="" name="show_on_website">
+                                                <span  class="text">&nbsp;&nbsp;Show On Website<span class="sp-err">*</span></span>
+                                            </label>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
-                        <div class="row">
+<!--                        <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-sm-3 col-sx-6">
                                     <div class="form-group">
@@ -95,8 +106,8 @@
                                     </div>
                                 </div>
                             </div> 
-                        </div>
-                        <div class="row">
+                        </div>-->
+<!--                        <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-sm-3 col-sx-6">
                                     <div class="form-group">
@@ -135,7 +146,7 @@
                                     </div>
                                 </div>
                             </div> 
-                        </div>
+                        </div>-->
                         <div class="row">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="col-sm-3 col-sx-6">
@@ -263,6 +274,7 @@
                                 <div class="col-lg-12  col-sm-12 col-xs-12"><hr></div>
                                 <div class="form-group" align="center">
                                     <button type="submit" class="btn btn-primary" ng-click="sbtBtn=true">Save</button>
+                                    <button type="button" class="btn btn-primary" ng-click="cancel_inventory()">Cancel</button>
                                 </div>
                             </div>
                         </div>

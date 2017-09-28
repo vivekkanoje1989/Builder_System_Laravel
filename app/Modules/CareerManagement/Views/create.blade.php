@@ -2,7 +2,7 @@
     <div  class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Add Job Description</span>
+                <span class="widget-caption">Add Job Details</span>
             </div>
             <div class="widget-body">
                 <form  ng-submit="jobPosting.$valid && dojobPostingAction(career)" name="jobPosting"  novalidate enctype="multipart/form-data">
@@ -13,7 +13,7 @@
                                 <label>Job Title <span class="sp-err">*</span></label>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_title.$dirty && jobPosting.job_title.$invalid) }">
                                     <span class="input-icon icon-right">
-                                        <input type="text" class="form-control" ng-model="career.job_title" name="job_title"  ng-change="errorMsg = null" required oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
+                                        <input type="text" class="form-control" ng-model="career.job_title" name="job_title" capitalizeFirst ng-change="errorMsg = null" required oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_title.$error">
                                             <div ng-message="required">Job title is required</div>
                                             <div ng-if="errorMsg" class="sp-err">{{errorMsg}}</div>
@@ -28,7 +28,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_locations.$dirty && jobPosting.job_locations.$invalid) }">
                                 <label>Job Location <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" class="form-control" ng-model="career.job_locations" name="job_locations" required  oninput="if (/[^A-Za-z ]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z ]/g,'')">
+                                    <input type="text" class="form-control" ng-model="career.job_locations" name="job_locations" capitalizeFirst required  >
                                     <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_locations.$error">
                                         <div ng-message="required">Job location is required</div>
                                     </div>
@@ -41,7 +41,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_eligibility.$dirty && jobPosting.job_eligibility.$invalid) }">
                                 <label>Job Eligibility <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <textarea ng-model="career.job_eligibility" name="job_eligibility" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
+                                    <textarea ng-model="career.job_eligibility" name="job_eligibility" class="form-control capitalize ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
 
                                 </span>
                                 <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_eligibility.$error">
@@ -55,7 +55,7 @@
                             <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_role.$dirty && jobPosting.job_role.$invalid) }">
                                 <label>Job Role <span class="sp-err">*</span></label>
                                 <span class="input-icon icon-right">
-                                    <input type="text" class="form-control" ng-model="career.job_role" name="job_role"  required>
+                                    <input type="text" class="form-control" ng-model="career.job_role" name="job_role" capitalizeFirst required>
                                     <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_role.$error">
                                         <div ng-message="required">Job role is required</div>
                                     </div>
@@ -71,7 +71,7 @@
                                 <label>Job Responsibilities<span class="sp-err">*</span></label>
                                 <div class="form-group" ng-class="{ 'has-error' : sbtBtn && (!jobPosting.job_responsibilities.$dirty && jobPosting.job_responsibilities.$invalid) }">
                                     <span class="input-icon icon-right">
-                                        <textarea ng-model="career.job_responsibilities" name="job_responsibilities" class="form-control ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
+                                        <textarea ng-model="career.job_responsibilities" name="job_responsibilities" class="form-control capitalize ng-pristine ng-valid ng-valid-maxlength ng-touched" required></textarea>
                                         <div class="help-block" ng-show="sbtBtn" ng-messages="jobPosting.job_responsibilities.$error">
                                             <div ng-message="required"> Job responsibilities is required</div>
                                         </div>
@@ -129,8 +129,8 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-xs-12" align="right">
-                            <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="createJob">Submit</button>
-                            <a href="[[ config('global.backendUrl') ]]#/job-posting/index" class="btn btn-primary"><< Back to list</a>
+                            <button type="Submit" class="btn btn-primary" ng-click="sbtBtn = true" ng-disabled="createJob">Add</button>
+                            <a href="[[ config('global.backendUrl') ]]#/career/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>

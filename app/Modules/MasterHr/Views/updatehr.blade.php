@@ -16,7 +16,10 @@
 <div class="row"  ng-controller="hrController"   >
     <input type="hidden" name="employeeId" id="employeeId"  value="[[$empId]]" ng-cloak="" >
     <div class="col-lg-12 col-sm-12 col-xs-12">
-        <h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Edit User</h5>
+        <!--<h5 class="row-title before-themeprimary"><i class="fa  fa-arrow-circle-o-right themeprimary"></i>Edit User</h5>-->
+        <div class="widget-header bordered-bottom bordered-themeprimary ">
+                <span class="widget-caption">Edit User</span>
+            </div>
         <div id="WiredWizard" class="wizard wizard-wired" data-target="#WiredWizardsteps">
             <ul class="steps">
                 <li   ng-click="getStepDiv(1, steps, 1, steps.first_name)" id="step1" ng-class="{'complete':steps.first_name == 1}" class="user_steps wiredstep1"><span class="step">1</span><span class="title">Personal Information</span><span class="chevron"></span></li>
@@ -184,6 +187,7 @@
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="submit" class="btn btn-primary btn-nxt1"  ng-click="step1 = true;"  >Next</button>
+                             <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -524,6 +528,7 @@
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="button" class="btn btn-primary btn-pre2" ng-click="previous(1, 2)">Prev</button>
                             <button type="submit" class="btn btn-primary btn-nxt2" ng-click="step2 = true;">Next</button>
+                            <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -579,6 +584,7 @@
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="button" class="btn btn-primary btn-pre3" ng-click="previous(2, 3)">Prev</button>
                             <button type="submit" class="btn btn-primary btn-nxt3"  ng-click="step3 = true;" >Next</button>
+                            <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form> 
@@ -673,6 +679,7 @@
                         <div class="col-md-12 col-xs-12" align="right">
                             <button type="button" class="btn btn-primary btn-pre4" ng-click="previous(3, 4)">Prev</button>
                             <button type="submit" class="btn btn-primary btn-nxt6" ng-click="step4 = true;">Next</button>
+                            <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -783,8 +790,10 @@
                             <span ng-show="userData.employee_photo_file_name.result">Upload Successful</span>
                             <button type="button" class="btn btn-primary btn-pre5" ng-click="previous(4, 5)">Prev</button>
                             <button type="submit" class="btn btn-primary btn-submit-last"  ng-click="step5 = true">Update</button>
+                            <a href="[[ config('global.backendUrl') ]]#/user/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
+                    </form>
             </div>
         </div>
     </div>

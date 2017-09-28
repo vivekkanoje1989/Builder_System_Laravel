@@ -46,12 +46,12 @@
         -webkit-filter: drop-shadow(0 0 2px black);
         filter: drop-shadow(0 0 0 2px black);
     }
-    
+
     .custom-btn{
         float: right;
         margin:5px;
     }
-    
+
     #divMyTags div.existingTag
     {
         position: relative;
@@ -65,23 +65,23 @@
         margin: 5px;
         width:100%;
     }
-    
+
     #divMyTags div.existingTag p {
         color: black;
     }
-    
+
     .csspadding{
         padding: 15px 15px 0px 15px;
     }
     .help-block{
         color: red;
     }
-    
+
     .call-img{
         height:17px;width:17px;
         position: absolute;
     }
-    
+
     .call-img:hover{
         height:22px;width:22px;
     }
@@ -110,11 +110,9 @@
         background: #ccc;
         color:#fff;
     }
-    .dropdown-menu{
-        top: -254px !important;
-    }
+
     /*******************Company END**********************/
-   
+
     .main-container1 {
         position: relative;
         overflow: hidden;
@@ -147,7 +145,7 @@
         bottom: 0px;
         transition: all ease 1s;
     }
-    
+
     .toggleClassActive {font-size:40px !important;cursor:pointer;color: #5cb85c !important;vertical-align: middle;}
     .toggleClassInactive {font-size:40px !important;cursor:pointer;color: #d9534f !important;vertical-align: middle;}
 </style>
@@ -209,7 +207,7 @@
                                             <div class="col-sm-12">
                                                 <div ng-if ="displaymobile != '-1'">
                                                     <span ng-if="mobileList" ng-repeat="(key,value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
-                                                        <img ng-if="displayCallBtn !='-1'"  src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
+                                                        <img ng-if="displayCallBtn != '-1'"  src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                         <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">{{value}}</span>
                                                     </span> 
                                                     <div class="col-sm-12"><a href ng-click="manageMobText('', '')">Add Mobile Number</a></div>
@@ -231,7 +229,7 @@
                                                     <input type="hidden" ng-mode="prevMob" name="prevMob" id="prevMob"><br>
                                                 </div>
                                                 <span ng-if="displaymobile == '-1' && mobileList" ng-repeat="(key,value) in mobileList track by $index" style="float: left;margin: 7px 20px 0px 0px;">    
-                                                    <img ng-if="displayCallBtn !='-1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
+                                                    <img ng-if="displayCallBtn != '-1'" src="/images/call.png" title="Click on call icon to make a call" class="hi-icon-effect-8 psdn_session call-img">
                                                     <span class="text" style="margin-left: 23px;" ng-click="manageMobText(key, value)">+91-xxxxxx{{  value.substring(value.length - 4, value.length)}}</span>
                                                 </span> 
                                                 <div class="col-sm-12" ng-if ="displayemail != '-1'">
@@ -418,24 +416,32 @@
                                             <label for="" ng-if="remarkData.sales_status_id != 4">Next Followup Date & Time<span class="sp-err">*</span></label>
                                             <label for="" ng-if="remarkData.sales_status_id == 4">Lost Date<span class="sp-err">*</span></label>
                                             <div ng-controller="DatepickerDemoCtrl" class="form-group">
-                                                
+
                                                 <p class="input-group">
-                                                    <input type="text" ng-model="remarkData.next_followup_date" name="next_followup_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly required/>
+                                                    <input type="text" ng-model="remarkData.next_followup_date" name="next_followup_date" class="form-control" datepicker-popup="dd-MM-yyyy" is-open="opened" min-date="minDate" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" ng-change="todayremarkTimeChange(remarkData.next_followup_date)" readonly required/>
                                                     <span class="input-group-btn" >
                                                         <button type="button" class="btn btn-default" ng-click="!disableDataOnEnqUpdate && open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                                     </span>
-                                                    <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
-                                                        <div ng-message="required">Please select followup date</div>
-                                                    </div>
+                                                <div ng-show="sbtBtn" ng-messages="remarkForm.next_followup_date.$error" class="help-block enqFormBtn">
+                                                    <div ng-message="required">Please select followup date</div>
+                                                </div>
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-xs-6" ng-if="remarkData.sales_status_id != 3 && remarkData.sales_status_id != 4">  
                                         <div class="form-group">
-                                            <div ng-controller="TimepickerDemoCtrl">
-                                                <timepicker ng-model="remarkData.next_followup_time" ng-change="changed1(remarkData.next_followup_time)" hour-step="hstep" format="HH:mm" minute-step="mstep" show-meridian="ismeridian" value="{{ remarkData.next_followup_time | date:'HH:mm:ss' }}" style="margin: -0.5% 0 0 0%; position: fixed;" id="timepicker" readonly-input="true"></timepicker>
-                                            </div>
+                                            <label for="">Time<span class="sp-err">*</span></label>
+                                            <span class="input-icon icon-right">
+                                                <select ng-model="remarkData.next_followup_time" name="next_followup_time" id="next_followup_time" class="form-control" required>
+                                                    <option value=""> Select Time </option>
+                                                    <option ng-repeat="time in timeList" value="{{time.value}}" ng-selected="{{time.value == remarkData.next_followup_time}}">{{time.label}}</option>
+                                                </select>
+                                                <i class="fa fa-sort-desc"></i>
+                                                <div  ng-show="sbtBtn" ng-messages="remarkForm.next_followup_time.$error" class="help-block">
+                                                    <div ng-message="required" >This field is required</div>
+                                                </div>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -445,8 +451,8 @@
                                         <div class="form-group">
                                             <label ng-if="remarkData.sales_status_id != 3">Reassign to</label>
                                             <label ng-if="remarkData.sales_status_id == 3">Reassign this booking to</label>
-                                            <ui-select ng-controller="salesemployeesCtrl" ng-model="remarkData.followup_by" name="followup_by" theme="bootstrap">
-                                                <ui-select-match placeholder="Select Employee">{{remarkData.followup_by.first_name}}</ui-select-match>
+                                            <ui-select ng-controller="salesemployeesCtrl" ng-model="remarkData.followup_by_employee_id" name="followup_by_employee_id" theme="bootstrap">
+                                                <ui-select-match placeholder="Select Employee">{{remarkData.followup_by_employee_id.first_name}}</ui-select-match>
                                                 <ui-select-choices repeat="item in salesemployeeList | filter: $select.search">
                                                     <div ng-bind-html="item.first_name | highlight: $select.search"></div>
                                                 </ui-select-choices>
@@ -462,7 +468,7 @@
                                                 <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && modelList.length != 0) && (!remarkForm.project_id.$dirty && remarkForm.project_id.$invalid)}">
                                                     <label for="">Project<span class="sp-err">*</span></label>
                                                     <span class="input-icon icon-right">
-                                                        <select ng-controller="projectCtrl" ng-model="remarkData.project_id" name="project_id"  id ="project_id" class="form-control" ng-change="getWings(remarkData.project_id);getBlocks(remarkData.project_id);">
+                                                        <select ng-controller="projectCtrl" ng-model="remarkData.project_id" name="project_id"  id ="project_id" class="form-control" ng-change="getWings(remarkData.project_id); getBlocks(remarkData.project_id);">
                                                             <option value="">Select Project</option>
                                                             <option ng-repeat="plist in projectList" value="{{plist.id}}_{{plist.project_name}}">{{plist.project_name}}</option>
                                                         </select>
@@ -492,7 +498,7 @@
                                                 <div class="form-group" ng-class="{ 'has-error' : (sbtBtn && blockList.length != 0) && (!remarkForm.block_id.$dirty && remarkForm.block_id.$invalid)}">
                                                     <label for="">Block Type<span class="sp-err" ng-if="blockList.length > 0">*</span></label>
                                                     <span class="input-icon icon-right">
-                                                        <select ng-model="remarkData.block_id" id="block_id" name="block_id" class="form-control" ng-required="blockList.length > 0" ng-change="getSubBlocks(remarkData.project_id,remarkData.block_id)">
+                                                        <select ng-model="remarkData.block_id" id="block_id" name="block_id" class="form-control" ng-required="blockList.length > 0" ng-change="getSubBlocks(remarkData.project_id, remarkData.block_id)">
                                                             <option value="">Select Block</option>
                                                             <option ng-repeat="list in blockList" value="{{list.id}}" ng-selected="{{ list.id == remarkData.block_id}}">{{list.block_name}}</option>
                                                         </select>
@@ -1024,7 +1030,7 @@
                             Personal Details
                         </div>
                     </div>
-                    <form novalidate role="form" ng-submit="customerForm.$valid && updateTodayRemarkCustomerModal(customerData, customerContacts, remarkData.customerId,'')" name="customerForm">
+                    <form novalidate role="form" ng-submit="customerForm.$valid && updateTodayRemarkCustomerModal(customerData, customerContacts, remarkData.customerId, '')" name="customerForm">
                         <div class="row">
                             <div class="col-sm-2">
                                 <div class="form-group" ng-class="{ 'has-error' : csbtBtn && (!customerForm.title_id.$dirty && customerForm.title_id.$invalid)}">
@@ -1099,7 +1105,7 @@
                                         <p class="input-group">
                                             <input type="text" ng-model="customerData.birth_date" name="birth_date" id="birth_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" readonly/>
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                <button type="button" class="btn btn-default" ng-click="open($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
                                         </p>
                                     </div>             
@@ -1115,7 +1121,7 @@
                                         <p class="input-group">
                                             <input type="text" ng-model="customerData.marriage_date" name="marriage_date" id="marriage_date" class="form-control" datepicker-popup="{{format}}" is-open="opened" max-date="maxDates" datepicker-options="dateOptions" close-text="Close" ng-click="toggleMin()" readonly />
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                <button type="button" class="btn btn-default" ng-click="open($event, 3)"><i class="glyphicon glyphicon-calendar"></i></button>
                                             </span>
                                         </p>
                                     </div>
@@ -1301,12 +1307,11 @@
 </div>
 
 <script>
-    $(document).ready(function(){ 
-        $("a#gotoCustomerTab").on("click",function(){
-            $("li#remarkTab").removeClass('active');
-            $("li#customerTab").addClass('active');
-            $("li#customerTab a").trigger('click');
-        });
-        $(".modal-footer").hide();
+    $(document).ready(function(){
+    $("a#gotoCustomerTab").on("click", function(){
+    $("li#remarkTab").removeClass('active');
+    $("li#customerTab").addClass('active');
+    $("li#customerTab a").trigger('click');
     });
-</script>
+    $(".modal-footer").hide();
+    });</script>

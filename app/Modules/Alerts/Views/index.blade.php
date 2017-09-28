@@ -20,7 +20,7 @@
     <div class="col-xs-12 col-md-12 mainDiv">
         <div class="widget">
             <div class="widget-header  bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Templates Settings</span>
+                <span class="widget-caption">Template Settings</span>
             </div>
             <div class="widget-body table-responsive">
                 <div class="row table-toolbar">
@@ -30,9 +30,6 @@
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="templatesExportToxls()" ng-show="ExportTemplateData == '1'">
-                            <span>Export</span>
-                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
@@ -126,7 +123,7 @@
                         </thead>
 
                         <tbody>
-                            <tr role="row" dir-paginate="listAlert in listAlerts | filter:search | filter:searchData | itemsPerPage:itemsPerPage  | orderBy:sortKey:reverseSort"">
+                            <tr role="row" dir-paginate="listAlert in listAlerts | filter:search | filter:searchData | itemsPerPage:itemsPerPage  | orderBy:sortKey:reverseSort" id='{{listAlert.id}}'>
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td ng-init='(listAlert.template_type == 1) ? template_type_list[listAlert.id] = 1 : template_type_list[listAlert.id] = 0'>{{ listAlert.event_name}}
                                     <span ng-init='(listAlert.email_status == 1) ? template_email_status_list[listAlert.id] = 1 : template_email_status_list[listAlert.id] = 0'></span>
@@ -193,7 +190,7 @@
                                 <td>{{ listAlert.module_names}}</td>
                                 <td class="">
                                     <!--div class="fa-hover" tooltip-html-unsafe="User Permissions" tooltip-placement="top" style="display: block;"><a href=""><i class="fa fa-user-plus"></i></a> &nbsp;&nbsp;</div-->
-                                    <span class="" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/alerts/update/{{ listAlert.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
+                                    <span class="" tooltip-html-unsafe="Edit User" ><a href="[[ config('global.backendUrl') ]]#/alerts/update/{{ listAlert.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a> &nbsp;&nbsp;</span>
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{listAlert.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>

@@ -82,8 +82,8 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 col-xs-12" align="right">
-                            <input type="submit" class="btn btn-primary" value="Create" id="sbt" ng-click="sbtbtn=true">
-                            <a href="[[ config('global.backendUrl') ]]#/emailConfig/index" class="btn btn-primary"><< Back To List</a>
+                            <input type="submit" class="btn btn-primary" value="Update" id="sbt" ng-click="sbtbtn=true">
+                            <a href="[[ config('global.backendUrl') ]]#/emailConfig/index" class="btn btn-primary">Cancel</a>
                         </div>
                     </div>
                 </form>    

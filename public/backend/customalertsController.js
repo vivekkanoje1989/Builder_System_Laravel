@@ -51,7 +51,8 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
             Data.post('customalerts/deleteCustomTemplate', {
                 'id': id}).then(function (response) {
 //                toaster.pop('success', 'Custom template', 'Custom Template deleted successfully');
-                $scope.listcustomAlerts.splice(index, 1);
+//                $scope.listcustomAlerts.splice(index, 1);
+                $("tr#"+id+"").remove();
             });
         }
 
@@ -109,7 +110,7 @@ app.controller('customalertsController', ['$rootScope', '$scope', '$state', 'Dat
                         $scope.listcustomAlertsLength = response.records.total;
                     } else if (action === 'edit') {
                         if (id !== '0') {
-                            $scope.pageHeading = 'Update Custom Template';
+                            $scope.pageHeading = 'Edit Custom Template';
                             $scope.buttonLabel = 'Update';
                             $scope.isDisabled = true;
                             $scope.customAlertData = angular.copy(response.records.data[0]);

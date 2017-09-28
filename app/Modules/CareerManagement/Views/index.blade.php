@@ -16,27 +16,24 @@
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Career</span>                
+                <span class="widget-caption">Manage</span>                
             </div>
             <div class="widget-body table-responsive">
                 
                 <div class="row table-toolbar">
-                    <a href="[[ config('global.backendUrl') ]]#/job-posting/create" class="btn btn-default">Post Job</a>
+                    <a href="[[ config('global.backendUrl') ]]#/career/create" class="btn btn-default">Add Details</a>
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="jobPostingExportToxls()" ng-show="exportData=='1'">
-                            <span>Export</span>
-                        </a>
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
-                            <span>Options</span>
+                            <span>Actions</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href=""  ng-click="jobPostingExportToxls()" ng-show="exportData=='1'">Export</a>
                                 </li>
                             </ul>
                         </a>
@@ -66,18 +63,22 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
                     <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                         <thead class="bord-bot">
-                            <tr>
                             <tr>
                                 <th style="width:5%">Sr. No.</th>                          
                                 <th style="width:15%">
@@ -110,23 +111,20 @@
                                 </th> 
                                 <th style="width:10%">Go to</th>                            
                                 <th style="width: 10%">Actions</th>
-
                             </tr>
                         </thead>
                         <tbody>
-
                             <tr role="row" dir-paginate="list in careerRow| filter:search | filter:searchData | itemsPerPage:itemsPerPage | orderBy:sortKey:reverseSort" >
                                 <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}} </td>
                                 <td>{{list.job_title}}</td> 
                                 <td>{{list.job_eligibility}}</td> 
                                 <td>{{list.application_start_date}}</td> 
                                 <td>{{list.application_close_date}}</td>
-                                <td><a href="[[ config('global.backendUrl') ]]#/job-posting/show/{{ list.id}}" class="btn btn-info btn-xs"><i class="fa fa-eye"></i>View Application</a></td>
+                                <td><a href="[[ config('global.backendUrl') ]]#/career/show/{{ list.id}}" class="btn btn-primary btn-xs"><i class="fa fa-eye"></i>View Applications</a></td>
                                 <td class="">	
-                                    <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/job-posting/update/{{ list.id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                    <span ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a ng-click="deleteJob({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit" ><a href="[[ config('global.backendUrl') ]]#/career/update/{{ list.id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
-
                             </tr>
                              <tr>
                                 <td colspan="7"  ng-show="(careerRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   

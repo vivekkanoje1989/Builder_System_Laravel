@@ -99,7 +99,7 @@
                                 <td>{{ list.education}}</td> 
                                 <td>{{ list.status == 1? "Active" : "In active"}}</td> 
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit highest education" data-toggle="modal" data-target="#highesteducModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.education}}','{{list.status}}',{{itemsPerPage}},{{$index}})" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit highest education" data-toggle="modal" data-target="#highesteducModal"><a href="javascript:void(0);" ng-click="initialModal({{ list.id}},'{{list.education}}','{{list.status}}',{{itemsPerPage}},{{$index}})" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span  ng-show="deleteBtn == '1'"  class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteHighestEdu({{list.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>

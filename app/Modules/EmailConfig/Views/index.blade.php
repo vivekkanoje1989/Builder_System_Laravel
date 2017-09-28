@@ -2,7 +2,7 @@
     <div class="col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Configure Email Accounts</span>                
+                <span class="widget-caption">Email Account Configuration</span>                
             </div>
             <div class="widget-body table-responsive"><br/>  
                 <div class="row table-toolbar">
@@ -81,7 +81,7 @@
                                 <td>Gmail</td>          
                                 <td>{{ listmail.deptName}}</td>
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit Account"><a href="[[ config('global.backendUrl') ]]#/emailConfig/update/{{ listmail.id}}" class=" btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                    <span class="" tooltip-html-unsafe="Edit Account"><a href="[[ config('global.backendUrl') ]]#/emailConfig/update/{{ listmail.id}}" class=" btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
                                     <span  ng-show="deleteBtn == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{listmail.id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td>
                             </tr>

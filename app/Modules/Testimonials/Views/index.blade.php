@@ -12,33 +12,32 @@
         width: 110%;
     }
 </style>
-<div class="row" ng-controller="testimonialsCtrl" ng-init="testimonials()">  
+<div class="row" ng-controller="testimonialsCtrl" ng-init="manageTestimonials()">  
     <div class="mainDiv col-xs-12 col-md-12">
         <div class="widget flat radius-bordered">
             <div class="widget-header bordered-bottom bordered-themeprimary">
-                <span class="widget-caption">Manage Testimonials</span>                
+                <span class="widget-caption">Approve</span>                
             </div>
             <div class="widget-body table-responsive">
-                
+
                 <div class="row table-toolbar">
-                    <!--<a  href="[[ config('global.backendUrl') ]]#/employeeDevice/create" class="btn btn-default">Add Device</a>-->
+                    <a  href="[[ config('global.backendUrl') ]]#/testimonials/create" class="btn btn-default">Add Testimonial</a>
                     <div class="btn-group pull-right filterBtn">
                         <a class="btn btn-default toggleForm" href=""><i class="btn-label fa fa-filter"></i>Show Filter</a>
                     </div>
                 </div>
                 <div role="grid" id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
                     <div class="DTTT btn-group">
-                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="manageTestimonialDisapproveExportToExcel()" ng-show="exportData == '1'">
+<!--                        <a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View Excel" ng-click="manageTestimonialApproveExportToExcel()" ng-shoe="exportDetails== '1'">
                             <span>Export</span>
-                        </a>
+                        </a>-->
                         <a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2">
                             <span>Options</span>
                             <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-angle-down"></i></a>
                             <ul class="dropdown-menu dropdown-default">
                                 <li>
-                                    <a href="javascript:void(0);">Action</a>
+                                    <a href="" ng-click="manageTestimonialApproveExportToExcel()" ng-shoe="exportDetails== '1'">Export</a>
                                 </li>
-                                
                             </ul>
                         </a>
                     </div>
@@ -50,7 +49,7 @@
                     <!-- filter data--> 
                     <div class="row" style="border:2px;" id="filter-show">
                         <div class="col-sm-12 col-xs-12">
-                            <b ng-repeat="(key, value) in searchData"  ng-if="value != 0">
+                            <b ng-repeat="(key, value) in searchData">
                                 <div class="col-sm-2" data-toggle="tooltip" title="{{  key.substring(0, key.indexOf('_'))}}"> 
                                     <div class="alert alert-info fade in">
                                         <button class="close" ng-click="removeFilterData('{{ key}}');" data-dismiss="alert"> ×</button>
@@ -67,58 +66,63 @@
                     <div class="dataTables_length" >
                         <label>
                             <select class="form-control" ng-model="itemsPerPage" name="itemsPerPage" onchange="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')">
-                                <option value="1">1</option>
-                                <option value="5">5</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
                                 <option value="30">30</option>
                                 <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="300">300</option>
+                                <option value="400">400</option>
+                                <option value="500">500</option>
+                                <option value="600">600</option>
+                                <option value="700">700</option>
+                                <option value="800">800</option>
+                                <option value="900">900</option>
+                                <option value="999">999</option>
                             </select>
                         </label>
                     </div>
                     <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                         <thead class="bord-bot">
                             <tr>
-                                <th style="width:5%">Sr. No.</th>                          
-                                <th style="width: 30%">
-                                    <a href="javascript:void(0);" ng-click="orderByField('customer_name')">Customer Name
+                                <th style="width:5%">Sr.No.</th>
+                                <th style="width:10%">
+                                    <a href="javascript:void(0);" ng-click="orderByField('customer_name')">Customer name
                                         <span ><img ng-hide="(sortKey == 'customer_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'customer_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'customer_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
-                                <th style="width: 15%">
+                                <th style="width: 20%">
                                     <a href="javascript:void(0);" ng-click="orderByField('mobile_number')">Mobile No
                                         <span ><img ng-hide="(sortKey == 'mobile_number' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'mobile_number' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'mobile_number' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
-                                <th style="width: 20%">
-                                     <a href="javascript:void(0);" ng-click="orderByField('company_name')">Company Name
+                                <th style="width: 30%">
+                                    <a href="javascript:void(0);" ng-click="orderByField('company_name')">Company Name
                                         <span ><img ng-hide="(sortKey == 'company_name' && (reverseSort == true || reverseSort == false))" src="../images/sort_both.png"></img></span>
                                         <span ng-show="(sortKey == 'company_name' && reverseSort == false)" ><img src="../images/sort_asc.png"></img></span>
                                         <span ng-show="(sortKey == 'company_name' && reverseSort == true)" ><img src="../images/sort_desc.png"></img></span>
                                     </a>
                                 </th> 
-                                <th style="width: 20%">Approve Status</th> 
+                                <th style="width: 15%">Approve Status</th>  
                                 <th style="width: 10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" dir-paginate="list in ApprovedTestimonialsRow|  filter:search |filter:searchData  | itemsPerPage:itemsPerPage |orderBy:sortKey:reverseSort">
-                                <td>{{ itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
+                            <tr role="row" dir-paginate="list in ApprovedTestimonialsRow|  filter:search |filter:searchData | itemsPerPage:itemsPerPage |orderBy:sortKey:reverseSort">
+                                <td>{{itemsPerPage * (noOfRows - 1) + $index + 1}}</td>
                                 <td>{{ list.customer_name}}</td>  
                                 <td>{{ list.mobile_number}}</td>  
                                 <td>{{ list.company_name}}</td>
-                                <td>{{(list.approve_status == 1) ? "Approved" : "Not Approve"}}</td>
+                                <td>{{ (list.approve_status == 1) ? "Approved" : "Not Approve"}}</td>
                                 <td class="">
-                                    <span class="" tooltip-html-unsafe="Edit Information" ><a href="[[ config('global.backendUrl') ]]#/testimonials/update/{{ list.testimonial_id}}" class="btn-info btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
-                                 <span ng-show="deleteDisApprove == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="deleteDisApprovedList({{list.testimonial_id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
+                                     <span class="" tooltip-html-unsafe="Edit Information" ><a href="[[ config('global.backendUrl') ]]#/testimonials/update/{{ list.testimonial_id}}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i>Edit</a></span>
+                                   <span ng-show="deleteApprove == '1'" class="" tooltip-html-unsafe="Delete"><a href="" ng-click="confirm({{list.testimonial_id}},{{$index}})" class="btn-danger btn-xs"><i class="fa fa-trash-o"></i>Delete</a></span>
                                 </td> 
                             </tr>
-                             <tr>
-                                <td colspan="6"  ng-show="(ApprovedTestimonialsRow|filter:search|filter:searchData).length == 0" align="center">Record Not Found</td>   
+                            <tr>
+                                <td colspan="6"  ng-show="(ApprovedTestimonialsRow|filter:search | filter:searchData).length == 0" align="center">Record Not Found</td>   
                             </tr>
                         </tbody>
                     </table>
@@ -148,7 +152,7 @@
                     <div class="form-group">
                         <label for="">Customer Name</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.customer_name" name="customer_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
+                            <input type="text" ng-model="searchDetails.customer_name" capitalizeFirst name="customer_name" class="form-control" oninput="if (/[^A-Za-z]/g.test(this.value)) this.value = this.value.replace(/[^A-Za-z]/g,'')">
                         </span>
                     </div>
                 </div>
@@ -164,24 +168,10 @@
                     <div class="form-group">
                         <label for="">Company Name</label>
                         <span class="input-icon icon-right">
-                            <input type="text" ng-model="searchDetails.company_name" name="company_name" class="form-control">
+                            <input type="text" ng-model="searchDetails.company_name" capitalizeFirst name="company_name" class="form-control">
                         </span>
                     </div>
                 </div>
-                <!--                <div class="col-sm-12 col-xs-12">
-                                    <div class="form-group">
-                                        <label for="">Account Type</label>
-                                        <span class="input-icon icon-right">
-                                            <select ng-model="searchDetails.approve_status" name="approve_status" class="form-control">
-                                                <option value="">Select account type</option>
-                                                <option value="1">Approved</option>
-                                                <option value="2">Not Approve</option>
-                                            </select>
-                
-                                        </span>    
-                                    </div>
-                                </div>-->
-
             </div>
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12" >
@@ -197,4 +187,3 @@
     <script src="/js/filterSlider.js"></script>
     <!-- Filter Form End-->
 </div>
-
