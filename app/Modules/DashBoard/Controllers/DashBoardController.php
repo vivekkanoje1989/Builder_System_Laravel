@@ -275,9 +275,11 @@ class DashBoardController extends Controller {
             $report = "select SQL_CALC_FOUND_ROWS request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = 1 limit " . $startFrom . "," . $request['itemPerPage'];
             $employees = DB::select($report);
             $rows = DB::select("select FOUND_ROWS() as totalCount");
+              $cnt = $rows[0]->totalCount;
         } else {
             $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = 1";
             $employees = DB::select($report);
+            $cnt = '';
         }
 
 
@@ -294,7 +296,7 @@ class DashBoardController extends Controller {
             }
         }
         if (!empty($employees)) {
-            $result = ['status' => true, 'records' => $employees, 'exportData' => $export,'totalCount' => $rows[0]->totalCount];
+            $result = ['status' => true, 'records' => $employees, 'exportData' => $export,'totalCount' => $cnt];
         } else {
             $result = ['status' => false, 'message' => "No record"];
         }
@@ -333,11 +335,13 @@ class DashBoardController extends Controller {
                     ->take($request['itemPerPage'])->offset($startFrom)
                     ->get();
             $rows = DB::select("select FOUND_ROWS() as totalCount");
+            $cnt = $rows[0]->totalCount;
         } else {
             $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
                     ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
                     ->where('request.uid', '=', $loggedInUserId)
                     ->get();
+            $cnt = '';
         }
         $i = 0;
         foreach ($employees as $employee) {
@@ -352,7 +356,7 @@ class DashBoardController extends Controller {
             }
         }
         if (!empty($employees)) {
-            $result = ['status' => true, 'records' => $employees, 'exportData' => $export,'totalCount' => $rows[0]->totalCount];
+            $result = ['status' => true, 'records' => $employees, 'exportData' => $export,'totalCount' => $cnt];
         } else {
             $result = ['status' => false, 'message' => "Something went wrong"];
         }
