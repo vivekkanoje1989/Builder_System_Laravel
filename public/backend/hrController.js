@@ -525,7 +525,7 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                             }
 
                             if (response.records.data[0].office_mobile_calling_code == null || response.records.data[0].office_mobile_calling_code == '') {
-                                $scope.userContact.office_mobile_calling_code = '+91-';
+                                $scope.userContact.office_mobile_calling_code = '+91';
                             } else {
                                 $scope.userContact.office_mobile_calling_code = '+' + response.records.data[0].office_mobile_calling_code + '-';
                             }
@@ -1028,11 +1028,10 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
 
         $scope.employeeSuspend = function (emp_id, index, items, pageNo) {
             $scope.suspendId = emp_id;
-
             $scope.indexing = index;
             $scope.salesemployeeList = [];
             Data.post('/master-hr/getEnquiriesCnt', {
-                empId: empId,
+                empId: emp_id,
             }).then(function (response) {
                 $scope.totsalesEnquiries = response.salesEnqcount;
                 $scope.totpresalesEnquiries = response.presalesEnqcount;
@@ -1053,9 +1052,9 @@ app.controller('hrController', ['$rootScope', '$scope', '$state', 'Data', 'Uploa
                             function (isConfirm) { //Function that triggers on user action.
                                 if (isConfirm) {
                                     Data.post('/master-hr/suspendEmployee', {
-                                        empId: empId
+                                        empId: emp_id
                                     }).then(function (response) {
-                                        $("tr#"+empId+"").remove();
+                                        $("tr#"+emp_id+"").remove();
                                     });
                                     SweetAlert.swal("Deleted!");                                    
                                 } else {

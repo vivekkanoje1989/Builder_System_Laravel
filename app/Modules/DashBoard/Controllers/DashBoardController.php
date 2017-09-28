@@ -216,7 +216,7 @@ class DashBoardController extends Controller {
         $input['employeeData']['in_date'] = date("Y-m-d") . " " . date("h-i-s");
 
         $employee_request = EmployeeRequest::create($input['employeeData']);
-       if (!empty($request["empFirstName"])) {
+        if (!empty($request["empFirstName"])) {
             $loginFirstName = $request["empFirstName"];
         } else {
             $loginFirstName = Auth::guard('admin')->user()->first_name;
@@ -268,23 +268,18 @@ class DashBoardController extends Controller {
             $loggedInUserId = $request['loggedInUserID'];
         else
             $loggedInUserId = Auth::guard('admin')->user()->id;
-//        $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
-//                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
-//                ->where('request.created_by', '=', $loggedInUserId)
-//                ->get();
-//        $employees = EmployeeRequest::select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status',
-//                'select GROUP_CONCAT(id) from employee where id IN (request.uid)')
-//                ->where('request.created_by', '=', $loggedInUserId)                
-//                ->get();
-//       $employees = EmployeeRequest::leftJoin('employees', function($join){$join->on(DB::raw("find_in_set(employees.id, request.uid)"));})
-//                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
-//                ->where('request.created_by', '=', $loggedInUserId)
-//                ->get();
 
-        $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = 1";
-        $employees = DB::select($report);
-//           print_r($employees);
-//       $employees= "select  request.id, GROUP_CONCAT(employee.name ORDER BY employee.id) DepartmentName from request left join employees GROUP BY request.id";
+
+        if (isset($request['pageNumber'])) {
+            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            $report = "select SQL_CALC_FOUND_ROWS request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = 1 limit " . $startFrom . "," . $request['itemPerPage'];
+            $employees = DB::select($report);
+            $rows = DB::select("select FOUND_ROWS() as totalCount");
+        } else {
+            $report = "select request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status from request left join employees on find_in_set(employees.id, request.uid) where request.created_by = 1";
+            $employees = DB::select($report);
+        }
+
 
         $i = 0;
         foreach ($employees as $employee) {
@@ -299,7 +294,7 @@ class DashBoardController extends Controller {
             }
         }
         if (!empty($employees)) {
-            $result = ['status' => true, 'records' => $employees, 'exportData' => $export];
+            $result = ['status' => true, 'records' => $employees, 'exportData' => $export,'totalCount' => $rows[0]->totalCount];
         } else {
             $result = ['status' => false, 'message' => "No record"];
         }
@@ -329,10 +324,21 @@ class DashBoardController extends Controller {
             $loggedInUserId = $request['loggedInUserID'];
         else
             $loggedInUserId = Auth::guard('admin')->user()->id;
-        $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
-                ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
-                ->where('request.uid', '=', $loggedInUserId)
-                ->get();
+
+        if (isset($request['pageNumber'])) {
+            $startFrom = ($request['pageNumber'] - 1) * $request['itemPerPage'];
+            $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                    ->select([DB::raw('SQL_CALC_FOUND_ROWS request.id, request.in_date, request.created_at, request.request_type, request.from_date, request.req_desc, request.to_date, employees.first_name, employees.last_name, request.status')])
+                    ->where('request.uid', '=', $loggedInUserId)
+                    ->take($request['itemPerPage'])->offset($startFrom)
+                    ->get();
+            $rows = DB::select("select FOUND_ROWS() as totalCount");
+        } else {
+            $employees = EmployeeRequest::join('employees', 'request.uid', '=', 'employees.id')
+                    ->select('request.id', 'request.in_date', 'request.created_at', 'request.request_type', 'request.from_date', 'request.req_desc', 'request.to_date', 'employees.first_name', 'employees.last_name', 'request.status')
+                    ->where('request.uid', '=', $loggedInUserId)
+                    ->get();
+        }
         $i = 0;
         foreach ($employees as $employee) {
             $employees[$i]['application_from'] = $employee['first_name'] . ' ' . $employee['last_name'];
@@ -346,7 +352,7 @@ class DashBoardController extends Controller {
             }
         }
         if (!empty($employees)) {
-            $result = ['status' => true, 'records' => $employees, 'exportData' => $export];
+            $result = ['status' => true, 'records' => $employees, 'exportData' => $export,'totalCount' => $rows[0]->totalCount];
         } else {
             $result = ['status' => false, 'message' => "Something went wrong"];
         }
