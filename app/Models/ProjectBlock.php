@@ -104,6 +104,8 @@ class ProjectBlock extends Eloquent
 		'other3_value_sqft',
 		'other3_value_sqmtr',
 		'block_availablity',
+                'block_quantity',
+                'block_description',
 		'show_on_website',
 		'created_date',
 		'created_by',

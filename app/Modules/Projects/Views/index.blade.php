@@ -82,7 +82,6 @@
                     <table class="table table-hover table-striped table-bordered tableHeader" at-config="config">
                         <thead class="bord-bot">
                             <tr>
-                            <tr>
                                 <th style="width:5%">Sr. No.</th>                       
                                 <th style="width:15%">
                                     <a href="javascript:void(0);" ng-click="orderByField('created_at')">Registration Date & Time

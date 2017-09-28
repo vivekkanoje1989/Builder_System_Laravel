@@ -353,9 +353,13 @@ class ProjectsController extends Controller {
         if(!empty($input['data']["getDataByPrid"])){            
             if ($input['data']['wingId'] == 0) {
                 $projectWing = ProjectWing::select('id', 'project_id', 'wing_name', 'number_of_floors')->where('project_id', $projectId)->orderBy('id', 'ASC')->first();
-                $projectData = ProjectBlock::where([['wing_id', '=', $projectWing->id], ['project_id', '=', $projectId]])->orderBy('wing_id', 'ASC')->get();
+                $projectData = ProjectBlock::select('id', 'project_id','block_type_id','wing_id','block_sub_type','block_sub_type_label','block_availablity',
+                        'sellable_area_in_sqft','sellable_area_in_sqmtr','block_quantity','block_description','show_on_website')
+                        ->where([['wing_id', '=', $projectWing->id], ['project_id', '=', $projectId]])->orderBy('wing_id', 'ASC')->get();
             } else {
-                $projectData = ProjectBlock::where([['wing_id', '=', $input['data']['wingId']], ['project_id', '=', $projectId]])->get();
+                $projectData = ProjectBlock::select('id', 'project_id','block_type_id','wing_id','block_sub_type','block_sub_type_label','block_availablity',
+                        'sellable_area_in_sqft','sellable_area_in_sqmtr','block_quantity','block_description','show_on_website')
+                        ->where([['wing_id', '=', $input['data']['wingId']], ['project_id', '=', $projectId]])->get();
             }
             if(!empty($input['data']['inventoryData'])){
                 $loggedInUserId = Auth::guard('admin')->user()->id;
